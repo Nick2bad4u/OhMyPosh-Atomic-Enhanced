@@ -40,7 +40,7 @@
                 },
                 {
                     "background": "#FF9248",
-                    "foreground": "#2d3436",
+                    "foreground": "#000000",
                     "min_width": 80,
                     "powerline_symbol": "",
                     "properties": {

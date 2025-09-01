@@ -2,8 +2,7 @@
 
 Repo for a custom OhMyPosh config inspired by AtomicBit
 
-<img width="911" height="504" alt="image" src="https://github.com/user-attachments/assets/8bec1ab8-10f0-48f2-81c1-c0b4c16c6fce" />
-
+![image](https://github.com/user-attachments/assets/8bec1ab8-10f0-48f2-81c1-c0b4c16c6fce)
 
 ## How the OhMyPosh Custom Theme Works
 
@@ -16,7 +15,9 @@ This theme is a highly customized configuration for [Oh My Posh](https://ohmypos
 - **Blocks**: The prompt is divided into multiple blocks, each with its own alignment (left, right, or newline) and segments.
 
 #### Left-Aligned Prompt
+
 Contains segments for:
+
 - **Shell Info**: Displays shell name and version, with mapped names for common shells.
 - **Root Status**: Highlights if running as administrator/root.
 - **Path**: Shows the current directory, with custom icons and mapped locations for quick recognition (e.g., "UW" for Uptime-Watcher repo, icons for Desktop/Documents/Downloads).
@@ -25,7 +26,9 @@ Contains segments for:
 - **Status**: Indicates success or error of the last command.
 
 #### Right-Aligned Prompt
+
 Contains segments for:
+
 - **System Info**: CPU, memory, and disk usage, with dynamic coloring.
 - **OS Info**: Shows the operating system and WSL status.
 - **Time**: Current date and time, with customizable format.
@@ -33,13 +36,17 @@ Contains segments for:
 - **Battery**: Shows battery status and state, with color changes for charging/discharging/full.
 
 #### Right Prompt (RPROMPT)
+
 Contains segments for:
+
 - **Prompt Count**: Shows the number of prompts in the session.
 - **Upgrade Notice**: Indicates if Oh My Posh can be upgraded.
 - **Root Status**: Quick root indicator.
 
 #### Newline Block
+
 Contains segments for:
+
 - **Decorative Line**: Visual separator for prompt clarity.
 - **Session Info**: Shows username and SSH session status.
 - **Status**: Indicates command status with icons.
@@ -54,14 +61,27 @@ Contains segments for:
 - **Status and Error Handling**: Segments change color and icons based on command success, errors, or git state.
 - **Customization**: Nearly every aspect (colors, icons, templates, widths) can be adjusted to fit your workflow and preferences.
 
+### Oh-My-Posh Installation
+
+1. [Windows](https://ohmyposh.dev/docs/installation/windows)
+2. [Linux](https://ohmyposh.dev/docs/installation/linux)
+3. [MacOS](https://ohmyposh.dev/docs/installation/macos)
+
 ### How to Use
 
-1. Copy the theme JSON (`OhMyPosh-Atomic-Custom.json`) to your system.
-2. Set your shell to use this theme with Oh My Posh:
-	```pwsh
-	oh-my-posh init pwsh --config "<path-to>/OhMyPosh-Atomic-Custom.json" | Invoke-Expression
-	```
-3. Customize mapped locations, icons, and colors as needed in the JSON file.
+1. **Quick Start (from GitHub URL):** You can use the theme directly from the GitHub repository without downloading it:
+
+  ```pwsh
+  oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/refs/heads/main/OhMyPosh-Atomic-Custom.json" | Invoke-Expression
+  ```
+
+2. **Local Setup:** Copy the theme JSON (`OhMyPosh-Atomic-Custom.json`) to your system. Set your shell to use this theme with Oh My Posh:
+
+  ```pwsh
+  oh-my-posh init pwsh --config "<path-to>/OhMyPosh-Atomic-Custom.json" | Invoke-Expression
+  ```
+
+  Customize mapped locations, icons, and colors as needed in the JSON file.
 
 ### Advanced Customization
 
