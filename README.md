@@ -2,6 +2,9 @@
 
 Repo for a custom OhMyPosh config inspired by AtomicBit
 
+<img width="911" height="504" alt="image" src="https://github.com/user-attachments/assets/8bec1ab8-10f0-48f2-81c1-c0b4c16c6fce" />
+
+
 ## How the OhMyPosh Custom Theme Works
 
 This theme is a highly customized configuration for [Oh My Posh](https://ohmyposh.dev/), designed to provide a visually rich, informative, and efficient prompt for your shell. It leverages advanced features of Oh My Posh, including segment styling, dynamic templates, mapped locations, and tooltips for various development environments.
