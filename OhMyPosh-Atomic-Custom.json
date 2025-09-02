@@ -46,7 +46,6 @@
     "green_charging": "#b8e994",
 
     "cyan_renamed": "#00ffff",
-    "cyan_status_fg": "#e0f8ff",
 
     "magenta_copied": "#ff00ff",
 
@@ -93,7 +92,7 @@
         },
         {
           "background": "p:red_alert",
-          "foreground": "p:yellow_bright",
+          "foreground": "p:black",
           "min_width": 80,
           "style": "diamond",
           "template": "<parentBackground></>  ",
@@ -214,7 +213,7 @@
             "strategy": "session"
           },
           "foreground": "p:black",
-          "invert_powerline": true,
+          "invert_powerline": false,
           "leading_diamond": "",
           "min_width": 100,
           "powerline_symbol": "",
@@ -232,7 +231,7 @@
             "strategy": "session"
           },
           "foreground": "p:gray_os_fg",
-          "invert_powerline": true,
+          "invert_powerline": false,
           "leading_diamond": "",
           "min_width": 100,
           "powerline_symbol": "",
@@ -248,7 +247,7 @@
         {
           "background": "p:blue_time",
           "foreground": "p:black",
-          "invert_powerline": true,
+          "invert_powerline": false,
           "leading_diamond": "",
           "min_width": 100,
           "powerline_symbol": "",
@@ -266,7 +265,7 @@
             "strategy": "session"
           },
           "foreground": "p:black",
-          "invert_powerline": true,
+          "invert_powerline": false,
           "leading_diamond": "",
           "min_width": 100,
           "powerline_symbol": "",
@@ -291,7 +290,7 @@
             "strategy": "session"
           },
           "foreground": "p:gray_path_fg",
-          "invert_powerline": true,
+          "invert_powerline": false,
           "min_width": 100,
           "powerline_symbol": "",
           "properties": {
@@ -312,7 +311,7 @@
         {
           "background": "p:gray_prompt_count_bg",
           "foreground": "p:gray_prompt_count_fg",
-          "invert_powerline": true,
+          "invert_powerline": false,
           "leading_diamond": "",
           "min_width": 80,
           "properties": {
@@ -344,7 +343,7 @@
             "strategy": "session"
           },
           "foreground": "p:gray_os_fg",
-          "invert_powerline": true,
+          "invert_powerline": false,
           "leading_diamond": "",
           "min_width": 80,
           "style": "diamond",
@@ -360,22 +359,22 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "p:accent",
+          "foreground": "p:blue_primary",
           "min_width": 80,
           "style": "plain",
           "template": "╰─",
           "type": "text"
         },
         {
-          "background": "p:accent",
-          "foreground": "p:black",
+          "background": "transparent",
+          "foreground": "p:blue_primary",
           "style": "diamond",
-          "template": "{{ if .SSHSession }} {{ end }}<p:purple_session,transparent>{{ .UserName }}",
-          "trailing_diamond": "─",
+          "template": "{{ if .SSHSession }} {{ end }}{{ if .Root }}<p:blue_primary>─</><p:purple_session,transparent>{{ if eq .OS \"windows\" }}</><p:blue_primary>─</>{{ else }}<p:purple_session,transparent></><p:blue_primary>─</>{{ end }}{{ .UserName }}{{ end }}</>",
+          "trailing_diamond": "<p:blue_primary></>",
           "type": "session"
         },
         {
-          "foreground": "p:cyan_status_fg",
+          "foreground": "p:accent",
           "foreground_templates": ["{{ if gt .Code 0 }}p:red_alert{{ end }}"],
           "properties": {
             "always_enabled": true
@@ -392,7 +391,7 @@
   "debug_prompt": {
     "background": "transparent",
     "foreground": "p:black",
-    "template": "<p:black,p:purple_session>  DEBUG </><p:purple_session,transparent></> <p:purple_session></>"
+    "template": "</><p:purple_session,transparent></><p:black,p:purple_session>  DEBUG </><p:purple_session,transparent></>"
   },
   "enable_cursor_positioning": true,
   "error_line": {
@@ -416,7 +415,7 @@
     "background": "transparent",
     "foreground": "p:accent",
     "properties": {},
-    "template": "{{ if .Root }}<p:red_alert>root</> {{ end }}╰─ "
+    "template": "╰─ "
   },
   "shell_integration": true,
   "tooltips": [
@@ -738,7 +737,7 @@
         "zsh": "ZSH"
       }
     },
-    "template": "<p:accent>╰─<p:black>{{ .Shell }}<p:accent>{{ .Var.prompt_symbol }}</><p:accent>─ "
+    "template": "<p:accent>╰─<p:purple_session,transparent>{{ .Shell }}<p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
   },
   "upgrade": {
     "auto": true,
