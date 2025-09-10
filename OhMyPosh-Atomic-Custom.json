@@ -566,7 +566,39 @@
       "foreground": "p:gray_path_fg",
       "leading_diamond": "",
       "properties": {
-        "style": "full"
+        "style": "agnoster_short",
+        "dir_length": 8,
+        "max_depth": 3,
+        "hide_root_location": true,
+        "edge_format":  "%s",
+        "left_format": "%s",
+        "right_format": "%s",
+        "folder_format": "%s",
+        "cycle": [
+          "#2d3436,#FF9248",
+          "#FF6B6B,#1E1E2E",
+          "#FFD93D,#2B2B20",
+          "#6BCB77,#0B3D2E",
+          "#4D96FF,#091A2A",
+          "#C77DFF,#21122A",
+          "#FF7AB6,#2A1120",
+          "#FFA14B,#2D1E0B",
+          "#00E5FF,#002025",
+          "#A0E7E5,#023535",
+          "#FFADAD,#2B0D0D",
+          "#BDB2FF,#151026",
+          "#9AE6B4,#0B2A14",
+          "#F8B195,#291813",
+          "#F67280,#2A1212",
+          "#C4FCEF,#04201F",
+          "#D5D5FE,#0E0E1A",
+          "#F6F6C9,#191910",
+          "#39FF14,#07100A",
+          "#FF00FF,#110011",
+          "#FFB86B,#211A08"
+        ],
+        "cycle_folder_separator": true,
+        "left_format": "%s"
       },
       "style": "diamond",
       "template": "  {{ .Path }} ",
@@ -610,10 +642,11 @@
       "foreground": "p:gray_os_fg",
       "leading_diamond": "",
       "properties": {
-        "display_version": true
+        "display_version": true,
+        "windows": "<b> Win 11</b>"
       },
       "style": "diamond",
-      "template": " {{ if .WSL }}WSL at {{ end }}{{.Icon}}",
+      "template": " {{ if .WSL }}WSL at {{ end }}{{.Icon}} ",
       "tips": [
         "uname",
         "ver",
