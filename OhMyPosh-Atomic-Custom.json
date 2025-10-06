@@ -1,55 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "accent_color": "#21c7c7",
-  "palette": {
-    "accent": "#21c7c7",
-    "black": "#000000",
-    "white": "#ffffff",
-    "blue_primary": "#0077c2",
-    "blue_time": "#40c4ff",
-    "blue_tooltip": "#81a1c1",
-    "windows_blue": "#0078D4",
-    "python_blue": "#306998",
-    "teal_sysinfo": "#437683",
-    "navy_text": "#011627",
-    "purple_session": "#7C4DFF",
-    "purple_ahead": "#C792EA",
-    "purple_exec": "#83769c",
-    "violet_project": "#8A2BE2",
-    "red_alert": "#ef5350",
-    "red_deleted": "#ff0000",
-    "maroon_error": "#890000",
-    "pink_error_line": "#eb6f92",
-    "pink_status_fail": "#e91e63",
-    "orange": "#FF9248",
-    "orange_unmerged": "#ff8000",
-    "orange_battery": "#f36943",
-    "java_orange": "#F89820",
-    "yellow_bright": "#FFFB38",
-    "yellow_modified": "#ffff00",
-    "yellow_git_changed": "#ffeb95",
-    "yellow_update": "#FFD664",
-    "yellow_root_alt": "#ffff66",
-    "yellow_discharging": "#fff34e",
-    "green_added": "#00ff00",
-    "green_ahead": "#c5e478",
-    "green_full": "#33DD2D",
-    "green_success": "#00aa00",
-    "green_help": "#4CAF50",
-    "green_valid_line": "#266e36",
-    "green_charging": "#b8e994",
-    "cyan_renamed": "#00ffff",
-    "magenta_copied": "#ff00ff",
-    "pink_weather": "#e797e7",
-    "gray_os": "#b2bec3",
-    "gray_os_fg": "#222222",
-    "gray_untracked": "#808080",
-    "gray_prompt_count_bg": "#2f3b45",
-    "gray_prompt_count_fg": "#cfd8dc",
-    "gray_path_fg": "#2d3436",
-    "node_green": "#339933",
-    "python_yellow": "#FFE873"
-  },
   "async": false,
   "blocks": [
     {
@@ -329,15 +280,15 @@
             "duration": "24h",
             "strategy": "session"
           },
+          "foreground": "p:gray_os_fg",
           "invert_powerline": false,
           "leading_diamond": "",
-          "trailing_diamond": "",
-          "foreground": "p:gray_os_fg",
           "min_width": 80,
           "properties": {
             "cache_duration": "24h"
           },
           "style": "diamond",
+          "trailing_diamond": "",
           "type": "upgrade"
         },
         {
@@ -419,6 +370,55 @@
       "Nick": "Nick"
     }
   },
+  "palette": {
+    "accent": "#21c7c7",
+    "black": "#000000",
+    "blue_primary": "#0077c2",
+    "blue_time": "#40c4ff",
+    "blue_tooltip": "#81a1c1",
+    "cyan_renamed": "#00ffff",
+    "gray_os": "#b2bec3",
+    "gray_os_fg": "#222222",
+    "gray_path_fg": "#2d3436",
+    "gray_prompt_count_bg": "#2f3b45",
+    "gray_prompt_count_fg": "#cfd8dc",
+    "gray_untracked": "#808080",
+    "green_added": "#00ff00",
+    "green_ahead": "#c5e478",
+    "green_charging": "#b8e994",
+    "green_full": "#33DD2D",
+    "green_help": "#4CAF50",
+    "green_success": "#00aa00",
+    "green_valid_line": "#266e36",
+    "java_orange": "#F89820",
+    "magenta_copied": "#ff00ff",
+    "maroon_error": "#890000",
+    "navy_text": "#011627",
+    "node_green": "#339933",
+    "orange": "#FF9248",
+    "orange_battery": "#f36943",
+    "orange_unmerged": "#ff8000",
+    "pink_error_line": "#eb6f92",
+    "pink_status_fail": "#e91e63",
+    "pink_weather": "#e797e7",
+    "purple_ahead": "#C792EA",
+    "purple_exec": "#83769c",
+    "purple_session": "#7C4DFF",
+    "python_blue": "#306998",
+    "python_yellow": "#FFE873",
+    "red_alert": "#ef5350",
+    "red_deleted": "#ff0000",
+    "teal_sysinfo": "#437683",
+    "violet_project": "#8A2BE2",
+    "white": "#ffffff",
+    "windows_blue": "#0078D4",
+    "yellow_bright": "#FFFB38",
+    "yellow_discharging": "#fff34e",
+    "yellow_git_changed": "#ffeb95",
+    "yellow_modified": "#ffff00",
+    "yellow_root_alt": "#ffff66",
+    "yellow_update": "#FFD664"
+  },
   "patch_pwsh_bleed": true,
   "pwd": "osc7",
   "secondary_prompt": {
@@ -429,6 +429,298 @@
   },
   "shell_integration": true,
   "tooltips": [
+    {
+      "background": "#61dafb",
+      "foreground": "#ffffff",
+      "leading_diamond": "",
+      "properties": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/react/latest"
+      },
+      "style": "diamond",
+      "template": " ⚛️ {{ .Body.version }} ",
+      "tips": [
+        "react",
+        "npm run dev"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "background": "#3178c6",
+      "foreground": "#ffffff",
+      "leading_diamond": "",
+      "properties": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/typescript/latest"
+      },
+      "style": "diamond",
+      "template": " TS {{ .Body.version }} ",
+      "tips": [
+        "typescript",
+        "npm run type-check"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "background": "#f7b93e",
+      "foreground": "#000000",
+      "leading_diamond": "",
+      "properties": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/vite/latest"
+      },
+      "style": "diamond",
+      "template": " ⚡ {{ .Body.version }} ",
+      "tips": [
+        "vite",
+        "npm run build"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "background": "#729b1b",
+      "foreground": "#ffffff",
+      "leading_diamond": "",
+      "properties": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/vitest/latest"
+      },
+      "style": "diamond",
+      "template": " 🧪 {{ .Body.version }} ",
+      "tips": [
+        "vitest",
+        "npm run test"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "background": "#47848f",
+      "foreground": "#ffffff",
+      "leading_diamond": "",
+      "properties": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/playwright/latest"
+      },
+      "style": "diamond",
+      "template": " 🎭 {{ .Body.version }} ",
+      "tips": [
+        "playwright",
+        "npm run test:e2e"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "background": "#06b6d4",
+      "foreground": "#ffffff",
+      "leading_diamond": "",
+      "properties": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/tailwindcss/latest"
+      },
+      "style": "diamond",
+      "template": " 🎨 {{ .Body.version }} ",
+      "tips": [
+        "tailwindcss",
+        "npm run lint:css"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "background": "#9b59d0",
+      "foreground": "#000000",
+      "leading_diamond": "",
+      "properties": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/zustand/latest"
+      },
+      "style": "diamond",
+      "template": " 🐻 {{ .Body.version }} ",
+      "tips": [
+        "zustand",
+        "state management"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "background": "#47a1ad",
+      "foreground": "#ffffff",
+      "leading_diamond": "",
+      "properties": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/chart.js/latest"
+      },
+      "style": "diamond",
+      "template": " 📊 {{ .Body.version }} ",
+      "tips": [
+        "chart.js",
+        "data visualization"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "background": "#f56040",
+      "foreground": "#000000",
+      "leading_diamond": "",
+      "properties": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/electron/latest"
+      },
+      "style": "diamond",
+      "template": " 📦 {{ .Body.version }} ",
+      "tips": [
+        "electron",
+        "npm run start:electron"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "background": "#ff4785",
+      "foreground": "#ffffff",
+      "leading_diamond": "",
+      "properties": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/storybook/latest"
+      },
+      "style": "diamond",
+      "template": " 📚 {{ .Body.version }} ",
+      "tips": [
+        "storybook",
+        "npm run storybook"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "background": "#f7b93e",
+      "foreground": "#000000",
+      "leading_diamond": "",
+      "properties": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/axios/latest"
+      },
+      "style": "diamond",
+      "template": " 🎯 {{ .Body.version }} ",
+      "tips": [
+        "axios",
+        "http client"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "background": "#3068b7",
+      "foreground": "#ffffff",
+      "leading_diamond": "",
+      "properties": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/zod/latest"
+      },
+      "style": "diamond",
+      "template": " 🛡️ {{ .Body.version }} ",
+      "tips": [
+        "zod",
+        "schema validation"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "background": "#f3df49",
+      "foreground": "#000000",
+      "leading_diamond": "",
+      "properties": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/prettier/latest"
+      },
+      "style": "diamond",
+      "template": " 💅 {{ .Body.version }} ",
+      "tips": [
+        "prettier",
+        "npm run lint:prettier-fix"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "background": "#e535ab",
+      "foreground": "#ffffff",
+      "leading_diamond": "",
+      "properties": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/typescript-eslint/latest"
+      },
+      "style": "diamond",
+      "template": "  {{ .Body.version }} ",
+      "tips": [
+        "typescript-eslint",
+        "npm run lint:ts"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "background": "#c386f1",
+      "foreground": "#ffffff",
+      "leading_diamond": "",
+      "properties": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/eslint/latest"
+      },
+      "style": "diamond",
+      "template": "{{ .Body.version }} ",
+      "tips": [
+        "eslint",
+        "npm run lint"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "background": "#c386f1",
+      "foreground": "#ffffff",
+      "leading_diamond": "",
+      "properties": {
+        "http_timeout": 1000
+      },
+      "style": "diamond",
+      "template": "   {{ .IP }}",
+      "tips": [
+        "ipconfig",
+        "ip",
+        "ifconfig",
+        "ping",
+        "tracert",
+        "traceroute",
+        "curl",
+        "wget",
+        "network",
+        "internet",
+        "connection",
+        "dns",
+        "gateway",
+        "nslookup",
+        "dig",
+        "whois",
+        "ipify",
+        "what is my ip",
+        "what's my ip",
+        "my ip",
+        "public ip",
+        "external ip",
+        "check ip"
+      ],
+      "trailing_diamond": "",
+      "type": "ipify"
+    },
     {
       "foreground": "p:blue_tooltip",
       "leading_diamond": "",
@@ -525,7 +817,7 @@
         "fetch_version": true
       },
       "style": "diamond",
-      "template": "  {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} ",
+      "template": " <b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}</b> ",
       "tips": [
         "node",
         "npm",
@@ -566,14 +858,6 @@
       "foreground": "p:gray_path_fg",
       "leading_diamond": "",
       "properties": {
-        "style": "agnoster_short",
-        "dir_length": 8,
-        "max_depth": 3,
-        "hide_root_location": true,
-        "edge_format":  "%s",
-        "left_format": "%s",
-        "right_format": "%s",
-        "folder_format": "%s",
         "cycle": [
           "#2d3436,#FF9248",
           "#FF6B6B,#1E1E2E",
@@ -598,7 +882,14 @@
           "#FFB86B,#211A08"
         ],
         "cycle_folder_separator": true,
-        "left_format": "%s"
+        "dir_length": 8,
+        "edge_format": "%s",
+        "folder_format": "%s",
+        "hide_root_location": true,
+        "left_format": "%s",
+        "max_depth": 3,
+        "right_format": "%s",
+        "style": "agnoster_short"
       },
       "style": "diamond",
       "template": "  {{ .Path }} ",
@@ -708,7 +999,7 @@
         }
       },
       "style": "diamond",
-      "template": "  {{ .Name }} {{ .Version }} ",
+      "template": "  {{ .Name }} {{ .Version }} ",
       "tips": [
         "pwsh",
         "powershell",
@@ -813,12 +1104,14 @@
       "foreground": "p:black",
       "leading_diamond": "",
       "style": "diamond",
-      "template": " {{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }} {{.Version}}{{ end }} {{ if .Name }}{{ .Name }}{{ end }}{{ end }} ",
+      "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }} {{.Version}}{{ end }} {{ if .Name }}{{ .Name }}{{ end }}{{ end }}</b> ",
       "tips": [
         "project",
         "workspace",
         "version",
-        "name"
+        "name",
+        "semver",
+        "package"
       ],
       "trailing_diamond": "",
       "type": "project"
