@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "accent_color": "#21c7c7",
-  "async": false,
+  "async": true,
   "blocks": [
     {
       "alignment": "left",
@@ -51,11 +51,64 @@
             "gitdir_format": "<d>%s</d>",
             "home_icon": "",
             "mapped_locations": {
-              "C:\\\\Users\\\\Nick\\\\Dropbox\\\\PC (2)\\\\Documents\\\\GitHub\\\\Uptime-Watcher": "UW",
+              "re:.*(Uptime-Watcher).*": "UW",
+              "re:.*(GitHub).*": "GH",
+              "re:.*(Documents).*": "Docs",
+              "re:.*(Downloads).*": "DLs",
+              "re:.*(OneDrive).*": "OD",
+              "re:.*(Code).*": "Code",
+              "re:.*(Projects).*": "Proj",
+              "re:.*(Workspace).*": "WS",
+              "re:.*(Desktop).*": "DT",
+              "re:.*(Pictures).*": "Pics",
+              "re:.*(Music).*": "Music",
+              "re:.*(Videos).*": "Videos",
+              "re:.*(nodejs).*": "Node",
+              "re:.*(npm).*": "NPM",
+              "re:.*(yarn).*": "Yarn",
+              "re:.*(pnpm).*": "PNPM",
+              "re:.*(Dropbox).*": "DB",
+              "re:.*(Google Drive).*": "GD",
+              "re:.*(iCloud).*": "IC",
+              "re:.*(Library).*": "Lib",
+              "re:.*(node_modules).*": "📚 ",
+              "re:.*(\\.git).*": "🌳 ",
+              "re:.*(\\.github).*": "🐙 ",
+              "re:.*(auth|security).*": "🔐 ",
+              "re:.*(ci|cd|pipeline).*": "🔄 ",
+              "re:.*(gitlab|bitbucket).*": "🐙 ",
+              "re:.*(wintertodt-scouter).*": "❄️ WintTodt",
+              "re:.*(GE-Filters).*": "💰 GE-Flt",
+              "re:.*(plugin-hub).*": "🪝 PlugHub",
+              "re:.*(internet-archive-upload).*": "🗄️ Archive",
+              "re:.*(github-drama).*": "🎭 Drama",
+              "re:.*(MarkOfDarknessHelper).*": "🌑 MOD-Help",
+              "re:.*(generate-repo-file-list).*": "🗂️ GenList",
+              "re:.*(thrall-helper).*": "👹 Thrall",
+              "re:.*(BH-Scripts).*": "🎬 BH",
+              "re:.*(DemoMan-Fork|DemoMan).*": "🎥 DemoMan",
+              "re:.*(LocalHistory).*": "⏰ LocHist",
+              "re:.*(wiki-bank-tag-integration).*": "🏦 BankTag",
+              "re:.*(Sauce4ZwiftModsRepo).*": "🚴 Zwift",
+              "re:.*(ZwiftScripts).*": "📜 ZScript",
+              "re:.*(UserStyles).*": "🖼️ Styles",
+              "re:.*(tf2).*": "🎮 TF2",
+              "re:.*(FitFileViewer).*": "🗂️ FitView",
+              "re:.*(ps-color-scripts-enhanced|ps-color-scripts).*": "🎨 PSColor",
+              "re:.*(OhMyPosh-Atomic-Enhanced).*": "✨ OhMyPosh",
+              "re:.*(Typpis-ESLint).*": "🔍 Typpis",
+              "re:.*(worktree-backup).*": "🌳 WTBackup",
+              "re:.*(git-backup).*": "💾 GitBkup",
+              "re:.*(dnsValidator).*": "🌐 DNS",
+              "re:.*(eslint-plugin-chunkyLint).*": "📏 ChunkyL",
+              "re:.*(eslint-config-Typescript-Extreme).*": "⚡ TSExtm",
+              "re:.*(runelite.phyce.dev).*": "🔮 Runite",
+              "re:.*(Nick2bad4u).*": "👤 Profile",
+              "C:\\": "C:",
               "~/": "~",
-              "~\\\\Desktop": "🖥️",
-              "~\\\\Documents": "📄",
-              "~\\\\Downloads": "📥"
+              "~\\\\Desktop": "🖥️ ",
+              "~\\\\Documents": "📄 ",
+              "~\\\\Downloads": "📥 "
             },
             "mapped_locations_enabled": true,
             "max_width": 40,
@@ -77,17 +130,9 @@
             "duration": "5m",
             "strategy": "folder"
           },
-          "exclude_folders": [
-            ".*node_modules.*",
-            ".*\\.tmp.*",
-            ".*\\.cache.*"
-          ],
+          "exclude_folders": [".*node_modules.*", ".*\\.tmp.*", ".*\\.cache.*"],
           "foreground": "p:navy_text",
-          "include_folders": [
-            ".*\\.git.*",
-            ".*/.*",
-            "~/.*"
-          ],
+          "include_folders": [".*\\.git.*", ".*/.*", "~/.*"],
           "min_width": 80,
           "powerline_symbol": "",
           "properties": {
@@ -134,17 +179,13 @@
         },
         {
           "background": "p:maroon_error",
-          "background_templates": [
-            "{{ if .Error }}p:maroon_error{{ end }}"
-          ],
+          "background_templates": ["{{ if .Error }}p:maroon_error{{ end }}"],
           "foreground": "p:black",
           "min_width": 80,
           "properties": {
             "always_enabled": false
           },
-          "status_template": [
-            "{{ if eq .Code 0 }}{{ else }}{{ end }}"
-          ],
+          "status_template": ["{{ if eq .Code 0 }}{{ else }}{{ end }}"],
           "style": "diamond",
           "template": "<parentBackground></>  ",
           "trailing_diamond": "",
@@ -330,9 +371,7 @@
         },
         {
           "foreground": "p:accent",
-          "foreground_templates": [
-            "{{ if gt .Code 0 }}p:red_alert{{ end }}"
-          ],
+          "foreground_templates": ["{{ if gt .Code 0 }}p:red_alert{{ end }}"],
           "properties": {
             "always_enabled": true
           },
@@ -344,7 +383,7 @@
       "type": "prompt"
     }
   ],
-  "console_title_template": "{{.Folder}}{{if .Root}} :: root{{end}} :: {{.Shell}}",
+  "console_title_template": "{{.Folder}}{{if .Root}} : root{{end}} : {{.Shell}}",
   "debug_prompt": {
     "background": "transparent",
     "foreground": "p:black",
@@ -357,11 +396,7 @@
     "template": "<p:pink_error_line,transparent></>"
   },
   "final_space": true,
-  "iterm_features": [
-    "prompt_mark",
-    "current_dir",
-    "remote_host"
-  ],
+  "iterm_features": ["prompt_mark", "current_dir", "remote_host"],
   "maps": {
     "host_name": {
       "Nick2bad4u2": "💻"
@@ -438,11 +473,8 @@
         "url": "https://registry.npmjs.org/react/latest"
       },
       "style": "diamond",
-      "template": " ⚛️ {{ .Body.version }} ",
-      "tips": [
-        "react",
-        "npm run dev"
-      ],
+      "template": " <b>⚛️ React: v{{ .Body.version }}</b> ",
+      "tips": ["react", "npm run dev"],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -455,11 +487,8 @@
         "url": "https://registry.npmjs.org/typescript/latest"
       },
       "style": "diamond",
-      "template": " TS {{ .Body.version }} ",
-      "tips": [
-        "typescript",
-        "npm run type-check"
-      ],
+      "template": " <b>TS: v{{ .Body.version }}</b> ",
+      "tips": ["typescript", "npm run type-check"],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -472,11 +501,8 @@
         "url": "https://registry.npmjs.org/vite/latest"
       },
       "style": "diamond",
-      "template": " ⚡ {{ .Body.version }} ",
-      "tips": [
-        "vite",
-        "npm run build"
-      ],
+      "template": " <b>⚡ Vite: v{{ .Body.version }}</b> ",
+      "tips": ["vite", "npm run build"],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -489,11 +515,8 @@
         "url": "https://registry.npmjs.org/vitest/latest"
       },
       "style": "diamond",
-      "template": " 🧪 {{ .Body.version }} ",
-      "tips": [
-        "vitest",
-        "npm run test"
-      ],
+      "template": " <b>🧪 Vitest: v{{ .Body.version }}</b> ",
+      "tips": ["vitest", "npm run test"],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -506,11 +529,8 @@
         "url": "https://registry.npmjs.org/playwright/latest"
       },
       "style": "diamond",
-      "template": " 🎭 {{ .Body.version }} ",
-      "tips": [
-        "playwright",
-        "npm run test:e2e"
-      ],
+      "template": " <b>🎭 Playwright: v{{ .Body.version }}</b> ",
+      "tips": ["playwright", "npm run test:e2e"],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -523,11 +543,8 @@
         "url": "https://registry.npmjs.org/tailwindcss/latest"
       },
       "style": "diamond",
-      "template": " 🎨 {{ .Body.version }} ",
-      "tips": [
-        "tailwindcss",
-        "npm run lint:css"
-      ],
+      "template": " <b>🎨 Tailwind CSS: v{{ .Body.version }}</b> ",
+      "tips": ["tailwindcss", "npm run lint:css"],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -540,11 +557,8 @@
         "url": "https://registry.npmjs.org/zustand/latest"
       },
       "style": "diamond",
-      "template": " 🐻 {{ .Body.version }} ",
-      "tips": [
-        "zustand",
-        "state management"
-      ],
+      "template": " <b>🐻 Zustand: v{{ .Body.version }}</b> ",
+      "tips": ["zustand", "state management"],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -557,11 +571,8 @@
         "url": "https://registry.npmjs.org/chart.js/latest"
       },
       "style": "diamond",
-      "template": " 📊 {{ .Body.version }} ",
-      "tips": [
-        "chart.js",
-        "data visualization"
-      ],
+      "template": " <b>📊 Chart.js: v{{ .Body.version }}</b> ",
+      "tips": ["chart.js", "data visualization"],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -574,11 +585,8 @@
         "url": "https://registry.npmjs.org/electron/latest"
       },
       "style": "diamond",
-      "template": " 📦 {{ .Body.version }} ",
-      "tips": [
-        "electron",
-        "npm run start:electron"
-      ],
+      "template": " <b>󱀤 Electron: v{{ .Body.version }}</b> ",
+      "tips": ["electron", "npm run start:electron"],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -592,10 +600,7 @@
       },
       "style": "diamond",
       "template": " 📚 {{ .Body.version }} ",
-      "tips": [
-        "storybook",
-        "npm run storybook"
-      ],
+      "tips": ["storybook", "npm run storybook"],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -608,11 +613,8 @@
         "url": "https://registry.npmjs.org/axios/latest"
       },
       "style": "diamond",
-      "template": " 🎯 {{ .Body.version }} ",
-      "tips": [
-        "axios",
-        "http client"
-      ],
+      "template": " <b>🎯 Axios: v{{ .Body.version }}</b> ",
+      "tips": ["axios", "http client"],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -625,11 +627,8 @@
         "url": "https://registry.npmjs.org/zod/latest"
       },
       "style": "diamond",
-      "template": " 🛡️ {{ .Body.version }} ",
-      "tips": [
-        "zod",
-        "schema validation"
-      ],
+      "template": " <b>🛡️ Zod: v{{ .Body.version }}</b> ",
+      "tips": ["zod", "schema validation"],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -642,11 +641,8 @@
         "url": "https://registry.npmjs.org/prettier/latest"
       },
       "style": "diamond",
-      "template": " 💅 {{ .Body.version }} ",
-      "tips": [
-        "prettier",
-        "npm run lint:prettier-fix"
-      ],
+      "template": " <b>💅 Prettier: v{{ .Body.version }}</b> ",
+      "tips": ["prettier", "npm run lint:prettier-fix"],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -659,11 +655,8 @@
         "url": "https://registry.npmjs.org/typescript-eslint/latest"
       },
       "style": "diamond",
-      "template": "  {{ .Body.version }} ",
-      "tips": [
-        "typescript-eslint",
-        "npm run lint:ts"
-      ],
+      "template": " <b>🎨 TypeScript-ESLint: v{{ .Body.version }}</b> ",
+      "tips": ["typescript-eslint", "npm run lint:ts"],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -676,11 +669,8 @@
         "url": "https://registry.npmjs.org/eslint/latest"
       },
       "style": "diamond",
-      "template": "{{ .Body.version }} ",
-      "tips": [
-        "eslint",
-        "npm run lint"
-      ],
+      "template": "<b> ESLint: v{{ .Body.version }}</b> ",
+      "tips": ["eslint", "npm run lint"],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -689,10 +679,12 @@
       "foreground": "#ffffff",
       "leading_diamond": "",
       "properties": {
-        "http_timeout": 1000
+        "http_timeout": 1000,
+        "url": "https://api.ipify.org",
+        "cache_duration": "24h"
       },
       "style": "diamond",
-      "template": "   {{ .IP }}",
+      "template": " <b>  IP: {{ .IP }}</b>",
       "tips": [
         "ipconfig",
         "ip",
@@ -718,8 +710,46 @@
         "external ip",
         "check ip"
       ],
-      "trailing_diamond": "",
+      "trailing_diamond": "",
       "type": "ipify"
+    },
+    {
+      "background": "#e486f1",
+      "foreground": "#ffffff",
+      "leading_diamond": "",
+      "properties": {
+        "url": "https://api64.ipify.org?format=json",
+        "method": "GET"
+      },
+      "style": "diamond",
+      "template": " <b>  IPv6: {{ .Body.ip }}</b>",
+      "tips": [
+        "ipconfig",
+        "ip",
+        "ifconfig",
+        "ping",
+        "tracert",
+        "traceroute",
+        "curl",
+        "wget",
+        "network",
+        "internet",
+        "connection",
+        "dns",
+        "gateway",
+        "nslookup",
+        "dig",
+        "whois",
+        "ipify",
+        "what is my ip",
+        "what's my ip",
+        "my ip",
+        "public ip",
+        "external ip",
+        "check ip"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
     },
     {
       "foreground": "p:blue_tooltip",
@@ -727,17 +757,14 @@
       "powerline_symbol": "",
       "properties": {
         "cache": {
-          "duration": "10m",
+          "duration": "24h",
           "strategy": "folder"
         },
         "fetch_version": true
       },
       "style": "diamond",
       "template": "  React {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
-      "tips": [
-        "react",
-        "tsx"
-      ],
+      "tips": ["react", "tsx"],
       "type": "react"
     },
     {
@@ -746,19 +773,13 @@
       "powerline_symbol": "",
       "properties": {
         "cache": {
-          "duration": "10m",
+          "duration": "24h",
           "strategy": "folder"
         }
       },
       "style": "diamond",
       "template": "  Git {{ .MajorMinorPatch }}  ",
-      "tips": [
-        "gitversion",
-        "gitv",
-        "git v",
-        "git version",
-        "git --version"
-      ],
+      "tips": ["gitversion", "gitv", "git v", "git version", "git --version"],
       "type": "gitversion"
     },
     {
@@ -771,10 +792,7 @@
       },
       "style": "diamond",
       "template": "  {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} ",
-      "tips": [
-        "git",
-        "g"
-      ],
+      "tips": ["git", "g"],
       "trailing_diamond": "",
       "type": "git"
     },
@@ -792,15 +810,7 @@
       },
       "style": "diamond",
       "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }} {{ .Venv }} {{ end }}{{ .Full }}{{ end }} ",
-      "tips": [
-        "python",
-        "python3",
-        "py",
-        "pip",
-        "conda",
-        "poetry",
-        "pipenv"
-      ],
+      "tips": ["python", "python3", "py", "pip", "conda", "poetry", "pipenv"],
       "trailing_diamond": "",
       "type": "python"
     },
@@ -818,15 +828,7 @@
       },
       "style": "diamond",
       "template": " <b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}</b> ",
-      "tips": [
-        "node",
-        "npm",
-        "yarn",
-        "pnpm",
-        "nx",
-        "bun",
-        "npx"
-      ],
+      "tips": ["node", "npm", "yarn", "pnpm", "nx", "bun", "npx"],
       "trailing_diamond": "",
       "type": "node"
     },
@@ -836,20 +838,14 @@
       "leading_diamond": "",
       "properties": {
         "cache": {
-          "duration": "10m",
+          "duration": "24h",
           "strategy": "folder"
         },
         "fetch_version": true
       },
       "style": "diamond",
       "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
-      "tips": [
-        "java",
-        "javac",
-        "mvn",
-        "gradle",
-        "ant"
-      ],
+      "tips": ["java", "javac", "mvn", "gradle", "ant"],
       "trailing_diamond": "",
       "type": "java"
     },
@@ -893,14 +889,7 @@
       },
       "style": "diamond",
       "template": "  {{ .Path }} ",
-      "tips": [
-        "cd",
-        "ls",
-        "dir",
-        "pwd",
-        "find",
-        "locate"
-      ],
+      "tips": ["cd", "ls", "dir", "pwd", "find", "locate"],
       "trailing_diamond": "",
       "type": "path"
     },
@@ -938,12 +927,7 @@
       },
       "style": "diamond",
       "template": " {{ if .WSL }}WSL at {{ end }}{{.Icon}} ",
-      "tips": [
-        "uname",
-        "ver",
-        "systeminfo",
-        "lsb_release"
-      ],
+      "tips": ["uname", "ver", "systeminfo", "lsb_release"],
       "trailing_diamond": "",
       "type": "os"
     },
@@ -956,12 +940,7 @@
       },
       "style": "diamond",
       "template": "  {{ .CurrentDate | date \"Monday, January 2, 2006 3:04:05 PM\" }} ",
-      "tips": [
-        "date",
-        "time",
-        "cal",
-        "timedatectl"
-      ],
+      "tips": ["date", "time", "cal", "timedatectl"],
       "trailing_diamond": "",
       "type": "time"
     },
@@ -974,12 +953,7 @@
       },
       "style": "diamond",
       "template": " {{ .Icon }}{{ .Percentage }}% {{ .State.String }} ",
-      "tips": [
-        "powercfg",
-        "battery",
-        "acpi",
-        "upower"
-      ],
+      "tips": ["powercfg", "battery", "acpi", "upower"],
       "trailing_diamond": "",
       "type": "battery"
     },
@@ -1000,14 +974,7 @@
       },
       "style": "diamond",
       "template": "  {{ .Name }} {{ .Version }} ",
-      "tips": [
-        "pwsh",
-        "powershell",
-        "bash",
-        "cmd",
-        "zsh",
-        "fish"
-      ],
+      "tips": ["pwsh", "powershell", "bash", "cmd", "zsh", "fish"],
       "trailing_diamond": "",
       "type": "shell"
     },
@@ -1021,12 +988,7 @@
       },
       "style": "diamond",
       "template": " 󱑅 Execution time: {{ .FormattedMs }} ",
-      "tips": [
-        "measure",
-        "cputime",
-        "elapsed",
-        "benchmark"
-      ],
+      "tips": ["measure", "cputime", "elapsed", "benchmark"],
       "trailing_diamond": "",
       "type": "executiontime"
     },
@@ -1042,11 +1004,7 @@
       },
       "style": "diamond",
       "template": " {{ if eq .Code 0 }} Success{{ else }} Error: {{ .Code }}{{ end }} ",
-      "tips": [
-        "$LASTEXITCODE",
-        "echo $?",
-        "echo %ERRORLEVEL%"
-      ],
+      "tips": ["$LASTEXITCODE", "echo $?", "echo %ERRORLEVEL%"],
       "trailing_diamond": "",
       "type": "status"
     },
@@ -1059,13 +1017,7 @@
       },
       "style": "diamond",
       "template": " {{ if .SSHSession }} SSH: {{ end }}{{ .UserName }}@{{ .HostName }} ",
-      "tips": [
-        "whoami",
-        "id",
-        "ssh",
-        "su",
-        "sudo"
-      ],
+      "tips": ["whoami", "id", "ssh", "su", "sudo"],
       "trailing_diamond": "",
       "type": "session"
     },
@@ -1075,11 +1027,7 @@
       "leading_diamond": "",
       "style": "diamond",
       "template": "  Administrator/Root ",
-      "tips": [
-        "su",
-        "sudo",
-        "admin"
-      ],
+      "tips": ["su", "sudo", "admin"],
       "trailing_diamond": "",
       "type": "root"
     },
@@ -1089,13 +1037,7 @@
       "leading_diamond": "",
       "style": "diamond",
       "template": "  {{ .Name }} ",
-      "tips": [
-        "ping",
-        "wget",
-        "curl",
-        "telnet",
-        "ssh"
-      ],
+      "tips": ["ping", "wget", "curl", "telnet", "ssh"],
       "trailing_diamond": "",
       "type": "connection"
     },
@@ -1105,14 +1047,7 @@
       "leading_diamond": "",
       "style": "diamond",
       "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }} {{.Version}}{{ end }} {{ if .Name }}{{ .Name }}{{ end }}{{ end }}</b> ",
-      "tips": [
-        "project",
-        "workspace",
-        "version",
-        "name",
-        "semver",
-        "package"
-      ],
+      "tips": ["project", "workspace", "version", "name", "semver", "package"],
       "trailing_diamond": "",
       "type": "project"
     },
@@ -1126,10 +1061,7 @@
       },
       "style": "diamond",
       "template": "  {{ .Value }} ",
-      "tips": [
-        "reg",
-        "regedit"
-      ],
+      "tips": ["reg", "regedit"],
       "trailing_diamond": "",
       "type": "winreg"
     },
@@ -1139,10 +1071,7 @@
       "leading_diamond": "",
       "style": "diamond",
       "template": "  {{ .Shell }} ",
-      "tips": [
-        "echo",
-        "printf"
-      ],
+      "tips": ["echo", "printf"],
       "trailing_diamond": "",
       "type": "text"
     },
@@ -1152,11 +1081,7 @@
       "leading_diamond": "",
       "style": "diamond",
       "template": "  {{ .Shell }} ",
-      "tips": [
-        "help",
-        "man",
-        "info"
-      ],
+      "tips": ["help", "man", "info"],
       "trailing_diamond": "",
       "type": "text"
     }
@@ -1180,7 +1105,7 @@
   },
   "upgrade": {
     "auto": true,
-    "interval": "168h",
+    "interval": "24h",
     "notice": true,
     "source": "github"
   },

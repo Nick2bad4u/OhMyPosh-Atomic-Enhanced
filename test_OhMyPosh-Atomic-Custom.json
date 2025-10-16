@@ -1,0 +1,368 @@
+{
+  "testSuite": "OhMyPosh-Atomic-Custom Configuration Tests",
+  "version": "1.0.0",
+  "tests": [
+    {
+      "testName": "Schema Validation",
+      "description": "Verify JSON schema reference is correct",
+      "assertions": [
+        {
+          "property": "$schema",
+          "expectedValue": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+          "assertionType": "equals"
+        }
+      ]
+    },
+    {
+      "testName": "Version Validation",
+      "description": "Verify configuration version is set correctly",
+      "assertions": [
+        {
+          "property": "version",
+          "expectedValue": 3,
+          "assertionType": "equals"
+        }
+      ]
+    },
+    {
+      "testName": "Accent Color Validation",
+      "description": "Verify accent color is a valid hex color",
+      "assertions": [
+        {
+          "property": "accent_color",
+          "expectedValue": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+          "assertionType": "regex"
+        }
+      ]
+    },
+    {
+      "testName": "Blocks Structure",
+      "description": "Verify blocks array exists and contains elements",
+      "assertions": [
+        {
+          "property": "blocks",
+          "assertionType": "exists"
+        },
+        {
+          "property": "blocks",
+          "assertionType": "isArray"
+        },
+        {
+          "property": "blocks.length",
+          "expectedValue": 0,
+          "assertionType": "greaterThan"
+        }
+      ]
+    },
+    {
+      "testName": "Shell Segment Configuration",
+      "description": "Verify shell segment has correct properties",
+      "assertions": [
+        {
+          "property": "blocks[0].segments[0].type",
+          "expectedValue": "shell",
+          "assertionType": "equals"
+        },
+        {
+          "property": "blocks[0].segments[0].background",
+          "expectedValue": "p:blue_primary",
+          "assertionType": "equals"
+        },
+        {
+          "property": "blocks[0].segments[0].foreground",
+          "expectedValue": "p:white",
+          "assertionType": "equals"
+        },
+        {
+          "property": "blocks[0].segments[0].properties.mapped_shell_names",
+          "assertionType": "exists"
+        }
+      ]
+    },
+    {
+      "testName": "Path Segment Configuration",
+      "description": "Verify path segment has correct properties",
+      "assertions": [
+        {
+          "property": "blocks[0].segments[2].type",
+          "expectedValue": "path",
+          "assertionType": "equals"
+        },
+        {
+          "property": "blocks[0].segments[2].properties.max_width",
+          "expectedValue": 40,
+          "assertionType": "equals"
+        },
+        {
+          "property": "blocks[0].segments[2].properties.mapped_locations_enabled",
+          "expectedValue": true,
+          "assertionType": "equals"
+        }
+      ]
+    },
+    {
+      "testName": "Git Segment Configuration",
+      "description": "Verify git segment has correct caching and properties",
+      "assertions": [
+        {
+          "property": "blocks[0].segments[3].type",
+          "expectedValue": "git",
+          "assertionType": "equals"
+        },
+        {
+          "property": "blocks[0].segments[3].cache.duration",
+          "expectedValue": "5m",
+          "assertionType": "equals"
+        },
+        {
+          "property": "blocks[0].segments[3].cache.strategy",
+          "expectedValue": "folder",
+          "assertionType": "equals"
+        }
+      ]
+    },
+    {
+      "testName": "Palette Colors Validation",
+      "description": "Verify all palette colors are valid hex values",
+      "assertions": [
+        {
+          "property": "palette.accent",
+          "expectedValue": "^#([A-Fa-f0-9]{6})$",
+          "assertionType": "regex"
+        },
+        {
+          "property": "palette.blue_primary",
+          "expectedValue": "#0077c2",
+          "assertionType": "equals"
+        },
+        {
+          "property": "palette.red_alert",
+          "expectedValue": "#ef5350",
+          "assertionType": "equals"
+        },
+        {
+          "property": "palette.orange",
+          "expectedValue": "#FF9248",
+          "assertionType": "equals"
+        }
+      ]
+    },
+    {
+      "testName": "Tooltips Configuration",
+      "description": "Verify tooltips array exists and is properly configured",
+      "assertions": [
+        {
+          "property": "tooltips",
+          "assertionType": "exists"
+        },
+        {
+          "property": "tooltips",
+          "assertionType": "isArray"
+        },
+        {
+          "property": "tooltips_action",
+          "expectedValue": "prepend",
+          "assertionType": "equals"
+        }
+      ]
+    },
+    {
+      "testName": "Transient Prompt Configuration",
+      "description": "Verify transient prompt is configured correctly",
+      "assertions": [
+        {
+          "property": "transient_prompt",
+          "assertionType": "exists"
+        },
+        {
+          "property": "transient_prompt.background",
+          "expectedValue": "transparent",
+          "assertionType": "equals"
+        },
+        {
+          "property": "transient_prompt.foreground",
+          "expectedValue": "p:blue_primary",
+          "assertionType": "equals"
+        }
+      ]
+    },
+    {
+      "testName": "Cache Configuration",
+      "description": "Verify segments have appropriate caching strategies",
+      "assertions": [
+        {
+          "property": "blocks[0].segments[0].cache.strategy",
+          "expectedValue": "session",
+          "assertionType": "equals"
+        },
+        {
+          "property": "blocks[0].segments[0].cache.duration",
+          "expectedValue": "1h",
+          "assertionType": "equals"
+        }
+      ]
+    },
+    {
+      "testName": "Min Width Validation",
+      "description": "Verify segments have minimum width set correctly",
+      "assertions": [
+        {
+          "property": "blocks[0].segments[0].min_width",
+          "expectedValue": 80,
+          "assertionType": "equals"
+        },
+        {
+          "property": "blocks[0].segments[1].min_width",
+          "expectedValue": 80,
+          "assertionType": "equals"
+        }
+      ]
+    },
+    {
+      "testName": "Root Segment Configuration",
+      "description": "Verify root segment displays correctly",
+      "assertions": [
+        {
+          "property": "blocks[0].segments[1].type",
+          "expectedValue": "root",
+          "assertionType": "equals"
+        },
+        {
+          "property": "blocks[0].segments[1].background",
+          "expectedValue": "p:red_alert",
+          "assertionType": "equals"
+        }
+      ]
+    },
+    {
+      "testName": "Maps Configuration",
+      "description": "Verify user and host name mappings exist",
+      "assertions": [
+        {
+          "property": "maps",
+          "assertionType": "exists"
+        },
+        {
+          "property": "maps.user_name",
+          "assertionType": "exists"
+        },
+        {
+          "property": "maps.host_name",
+          "assertionType": "exists"
+        }
+      ]
+    },
+    {
+      "testName": "Upgrade Configuration",
+      "description": "Verify auto-upgrade settings are correct",
+      "assertions": [
+        {
+          "property": "upgrade.auto",
+          "expectedValue": true,
+          "assertionType": "equals"
+        },
+        {
+          "property": "upgrade.interval",
+          "expectedValue": "24h",
+          "assertionType": "equals"
+        },
+        {
+          "property": "upgrade.source",
+          "expectedValue": "github",
+          "assertionType": "equals"
+        }
+      ]
+    },
+    {
+      "testName": "Console Title Template",
+      "description": "Verify console title template is set",
+      "assertions": [
+        {
+          "property": "console_title_template",
+          "assertionType": "exists"
+        },
+        {
+          "property": "console_title_template",
+          "assertionType": "isString"
+        }
+      ]
+    },
+    {
+      "testName": "Final Space Configuration",
+      "description": "Verify final_space is enabled",
+      "assertions": [
+        {
+          "property": "final_space",
+          "expectedValue": true,
+          "assertionType": "equals"
+        }
+      ]
+    },
+    {
+      "testName": "Error Line Configuration",
+      "description": "Verify error line prompt is configured",
+      "assertions": [
+        {
+          "property": "error_line",
+          "assertionType": "exists"
+        },
+        {
+          "property": "error_line.background",
+          "expectedValue": "transparent",
+          "assertionType": "equals"
+        }
+      ]
+    },
+    {
+      "testName": "Valid Line Configuration",
+      "description": "Verify valid line indicator is configured",
+      "assertions": [
+        {
+          "property": "valid_line",
+          "assertionType": "exists"
+        },
+        {
+          "property": "valid_line.template",
+          "assertionType": "exists"
+        }
+      ]
+    },
+    {
+      "testName": "Tooltip Tips Validation",
+      "description": "Verify tooltips have tips arrays configured",
+      "assertions": [
+        {
+          "property": "tooltips[0].tips",
+          "assertionType": "exists"
+        },
+        {
+          "property": "tooltips[0].tips",
+          "assertionType": "isArray"
+        }
+      ]
+    }
+  ],
+  "testHelpers": {
+    "colorRegex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+    "durationRegex": "^\\d+[smh]$",
+    "requiredProperties": [
+      "$schema",
+      "version",
+      "blocks",
+      "palette",
+      "final_space"
+    ]
+  },
+  "mockData": {
+    "testColors": {
+      "validHex": "#21c7c7",
+      "invalidHex": "21c7c7",
+      "validShortHex": "#FFF",
+      "invalidColor": "blue"
+    },
+    "testDurations": {
+      "valid": ["1h", "5m", "30s", "24h"],
+      "invalid": ["1hour", "5mins", "forever"]
+    }
+  }
+}
