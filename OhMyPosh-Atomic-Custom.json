@@ -267,7 +267,7 @@
             "units": "imperial"
           },
           "style": "diamond",
-          "template": " {{.Temperature}}{{.UnitIcon}}",
+          "template": "<b>󰖐</b> {{.Temperature}}{{.UnitIcon}}",
           "trailing_diamond": "",
           "type": "owm"
         },
