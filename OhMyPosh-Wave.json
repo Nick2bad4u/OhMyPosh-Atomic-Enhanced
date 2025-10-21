@@ -1,0 +1,189 @@
+{
+    "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+    "version": 3,
+    "final_space": true,
+    "console_title_template": "{{ .Folder }}{{ if .Root }} [ADMIN]{{ end }}",
+    "blocks": [
+        {
+            "type": "prompt",
+            "alignment": "left",
+            "segments": [
+                {
+                    "type": "text",
+                    "style": "plain",
+                    "foreground": "#FF6B35",
+                    "template": "▁▂▃▄▅▆▇█▇▆▅▄▃▂▁ "
+                },
+                {
+                    "type": "os",
+                    "style": "diamond",
+                    "foreground": "#ffffff",
+                    "background": "#0077c2",
+                    "leading_diamond": "",
+                    "trailing_diamond": "",
+                    "template": " {{ .Icon }} "
+                },
+                {
+                    "type": "shell",
+                    "style": "powerline",
+                    "powerline_symbol": "",
+                    "foreground": "#ffffff",
+                    "background": "#ff6b35",
+                    "template": "  {{ .Name }} "
+                },
+                {
+                    "type": "root",
+                    "style": "powerline",
+                    "powerline_symbol": "",
+                    "foreground": "#ffffff",
+                    "background": "#ffcc00",
+                    "template": " ⚡ ROOT "
+                },
+                {
+                    "type": "path",
+                    "style": "powerline",
+                    "powerline_symbol": "",
+                    "foreground": "#ffffff",
+                    "background": "#00d9ff",
+                    "properties": {
+                        "style": "full",
+                        "max_depth": 3,
+                        "folder_icon": " ",
+                        "folder_separator_icon": " \ue0b1 ",
+                        "home_icon": "~"
+                    },
+                    "template": "  {{ .Path }} "
+                },
+                {
+                    "type": "git",
+                    "style": "powerline",
+                    "powerline_symbol": "",
+                    "foreground": "#ffffff",
+                    "background": "#95ffa4",
+                    "background_templates": [
+                        "{{ if or (.Working.Changed) (.Staging.Changed) }}#ff9248{{ end }}",
+                        "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#f26d50{{ end }}",
+                        "{{ if gt .Ahead 0 }}#89d1dc{{ end }}",
+                        "{{ if gt .Behind 0 }}#f17c37{{ end }}"
+                    ],
+                    "properties": {
+                        "fetch_status": true,
+                        "branch_icon": " ",
+                        "branch_identical_icon": "≡",
+                        "branch_ahead_icon": "↑",
+                        "branch_behind_icon": "↓",
+                        "branch_gone_icon": "≢"
+                    },
+                    "template": " {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} "
+                },
+                {
+                    "type": "executiontime",
+                    "style": "powerline",
+                    "powerline_symbol": "",
+                    "foreground": "#ffffff",
+                    "background": "#8800dd",
+                    "properties": {
+                        "threshold": 500,
+                        "style": "roundrock"
+                    },
+                    "template": "  {{ .FormattedMs }} "
+                },
+                {
+                    "type": "status",
+                    "style": "powerline",
+                    "powerline_symbol": "",
+                    "foreground": "#ffffff",
+                    "background": "#00ff00",
+                    "background_templates": [
+                        "{{ if gt .Code 0 }}#ff0000{{ end }}"
+                    ],
+                    "properties": {
+                        "always_enabled": true
+                    },
+                    "template": " {{ if gt .Code 0 }}✗ {{ .Code }}{{ else }}✓{{ end }} "
+                },
+                {
+                    "type": "text",
+                    "style": "plain",
+                    "foreground": "#00ff00",
+                    "foreground_templates": [
+                        "{{ if gt .Code 0 }}#ff0000{{ end }}"
+                    ],
+                    "template": ""
+                }
+            ]
+        },
+        {
+            "type": "rprompt",
+            "overflow": "hide",
+            "segments": [
+                {
+                    "type": "sysinfo",
+                    "style": "plain",
+                    "foreground": "#00d9ff",
+                    "properties": {
+                        "precision": 0
+                    },
+                    "template": " {{ round .Load1 .Precision }}% ﬙ {{ round .PhysicalPercentUsed .Precision }}% "
+                },
+                {
+                    "type": "time",
+                    "style": "plain",
+                    "foreground": "#ff6b35",
+                    "properties": {
+                        "time_format": "15:04:05"
+                    },
+                    "template": " {{ .CurrentDate | date .Format }} "
+                },
+                {
+                    "type": "battery",
+                    "style": "plain",
+                    "foreground": "#00ff00",
+                    "foreground_templates": [
+                        "{{if eq \"Charging\" .State.String}}#40c4ff{{end}}",
+                        "{{if eq \"Discharging\" .State.String}}#ff9800{{end}}",
+                        "{{if eq \"Full\" .State.String}}#4caf50{{end}}"
+                    ],
+                    "properties": {
+                        "charged_icon": " ",
+                        "charging_icon": " ",
+                        "discharging_icon": " "
+                    },
+                    "template": "{{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }} "
+                }
+            ]
+        },
+        {
+            "type": "prompt",
+            "alignment": "left",
+            "newline": true,
+            "segments": [
+                {
+                    "type": "text",
+                    "style": "plain",
+                    "foreground": "#FF6B35",
+                    "template": "▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔"
+                }
+            ]
+        },
+        {
+            "type": "prompt",
+            "alignment": "left",
+            "newline": true,
+            "segments": [
+                {
+                    "type": "session",
+                    "style": "plain",
+                    "foreground": "#00d9ff",
+                    "template": "{{ if .SSHSession }} SSH{{ end }} {{ .UserName }}@{{ .HostName }} "
+                },
+                {
+                    "type": "text",
+                    "style": "plain",
+                    "foreground": "#ff6b35",
+                    "template": "❯ "
+                }
+            ]
+        }
+    ]
+}
