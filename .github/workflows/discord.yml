@@ -1,0 +1,10 @@
+name: Discord
+on:
+  release:
+    types: [published]
+
+jobs:
+  notify:
+    uses: jandedobbeleer/workflows/.github/workflows/discord.yml@main
+    secrets:
+      webhook: ${{ secrets.CHANGELOG_WEBHOOK }}

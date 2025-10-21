@@ -1,0 +1,82 @@
+---
+id: jujutsu
+title: Jujutsu
+sidebar_label: Jujutsu
+---
+
+## What
+
+Display Jujutsu information when in a Jujutsu repository.
+
+## Sample Configuration
+
+import Config from "@site/src/components/Config.js";
+
+<Config
+  data={{
+    type: "jujutsu",
+    style: "powerline",
+    powerline_symbol: "\uE0B0",
+    foreground: "#193549",
+    background: "#ffeb3b",
+    properties: {
+      fetch_status: true,
+      ignore_working_copy: false,
+    },
+  }}
+/>
+
+## Properties
+
+### Fetching information
+
+As doing Jujutsu (jj) calls can slow down the prompt experience, we do not fetch information by default.
+Set `status_formats` to `true` to enable fetching additional information (and populate the template).
+
+| Name                  |        Type         | Default | Description                                                                                                                                                                                                                                                      |
+| --------------------- | :-----------------: | :-----: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `change_id_min_len`   |        `int`        | `0`     | `ChangeID` will be at least this many characters, even if a shorter one would be unique                                                                                                                                                                          |
+| `fetch_status`        |      `boolean`      | `false` | fetch the local changes                                                                                                                                                                                                                                          |
+| `ignore_working_copy` |      `boolean`      | `true`  | don't snapshot/update the working copy                                                                                                                                                                                                                           |
+| `native_fallback`     |      `boolean`      | `false` | when set to `true` and `jj.exe` is not available when inside a WSL2 shared Windows drive, we will fallback to the native `jj` executable to fetch data. Not all information can be displayed in this case                                                        |
+| `status_formats`      | `map[string]string` |         | a key, value map allowing to override how individual status items are displayed. For example, `"status_formats": { "Added": "Added: %d" }` will display the added count as `Added: 1` instead of `+1`. See the [Status](#status) section for available overrides |
+
+## Template ([info][templates])
+
+:::note default template
+
+```template
+ \uf1fa{{.ChangeID}}{{if .Working.Changed}} \uf044 {{ .Working.String }}{{ end }}
+```
+
+:::
+
+### Properties
+
+| Name                | Type     | Description                                                                                  |
+| ------------------- | -------- | -------------------------------------------------------------------------------------------- |
+| `.Working`          | `Status` | changes in the working copy (see below)                                                      |
+| `.ChangeID`         | `string` | The shortest unique prefix of the working copy change that's at least change_id_min_len long |
+| `.ClosestBookmarks` | `string` | Closest bookmark(s) on ancestors                                                             |
+
+### Status
+
+| Name        | Type      | Description                                  |
+| ----------- | --------- | -------------------------------------------- |
+| `.Modified` | `int`     | number of modified files                     |
+| `.Deleted`  | `int`     | number of deleted files                      |
+| `.Added`    | `int`     | number of added files                        |
+| `.Moved`    | `int`     | number of renamed files                      |
+| `.Changed`  | `boolean` | if the status contains changes or not        |
+| `.String`   | `string`  | a string representation of the changes above |
+
+Local changes use the following syntax:
+
+| Icon | Description |
+| ---- | ----------- |
+| `~`  | Modified    |
+| `-`  | Deleted     |
+| `+`  | Added       |
+| `>`  | Moved       |
+
+[templates]: /docs/config-templates
