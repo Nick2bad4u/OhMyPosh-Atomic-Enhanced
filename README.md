@@ -6,6 +6,19 @@ This repository provides a custom theme configuration for [Oh My Posh](https://o
 
 Whether you're a developer or power user, this theme helps you work faster and smarter by making your shell prompt more informative and visually appealing.
 
+## 🎨 Interactive Theme Visualizer
+
+**NEW!** Try out Oh My Posh themes in your browser with our [Interactive Theme Visualizer](https://nick2bad4u.github.io/OhMyPosh-Atomic-Enhanced/)!
+
+Features:
+- 🖥️ **Real Terminal Simulation** - See themes in a fully functional xterm.js terminal
+- 🎨 **124+ Themes** - Browse and preview all themes from this repository
+- ⚙️ **Customization** - Adjust username, hostname, shell type, fonts, and colors
+- 💻 **Command Execution** - Test themes with simulated shell commands
+- 📱 **Responsive Design** - Works on desktop and mobile devices
+
+[**Launch Theme Visualizer →**](https://nick2bad4u.github.io/OhMyPosh-Atomic-Enhanced/)
+
 <figure>
   <img src="https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/WinTerminal.png" alt="Windows Terminal themed prompt screenshot" width="900">
   <figcaption><strong>Windows Terminal</strong> showcasing the Atomic Enhanced Oh My Posh prompt with left/right blocks, git status, and dynamic battery/system info.</figcaption>

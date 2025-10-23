@@ -45,6 +45,31 @@ class ThemeVisualizerApp {
      * Setup xterm.js terminal
      */
     setupTerminal() {
+        // Check if xterm.js is loaded
+        if (typeof Terminal === 'undefined') {
+            const terminalElement = document.getElementById('terminal');
+            if (terminalElement) {
+                terminalElement.innerHTML = `
+                    <div style="padding: 2rem; color: #ef4444;">
+                        <h3>⚠️ Terminal Library Not Loaded</h3>
+                        <p>The xterm.js library failed to load. This may be due to:</p>
+                        <ul>
+                            <li>Network connectivity issues</li>
+                            <li>Content blocker or ad blocker</li>
+                            <li>CDN availability</li>
+                        </ul>
+                        <p>Please try:</p>
+                        <ol>
+                            <li>Refreshing the page</li>
+                            <li>Disabling content blockers for this site</li>
+                            <li>Checking your internet connection</li>
+                        </ol>
+                    </div>
+                `;
+            }
+            throw new Error('Terminal library not loaded');
+        }
+        
         // Create terminal instance
         this.terminal = new Terminal({
             cursorBlink: true,
