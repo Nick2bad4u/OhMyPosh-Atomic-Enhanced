@@ -3,8 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oh My Posh Theme Visualizer</title>
-    <meta name="description" content="Interactive Oh My Posh theme previewer with live terminal simulation">
+    <title>Oh My Posh Theme Visualizer - Interactive Terminal Theme Preview</title>
+    <meta name="description" content="Interactive Oh My Posh theme previewer with live terminal simulation. Test and customize 124+ terminal themes in a real xterm.js terminal with command execution.">
+    <meta name="keywords" content="oh-my-posh, terminal, theme, prompt, powerline, bash, powershell, zsh, fish, customization">
+    <meta name="author" content="Nick2bad4u">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Oh My Posh Theme Visualizer">
+    <meta property="og:description" content="Interactive terminal theme previewer for Oh My Posh. Test 124+ themes in a real terminal with live customization.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/WinTerminal.png">
+    <meta property="og:url" content="https://nick2bad4u.github.io/OhMyPosh-Atomic-Enhanced/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Oh My Posh Theme Visualizer">
+    <meta name="twitter:description" content="Interactive terminal theme previewer for Oh My Posh">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/WinTerminal.png">
     
     <!-- Xterm.js CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css">
@@ -14,6 +29,9 @@
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎨%3C/text%3E%3C/svg%3E">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#21c7c7">
 </head>
 <body>
     <div class="container">
@@ -36,6 +54,11 @@
                     <h2>Theme Selection</h2>
                     <div class="search-box">
                         <input type="text" id="theme-search" placeholder="Search themes..." />
+                    </div>
+                    <div class="theme-actions">
+                        <button id="random-theme-btn" class="btn btn-accent">
+                            🎲 Random Theme
+                        </button>
                     </div>
                     <div class="theme-list" id="theme-list">
                         <div class="loading">Loading themes...</div>
@@ -137,6 +160,32 @@
                 </div>
             </main>
         </div>
+        
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced" target="_blank" rel="noopener noreferrer">
+                        GitHub Repository
+                    </a>
+                    <span class="separator">•</span>
+                    <a href="https://ohmyposh.dev/" target="_blank" rel="noopener noreferrer">
+                        Oh My Posh
+                    </a>
+                    <span class="separator">•</span>
+                    <a href="README.md">
+                        Documentation
+                    </a>
+                    <span class="separator">•</span>
+                    <a href="https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/issues" target="_blank" rel="noopener noreferrer">
+                        Report Issue
+                    </a>
+                </div>
+                <div class="footer-info">
+                    Made with ❤️ using <a href="https://xtermjs.org/" target="_blank" rel="noopener noreferrer">xterm.js</a>
+                </div>
+            </div>
+        </footer>
     </div>
 
     <!-- Xterm.js -->

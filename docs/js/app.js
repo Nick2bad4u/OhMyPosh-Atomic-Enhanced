@@ -210,6 +210,11 @@ class ThemeVisualizerApp {
         document.getElementById('copy-config-btn')?.addEventListener('click', () => {
             this.copyThemeConfig();
         });
+        
+        // Random theme button
+        document.getElementById('random-theme-btn')?.addEventListener('click', () => {
+            this.loadRandomTheme();
+        });
     }
     
     /**
@@ -461,6 +466,33 @@ class ThemeVisualizerApp {
             console.error('Error copying config:', error);
             this.updateStatus('Failed to copy configuration', true);
         }
+    }
+    
+    /**
+     * Load random theme
+     */
+    loadRandomTheme() {
+        if (this.themes.length === 0) {
+            this.updateStatus('No themes available', true);
+            return;
+        }
+        
+        // Pick a random theme
+        const randomIndex = Math.floor(Math.random() * this.themes.length);
+        const randomTheme = this.themes[randomIndex];
+        
+        // Load it
+        this.loadTheme(randomTheme);
+        
+        // Update active state in UI
+        document.querySelectorAll('.theme-item').forEach((el, idx) => {
+            el.classList.remove('active');
+            // Find and highlight the selected theme
+            if (el.querySelector('.theme-name')?.textContent.includes(randomTheme.name)) {
+                el.classList.add('active');
+                el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
     }
     
     /**

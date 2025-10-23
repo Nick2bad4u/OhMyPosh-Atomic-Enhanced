@@ -299,6 +299,19 @@ body {
     background: var(--border-color);
 }
 
+.btn-accent {
+    background: var(--accent-color);
+    color: var(--background-color);
+}
+
+.btn-accent:hover {
+    background: rgba(33, 199, 199, 0.8);
+}
+
+.theme-actions {
+    margin-bottom: 1rem;
+}
+
 /* Command Buttons */
 .command-buttons {
     display: flex;
@@ -471,6 +484,57 @@ body {
     animation: fadeIn 0.3s ease-out;
 }
 
+/* Footer */
+.app-footer {
+    background: var(--surface-color);
+    border-top: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color var(--transition-speed);
+}
+
+.footer-links a:hover {
+    color: var(--accent-color);
+}
+
+.footer-links .separator {
+    color: var(--text-secondary);
+}
+
+.footer-info {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.footer-info a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.footer-info a:hover {
+    text-decoration: underline;
+}
+
 /* Selection Colors */
 ::selection {
     background: var(--accent-color);
@@ -481,4 +545,20 @@ body {
 *:focus-visible {
     outline: 2px solid var(--accent-color);
     outline-offset: 2px;
+}
+
+/* Mobile Footer */
+@media (max-width: 768px) {
+    .app-footer {
+        padding: 1rem;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-links {
+        justify-content: center;
+    }
 }
