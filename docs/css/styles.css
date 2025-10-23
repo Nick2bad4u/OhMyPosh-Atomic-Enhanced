@@ -143,6 +143,22 @@ body {
     overflow-y: auto;
 }
 
+.category-header {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-left: 3px solid var(--accent-color);
+}
+
+.category-header:first-child {
+    margin-top: 0;
+}
+
 .theme-item {
     padding: 0.75rem;
     margin-bottom: 0.5rem;
@@ -163,6 +179,15 @@ body {
     background: rgba(33, 199, 199, 0.2);
 }
 
+.theme-item.featured {
+    border-color: var(--warning-color);
+    background: rgba(245, 158, 11, 0.05);
+}
+
+.theme-item.featured:hover {
+    background: rgba(245, 158, 11, 0.15);
+}
+
 .theme-item .theme-name {
     font-weight: 500;
     color: var(--text-color);
@@ -173,6 +198,7 @@ body {
     font-size: 0.75rem;
     color: var(--text-secondary);
     font-family: 'Consolas', monospace;
+    text-transform: capitalize;
 }
 
 .loading {

@@ -1,0 +1,750 @@
+{
+  "generated": "2025-10-23T00:14:10.529Z",
+  "count": 124,
+  "themes": [
+    {
+      "name": "Atomic Custom",
+      "path": "../OhMyPosh-Atomic-Custom.json",
+      "category": "custom",
+      "featured": true
+    },
+    {
+      "name": "Dracula",
+      "path": "../OhMyPosh-Dracula.json",
+      "category": "custom",
+      "featured": false
+    },
+    {
+      "name": "1_shell",
+      "path": "../ohmyposh-official-themes/themes/1_shell.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Agnoster",
+      "path": "../ohmyposh-official-themes/themes/agnoster.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Agnoster.Minimal",
+      "path": "../ohmyposh-official-themes/themes/agnoster.minimal.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Agnosterplus",
+      "path": "../ohmyposh-official-themes/themes/agnosterplus.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Aliens",
+      "path": "../ohmyposh-official-themes/themes/aliens.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Amro",
+      "path": "../ohmyposh-official-themes/themes/amro.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Atomic",
+      "path": "../ohmyposh-official-themes/themes/atomic.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "AtomicBit",
+      "path": "../ohmyposh-official-themes/themes/atomicBit.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Avit",
+      "path": "../ohmyposh-official-themes/themes/avit.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Blue Owl",
+      "path": "../ohmyposh-official-themes/themes/blue-owl.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Blueish",
+      "path": "../ohmyposh-official-themes/themes/blueish.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Bubbles",
+      "path": "../ohmyposh-official-themes/themes/bubbles.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Bubblesextra",
+      "path": "../ohmyposh-official-themes/themes/bubblesextra.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Bubblesline",
+      "path": "../ohmyposh-official-themes/themes/bubblesline.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Capr4n",
+      "path": "../ohmyposh-official-themes/themes/capr4n.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Catppuccin",
+      "path": "../ohmyposh-official-themes/themes/catppuccin.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Catppuccin_frappe",
+      "path": "../ohmyposh-official-themes/themes/catppuccin_frappe.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Catppuccin_latte",
+      "path": "../ohmyposh-official-themes/themes/catppuccin_latte.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Catppuccin_macchiato",
+      "path": "../ohmyposh-official-themes/themes/catppuccin_macchiato.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Catppuccin_mocha",
+      "path": "../ohmyposh-official-themes/themes/catppuccin_mocha.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Cert",
+      "path": "../ohmyposh-official-themes/themes/cert.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Chips",
+      "path": "../ohmyposh-official-themes/themes/chips.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Cinnamon",
+      "path": "../ohmyposh-official-themes/themes/cinnamon.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Clean Detailed",
+      "path": "../ohmyposh-official-themes/themes/clean-detailed.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Cloud Context",
+      "path": "../ohmyposh-official-themes/themes/cloud-context.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Cloud Native Azure",
+      "path": "../ohmyposh-official-themes/themes/cloud-native-azure.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Cobalt2",
+      "path": "../ohmyposh-official-themes/themes/cobalt2.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Craver",
+      "path": "../ohmyposh-official-themes/themes/craver.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Darkblood",
+      "path": "../ohmyposh-official-themes/themes/darkblood.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Di4am0nd",
+      "path": "../ohmyposh-official-themes/themes/di4am0nd.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Dracula",
+      "path": "../ohmyposh-official-themes/themes/dracula.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Easy Term",
+      "path": "../ohmyposh-official-themes/themes/easy-term.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Emodipt",
+      "path": "../ohmyposh-official-themes/themes/emodipt.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Emodipt Extend",
+      "path": "../ohmyposh-official-themes/themes/emodipt-extend.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Fish",
+      "path": "../ohmyposh-official-themes/themes/fish.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Free Ukraine",
+      "path": "../ohmyposh-official-themes/themes/free-ukraine.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Froczh",
+      "path": "../ohmyposh-official-themes/themes/froczh.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Gmay",
+      "path": "../ohmyposh-official-themes/themes/gmay.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Grandpa Style",
+      "path": "../ohmyposh-official-themes/themes/grandpa-style.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Gruvbox",
+      "path": "../ohmyposh-official-themes/themes/gruvbox.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Half Life",
+      "path": "../ohmyposh-official-themes/themes/half-life.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Honukai",
+      "path": "../ohmyposh-official-themes/themes/honukai.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Hotstick.Minimal",
+      "path": "../ohmyposh-official-themes/themes/hotstick.minimal.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Hul10",
+      "path": "../ohmyposh-official-themes/themes/hul10.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Hunk",
+      "path": "../ohmyposh-official-themes/themes/hunk.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Huvix",
+      "path": "../ohmyposh-official-themes/themes/huvix.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "If_tea",
+      "path": "../ohmyposh-official-themes/themes/if_tea.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Illusi0n",
+      "path": "../ohmyposh-official-themes/themes/illusi0n.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Iterm2",
+      "path": "../ohmyposh-official-themes/themes/iterm2.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Jandedobbeleer",
+      "path": "../ohmyposh-official-themes/themes/jandedobbeleer.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Jblab_2021",
+      "path": "../ohmyposh-official-themes/themes/jblab_2021.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Jonnychipz",
+      "path": "../ohmyposh-official-themes/themes/jonnychipz.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Json",
+      "path": "../ohmyposh-official-themes/themes/json.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Jtracey93",
+      "path": "../ohmyposh-official-themes/themes/jtracey93.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Jv_sitecorian",
+      "path": "../ohmyposh-official-themes/themes/jv_sitecorian.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Kali",
+      "path": "../ohmyposh-official-themes/themes/kali.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Kushal",
+      "path": "../ohmyposh-official-themes/themes/kushal.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Lambda",
+      "path": "../ohmyposh-official-themes/themes/lambda.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Lambdageneration",
+      "path": "../ohmyposh-official-themes/themes/lambdageneration.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Larserikfinholt",
+      "path": "../ohmyposh-official-themes/themes/larserikfinholt.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Lightgreen",
+      "path": "../ohmyposh-official-themes/themes/lightgreen.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "M365Princess",
+      "path": "../ohmyposh-official-themes/themes/M365Princess.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Marcduiker",
+      "path": "../ohmyposh-official-themes/themes/marcduiker.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Markbull",
+      "path": "../ohmyposh-official-themes/themes/markbull.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Material",
+      "path": "../ohmyposh-official-themes/themes/material.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Microverse Power",
+      "path": "../ohmyposh-official-themes/themes/microverse-power.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Mojada",
+      "path": "../ohmyposh-official-themes/themes/mojada.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Montys",
+      "path": "../ohmyposh-official-themes/themes/montys.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Mt",
+      "path": "../ohmyposh-official-themes/themes/mt.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Multiverse Neon",
+      "path": "../ohmyposh-official-themes/themes/multiverse-neon.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Negligible",
+      "path": "../ohmyposh-official-themes/themes/negligible.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Neko",
+      "path": "../ohmyposh-official-themes/themes/neko.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Night Owl",
+      "path": "../ohmyposh-official-themes/themes/night-owl.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Nordtron",
+      "path": "../ohmyposh-official-themes/themes/nordtron.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Nu4a",
+      "path": "../ohmyposh-official-themes/themes/nu4a.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Onehalf.Minimal",
+      "path": "../ohmyposh-official-themes/themes/onehalf.minimal.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Paradox",
+      "path": "../ohmyposh-official-themes/themes/paradox.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Pararussel",
+      "path": "../ohmyposh-official-themes/themes/pararussel.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Patriksvensson",
+      "path": "../ohmyposh-official-themes/themes/patriksvensson.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Peru",
+      "path": "../ohmyposh-official-themes/themes/peru.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Pixelrobots",
+      "path": "../ohmyposh-official-themes/themes/pixelrobots.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Plague",
+      "path": "../ohmyposh-official-themes/themes/plague.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Poshmon",
+      "path": "../ohmyposh-official-themes/themes/poshmon.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Powerlevel10k_classic",
+      "path": "../ohmyposh-official-themes/themes/powerlevel10k_classic.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Powerlevel10k_lean",
+      "path": "../ohmyposh-official-themes/themes/powerlevel10k_lean.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Powerlevel10k_modern",
+      "path": "../ohmyposh-official-themes/themes/powerlevel10k_modern.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Powerlevel10k_rainbow",
+      "path": "../ohmyposh-official-themes/themes/powerlevel10k_rainbow.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Powerline",
+      "path": "../ohmyposh-official-themes/themes/powerline.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Probua.Minimal",
+      "path": "../ohmyposh-official-themes/themes/probua.minimal.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Pure",
+      "path": "../ohmyposh-official-themes/themes/pure.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Quick Term",
+      "path": "../ohmyposh-official-themes/themes/quick-term.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Remk",
+      "path": "../ohmyposh-official-themes/themes/remk.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Robbyrussell",
+      "path": "../ohmyposh-official-themes/themes/robbyrussell.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Rudolfs Dark",
+      "path": "../ohmyposh-official-themes/themes/rudolfs-dark.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Rudolfs Light",
+      "path": "../ohmyposh-official-themes/themes/rudolfs-light.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Sim Web",
+      "path": "../ohmyposh-official-themes/themes/sim-web.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Slim",
+      "path": "../ohmyposh-official-themes/themes/slim.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Slimfat",
+      "path": "../ohmyposh-official-themes/themes/slimfat.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Smoothie",
+      "path": "../ohmyposh-official-themes/themes/smoothie.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Sonicboom_dark",
+      "path": "../ohmyposh-official-themes/themes/sonicboom_dark.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Sonicboom_light",
+      "path": "../ohmyposh-official-themes/themes/sonicboom_light.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Sorin",
+      "path": "../ohmyposh-official-themes/themes/sorin.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Space",
+      "path": "../ohmyposh-official-themes/themes/space.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Spaceship",
+      "path": "../ohmyposh-official-themes/themes/spaceship.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Star",
+      "path": "../ohmyposh-official-themes/themes/star.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Stelbent Compact.Minimal",
+      "path": "../ohmyposh-official-themes/themes/stelbent-compact.minimal.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Stelbent.Minimal",
+      "path": "../ohmyposh-official-themes/themes/stelbent.minimal.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Takuya",
+      "path": "../ohmyposh-official-themes/themes/takuya.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "The Unnamed",
+      "path": "../ohmyposh-official-themes/themes/the-unnamed.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Thecyberden",
+      "path": "../ohmyposh-official-themes/themes/thecyberden.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Tiwahu",
+      "path": "../ohmyposh-official-themes/themes/tiwahu.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Tokyo",
+      "path": "../ohmyposh-official-themes/themes/tokyo.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Tokyonight_storm",
+      "path": "../ohmyposh-official-themes/themes/tokyonight_storm.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Tonybaloney",
+      "path": "../ohmyposh-official-themes/themes/tonybaloney.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Uew",
+      "path": "../ohmyposh-official-themes/themes/uew.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Unicorn",
+      "path": "../ohmyposh-official-themes/themes/unicorn.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Velvet",
+      "path": "../ohmyposh-official-themes/themes/velvet.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Wholespace",
+      "path": "../ohmyposh-official-themes/themes/wholespace.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Wopian",
+      "path": "../ohmyposh-official-themes/themes/wopian.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Xtoys",
+      "path": "../ohmyposh-official-themes/themes/xtoys.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Ys",
+      "path": "../ohmyposh-official-themes/themes/ys.omp.json",
+      "category": "official",
+      "featured": false
+    },
+    {
+      "name": "Zash",
+      "path": "../ohmyposh-official-themes/themes/zash.omp.json",
+      "category": "official",
+      "featured": false
+    }
+  ]
+}

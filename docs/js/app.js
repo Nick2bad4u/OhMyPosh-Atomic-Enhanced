@@ -194,27 +194,18 @@ class ThemeVisualizerApp {
         try {
             this.updateStatus('Loading themes...');
             
-            // Load theme list - we'll scan for available themes
-            const themeFiles = [
-                // Custom themes
-                { name: 'Atomic Enhanced (Custom)', path: '../OhMyPosh-Atomic-Custom.json' },
-                { name: 'Dracula', path: '../OhMyPosh-Dracula.json' },
-                
-                // Sample official themes
-                { name: 'Gruvbox', path: '../ohmyposh-official-themes/themes/gruvbox.omp.json' },
-                { name: 'Fish', path: '../ohmyposh-official-themes/themes/fish.omp.json' },
-                { name: 'Darkblood', path: '../ohmyposh-official-themes/themes/darkblood.omp.json' },
-                { name: 'Blue Owl', path: '../ohmyposh-official-themes/themes/blue-owl.omp.json' },
-                { name: 'Cobalt2', path: '../ohmyposh-official-themes/themes/cobalt2.omp.json' },
-                { name: 'Paradox', path: '../ohmyposh-official-themes/themes/paradox.omp.json' },
-                { name: 'Sorin', path: '../ohmyposh-official-themes/themes/sorin.omp.json' },
-                { name: 'Velvet', path: '../ohmyposh-official-themes/themes/velvet.omp.json' }
-            ];
+            // Load theme index
+            const response = await fetch('themes/index.json');
+            if (!response.ok) {
+                throw new Error('Failed to load theme index');
+            }
             
-            this.themes = themeFiles;
+            const index = await response.json();
+            this.themes = index.themes || [];
+            
             this.renderThemeList();
             
-            this.updateStatus('Themes loaded');
+            this.updateStatus(`${this.themes.length} themes loaded`);
         } catch (error) {
             console.error('Error loading themes:', error);
             this.updateStatus('Error loading themes', true);
@@ -230,23 +221,45 @@ class ThemeVisualizerApp {
         
         themeList.innerHTML = '';
         
-        this.themes.forEach((theme, index) => {
-            const item = document.createElement('div');
-            item.className = 'theme-item';
-            item.innerHTML = `
-                <div class="theme-name">${theme.name}</div>
-                <div class="theme-path">${theme.path}</div>
-            `;
+        // Group themes by category
+        const categories = {};
+        this.themes.forEach(theme => {
+            if (!categories[theme.category]) {
+                categories[theme.category] = [];
+            }
+            categories[theme.category].push(theme);
+        });
+        
+        // Render each category
+        Object.entries(categories).forEach(([category, themes]) => {
+            // Add category header
+            const header = document.createElement('div');
+            header.className = 'category-header';
+            header.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+            themeList.appendChild(header);
             
-            item.addEventListener('click', () => {
-                this.loadTheme(theme);
+            // Add themes in this category
+            themes.forEach((theme, index) => {
+                const item = document.createElement('div');
+                item.className = 'theme-item';
+                if (theme.featured) {
+                    item.classList.add('featured');
+                }
+                item.innerHTML = `
+                    <div class="theme-name">${theme.featured ? '⭐ ' : ''}${theme.name}</div>
+                    <div class="theme-path">${theme.category}</div>
+                `;
                 
-                // Update active state
-                document.querySelectorAll('.theme-item').forEach(el => el.classList.remove('active'));
-                item.classList.add('active');
+                item.addEventListener('click', () => {
+                    this.loadTheme(theme);
+                    
+                    // Update active state
+                    document.querySelectorAll('.theme-item').forEach(el => el.classList.remove('active'));
+                    item.classList.add('active');
+                });
+                
+                themeList.appendChild(item);
             });
-            
-            themeList.appendChild(item);
         });
     }
     
