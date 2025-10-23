@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oh My Posh Theme Visualizer</title>
+    <meta name="description" content="Interactive Oh My Posh theme previewer with live terminal simulation">
+    
+    <!-- Xterm.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎨%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>
+                    <span class="icon">🎨</span>
+                    Oh My Posh Theme Visualizer
+                </h1>
+                <p class="subtitle">Interactive terminal theme previewer with live customization</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h2>Theme Selection</h2>
+                    <div class="search-box">
+                        <input type="text" id="theme-search" placeholder="Search themes..." />
+                    </div>
+                    <div class="theme-list" id="theme-list">
+                        <div class="loading">Loading themes...</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h2>Customization</h2>
+                    
+                    <div class="control-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" value="user" />
+                    </div>
+
+                    <div class="control-group">
+                        <label for="hostname">Hostname</label>
+                        <input type="text" id="hostname" value="localhost" />
+                    </div>
+
+                    <div class="control-group">
+                        <label for="shell-type">Shell Type</label>
+                        <select id="shell-type">
+                            <option value="pwsh">PowerShell</option>
+                            <option value="bash">Bash</option>
+                            <option value="zsh">Zsh</option>
+                            <option value="fish">Fish</option>
+                            <option value="cmd">CMD</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="font-size">Font Size</label>
+                        <input type="range" id="font-size" min="10" max="24" value="14" />
+                        <span id="font-size-value">14px</span>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="font-family">Font Family</label>
+                        <select id="font-family">
+                            <option value="'Cascadia Code', 'Courier New', monospace">Cascadia Code</option>
+                            <option value="'Fira Code', monospace">Fira Code</option>
+                            <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
+                            <option value="'Consolas', monospace">Consolas</option>
+                            <option value="'Monaco', monospace">Monaco</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="bg-color">Background Color</label>
+                        <div class="color-picker-wrapper">
+                            <input type="color" id="bg-color" value="#1e1e1e" />
+                            <input type="text" id="bg-color-text" value="#1e1e1e" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="opacity">Background Opacity</label>
+                        <input type="range" id="opacity" min="0.3" max="1" step="0.1" value="1" />
+                        <span id="opacity-value">100%</span>
+                    </div>
+
+                    <div class="control-group">
+                        <button id="reset-settings" class="btn btn-secondary">Reset to Defaults</button>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h2>Quick Commands</h2>
+                    <div class="command-buttons">
+                        <button class="cmd-btn" data-cmd="ls -la">ls -la</button>
+                        <button class="cmd-btn" data-cmd="git status">git status</button>
+                        <button class="cmd-btn" data-cmd="npm install">npm install</button>
+                        <button class="cmd-btn" data-cmd="python --version">python --version</button>
+                        <button class="cmd-btn" data-cmd="clear">clear</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Terminal Area -->
+            <main class="terminal-area">
+                <div class="terminal-header">
+                    <div class="terminal-title">
+                        <span class="terminal-icon">▶</span>
+                        <span id="current-theme-name">Select a theme to preview</span>
+                    </div>
+                    <div class="terminal-buttons">
+                        <button id="fullscreen-btn" class="icon-btn" title="Toggle Fullscreen">⛶</button>
+                        <button id="copy-config-btn" class="icon-btn" title="Copy Theme Config">📋</button>
+                    </div>
+                </div>
+                <div class="terminal-wrapper">
+                    <div id="terminal"></div>
+                </div>
+                <div class="terminal-footer">
+                    <div class="status-bar">
+                        <span id="status-text">Ready</span>
+                        <span id="theme-info"></span>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Xterm.js -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-web-links@0.9.0/lib/xterm-addon-web-links.min.js"></script>
+    
+    <!-- ANSI Parser -->
+    <script src="js/ansi-parser.js"></script>
+    
+    <!-- Theme Engine -->
+    <script src="js/theme-engine.js"></script>
+    
+    <!-- Terminal Simulator -->
+    <script src="js/terminal-simulator.js"></script>
+    
+    <!-- Main App -->
+    <script src="js/app.js"></script>
+</body>
+</html>
