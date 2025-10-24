@@ -1,0 +1,50 @@
+# MegaLinter workflow customized for Uptime-Watcher
+name: MegaLinter
+
+on:
+    push:
+    pull_request:
+    workflow_dispatch:
+
+permissions: write-all
+
+concurrency:
+    group: megalinter-${{ github.ref }}
+    cancel-in-progress: false
+
+jobs:
+    megalinter:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: .
+        steps:
+            - name: Harden the runner (Audit all outbound calls)
+              uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+              with:
+                  egress-policy: audit
+
+            - name: Checkout repository
+              uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+            - name: MegaLinter
+              id: megalinter
+              uses: oxsecurity/megalinter@62c799d895af9bcbca5eacfebca29d527f125a57 # v9.1.0
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  APPLY_FIXES: all
+                  APPLY_FIXES_EVENT: all
+                  APPLY_FIXES_MODE: pull_request
+
+            # Upload MegaLinter artifacts
+            - name: Archive production artifacts
+              if: success() || failure()
+              uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+              with:
+                  name: MegaLinter reports
+                  path: |
+                      megalinter-reports
+                      mega-linter.log
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              continue-on-error: true
