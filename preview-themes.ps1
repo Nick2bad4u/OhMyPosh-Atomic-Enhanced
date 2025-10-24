@@ -3,15 +3,57 @@
 
 param(
     [switch]$Official,
-    [switch]$Custom
+    [switch]$Custom,
+    [Parameter()]
+    [ValidateSet("All", "Atomic", "1Shell", "Slimfat", "AtomicBit", "CleanDetailed")]
+    [string]$ThemeFamily = "All"
 )
 
-$customThemes = @(
-    @{Name = "Original"; Path = "OhMyPosh-Atomic-Custom.json" },
-    @{Name = "V1 (Cyberpunk)"; Path = "OhMyPosh-Atomic-Advanced-V1.json" },
-    @{Name = "V2 (Waves)"; Path = "OhMyPosh-Atomic-Advanced-V2.json" },
-    @{Name = "V3 (Brackets)"; Path = "OhMyPosh-Atomic-Advanced-V3-BRACKETS.json" }
+# Define base themes
+$baseThemes = @(
+    @{Name = "Atomic Custom"; Prefix = "OhMyPosh-Atomic-Custom" },
+    @{Name = "1_shell Enhanced"; Prefix = "1_shell-Enhanced.omp" },
+    @{Name = "Slimfat Enhanced"; Prefix = "slimfat-Enhanced.omp" },
+    @{Name = "AtomicBit Enhanced"; Prefix = "atomicBit-Enhanced.omp" },
+    @{Name = "Clean-Detailed Enhanced"; Prefix = "clean-detailed-Enhanced.omp" }
 )
+
+# Define all palette variants
+$paletteVariants = @(
+    "Original", "NordFrost", "GruvboxDark", "DraculaNight", "TokyoNight",
+    "MonokaiPro", "SolarizedDark", "CatppuccinMocha", "ForestEmber",
+    "PinkParadise", "PurpleReign", "RedAlert", "BlueOcean", "GreenMatrix",
+    "AmberSunset", "TealCyan", "RainbowBright", "ChristmasCheer",
+    "HalloweenSpooky", "EasterPastel", "FireIce", "MidnightGold",
+    "CherryMint", "LavenderPeach"
+)
+
+# Build custom themes list
+$customThemes = @()
+
+foreach ($base in $baseThemes) {
+    # Add base theme file if it exists
+    $baseFile = "$($base.Prefix).json"
+    if (Test-Path $baseFile) {
+        $customThemes += @{
+            Name   = "$($base.Name) (Base)"
+            Path   = $baseFile
+            Family = $base.Name
+        }
+    }
+
+    # Add all palette variants
+    foreach ($palette in $paletteVariants) {
+        $variantFile = "$($base.Prefix).$palette.json"
+        if (Test-Path $variantFile) {
+            $customThemes += @{
+                Name   = "$($base.Name) - $palette"
+                Path   = $variantFile
+                Family = $base.Name
+            }
+        }
+    }
+}
 
 $officialThemesPath = "ohmyposh-official-themes\themes"
 
@@ -24,11 +66,25 @@ $themes = @()
 
 if ($Custom) {
     foreach ($theme in $customThemes) {
+        # Filter by theme family if specified
+        if ($ThemeFamily -ne "All") {
+            $familyMatch = switch ($ThemeFamily) {
+                "Atomic" { $theme.Family -eq "Atomic Custom" }
+                "1Shell" { $theme.Family -eq "1_shell Enhanced" }
+                "Slimfat" { $theme.Family -eq "Slimfat Enhanced" }
+                "AtomicBit" { $theme.Family -eq "AtomicBit Enhanced" }
+                "CleanDetailed" { $theme.Family -eq "Clean-Detailed Enhanced" }
+                default { $true }
+            }
+            if (-not $familyMatch) { continue }
+        }
+
         if (Test-Path $theme.Path) {
             $themes += @{
-                Type = "Custom"
-                Name = $theme.Name
-                Path = $theme.Path
+                Type   = "Enhanced"
+                Name   = $theme.Name
+                Path   = $theme.Path
+                Family = $theme.Family
             }
         }
     }

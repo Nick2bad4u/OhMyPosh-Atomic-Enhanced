@@ -50,7 +50,10 @@ param(
     [Parameter()]
     [string[]]$ThemePattern = @(
         "OhMyPosh-Atomic-Custom.*.json",
-        "1_shell-Enhanced.omp.*.json"
+        "1_shell-Enhanced.omp.*.json",
+        "slimfat-Enhanced.omp.*.json",
+        "atomicBit-Enhanced.omp.*.json",
+        "clean-detailed-Enhanced.omp.*.json"
     ),
 
     [Parameter()]
@@ -74,12 +77,12 @@ $ErrorActionPreference = 'Stop'
 
 # Color scheme for output
 $colors = @{
-    Header = 'Cyan'
+    Header  = 'Cyan'
     Success = 'Green'
     Warning = 'Yellow'
-    Error = 'Red'
-    Info = 'White'
-    Accent = 'Magenta'
+    Error   = 'Red'
+    Info    = 'White'
+    Accent  = 'Magenta'
 }
 
 function Write-Header {
@@ -182,10 +185,10 @@ foreach ($theme in $themeFiles) {
         Write-Warning "Image already exists, skipping (use -Force to regenerate)"
         $skipCount++
         $results += [PSCustomObject]@{
-            Theme = $theme.Name
-            ThemeName = $themeName
-            Status = 'Skipped'
-            ImagePath = $outputImage
+            Theme        = $theme.Name
+            ThemeName    = $themeName
+            Status       = 'Skipped'
+            ImagePath    = $outputImage
             RelativePath = "assets/theme-previews/$themeName.png"
         }
         continue
@@ -209,10 +212,10 @@ foreach ($theme in $themeFiles) {
             Write-Success "Generated: $themeName.png"
             $successCount++
             $results += [PSCustomObject]@{
-                Theme = $theme.Name
-                ThemeName = $themeName
-                Status = 'Success'
-                ImagePath = $outputImage
+                Theme        = $theme.Name
+                ThemeName    = $themeName
+                Status       = 'Success'
+                ImagePath    = $outputImage
                 RelativePath = "assets/theme-previews/$themeName.png"
             }
         }
@@ -224,10 +227,10 @@ foreach ($theme in $themeFiles) {
         Write-ErrorMessage "Failed: $_"
         $errorCount++
         $results += [PSCustomObject]@{
-            Theme = $theme.Name
-            ThemeName = $themeName
-            Status = 'Error'
-            ImagePath = $null
+            Theme        = $theme.Name
+            ThemeName    = $themeName
+            Status       = 'Error'
+            ImagePath    = $null
             RelativePath = $null
         }
     }
@@ -260,9 +263,50 @@ if (-not $SkipReadmeUpdate) {
     Write-Step "Reading README.md..."
     $readmeContent = Get-Content $ReadmePath -Raw
 
-    # Group themes by base theme
-    $atomicThemes = $results | Where-Object { $_.Theme -like "OhMyPosh-Atomic-Custom.*" -and $_.Status -eq 'Success' } | Sort-Object ThemeName
-    $shellThemes = $results | Where-Object { $_.Theme -like "1_shell-Enhanced.omp.*" -and $_.Status -eq 'Success' } | Sort-Object ThemeName
+    # Group themes by base theme (ensure they're arrays even if empty)
+    $atomicThemes = @($results | Where-Object { $_.Theme -like "OhMyPosh-Atomic-Custom.*" -and $_.Status -eq 'Success' } | Sort-Object ThemeName)
+    $shellThemes = @($results | Where-Object { $_.Theme -like "1_shell-Enhanced.omp.*" -and $_.Status -eq 'Success' } | Sort-Object ThemeName)
+    $slimfatThemes = @($results | Where-Object { $_.Theme -like "slimfat-Enhanced.omp.*" -and $_.Status -eq 'Success' } | Sort-Object ThemeName)
+    $atomicBitThemes = @($results | Where-Object { $_.Theme -like "atomicBit-Enhanced.omp.*" -and $_.Status -eq 'Success' } | Sort-Object ThemeName)
+    $cleanDetailedThemes = @($results | Where-Object { $_.Theme -like "clean-detailed-Enhanced.omp.*" -and $_.Status -eq 'Success' } | Sort-Object ThemeName)
+
+    # Function to generate table rows for a theme group
+    function Get-ThemeTableRows {
+        param(
+            [array]$Themes,
+            [string]$StripPrefix
+        )
+
+        $markdown = ""
+        $count = 0
+
+        foreach ($theme in $Themes) {
+            if ($count % 2 -eq 0) {
+                $markdown += "`n<tr>"
+            }
+
+            $displayName = $theme.ThemeName -replace "^$StripPrefix", ''
+            $markdown += @"
+
+<td align="center" width="50%">
+<h4>$displayName</h4>
+<img src="$($theme.RelativePath)" alt="$displayName theme preview" width="100%">
+</td>
+"@
+
+            $count++
+            if ($count % 2 -eq 0) {
+                $markdown += "`n</tr>"
+            }
+        }
+
+        # Close row if odd number
+        if ($count % 2 -ne 0) {
+            $markdown += "`n</tr>"
+        }
+
+        return $markdown
+    }
 
     # Generate gallery markdown
     $galleryMarkdown = @"
@@ -275,32 +319,8 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <table>
 "@
 
-    # Add Atomic themes in 2-column grid
-    $atomicCount = 0
-    foreach ($theme in $atomicThemes) {
-        if ($atomicCount % 2 -eq 0) {
-            $galleryMarkdown += "`n<tr>"
-        }
-
-        $displayName = $theme.ThemeName -replace '^OhMyPosh-Atomic-Custom\.', ''
-        $galleryMarkdown += @"
-
-<td align="center" width="50%">
-<h4>$displayName</h4>
-<img src="$($theme.RelativePath)" alt="$displayName theme preview" width="100%">
-</td>
-"@
-
-        $atomicCount++
-        if ($atomicCount % 2 -eq 0) {
-            $galleryMarkdown += "`n</tr>"
-        }
-    }
-
-    # Close row if odd number
-    if ($atomicCount % 2 -ne 0) {
-        $galleryMarkdown += "`n</tr>"
-    }
+    # Add Atomic themes
+    $galleryMarkdown += Get-ThemeTableRows -Themes $atomicThemes -StripPrefix 'OhMyPosh-Atomic-Custom\.'
 
     $galleryMarkdown += @"
 
@@ -311,32 +331,44 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <table>
 "@
 
-    # Add shell themes in 2-column grid
-    $shellCount = 0
-    foreach ($theme in $shellThemes) {
-        if ($shellCount % 2 -eq 0) {
-            $galleryMarkdown += "`n<tr>"
-        }
+    # Add 1_shell themes
+    $galleryMarkdown += Get-ThemeTableRows -Themes $shellThemes -StripPrefix '1_shell-Enhanced\.omp\.'
 
-        $displayName = $theme.ThemeName -replace '^1_shell-Enhanced\.omp\.', ''
-        $galleryMarkdown += @"
+    $galleryMarkdown += @"
 
-<td align="center" width="50%">
-<h4>$displayName</h4>
-<img src="$($theme.RelativePath)" alt="$displayName theme preview" width="100%">
-</td>
+</table>
+
+### 🎯 Slimfat-Enhanced Variants
+
+<table>
 "@
 
-        $shellCount++
-        if ($shellCount % 2 -eq 0) {
-            $galleryMarkdown += "`n</tr>"
-        }
-    }
+    # Add Slimfat themes
+    $galleryMarkdown += Get-ThemeTableRows -Themes $slimfatThemes -StripPrefix 'slimfat-Enhanced\.omp\.'
 
-    # Close row if odd number
-    if ($shellCount % 2 -ne 0) {
-        $galleryMarkdown += "`n</tr>"
-    }
+    $galleryMarkdown += @"
+
+</table>
+
+### 📦 AtomicBit-Enhanced Variants
+
+<table>
+"@
+
+    # Add AtomicBit themes
+    $galleryMarkdown += Get-ThemeTableRows -Themes $atomicBitThemes -StripPrefix 'atomicBit-Enhanced\.omp\.'
+
+    $galleryMarkdown += @"
+
+</table>
+
+### 🧹 Clean-Detailed-Enhanced Variants
+
+<table>
+"@
+
+    # Add Clean-Detailed themes
+    $galleryMarkdown += Get-ThemeTableRows -Themes $cleanDetailedThemes -StripPrefix 'clean-detailed-Enhanced\.omp\.'
 
     $galleryMarkdown += @"
 
@@ -347,27 +379,88 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 To use any theme, copy the command for your preferred variant:
 
 ``````pwsh
-# Replace <THEME_FILE> with the desired theme file name
-oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/<THEME_FILE>" | Invoke-Expression
+# Replace <THEME_FOLDER> and <THEME_FILE> with the desired theme names
+oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/<THEME_FOLDER>/<THEME_FILE>" | Invoke-Expression
+``````
+
+**Theme File Naming Convention:**
+
+- `OhMyPosh-Atomic-Custom.<Palette>.json` - Flagship comprehensive theme
+
+- `1_shell-Enhanced.omp.<Palette>.json` - Single-line sleek theme
+
+- `slimfat-Enhanced.omp.<Palette>.json` - Two-line compact theme
+
+- `\atomicBit-Enhanced.omp.<Palette>.json` - Box-style technical theme
+
+- `clean-detailed-Enhanced.omp.<Palette>.json` - Minimalist clean theme
+
+**Examples:**
+``````pwsh
+# Atomic Custom with Nord Frost palette
+oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/atomic/OhMyPosh-Atomic-Custom.NordFrost.json" | Invoke-Expression
+
+# 1_shell Enhanced with Tokyo Night palette
+oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/1_shell-Enhanced.omp.TokyoNight.json" | Invoke-Expression
+
+# Slimfat Enhanced with Dracula Night palette
+oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/slimfat/slimfat-Enhanced.omp.DraculaNight.json" | Invoke-Expression
+
+# AtomicBit Enhanced with Gruvbox Dark palette
+oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/atomicBit/atomicBit-Enhanced.omp.GruvboxDark.json" | Invoke-Expression
+
+# Clean-Detailed Enhanced with Catppuccin Mocha palette
+oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/cleanDetailed/clean-detailed-Enhanced.omp.CatppuccinMocha.json" | Invoke-Expression
 ``````
 
 **Available Palettes:**
 - **Original** - Your current vibrant tech theme
+
 - **Nord Frost** - Arctic cool tones
+
 - **Gruvbox Dark** - Warm retro earth tones
+
 - **Dracula Night** - Bold purple/pink
+
 - **Tokyo Night** - Modern neon blues
+
 - **Monokai Pro** - Classic neon colors
+
 - **Solarized Dark** - Eye-friendly
+
 - **Catppuccin Mocha** - Soft pastels
+
 - **Forest Ember** - Deep greens with amber
+
 - **Pink Paradise** - Vibrant pink/magenta 💗
+
 - **Purple Reign** - Royal purples 👑
+
 - **Red Alert** - Fiery reds/oranges 🔥
+
 - **Blue Ocean** - Deep ocean blues 🌊
+
 - **Green Matrix** - Matrix-inspired greens 💚
+
 - **Amber Sunset** - Warm sunset tones 🌅
+
 - **Teal Cyan** - Electric teals ⚡
+
+- **Rainbow Bright** - Vibrant rainbow colors 🌈
+
+- **Christmas Cheer** - Festive holiday colors 🎄
+
+- **Halloween Spooky** - Spooky Halloween theme 🎃
+
+- **Easter Pastel** - Soft pastel Easter colors 🐰
+
+- **Fire & Ice** - Dual-tone red/orange and blue/cyan ❄️🔥
+
+- **Midnight Gold** - Deep navy blue and gold ⭐
+
+- **Cherry Mint** - Cherry red and mint green 🍒
+
+- **Lavender Peach** - Soft lavender and warm peach 🍑
 
 ---
 "@
@@ -399,7 +492,9 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 
     # Write updated README
     $readmeContent | Set-Content $ReadmePath -Encoding UTF8 -NoNewline
-    Write-Success "README.md updated with $($atomicCount + $shellCount) theme previews"
+
+    $totalThemes = $atomicThemes.Count + $shellThemes.Count + $slimfatThemes.Count + $atomicBitThemes.Count + $cleanDetailedThemes.Count
+    Write-Success "README.md updated with $totalThemes theme previews across 5 families"
 }
 
 # Final message
@@ -410,11 +505,21 @@ if ($successCount -gt 0) {
     Write-Host $OutputDirectory -ForegroundColor $colors.Accent
 }
 
-if (-not $SkipReadmeUpdate -and ($atomicThemes.Count -gt 0 -or $shellThemes.Count -gt 0)) {
-    Write-Host "`n💡 Don't forget to:" -ForegroundColor $colors.Warning
-    Write-Host "   1. Review the updated README.md" -ForegroundColor $colors.Info
-    Write-Host "   2. Commit and push the new preview images" -ForegroundColor $colors.Info
-    Write-Host "   3. Verify the gallery renders correctly on GitHub" -ForegroundColor $colors.Info
+if (-not $SkipReadmeUpdate) {
+    $totalGalleryThemes = ($atomicThemes.Count + $shellThemes.Count + $slimfatThemes.Count + $atomicBitThemes.Count + $cleanDetailedThemes.Count)
+    if ($totalGalleryThemes -gt 0) {
+        Write-Host "`n💡 Don't forget to:" -ForegroundColor $colors.Warning
+        Write-Host "   1. Review the updated README.md" -ForegroundColor $colors.Info
+        Write-Host "   2. Commit and push the new preview images" -ForegroundColor $colors.Info
+        Write-Host "   3. Verify the gallery renders correctly on GitHub" -ForegroundColor $colors.Info
+        Write-Host "`n📊 Gallery Stats:" -ForegroundColor $colors.Accent
+        Write-Host "   • Atomic Custom: $($atomicThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-Host "   • 1_shell-Enhanced: $($shellThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-Host "   • Slimfat-Enhanced: $($slimfatThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-Host "   • AtomicBit-Enhanced: $($atomicBitThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-Host "   • Clean-Detailed-Enhanced: $($cleanDetailedThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-Host "   • Total: $totalGalleryThemes themes in gallery" -ForegroundColor $colors.Success
+    }
 }
 
 Write-Host ""

@@ -46,7 +46,13 @@
 [CmdletBinding()]
 param(
     [Parameter()]
-    [string]$SourceTheme = "OhMyPosh-Atomic-Custom.json",
+    [string[]]$SourceThemes = @(
+        "OhMyPosh-Atomic-Custom.json",
+        "1_shell-Enhanced.omp.json",
+        "slimfat-Enhanced.omp.json",
+        "atomicBit-Enhanced.omp.json",
+        "clean-detailed-Enhanced.omp.json"
+    ),
 
     [Parameter()]
     [string]$PalettesFile = "color-palette-alternatives.json",
@@ -84,8 +90,9 @@ Write-Host "  🎨 Oh My Posh BATCH Theme Generator 🎨" -ForegroundColor Cyan
 Write-Host ("=" * 70) -ForegroundColor Cyan
 
 # Verify files exist
-if (-not (Test-Path $SourceTheme)) {
-    Write-Error "Source theme file not found: $SourceTheme"
+$missingThemes = @($SourceThemes | Where-Object { -not (Test-Path $_) })
+if ($missingThemes.Count -gt 0) {
+    Write-Error "Source theme file(s) not found: $($missingThemes -join ', ')"
     exit 1
 }
 
@@ -109,6 +116,7 @@ catch {
 }
 
 # Get all palette names
+$ExcludePalettes = @($ExcludePalettes)  # Ensure it's an array
 $allPaletteNames = $palettes.PSObject.Properties.Name | Where-Object {
     $_ -notin $ExcludePalettes
 }
@@ -117,15 +125,14 @@ Write-Host "✓ Found " -NoNewline -ForegroundColor Green
 Write-Host $allPaletteNames.Count -NoNewline -ForegroundColor White
 Write-Host " palettes" -ForegroundColor Green
 
-if ($ExcludePalettes.Count -gt 0) {
+if ($ExcludePalettes.Count -gt 0 -and $ExcludePalettes[0]) {
     Write-Host "  Excluding: " -NoNewline -ForegroundColor DarkGray
     Write-Host ($ExcludePalettes -join ", ") -ForegroundColor Red
 }
 
 # Determine output directory
 if (-not $OutputDirectory) {
-    $OutputDirectory = Split-Path $SourceTheme -Parent
-    if (-not $OutputDirectory) { $OutputDirectory = "." }
+    $OutputDirectory = "."
 }
 
 # Create output directory if it doesn't exist
@@ -137,103 +144,124 @@ Write-Host "`n📁 Output directory: " -NoNewline
 Write-Host $OutputDirectory -ForegroundColor Yellow
 
 # Statistics
-$successCount = 0
-$skipCount = 0
-$errorCount = 0
-$results = @()
+$totalSuccessCount = 0
+$totalSkipCount = 0
+$totalErrorCount = 0
+$allResults = @()
 
 Write-Host "`n" + ("-" * 70) -ForegroundColor DarkGray
 Write-Host "Starting generation..." -ForegroundColor Cyan
 Write-Host ("-" * 70) -ForegroundColor DarkGray
 
-foreach ($paletteName in $allPaletteNames) {
-    $paletteInfo = $palettes.$paletteName
-    $friendlyName = $paletteInfo.name
-    $description = $paletteInfo.description
+# Loop through each source theme
+foreach ($SourceTheme in $SourceThemes) {
+    Write-Host "`n🎨 Processing: " -NoNewline -ForegroundColor Cyan
+    Write-Host $SourceTheme -ForegroundColor Yellow
 
-    Write-Host "`n[$($successCount + $skipCount + $errorCount + 1)/$($allPaletteNames.Count)] " -NoNewline -ForegroundColor DarkCyan
-    Write-Host $friendlyName -ForegroundColor Magenta
-    Write-Host "    $description" -ForegroundColor Gray
+    $successCount = 0
+    $skipCount = 0
+    $errorCount = 0
 
-    # Generate output filename
-    $outputName = ConvertTo-PascalCase $paletteName
-    $sourceBaseName = [System.IO.Path]::GetFileNameWithoutExtension($SourceTheme)
-    $outputFile = Join-Path $OutputDirectory "$sourceBaseName.$outputName.json"
+    foreach ($paletteName in $allPaletteNames) {
+        $paletteInfo = $palettes.$paletteName
+        $friendlyName = $paletteInfo.name
+        $description = $paletteInfo.description
 
-    # Check if file exists
-    if ((Test-Path $outputFile) -and -not $Force) {
-        Write-Host "    ⚠️  File already exists, skipping (use -Force to overwrite)" -ForegroundColor Yellow
-        $skipCount++
-        $results += [PSCustomObject]@{
-            Palette = $friendlyName
-            Status = "Skipped"
-            File = $outputFile
+        Write-Host "`n[$($successCount + $skipCount + $errorCount + 1)/$($allPaletteNames.Count)] " -NoNewline -ForegroundColor DarkCyan
+        Write-Host $friendlyName -ForegroundColor Magenta
+        Write-Host "    $description" -ForegroundColor Gray
+
+        # Generate output filename
+        $outputName = ConvertTo-PascalCase $paletteName
+        $sourceBaseName = [System.IO.Path]::GetFileNameWithoutExtension($SourceTheme)
+        $outputFile = Join-Path $OutputDirectory "$sourceBaseName.$outputName.json"
+
+        # Check if file exists
+        if ((Test-Path $outputFile) -and -not $Force) {
+            Write-Host "    ⚠️  File already exists, skipping (use -Force to overwrite)" -ForegroundColor Yellow
+            $skipCount++
+            $allResults += [PSCustomObject]@{
+                SourceTheme = $SourceTheme
+                Palette = $friendlyName
+                Status = "Skipped"
+                File = $outputFile
+            }
+            continue
         }
-        continue
+
+        # Call the New-ThemeWithPalette script
+        try {
+            $params = @{
+                SourceTheme = $SourceTheme
+                PaletteName = $paletteName
+                OutputPath = $outputFile
+                PalettesFile = $PalettesFile
+            }
+
+            if ($UpdateAccentColor) {
+                $params.UpdateAccentColor = $true
+            }
+
+            # Run the script silently
+            $null = & "$PSScriptRoot\New-ThemeWithPalette.ps1" @params 2>&1
+
+            Write-Host "    ✅ Success: " -NoNewline -ForegroundColor Green
+            Write-Host ([System.IO.Path]::GetFileName($outputFile)) -ForegroundColor White
+
+            $successCount++
+            $allResults += [PSCustomObject]@{
+                SourceTheme = $SourceTheme
+                Palette = $friendlyName
+                Status = "Created"
+                File = $outputFile
+            }
+        }
+        catch {
+            Write-Host "    ❌ Error: $_" -ForegroundColor Red
+            $errorCount++
+            $allResults += [PSCustomObject]@{
+                SourceTheme = $SourceTheme
+                Palette = $friendlyName
+                Status = "Error"
+                File = $outputFile
+            }
+        }
     }
 
-    # Call the New-ThemeWithPalette script
-    try {
-        $params = @{
-            SourceTheme = $SourceTheme
-            PaletteName = $paletteName
-            OutputPath = $outputFile
-            PalettesFile = $PalettesFile
-        }
+    # Add to totals
+    $totalSuccessCount += $successCount
+    $totalSkipCount += $skipCount
+    $totalErrorCount += $errorCount
 
-        if ($UpdateAccentColor) {
-            $params.UpdateAccentColor = $true
-        }
-
-        # Run the script silently
-        $null = & "$PSScriptRoot\New-ThemeWithPalette.ps1" @params 2>&1
-
-        Write-Host "    ✅ Success: " -NoNewline -ForegroundColor Green
-        Write-Host ([System.IO.Path]::GetFileName($outputFile)) -ForegroundColor White
-
-        $successCount++
-        $results += [PSCustomObject]@{
-            Palette = $friendlyName
-            Status = "Created"
-            File = $outputFile
-        }
-    }
-    catch {
-        Write-Host "    ❌ Error: $_" -ForegroundColor Red
-        $errorCount++
-        $results += [PSCustomObject]@{
-            Palette = $friendlyName
-            Status = "Error"
-            File = $outputFile
-        }
-    }
+    Write-Host "`n  Summary for $SourceTheme" -ForegroundColor Yellow
+    Write-Host "  ✅ Created: $successCount | ⚠️  Skipped: $skipCount | ❌ Errors: $errorCount" -ForegroundColor Gray
 }
 
 # Summary
 Write-Host "`n" + ("=" * 70) -ForegroundColor Cyan
-Write-Host "  📊 GENERATION SUMMARY" -ForegroundColor Cyan
+Write-Host "  📊 OVERALL GENERATION SUMMARY" -ForegroundColor Cyan
 Write-Host ("=" * 70) -ForegroundColor Cyan
 
 Write-Host "`n✅ Successfully created: " -NoNewline -ForegroundColor Green
-Write-Host $successCount -ForegroundColor White
+Write-Host $totalSuccessCount -ForegroundColor White
 
-if ($skipCount -gt 0) {
+if ($totalSkipCount -gt 0) {
     Write-Host "⚠️  Skipped (existing): " -NoNewline -ForegroundColor Yellow
-    Write-Host $skipCount -ForegroundColor White
+    Write-Host $totalSkipCount -ForegroundColor White
 }
 
-if ($errorCount -gt 0) {
+if ($totalErrorCount -gt 0) {
     Write-Host "❌ Errors: " -NoNewline -ForegroundColor Red
-    Write-Host $errorCount -ForegroundColor White
+    Write-Host $totalErrorCount -ForegroundColor White
 }
 
 Write-Host "`n📁 Total files: " -NoNewline -ForegroundColor Cyan
-Write-Host ($successCount + $skipCount) -ForegroundColor White
+Write-Host ($totalSuccessCount + $totalSkipCount) -ForegroundColor White
 
 # List created files
-if ($successCount -gt 0) {
+if ($totalSuccessCount -gt 0) {
     Write-Host "`n📄 Created themes:" -ForegroundColor Cyan
-    $results | Where-Object { $_.Status -eq "Created" } | ForEach-Object {
+    $allResults | Where-Object { $_.Status -eq "Created" } | ForEach-Object {
         Write-Host "   • " -NoNewline -ForegroundColor DarkGray
         Write-Host $_.Palette -NoNewline -ForegroundColor Magenta
         Write-Host " → " -NoNewline -ForegroundColor DarkGray
