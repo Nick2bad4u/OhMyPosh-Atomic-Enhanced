@@ -9,7 +9,7 @@
       "segments": [
         {
           "foreground": "p:pink_weather",
-          "leading_diamond": "<p:pink_storybook> \ue200 </>",
+          "leading_diamond": "<p:pink_storybook>  </>",
           "properties": {
             "display_host": true
           },
@@ -29,13 +29,13 @@
         {
           "foreground": "p:purple_ahead",
           "properties": {
-            "branch_icon": "\ue725 ",
+            "branch_icon": " ",
             "fetch_status": true,
             "fetch_upstream_icon": true,
             "fetch_worktree_count": true
           },
           "style": "diamond",
-          "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} ",
+          "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
           "type": "git"
         }
       ],
@@ -51,15 +51,15 @@
             "threshold": 0
           },
           "style": "diamond",
-          "template": " {{ .FormattedMs }}s <p:white>\ue601</>",
+          "template": " {{ .FormattedMs }}s <p:white></>",
           "type": "executiontime"
         },
         {
           "properties": {
-            "root_icon": "\uf292 "
+            "root_icon": " "
           },
           "style": "diamond",
-          "template": " \uf0e7 ",
+          "template": "  ",
           "type": "root"
         },
         {
@@ -77,10 +77,10 @@
       "segments": [
         {
           "foreground": "p:pink_weather",
-          "leading_diamond": "<p:blue_time> \ue285 </><p:pink_weather>{</>",
+          "leading_diamond": "<p:blue_time>  </><p:pink_weather>{</>",
           "properties": {
-            "folder_icon": "\uf07b",
-            "folder_separator_icon": " \uebcb ",
+            "folder_icon": "",
+            "folder_separator_icon": "  ",
             "home_icon": "home",
             "style": "folder",
             "mapped_locations": {
@@ -146,7 +146,7 @@
             "mapped_locations_enabled": true
           },
           "style": "diamond",
-          "template": " \ue5ff {{ .Path }} ",
+          "template": "  {{ .Path }} ",
           "trailing_diamond": "<p:pink_weather>}</>",
           "type": "path"
         },
@@ -159,7 +159,7 @@
             "always_enabled": true
           },
           "style": "plain",
-          "template": " \ue286 ",
+          "template": "  ",
           "type": "status"
         }
       ],
@@ -193,53 +193,73 @@
     }
   },
   "palette": {
-    "accent": "#21c7c7",
-    "black": "#000000",
-    "blue_primary": "#0077c2",
-    "blue_time": "#40c4ff",
-    "blue_tooltip": "#81a1c1",
-    "cyan_renamed": "#00ffff",
-    "gray_os": "#b2bec3",
-    "gray_os_fg": "#222222",
-    "gray_path_fg": "#2d3436",
-    "gray_prompt_count_bg": "#2f3b45",
-    "gray_prompt_count_fg": "#cfd8dc",
-    "gray_untracked": "#808080",
-    "green_added": "#00ff00",
-    "green_ahead": "#c5e478",
-    "green_charging": "#b8e994",
-    "green_full": "#33DD2D",
-    "green_help": "#4CAF50",
-    "green_success": "#00aa00",
-    "green_valid_line": "#266e36",
-    "java_orange": "#F89820",
-    "magenta_copied": "#ff00ff",
-    "maroon_error": "#890000",
-    "navy_text": "#011627",
-    "node_green": "#339933",
-    "orange": "#FF9248",
-    "orange_battery": "#f36943",
-    "orange_unmerged": "#ff8000",
-    "pink_error_line": "#eb6f92",
-    "pink_status_fail": "#e91e63",
-    "pink_weather": "#e797e7",
-    "purple_ahead": "#C792EA",
-    "purple_exec": "#83769c",
-    "purple_session": "#7C4DFF",
-    "python_blue": "#306998",
-    "python_yellow": "#FFE873",
-    "red_alert": "#ef5350",
-    "red_deleted": "#ff0000",
-    "teal_sysinfo": "#437683",
-    "violet_project": "#8A2BE2",
-    "white": "#ffffff",
-    "windows_blue": "#0078D4",
-    "yellow_bright": "#FFFB38",
-    "yellow_discharging": "#fff34e",
-    "yellow_git_changed": "#ffeb95",
-    "yellow_modified": "#ffff00",
-    "yellow_root_alt": "#ffff66",
-    "yellow_update": "#FFD664"
+    "vitest_green": "#859900",
+    "orange": "#cb4b16",
+    "gray_prompt_count_bg": "#073642",
+    "zustand_purple": "#6c71c4",
+    "red_alert": "#dc322f",
+    "prettier_black": "#002b36",
+    "black": "#002b36",
+    "playwright_teal": "#2aa198",
+    "eslint_purple": "#d33682",
+    "red_deleted": "#dc322f",
+    "green_ahead": "#859900",
+    "node_green": "#859900",
+    "teal_sysinfo": "#2aa198",
+    "gray_os": "#93a1a1",
+    "pink_error_line": "#dc322f",
+    "green_charging": "#859900",
+    "react_cyan": "#2aa198",
+    "blue_tooltip": "#839496",
+    "chart_teal": "#2aa198",
+    "purple_exec": "#6c71c4",
+    "maroon_error": "#dc322f",
+    "green_added": "#859900",
+    "orange_unmerged": "#cb4b16",
+    "tailwind_cyan": "#2aa198",
+    "java_orange": "#cb4b16",
+    "gray_os_fg": "#073642",
+    "yellow_modified": "#b58900",
+    "navy_text": "#002b36",
+    "ipify_purple": "#d33682",
+    "blue_time": "#268bd2",
+    "white": "#fdf6e3",
+    "green_full": "#859900",
+    "purple_session": "#6c71c4",
+    "green_valid_line": "#859900",
+    "pink_weather": "#d33682",
+    "purple_ahead": "#6c71c4",
+    "yellow_git_changed": "#b58900",
+    "typescript_eslint_pink": "#d33682",
+    "green_help": "#859900",
+    "windows_blue": "#268bd2",
+    "yellow_root_alt": "#b58900",
+    "python_blue": "#268bd2",
+    "gray_untracked": "#657b83",
+    "pink_status_fail": "#dc322f",
+    "vite_yellow": "#b58900",
+    "violet_project": "#6c71c4",
+    "gray_prompt_count_fg": "#eee8d5",
+    "gray_path_fg": "#586e75",
+    "axios_yellow": "#b58900",
+    "npm_dark": "#002b36",
+    "ipify_purple_v6": "#d33682",
+    "yellow_bright": "#b58900",
+    "npm_yellow": "#b58900",
+    "orange_battery": "#cb4b16",
+    "yellow_discharging": "#b58900",
+    "electron_red": "#dc322f",
+    "python_yellow": "#b58900",
+    "java_blue": "#268bd2",
+    "green_success": "#859900",
+    "magenta_copied": "#d33682",
+    "typescript_blue": "#268bd2",
+    "accent": "#2aa198",
+    "prettier_yellow": "#b58900",
+    "pink_storybook": "#d33682",
+    "blue_primary": "#268bd2",
+    "yellow_update": "#b58900",
+    "cyan_renamed": "#2aa198"
   },
   "patch_pwsh_bleed": true,
   "pwd": "osc7",
@@ -1027,7 +1047,7 @@
   "transient_prompt": {
     "background": "transparent",
     "foreground": "#FEF5ED",
-    "template": "\ue285 "
+    "template": " "
   },
   "upgrade": {
     "auto": true,

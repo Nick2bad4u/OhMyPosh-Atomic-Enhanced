@@ -215,4 +215,336 @@ Exit codes:
 
 After making changes to the palette or theme configuration, run this script to ensure all palette references are valid and unused keys are reported--helping keep your configuration clean and error-free.
 
+## 🎨 Theme Gallery
+
+All themes are available in **16 unique color palettes**. Choose the one that fits your style!
+
+<style>
+.theme-preview {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+  border-radius: 8px;
+}
+.theme-preview:hover {
+  transform: scale(1.3);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+  z-index: 9999;
+  position: relative;
+}
+td {
+  overflow: visible !important;
+  position: relative;
+}
+table {
+  overflow: visible !important;
+}
+/* Fullscreen modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 99999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.95);
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  display: block;
+  width: 90%;
+  max-width: 1200px;
+  animation: zoom 0.3s;
+}
+@keyframes zoom {
+  from {transform: scale(0)}
+  to {transform: scale(1)}
+}
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+  cursor: pointer;
+  z-index: 100000;
+}
+.close:hover,
+.close:focus {
+  color: #bbb;
+}
+</style>
+
+<div id="imageModal" class="modal" onclick="this.style.display='none'">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="modalImage">
+</div>
+
+<script>
+// Add click event to all theme previews
+document.addEventListener('DOMContentLoaded', function() {
+  const images = document.querySelectorAll('.theme-preview');
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImage');
+
+  images.forEach(img => {
+    img.onclick = function() {
+      modal.style.display = 'flex';
+      modalImg.src = this.src;
+    };
+  });
+
+  // Close on escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.style.display === 'flex') {
+      modal.style.display = 'none';
+    }
+  });
+});
+</script>
+
+### 📑 Table of Contents
+
+#### 🚀 [OhMyPosh Atomic Custom Variants](#ohmyposh-atomic-custom-variants)
+- [Original](#atomic-original) • [Nord Frost](#atomic-nordfrost) • [Gruvbox Dark](#atomic-gruvboxdark) • [Dracula Night](#atomic-draculanight)
+- [Tokyo Night](#atomic-tokyonight) • [Monokai Pro](#atomic-monokaipro) • [Solarized Dark](#atomic-solarizeddark) • [Catppuccin Mocha](#atomic-catppuccinmocha)
+- [Forest Ember](#atomic-forestember) • [Pink Paradise](#atomic-pinkparadise) 💗 • [Purple Reign](#atomic-purplereign) 👑 • [Red Alert](#atomic-redalert) 🔥
+- [Blue Ocean](#atomic-blueocean) 🌊 • [Green Matrix](#atomic-greenmatrix) 💚 • [Amber Sunset](#atomic-ambersunset) 🌅 • [Teal Cyan](#atomic-tealcyan) ⚡
+
+#### ✨ [1_shell-Enhanced Variants](#1_shell-enhanced-variants)
+- [Original](#shell-original) • [Nord Frost](#shell-nordfrost) • [Gruvbox Dark](#shell-gruvboxdark) • [Dracula Night](#shell-draculanight)
+- [Tokyo Night](#shell-tokyonight) • [Monokai Pro](#shell-monokaipro) • [Solarized Dark](#shell-solarizeddark) • [Catppuccin Mocha](#shell-catppuccinmocha)
+- [Forest Ember](#shell-forestember) • [Pink Paradise](#shell-pinkparadise) 💗 • [Purple Reign](#shell-purplereign) 👑 • [Red Alert](#shell-redalert) 🔥
+- [Blue Ocean](#shell-blueocean) 🌊 • [Green Matrix](#shell-greenmatrix) 💚 • [Amber Sunset](#shell-ambersunset) 🌅 • [Teal Cyan](#shell-tealcyan) ⚡
+
+---
+
+### 🚀 OhMyPosh Atomic Custom Variants
+
+<table>
+<tr>
+<td align="center" width="50%" id="atomic-ambersunset">
+<h4>Amber Sunset 🌅</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.AmberSunset.png" alt="Amber Sunset theme preview" width="100%">
+<sub>Warm ambers, oranges, and golds - sunset palette</sub>
+</td>
+<td align="center" width="50%" id="atomic-blueocean">
+<h4>Blue Ocean 🌊</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.BlueOcean.png" alt="Blue Ocean theme preview" width="100%">
+<sub>Deep ocean blues and aquas - calm and serene</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%" id="atomic-catppuccinmocha">
+<h4>Catppuccin Mocha</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.CatppuccinMocha.png" alt="Catppuccin Mocha theme preview" width="100%">
+<sub>Soothing pastel colors with a cozy coffee shop aesthetic</sub>
+</td>
+<td align="center" width="50%" id="atomic-draculanight">
+<h4>Dracula Night</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.DraculaNight.png" alt="Dracula Night theme preview" width="100%">
+<sub>Dark and mysterious with vibrant purple and pink highlights</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%" id="atomic-forestember">
+<h4>Forest Ember</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.ForestEmber.png" alt="Forest Ember theme preview" width="100%">
+<sub>Deep forest greens with warm amber accents</sub>
+</td>
+<td align="center" width="50%" id="atomic-greenmatrix">
+<h4>Green Matrix 💚</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.GreenMatrix.png" alt="Green Matrix theme preview" width="100%">
+<sub>Matrix-inspired greens - cyberpunk terminal vibes</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%" id="atomic-gruvboxdark">
+<h4>Gruvbox Dark</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.GruvboxDark.png" alt="Gruvbox Dark theme preview" width="100%">
+<sub>Warm retro colors with earthy tones - easy on the eyes</sub>
+</td>
+<td align="center" width="50%" id="atomic-monokaipro">
+<h4>Monokai Pro</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.MonokaiPro.png" alt="Monokai Pro theme preview" width="100%">
+<sub>Classic Monokai with vibrant neon colors on dark background</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%" id="atomic-nordfrost">
+<h4>Nord Frost</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.NordFrost.png" alt="Nord Frost theme preview" width="100%">
+<sub>Arctic-inspired cool tones - calm and professional</sub>
+</td>
+<td align="center" width="50%" id="atomic-original">
+<h4>Original</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.Original.png" alt="Original theme preview" width="100%">
+<sub>Your current bright, tech-focused palette with cyan accents</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%" id="atomic-pinkparadise">
+<h4>Pink Paradise 💗</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.PinkParadise.png" alt="Pink Paradise theme preview" width="100%">
+<sub>Vibrant pink and magenta themed palette - bold and feminine</sub>
+</td>
+<td align="center" width="50%" id="atomic-purplereign">
+<h4>Purple Reign 👑</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.PurpleReign.png" alt="Purple Reign theme preview" width="100%">
+<sub>Deep purples and violets - royal and mysterious</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%" id="atomic-redalert">
+<h4>Red Alert 🔥</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.RedAlert.png" alt="Red Alert theme preview" width="100%">
+<sub>Fiery reds and oranges - bold and energetic</sub>
+</td>
+<td align="center" width="50%" id="atomic-solarizeddark">
+<h4>Solarized Dark</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.SolarizedDark.png" alt="Solarized Dark theme preview" width="100%">
+<sub>Scientifically designed palette for reduced eye strain</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%" id="atomic-tealcyan">
+<h4>Teal Cyan ⚡</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.TealCyan.png" alt="Teal Cyan theme preview" width="100%">
+<sub>Vibrant teals and cyans - electric and modern</sub>
+</td>
+<td align="center" width="50%" id="atomic-tokyonight">
+<h4>Tokyo Night</h4>
+<img class="theme-preview" src="assets/theme-previews/OhMyPosh-Atomic-Custom.TokyoNight.png" alt="Tokyo Night theme preview" width="100%">
+<sub>Modern Japanese night city vibes with neon blues and purples</sub>
+</td>
+</tr>
+</table>
+
+---
+
+### ✨ 1_shell-Enhanced Variants
+
+<table>
+<tr>
+<td align="center" width="50%" id="shell-ambersunset">
+<h4>Amber Sunset 🌅</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.AmberSunset.png" alt="Amber Sunset theme preview" width="100%">
+<sub>Warm ambers, oranges, and golds - sunset palette</sub>
+</td>
+<td align="center" width="50%" id="shell-blueocean">
+<h4>Blue Ocean 🌊</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.BlueOcean.png" alt="Blue Ocean theme preview" width="100%">
+<sub>Deep ocean blues and aquas - calm and serene</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%" id="shell-catppuccinmocha">
+<h4>Catppuccin Mocha</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.CatppuccinMocha.png" alt="Catppuccin Mocha theme preview" width="100%">
+<sub>Soothing pastel colors with a cozy coffee shop aesthetic</sub>
+</td>
+<td align="center" width="50%" id="shell-draculanight">
+<h4>Dracula Night</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.DraculaNight.png" alt="Dracula Night theme preview" width="100%">
+<sub>Dark and mysterious with vibrant purple and pink highlights</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%" id="shell-forestember">
+<h4>Forest Ember</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.ForestEmber.png" alt="Forest Ember theme preview" width="100%">
+<sub>Deep forest greens with warm amber accents</sub>
+</td>
+<td align="center" width="50%" id="shell-greenmatrix">
+<h4>Green Matrix 💚</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.GreenMatrix.png" alt="Green Matrix theme preview" width="100%">
+<sub>Matrix-inspired greens - cyberpunk terminal vibes</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%" id="shell-gruvboxdark">
+<h4>Gruvbox Dark</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.GruvboxDark.png" alt="Gruvbox Dark theme preview" width="100%">
+<sub>Warm retro colors with earthy tones - easy on the eyes</sub>
+</td>
+<td align="center" width="50%" id="shell-monokaipro">
+<h4>Monokai Pro</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.MonokaiPro.png" alt="Monokai Pro theme preview" width="100%">
+<sub>Classic Monokai with vibrant neon colors on dark background</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%" id="shell-nordfrost">
+<h4>Nord Frost</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.NordFrost.png" alt="Nord Frost theme preview" width="100%">
+<sub>Arctic-inspired cool tones - calm and professional</sub>
+</td>
+<td align="center" width="50%" id="shell-original">
+<h4>Original</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.Original.png" alt="Original theme preview" width="100%">
+<sub>Your current bright, tech-focused palette with cyan accents</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%" id="shell-pinkparadise">
+<h4>Pink Paradise 💗</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.PinkParadise.png" alt="Pink Paradise theme preview" width="100%">
+<sub>Vibrant pink and magenta themed palette - bold and feminine</sub>
+</td>
+<td align="center" width="50%" id="shell-purplereign">
+<h4>Purple Reign 👑</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.PurpleReign.png" alt="Purple Reign theme preview" width="100%">
+<sub>Deep purples and violets - royal and mysterious</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%" id="shell-redalert">
+<h4>Red Alert 🔥</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.RedAlert.png" alt="Red Alert theme preview" width="100%">
+<sub>Fiery reds and oranges - bold and energetic</sub>
+</td>
+<td align="center" width="50%" id="shell-solarizeddark">
+<h4>Solarized Dark</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.SolarizedDark.png" alt="Solarized Dark theme preview" width="100%">
+<sub>Scientifically designed palette for reduced eye strain</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%" id="shell-tealcyan">
+<h4>Teal Cyan ⚡</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.TealCyan.png" alt="Teal Cyan theme preview" width="100%">
+<sub>Vibrant teals and cyans - electric and modern</sub>
+</td>
+<td align="center" width="50%" id="shell-tokyonight">
+<h4>Tokyo Night</h4>
+<img class="theme-preview" src="assets/theme-previews/1_shell-Enhanced.omp.TokyoNight.png" alt="Tokyo Night theme preview" width="100%">
+<sub>Modern Japanese night city vibes with neon blues and purples</sub>
+</td>
+</tr>
+</table>
+
+---
+
+### 🎯 Quick Install
+
+To use any theme, copy the command for your preferred variant:
+
+```pwsh
+# Replace <THEME_FILE> with the desired theme file name
+oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/<THEME_FILE>" | Invoke-Expression
+```
+
+**Example:**
+```pwsh
+# Install Tokyo Night variant of Atomic Custom
+oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/OhMyPosh-Atomic-Custom.TokyoNight.json" | Invoke-Expression
+```
+
+---
+
 ![RepoBeats Metrics](https://repobeats.axiom.co/api/embed/e04e590e466020cafe7bf2b67fa5504ce7295bb1.svg "Repobeats analytics image")

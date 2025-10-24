@@ -9,7 +9,7 @@
       "segments": [
         {
           "foreground": "p:pink_weather",
-          "leading_diamond": "<p:pink_storybook> \ue200 </>",
+          "leading_diamond": "<p:pink_storybook>  </>",
           "properties": {
             "display_host": true
           },
@@ -29,13 +29,13 @@
         {
           "foreground": "p:purple_ahead",
           "properties": {
-            "branch_icon": "\ue725 ",
+            "branch_icon": " ",
             "fetch_status": true,
             "fetch_upstream_icon": true,
             "fetch_worktree_count": true
           },
           "style": "diamond",
-          "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} ",
+          "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
           "type": "git"
         }
       ],
@@ -51,15 +51,15 @@
             "threshold": 0
           },
           "style": "diamond",
-          "template": " {{ .FormattedMs }}s <p:white>\ue601</>",
+          "template": " {{ .FormattedMs }}s <p:white></>",
           "type": "executiontime"
         },
         {
           "properties": {
-            "root_icon": "\uf292 "
+            "root_icon": " "
           },
           "style": "diamond",
-          "template": " \uf0e7 ",
+          "template": "  ",
           "type": "root"
         },
         {
@@ -77,10 +77,10 @@
       "segments": [
         {
           "foreground": "p:pink_weather",
-          "leading_diamond": "<p:blue_time> \ue285 </><p:pink_weather>{</>",
+          "leading_diamond": "<p:blue_time>  </><p:pink_weather>{</>",
           "properties": {
-            "folder_icon": "\uf07b",
-            "folder_separator_icon": " \uebcb ",
+            "folder_icon": "",
+            "folder_separator_icon": "  ",
             "home_icon": "home",
             "style": "folder",
             "mapped_locations": {
@@ -146,7 +146,7 @@
             "mapped_locations_enabled": true
           },
           "style": "diamond",
-          "template": " \ue5ff {{ .Path }} ",
+          "template": "  {{ .Path }} ",
           "trailing_diamond": "<p:pink_weather>}</>",
           "type": "path"
         },
@@ -159,7 +159,7 @@
             "always_enabled": true
           },
           "style": "plain",
-          "template": " \ue286 ",
+          "template": "  ",
           "type": "status"
         }
       ],
@@ -193,53 +193,73 @@
     }
   },
   "palette": {
-    "accent": "#21c7c7",
-    "black": "#000000",
-    "blue_primary": "#0077c2",
-    "blue_time": "#40c4ff",
-    "blue_tooltip": "#81a1c1",
-    "cyan_renamed": "#00ffff",
-    "gray_os": "#b2bec3",
-    "gray_os_fg": "#222222",
-    "gray_path_fg": "#2d3436",
-    "gray_prompt_count_bg": "#2f3b45",
-    "gray_prompt_count_fg": "#cfd8dc",
-    "gray_untracked": "#808080",
-    "green_added": "#00ff00",
-    "green_ahead": "#c5e478",
-    "green_charging": "#b8e994",
-    "green_full": "#33DD2D",
-    "green_help": "#4CAF50",
-    "green_success": "#00aa00",
-    "green_valid_line": "#266e36",
-    "java_orange": "#F89820",
+    "vitest_green": "#b565f2",
+    "orange": "#c77dff",
+    "gray_prompt_count_bg": "#240046",
+    "zustand_purple": "#c77dff",
+    "red_alert": "#9d00ff",
+    "prettier_black": "#10002b",
+    "black": "#10002b",
+    "playwright_teal": "#a05fec",
+    "eslint_purple": "#c77dff",
+    "red_deleted": "#7209b7",
+    "green_ahead": "#c77dff",
+    "node_green": "#b565f2",
+    "teal_sysinfo": "#a05fec",
+    "gray_os": "#9381b1",
+    "pink_error_line": "#9d00ff",
+    "green_charging": "#c77dff",
+    "react_cyan": "#a05fec",
+    "blue_tooltip": "#b565f2",
+    "chart_teal": "#a05fec",
+    "purple_exec": "#b565f2",
+    "maroon_error": "#5a189a",
+    "green_added": "#b565f2",
+    "orange_unmerged": "#9d4edd",
+    "tailwind_cyan": "#a05fec",
+    "java_orange": "#c77dff",
+    "gray_os_fg": "#240046",
+    "yellow_modified": "#c77dff",
+    "navy_text": "#10002b",
+    "ipify_purple": "#c77dff",
+    "blue_time": "#9d4edd",
+    "white": "#f0e6ff",
+    "green_full": "#b565f2",
+    "purple_session": "#9d4edd",
+    "green_valid_line": "#7b2cbf",
+    "pink_weather": "#e0aaff",
+    "purple_ahead": "#c77dff",
+    "yellow_git_changed": "#e0aaff",
+    "typescript_eslint_pink": "#e0aaff",
+    "green_help": "#a05fec",
+    "windows_blue": "#7b2cbf",
+    "yellow_root_alt": "#e0aaff",
+    "python_blue": "#7b2cbf",
+    "gray_untracked": "#5a4e7d",
+    "pink_status_fail": "#7209b7",
+    "vite_yellow": "#c77dff",
+    "violet_project": "#9d4edd",
+    "gray_prompt_count_fg": "#e7c6ff",
+    "gray_path_fg": "#3c096c",
+    "axios_yellow": "#c77dff",
+    "npm_dark": "#10002b",
+    "ipify_purple_v6": "#e0aaff",
+    "yellow_bright": "#c77dff",
+    "npm_yellow": "#c77dff",
+    "orange_battery": "#b565f2",
+    "yellow_discharging": "#c77dff",
+    "electron_red": "#9d00ff",
+    "python_yellow": "#c77dff",
+    "java_blue": "#7b2cbf",
+    "green_success": "#9d4edd",
     "magenta_copied": "#ff00ff",
-    "maroon_error": "#890000",
-    "navy_text": "#011627",
-    "node_green": "#339933",
-    "orange": "#FF9248",
-    "orange_battery": "#f36943",
-    "orange_unmerged": "#ff8000",
-    "pink_error_line": "#eb6f92",
-    "pink_status_fail": "#e91e63",
-    "pink_weather": "#e797e7",
-    "purple_ahead": "#C792EA",
-    "purple_exec": "#83769c",
-    "purple_session": "#7C4DFF",
-    "python_blue": "#306998",
-    "python_yellow": "#FFE873",
-    "red_alert": "#ef5350",
-    "red_deleted": "#ff0000",
-    "teal_sysinfo": "#437683",
-    "violet_project": "#8A2BE2",
-    "white": "#ffffff",
-    "windows_blue": "#0078D4",
-    "yellow_bright": "#FFFB38",
-    "yellow_discharging": "#fff34e",
-    "yellow_git_changed": "#ffeb95",
-    "yellow_modified": "#ffff00",
-    "yellow_root_alt": "#ffff66",
-    "yellow_update": "#FFD664"
+    "typescript_blue": "#7b2cbf",
+    "accent": "#9d4edd",
+    "prettier_yellow": "#c77dff",
+    "pink_storybook": "#e0aaff",
+    "blue_primary": "#7b2cbf",
+    "yellow_update": "#e0aaff",
+    "cyan_renamed": "#c77dff"
   },
   "patch_pwsh_bleed": true,
   "pwd": "osc7",
@@ -1027,7 +1047,7 @@
   "transient_prompt": {
     "background": "transparent",
     "foreground": "#FEF5ED",
-    "template": "\ue285 "
+    "template": " "
   },
   "upgrade": {
     "auto": true,

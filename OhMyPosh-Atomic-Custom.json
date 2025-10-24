@@ -340,7 +340,7 @@
             "cache_duration": "24h",
             "display_mode": "context",
             "fetch_version": true,
-            "home_enabled": true,
+            "home_enabled": false,
             "strategy": "session",
             "missing_command_text": "",
             "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
@@ -359,7 +359,7 @@
             "cache_duration": "24h",
             "strategy": "session",
             "display_mode": "context",
-            "home_enabled": true,
+            "home_enabled": false,
             "fetch_version": true,
             "fetch_package_manager": true,
             "npm_icon": "",
@@ -382,7 +382,7 @@
             "strategy": "session",
             "display_mode": "context",
             "fetch_version": true,
-            "home_enabled": true,
+            "home_enabled": false,
             "missing_command_text": "",
             "version_url_template": "https://api.adoptium.net/v3/info/release_names?version={{ .Major }}&os={{ .OS }}&arch={{ .Arch }}&image_type=jdk&jvm_impl=hotspot&vendor=eclipse"
           },
