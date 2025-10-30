@@ -10,12 +10,14 @@
         {
           "background": "p:blue_primary",
           "cache": {
-            "duration": "1h",
+            "duration": "24h",
             "strategy": "session"
           },
           "foreground": "p:white",
           "leading_diamond": "╭─",
           "min_width": 80,
+          "alias": "shell",
+          "foreground_templates": [],
           "properties": {
             "mapped_shell_names": {
               "bash": "BASH",
@@ -28,13 +30,17 @@
             }
           },
           "style": "diamond",
-          "template": " {{ .Name  }} {{ .Version }} ",
+          "template": " {{ .Name  }} {{ substr 0 5 .Version }} ",
           "type": "shell"
         },
         {
           "background": "p:red_alert",
           "foreground": "p:black",
           "min_width": 80,
+          "cache": {
+            "duration": "144h",
+            "strategy": "session"
+          },
           "style": "diamond",
           "template": "<parentBackground></>  ",
           "type": "root"
@@ -206,7 +212,7 @@
             "{{ if gt .Behind 0 }}p:purple_ahead{{ end }}"
           ],
           "cache": {
-            "duration": "5m",
+            "duration": "15m",
             "strategy": "folder"
           },
           "exclude_folders": [
@@ -495,7 +501,7 @@
         {
           "background": "p:gray_os",
           "cache": {
-            "duration": "5m",
+            "duration": "10m",
             "strategy": "session"
           },
           "foreground": "p:gray_os_fg",
@@ -544,6 +550,10 @@
           "powerline_symbol": "",
           "properties": {
             "time_format": "3:04 PM"
+          },
+          "cache": {
+            "duration": "15s",
+            "strategy": "session"
           },
           "style": "diamond",
           "template": "  {{ .CurrentDate | date .Format }} ",
@@ -656,6 +666,10 @@
             "missing_command_text": "",
             "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
           },
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
           "style": "diamond",
           "template": " <b> {{ .Full }}</b> ",
           "trailing_diamond": "",
@@ -678,6 +692,10 @@
             "missing_command_text": "",
             "yarn_icon": ""
           },
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
           "style": "diamond",
           "template": " <b> {{ .Full }}</b> ",
           "trailing_diamond": "",
@@ -690,12 +708,16 @@
           "min_width": 80,
           "properties": {
             "cache_duration": "24h",
-            "strategy": "session",
+            "strategy": "folder",
             "display_mode": "context",
             "fetch_version": true,
             "home_enabled": false,
             "missing_command_text": "",
             "version_url_template": "https://api.adoptium.net/v3/info/release_names?version={{ .Major }}&os={{ .OS }}&arch={{ .Arch }}&image_type=jdk&jvm_impl=hotspot&vendor=eclipse"
+          },
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
           },
           "style": "diamond",
           "template": "  {{ .Full }}",
@@ -713,7 +735,7 @@
           "leading_diamond": "",
           "min_width": 80,
           "properties": {
-            "cache_duration": "24h",
+            "cache_duration": "6h",
             "strategy": "session"
           },
           "style": "diamond",
@@ -760,6 +782,10 @@
           "template": "{{ if .SSHSession }} {{ end }}{{ if .Root }}<p:blue_primary>─</><p:purple_session,transparent>{{ if eq .OS \"windows\" }}</><p:blue_primary>─</>{{ else }}<p:purple_session,transparent></><p:blue_primary>─</>{{ end }}{{ .UserName }}{{ end }}</>",
           "trailing_diamond": "<p:blue_primary></>",
           "type": "session",
+          "cache": {
+            "duration": "24h",
+            "strategy": "session"
+          },
           "min_width": 80
         },
         {
@@ -768,10 +794,16 @@
             "{{ if gt .Code 0 }}p:red_alert{{ end }}"
           ],
           "properties": {
-            "always_enabled": true
+            "always_enabled": true,
+            "status_separator": "|",
+            "status_template": "|"
           },
           "style": "plain",
           "template": "",
+          "cache": {
+            "duration": "2s",
+            "strategy": "session"
+          },
           "type": "status",
           "min_width": 80
         }
@@ -782,12 +814,24 @@
   "console_title_template": "{{.Folder}}{{if .Root}} : root{{end}} : {{.Shell}}",
   "debug_prompt": {
     "background": "transparent",
+    "background_templates": [
+      "{{ if eq .LogLevel \"DEBUG\" }}p:purple_session{{ end }}"
+    ],
     "foreground": "p:black",
+    "foreground_templates": [
+      "{{ if eq .LogLevel \"DEBUG\" }}p:black{{ end }}"
+    ],
     "template": "</><p:purple_session,transparent></><p:black,p:purple_session>  DEBUG </><p:purple_session,transparent></>"
   },
   "enable_cursor_positioning": true,
   "error_line": {
     "background": "transparent",
+    "background_templates": [
+      "{{ if .Error }}p:pink_error_line{{ end }}"
+    ],
+    "foreground_templates": [
+      "{{ if .Error }}p:black{{ end }}"
+    ],
     "foreground": "p:black",
     "template": "<p:pink_error_line,transparent></>"
   },
