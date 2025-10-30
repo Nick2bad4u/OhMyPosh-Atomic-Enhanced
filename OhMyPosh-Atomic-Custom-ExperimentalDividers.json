@@ -50,44 +50,28 @@
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:divider_blue_primary_to_red_alert",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:divider_ipify_purple_to_typescript_eslint_pink",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:divider_typescript_eslint_pink_to_orange",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:orange",
@@ -175,33 +159,21 @@
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:green_added",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:divider_green_added_to_yellow_bright",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:yellow_bright",
@@ -259,44 +231,28 @@
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:divider_yellow_bright_to_navy_text",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:npm_dark",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:divider_navy_text_to_purple_exec",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:purple_exec",
@@ -320,44 +276,28 @@
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:divider_purple_exec_to_electron_red",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:axios_yellow",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "transparent",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:maroon_error",
@@ -397,66 +337,42 @@
           "min_width": 130,
           "style": "diamond",
           "template": "<p:green_ahead></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:green_ahead",
           "min_width": 130,
           "style": "diamond",
           "template": "<p:green_valid_line></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:green_valid_line",
           "min_width": 130,
           "style": "diamond",
           "template": "<p:accent></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:accent",
           "min_width": 130,
           "style": "diamond",
           "template": "<p:chart_teal></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:chart_teal",
           "min_width": 130,
           "style": "diamond",
           "template": "<p:teal_sysinfo></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:teal_sysinfo",
           "min_width": 130,
           "style": "diamond",
           "template": "<p:teal_sysinfo></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:teal_sysinfo",
@@ -481,22 +397,14 @@
           "min_width": 130,
           "style": "diamond",
           "template": "<p:tailwind_cyan,p:teal_sysinfo></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:purple_exec",
           "min_width": 130,
           "style": "diamond",
           "template": "<p:purple_exec,p:tailwind_cyan></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:gray_os",
@@ -523,22 +431,14 @@
           "min_width": 130,
           "style": "diamond",
           "template": "<p:blue_tooltip,p:gray_os></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:gray_prompt_count_bg",
           "min_width": 130,
           "style": "diamond",
           "template": "<p:gray_prompt_count_bg,p:blue_tooltip></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:blue_time",
@@ -591,22 +491,14 @@
           "min_width": 130,
           "style": "diamond",
           "template": "<p:purple_ahead,p:blue_time></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:violet_project",
           "min_width": 130,
           "style": "diamond",
           "template": "<p:violet_project,p:purple_ahead></>",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:pink_weather",
@@ -646,11 +538,7 @@
           "style": "diamond",
           "template": " ⌁ {{ .PromptCount }} ",
           "trailing_diamond": "",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "p:npm_yellow",
@@ -740,7 +628,8 @@
           },
           "style": "diamond",
           "trailing_diamond": "",
-          "type": "upgrade"
+          "type": "upgrade",
+          "timeout": 1000
         },
         {
           "background": "p:yellow_root_alt",
@@ -769,11 +658,7 @@
           "min_width": 80,
           "style": "plain",
           "template": "╰─",
-          "type": "text",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          }
+          "type": "text"
         },
         {
           "background": "transparent",
@@ -974,6 +859,7 @@
       ],
       "trailing_diamond": "",
       "type": "http",
+      "timeout": 1000,
       "min_width": 80,
       "cache": {
         "duration": "24h",
