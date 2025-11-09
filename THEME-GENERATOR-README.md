@@ -46,26 +46,26 @@ $myPalette = @{
 
 ### New-ThemeWithPalette.ps1
 
-| Parameter | Type | Description | Default |
-|-----------|------|-------------|---------|
-| `-SourceTheme` | String | Source theme JSON file | `OhMyPosh-Atomic-Custom.json` |
-| `-PaletteName` | String | Palette name from JSON file | (Required) |
-| `-PaletteObject` | Object | Custom palette hashtable | (Alternative to PaletteName) |
-| `-OutputName` | String | Name suffix for output file | Auto-generated from palette name |
-| `-OutputPath` | String | Full output file path | Auto-generated |
-| `-PalettesFile` | String | JSON file with palettes | `color-palette-alternatives.json` |
-| `-UpdateAccentColor` | Switch | Update root accent_color | `$false` |
+| Parameter            | Type   | Description                 | Default                           |
+| -------------------- | ------ | --------------------------- | --------------------------------- |
+| `-SourceTheme`       | String | Source theme JSON file      | `OhMyPosh-Atomic-Custom.json`     |
+| `-PaletteName`       | String | Palette name from JSON file | (Required)                        |
+| `-PaletteObject`     | Object | Custom palette hashtable    | (Alternative to PaletteName)      |
+| `-OutputName`        | String | Name suffix for output file | Auto-generated from palette name  |
+| `-OutputPath`        | String | Full output file path       | Auto-generated                    |
+| `-PalettesFile`      | String | JSON file with palettes     | `color-palette-alternatives.json` |
+| `-UpdateAccentColor` | Switch | Update root accent_color    | `$false`                          |
 
 ### Generate-AllThemes.ps1
 
-| Parameter | Type | Description | Default |
-|-----------|------|-------------|---------|
-| `-SourceTheme` | String | Source theme JSON file | `OhMyPosh-Atomic-Custom.json` |
-| `-PalettesFile` | String | JSON file with palettes | `color-palette-alternatives.json` |
-| `-OutputDirectory` | String | Output directory for themes | Same as source |
-| `-UpdateAccentColor` | Switch | Update root accent_color | `$false` |
-| `-ExcludePalettes` | String[] | Palettes to skip | `@()` |
-| `-Force` | Switch | Overwrite existing files | `$false` |
+| Parameter            | Type     | Description                 | Default                           |
+| -------------------- | -------- | --------------------------- | --------------------------------- |
+| `-SourceTheme`       | String   | Source theme JSON file      | `OhMyPosh-Atomic-Custom.json`     |
+| `-PalettesFile`      | String   | JSON file with palettes     | `color-palette-alternatives.json` |
+| `-OutputDirectory`   | String   | Output directory for themes | Same as source                    |
+| `-UpdateAccentColor` | Switch   | Update root accent_color    | `$false`                          |
+| `-ExcludePalettes`   | String[] | Palettes to skip            | `@()`                             |
+| `-Force`             | Switch   | Overwrite existing files    | `$false`                          |
 
 ## 🎨 Available Palettes
 
@@ -162,6 +162,7 @@ oh-my-posh init pwsh --config 'C:\Path\To\OhMyPosh-Atomic-Custom.TokyoNight.json
 ```
 
 Edit your profile:
+
 ```powershell
 notepad $PROFILE
 ```
@@ -203,7 +204,7 @@ To add your own palette to the collection:
       "palette": {
         "accent": "#your-color",
         "axios_yellow": "#your-color",
-        "black": "#your-color",
+        "black": "#your-color"
         // ... all 67 color keys
       }
     }
@@ -212,6 +213,7 @@ To add your own palette to the collection:
 ```
 
 3. Generate the theme:
+
 ```powershell
 .\New-ThemeWithPalette.ps1 -PaletteName "my_custom" -UpdateAccentColor
 ```
@@ -241,18 +243,22 @@ zustand_purple
 ## 🛠️ Troubleshooting
 
 ### "Source theme file not found"
+
 - Ensure you're in the correct directory
 - Or provide full path: `-SourceTheme "C:\Full\Path\To\Theme.json"`
 
 ### "Palette not found"
+
 - Check spelling (use underscores: `tokyo_night` not `tokyo-night`)
 - Run `Get-Content color-palette-alternatives.json | ConvertFrom-Json | Select-Object -ExpandProperty palettes | Get-Member -MemberType NoteProperty` to list available palettes
 
 ### "Failed to parse JSON"
+
 - Verify your JSON syntax
 - Use a JSON validator like https://jsonlint.com/
 
 ### Colors don't look right in terminal
+
 - Ensure your terminal supports true color (24-bit)
 - Try different terminal opacity settings
 - Some colors look different in light vs dark environments

@@ -24,11 +24,13 @@ The "Atomic-Custom-ExperimentalDividers" theme represents a sophisticated approa
 ### Key Innovation
 
 Instead of:
+
 ```
 [BLUE_SEG] [RED_SEG] [ORANGE_SEG]
 ```
 
 We achieve:
+
 ```
 [BLUE_SEG] [PURPLE_BLEND] [RED_SEG] [ORANGE_BLEND] [ORANGE_SEG]
 ```
@@ -52,13 +54,16 @@ The experimental dividers system is built on three core principles:
 The Oh My Posh prompt system consists of several interconnected layers:
 
 #### 1. Blocks
+
 Blocks are top-level containers that define alignment and layout:
+
 - `left` block: Main prompt content, left-aligned
 - `right` block: System information, right-aligned
 - `rprompt` block: Right prompt, potentially overflowing left
 - `newline` blocks: Secondary prompt lines
 
 #### 2. Segments
+
 Segments are individual information units within blocks. Each segment has:
 
 ```json
@@ -70,19 +75,25 @@ Segments are individual information units within blocks. Each segment has:
   "template": "content template",
   "leading_diamond": "╭─",
   "trailing_diamond": "╮",
-  "properties": { /* type-specific config */ },
-  "cache": { /* performance optimization */ }
+  "properties": {
+    /* type-specific config */
+  },
+  "cache": {
+    /* performance optimization */
+  }
 }
 ```
 
 #### 3. Styles
+
 Styles determine how segments connect:
 
-- **powerline**: Uses `` and `` symbols for connections
+- **powerline**: Uses `and` symbols for connections
 - **diamond**: Uses `◊` and `◊` for styled borders
 - **plain**: No visual connection styling
 
 #### 4. Dividers
+
 In this theme, dividers are **dedicated segments** rather than automatic connectors:
 
 ```json
@@ -106,6 +117,7 @@ The theme uses Oh My Posh's **palette system**, where colors are:
 The palette stores two types of colors:
 
 #### Segment Colors (Primary)
+
 ```json
 "blue_primary": "#0077c2",
 "red_alert": "#ef5350",
@@ -114,6 +126,7 @@ The palette stores two types of colors:
 ```
 
 #### Divider Colors (Blend/Transition)
+
 ```json
 "palette_divider_blue_primary_to_red_alert": "#786589",
 "palette_divider_red_alert_to_orange": "#f7724c",
@@ -129,6 +142,7 @@ The palette stores two types of colors:
 When Oh My Posh renders the prompt, it follows this detailed process:
 
 #### Step 1: Segment Evaluation
+
 ```
 For each segment in block:
   1. Evaluate conditions (background_templates, foreground_templates)
@@ -138,6 +152,7 @@ For each segment in block:
 ```
 
 #### Step 2: Symbol Rendering
+
 When rendering divider segments with `<parentBackground></>`:
 
 ```
@@ -148,6 +163,7 @@ When rendering divider segments with `<parentBackground></>`:
 ```
 
 #### Step 3: Visual Composition
+
 ```
 [Prev BG color ──→ Segment Text]
                   [Divider Sym]
@@ -163,6 +179,7 @@ The terminal processes colors in this order:
 3. **Font styling**: Bold, italic, etc. (from templates `<b>`, `<d>`, etc.)
 
 For Powerline symbols specifically:
+
 - The glyph is drawn in **foreground color**
 - Positioned at cell boundary to create seamless effect
 - Overlaps with background colors of adjacent cells
@@ -191,6 +208,7 @@ This creates the **illusion** of a smooth transition, even though technically it
 All colors in this theme are stored as RGB hex values but are conceptually thought of in HSL (Hue, Saturation, Lightness):
 
 **Example: `blue_primary` (#0077c2)**
+
 ```
 RGB: (0, 119, 194)
 HSL:
@@ -200,6 +218,7 @@ HSL:
 ```
 
 **Example: `red_alert` (#ef5350)**
+
 ```
 RGB: (239, 83, 80)
 HSL:
@@ -213,6 +232,7 @@ HSL:
 When creating `palette_divider_blue_primary_to_red_alert` (#786589):
 
 **Method: HSL Interpolation**
+
 ```
 Starting Color (blue_primary):
   H: 200°, S: 100%, L: 38%
@@ -236,6 +256,7 @@ Convert back to RGB:
 The theme respects fundamental color harmony principles:
 
 #### 1. **Hue Continuity**
+
 As we move through the prompt left to right, hues transition smoothly:
 
 ```
@@ -245,13 +266,17 @@ Blue (200°) → Purple (100°) → Red (1°) → Orange (30°) → Yellow (60°
 This creates a **pseudo-rainbow effect** that feels natural to the human eye.
 
 #### 2. **Saturation Consistency**
+
 All divider colors maintain high saturation (85-96%), ensuring:
+
 - Clear visual distinction from backgrounds
 - Vibrant, modern appearance
 - Professional aesthetic
 
 #### 3. **Lightness Preservation**
+
 Most segments use mid-range lightness (35-65%), providing:
+
 - Good text contrast with white foreground
 - Readable white text on colored backgrounds
 - Balanced visual weight
@@ -261,6 +286,7 @@ Most segments use mid-range lightness (35-65%), providing:
 WCAG 2.1 AA accessibility requires 4.5:1 contrast for text:
 
 **Shell segment example:**
+
 ```
 Background: #0077c2 (blue_primary)
 Foreground: #ffffff (white)
@@ -268,6 +294,7 @@ Contrast Ratio: 8.6:1 ✓ Exceeds WCAG AAA
 ```
 
 **Git segment example:**
+
 ```
 Background: #FFFB38 (yellow_bright)
 Foreground: #011627 (navy_text)
@@ -286,19 +313,21 @@ The main left-aligned prompt demonstrates the complete color transition system:
 
 ```json
 {
-  "background": "p:blue_primary",        // #0077c2
-  "foreground": "p:white",               // #ffffff
+  "background": "p:blue_primary", // #0077c2
+  "foreground": "p:white", // #ffffff
   "template": " {{ .Name }} {{ substr 0 5 .Version }} ",
   "type": "shell"
 }
 ```
 
 **Visual Output Example:**
+
 ```
 ┌─ PS 7.4  ◊
 ```
 
 **Color Analysis:**
+
 - **Background**: Bright blue (#0077c2) signals primary shell information
 - **Foreground**: White text provides 8.6:1 contrast
 - **Leading Diamond**: `╭─` creates visual frame
@@ -308,20 +337,22 @@ The main left-aligned prompt demonstrates the complete color transition system:
 
 ```json
 {
-  "background": "p:red_alert",           // #ef5350
-  "foreground": "p:black",               // #000000
+  "background": "p:red_alert", // #ef5350
+  "foreground": "p:black", // #000000
   "template": "<parentBackground></>  ", // Divider symbol + padding
   "type": "root"
 }
 ```
 
 **Visibility Condition:**
+
 ```
 This segment only appears when running as root/administrator
 If not root: segment is skipped entirely
 ```
 
 **Color Rationale:**
+
 - **Red background**: Immediately signals elevated privileges (danger/caution)
 - **High contrast**: Black on red for absolute clarity
 - **Semantic meaning**: Red universally indicates alerts
@@ -330,7 +361,7 @@ If not root: segment is skipped entirely
 
 ```json
 {
-  "background": "p:palette_divider_blue_primary_to_red_alert",  // #786589 (purple)
+  "background": "p:palette_divider_blue_primary_to_red_alert", // #786589 (purple)
   "template": "<parentBackground></>",
   "type": "text",
   "style": "diamond"
@@ -338,6 +369,7 @@ If not root: segment is skipped entirely
 ```
 
 **Technical Breakdown:**
+
 - **Background**: #786589 acts as visual bridge
 - **Template**: `<parentBackground></>` means:
   - `<parentBackground>`: Use previous segment's background color as foreground
@@ -345,6 +377,7 @@ If not root: segment is skipped entirely
   - **Result**: Powerline symbol rendered in #0077c2 (blue_primary)
 
 **Visual Composition:**
+
 ```
 Previous Segment: [Blue Background ────────────────]
                                     [Symbol in Blue]
@@ -357,8 +390,8 @@ Next Segment:                                 [Red Background]
 
 ```json
 {
-  "background": "p:orange",              // #FF9248
-  "foreground": "p:black",               // #000000
+  "background": "p:orange", // #FF9248
+  "foreground": "p:black", // #000000
   "template": "<parentBackground></>  {{ .Path }} ",
   "properties": {
     "max_width": 40,
@@ -378,6 +411,7 @@ Next Segment:                                 [Red Background]
 ```
 
 **Path Mapping Example:**
+
 ```
 Actual Path: C:\Users\Nick\Dropbox\PC (2)\Documents\GitHub\OhMyPosh-Atomic-Enhanced\subdir
 
@@ -392,6 +426,7 @@ Reasoning:
 ```
 
 **Visual Rendering:**
+
 ```
 ┌─ PS 7.4  ◊──◊  GH/✨ OhMyPosh/subdir
 ```
@@ -400,8 +435,8 @@ Reasoning:
 
 ```json
 {
-  "background": "p:yellow_bright",                      // #FFFB38
-  "foreground": "p:navy_text",                          // #011627
+  "background": "p:yellow_bright", // #FFFB38
+  "foreground": "p:navy_text", // #011627
   "background_templates": [
     "{{ if or (.Working.Changed) (.Staging.Changed) }}p:yellow_git_changed{{ end }}",
     "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:green_ahead{{ end }}",
@@ -416,6 +451,7 @@ Reasoning:
 **Dynamic Coloring Logic:**
 
 **Scenario 1: No changes (default)**
+
 ```
 Condition: No uncommitted or staged changes
 Background: #FFFB38 (yellow_bright)
@@ -424,6 +460,7 @@ Display: ⬆ main (clean state)
 ```
 
 **Scenario 2: Working changes**
+
 ```
 Condition: {{ if or (.Working.Changed) (.Staging.Changed) }}
 Background: #ffeb95 (yellow_git_changed)
@@ -432,6 +469,7 @@ Display: ⬆ main [+2~3-1] (modifications tracked)
 ```
 
 **Scenario 3: Ahead of remote**
+
 ```
 Condition: {{ if gt .Ahead 0 }}
 Background: #C792EA (purple_ahead)
@@ -440,6 +478,7 @@ Display: ⬆ main ⬆3 (commits to push)
 ```
 
 **Scenario 4: Behind remote**
+
 ```
 Condition: {{ if gt .Behind 0 }}
 Background: #C792EA (purple_ahead)
@@ -449,20 +488,20 @@ Display: ⬆ main ⬇2 (commits to pull)
 
 **Visual State Matrix:**
 
-| State | Background Color | Visual Indicator | Meaning |
-|-------|-----------------|------------------|---------|
-| Clean | #FFFB38 | ⬆ main | No changes |
-| Modified | #ffeb95 | ⬆ main \[~3\] | Files changed |
-| Ahead | #C792EA | ⬆ main ⬆3 | Ready to push |
-| Behind | #C792EA | ⬆ main ⬇2 | Need to pull |
-| Diverged | #C792EA | ⬆ main ⬆3⬇2 | Need sync |
+| State    | Background Color | Visual Indicator | Meaning       |
+| -------- | ---------------- | ---------------- | ------------- |
+| Clean    | #FFFB38          | ⬆ main          | No changes    |
+| Modified | #ffeb95          | ⬆ main \[~3\]   | Files changed |
+| Ahead    | #C792EA          | ⬆ main ⬆3      | Ready to push |
+| Behind   | #C792EA          | ⬆ main ⬇2      | Need to pull  |
+| Diverged | #C792EA          | ⬆ main ⬆3⬇2   | Need sync     |
 
 #### Segment 5: Execution Time
 
 ```json
 {
-  "background": "p:purple_exec",        // #83769c
-  "foreground": "p:white",              // #ffffff
+  "background": "p:purple_exec", // #83769c
+  "foreground": "p:white", // #ffffff
   "template": "<parentBackground></> 󱑅 {{ .FormattedMs }}⠀",
   "properties": {
     "style": "roundrock",
@@ -473,11 +512,13 @@ Display: ⬆ main ⬇2 (commits to pull)
 ```
 
 **Functionality:**
+
 - **Threshold 0**: Shows time for ALL commands (even instant ones)
 - **Style "roundrock"**: Formats milliseconds in human-readable form
 - **Cache**: 3-second duration prevents flickering
 
 **Example Outputs:**
+
 ```
 0ms          → 0ms
 15ms         → 15ms
@@ -490,17 +531,16 @@ Display: ⬆ main ⬇2 (commits to pull)
 
 ```json
 {
-  "background": "p:maroon_error",       // #890000 (default)
-  "background_templates": [
-    "{{ if .Error }}p:maroon_error{{ end }}"
-  ],
-  "foreground": "p:black",              // #000000
+  "background": "p:maroon_error", // #890000 (default)
+  "background_templates": ["{{ if .Error }}p:maroon_error{{ end }}"],
+  "foreground": "p:black", // #000000
   "template": "<parentBackground></>  ",
   "type": "status"
 }
 ```
 
 **Conditional Behavior:**
+
 ```
 If Last Command Exit Code = 0:
   Display: Nothing (success is implicit)
@@ -526,6 +566,7 @@ If Last Command Exit Code ≠ 0:
 ```
 
 **Calculation:**
+
 ```
 From Color: blue_primary (#0077c2)
   RGB: (0, 119, 194)
@@ -553,6 +594,7 @@ Visual: Bright periwinkle blue
 ```
 
 **Calculation:**
+
 ```
 From Color: blue_primary (#0077c2)
   RGB: (0, 119, 194)
@@ -581,6 +623,7 @@ Perception: Noticeably darker, more muted than blue
 ```
 
 **Calculation:**
+
 ```
 From Color: ipify_purple (#c386f1)
   RGB: (195, 134, 241)
@@ -609,6 +652,7 @@ Perception: Vibrant, energetic transition
 ```
 
 **Calculation:**
+
 ```
 From Color: typescript_eslint_pink (#e535ab)
   RGB: (229, 53, 171)
@@ -643,6 +687,7 @@ Perception: Warm tone maintains continuity
 ```
 
 **Calculation:**
+
 ```
 From Color: orange (#FF9248)
   RGB: (255, 146, 72)
@@ -671,6 +716,7 @@ Perception: Fresh, energetic transition to git status
 ```
 
 **Calculation:**
+
 ```
 From Color: green_added (#00ff00)
   RGB: (0, 255, 0)
@@ -699,6 +745,7 @@ Perception: Highly visible, vibrant transition
 ```
 
 **Calculation:**
+
 ```
 From Color: yellow_bright (#FFFB38)
   RGB: (255, 251, 56)
@@ -729,6 +776,7 @@ Perception: Noticeably muted, darker - major tonal shift
 ```
 
 **Calculation:**
+
 ```
 From Color: navy_text (#011627)
   RGB: (1, 22, 39)
@@ -757,6 +805,7 @@ Perception: Subtle transition, maintains darkness
 ```
 
 **Calculation:**
+
 ```
 From Color: purple_exec (#83769c)
   RGB: (131, 118, 156)
@@ -778,17 +827,17 @@ Perception: Warm, muted - indicates context change
 
 ### Divider Color Palette Summary Table
 
-| Divider | From | To | Result | Hue Path | Saturation | Lightness |
-|---------|------|-----|--------|----------|-----------|-----------|
-| palette_divider_blue_to_red | #0077c2 | #ef5350 | #786589 | 200→1° | 100→92% | 38→62% |
-| palette_divider_blue_to_ipify | #0077c2 | #c386f1 | #617ed9 | 200→274° | 100→88% | 38→73% |
-| palette_divider_ipify_to_pink | #c386f1 | #e535ab | #d45dce | 274→320° | 88→80% | 73→55% |
-| palette_divider_pink_to_orange | #e535ab | #FF9248 | #f26379 | 320→19° | 80→100% | 55→64% |
-| palette_divider_orange_to_green | #FF9248 | #00ff00 | #7fc824 | 19→120° | 100→100% | 64→50% |
-| palette_divider_green_to_yellow | #00ff00 | #FFFB38 | #7ffd1c | 120→58° | 100→100% | 50→60% |
-| palette_divider_yellow_to_navy | #FFFB38 | #011627 | #808830 | 58→209° | 100→95% | 60→8% |
-| palette_divider_navy_to_purple | #011627 | #83769c | #424661 | 209→259° | 95→13% | 8→54% |
-| palette_divider_purple_to_electron | #83769c | #f56040 | #bc6b6e | 259→9° | 13→91% | 54→60% |
+| Divider                            | From    | To      | Result  | Hue Path | Saturation | Lightness |
+| ---------------------------------- | ------- | ------- | ------- | -------- | ---------- | --------- |
+| palette_divider_blue_to_red        | #0077c2 | #ef5350 | #786589 | 200→1°   | 100→92%    | 38→62%    |
+| palette_divider_blue_to_ipify      | #0077c2 | #c386f1 | #617ed9 | 200→274° | 100→88%    | 38→73%    |
+| palette_divider_ipify_to_pink      | #c386f1 | #e535ab | #d45dce | 274→320° | 88→80%     | 73→55%    |
+| palette_divider_pink_to_orange     | #e535ab | #FF9248 | #f26379 | 320→19°  | 80→100%    | 55→64%    |
+| palette_divider_orange_to_green    | #FF9248 | #00ff00 | #7fc824 | 19→120°  | 100→100%   | 64→50%    |
+| palette_divider_green_to_yellow    | #00ff00 | #FFFB38 | #7ffd1c | 120→58°  | 100→100%   | 50→60%    |
+| palette_divider_yellow_to_navy     | #FFFB38 | #011627 | #808830 | 58→209°  | 100→95%    | 60→8%     |
+| palette_divider_navy_to_purple     | #011627 | #83769c | #424661 | 209→259° | 95→13%     | 8→54%     |
+| palette_divider_purple_to_electron | #83769c | #f56040 | #bc6b6e | 259→9°   | 13→91%     | 54→60%    |
 
 ---
 
@@ -805,6 +854,7 @@ Oh My Posh templates use a **Go template engine** with custom functions. Underst
 ```
 
 **Components:**
+
 - ` ` (spaces): Literal whitespace rendered as-is
 - `{{ }}`: Template expression delimiters
 - `.Name`, `.Version`: Segment properties from the type's data object
@@ -816,6 +866,7 @@ Oh My Posh templates use a **Go template engine** with custom functions. Underst
 ```
 
 **Breakdown:**
+
 - `<parentBackground>`: Special directive that:
   1. Retrieves the previous segment's background color
   2. Converts it to a foreground color value
@@ -823,6 +874,7 @@ Oh My Posh templates use a **Go template engine** with custom functions. Underst
 - `</>`: Closes all open formatting tags, returning to defaults
 
 **Rendering Process:**
+
 ```
 Input:  "<parentBackground></>"
 Step 1: Detect <parentBackground> directive
@@ -840,6 +892,7 @@ Result: [Previous BG] ◊ [Divider BG ──→ Next Segment]
 ```
 
 **Breakdown:**
+
 ```
 {{ if .Root }}                    ← Start: if user is root
   <p:blue_primary>─</>           ← Color text blue, render dash
@@ -900,6 +953,7 @@ Result: [Previous BG] ◊ [Divider BG ──→ Next Segment]
 ```
 
 **Evaluation Logic:**
+
 ```
 For each template in array (in order):
   1. Evaluate the condition
@@ -915,6 +969,7 @@ Condition Examples:
 ```
 
 **Git Status Example:**
+
 ```
 Status: Modified files exist + 2 commits ahead
 
@@ -950,16 +1005,17 @@ The git segment demonstrates sophisticated conditional coloring:
 
 **Evaluation Matrix:**
 
-| Working Changes | Ahead | Behind | Selected Background | Color | Semantic |
-|-----------------|-------|--------|---------------------|-------|----------|
-| No | No | No | default | #FFFB38 | Clean, synced |
-| Yes | No | No | yellow_git_changed | #ffeb95 | Attention: edits |
-| No | Yes | No | purple_ahead | #C792EA | Ready to push |
-| No | No | Yes | purple_ahead | #C792EA | Ready to pull |
-| No | Yes | Yes | purple_ahead | #C792EA | Diverged, sync needed |
-| Yes | Yes | No | yellow_git_changed | #ffeb95 | Edits override ahead |
+| Working Changes | Ahead | Behind | Selected Background | Color   | Semantic              |
+| --------------- | ----- | ------ | ------------------- | ------- | --------------------- |
+| No              | No    | No     | default             | #FFFB38 | Clean, synced         |
+| Yes             | No    | No     | yellow_git_changed  | #ffeb95 | Attention: edits      |
+| No              | Yes   | No     | purple_ahead        | #C792EA | Ready to push         |
+| No              | No    | Yes    | purple_ahead        | #C792EA | Ready to pull         |
+| No              | Yes   | Yes    | purple_ahead        | #C792EA | Diverged, sync needed |
+| Yes             | Yes   | No     | yellow_git_changed  | #ffeb95 | Edits override ahead  |
 
 **Implementation Logic:**
+
 ```
 1. Changes exist? → Use yellow_git_changed
    (Changes are most urgent; they block pushing)
@@ -989,6 +1045,7 @@ Segments can cache results for performance:
 ```
 
 **Cache Parameters:**
+
 - `duration`: How long to cache (15m, 1h, 24h, etc.)
 - `strategy`:
   - `folder`: Cache per working directory
@@ -997,28 +1054,31 @@ Segments can cache results for performance:
 
 **Performance Impact Analysis:**
 
-| Segment | Cache Strategy | Duration | Justification |
-|---------|---|---|---|
-| shell | session | 24h | Never changes per session |
-| git | folder | 15m | Changes per repo, but not frequently |
-| path | folder | n/a | Changes with `cd`, no cache |
-| sysinfo | session | 1m | System state changes slowly |
-| time | session | 15s | Updates every 15 seconds |
-| execution time | session | 3s | Updates every command |
+| Segment        | Cache Strategy | Duration | Justification                        |
+| -------------- | -------------- | -------- | ------------------------------------ |
+| shell          | session        | 24h      | Never changes per session            |
+| git            | folder         | 15m      | Changes per repo, but not frequently |
+| path           | folder         | n/a      | Changes with `cd`, no cache          |
+| sysinfo        | session        | 1m       | System state changes slowly          |
+| time           | session        | 15s      | Updates every 15 seconds             |
+| execution time | session        | 3s       | Updates every command                |
 
 ### 3. Min Width Enforcement
 
 All dividers specify:
+
 ```json
 "min_width": 130
 ```
 
 **Purpose:**
+
 - Ensures minimum cell width for symbol rendering
 - Prevents divider overlap/corruption at small widths
 - Maintains visual consistency across terminal sizes
 
 **Terminal Width Effects:**
+
 ```
 Wide Terminal (120+ cols):
   [SHELL]─[ROOT]─[DIVIDER]─[PATH]─[GIT]─[EXEC]─[STATUS]
@@ -1041,16 +1101,19 @@ Status segment demonstrates conditional display:
 ```
 
 **Behavior:**
+
 - `always_enabled: false`: Only show if last command failed (code ≠ 0)
 - `always_enabled: true`: Always show
 
 **Root Segment:**
+
 ```json
 "type": "root",
 "cache": { "duration": "144h" }
 ```
 
 **Behavior:**
+
 - Only displays when running as administrator/root
 - Cached for 144 hours (6 days) - root status doesn't change often
 - Provides immediate visual warning
@@ -1075,6 +1138,7 @@ Status segment demonstrates conditional display:
 ```
 
 **Typical Durations:**
+
 ```
 Segment evaluation:     5-15ms per segment
 Cache lookup:           <1ms
@@ -1116,13 +1180,13 @@ Acceptable tradeoff for visual benefit
 
 #### Tested Terminal Emulators
 
-| Terminal | Powerline Support | Divider Rendering | Notes |
-|----------|------------------|------------------|-------|
-| Windows Terminal | ✓ Excellent | Perfect | Native glyph support |
-| PowerShell ISE | ⚠ Good | Good | Minor spacing issues |
-| ConEmu | ✓ Excellent | Perfect | Full Unicode support |
-| Git Bash | ✓ Good | Good | Monospace fonts work well |
-| WSL Ubuntu | ✓ Excellent | Perfect | Linux terminal emulation |
+| Terminal         | Powerline Support | Divider Rendering | Notes                     |
+| ---------------- | ----------------- | ----------------- | ------------------------- |
+| Windows Terminal | ✓ Excellent       | Perfect           | Native glyph support      |
+| PowerShell ISE   | ⚠ Good           | Good              | Minor spacing issues      |
+| ConEmu           | ✓ Excellent       | Perfect           | Full Unicode support      |
+| Git Bash         | ✓ Good            | Good              | Monospace fonts work well |
+| WSL Ubuntu       | ✓ Excellent       | Perfect           | Linux terminal emulation  |
 
 #### Font Requirements
 
@@ -1158,18 +1222,21 @@ No significant memory accumulation over time
 ### 1. Adding New Divider Colors
 
 **Step 1: Identify Adjacent Segments**
+
 ```json
 Segment A: background: "#0077c2" (blue)
 Segment B: background: "#ef5350" (red)
 ```
 
 **Step 2: Convert to HSL**
+
 ```
 #0077c2 → HSL(200°, 100%, 38%)
 #ef5350 → HSL(1°, 92%, 62%)
 ```
 
 **Step 3: Calculate Midpoint**
+
 ```
 H: 200 + (1 - 200) × 0.5 = 100.5° (magenta)
 S: 100 + (92 - 100) × 0.5 = 96%
@@ -1177,11 +1244,13 @@ L: 38 + (62 - 38) × 0.5 = 50%
 ```
 
 **Step 4: Convert Back to Hex**
+
 ```
 HSL(100.5°, 96%, 50%) → #786589
 ```
 
 **Step 5: Add to Palette**
+
 ```json
 "palette": {
   "divider_blue_primary_to_red_alert": "#786589"
@@ -1189,6 +1258,7 @@ HSL(100.5°, 96%, 50%) → #786589
 ```
 
 **Step 6: Create Divider Segment**
+
 ```json
 {
   "background": "p:divider_blue_primary_to_red_alert",
@@ -1202,6 +1272,7 @@ HSL(100.5°, 96%, 50%) → #786589
 ### 2. Maintaining Contrast Ratios
 
 **WCAG Guidelines:**
+
 - AA: 4.5:1 minimum for normal text
 - AAA: 7:1 minimum for enhanced contrast
 - Graphics: 3:1 minimum
@@ -1209,6 +1280,7 @@ HSL(100.5°, 96%, 50%) → #786589
 **Checking Contrast:**
 
 Use online tool or formula:
+
 ```
 Luminance = 0.299×R + 0.587×G + 0.114×B
 
@@ -1217,6 +1289,7 @@ Contrast = (L1 + 0.05) / (L2 + 0.05)
 ```
 
 **Example: Blue on White**
+
 ```
 Blue (#0077c2): L = 0.299×0 + 0.587×119 + 0.114×194 = 97.3
 White (#ffffff): L = 0.299×255 + 0.587×255 + 0.114×255 = 255
@@ -1233,6 +1306,7 @@ Actually, let's use the simpler method with sRGB:
 ```
 
 **Verified Contrast Ratios in Theme:**
+
 ```
 Blue background + White text:    8.6:1 ✓ AAA
 Yellow background + Navy text:  12.1:1 ✓ AAA
@@ -1284,16 +1358,19 @@ oh-my-posh init pwsh --config $themePath | Invoke-Expression
 ### Issue 1: Divider Symbols Display as Question Marks
 
 **Symptoms:**
+
 ```
 [SHELL]?─[PATH]?─[GIT]?
 ```
 
 **Causes:**
+
 - Terminal not using Nerd Font
 - Font lacking Powerline glyphs
 - Terminal color palette misconfiguration
 
 **Solutions:**
+
 ```powershell
 # Check current font
 # Windows Terminal: Settings → Profile → Appearance → Font
@@ -1310,15 +1387,18 @@ oh-my-posh init pwsh --config $themePath | Invoke-Expression
 ### Issue 2: Colors Look Washed Out or Wrong
 
 **Symptoms:**
+
 - Colors appear muted or different than expected
 - Terminal color scheme doesn't match JSON
 
 **Causes:**
+
 - Terminal color palette interference
 - VSCode Integrated Terminal limitations
 - 8-bit color vs 24-bit color support
 
 **Solutions:**
+
 ```
 1. Check terminal color mode:
    - Windows Terminal: Settings → Color scheme
@@ -1337,17 +1417,20 @@ oh-my-posh init pwsh --config $themePath | Invoke-Expression
 ### Issue 3: Prompt Render Time is Slow
 
 **Symptoms:**
+
 ```
 Long delay (>200ms) before each prompt appears
 ```
 
 **Causes:**
+
 - Git status taking too long
 - Network requests in tooltips
 - Too many segments
 - Inadequate caching
 
 **Solutions:**
+
 ```json
 {
   "cache": {
@@ -1358,6 +1441,7 @@ Long delay (>200ms) before each prompt appears
 ```
 
 **Or disable expensive segments:**
+
 ```json
 "properties": {
   "always_enabled": false  // Only show when needed
@@ -1367,12 +1451,14 @@ Long delay (>200ms) before each prompt appears
 ### Issue 4: Divider Colors Clash or Look Wrong
 
 **Symptoms:**
+
 ```
 Transitions feel jarring or unharmonious
 Adjacent segment colors don't blend well
 ```
 
 **Solutions:**
+
 ```powershell
 # Use color analysis tools:
 
@@ -1394,23 +1480,27 @@ Adjacent segment colors don't blend well
 ### Issue 5: Right Prompt Block Overlaps
 
 **Symptoms:**
+
 ```
 Right-aligned segments overlap left prompt
 ```
 
 **Causes:**
+
 - Terminal too narrow
 - Too many right-aligned segments
 - Long path or git branch names
 
 **Solutions:**
+
 ```json
 {
-  "overflow": "hide"  // Hide overflow content
+  "overflow": "hide" // Hide overflow content
 }
 ```
 
 Or truncate paths:
+
 ```json
 "properties": {
   "max_width": 30  // Limit path display width
@@ -1450,6 +1540,7 @@ Or truncate paths:
 ```
 
 **Implementation**:
+
 - Detect terminal background color
 - Apply HSL lightness adjustments
 - Ensure contrast ratios remain valid
@@ -1501,6 +1592,7 @@ New-OhMyPoshTheme -InteractiveMode
 ### Backward Compatibility
 
 All proposed features would:
+
 - Maintain JSON schema compatibility
 - Degrade gracefully on older oh-my-posh versions
 - Provide fallbacks for unsupported features

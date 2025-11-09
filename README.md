@@ -1,6 +1,6 @@
 # 🚀 OhMyPosh Atomic Enhanced
 
-[![GitHub stars](https://img.shields.io/github/stars/Nick2bad4u/OhMyPosh-Atomic-Enhanced?style=social)](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced) [![GitHub issues](https://img.shields.io/github/issues/Nick2bad4u/OhMyPosh-Atomic-Enhanced)](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/issues) [![License: UnLicense](https://img.shields.io/badge/License-UnLicense-yellow.svg)](https://opensource.org/licenses/UnLicense) [![Oh My Posh](https://img.shields.io/badge/Oh%20My%20Posh-Compatible-blue)](https://ohmyposh.dev/)
+[![GitHub stars](https://img.shields.io/github/stars/Nick2bad4u/OhMyPosh-Atomic-Enhanced?style=social)](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced) [![GitHub issues](https://img.shields.io/github/issues/Nick2bad4u/OhMyPosh-Atomic-Enhanced)](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/issues) [![License: UnLicense](https://img.shields.io/badge/License-UnLicense-yellow.svg)](https://opensource.org/licenses/UnLicense) [![Oh My Posh](https://img.shields.io/badge/Oh%20My%20Posh-Compatible-blue)](https://ohmyposh.dev/) [![DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced)
 
 This repository provides a custom theme configuration for [Oh My Posh](https://ohmyposh.dev/), a cross-platform prompt theming engine for shells like PowerShell, Bash, and Zsh. Inspired by the AtomicBit theme, this project aims to deliver a visually rich, highly informative, and developer-friendly prompt experience. It is designed for users who want a modern, customizable shell prompt with enhanced status indicators, dynamic segments, and consistent appearance across Windows, Linux, and macOS terminals.
 
@@ -220,6 +220,7 @@ After making changes to the palette or theme configuration, run this script to e
 This repository includes **5 unique theme styles**, each available in **24 color palettes** (120 total themes):
 
 ### 🚀 OhMyPosh Atomic Custom
+
 The flagship theme with comprehensive features:
 
 - Multi-line layout with left and right blocks
@@ -237,6 +238,7 @@ The flagship theme with comprehensive features:
 - Execution time and status tracking
 
 ### ✨ 1_shell Enhanced
+
 A sleek single-line theme based on the official 1_shell:
 
 - Clean, compact design
@@ -250,6 +252,7 @@ A sleek single-line theme based on the official 1_shell:
 - Battery status with color indicators
 
 ### 🎯 Slimfat Enhanced
+
 Two-line compact theme with modern styling:
 
 - OS icon with session info
@@ -263,6 +266,7 @@ Two-line compact theme with modern styling:
 - Clean execution time and status on second line
 
 ### 📦 AtomicBit Enhanced
+
 Box-style technical theme:
 
 - Bracketed session display
@@ -278,6 +282,7 @@ Box-style technical theme:
 - Compact technical aesthetic
 
 ### 🧹 Clean-Detailed Enhanced
+
 Minimalist clean theme with essential info:
 
 - OS and shell information
@@ -945,6 +950,7 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 - clean-detailed-Enhanced.omp.<Palette>.json - Minimalist clean theme
 
 **Examples:**
+
 ```pwsh
 # Atomic Custom with Nord Frost palette
 oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/atomic/OhMyPosh-Atomic-Custom.NordFrost.json" | Invoke-Expression
@@ -963,6 +969,7 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 ```
 
 **Available Palettes:**
+
 - **Original** - Your current vibrant tech theme
 
 - **Nord Frost** - Arctic cool tones

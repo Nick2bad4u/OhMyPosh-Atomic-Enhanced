@@ -1,329 +1,329 @@
 name: Release Oh My Posh Themes
 
 concurrency:
-    group: release-themes-${{ github.ref }}
-    cancel-in-progress: true
+  group: release-themes-${{ github.ref }}
+  cancel-in-progress: true
 
 on:
-    push:
-        branches:
-            - main
-        paths:
-            - "*.json"
-            - "*-Enhanced.omp.json"
-            - "color-palette-alternatives.json"
-    workflow_dispatch:
-        inputs:
-            version:
-                description: "Release version (e.g., v1.0.0)"
-                required: true
-                default: "v1.0.0"
+  push:
+    branches:
+      - main
+    paths:
+      - "*.json"
+      - "*-Enhanced.omp.json"
+      - "color-palette-alternatives.json"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g., v1.0.0)"
+        required: true
+        default: "v1.0.0"
 
 permissions:
-    contents: write
+  contents: write
 
 jobs:
-    prepare-release:
-        runs-on: ubuntu-latest
-        outputs:
-            version: ${{ steps.set_version.outputs.version }}
-            release_date: ${{ steps.set_version.outputs.release_date }}
-        steps:
-            - name: Harden the runner (Audit all outbound calls)
-              uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
-              with:
-                egress-policy: audit
+  prepare-release:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.set_version.outputs.version }}
+      release_date: ${{ steps.set_version.outputs.release_date }}
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+        with:
+          egress-policy: audit
 
-            - name: Checkout repository
-              uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
-              with:
-                  fetch-depth: 0
+      - name: Checkout repository
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        with:
+          fetch-depth: 0
 
-            - name: Set version and date
-              id: set_version
-              run: |
-                  if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-                    VERSION="${{ github.event.inputs.version }}"
-                  else
-                    # Generate version from date and commit
-                    VERSION="v$(date +%Y.%m.%d)-${GITHUB_SHA::7}"
-                  fi
-                  echo "version=$VERSION" >> $GITHUB_OUTPUT
-                  echo "release_date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
-                  echo "📦 Release version: $VERSION"
+      - name: Set version and date
+        id: set_version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            # Generate version from date and commit
+            VERSION="v$(date +%Y.%m.%d)-${GITHUB_SHA::7}"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "release_date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+          echo "📦 Release version: $VERSION"
 
-    create-release:
-        needs: prepare-release
-        runs-on: ubuntu-latest
-        steps:
-            - name: Harden the runner (Audit all outbound calls)
-              uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
-              with:
-                egress-policy: audit
+  create-release:
+    needs: prepare-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+        with:
+          egress-policy: audit
 
-            - name: Checkout repository
-              uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
-              with:
-                  fetch-depth: 0
+      - name: Checkout repository
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        with:
+          fetch-depth: 0
 
-            - name: Set up Node.js
-              uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-              with:
-                  node-version: "20"
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "20"
 
-            - name: Install git-cliff
-              run: npm install -g git-cliff
+      - name: Install git-cliff
+        run: npm install -g git-cliff
 
-            - name: Generate changelog
-              id: changelog
-              run: |
-                  # Generate changelog for the latest changes
-                  echo "Generating changelog with git-cliff..."
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Generate changelog for the latest changes
+          echo "Generating changelog with git-cliff..."
 
-                  # Get the previous tag if it exists
-                  PREV_TAG=$(git tag --sort=-creatordate | head -n 1 2>/dev/null || echo "")
+          # Get the previous tag if it exists
+          PREV_TAG=$(git tag --sort=-creatordate | head -n 1 2>/dev/null || echo "")
 
-                  if [ -n "$PREV_TAG" ]; then
-                    echo "Previous tag found: $PREV_TAG"
-                    CHANGELOG=$(npx git-cliff $PREV_TAG..HEAD --strip all)
-                  else
-                    echo "No previous tag found, generating full changelog"
-                    CHANGELOG=$(npx git-cliff --strip all)
-                  fi
+          if [ -n "$PREV_TAG" ]; then
+            echo "Previous tag found: $PREV_TAG"
+            CHANGELOG=$(npx git-cliff $PREV_TAG..HEAD --strip all)
+          else
+            echo "No previous tag found, generating full changelog"
+            CHANGELOG=$(npx git-cliff --strip all)
+          fi
 
-                  # Save changelog to file and output
-                  echo "$CHANGELOG" > /tmp/changelog.md
+          # Save changelog to file and output
+          echo "$CHANGELOG" > /tmp/changelog.md
 
-                  # Also save a short version (last 10 commits) for the summary
-                  echo "$CHANGELOG" | head -n 50 > /tmp/changelog-short.md
+          # Also save a short version (last 10 commits) for the summary
+          echo "$CHANGELOG" | head -n 50 > /tmp/changelog-short.md
 
-                  echo "Changelog generated successfully"
-                  cat /tmp/changelog-short.md
+          echo "Changelog generated successfully"
+          cat /tmp/changelog-short.md
 
-            - name: Count theme files
-              id: count_themes
-              run: |
-                  ATOMIC_COUNT=$(ls -1 OhMyPosh-Atomic-Custom.*.json 2>/dev/null | wc -l)
-                  SHELL_COUNT=$(ls -1 1_shell-Enhanced.omp.*.json 2>/dev/null | wc -l)
-                  SLIMFAT_COUNT=$(ls -1 slimfat-Enhanced.omp.*.json 2>/dev/null | wc -l)
-                  ATOMICBIT_COUNT=$(ls -1 atomicBit-Enhanced.omp.*.json 2>/dev/null | wc -l)
-                  CLEAN_COUNT=$(ls -1 clean-detailed-Enhanced.omp.*.json 2>/dev/null | wc -l)
-                  TOTAL=$((ATOMIC_COUNT + SHELL_COUNT + SLIMFAT_COUNT + ATOMICBIT_COUNT + CLEAN_COUNT))
+      - name: Count theme files
+        id: count_themes
+        run: |
+          ATOMIC_COUNT=$(ls -1 OhMyPosh-Atomic-Custom.*.json 2>/dev/null | wc -l)
+          SHELL_COUNT=$(ls -1 1_shell-Enhanced.omp.*.json 2>/dev/null | wc -l)
+          SLIMFAT_COUNT=$(ls -1 slimfat-Enhanced.omp.*.json 2>/dev/null | wc -l)
+          ATOMICBIT_COUNT=$(ls -1 atomicBit-Enhanced.omp.*.json 2>/dev/null | wc -l)
+          CLEAN_COUNT=$(ls -1 clean-detailed-Enhanced.omp.*.json 2>/dev/null | wc -l)
+          TOTAL=$((ATOMIC_COUNT + SHELL_COUNT + SLIMFAT_COUNT + ATOMICBIT_COUNT + CLEAN_COUNT))
 
-                  echo "atomic_count=$ATOMIC_COUNT" >> $GITHUB_OUTPUT
-                  echo "shell_count=$SHELL_COUNT" >> $GITHUB_OUTPUT
-                  echo "slimfat_count=$SLIMFAT_COUNT" >> $GITHUB_OUTPUT
-                  echo "atomicbit_count=$ATOMICBIT_COUNT" >> $GITHUB_OUTPUT
-                  echo "clean_count=$CLEAN_COUNT" >> $GITHUB_OUTPUT
-                  echo "total_count=$TOTAL" >> $GITHUB_OUTPUT
+          echo "atomic_count=$ATOMIC_COUNT" >> $GITHUB_OUTPUT
+          echo "shell_count=$SHELL_COUNT" >> $GITHUB_OUTPUT
+          echo "slimfat_count=$SLIMFAT_COUNT" >> $GITHUB_OUTPUT
+          echo "atomicbit_count=$ATOMICBIT_COUNT" >> $GITHUB_OUTPUT
+          echo "clean_count=$CLEAN_COUNT" >> $GITHUB_OUTPUT
+          echo "total_count=$TOTAL" >> $GITHUB_OUTPUT
 
-            - name: Generate theme lists
-              id: theme_lists
-              run: |
-                  # Create markdown lists for each theme family
-                  mkdir -p /tmp/theme-lists
+      - name: Generate theme lists
+        id: theme_lists
+        run: |
+          # Create markdown lists for each theme family
+          mkdir -p /tmp/theme-lists
 
-                  echo "### 🚀 Atomic Custom Themes (${{ steps.count_themes.outputs.atomic_count }} variants)" > /tmp/theme-lists/atomic.md
-                  for file in OhMyPosh-Atomic-Custom.*.json; do
-                    if [ -f "$file" ]; then
-                      palette=$(echo "$file" | sed 's/OhMyPosh-Atomic-Custom\.\(.*\)\.json/\1/')
-                      echo "- [\`$file\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$file) - $palette palette" >> /tmp/theme-lists/atomic.md
-                    fi
-                  done
+          echo "### 🚀 Atomic Custom Themes (${{ steps.count_themes.outputs.atomic_count }} variants)" > /tmp/theme-lists/atomic.md
+          for file in OhMyPosh-Atomic-Custom.*.json; do
+            if [ -f "$file" ]; then
+              palette=$(echo "$file" | sed 's/OhMyPosh-Atomic-Custom\.\(.*\)\.json/\1/')
+              echo "- [\`$file\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$file) - $palette palette" >> /tmp/theme-lists/atomic.md
+            fi
+          done
 
-                  echo "### ✨ 1_shell-Enhanced Themes (${{ steps.count_themes.outputs.shell_count }} variants)" > /tmp/theme-lists/shell.md
-                  for file in 1_shell-Enhanced.omp.*.json; do
-                    if [ -f "$file" ]; then
-                      palette=$(echo "$file" | sed 's/1_shell-Enhanced\.omp\.\(.*\)\.json/\1/')
-                      echo "- [\`$file\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$file) - $palette palette" >> /tmp/theme-lists/shell.md
-                    fi
-                  done
+          echo "### ✨ 1_shell-Enhanced Themes (${{ steps.count_themes.outputs.shell_count }} variants)" > /tmp/theme-lists/shell.md
+          for file in 1_shell-Enhanced.omp.*.json; do
+            if [ -f "$file" ]; then
+              palette=$(echo "$file" | sed 's/1_shell-Enhanced\.omp\.\(.*\)\.json/\1/')
+              echo "- [\`$file\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$file) - $palette palette" >> /tmp/theme-lists/shell.md
+            fi
+          done
 
-                  echo "### 🎯 Slimfat-Enhanced Themes (${{ steps.count_themes.outputs.slimfat_count }} variants)" > /tmp/theme-lists/slimfat.md
-                  for file in slimfat-Enhanced.omp.*.json; do
-                    if [ -f "$file" ]; then
-                      palette=$(echo "$file" | sed 's/slimfat-Enhanced\.omp\.\(.*\)\.json/\1/')
-                      echo "- [\`$file\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$file) - $palette palette" >> /tmp/theme-lists/slimfat.md
-                    fi
-                  done
+          echo "### 🎯 Slimfat-Enhanced Themes (${{ steps.count_themes.outputs.slimfat_count }} variants)" > /tmp/theme-lists/slimfat.md
+          for file in slimfat-Enhanced.omp.*.json; do
+            if [ -f "$file" ]; then
+              palette=$(echo "$file" | sed 's/slimfat-Enhanced\.omp\.\(.*\)\.json/\1/')
+              echo "- [\`$file\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$file) - $palette palette" >> /tmp/theme-lists/slimfat.md
+            fi
+          done
 
-                  echo "### 📦 AtomicBit-Enhanced Themes (${{ steps.count_themes.outputs.atomicbit_count }} variants)" > /tmp/theme-lists/atomicbit.md
-                  for file in atomicBit-Enhanced.omp.*.json; do
-                    if [ -f "$file" ]; then
-                      palette=$(echo "$file" | sed 's/atomicBit-Enhanced\.omp\.\(.*\)\.json/\1/')
-                      echo "- [\`$file\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$file) - $palette palette" >> /tmp/theme-lists/atomicbit.md
-                    fi
-                  done
+          echo "### 📦 AtomicBit-Enhanced Themes (${{ steps.count_themes.outputs.atomicbit_count }} variants)" > /tmp/theme-lists/atomicbit.md
+          for file in atomicBit-Enhanced.omp.*.json; do
+            if [ -f "$file" ]; then
+              palette=$(echo "$file" | sed 's/atomicBit-Enhanced\.omp\.\(.*\)\.json/\1/')
+              echo "- [\`$file\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$file) - $palette palette" >> /tmp/theme-lists/atomicbit.md
+            fi
+          done
 
-                  echo "### 🧹 Clean-Detailed-Enhanced Themes (${{ steps.count_themes.outputs.clean_count }} variants)" > /tmp/theme-lists/clean.md
-                  for file in clean-detailed-Enhanced.omp.*.json; do
-                    if [ -f "$file" ]; then
-                      palette=$(echo "$file" | sed 's/clean-detailed-Enhanced\.omp\.\(.*\)\.json/\1/')
-                      echo "- [\`$file\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$file) - $palette palette" >> /tmp/theme-lists/clean.md
-                    fi
-                  done
+          echo "### 🧹 Clean-Detailed-Enhanced Themes (${{ steps.count_themes.outputs.clean_count }} variants)" > /tmp/theme-lists/clean.md
+          for file in clean-detailed-Enhanced.omp.*.json; do
+            if [ -f "$file" ]; then
+              palette=$(echo "$file" | sed 's/clean-detailed-Enhanced\.omp\.\(.*\)\.json/\1/')
+              echo "- [\`$file\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$file) - $palette palette" >> /tmp/theme-lists/clean.md
+            fi
+          done
 
-            - name: Create release with theme files
-              uses: softprops/action-gh-release@6da8fa9354ddfdc4aeace5fc48d7f679b5214090 # v2.4.1
-              with:
-                  tag_name: ${{ needs.prepare-release.outputs.version }}
-                  name: Oh My Posh Atomic Enhanced ${{ needs.prepare-release.outputs.version }}
-                  body: |
-                      ## 🎨 Oh My Posh Theme Collection Release
+      - name: Create release with theme files
+        uses: softprops/action-gh-release@6da8fa9354ddfdc4aeace5fc48d7f679b5214090 # v2.4.1
+        with:
+          tag_name: ${{ needs.prepare-release.outputs.version }}
+          name: Oh My Posh Atomic Enhanced ${{ needs.prepare-release.outputs.version }}
+          body: |
+            ## 🎨 Oh My Posh Theme Collection Release
 
-                      **Release Date:** ${{ needs.prepare-release.outputs.release_date }}
+            **Release Date:** ${{ needs.prepare-release.outputs.release_date }}
 
-                      This release contains **${{ steps.count_themes.outputs.total_count }}** Oh My Posh theme files across **5 theme families** with **24 color palettes** each.
+            This release contains **${{ steps.count_themes.outputs.total_count }}** Oh My Posh theme files across **5 theme families** with **24 color palettes** each.
 
-                      ---
+            ---
 
-                      ## 📝 What's Changed
+            ## 📝 What's Changed
 
-                      $(cat /tmp/changelog.md)
+            $(cat /tmp/changelog.md)
 
-                      ---
+            ---
 
-                      ### 📊 Theme Statistics
+            ### 📊 Theme Statistics
 
-                      | Theme Family | Variants | Description |
-                      |--------------|----------|-------------|
-                      | 🚀 **Atomic Custom** | ${{ steps.count_themes.outputs.atomic_count }} | Flagship comprehensive theme with all features |
-                      | ✨ **1_shell-Enhanced** | ${{ steps.count_themes.outputs.shell_count }} | Single-line sleek theme |
-                      | 🎯 **Slimfat-Enhanced** | ${{ steps.count_themes.outputs.slimfat_count }} | Two-line compact theme |
-                      | 📦 **AtomicBit-Enhanced** | ${{ steps.count_themes.outputs.atomicbit_count }} | Box-style technical theme |
-                      | 🧹 **Clean-Detailed-Enhanced** | ${{ steps.count_themes.outputs.clean_count }} | Minimalist clean theme |
-                      | | |
-                      | **Total** | **${{ steps.count_themes.outputs.total_count }}** | All theme files included |
+            | Theme Family | Variants | Description |
+            |--------------|----------|-------------|
+            | 🚀 **Atomic Custom** | ${{ steps.count_themes.outputs.atomic_count }} | Flagship comprehensive theme with all features |
+            | ✨ **1_shell-Enhanced** | ${{ steps.count_themes.outputs.shell_count }} | Single-line sleek theme |
+            | 🎯 **Slimfat-Enhanced** | ${{ steps.count_themes.outputs.slimfat_count }} | Two-line compact theme |
+            | 📦 **AtomicBit-Enhanced** | ${{ steps.count_themes.outputs.atomicbit_count }} | Box-style technical theme |
+            | 🧹 **Clean-Detailed-Enhanced** | ${{ steps.count_themes.outputs.clean_count }} | Minimalist clean theme |
+            | | |
+            | **Total** | **${{ steps.count_themes.outputs.total_count }}** | All theme files included |
 
-                      ---
+            ---
 
-                      ### 🎨 Available Color Palettes
+            ### 🎨 Available Color Palettes
 
-                      All themes are available in these color palettes:
+            All themes are available in these color palettes:
 
-                      **Classic Themes:**
-                      - Original (Vibrant Tech) - Your current bright theme
-                      - Nord Frost - Arctic cool tones
-                      - Gruvbox Dark - Warm retro earth tones
-                      - Dracula Night - Bold purple/pink
-                      - Tokyo Night - Modern neon blues
-                      - Monokai Pro - Classic neon colors
-                      - Solarized Dark - Eye-friendly
-                      - Catppuccin Mocha - Soft pastels
+            **Classic Themes:**
+            - Original (Vibrant Tech) - Your current bright theme
+            - Nord Frost - Arctic cool tones
+            - Gruvbox Dark - Warm retro earth tones
+            - Dracula Night - Bold purple/pink
+            - Tokyo Night - Modern neon blues
+            - Monokai Pro - Classic neon colors
+            - Solarized Dark - Eye-friendly
+            - Catppuccin Mocha - Soft pastels
 
-                      **Solid Colors:**
-                      - Forest Ember - Deep greens with amber
-                      - Pink Paradise - Vibrant pink/magenta 💗
-                      - Purple Reign - Royal purples 👑
-                      - Red Alert - Fiery reds/oranges 🔥
-                      - Blue Ocean - Deep ocean blues 🌊
-                      - Green Matrix - Matrix-inspired greens 💚
-                      - Amber Sunset - Warm sunset tones 🌅
-                      - Teal Cyan - Electric teals ⚡
+            **Solid Colors:**
+            - Forest Ember - Deep greens with amber
+            - Pink Paradise - Vibrant pink/magenta 💗
+            - Purple Reign - Royal purples 👑
+            - Red Alert - Fiery reds/oranges 🔥
+            - Blue Ocean - Deep ocean blues 🌊
+            - Green Matrix - Matrix-inspired greens 💚
+            - Amber Sunset - Warm sunset tones 🌅
+            - Teal Cyan - Electric teals ⚡
 
-                      **Festive Themes:**
-                      - Rainbow Bright - ROYGBIV celebration 🌈
-                      - Christmas Cheer - Festive holiday colors 🎄
-                      - Halloween Spooky - Spooky theme 🎃
-                      - Easter Pastel - Soft pastel colors 🐰
+            **Festive Themes:**
+            - Rainbow Bright - ROYGBIV celebration 🌈
+            - Christmas Cheer - Festive holiday colors 🎄
+            - Halloween Spooky - Spooky theme 🎃
+            - Easter Pastel - Soft pastel colors 🐰
 
-                      **Dual-Tone Themes:**
-                      - Fire & Ice - Red/orange and blue/cyan ❄️🔥
-                      - Midnight Gold - Navy blue and gold ⭐
-                      - Cherry Mint - Cherry red and mint green 🍒
-                      - Lavender Peach - Lavender and peach 🍑
+            **Dual-Tone Themes:**
+            - Fire & Ice - Red/orange and blue/cyan ❄️🔥
+            - Midnight Gold - Navy blue and gold ⭐
+            - Cherry Mint - Cherry red and mint green 🍒
+            - Lavender Peach - Lavender and peach 🍑
 
-                      ---
+            ---
 
-                      ### 🚀 Quick Install
+            ### 🚀 Quick Install
 
-                      To use any theme, run one of these commands:
+            To use any theme, run one of these commands:
 
-                      ```powershell
-                      # Example: Atomic Custom with Nord Frost palette
-                      oh-my-posh init pwsh --config "https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/OhMyPosh-Atomic-Custom.NordFrost.json" | Invoke-Expression
+            ```powershell
+            # Example: Atomic Custom with Nord Frost palette
+            oh-my-posh init pwsh --config "https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/OhMyPosh-Atomic-Custom.NordFrost.json" | Invoke-Expression
 
-                      # Example: 1_shell-Enhanced with Tokyo Night palette
-                      oh-my-posh init pwsh --config "https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/1_shell-Enhanced.omp.TokyoNight.json" | Invoke-Expression
+            # Example: 1_shell-Enhanced with Tokyo Night palette
+            oh-my-posh init pwsh --config "https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/1_shell-Enhanced.omp.TokyoNight.json" | Invoke-Expression
 
-                      # Example: Slimfat-Enhanced with Dracula Night palette
-                      oh-my-posh init pwsh --config "https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/slimfat-Enhanced.omp.DraculaNight.json" | Invoke-Expression
-                      ```
+            # Example: Slimfat-Enhanced with Dracula Night palette
+            oh-my-posh init pwsh --config "https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/slimfat-Enhanced.omp.DraculaNight.json" | Invoke-Expression
+            ```
 
-                      **For permanent installation**, add the command to your PowerShell profile:
-                      ```powershell
-                      notepad $PROFILE
-                      ```
+            **For permanent installation**, add the command to your PowerShell profile:
+            ```powershell
+            notepad $PROFILE
+            ```
 
-                      ---
+            ---
 
-                      ### 📥 All Theme Files
+            ### 📥 All Theme Files
 
-                      $(cat /tmp/theme-lists/atomic.md)
+            $(cat /tmp/theme-lists/atomic.md)
 
-                      $(cat /tmp/theme-lists/shell.md)
+            $(cat /tmp/theme-lists/shell.md)
 
-                      $(cat /tmp/theme-lists/slimfat.md)
+            $(cat /tmp/theme-lists/slimfat.md)
 
-                      $(cat /tmp/theme-lists/atomicbit.md)
+            $(cat /tmp/theme-lists/atomicbit.md)
 
-                      $(cat /tmp/theme-lists/clean.md)
+            $(cat /tmp/theme-lists/clean.md)
 
-                      ---
+            ---
 
-                      ### 📖 Documentation
+            ### 📖 Documentation
 
-                      For detailed documentation, customization guides, and feature descriptions, visit the [main README](https://github.com/${{ github.repository }}/blob/main/README.md).
+            For detailed documentation, customization guides, and feature descriptions, visit the [main README](https://github.com/${{ github.repository }}/blob/main/README.md).
 
-                      ### 🎨 Preview Gallery
+            ### 🎨 Preview Gallery
 
-                      Check out the [Theme Gallery](https://github.com/${{ github.repository }}#-theme-gallery) in the README to see preview images of all themes.
+            Check out the [Theme Gallery](https://github.com/${{ github.repository }}#-theme-gallery) in the README to see preview images of all themes.
 
-                      ---
+            ---
 
-                      **[⭐ Star this repo](https://github.com/${{ github.repository }})** if you find these themes useful!
+            **[⭐ Star this repo](https://github.com/${{ github.repository }})** if you find these themes useful!
 
-                      _Thank you for using **Oh My Posh Atomic Enhanced**!_
-                  files: |
-                      OhMyPosh-Atomic-Custom.*.json
-                      1_shell-Enhanced.omp.*.json
-                      slimfat-Enhanced.omp.*.json
-                      atomicBit-Enhanced.omp.*.json
-                      clean-detailed-Enhanced.omp.*.json
-                      OhMyPosh-Atomic-Custom.json
-                      1_shell-Enhanced.omp.json
-                      slimfat-Enhanced.omp.json
-                      atomicBit-Enhanced.omp.json
-                      clean-detailed-Enhanced.omp.json
-                      color-palette-alternatives.json
-                  draft: false
-                  prerelease: false
-                  make_latest: true
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            _Thank you for using **Oh My Posh Atomic Enhanced**!_
+          files: |
+            OhMyPosh-Atomic-Custom.*.json
+            1_shell-Enhanced.omp.*.json
+            slimfat-Enhanced.omp.*.json
+            atomicBit-Enhanced.omp.*.json
+            clean-detailed-Enhanced.omp.*.json
+            OhMyPosh-Atomic-Custom.json
+            1_shell-Enhanced.omp.json
+            slimfat-Enhanced.omp.json
+            atomicBit-Enhanced.omp.json
+            clean-detailed-Enhanced.omp.json
+            color-palette-alternatives.json
+          draft: false
+          prerelease: false
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Add Job Summary
-              if: always()
-              run: |
-                  {
-                    echo "## 🎨 Theme Release Summary"
-                    echo ""
-                    echo "### 📦 Release Details"
-                    echo "- **Version:** ${{ needs.prepare-release.outputs.version }}"
-                    echo "- **Date:** ${{ needs.prepare-release.outputs.release_date }}"
-                    echo "- **Total Themes:** ${{ steps.count_themes.outputs.total_count }}"
-                    echo ""
-                    echo "### 📊 Theme Breakdown"
-                    echo "- 🚀 Atomic Custom: ${{ steps.count_themes.outputs.atomic_count }} themes"
-                    echo "- ✨ 1_shell-Enhanced: ${{ steps.count_themes.outputs.shell_count }} themes"
-                    echo "- 🎯 Slimfat-Enhanced: ${{ steps.count_themes.outputs.slimfat_count }} themes"
-                    echo "- 📦 AtomicBit-Enhanced: ${{ steps.count_themes.outputs.atomicbit_count }} themes"
-                    echo "- 🧹 Clean-Detailed-Enhanced: ${{ steps.count_themes.outputs.clean_count }} themes"
-                    echo ""
-                    echo "### ✅ Status"
-                    echo "Release created successfully! All theme files are now available for download."
-                    echo ""
-                    echo "### 🔗 Quick Links"
-                    echo "- [View Release](https://github.com/${{ github.repository }}/releases/tag/${{ needs.prepare-release.outputs.version }})"
-                    echo "- [Download Themes](https://github.com/${{ github.repository }}/releases/tag/${{ needs.prepare-release.outputs.version }})"
-                  } >> "$GITHUB_STEP_SUMMARY"
+      - name: Add Job Summary
+        if: always()
+        run: |
+          {
+            echo "## 🎨 Theme Release Summary"
+            echo ""
+            echo "### 📦 Release Details"
+            echo "- **Version:** ${{ needs.prepare-release.outputs.version }}"
+            echo "- **Date:** ${{ needs.prepare-release.outputs.release_date }}"
+            echo "- **Total Themes:** ${{ steps.count_themes.outputs.total_count }}"
+            echo ""
+            echo "### 📊 Theme Breakdown"
+            echo "- 🚀 Atomic Custom: ${{ steps.count_themes.outputs.atomic_count }} themes"
+            echo "- ✨ 1_shell-Enhanced: ${{ steps.count_themes.outputs.shell_count }} themes"
+            echo "- 🎯 Slimfat-Enhanced: ${{ steps.count_themes.outputs.slimfat_count }} themes"
+            echo "- 📦 AtomicBit-Enhanced: ${{ steps.count_themes.outputs.atomicbit_count }} themes"
+            echo "- 🧹 Clean-Detailed-Enhanced: ${{ steps.count_themes.outputs.clean_count }} themes"
+            echo ""
+            echo "### ✅ Status"
+            echo "Release created successfully! All theme files are now available for download."
+            echo ""
+            echo "### 🔗 Quick Links"
+            echo "- [View Release](https://github.com/${{ github.repository }}/releases/tag/${{ needs.prepare-release.outputs.version }})"
+            echo "- [Download Themes](https://github.com/${{ github.repository }}/releases/tag/${{ needs.prepare-release.outputs.version }})"
+          } >> "$GITHUB_STEP_SUMMARY"
