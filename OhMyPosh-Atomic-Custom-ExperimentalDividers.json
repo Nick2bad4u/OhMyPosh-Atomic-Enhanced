@@ -2,30 +2,35 @@
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "accent_color": "#21c7c7",
   "async": true,
-  "terminal_background": "p:black",
   "blocks": [
     {
       "alignment": "left",
+      "leading_diamond": "",
+      "newline": false,
       "segments": [
         {
+          "alias": "shell",
           "background": "p:blue_primary",
           "cache": {
             "duration": "24h",
             "strategy": "session"
           },
           "foreground": "p:white",
+          "foreground_templates": [],
           "leading_diamond": "╭─",
           "min_width": 80,
-          "alias": "shell",
-          "foreground_templates": [],
           "properties": {
             "mapped_shell_names": {
-              "bash": "BASH",
+              "bash": "Bash",
               "cmd": "CMD",
+              "elvish": "Elvish",
               "fish": "FISH",
+              "nu": "NU",
+              "nushell": "NU",
               "powershell": "PS",
               "ps": "PS",
               "pwsh": "PS",
+              "xonsh": "Xonsh",
               "zsh": "ZSH"
             }
           },
@@ -35,12 +40,12 @@
         },
         {
           "background": "p:red_alert",
-          "foreground": "p:black",
-          "min_width": 80,
           "cache": {
             "duration": "144h",
             "strategy": "session"
           },
+          "foreground": "p:black",
+          "min_width": 80,
           "style": "diamond",
           "template": "<parentBackground></>  ",
           "type": "root"
@@ -76,9 +81,8 @@
         {
           "background": "p:orange",
           "foreground": "p:black",
-          "min_width": 80,
           "leading_diamond": "",
-          "trailing_diamond": "",
+          "min_width": 80,
           "properties": {
             "edge_format": "<b>%s</b>",
             "folder_format": "<b>%s</b>",
@@ -152,6 +156,7 @@
           },
           "style": "diamond",
           "template": "<parentBackground></>  {{ .Path }} ",
+          "trailing_diamond": "",
           "type": "path"
         },
         {
@@ -198,9 +203,8 @@
             ".*/.*",
             "~/.*"
           ],
-          "min_width": 80,
           "leading_diamond": "",
-          "trailing_diamond": "",
+          "min_width": 80,
           "properties": {
             "branch_icon": "  ",
             "branch_template": "{{ if .Mapped }}{{ .Mapped }}{{ else }}{{ .Icon }}{{ end }}{{ .Branch }}",
@@ -224,6 +228,7 @@
           },
           "style": "diamond",
           "template": "<parentBackground></> {{ .UpstreamIcon }}<b>{{ .HEAD }}</b>{{if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }} ",
+          "trailing_diamond": "",
           "type": "git"
         },
         {
@@ -305,6 +310,7 @@
             "{{ if .Error }}p:maroon_error{{ end }}"
           ],
           "foreground": "p:black",
+          "leading_diamond": "",
           "min_width": 80,
           "properties": {
             "always_enabled": false
@@ -314,23 +320,19 @@
           ],
           "style": "diamond",
           "template": "<parentBackground></>  ",
-          "leading_diamond": "",
           "trailing_diamond": "",
           "type": "status"
         }
       ],
-      "type": "prompt",
-      "newline": false,
-      "leading_diamond": "",
-      "trailing_diamond": ""
+      "trailing_diamond": "",
+      "type": "prompt"
     },
     {
       "alignment": "right",
       "filler": "",
-      "overflow": "hide",
-      "newline": false,
-      "trailing_diamond": "",
       "leading_diamond": "",
+      "newline": false,
+      "overflow": "hide",
       "segments": [
         {
           "background": "transparent",
@@ -383,7 +385,6 @@
           "foreground": "p:black",
           "invert_powerline": true,
           "leading_diamond": "",
-          "trailing_diamond": "",
           "min_width": 100,
           "powerline_symbol": "",
           "properties": {
@@ -391,6 +392,7 @@
           },
           "style": "diamond",
           "template": " 󰇅 {{ round .Load1 .Precision  }}%  {{ round .PhysicalPercentUsed .Precision  }}%  {{ round .Disks .Precision  }}% ",
+          "trailing_diamond": "",
           "type": "sysinfo"
         },
         {
@@ -415,7 +417,6 @@
           "foreground": "p:gray_os_fg",
           "invert_powerline": false,
           "leading_diamond": "",
-          "trailing_diamond": "",
           "min_width": 100,
           "powerline_symbol": "",
           "properties": {
@@ -425,6 +426,7 @@
           },
           "style": "diamond",
           "template": " {{ if .WSL }}WSL at {{ end }}{{ .Icon }} ",
+          "trailing_diamond": "",
           "type": "os"
         },
         {
@@ -442,21 +444,21 @@
         },
         {
           "background": "p:blue_time",
+          "cache": {
+            "duration": "15s",
+            "strategy": "session"
+          },
           "foreground": "p:black",
           "invert_powerline": false,
           "leading_diamond": "",
-          "trailing_diamond": "",
           "min_width": 100,
           "powerline_symbol": "",
           "properties": {
             "time_format": "3:04 PM"
           },
-          "cache": {
-            "duration": "15s",
-            "strategy": "session"
-          },
           "style": "diamond",
           "template": "  {{ .CurrentDate | date .Format }} ",
+          "trailing_diamond": "",
           "type": "time"
         },
         {
@@ -473,7 +475,6 @@
           "foreground": "p:black",
           "invert_powerline": false,
           "leading_diamond": "",
-          "trailing_diamond": "",
           "min_width": 100,
           "powerline_symbol": "",
           "properties": {
@@ -485,6 +486,7 @@
           },
           "style": "diamond",
           "template": " {{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }} ",
+          "trailing_diamond": "",
           "type": "battery"
         },
         {
@@ -521,27 +523,18 @@
           "type": "owm"
         }
       ],
+      "trailing_diamond": "",
       "type": "prompt"
     },
     {
       "alignment": "right",
       "segments": [
         {
-          "background": "p:gray_prompt_count_bg",
-          "foreground": "p:gray_prompt_count_fg",
-          "invert_powerline": false,
-          "leading_diamond": "",
-          "min_width": 80,
-          "properties": {
-            "always_enabled": true
-          },
-          "style": "diamond",
-          "template": " ⌁ {{ .PromptCount }} ",
-          "trailing_diamond": "",
-          "type": "text"
-        },
-        {
           "background": "p:npm_yellow",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
           "foreground": "p:npm_dark",
           "leading_diamond": "",
           "min_width": 80,
@@ -550,13 +543,9 @@
             "display_mode": "context",
             "fetch_version": true,
             "home_enabled": false,
-            "strategy": "session",
             "missing_command_text": "",
+            "strategy": "session",
             "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
-          },
-          "cache": {
-            "duration": "24h",
-            "strategy": "folder"
           },
           "style": "diamond",
           "template": " <b> {{ .Full }}</b> ",
@@ -564,25 +553,25 @@
           "type": "npm"
         },
         {
-          "background": "#6CA35E",
-          "foreground": "#ffffff",
+          "background": "p:node_green",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
           "leading_diamond": "",
           "min_width": 80,
           "properties": {
             "cache_duration": "24h",
-            "strategy": "session",
             "display_mode": "context",
-            "home_enabled": false,
-            "fetch_version": true,
             "fetch_package_manager": true,
-            "npm_icon": "",
-            "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest",
+            "fetch_version": true,
+            "home_enabled": false,
             "missing_command_text": "",
+            "npm_icon": "",
+            "strategy": "session",
+            "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest",
             "yarn_icon": ""
-          },
-          "cache": {
-            "duration": "24h",
-            "strategy": "folder"
           },
           "style": "diamond",
           "template": " <b> {{ .Full }}</b> ",
@@ -590,22 +579,22 @@
           "type": "node"
         },
         {
-          "background": "#4063D8",
-          "foreground": "#ffffff",
+          "background": "p:java_blue",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
           "leading_diamond": "",
           "min_width": 80,
           "properties": {
             "cache_duration": "24h",
-            "strategy": "folder",
             "display_mode": "context",
             "fetch_version": true,
             "home_enabled": false,
             "missing_command_text": "",
+            "strategy": "folder",
             "version_url_template": "https://api.adoptium.net/v3/info/release_names?version={{ .Major }}&os={{ .OS }}&arch={{ .Arch }}&image_type=jdk&jvm_impl=hotspot&vendor=eclipse"
-          },
-          "cache": {
-            "duration": "24h",
-            "strategy": "folder"
           },
           "style": "diamond",
           "template": "  {{ .Full }}",
@@ -627,9 +616,9 @@
             "strategy": "session"
           },
           "style": "diamond",
+          "timeout": 1000,
           "trailing_diamond": "",
-          "type": "upgrade",
-          "timeout": 1000
+          "type": "upgrade"
         },
         {
           "background": "p:yellow_root_alt",
@@ -645,6 +634,39 @@
           "template": "",
           "trailing_diamond": "",
           "type": "root"
+        },
+        {
+          "alias": "copilot",
+          "background": "p:copilot_bg",
+          "cache": {
+            "duration": "30m",
+            "strategy": "session"
+          },
+          "foreground": "p:copilot_fg",
+          "interactive": false,
+          "leading_diamond": "",
+          "min_width": 112,
+          "properties": {
+            "http_timeout": 1000
+          },
+          "style": "diamond",
+          "template": "{{ if .Segments.Git }} 󰦈 {{ .Premium.Remaining.Gauge }} 󱋊 {{ .Premium.Percent }}% {{ end }}",
+          "trailing_diamond": "",
+          "type": "copilot"
+        },
+        {
+          "background": "p:gray_prompt_count_bg",
+          "foreground": "p:gray_prompt_count_fg",
+          "invert_powerline": false,
+          "leading_diamond": "",
+          "min_width": 80,
+          "properties": {
+            "always_enabled": true
+          },
+          "style": "diamond",
+          "template": " 󰘳 {{ .PromptCount }} ",
+          "trailing_diamond": "",
+          "type": "text"
         }
       ],
       "type": "rprompt"
@@ -662,22 +684,27 @@
         },
         {
           "background": "transparent",
-          "foreground": "p:blue_primary",
-          "style": "diamond",
-          "template": "{{ if .SSHSession }} {{ end }}{{ if .Root }}<p:blue_primary>─</><p:purple_session,transparent>{{ if eq .OS \"windows\" }}</><p:blue_primary>─</>{{ else }}<p:purple_session,transparent></><p:blue_primary>─</>{{ end }}{{ .UserName }}{{ end }}</>",
-          "trailing_diamond": "<p:blue_primary></>",
-          "type": "session",
           "cache": {
             "duration": "24h",
             "strategy": "session"
           },
-          "min_width": 80
+          "foreground": "p:blue_primary",
+          "min_width": 80,
+          "style": "diamond",
+          "template": "{{ if .SSHSession }} {{ end }}{{ if .Root }}<p:blue_primary>─</><p:purple_session,transparent>{{ if eq .OS \"windows\" }}</><p:blue_primary>─</>{{ else }}<p:purple_session,transparent></><p:blue_primary>─</>{{ end }}{{ .UserName }}{{ end }}</>",
+          "trailing_diamond": "<p:blue_primary></>",
+          "type": "session"
         },
         {
+          "cache": {
+            "duration": "2s",
+            "strategy": "session"
+          },
           "foreground": "p:accent",
           "foreground_templates": [
             "{{ if gt .Code 0 }}p:red_alert{{ end }}"
           ],
+          "min_width": 80,
           "properties": {
             "always_enabled": true,
             "status_separator": "|",
@@ -685,18 +712,14 @@
           },
           "style": "plain",
           "template": "",
-          "cache": {
-            "duration": "2s",
-            "strategy": "session"
-          },
-          "type": "status",
-          "min_width": 80
+          "type": "status"
         }
       ],
       "type": "prompt"
     }
   ],
   "console_title_template": "{{.Folder}}{{if .Root}} : root{{end}} : {{.Shell}}",
+  "cycle": [],
   "debug_prompt": {
     "background": "transparent",
     "background_templates": [
@@ -714,12 +737,13 @@
     "background_templates": [
       "{{ if .Error }}p:pink_error_line{{ end }}"
     ],
+    "foreground": "p:black",
     "foreground_templates": [
       "{{ if .Error }}p:black{{ end }}"
     ],
-    "foreground": "p:black",
     "template": "<p:pink_error_line,transparent></>"
   },
+  "extends": "",
   "final_space": true,
   "iterm_features": [
     "prompt_mark",
@@ -728,23 +752,23 @@
   ],
   "maps": {
     "host_name": {
-      "Nick2bad4u2": "💻",
-      "Nick2bad4u": "💻"
-    },
-    "user_name": {
-      "Nick": "Nick",
-      "Nick2bad4u": "Nick2bad4u",
-      "Nick2": "Nick"
+      "Nick2bad4u": "💻",
+      "Nick2bad4u2": "💻"
     },
     "shell_names": {
       "bash": "BASH",
       "cmd": "CMD",
       "fish": "FISH",
+      "oh-my-posh": "OMP",
       "powershell": "PS",
       "ps": "PS",
       "pwsh": "PS",
-      "zsh": "ZSH",
-      "oh-my-posh": "OMP"
+      "zsh": "ZSH"
+    },
+    "user_name": {
+      "Nick": "Nick",
+      "Nick2": "Nick",
+      "Nick2bad4u": "Nick2bad4u"
     }
   },
   "palette": {
@@ -755,7 +779,26 @@
     "blue_time": "#40c4ff",
     "blue_tooltip": "#81a1c1",
     "chart_teal": "#47a1ad",
+    "copilot_bg": "#501DAF",
+    "copilot_fg": "#ffffff",
     "cyan_renamed": "#00ffff",
+    "divider_blue_primary_to_ipify_purple": "#617ed9",
+    "divider_blue_primary_to_red_alert": "#786589",
+    "divider_blue_time_to_electron_red": "#9a929f",
+    "divider_blue_time_to_violet_project": "#6577f0",
+    "divider_electron_red_to_maroon_error": "#bf3020",
+    "divider_gray_os_to_electron_red": "#d38f81",
+    "divider_gray_os_to_gray_prompt_count_bg": "#707c84",
+    "divider_green_added_to_yellow_bright": "#7ffd1c",
+    "divider_ipify_purple_to_typescript_eslint_pink": "#d45dce",
+    "divider_maroon_error_to_pink_weather": "#b84b73",
+    "divider_navy_text_to_purple_exec": "#424661",
+    "divider_orange_to_green_added": "#7fc824",
+    "divider_purple_exec_to_electron_red": "#bc6b6e",
+    "divider_red_alert_to_orange": "#f7724c",
+    "divider_teal_sysinfo_to_electron_red": "#9c6b61",
+    "divider_typescript_eslint_pink_to_orange": "#f26379",
+    "divider_yellow_bright_to_navy_text": "#808830",
     "electron_red": "#f56040",
     "eslint_purple": "#c386f1",
     "gray_os": "#b2bec3",
@@ -779,8 +822,8 @@
     "maroon_error": "#890000",
     "navy_text": "#011627",
     "node_green": "#6CA35E",
-    "npm_yellow": "#ffeb3b",
     "npm_dark": "#193549",
+    "npm_yellow": "#ffeb3b",
     "orange": "#FF9248",
     "orange_battery": "#f36943",
     "orange_unmerged": "#ff8000",
@@ -789,8 +832,8 @@
     "pink_storybook": "#ff4785",
     "pink_weather": "#e797e7",
     "playwright_teal": "#47848f",
-    "prettier_yellow": "#f3df49",
     "prettier_black": "#000000",
+    "prettier_yellow": "#f3df49",
     "purple_ahead": "#C792EA",
     "purple_exec": "#83769c",
     "purple_session": "#7C4DFF",
@@ -803,9 +846,9 @@
     "teal_sysinfo": "#437683",
     "typescript_blue": "#3178c6",
     "typescript_eslint_pink": "#e535ab",
+    "violet_project": "#8A2BE2",
     "vite_yellow": "#f7b93e",
     "vitest_green": "#729b1b",
-    "violet_project": "#8A2BE2",
     "white": "#ffffff",
     "windows_blue": "#0078D4",
     "yellow_bright": "#FFFB38",
@@ -814,25 +857,10 @@
     "yellow_modified": "#ffff00",
     "yellow_root_alt": "#ffff66",
     "yellow_update": "#FFD664",
-    "zustand_purple": "#9b59d0",
-    "divider_blue_primary_to_red_alert": "#786589",
-    "divider_red_alert_to_orange": "#f7724c",
-    "divider_orange_to_green_added": "#7fc824",
-    "divider_green_added_to_yellow_bright": "#7ffd1c",
-    "divider_yellow_bright_to_navy_text": "#808830",
-    "divider_navy_text_to_purple_exec": "#424661",
-    "divider_purple_exec_to_electron_red": "#bc6b6e",
-    "divider_electron_red_to_maroon_error": "#bf3020",
-    "divider_teal_sysinfo_to_electron_red": "#9c6b61",
-    "divider_gray_os_to_electron_red": "#d38f81",
-    "divider_blue_time_to_electron_red": "#9a929f",
-    "divider_maroon_error_to_pink_weather": "#b84b73",
-    "divider_blue_primary_to_ipify_purple": "#617ed9",
-    "divider_ipify_purple_to_typescript_eslint_pink": "#d45dce",
-    "divider_typescript_eslint_pink_to_orange": "#f26379",
-    "divider_gray_os_to_gray_prompt_count_bg": "#707c84",
-    "divider_blue_time_to_violet_project": "#6577f0"
+    "zod_blue": "#3068b7",
+    "zustand_purple": "#9b59d0"
   },
+  "palettes": {},
   "patch_pwsh_bleed": true,
   "pwd": "osc7",
   "secondary_prompt": {
@@ -842,34 +870,40 @@
     "template": "╰─ "
   },
   "shell_integration": true,
+  "terminal_background": "p:black",
   "tooltips": [
     {
-      "background": "#61dafb",
-      "foreground": "#ffffff",
+      "background": "p:react_cyan",
+      "cache": {
+        "duration": "24h",
+        "strategy": "session"
+      },
+      "foreground": "p:white",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://registry.npmjs.org/react/latest"
       },
       "style": "diamond",
       "template": " <b> React: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
       "tips": [
         "react",
         "npm run dev"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "timeout": 1000,
-      "min_width": 80,
+      "type": "http"
+    },
+    {
+      "background": "p:typescript_blue",
       "cache": {
         "duration": "24h",
         "strategy": "session"
-      }
-    },
-    {
-      "background": "#3178c6",
-      "foreground": "#ffffff",
+      },
+      "foreground": "p:white",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://registry.npmjs.org/typescript/latest"
@@ -881,17 +915,17 @@
         "npm run type-check"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "min_width": 80,
+      "type": "http"
+    },
+    {
+      "background": "p:axios_yellow",
       "cache": {
         "duration": "24h",
         "strategy": "session"
-      }
-    },
-    {
-      "background": "#f7b93e",
-      "foreground": "#000000",
+      },
+      "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://registry.npmjs.org/vite/latest"
@@ -903,17 +937,17 @@
         "npm run build"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "min_width": 80,
+      "type": "http"
+    },
+    {
+      "background": "p:vitest_green",
       "cache": {
         "duration": "24h",
         "strategy": "session"
-      }
-    },
-    {
-      "background": "#729b1b",
-      "foreground": "#ffffff",
+      },
+      "foreground": "p:white",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://registry.npmjs.org/vitest/latest"
@@ -925,17 +959,17 @@
         "npm run test"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "min_width": 80,
+      "type": "http"
+    },
+    {
+      "background": "p:playwright_teal",
       "cache": {
         "duration": "24h",
         "strategy": "session"
-      }
-    },
-    {
-      "background": "#47848f",
-      "foreground": "#ffffff",
+      },
+      "foreground": "p:white",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://registry.npmjs.org/playwright/latest"
@@ -947,17 +981,17 @@
         "npm run test:e2e"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "min_width": 80,
+      "type": "http"
+    },
+    {
+      "background": "p:tailwind_cyan",
       "cache": {
         "duration": "24h",
         "strategy": "session"
-      }
-    },
-    {
-      "background": "#06b6d4",
-      "foreground": "#ffffff",
+      },
+      "foreground": "p:white",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://registry.npmjs.org/tailwindcss/latest"
@@ -969,17 +1003,17 @@
         "npm run lint:css"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "min_width": 80,
+      "type": "http"
+    },
+    {
+      "background": "p:zustand_purple",
       "cache": {
         "duration": "24h",
         "strategy": "session"
-      }
-    },
-    {
-      "background": "#9b59d0",
-      "foreground": "#000000",
+      },
+      "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://registry.npmjs.org/zustand/latest"
@@ -991,17 +1025,17 @@
         "state management"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "min_width": 80,
+      "type": "http"
+    },
+    {
+      "background": "p:chart_teal",
       "cache": {
         "duration": "24h",
         "strategy": "session"
-      }
-    },
-    {
-      "background": "#47a1ad",
-      "foreground": "#ffffff",
+      },
+      "foreground": "p:white",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://registry.npmjs.org/chart.js/latest"
@@ -1013,17 +1047,17 @@
         "data visualization"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "min_width": 80,
+      "type": "http"
+    },
+    {
+      "background": "p:electron_red",
       "cache": {
         "duration": "24h",
         "strategy": "session"
-      }
-    },
-    {
-      "background": "#f56040",
-      "foreground": "#000000",
+      },
+      "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://registry.npmjs.org/electron/latest"
@@ -1035,17 +1069,17 @@
         "npm run start:electron"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "min_width": 80,
+      "type": "http"
+    },
+    {
+      "background": "p:pink_storybook",
       "cache": {
         "duration": "24h",
         "strategy": "session"
-      }
-    },
-    {
-      "background": "#ff4785",
-      "foreground": "#ffffff",
+      },
+      "foreground": "p:white",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://registry.npmjs.org/storybook/latest"
@@ -1057,17 +1091,17 @@
         "npm run storybook"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "min_width": 80,
+      "type": "http"
+    },
+    {
+      "background": "p:vite_yellow",
       "cache": {
         "duration": "24h",
         "strategy": "session"
-      }
-    },
-    {
-      "background": "#f7b93e",
-      "foreground": "#000000",
+      },
+      "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://registry.npmjs.org/axios/latest"
@@ -1079,17 +1113,17 @@
         "http client"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "min_width": 80,
+      "type": "http"
+    },
+    {
+      "background": "p:zod_blue",
       "cache": {
         "duration": "24h",
         "strategy": "session"
-      }
-    },
-    {
-      "background": "#3068b7",
-      "foreground": "#ffffff",
+      },
+      "foreground": "p:white",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://registry.npmjs.org/zod/latest"
@@ -1101,17 +1135,17 @@
         "schema validation"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "min_width": 80,
+      "type": "http"
+    },
+    {
+      "background": "p:prettier_yellow",
       "cache": {
         "duration": "24h",
         "strategy": "session"
-      }
-    },
-    {
-      "background": "#f3df49",
-      "foreground": "#000000",
+      },
+      "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://registry.npmjs.org/prettier/latest"
@@ -1123,17 +1157,17 @@
         "npm run lint:prettier-fix"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "min_width": 80,
+      "type": "http"
+    },
+    {
+      "background": "p:typescript_eslint_pink",
       "cache": {
         "duration": "24h",
         "strategy": "session"
-      }
-    },
-    {
-      "background": "#e535ab",
-      "foreground": "#ffffff",
+      },
+      "foreground": "p:white",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://registry.npmjs.org/typescript-eslint/latest"
@@ -1145,17 +1179,17 @@
         "npm run lint:ts"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "min_width": 80,
+      "type": "http"
+    },
+    {
+      "background": "p:eslint_purple",
       "cache": {
         "duration": "24h",
         "strategy": "session"
-      }
-    },
-    {
-      "background": "#c386f1",
-      "foreground": "#ffffff",
+      },
+      "foreground": "p:white",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://registry.npmjs.org/eslint/latest"
@@ -1167,17 +1201,13 @@
         "npm run lint"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "min_width": 80,
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      }
+      "type": "http"
     },
     {
-      "background": "#c386f1",
-      "foreground": "#ffffff",
+      "background": "p:ipify_purple",
+      "foreground": "p:white",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "cache_duration": "24h",
         "http_timeout": 5000,
@@ -1211,13 +1241,17 @@
         "check ip"
       ],
       "trailing_diamond": "",
-      "type": "ipify",
-      "min_width": 80
+      "type": "ipify"
     },
     {
-      "background": "#e486f1",
-      "foreground": "#ffffff",
+      "background": "p:ipify_purple_v6",
+      "cache": {
+        "duration": "24h",
+        "strategy": "session"
+      },
+      "foreground": "p:white",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "method": "GET",
         "url": "https://api64.ipify.org?format=json"
@@ -1250,16 +1284,12 @@
         "check ip"
       ],
       "trailing_diamond": "",
-      "type": "http",
-      "min_width": 80,
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      }
+      "type": "http"
     },
     {
       "foreground": "p:blue_tooltip",
       "leading_diamond": "",
+      "min_width": 80,
       "powerline_symbol": "",
       "properties": {
         "cache": {
@@ -1274,12 +1304,12 @@
         "react",
         "tsx"
       ],
-      "type": "react",
-      "min_width": 80
+      "type": "react"
     },
     {
       "foreground": "p:blue_tooltip",
       "leading_diamond": "",
+      "min_width": 80,
       "powerline_symbol": "",
       "properties": {
         "cache": {
@@ -1296,14 +1326,14 @@
         "git version",
         "git --version"
       ],
-      "type": "gitversion",
-      "min_width": 80,
-      "trailing_diamond": ""
+      "trailing_diamond": "",
+      "type": "gitversion"
     },
     {
       "background": "p:yellow_bright",
       "foreground": "p:navy_text",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "fetch_status": true,
         "fetch_upstream_icon": true
@@ -1315,8 +1345,7 @@
         "g"
       ],
       "trailing_diamond": "",
-      "type": "git",
-      "min_width": 80
+      "type": "git"
     },
     {
       "background": "p:python_blue",
@@ -1326,6 +1355,7 @@
       },
       "foreground": "p:python_yellow",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "display_mode": "files",
         "fetch_version": true
@@ -1342,13 +1372,13 @@
         "pipenv"
       ],
       "trailing_diamond": "",
-      "type": "python",
-      "min_width": 80
+      "type": "python"
     },
     {
       "background": "p:node_green",
-      "foreground": "p:black",
+      "foreground": "p:white",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "cache": {
           "duration": "60m",
@@ -1369,13 +1399,13 @@
         "npx"
       ],
       "trailing_diamond": "",
-      "type": "node",
-      "min_width": 80
+      "type": "node"
     },
     {
       "background": "p:java_orange",
       "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "cache": {
           "duration": "24h",
@@ -1393,13 +1423,13 @@
         "ant"
       ],
       "trailing_diamond": "",
-      "type": "java",
-      "min_width": 80
+      "type": "java"
     },
     {
       "background": "p:orange",
       "foreground": "p:gray_path_fg",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "cycle": [
           "#2d3436,#FF9248",
@@ -1430,7 +1460,7 @@
         "folder_format": "%s",
         "hide_root_location": true,
         "left_format": "%s",
-        "max_depth": 3,
+        "max_depth": 5,
         "right_format": "%s",
         "style": "agnoster_short"
       },
@@ -1445,13 +1475,13 @@
         "locate"
       ],
       "trailing_diamond": "",
-      "type": "path",
-      "min_width": 80
+      "type": "path"
     },
     {
       "background": "p:teal_sysinfo",
       "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "precision": 2
       },
@@ -1470,13 +1500,13 @@
         "vmstat"
       ],
       "trailing_diamond": "",
-      "type": "sysinfo",
-      "min_width": 80
+      "type": "sysinfo"
     },
     {
       "background": "p:gray_os",
       "foreground": "p:gray_os_fg",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "display_version": true,
         "windows": "<b> Win 11</b>"
@@ -1490,13 +1520,13 @@
         "lsb_release"
       ],
       "trailing_diamond": "",
-      "type": "os",
-      "min_width": 80
+      "type": "os"
     },
     {
       "background": "p:blue_time",
       "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "time_format": "Monday, January 2, 2006 3:04:05 PM"
       },
@@ -1509,16 +1539,16 @@
         "timedatectl"
       ],
       "trailing_diamond": "",
-      "type": "time",
-      "min_width": 80
+      "type": "time"
     },
     {
       "background": "p:orange_battery",
       "foreground": "p:gray_path_fg",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
-        "display_error": true,
         "cache_duration": "1h",
+        "display_error": true,
         "strategy": "session"
       },
       "style": "diamond",
@@ -1530,13 +1560,13 @@
         "upower"
       ],
       "trailing_diamond": "",
-      "type": "battery",
-      "min_width": 80
+      "type": "battery"
     },
     {
       "background": "p:blue_primary",
       "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "mapped_shell_names": {
           "bash": "BASH",
@@ -1559,13 +1589,13 @@
         "fish"
       ],
       "trailing_diamond": "",
-      "type": "shell",
-      "min_width": 80
+      "type": "shell"
     },
     {
       "background": "p:purple_exec",
       "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "style": "roundrock",
         "threshold": 0
@@ -1579,8 +1609,7 @@
         "benchmark"
       ],
       "trailing_diamond": "",
-      "type": "executiontime",
-      "min_width": 80
+      "type": "executiontime"
     },
     {
       "background": "p:maroon_error",
@@ -1589,6 +1618,7 @@
       ],
       "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "always_enabled": true
       },
@@ -1600,13 +1630,13 @@
         "echo %ERRORLEVEL%"
       ],
       "trailing_diamond": "",
-      "type": "status",
-      "min_width": 80
+      "type": "status"
     },
     {
       "background": "p:black",
       "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "display_host": true
       },
@@ -1620,13 +1650,13 @@
         "sudo"
       ],
       "trailing_diamond": "",
-      "type": "session",
-      "min_width": 80
+      "type": "session"
     },
     {
       "background": "p:red_alert",
       "foreground": "p:yellow_bright",
       "leading_diamond": "",
+      "min_width": 80,
       "style": "diamond",
       "template": "  Administrator/Root ",
       "tips": [
@@ -1635,13 +1665,13 @@
         "admin"
       ],
       "trailing_diamond": "",
-      "type": "root",
-      "min_width": 80
+      "type": "root"
     },
     {
       "background": "p:blue_time",
       "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "style": "diamond",
       "template": "  {{ .Name }} ",
       "tips": [
@@ -1652,13 +1682,13 @@
         "ssh"
       ],
       "trailing_diamond": "",
-      "type": "connection",
-      "min_width": 80
+      "type": "connection"
     },
     {
       "background": "p:violet_project",
       "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "style": "diamond",
       "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }} {{.Version}}{{ end }} {{ if .Name }}{{ .Name }}{{ end }}{{ end }}</b> ",
       "tips": [
@@ -1670,13 +1700,13 @@
         "package"
       ],
       "trailing_diamond": "",
-      "type": "project",
-      "min_width": 80
+      "type": "project"
     },
     {
       "background": "p:windows_blue",
       "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "properties": {
         "fallback": "unknown",
         "path": "HKLM\\software\\microsoft\\windows nt\\currentversion\\buildlab"
@@ -1688,13 +1718,13 @@
         "regedit"
       ],
       "trailing_diamond": "",
-      "type": "winreg",
-      "min_width": 80
+      "type": "winreg"
     },
     {
       "background": "transparent",
       "foreground": "p:accent",
       "leading_diamond": "",
+      "min_width": 80,
       "style": "diamond",
       "template": "  {{ .Shell }} ",
       "tips": [
@@ -1702,13 +1732,13 @@
         "printf"
       ],
       "trailing_diamond": "",
-      "type": "text",
-      "min_width": 80
+      "type": "text"
     },
     {
       "background": "p:green_help",
       "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "style": "diamond",
       "template": "  {{ .Shell }} ",
       "tips": [
@@ -1717,8 +1747,7 @@
         "info"
       ],
       "trailing_diamond": "",
-      "type": "text",
-      "min_width": 80
+      "type": "text"
     }
   ],
   "tooltips_action": "prepend",
@@ -1739,9 +1768,9 @@
     "template": "<p:accent>╰─<p:purple_session,transparent>{{ .Shell }}<p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
   },
   "upgrade": {
-    "auto": true,
+    "auto": false,
     "interval": "24h",
-    "notice": true,
+    "notice": false,
     "source": "github"
   },
   "valid_line": {
@@ -1753,8 +1782,5 @@
   "version": 3,
   "yaml-language-server": {
     "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"
-  },
-  "cycle": [],
-  "extends": "",
-  "palettes": {}
+  }
 }
