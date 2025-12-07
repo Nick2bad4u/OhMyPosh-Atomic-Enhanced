@@ -9,7 +9,7 @@
       "newline": false,
       "segments": [
         {
-          "alias": "shell",
+          "alias": "shell-lprompt",
           "background": "p:blue_primary",
           "cache": {
             "duration": "24h",
@@ -21,16 +21,17 @@
           "min_width": 80,
           "properties": {
             "mapped_shell_names": {
-              "bash": "Bash",
+              "bash": "BASH",
               "cmd": "CMD",
-              "elvish": "Elvish",
+              "elvish": "ELV",
               "fish": "FISH",
               "nu": "NU",
               "nushell": "NU",
+              "oh-my-posh": "OMP",
               "powershell": "PS",
               "ps": "PS",
               "pwsh": "PS",
-              "xonsh": "Xonsh",
+              "xonsh": "XSH",
               "zsh": "ZSH"
             }
           },
@@ -213,6 +214,7 @@
             "fetch_status": false,
             "fetch_upstream_icon": true,
             "fetch_user": true,
+            "native_fallback": false,
             "status_formats": {
               "Added": "<p:green_added>+%d</>",
               "Copied": "<p:magenta_copied>c%d</>",
@@ -227,6 +229,7 @@
             }
           },
           "style": "diamond",
+          "alias": "git-lprompt",
           "template": "<parentBackground></> {{ .UpstreamIcon }}<b>{{ .HEAD }}</b>{{if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }} ",
           "trailing_diamond": "",
           "type": "git"
@@ -538,6 +541,7 @@
           "foreground": "p:npm_dark",
           "leading_diamond": "",
           "min_width": 80,
+          "alias": "npm-rprompt",
           "properties": {
             "cache_duration": "24h",
             "display_mode": "context",
@@ -758,11 +762,15 @@
     "shell_names": {
       "bash": "BASH",
       "cmd": "CMD",
+      "elvish": "ELV",
       "fish": "FISH",
+      "nu": "NU",
+      "nushell": "NU",
       "oh-my-posh": "OMP",
       "powershell": "PS",
       "ps": "PS",
       "pwsh": "PS",
+      "xonsh": "XSH",
       "zsh": "ZSH"
     },
     "user_name": {
@@ -1388,7 +1396,7 @@
         "fetch_version": true
       },
       "style": "diamond",
-      "template": " <b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}</b> ",
+      "template": " {{ if .Segments.npm-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}</b>{{ end }} ",
       "tips": [
         "node",
         "npm",
@@ -1458,14 +1466,76 @@
         "dir_length": 8,
         "edge_format": "%s",
         "folder_format": "%s",
-        "hide_root_location": true,
+        "hide_root_location": false,
         "left_format": "%s",
-        "max_depth": 5,
-        "right_format": "%s",
-        "style": "agnoster_short"
+        "max_depth": 10,
+        "right_format": "%s ",
+        "style": "agnoster_short",
+        "display_cygpath": false,
+        "mapped_locations": {
+          "C:\\": "C:",
+          "re:.*(BH-Scripts).*": "🎬 BH",
+          "re:.*(Code).*": "Code",
+          "re:.*(DemoMan-Fork|DemoMan).*": "🎥 DemoMan",
+          "re:.*(Desktop).*": "DT",
+          "re:.*(Documents).*": "Docs",
+          "re:.*(Downloads).*": "DLs",
+          "re:.*(Dropbox).*": "DB",
+          "re:.*(FitFileViewer).*": "🗂️ FitView",
+          "re:.*(GE-Filters).*": "💰 GE-Flt",
+          "re:.*(GitHub).*": "GH",
+          "re:.*(Google Drive).*": "GD",
+          "re:.*(Library).*": "Lib",
+          "re:.*(LocalHistory).*": "⏰ LocHist",
+          "re:.*(MarkOfDarknessHelper).*": "🌑 MOD-Help",
+          "re:.*(Music).*": "Music",
+          "re:.*(Nick2bad4u).*": "👤 Profile",
+          "re:.*(OhMyPosh-Atomic-Enhanced).*": "✨ OhMyPosh",
+          "re:.*(OneDrive).*": "OD",
+          "re:.*(Pictures).*": "Pics",
+          "re:.*(Projects).*": "Proj",
+          "re:.*(Sauce4ZwiftModsRepo).*": "🚴 Zwift",
+          "re:.*(Typpis-ESLint).*": "🔍 Typpis",
+          "re:.*(Uptime-Watcher).*": "UW",
+          "re:.*(UserStyles).*": "🖼️ Styles",
+          "re:.*(Videos).*": "Videos",
+          "re:.*(Workspace).*": "WS",
+          "re:.*(ZwiftScripts).*": "📜 ZScript",
+          "re:.*(\\.git).*": "🌳 ",
+          "re:.*(\\.github).*": "🐙 ",
+          "re:.*(auth|security).*": "🔐 ",
+          "re:.*(ci|cd|pipeline).*": "🔄 ",
+          "re:.*(dnsValidator).*": "🌐 DNS",
+          "re:.*(eslint-config-Typescript-Extreme).*": "⚡ TSExtm",
+          "re:.*(eslint-plugin-chunkyLint).*": "📏 ChunkyL",
+          "re:.*(generate-repo-file-list).*": "🗂️ GenList",
+          "re:.*(git-backup).*": "💾 GitBkup",
+          "re:.*(github-drama).*": "🎭 Drama",
+          "re:.*(gitlab|bitbucket).*": "🐙 ",
+          "re:.*(iCloud).*": "IC",
+          "re:.*(internet-archive-upload).*": "🗄️ Archive",
+          "re:.*(node_modules).*": "📚 ",
+          "re:.*(nodejs).*": "Node",
+          "re:.*(npm).*": "NPM",
+          "re:.*(plugin-hub).*": "🪝 PlugHub",
+          "re:.*(pnpm).*": "PNPM",
+          "re:.*(ps-color-scripts-enhanced|ps-color-scripts).*": "🎨 PSColor",
+          "re:.*(runelite.phyce.dev).*": "🔮 Runite",
+          "re:.*(tf2).*": "🎮 TF2",
+          "re:.*(thrall-helper).*": "👹 Thrall",
+          "re:.*(wiki-bank-tag-integration).*": "🏦 BankTag",
+          "re:.*(wintertodt-scouter).*": "❄️ WintTodt",
+          "re:.*(worktree-backup).*": "🌳 WTBackup",
+          "re:.*(yarn).*": "Yarn",
+          "~/": "~",
+          "~\\\\Desktop": "🖥️ ",
+          "~\\\\Documents": "📄 ",
+          "~\\\\Downloads": "📥 "
+        },
+        "mapped_locations_enabled": true
       },
       "style": "diamond",
-      "template": "  {{ .Path }} ",
+      "template": "  {{ path .Path .AbsolutePWD }} ",
       "tips": [
         "cd",
         "ls",
@@ -1571,10 +1641,15 @@
         "mapped_shell_names": {
           "bash": "BASH",
           "cmd": "CMD",
+          "elvish": "ELV",
           "fish": "FISH",
+          "nu": "NU",
+          "nushell": "NU",
+          "oh-my-posh": "OMP",
           "powershell": "PS",
           "ps": "PS",
           "pwsh": "PS",
+          "xonsh": "XSH",
           "zsh": "ZSH"
         }
       },
@@ -1754,18 +1829,25 @@
   "transient_prompt": {
     "background": "transparent",
     "foreground": "p:blue_primary",
+    "newline": false,
+    "filler": "<p:purple_session></>",
     "properties": {
       "mapped_shell_names": {
         "bash": "BASH",
         "cmd": "CMD",
+        "elvish": "ELV",
         "fish": "FISH",
+        "nu": "NU",
+        "nushell": "NU",
+        "oh-my-posh": "OMP",
         "powershell": "PS",
         "ps": "PS",
         "pwsh": "PS",
+        "xonsh": "XSH",
         "zsh": "ZSH"
       }
     },
-    "template": "<p:accent>╰─<p:purple_session,transparent>{{ .Shell }}<p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
+    "template": "<p:accent>╰─<p:purple_session,transparent>{{ .Segments.shell-lprompt.Name }}<p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
   },
   "upgrade": {
     "auto": false,

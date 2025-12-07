@@ -84,17 +84,17 @@
       "description": "Verify path segment has correct properties",
       "assertions": [
         {
-          "property": "blocks[0].segments[2].type",
+          "property": "blocks[0].segments[6].type",
           "expectedValue": "path",
           "assertionType": "equals"
         },
         {
-          "property": "blocks[0].segments[2].properties.max_width",
+          "property": "blocks[0].segments[6].properties.max_width",
           "expectedValue": 40,
           "assertionType": "equals"
         },
         {
-          "property": "blocks[0].segments[2].properties.mapped_locations_enabled",
+          "property": "blocks[0].segments[6].properties.mapped_locations_enabled",
           "expectedValue": true,
           "assertionType": "equals"
         }
@@ -105,17 +105,17 @@
       "description": "Verify git segment has correct caching and properties",
       "assertions": [
         {
-          "property": "blocks[0].segments[3].type",
+          "property": "blocks[0].segments[10].type",
           "expectedValue": "git",
           "assertionType": "equals"
         },
         {
-          "property": "blocks[0].segments[3].cache.duration",
-          "expectedValue": "5m",
+          "property": "blocks[0].segments[10].cache.duration",
+          "expectedValue": "15m",
           "assertionType": "equals"
         },
         {
-          "property": "blocks[0].segments[3].cache.strategy",
+          "property": "blocks[0].segments[10].cache.strategy",
           "expectedValue": "folder",
           "assertionType": "equals"
         }
@@ -197,7 +197,7 @@
         },
         {
           "property": "blocks[0].segments[0].cache.duration",
-          "expectedValue": "1h",
+          "expectedValue": "24h",
           "assertionType": "equals"
         }
       ]
@@ -258,7 +258,7 @@
       "assertions": [
         {
           "property": "upgrade.auto",
-          "expectedValue": true,
+          "expectedValue": false,
           "assertionType": "equals"
         },
         {
@@ -361,8 +361,17 @@
       "invalidColor": "blue"
     },
     "testDurations": {
-      "valid": ["1h", "5m", "30s", "24h"],
-      "invalid": ["1hour", "5mins", "forever"]
+      "valid": [
+        "1h",
+        "5m",
+        "30s",
+        "24h"
+      ],
+      "invalid": [
+        "1hour",
+        "5mins",
+        "forever"
+      ]
     }
   }
 }
