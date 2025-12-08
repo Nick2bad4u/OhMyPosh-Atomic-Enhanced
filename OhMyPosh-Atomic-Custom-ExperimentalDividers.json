@@ -649,12 +649,12 @@
           "foreground": "p:copilot_fg",
           "interactive": false,
           "leading_diamond": "",
-          "min_width": 112,
+          "min_width": 104,
           "properties": {
             "http_timeout": 1000
           },
           "style": "diamond",
-          "template": "{{ if .Segments.Git }} 󰦈 {{ .Premium.Remaining.Gauge }} 󱋊 {{ .Premium.Percent }}% {{ end }}",
+          "template": "{{ if .Segments.git-lprompt }} 󰦈 {{ .Premium.Remaining.Gauge }} 󱋊 {{ .Premium.Percent }}% {{ end }}",
           "trailing_diamond": "",
           "type": "copilot"
         },
@@ -1580,6 +1580,9 @@
       "template": "  {{ path .Path .AbsolutePWD }} ",
       "tips": [
         "cd",
+        "z",
+        "zo",
+        "zoxide",
         "ls",
         "dir",
         "pwd",
