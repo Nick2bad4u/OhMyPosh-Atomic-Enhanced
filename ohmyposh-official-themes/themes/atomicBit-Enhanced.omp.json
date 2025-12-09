@@ -303,10 +303,7 @@
       },
       "style": "plain",
       "template": "<b> React: v{{ .Body.version }}</b>",
-      "tips": [
-        "react",
-        "npm run dev"
-      ],
+      "tips": ["react", "npm run dev"],
       "trailing_diamond": "\u2500\u256e ",
       "type": "http"
     },
@@ -320,10 +317,7 @@
       },
       "style": "plain",
       "template": "<b>TS: v{{ .Body.version }}</b>",
-      "tips": [
-        "typescript",
-        "npm run type-check"
-      ],
+      "tips": ["typescript", "npm run type-check"],
       "trailing_diamond": "\u2500\u256e ",
       "type": "http"
     },
@@ -337,10 +331,7 @@
       },
       "style": "plain",
       "template": "\ue725 {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf04a {{ .Staging.String }}{{ end }}",
-      "tips": [
-        "git",
-        "g"
-      ],
+      "tips": ["git", "g"],
       "trailing_diamond": "\u2500\u256e ",
       "type": "git"
     },
@@ -358,15 +349,7 @@
       },
       "style": "plain",
       "template": "\ue73c {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}\uf111 {{ .Venv }} {{ end }}{{ .Full }}{{ end }}",
-      "tips": [
-        "python",
-        "python3",
-        "py",
-        "pip",
-        "conda",
-        "poetry",
-        "pipenv"
-      ],
+      "tips": ["python", "python3", "py", "pip", "conda", "poetry", "pipenv"],
       "trailing_diamond": "\u2500\u256e ",
       "type": "python"
     },
@@ -384,15 +367,7 @@
       },
       "style": "plain",
       "template": "<b>\ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}</b>",
-      "tips": [
-        "node",
-        "npm",
-        "yarn",
-        "pnpm",
-        "nx",
-        "bun",
-        "npx"
-      ],
+      "tips": ["node", "npm", "yarn", "pnpm", "nx", "bun", "npx"],
       "trailing_diamond": "\u2500\u256e ",
       "type": "node"
     },
@@ -409,13 +384,7 @@
       },
       "style": "plain",
       "template": "\ue738 {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}",
-      "tips": [
-        "java",
-        "javac",
-        "mvn",
-        "gradle",
-        "ant"
-      ],
+      "tips": ["java", "javac", "mvn", "gradle", "ant"],
       "trailing_diamond": "\u2500\u256e ",
       "type": "java"
     },
@@ -428,14 +397,7 @@
       },
       "style": "plain",
       "template": "\uf115 {{ .Path }}",
-      "tips": [
-        "cd",
-        "ls",
-        "dir",
-        "pwd",
-        "find",
-        "locate"
-      ],
+      "tips": ["cd", "ls", "dir", "pwd", "find", "locate"],
       "trailing_diamond": "\u2500\u256e ",
       "type": "path"
     },
@@ -473,12 +435,7 @@
       },
       "style": "plain",
       "template": "{{ if .WSL }}WSL at {{ end }}{{.Icon}}",
-      "tips": [
-        "uname",
-        "ver",
-        "systeminfo",
-        "lsb_release"
-      ],
+      "tips": ["uname", "ver", "systeminfo", "lsb_release"],
       "trailing_diamond": "\u2500\u256e ",
       "type": "os"
     },
@@ -491,12 +448,7 @@
       },
       "style": "plain",
       "template": "\uf073 {{ .CurrentDate | date \"Monday, January 2, 2006 3:04:05 PM\" }}",
-      "tips": [
-        "date",
-        "time",
-        "cal",
-        "timedatectl"
-      ],
+      "tips": ["date", "time", "cal", "timedatectl"],
       "trailing_diamond": "\u2500\u256e ",
       "type": "time"
     },
@@ -512,11 +464,7 @@
       },
       "style": "plain",
       "template": "{{ if eq .Code 0 }}\uf00c Success{{ else }}\uf071 Error: {{ .Code }}{{ end }}",
-      "tips": [
-        "$LASTEXITCODE",
-        "echo $?",
-        "echo %ERRORLEVEL%"
-      ],
+      "tips": ["$LASTEXITCODE", "echo $?", "echo %ERRORLEVEL%"],
       "trailing_diamond": "\u2500\u256e ",
       "type": "status"
     }

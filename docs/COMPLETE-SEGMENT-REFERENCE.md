@@ -64,6 +64,7 @@ Segments are individual components that make up your prompt. Each segment displa
 ### System Information Segments
 
 #### `shell`
+
 Displays the current shell name and version.
 
 ```json
@@ -83,16 +84,19 @@ Displays the current shell name and version.
 ```
 
 **Variables:**
+
 - `{{ .Shell }}` - Shell name (pwsh, bash, zsh, etc.)
 - `{{ .Version }}` - Shell version
 
 **Common Uses:**
+
 - Identify which shell you're using
 - Visual indicator in multi-shell environments
 
 ---
 
 #### `path`
+
 Displays the current working directory.
 
 ```json
@@ -119,17 +123,20 @@ Displays the current working directory.
 ```
 
 **Variables:**
+
 - `{{ .Path }}` - Current path (formatted per properties)
 - `{{ .FullPath }}` - Absolute path
 - `{{ .ReadOnly }}` - 0 or 1 if directory is read-only
 
 **Properties:**
+
 - `style`: `folder|letter|mixed` - How to display path
 - `max_depth`: Number - Maximum directory depth to show
 - `truncation_mode`: `start|end|middle` - Where to truncate
 - `mapped_locations`: Object - Custom names for paths
 
 **Common Uses:**
+
 - Show where you are in file system
 - Highlight important directories with icons
 - Reduce visual clutter with truncation
@@ -137,6 +144,7 @@ Displays the current working directory.
 ---
 
 #### `git`
+
 Displays git repository information and status.
 
 ```json
@@ -157,6 +165,7 @@ Displays git repository information and status.
 ```
 
 **Variables:**
+
 - `{{ .Branch }}` - Current branch name
 - `{{ .UpstreamIcon }}` - Upstream status (↑↓)
 - `{{ .BranchStatus }}` - Local changes (+~-?/)
@@ -165,11 +174,13 @@ Displays git repository information and status.
 - `{{ .Error }}` - Error message if any
 
 **Properties:**
+
 - `fetch_status`: Boolean - Check local changes (slow in large repos)
 - `fetch_upstream_icon`: Boolean - Show upstream indicators
 - `branch_max_length`: Number - Truncate long branch names
 
 **Common Uses:**
+
 - Show git branch you're on
 - Indicate uncommitted changes
 - Display upstream status (+/- commits)
@@ -177,6 +188,7 @@ Displays git repository information and status.
 ---
 
 #### `status`
+
 Displays the exit status of the previous command.
 
 ```json
@@ -195,21 +207,25 @@ Displays the exit status of the previous command.
 ```
 
 **Variables:**
+
 - `{{ .Code }}` - Exit code number
 - `{{ .Error }}` - Error message/code (if error)
 - `{{ .Success }}` - Boolean, true if successful
 
 **Properties:**
+
 - `always_show`: Boolean - Show even on success
 - `ignore_error`: Boolean - Hide on specific errors
 
 **Common Uses:**
+
 - Immediate visual feedback on command success/failure
 - Shows exit codes for debugging
 
 ---
 
 #### `time`
+
 Displays current date and time.
 
 ```json
@@ -226,9 +242,11 @@ Displays current date and time.
 ```
 
 **Variables:**
+
 - `{{ .CurrentDate }}` - Current timestamp
 
 **Date Format Syntax** (Go template):
+
 ```
 15:04:05 = HH:MM:SS (24-hour)
 3:04:05PM = HH:MM:SS (12-hour)
@@ -238,6 +256,7 @@ Monday = Day name
 ```
 
 **Common Uses:**
+
 - Show current time
 - Track command timing
 - Performance monitoring
@@ -245,6 +264,7 @@ Monday = Day name
 ---
 
 #### `battery`
+
 Displays battery status and percentage.
 
 ```json
@@ -263,17 +283,20 @@ Displays battery status and percentage.
 ```
 
 **Variables:**
+
 - `{{ .Percentage }}` - Battery percentage (0-100)
 - `{{ .State }}` - Charging state
 - `{{ .IsCharging }}` - Boolean
 
 **Common Uses:**
+
 - Monitor battery on laptops
 - See charging status
 
 ---
 
 #### `executiontime`
+
 Displays how long the last command took.
 
 ```json
@@ -290,14 +313,17 @@ Displays how long the last command took.
 ```
 
 **Variables:**
+
 - `{{ .FormattedMs }}` - Time (e.g., "5.23s")
 - `{{ .Ms }}` - Raw milliseconds
 - `{{ .Seconds }}` - Seconds
 
 **Properties:**
+
 - `threshold`: Number - Only show if exceeds (milliseconds)
 
 **Common Uses:**
+
 - Performance monitoring
 - Identify slow commands
 - Track workflow speed
@@ -309,31 +335,37 @@ Displays how long the last command took.
 These show version info for runtimes in current directory:
 
 #### `node`
+
 ```json
-{"type": "node", "template": " ⬢ {{ .Version }} "}
+{ "type": "node", "template": " ⬢ {{ .Version }} " }
 ```
 
 #### `python`
+
 ```json
-{"type": "python", "template": " 🐍 {{ .Version }} "}
+{ "type": "python", "template": " 🐍 {{ .Version }} " }
 ```
 
 #### `ruby`
+
 ```json
-{"type": "ruby", "template": " 💎 {{ .Version }} "}
+{ "type": "ruby", "template": " 💎 {{ .Version }} " }
 ```
 
 #### `go`
+
 ```json
-{"type": "go", "template": " 🐹 {{ .Version }} "}
+{ "type": "go", "template": " 🐹 {{ .Version }} " }
 ```
 
 #### `rust`
+
 ```json
-{"type": "rust", "template": " 🦀 {{ .Version }} "}
+{ "type": "rust", "template": " 🦀 {{ .Version }} " }
 ```
 
 **Common Pattern:**
+
 ```json
 {
   "type": "node",
@@ -351,6 +383,7 @@ These show version info for runtimes in current directory:
 ### System Resource Segments
 
 #### `sysinfo`
+
 Displays CPU, memory, and disk usage.
 
 ```json
@@ -368,6 +401,7 @@ Displays CPU, memory, and disk usage.
 ---
 
 #### `os`
+
 Displays operating system and WSL status.
 
 ```json
@@ -383,6 +417,7 @@ Displays operating system and WSL status.
 ### Advanced Segments
 
 #### `command`
+
 Executes custom command and displays output.
 
 ```json
@@ -404,6 +439,7 @@ Executes custom command and displays output.
 ---
 
 #### `env`
+
 Displays environment variable value.
 
 ```json
@@ -419,6 +455,7 @@ Displays environment variable value.
 ---
 
 #### `text`
+
 Displays static text or custom template.
 
 ```json
@@ -444,7 +481,9 @@ All segments support:
   // Colors
   "background": "p:palette_key|#hexcolor|transparent",
   "foreground": "p:palette_key|#hexcolor",
-  "background_templates": ["{{ if condition }}p:color1{{ else }}p:color2{{ end }}"],
+  "background_templates": [
+    "{{ if condition }}p:color1{{ else }}p:color2{{ end }}"
+  ],
 
   // Styling
   "style": "powerline|diamond|plain",
@@ -470,11 +509,11 @@ All segments support:
 
 ### Style Types
 
-| Style | Symbol | Example | Use Case |
-|-------|--------|---------|----------|
-| `powerline` | `` `` | Modern, clean | Default choice |
-| `diamond` | `◆` | Enclosed | Accent segments |
-| `plain` | Nothing | Text only | Simple separators |
+| Style       | Symbol  | Example       | Use Case          |
+| ----------- | ------- | ------------- | ----------------- |
+| `powerline` | ` `     | Modern, clean | Default choice    |
+| `diamond`   | `◆`     | Enclosed      | Accent segments   |
+| `plain`     | Nothing | Text only     | Simple separators |
 
 ---
 
@@ -510,11 +549,13 @@ All segments support:
 ### Common Patterns
 
 **Conditional Icon:**
+
 ```json
 "template": "{{ if .Error }}❌{{ else }}✅{{ end }}"
 ```
 
 **Conditional Color:**
+
 ```json
 "background_templates": [
   "{{ if .Error }}p:red{{ else if eq .Value 0 }}p:green{{ else }}p:yellow{{ end }}"
@@ -522,6 +563,7 @@ All segments support:
 ```
 
 **Optional Content:**
+
 ```json
 "template": "{{ if .Branch }}({{ .Branch }}){{ end }}"
 ```
@@ -535,7 +577,7 @@ All segments support:
 ```json
 {
   "palette": {
-    "accent": "#00BCD4",              // Hex color
+    "accent": "#00BCD4", // Hex color
     "blue_primary": "#0080FF",
     "red_alert": "#FF0000"
   }
@@ -546,8 +588,8 @@ All segments support:
 
 ```json
 {
-  "foreground": "p:accent",           // Reference palette
-  "background": "#FFFFFF",            // Direct hex
+  "foreground": "p:accent", // Reference palette
+  "background": "#FFFFFF", // Direct hex
   "background_templates": [
     "{{ if .Error }}p:red_alert{{ else }}p:accent{{ end }}"
   ]
@@ -622,24 +664,15 @@ function Convert-RGBToHex {
   "blocks": [
     {
       "alignment": "left",
-      "segments": [
-        {"type": "shell"},
-        {"type": "path"},
-        {"type": "git"}
-      ]
+      "segments": [{ "type": "shell" }, { "type": "path" }, { "type": "git" }]
     },
     {
       "alignment": "right",
-      "segments": [
-        {"type": "time"},
-        {"type": "battery"}
-      ]
+      "segments": [{ "type": "time" }, { "type": "battery" }]
     },
     {
       "alignment": "newline",
-      "segments": [
-        {"type": "text", "template": "❯ "}
-      ]
+      "segments": [{ "type": "text", "template": "❯ " }]
     }
   ]
 }
@@ -656,9 +689,7 @@ function Convert-RGBToHex {
   "version": 3,
   "blocks": [
     {
-      "segments": [
-        {"type": "text", "template": "❯ "}
-      ]
+      "segments": [{ "type": "text", "template": "❯ " }]
     }
   ]
 }
@@ -673,9 +704,9 @@ function Convert-RGBToHex {
   "blocks": [
     {
       "segments": [
-        {"type": "shell"},
-        {"type": "path", "properties": {"max_depth": 2}},
-        {"type": "status"}
+        { "type": "shell" },
+        { "type": "path", "properties": { "max_depth": 2 } },
+        { "type": "status" }
       ]
     }
   ]
@@ -691,14 +722,14 @@ function Convert-RGBToHex {
   "blocks": [
     {
       "segments": [
-        {"type": "shell"},
-        {"type": "path"},
+        { "type": "shell" },
+        { "type": "path" },
         {
           "type": "git",
-          "properties": {"fetch_status": false},
-          "cache": {"strategy": "folder", "duration": "5m"}
+          "properties": { "fetch_status": false },
+          "cache": { "strategy": "folder", "duration": "5m" }
         },
-        {"type": "status"}
+        { "type": "status" }
       ]
     }
   ]
@@ -730,11 +761,11 @@ function Convert-RGBToHex {
 ```json
 {
   "segments": [
-    {"type": "path"},
-    {"type": "git"},
-    {"type": "node"},
-    {"type": "python"},
-    {"type": "status"}
+    { "type": "path" },
+    { "type": "git" },
+    { "type": "node" },
+    { "type": "python" },
+    { "type": "status" }
   ]
 }
 ```
@@ -744,10 +775,10 @@ function Convert-RGBToHex {
 ```json
 {
   "segments": [
-    {"type": "shell"},
-    {"type": "path"},
-    {"type": "env", "properties": {"var_name": "ENVIRONMENT"}},
-    {"type": "status"}
+    { "type": "shell" },
+    { "type": "path" },
+    { "type": "env", "properties": { "var_name": "ENVIRONMENT" } },
+    { "type": "status" }
   ]
 }
 ```
@@ -756,11 +787,7 @@ function Convert-RGBToHex {
 
 ```json
 {
-  "segments": [
-    {"type": "sysinfo"},
-    {"type": "battery"},
-    {"type": "time"}
-  ]
+  "segments": [{ "type": "sysinfo" }, { "type": "battery" }, { "type": "time" }]
 }
 ```
 
@@ -771,30 +798,34 @@ function Convert-RGBToHex {
 ### Segment Not Showing
 
 **Check:**
+
 1. Template is not empty: `"template": ""` hides segment
 2. Cache not disabled: `"skip_cache": true` may hide
 3. Properties are correct for segment type
 
 **Fix:**
+
 ```json
 {
   "type": "git",
-  "template": " {{ .Branch }} ",  // Not empty
-  "cache": {"skip_cache": false}
+  "template": " {{ .Branch }} ", // Not empty
+  "cache": { "skip_cache": false }
 }
 ```
 
 ### Segment Colors Wrong
 
 **Check:**
+
 1. Palette color exists: `"p:nonexistent"` fails
 2. Contrast sufficient for readability
 3. Terminal supports 256+ colors
 
 **Fix:**
+
 ```json
 {
-  "foreground": "p:white",     // Verify exists in palette
+  "foreground": "p:white", // Verify exists in palette
   "background": "p:blue_primary"
 }
 ```
@@ -802,19 +833,21 @@ function Convert-RGBToHex {
 ### Segment Slow
 
 **Check:**
+
 1. Cache configured correctly
 2. Not fetching unnecessary data
 3. No expensive command segment
 
 **Fix:**
+
 ```json
 {
   "cache": {
     "strategy": "folder",
-    "duration": "5m"  // Cache for 5 minutes
+    "duration": "5m" // Cache for 5 minutes
   },
   "properties": {
-    "fetch_status": false  // Don't fetch git status
+    "fetch_status": false // Don't fetch git status
   }
 }
 ```
@@ -823,18 +856,18 @@ function Convert-RGBToHex {
 
 ## Quick Reference Table
 
-| Need | Segment Type | Key Property |
-|------|--------------|--------------|
-| Show shell name | `shell` | — |
-| Show directory | `path` | `max_depth` |
-| Show git info | `git` | `fetch_status` |
-| Show success/fail | `status` | `always_show` |
-| Show time | `time` | `time_format` |
-| Show version | `node|python|etc` | — |
-| Show resources | `sysinfo` | — |
-| Show battery | `battery` | `display_as_percentage` |
-| Run custom | `command` | `command` |
-| Show variable | `env` | `var_name` |
+| Need              | Segment Type | Key Property            |
+| ----------------- | ------------ | ----------------------- | ---- | --- |
+| Show shell name   | `shell`      | —                       |
+| Show directory    | `path`       | `max_depth`             |
+| Show git info     | `git`        | `fetch_status`          |
+| Show success/fail | `status`     | `always_show`           |
+| Show time         | `time`       | `time_format`           |
+| Show version      | `node        | python                  | etc` | —   |
+| Show resources    | `sysinfo`    | —                       |
+| Show battery      | `battery`    | `display_as_percentage` |
+| Run custom        | `command`    | `command`               |
+| Show variable     | `env`        | `var_name`              |
 
 ---
 

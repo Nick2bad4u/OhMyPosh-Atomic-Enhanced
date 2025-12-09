@@ -44,6 +44,7 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
 ## 📚 All Documents at a Glance
 
 ### Getting Started (Read First)
+
 1. **[QUICK-START-GUIDE.md](./QUICK-START-GUIDE.md)** (5 min read)
    - Installation for all platforms
    - Font setup
@@ -57,6 +58,7 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
    - Topic coverage matrix
 
 ### Setup & Installation
+
 3. **[CROSS-PLATFORM-SETUP-GUIDE.md](./CROSS-PLATFORM-SETUP-GUIDE.md)** (20 min read)
    - Windows PowerShell setup
    - macOS Zsh/Bash setup
@@ -65,6 +67,7 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
    - Git Bash setup
 
 ### Configuration & Customization
+
 4. **[ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.md)** (30 min read)
    - Segment modification
    - Template syntax
@@ -84,6 +87,7 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
    - Quick reference tables
 
 ### Color & Design
+
 7. **[COLOR-THEORY-GUIDE.md](./COLOR-THEORY-GUIDE.md)** (25 min read)
    - Color fundamentals
    - Color models (RGB, HSL, Hex)
@@ -105,6 +109,7 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
    - Common patterns & mistakes
 
 ### Performance & Troubleshooting
+
 10. **[PERFORMANCE-OPTIMIZATION-GUIDE.md](./PERFORMANCE-OPTIMIZATION-GUIDE.md)** (20 min read)
     - Identifying bottlenecks
     - Segment caching strategies
@@ -121,6 +126,7 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
     - Platform-specific issues
 
 ### Integration & Reference
+
 12. **[INTEGRATION-GUIDES.md](./INTEGRATION-GUIDES.md)** (25 min read)
     - VS Code terminal setup
     - Windows Terminal configuration
@@ -146,11 +152,13 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
 **Keywords:** install, setup, download, Windows, macOS, Linux, WSL, PowerShell, Bash, Zsh
 
 **Related Documents:**
+
 - [QUICK-START-GUIDE.md](./QUICK-START-GUIDE.md) - 5-minute setup
 - [CROSS-PLATFORM-SETUP-GUIDE.md](./CROSS-PLATFORM-SETUP-GUIDE.md) - Platform-specific
 - [INTEGRATION-GUIDES.md](./INTEGRATION-GUIDES.md) - Integration setup
 
 **Quick Links:**
+
 - Installing Oh My Posh: [QUICK-START-GUIDE.md#step-1-install-oh-my-posh](./QUICK-START-GUIDE.md)
 - Installing Nerd Font: [QUICK-START-GUIDE.md#step-2-install-a-nerd-font](./QUICK-START-GUIDE.md)
 - Windows setup: [CROSS-PLATFORM-SETUP-GUIDE.md#windows-setup](./CROSS-PLATFORM-SETUP-GUIDE.md)
@@ -164,11 +172,13 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
 **Keywords:** font, Nerd Font, icon, glyph, box, character, FiraCode, JetBrains Mono
 
 **Related Documents:**
+
 - [QUICK-START-GUIDE.md](./QUICK-START-GUIDE.md) - Font installation
 - [TROUBLESHOOTING-GUIDE.md](./TROUBLESHOOTING-GUIDE.md) - Font problems
 - [CROSS-PLATFORM-SETUP-GUIDE.md](./CROSS-PLATFORM-SETUP-GUIDE.md) - Platform-specific font setup
 
 **Quick Links:**
+
 - Installing fonts: [QUICK-START-GUIDE.md#step-2-install-a-nerd-font](./QUICK-START-GUIDE.md)
 - Font problems: [TROUBLESHOOTING-GUIDE.md#font--glyph-problems](./TROUBLESHOOTING-GUIDE.md)
 - Testing fonts: [TROUBLESHOOTING-GUIDE.md#test-font-installation](./TROUBLESHOOTING-GUIDE.md)
@@ -181,12 +191,14 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
 **Keywords:** color, palette, hue, saturation, RGB, Hex, ANSI, accent, theme, design
 
 **Related Documents:**
+
 - [COLOR-THEORY-GUIDE.md](./COLOR-THEORY-GUIDE.md) - Color fundamentals
 - [COLOR-INTERPLAY-SEGMENTATION.md](./COLOR-INTERPLAY-SEGMENTATION.md) - Color relationships
 - [ANSI-ESCAPE-CODES-GUIDE.md](./ANSI-ESCAPE-CODES-GUIDE.md) - ANSI color implementation
 - [JSON-CONFIGURATION-GUIDE.md](./JSON-CONFIGURATION-GUIDE.md) - Palette in JSON
 
 **Quick Links:**
+
 - Color theory basics: [COLOR-THEORY-GUIDE.md#color-theory-fundamentals](./COLOR-THEORY-GUIDE.md)
 - RGB vs Hex: [COLOR-THEORY-GUIDE.md#color-models--spaces](./COLOR-THEORY-GUIDE.md)
 - Palette design: [COLOR-THEORY-GUIDE.md#palette-design-principles](./COLOR-THEORY-GUIDE.md)
@@ -202,10 +214,12 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
 **Keywords:** colors wrong, colors missing, colors not showing, monochrome, black & white
 
 **Related Documents:**
+
 - [TROUBLESHOOTING-GUIDE.md](./TROUBLESHOOTING-GUIDE.md) - Color display issues
 - [COLOR-THEORY-GUIDE.md](./COLOR-THEORY-GUIDE.md) - Color reference
 
 **Quick Links:**
+
 - Colors not displaying: [TROUBLESHOOTING-GUIDE.md#problem-colors-not-displaying-all-blackwhite](./TROUBLESHOOTING-GUIDE.md)
 - Wrong colors: [TROUBLESHOOTING-GUIDE.md#problem-wrong-colors-displayed](./TROUBLESHOOTING-GUIDE.md)
 - Flickering colors: [TROUBLESHOOTING-GUIDE.md#problem-colors-flickering-or-blinking](./TROUBLESHOOTING-GUIDE.md)
@@ -217,12 +231,14 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
 **Keywords:** customize, modify, segment, template, theme, JSON, configuration, create
 
 **Related Documents:**
+
 - [ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.md) - Deep customization
 - [JSON-CONFIGURATION-GUIDE.md](./JSON-CONFIGURATION-GUIDE.md) - JSON structure & patterns
 - [COMPLETE-SEGMENT-REFERENCE.md](./COMPLETE-SEGMENT-REFERENCE.md) - Segment options
 - [COLOR-THEORY-GUIDE.md](./COLOR-THEORY-GUIDE.md) - Color customization
 
 **Quick Links:**
+
 - Segment modification: [ADVANCED-CUSTOMIZATION-GUIDE.md#modifying-segments](./ADVANCED-CUSTOMIZATION-GUIDE.md)
 - Template syntax: [ADVANCED-CUSTOMIZATION-GUIDE.md#template-expressions](./ADVANCED-CUSTOMIZATION-GUIDE.md)
 - JSON structure: [JSON-CONFIGURATION-GUIDE.md#complete-json-structure](./JSON-CONFIGURATION-GUIDE.md)
@@ -236,11 +252,13 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
 **Keywords:** slow, fast, performance, cache, caching, speed, lag, delay, optimization
 
 **Related Documents:**
+
 - [PERFORMANCE-OPTIMIZATION-GUIDE.md](./PERFORMANCE-OPTIMIZATION-GUIDE.md) - Performance tuning
 - [TROUBLESHOOTING-GUIDE.md](./TROUBLESHOOTING-GUIDE.md) - Performance issues section
 - [FAQ-AND-TIPS-TRICKS.md](./FAQ-AND-TIPS-TRICKS.md) - Performance tips
 
 **Quick Links:**
+
 - Performance diagnostics: [PERFORMANCE-OPTIMIZATION-GUIDE.md#identifying-performance-issues](./PERFORMANCE-OPTIMIZATION-GUIDE.md)
 - Caching strategies: [PERFORMANCE-OPTIMIZATION-GUIDE.md#segment-caching-strategies](./PERFORMANCE-OPTIMIZATION-GUIDE.md)
 - Slow prompt troubleshooting: [TROUBLESHOOTING-GUIDE.md#problem-prompt-displays-slowly--hangs](./TROUBLESHOOTING-GUIDE.md)
@@ -254,10 +272,12 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
 **Keywords:** VS Code, Windows Terminal, Git Bash, WSL, iTerm2, terminal, IDE, editor, integration
 
 **Related Documents:**
+
 - [INTEGRATION-GUIDES.md](./INTEGRATION-GUIDES.md) - All integration guides
 - [QUICK-START-GUIDE.md](./QUICK-START-GUIDE.md) - Terminal configuration
 
 **Quick Links:**
+
 - VS Code setup: [INTEGRATION-GUIDES.md#vs-code-integration](./INTEGRATION-GUIDES.md)
 - Windows Terminal setup: [INTEGRATION-GUIDES.md#windows-terminal-integration](./INTEGRATION-GUIDES.md)
 - Git Bash: [INTEGRATION-GUIDES.md#git-bash-integration](./INTEGRATION-GUIDES.md)
@@ -273,11 +293,13 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
 **Keywords:** problem, error, fix, issue, broken, not working, help, debug
 
 **Related Documents:**
+
 - [TROUBLESHOOTING-GUIDE.md](./TROUBLESHOOTING-GUIDE.md) - All troubleshooting
 - [FAQ-AND-TIPS-TRICKS.md](./FAQ-AND-TIPS-TRICKS.md) - FAQ section
 - [PERFORMANCE-OPTIMIZATION-GUIDE.md](./PERFORMANCE-OPTIMIZATION-GUIDE.md) - Performance issues
 
 **Quick Links:**
+
 - Quick diagnostics: [TROUBLESHOOTING-GUIDE.md#quick-diagnostics](./TROUBLESHOOTING-GUIDE.md)
 - Theme not working: [TROUBLESHOOTING-GUIDE.md#problem-theme-file-not-found](./TROUBLESHOOTING-GUIDE.md)
 - Git issues: [TROUBLESHOOTING-GUIDE.md#problem-git-status-missing](./TROUBLESHOOTING-GUIDE.md)
@@ -291,11 +313,13 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
 **Keywords:** reference, documentation, guide, lookup, table, list, options, properties
 
 **Related Documents:**
+
 - [COMPLETE-SEGMENT-REFERENCE.md](./COMPLETE-SEGMENT-REFERENCE.md) - Segment reference
 - [FAQ-AND-TIPS-TRICKS.md](./FAQ-AND-TIPS-TRICKS.md) - FAQ & tips
 - [JSON-CONFIGURATION-GUIDE.md](./JSON-CONFIGURATION-GUIDE.md) - JSON reference
 
 **Quick Links:**
+
 - All segments: [COMPLETE-SEGMENT-REFERENCE.md#all-segment-types](./COMPLETE-SEGMENT-REFERENCE.md)
 - Segment properties: [COMPLETE-SEGMENT-REFERENCE.md#segment-properties-reference](./COMPLETE-SEGMENT-REFERENCE.md)
 - Template functions: [COMPLETE-SEGMENT-REFERENCE.md#template-functions--variables](./COMPLETE-SEGMENT-REFERENCE.md)
@@ -367,20 +391,20 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
 
 ## 📊 Documentation Statistics
 
-| Document | Length | Read Time | Topic |
-|----------|--------|-----------|-------|
-| QUICK-START-GUIDE | ~2,500 words | 5 min | Getting started |
-| CROSS-PLATFORM-SETUP | ~3,500 words | 15 min | Platform setup |
-| ADVANCED-CUSTOMIZATION | ~4,000 words | 20 min | Customization |
-| JSON-CONFIGURATION | ~3,000 words | 15 min | JSON syntax |
-| COMPLETE-SEGMENT-REFERENCE | ~4,500 words | 25 min | Segments |
-| COLOR-THEORY | ~5,000 words | 20 min | Color theory |
-| COLOR-INTERPLAY | ~4,500 words | 20 min | Color design |
-| ANSI-ESCAPE-CODES | ~3,000 words | 15 min | ANSI codes |
-| PERFORMANCE-OPTIMIZATION | ~3,500 words | 15 min | Performance |
-| TROUBLESHOOTING | ~3,500 words | 15 min | Troubleshooting |
-| INTEGRATION-GUIDES | ~4,000 words | 20 min | Integration |
-| FAQ-AND-TIPS | ~3,500 words | 15 min | FAQ & tips |
+| Document                   | Length       | Read Time | Topic           |
+| -------------------------- | ------------ | --------- | --------------- |
+| QUICK-START-GUIDE          | ~2,500 words | 5 min     | Getting started |
+| CROSS-PLATFORM-SETUP       | ~3,500 words | 15 min    | Platform setup  |
+| ADVANCED-CUSTOMIZATION     | ~4,000 words | 20 min    | Customization   |
+| JSON-CONFIGURATION         | ~3,000 words | 15 min    | JSON syntax     |
+| COMPLETE-SEGMENT-REFERENCE | ~4,500 words | 25 min    | Segments        |
+| COLOR-THEORY               | ~5,000 words | 20 min    | Color theory    |
+| COLOR-INTERPLAY            | ~4,500 words | 20 min    | Color design    |
+| ANSI-ESCAPE-CODES          | ~3,000 words | 15 min    | ANSI codes      |
+| PERFORMANCE-OPTIMIZATION   | ~3,500 words | 15 min    | Performance     |
+| TROUBLESHOOTING            | ~3,500 words | 15 min    | Troubleshooting |
+| INTEGRATION-GUIDES         | ~4,000 words | 20 min    | Integration     |
+| FAQ-AND-TIPS               | ~3,500 words | 15 min    | FAQ & tips      |
 
 **Total:** ~45,500 words | ~175 minutes (~3 hours) for complete read
 
@@ -389,11 +413,13 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
 ## 🎓 Learning Paths
 
 ### Path 1: Absolute Beginner (1-2 hours)
+
 1. QUICK-START-GUIDE.md
 2. INTEGRATION-GUIDES.md (your tool)
 3. Done! Start using it.
 
 ### Path 2: Customizer (3-4 hours)
+
 1. QUICK-START-GUIDE.md
 2. JSON-CONFIGURATION-GUIDE.md
 3. COMPLETE-SEGMENT-REFERENCE.md
@@ -401,6 +427,7 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
 5. Start customizing!
 
 ### Path 3: Color Designer (3-4 hours)
+
 1. QUICK-START-GUIDE.md
 2. COLOR-THEORY-GUIDE.md
 3. COLOR-INTERPLAY-SEGMENTATION.md
@@ -408,11 +435,13 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
 5. Design your palette!
 
 ### Path 4: Performance Optimizer (2 hours)
+
 1. PERFORMANCE-OPTIMIZATION-GUIDE.md
 2. COMPLETE-SEGMENT-REFERENCE.md
 3. Start optimizing!
 
 ### Path 5: Complete Master (6-8 hours)
+
 Read all documents in order (as listed above)
 
 ---
@@ -420,17 +449,20 @@ Read all documents in order (as listed above)
 ## 🔗 Cross-References
 
 ### Color topics mentioned in other documents:
+
 - TROUBLESHOOTING-GUIDE.md - "Colors wrong" section
 - INTEGRATION-GUIDES.md - Terminal color configuration
 - ADVANCED-CUSTOMIZATION-GUIDE.md - Color properties
 - COMPLETE-SEGMENT-REFERENCE.md - Palette reference
 
 ### Performance topics mentioned in other documents:
+
 - TROUBLESHOOTING-GUIDE.md - Performance issues section
 - FAQ-AND-TIPS-TRICKS.md - Performance tips
 - COMPLETE-SEGMENT-REFERENCE.md - Cache reference
 
 ### Setup topics mentioned in other documents:
+
 - INTEGRATION-GUIDES.md - Integration-specific setup
 - TROUBLESHOOTING-GUIDE.md - Quick diagnostics
 - FAQ-AND-TIPS-TRICKS.md - Common problems
@@ -440,6 +472,7 @@ Read all documents in order (as listed above)
 ## 📝 Document Maintenance
 
 ### How to Contribute
+
 1. Find the relevant document
 2. Identify what needs adding/fixing
 3. Make improvements
@@ -447,11 +480,13 @@ Read all documents in order (as listed above)
 5. Submit pull request
 
 ### How to Report Issues
+
 - Missing information? → Open an issue with "documentation" label
 - Unclear explanation? → Open an issue with "needs clarification"
 - Broken link? → Open an issue with "broken link"
 
 ### Last Updated
+
 - All documents: October 30, 2025
 - Verified with: Oh My Posh 18.x
 
@@ -477,6 +512,7 @@ You now have access to comprehensive documentation covering:
 4. Enjoy your beautiful prompt!
 
 **Need Help?**
+
 - Check [Troubleshooting & Diagnostics](#-troubleshooting--diagnostics-topics)
 - Search this document for keywords
 - Read the relevant document section

@@ -36,13 +36,13 @@ The traditional color wheel organizes colors by hue relationships:
 
 ### Primary Color Relationships
 
-| Relationship | Definition | Example |
-|--------------|-----------|---------|
-| **Complementary** | Opposite colors on wheel | Red ↔ Cyan |
-| **Analogous** | Adjacent colors (30-60°) | Red, Red-Orange, Orange |
-| **Triadic** | Three equally spaced colors | Red, Green, Blue |
-| **Tetradic (Square)** | Four equally spaced colors | Red, Yellow, Cyan, Blue |
-| **Monochromatic** | Single hue, varied brightness | Navy, Blue, Light Blue |
+| Relationship          | Definition                    | Example                 |
+| --------------------- | ----------------------------- | ----------------------- |
+| **Complementary**     | Opposite colors on wheel      | Red ↔ Cyan             |
+| **Analogous**         | Adjacent colors (30-60°)      | Red, Red-Orange, Orange |
+| **Triadic**           | Three equally spaced colors   | Red, Green, Blue        |
+| **Tetradic (Square)** | Four equally spaced colors    | Red, Yellow, Cyan, Blue |
+| **Monochromatic**     | Single hue, varied brightness | Navy, Blue, Light Blue  |
 
 ### Hue, Saturation, Value (HSV)
 
@@ -67,6 +67,7 @@ Value/Brightness (0-100%)
 Color: `#FF6B9D` (Pink)
 
 Converting to HSV:
+
 - **Hue**: ~330° (Red-Magenta region)
 - **Saturation**: 80% (Fairly vivid)
 - **Value**: 100% (Bright)
@@ -138,6 +139,7 @@ Example: RGB(255, 100, 50) → HSL(15°, 100%, 60%)
 Choose a dominant color that defines the theme's character:
 
 **Atomic Enhanced Examples:**
+
 - **Original**: Cyan (`#00bcd4`) - Tech/modern
 - **Nord Frost**: Light Blue (`#88C0D0`) - Cool/calm
 - **Tokyo Night**: Purple-Blue (`#7aa2f7`) - Modern/trendy
@@ -160,6 +162,7 @@ Primary: #00bcd4 (Cyan)
 Choose a base that provides contrast for all foreground colors:
 
 **Considerations:**
+
 - Dark mode: Grays from #0A0A0A to #3A3A3A
 - Light mode: Grays from #F5F5F5 to #E8E8E8
 - High contrast recommended for accessibility
@@ -168,13 +171,13 @@ Choose a base that provides contrast for all foreground colors:
 
 Semantic colors for common states:
 
-| State | Typical Color | Alternative |
-|-------|---------------|-------------|
-| Success | Green (`#00C853`) | Lime (`#76FF03`) |
-| Error | Red (`#FF0000`) | Orange-Red (`#FF3D00`) |
-| Warning | Yellow (`#FFD600`) | Orange (`#FF9100`) |
-| Info | Blue (`#2196F3`) | Cyan (`#00E5FF`) |
-| Neutral | Gray (`#757575`) | Taupe (`#795548`) |
+| State   | Typical Color      | Alternative            |
+| ------- | ------------------ | ---------------------- |
+| Success | Green (`#00C853`)  | Lime (`#76FF03`)       |
+| Error   | Red (`#FF0000`)    | Orange-Red (`#FF3D00`) |
+| Warning | Yellow (`#FFD600`) | Orange (`#FF9100`)     |
+| Info    | Blue (`#2196F3`)   | Cyan (`#00E5FF`)       |
+| Neutral | Gray (`#757575`)   | Taupe (`#795548`)      |
 
 ### 5. Ensure Visual Harmony
 
@@ -201,11 +204,11 @@ Bad Harmony:
 
 Web Content Accessibility Guidelines define minimum contrast:
 
-| Level | Ratio | Use Case |
-|-------|-------|----------|
-| **AA** | 4.5:1 | Normal text (minimum standard) |
-| **AAA** | 7:1 | Enhanced accessibility |
-| **Large Text** | 3:1 | Larger text can use lower ratio |
+| Level          | Ratio | Use Case                        |
+| -------------- | ----- | ------------------------------- |
+| **AA**         | 4.5:1 | Normal text (minimum standard)  |
+| **AAA**        | 7:1   | Enhanced accessibility          |
+| **Large Text** | 3:1   | Larger text can use lower ratio |
 
 ### Calculating Contrast Ratio
 
@@ -243,13 +246,13 @@ Where Luminance is calculated as:
 
 **Original Theme Analysis:**
 
-| Foreground | Background | Contrast | Level |
-|------------|-----------|----------|-------|
-| White | Blue Primary | 10:1+ | ✅ AAA |
-| Black | Yellow | 19:1 | ✅ AAA |
-| Light Gray | Dark Gray | 4.5:1 | ✅ AA |
-| Green | Dark Gray | 8:1 | ✅ AAA |
-| Red | Dark Gray | 5:1 | ✅ AA |
+| Foreground | Background   | Contrast | Level  |
+| ---------- | ------------ | -------- | ------ |
+| White      | Blue Primary | 10:1+    | ✅ AAA |
+| Black      | Yellow       | 19:1     | ✅ AAA |
+| Light Gray | Dark Gray    | 4.5:1    | ✅ AA  |
+| Green      | Dark Gray    | 8:1      | ✅ AAA |
+| Red        | Dark Gray    | 5:1      | ✅ AA  |
 
 ---
 
@@ -258,36 +261,42 @@ Where Luminance is calculated as:
 Colors evoke emotional responses and associations:
 
 ### Red
+
 - **Emotion**: Energy, urgency, passion
 - **Association**: Alert, warning, stop
 - **Use Case**: Error states, important notifications
 - **Note**: Use sparingly to maintain urgency
 
 ### Green
+
 - **Emotion**: Success, growth, calm
 - **Association**: Safe, go, complete
 - **Use Case**: Success indicators, positive states
 - **Note**: Universally positive
 
 ### Blue
+
 - **Emotion**: Trust, calm, professional
 - **Association**: Technology, water, sky
 - **Use Case**: Primary interface elements
 - **Note**: Safe choice for tech themes
 
 ### Yellow
+
 - **Emotion**: Warning, optimism, energy
 - **Association**: Caution, happiness
 - **Use Case**: Warnings, accents
 - **Note**: High saturation can be fatiguing
 
 ### Purple
+
 - **Emotion**: Creativity, luxury, mystery
 - **Association**: Imagination, elegance
 - **Use Case**: Artistic themes, secondary accents
 - **Note**: Modern and trendy
 
 ### Cyan
+
 - **Emotion**: Modern, tech-forward, cool
 - **Association**: Technology, future
 - **Use Case**: Primary accent (Atomic's choice)
@@ -302,38 +311,40 @@ Colors evoke emotional responses and associations:
 ```json
 {
   "palette": {
-    "accent": "#00bcd4",           // Primary cyan
-    "blue_primary": "#0080FF",     // Tech blue
-    "green_success": "#00C853",    // Success green
-    "yellow_bright": "#FFD600",    // Warning yellow
-    "red_alert": "#FF0000",        // Error red
-    "white": "#FFFFFF",            // Text (light)
-    "black": "#000000",            // Text (dark)
-    "gray_dim": "#808080"          // Subtle elements
+    "accent": "#00bcd4", // Primary cyan
+    "blue_primary": "#0080FF", // Tech blue
+    "green_success": "#00C853", // Success green
+    "yellow_bright": "#FFD600", // Warning yellow
+    "red_alert": "#FF0000", // Error red
+    "white": "#FFFFFF", // Text (light)
+    "black": "#000000", // Text (dark)
+    "gray_dim": "#808080" // Subtle elements
   }
 }
 ```
 
 ### Color Purpose Matrix
 
-| Color | Primary Use | Secondary Use | Psychological Effect |
-|-------|------------|----------------|--------------------|
-| Cyan (`#00bcd4`) | Dividers, accents | Path segment | Modern, tech-forward |
-| Blue (`#0080FF`) | Git info, primary segments | Time display | Trustworthy, professional |
-| Green (`#00C853`) | Status success | Environment | Positive, safe |
-| Yellow (`#FFD600`) | Warnings, git branches | Status messages | Alert, attention |
-| Red (`#FF0000`) | Error states | Status alerts | Urgent, stop |
-| White/Gray | Text on dark | Readable | Clean, professional |
+| Color              | Primary Use                | Secondary Use   | Psychological Effect      |
+| ------------------ | -------------------------- | --------------- | ------------------------- |
+| Cyan (`#00bcd4`)   | Dividers, accents          | Path segment    | Modern, tech-forward      |
+| Blue (`#0080FF`)   | Git info, primary segments | Time display    | Trustworthy, professional |
+| Green (`#00C853`)  | Status success             | Environment     | Positive, safe            |
+| Yellow (`#FFD600`) | Warnings, git branches     | Status messages | Alert, attention          |
+| Red (`#FF0000`)    | Error states               | Status alerts   | Urgent, stop              |
+| White/Gray         | Text on dark               | Readable        | Clean, professional       |
 
 ### Palette Balance Analysis
 
 **Distribution:**
+
 - 1 dominant accent (Cyan) - 40%
 - 2 secondary colors (Blue, Yellow) - 30%
 - 2 status colors (Green, Red) - 20%
 - 2 neutral colors (White, Gray) - 10%
 
 This distribution creates:
+
 - ✅ Visual hierarchy
 - ✅ Clear semantic meaning
 - ✅ Balanced variety
@@ -386,18 +397,18 @@ Analogous (±30°):
 ```json
 {
   "palette": {
-    "accent": "#FF6B35",           // Primary
+    "accent": "#FF6B35", // Primary
     "accent_secondary": "#FF9535", // Analogous right
-    "accent_complement": "#35BDFF",// Complementary
+    "accent_complement": "#35BDFF", // Complementary
 
-    "blue_primary": "#6B7FFF",     // Secondary
-    "green_success": "#FFD700",    // Warm gold
-    "yellow_bright": "#FFA500",    // Orange
-    "red_alert": "#CC0000",        // Deep red
+    "blue_primary": "#6B7FFF", // Secondary
+    "green_success": "#FFD700", // Warm gold
+    "yellow_bright": "#FFA500", // Orange
+    "red_alert": "#CC0000", // Deep red
 
-    "white": "#F5F5F5",            // Light text
-    "black": "#1A1A1A",            // Dark text
-    "background": "#3D2817"        // Dark brown
+    "white": "#F5F5F5", // Light text
+    "black": "#1A1A1A", // Dark text
+    "background": "#3D2817" // Dark brown
   }
 }
 ```
@@ -474,11 +485,13 @@ Write-Host "AAA Level: $($test.AAA)"
 ### Color Blindness Testing
 
 Use tools like:
+
 - [Color Oracle](https://colororacle.org/) - Desktop simulator
 - [Coblis](https://www.color-blindness.com/coblis-color-blindness-simulator/) - Online
 - [Accessible Colors](https://accessible-colors.com/) - Web checker
 
 Test for:
+
 - Protanopia (Red-blind)
 - Deuteranopia (Green-blind)
 - Tritanopia (Blue-blind)
@@ -493,6 +506,7 @@ Test for:
 **Problem:** Overwhelming visual noise, no clear hierarchy
 
 **Good:**
+
 ```
 Palette: 8-12 colors (manageable)
   - 1 dominant accent
@@ -502,6 +516,7 @@ Palette: 8-12 colors (manageable)
 ```
 
 **Bad:**
+
 ```
 Palette: 50+ colors (chaotic)
   - Each segment a different color
@@ -514,12 +529,14 @@ Palette: 50+ colors (chaotic)
 **Problem:** Text unreadable, accessibility issues
 
 **Good:**
+
 ```
 ✅ Light text on dark background: #FFFFFF on #000000 (contrast: 21:1)
 ✅ High saturation text on low saturation background
 ```
 
 **Bad:**
+
 ```
 ❌ Light gray text on light background: #CCCCCC on #FFFFFF (contrast: 1.15:1)
 ❌ Low saturation colors on similar background
@@ -530,6 +547,7 @@ Palette: 50+ colors (chaotic)
 **Problem:** Colors don't match expected meanings
 
 **Good:**
+
 ```
 ✅ Green = Success/OK
 ✅ Red = Error/Alert
@@ -538,6 +556,7 @@ Palette: 50+ colors (chaotic)
 ```
 
 **Bad:**
+
 ```
 ❌ Red = Success (confusing)
 ❌ Green = Error (misleading)
@@ -549,6 +568,7 @@ Palette: 50+ colors (chaotic)
 **Problem:** Colors feel uncomfortable together
 
 **Good:**
+
 ```
 ✅ Harmonious palette: Colors related through color theory
 ✅ Similar saturation levels
@@ -556,6 +576,7 @@ Palette: 50+ colors (chaotic)
 ```
 
 **Bad:**
+
 ```
 ❌ Random colors: No relationship
 ❌ Mixed saturation: Some dull, some vivid
@@ -567,6 +588,7 @@ Palette: 50+ colors (chaotic)
 **Problem:** Colors look different on different terminals
 
 **Good:**
+
 ```
 ✅ Use standard web colors
 ✅ Test on multiple terminal emulators
@@ -574,6 +596,7 @@ Palette: 50+ colors (chaotic)
 ```
 
 **Bad:**
+
 ```
 ❌ Rely on specific terminal's color palette
 ❌ Don't test before publishing
@@ -585,16 +608,19 @@ Palette: 50+ colors (chaotic)
 ## Palette Comparison: Atomic Variants
 
 ### Warm Palettes
+
 - **Gruvbox**: Earth tones, retro feel
 - **Forest Ember**: Deep greens, warm accents
 - **Amber Sunset**: Orange/gold, warm transition
 
 ### Cool Palettes
+
 - **Nord Frost**: Arctic blues, professional
 - **Tokyo Night**: Modern blues, neon accents
 - **Dracula Night**: Purple/pink, bold
 
 ### Neutral Palettes
+
 - **Original**: Balanced cyan/blue mix
 - **Monokai Pro**: Classic, tried-and-tested
 - **Solarized Dark**: Scientific, optimized for eyes

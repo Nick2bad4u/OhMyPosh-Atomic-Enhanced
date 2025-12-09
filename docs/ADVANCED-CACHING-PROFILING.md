@@ -22,6 +22,7 @@ Caching stores the result of a segment's calculation so it doesn't need to be re
 ### Why Cache?
 
 Without caching:
+
 ```
 Each prompt → Calculate git status → Calculate path → Calculate version → Display
               (100ms)                (20ms)           (30ms)            (50ms)
@@ -29,6 +30,7 @@ Each prompt → Calculate git status → Calculate path → Calculate version �
 ```
 
 With caching:
+
 ```
 First prompt:  Calculate → Cache result (200ms)
 2nd-10th:      Use cache (1ms each)
@@ -40,16 +42,19 @@ After timeout: Recalculate → Update cache
 ### Cache Storage Locations
 
 **Windows:**
+
 ```
 C:\Users\{User}\AppData\Local\oh-my-posh\cache
 ```
 
 **macOS:**
+
 ```
 ~/.cache/oh-my-posh
 ```
 
 **Linux:**
+
 ```
 ~/.cache/oh-my-posh
 ```
@@ -73,11 +78,13 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
 ```
 
 **Use for:**
+
 - Rarely changing data
 - Commands that run occasionally
 - Info that won't change during session
 
 **Example:**
+
 ```json
 {
   "type": "time",
@@ -105,11 +112,13 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
 ```
 
 **Use for:**
+
 - Git status (same repo = same status)
 - Version info (same folder = same version)
 - Path-specific data
 
 **Example:**
+
 ```json
 {
   "type": "git",
@@ -118,7 +127,7 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
     "duration": "5m"
   },
   "properties": {
-    "fetch_status": true  // This is slow, cache it
+    "fetch_status": true // This is slow, cache it
   }
 }
 ```
@@ -140,6 +149,7 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
 ```
 
 **Use for:**
+
 - System-wide data
 - Less frequently accessed segments
 - Data shared across terminals
@@ -148,12 +158,12 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
 
 ### Strategy Comparison
 
-| Strategy | Duration | Resets | Best For |
-|----------|----------|--------|----------|
-| **session** | Session | Close PowerShell | Expensive one-time calcs |
-| **folder** | Per folder | Change dir | Git, versions in repos |
-| **windows** | System-wide | OS timeout | System-level info |
-| **none** | Never | Manual | Dynamic data |
+| Strategy    | Duration    | Resets           | Best For                 |
+| ----------- | ----------- | ---------------- | ------------------------ |
+| **session** | Session     | Close PowerShell | Expensive one-time calcs |
+| **folder**  | Per folder  | Change dir       | Git, versions in repos   |
+| **windows** | System-wide | OS timeout       | System-level info        |
+| **none**    | Never       | Manual           | Dynamic data             |
 
 ---
 
@@ -220,14 +230,14 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
           "type": "shell",
           "cache": {
             "strategy": "session",
-            "duration": "1h"  // Shell doesn't change
+            "duration": "1h" // Shell doesn't change
           }
         },
         {
           "type": "path",
           "cache": {
             "strategy": "folder",
-            "duration": "5m"  // Cache per folder
+            "duration": "5m" // Cache per folder
           }
         },
         {
@@ -237,21 +247,21 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
             "duration": "5m"
           },
           "properties": {
-            "fetch_status": true  // This is what's slow
+            "fetch_status": true // This is what's slow
           }
         },
         {
           "type": "node",
           "cache": {
             "strategy": "folder",
-            "duration": "30m"  // Versions change rarely
+            "duration": "30m" // Versions change rarely
           }
         },
         {
           "type": "status",
           "cache": {
             "strategy": "session",
-            "duration": "0s"  // Always fresh
+            "duration": "0s" // Always fresh
           }
         }
       ]
@@ -267,6 +277,7 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
 ### Clearing Cache
 
 #### Clear All Caches
+
 ```powershell
 oh-my-posh cache clean
 ```
@@ -278,6 +289,7 @@ oh-my-posh cache clean
 ---
 
 #### Clear Session Cache
+
 ```powershell
 oh-my-posh cache clean --session
 ```
@@ -289,6 +301,7 @@ oh-my-posh cache clean --session
 ---
 
 #### Clear Cache by Duration
+
 ```powershell
 # Clears cache older than 1 hour
 oh-my-posh cache clean --duration 1h
@@ -314,12 +327,13 @@ Write-Host "Cache size: $($cacheSize.Sum / 1MB)MB"
 {
   "type": "git",
   "cache": {
-    "strategy": "none"  // No caching
+    "strategy": "none" // No caching
   }
 }
 ```
 
 Or via command:
+
 ```powershell
 $env:OHMYPOSH_CACHE = "off"
 oh-my-posh init pwsh | Invoke-Expression
@@ -622,6 +636,7 @@ Compare-Performance -OldConfig "my-theme.json" -NewConfig "my-theme-optimized.js
 **Symptoms:** Data seems stale/old
 
 **Check:**
+
 ```powershell
 # Clear cache
 oh-my-posh cache clean
@@ -632,6 +647,7 @@ $env:OHMYPOSH_DEBUG = "true"
 ```
 
 **Solutions:**
+
 1. Reduce cache duration
 2. Switch to different strategy
 3. Manually clear cache
@@ -643,6 +659,7 @@ $env:OHMYPOSH_DEBUG = "true"
 **Symptoms:** `~/.cache/oh-my-posh` is large
 
 **Check:**
+
 ```powershell
 # Size check
 Get-ChildItem -Path "$env:LOCALAPPDATA\oh-my-posh\cache" -Recurse |
@@ -650,6 +667,7 @@ Get-ChildItem -Path "$env:LOCALAPPDATA\oh-my-posh\cache" -Recurse |
 ```
 
 **Solutions:**
+
 ```powershell
 # Clear old cache
 oh-my-posh cache clean --duration 1h
@@ -664,17 +682,19 @@ oh-my-posh cache clean --duration 1h
 **Symptoms:** Git status not updating after changes
 
 **Solutions:**
+
 ```json
 {
   "type": "git",
   "cache": {
     "strategy": "folder",
-    "duration": "30s"  // Shorter timeout
+    "duration": "30s" // Shorter timeout
   }
 }
 ```
 
 Or clear manually:
+
 ```powershell
 oh-my-posh cache clean
 ```
@@ -684,6 +704,7 @@ oh-my-posh cache clean
 ## Recommended Configurations
 
 ### Maximum Speed (Minimal Feedback)
+
 ```json
 {
   "cache": {
@@ -696,6 +717,7 @@ oh-my-posh cache clean
 ```
 
 ### Balanced (Recommended)
+
 ```json
 {
   "cache": {
@@ -707,6 +729,7 @@ oh-my-posh cache clean
 ```
 
 ### Real-Time (Always Fresh)
+
 ```json
 {
   "cache": {

@@ -62,6 +62,7 @@ Use when: Drawing attention to important transitions
 ```
 
 **Atomic Enhanced Example:**
+
 - Git branch (blue) → Status (orange/red) = Attention-grabbing
 - Good for error states
 
@@ -79,6 +80,7 @@ Use when: Related information or default state
 ```
 
 **Atomic Enhanced Example:**
+
 - Path (orange) → Git (yellow-gold) = Natural flow
 - Good for most prompts
 
@@ -96,6 +98,7 @@ Use when: Creating elegant, cohesive themes
 ```
 
 **Atomic Enhanced Example:**
+
 - All blues with varying brightness
 - Creates a "blue theme" feel
 
@@ -119,10 +122,10 @@ Adapted from interior design:
 ```json
 {
   "palette": {
-    "neutral": "#505050",        // 60% - background/base
-    "accent": "#00BCD4",         // 30% - primary cyan
-    "success": "#00C853",        // 10% - success state
-    "error": "#FF0000"           // 10% - error state
+    "neutral": "#505050", // 60% - background/base
+    "accent": "#00BCD4", // 30% - primary cyan
+    "success": "#00C853", // 10% - success state
+    "error": "#FF0000" // 10% - error state
   }
 }
 ```
@@ -251,11 +254,11 @@ Using intermediate colors to bridge far hues:
 ```json
 {
   "palette": {
-    "blue_primary": "#2196F3",      // Hue 210°
-    "blue_purple": "#7B68EE",       // Hue 250° (bridge)
-    "purple_accent": "#9C27B0",     // Hue 270°
-    "purple_orange": "#E67E22",     // Hue 20° (bridge)
-    "orange_accent": "#FF9100"      // Hue 30°
+    "blue_primary": "#2196F3", // Hue 210°
+    "blue_purple": "#7B68EE", // Hue 250° (bridge)
+    "purple_accent": "#9C27B0", // Hue 270°
+    "purple_orange": "#E67E22", // Hue 20° (bridge)
+    "orange_accent": "#FF9100" // Hue 30°
   }
 }
 ```
@@ -377,11 +380,11 @@ Level 4: Background/Tertiary
 ```json
 {
   "palette": {
-    "critical": "#FF0000",           // Hue 0°, Saturation 100% - Screams for attention
-    "primary": "#00BCD4",            // Hue 180°, Saturation 100% - Clear focus
-    "secondary": "#4DB8DD",          // Hue 180°, Saturation 60% - Supportive
-    "tertiary": "#8FBDD9",           // Hue 180°, Saturation 30% - Background
-    "muted": "#B8D4E0"               // Hue 180°, Saturation 15% - Barely visible
+    "critical": "#FF0000", // Hue 0°, Saturation 100% - Screams for attention
+    "primary": "#00BCD4", // Hue 180°, Saturation 100% - Clear focus
+    "secondary": "#4DB8DD", // Hue 180°, Saturation 60% - Supportive
+    "tertiary": "#8FBDD9", // Hue 180°, Saturation 30% - Background
+    "muted": "#B8D4E0" // Hue 180°, Saturation 15% - Barely visible
   }
 }
 ```
@@ -421,12 +424,14 @@ Hue: 210°    Hue: 15°       Hue: 48°       Hue: 0°/120°   Hue: 180°
 ### Interplay Analysis
 
 **Positive Aspects:**
+
 - ✅ Blue → Orange = 195° difference (Striking but intentional)
 - ✅ Orange → Yellow = 30° difference (Smooth, warm transition)
 - ✅ Yellow → Red/Green = Semantic (clear status meaning)
 - ✅ Cyan accent bridges back to cool tones
 
 **Considerations:**
+
 - ⚠️ Large hue jumps demand attention (good for distinct segments)
 - ⚠️ Warm color concentration (orange-yellow-red area)
 - ⚠️ Cyan appears isolated (provides cool balance)
@@ -495,17 +500,17 @@ Get-HueDistance -Hue1 210 -Hue2 15  # Blue to Orange
 ```json
 {
   "palette": {
-    "primary": "#0080FF",           // Hue 210° (blue)
-    "primary_dim": "#004B99",       // Same hue, 50% brightness
-    "primary_light": "#87CEEB",     // Same hue, 80% brightness
+    "primary": "#0080FF", // Hue 210° (blue)
+    "primary_dim": "#004B99", // Same hue, 50% brightness
+    "primary_light": "#87CEEB", // Same hue, 80% brightness
 
-    "accent": "#FF6B35",            // Hue 15° (orange) - 195° from primary
-    "accent_muted": "#CC5219",      // Same hue, darker
-    "accent_light": "#FFB399",      // Same hue, lighter
+    "accent": "#FF6B35", // Hue 15° (orange) - 195° from primary
+    "accent_muted": "#CC5219", // Same hue, darker
+    "accent_light": "#FFB399", // Same hue, lighter
 
-    "status_success": "#00C853",    // Hue 120° (green) - semantic
-    "status_error": "#FF0000",      // Hue 0° (red) - semantic
-    "status_warning": "#FFD600",    // Hue 48° (yellow) - semantic
+    "status_success": "#00C853", // Hue 120° (green) - semantic
+    "status_error": "#FF0000", // Hue 0° (red) - semantic
+    "status_warning": "#FFD600", // Hue 48° (yellow) - semantic
 
     "neutral_light": "#FFFFFF",
     "neutral_dark": "#1A1A1A"
@@ -588,11 +593,11 @@ Result: Smooth rainbow transition from blue to orange
 ```json
 {
   "palette": {
-    "segment1": "#FF0000",  // Random
-    "segment2": "#00FF00",  // Random
-    "segment3": "#0000FF",  // Random
-    "segment4": "#FFFF00",  // Random
-    "segment5": "#FF00FF"   // Random
+    "segment1": "#FF0000", // Random
+    "segment2": "#00FF00", // Random
+    "segment3": "#0000FF", // Random
+    "segment4": "#FFFF00", // Random
+    "segment5": "#FF00FF" // Random
   }
 }
 ```
@@ -604,11 +609,11 @@ Result: Smooth rainbow transition from blue to orange
 ```json
 {
   "palette": {
-    "primary": "#0080FF",        // Hue 210° (base)
-    "secondary": "#00BCD4",      // Hue 180° (analogous)
-    "accent": "#FFD600",         // Hue 48° (complementary)
-    "success": "#00C853",        // Hue 120° (semantic)
-    "error": "#FF0000"           // Hue 0° (semantic)
+    "primary": "#0080FF", // Hue 210° (base)
+    "secondary": "#00BCD4", // Hue 180° (analogous)
+    "accent": "#FFD600", // Hue 48° (complementary)
+    "success": "#00C853", // Hue 120° (semantic)
+    "error": "#FF0000" // Hue 0° (semantic)
   }
 }
 ```

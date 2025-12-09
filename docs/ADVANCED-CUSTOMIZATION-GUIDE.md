@@ -62,16 +62,16 @@ Every Oh My Posh theme follows a defined JSON schema. Understanding this structu
 
 ### Key Top-Level Properties
 
-| Property | Purpose | Example |
-|----------|---------|---------|
-| `$schema` | Validation & IDE support | Official schema URL |
-| `version` | Schema version for Oh My Posh | `3` (current) |
-| `final_space` | Trailing space in prompt | `true` or `false` |
-| `console_title_template` | Terminal tab/window title | `"{{.Folder}}"` |
-| `accent_color` | Primary accent hue (not palette) | `"#00bcd4"` |
-| `palette` | Color definitions object | `{...}` |
-| `blocks` | Array of prompt line blocks | `[{...}]` |
-| `transient_prompt` | Quick re-prompt display | Optional `{...}` |
+| Property                 | Purpose                          | Example             |
+| ------------------------ | -------------------------------- | ------------------- |
+| `$schema`                | Validation & IDE support         | Official schema URL |
+| `version`                | Schema version for Oh My Posh    | `3` (current)       |
+| `final_space`            | Trailing space in prompt         | `true` or `false`   |
+| `console_title_template` | Terminal tab/window title        | `"{{.Folder}}"`     |
+| `accent_color`           | Primary accent hue (not palette) | `"#00bcd4"`         |
+| `palette`                | Color definitions object         | `{...}`             |
+| `blocks`                 | Array of prompt line blocks      | `[{...}]`           |
+| `transient_prompt`       | Quick re-prompt display          | Optional `{...}`    |
 
 ### Block Structure
 
@@ -281,7 +281,7 @@ Oh My Posh uses Go template syntax (similar to Handlebars). Templates appear in 
 
 ```json
 {
-  "template": "User: {{ .User }}"  // Output: User: john
+  "template": "User: {{ .User }}" // Output: User: john
 }
 ```
 
@@ -348,22 +348,22 @@ Oh My Posh uses Go template syntax (similar to Handlebars). Templates appear in 
 
 ### Built-In Template Functions
 
-| Function | Purpose | Example |
-|----------|---------|---------|
-| `eq` | Equals comparison | `{{ if eq .Shell "pwsh" }}PowerShell{{ end }}` |
-| `ne` | Not equals | `{{ if ne .User "root" }}Regular User{{ end }}` |
-| `gt` | Greater than | `{{ if gt .Memory 80 }}High Memory{{ end }}` |
-| `lt` | Less than | `{{ if lt .Memory 20 }}Low Memory{{ end }}` |
-| `and` | Logical AND | `{{ if and .Error .Warning }}Both{{ end }}` |
-| `or` | Logical OR | `{{ if or .Error .Warning }}Either{{ end }}` |
-| `not` | Logical NOT | `{{ if not .Error }}Success{{ end }}` |
-| `len` | Length of string | `{{ if gt (len .Text) 5 }}Long{{ end }}` |
-| `contains` | String contains | `{{ if contains .Path "node_modules" }}Has deps{{ end }}` |
-| `split` | Split string | `{{ index (split .Path "/") 0 }}` |
-| `join` | Join array | `{{ join (split .Path "/") "-" }}` |
-| `title` | Capitalize | `{{ title .Name }}` |
-| `lower` | Lowercase | `{{ lower .Text }}` |
-| `upper` | Uppercase | `{{ upper .Text }}` |
+| Function   | Purpose           | Example                                                   |
+| ---------- | ----------------- | --------------------------------------------------------- |
+| `eq`       | Equals comparison | `{{ if eq .Shell "pwsh" }}PowerShell{{ end }}`            |
+| `ne`       | Not equals        | `{{ if ne .User "root" }}Regular User{{ end }}`           |
+| `gt`       | Greater than      | `{{ if gt .Memory 80 }}High Memory{{ end }}`              |
+| `lt`       | Less than         | `{{ if lt .Memory 20 }}Low Memory{{ end }}`               |
+| `and`      | Logical AND       | `{{ if and .Error .Warning }}Both{{ end }}`               |
+| `or`       | Logical OR        | `{{ if or .Error .Warning }}Either{{ end }}`              |
+| `not`      | Logical NOT       | `{{ if not .Error }}Success{{ end }}`                     |
+| `len`      | Length of string  | `{{ if gt (len .Text) 5 }}Long{{ end }}`                  |
+| `contains` | String contains   | `{{ if contains .Path "node_modules" }}Has deps{{ end }}` |
+| `split`    | Split string      | `{{ index (split .Path "/") 0 }}`                         |
+| `join`     | Join array        | `{{ join (split .Path "/") "-" }}`                        |
+| `title`    | Capitalize        | `{{ title .Name }}`                                       |
+| `lower`    | Lowercase         | `{{ lower .Text }}`                                       |
+| `upper`    | Uppercase         | `{{ upper .Text }}`                                       |
 
 ### Practical Template Examples
 
@@ -418,7 +418,7 @@ Icons add visual richness to prompts while reducing text verbosity.
 
 Oh My Posh includes collections of pre-designed icons:
 
-- **Powerline symbols**: `` ``
+- **Powerline symbols**: ` `
 - **Nerd Font icons**: Various glyphs
 - **Unicode symbols**: ✓ ✗ ◆ ⬢ ⬡
 
@@ -452,6 +452,7 @@ Oh My Posh includes collections of pre-designed icons:
 #### Nerd Font Resources
 
 Use sites like [nerdfonts.com](https://nerdfonts.com) to browse available icons:
+
 - DevIcons (dev tools)
 - Font Awesome
 - Material Design Icons
@@ -459,16 +460,16 @@ Use sites like [nerdfonts.com](https://nerdfonts.com) to browse available icons:
 
 #### Example Icons
 
-| Icon | Unicode | Name | Use Case |
-|------|---------|------|----------|
-| ⬢ | U+2B22 | Node.js | JavaScript/TypeScript |
-| 🐍 | U+1F40D | Python | Python projects |
-| 󰌠 | Custom | Rust | Rust projects |
-| ☸ | U+2328 | Kubernetes | K8s contexts |
-| 󰔒 | Custom | Lock | Read-only indicator |
-| ⚡ | U+26A1 | Electricity | Power/speed indicator |
-| 🔧 | U+1F527 | Wrench | Tools/configuration |
-| 📦 | U+1F4E6 | Package | Dependencies |
+| Icon | Unicode | Name        | Use Case              |
+| ---- | ------- | ----------- | --------------------- |
+| ⬢    | U+2B22  | Node.js     | JavaScript/TypeScript |
+| 🐍   | U+1F40D | Python      | Python projects       |
+| 󰌠    | Custom  | Rust        | Rust projects         |
+| ☸   | U+2328  | Kubernetes  | K8s contexts          |
+| 󰔒    | Custom  | Lock        | Read-only indicator   |
+| ⚡   | U+26A1  | Electricity | Power/speed indicator |
+| 🔧   | U+1F527 | Wrench      | Tools/configuration   |
+| 📦   | U+1F4E6 | Package     | Dependencies          |
 
 ---
 
@@ -611,7 +612,7 @@ While Oh My Posh doesn't directly support color blending, you can simulate it by
 {
   "type": "text",
   "background": "transparent",
-  "template": " ",  // Single space
+  "template": " ", // Single space
   "properties": {
     "prefix": "",
     "suffix": ""
@@ -764,9 +765,9 @@ If a segment is very slow, consider disabling or replacing it:
 {
   "type": "command",
   "background": "transparent",
-  "template": "",  // Empty template = hidden
+  "template": "", // Empty template = hidden
   "properties": {
-    "command": "..."  // Expensive logic disabled
+    "command": "..." // Expensive logic disabled
   }
 }
 ```
@@ -801,17 +802,17 @@ Separate concerns into distinct segments:
       "type": "prompt",
       "alignment": "left",
       "segments": [
-        { "type": "shell" },     // ① System info
-        { "type": "path" },      // ② Location
-        { "type": "git" }        // ③ VCS status
+        { "type": "shell" }, // ① System info
+        { "type": "path" }, // ② Location
+        { "type": "git" } // ③ VCS status
       ]
     },
     {
       "type": "prompt",
       "alignment": "right",
       "segments": [
-        { "type": "time" },      // ④ Clock
-        { "type": "battery" }    // ⑤ Power
+        { "type": "time" }, // ④ Clock
+        { "type": "battery" } // ⑤ Power
       ]
     }
   ]
@@ -853,8 +854,8 @@ Cache aggressively and consider disabling optional segments:
     "duration": "5m"
   },
   "properties": {
-    "fetch_status": true,  // Only when needed
-    "fetch_upstream_icon": false  // Optional detail
+    "fetch_status": true, // Only when needed
+    "fetch_upstream_icon": false // Optional detail
   }
 }
 ```
@@ -865,9 +866,9 @@ Ensure adequate contrast and spacing:
 
 ```json
 {
-  "template": "  {{ .Content }}  ",  // Breathing room
+  "template": "  {{ .Content }}  ", // Breathing room
   "background": "p:dark_color",
-  "foreground": "p:light_color"  // High contrast
+  "foreground": "p:light_color" // High contrast
 }
 ```
 

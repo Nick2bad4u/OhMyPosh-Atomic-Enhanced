@@ -30,6 +30,7 @@ oh-my-posh get shell
 ```
 
 **If command not found:**
+
 - Install Oh My Posh: https://ohmyposh.dev/docs/installation/windows
 - Verify it's in PATH: `$env:PATH -split ';'`
 
@@ -68,6 +69,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 **Solutions:**
 
 1. **Check Terminal Color Support**
+
    ```powershell
    # Display color capability
    $env:COLORTERM
@@ -77,6 +79,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
    ```
 
 2. **Enable ANSI Escape Sequence Support (Windows)**
+
    ```powershell
    # In PowerShell 6+, ANSI support is automatic
    # For Windows PowerShell 5.1, may need Windows Terminal
@@ -88,6 +91,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
    ```
 
 3. **Test Direct Color Output**
+
    ```powershell
    $esc = [char]27
    $reset = "$esc[0m"
@@ -125,6 +129,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
    - Verify scheme matches theme design intent
 
 2. **Generate Theme for Your Terminal**
+
    ```powershell
    # Test different palettes to find best match
    .\New-ThemeWithPalette.ps1 -PaletteName "nord_frost"
@@ -132,6 +137,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
    ```
 
 3. **Manually Adjust Palette Colors**
+
    ```powershell
    # Extract palette
    $theme = Get-Content "OhMyPosh-Atomic-Custom.json" | ConvertFrom-Json
@@ -150,6 +156,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 **Solutions:**
 
 1. **Increase Cache Duration**
+
    ```json
    {
      "type": "git",
@@ -161,6 +168,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
    ```
 
 2. **Reduce Refresh-Rate Segments**
+
    ```json
    {
      "type": "time",
@@ -188,6 +196,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
    - Recommended: Noto Nerd Font, FiraCode Nerd Font, JetBrains Mono Nerd Font
 
    **Windows:**
+
    ```powershell
    # Download font
    # Right-click .ttf file > Install
@@ -196,12 +205,14 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
    ```
 
    **macOS:**
+
    ```bash
    brew tap homebrew/cask-fonts
    brew install --cask font-noto-nerd-font
    ```
 
    **Linux:**
+
    ```bash
    # Fedora
    sudo dnf install noto-fonts-nerd
@@ -225,6 +236,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
      ```
 
 3. **Test Font Installation**
+
    ```powershell
    # Display test string with Nerd Font glyphs
    Write-Host "⬢ ⚡ 🐍 ☸ 📦 🔧"
@@ -235,7 +247,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 4. **Fallback to Basic Icons**
    ```json
    {
-     "template": "{{ .Name }} [{{ .Branch }}]"  // No icons
+     "template": "{{ .Name }} [{{ .Branch }}]" // No icons
    }
    ```
 
@@ -250,6 +262,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
    - Proportional fonts break prompt alignment
 
 2. **Test Font Rendering**
+
    ```powershell
    # Display aligned text
    $text = "█████████████████████"
@@ -260,7 +273,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 3. **Adjust Template Spacing**
    ```json
    {
-     "template": "{{ .Content }}"  // Remove extra spaces
+     "template": "{{ .Content }}" // Remove extra spaces
    }
    ```
 
@@ -275,6 +288,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 **Solutions:**
 
 1. **Identify Slow Segment**
+
    ```powershell
    # Enable debug output
    $env:OHMYPOSH_DEBUG = $true
@@ -287,21 +301,23 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
    ```
 
 2. **Implement Aggressive Caching**
+
    ```json
    {
      "type": "git",
      "cache": {
        "strategy": "folder",
-       "duration": "5m"  // Cache for 5 minutes
+       "duration": "5m" // Cache for 5 minutes
      }
    }
    ```
 
 3. **Disable Slow Segments Temporarily**
+
    ```json
    {
      "type": "command",
-     "template": "",  // Hide temporarily
+     "template": "", // Hide temporarily
      "properties": { "command": "expensive_script.ps1" }
    }
    ```
@@ -320,6 +336,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 **Solutions:**
 
 1. **Reduce Update Frequency**
+
    ```json
    {
      "cache": {
@@ -330,14 +347,16 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
    ```
 
 2. **Disable Weather Segment** (Often expensive)
+
    ```json
    {
      "type": "owm",
-     "template": ""  // Disable
+     "template": "" // Disable
    }
    ```
 
 3. **Remove Upstream Git Status** (Network-dependent)
+
    ```json
    {
      "type": "git",
@@ -349,6 +368,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
    ```
 
 4. **Optimize Custom Commands**
+
    ```powershell
    # ❌ SLOW: Reading entire directory
    Get-ChildItem -Recurse | Measure-Object
@@ -366,6 +386,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 **Problem: Oh My Posh not initializing**
 
 **Solution:**
+
 ```powershell
 # Windows PowerShell doesn't support ANSI codes well
 # Use Windows Terminal instead (free from Microsoft Store)
@@ -379,6 +400,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 **Problem: Theme not applied after profile loads**
 
 **Solution:**
+
 ```powershell
 # Check profile location
 $PROFILE  # Defaults to C:\Users\{user}\Documents\PowerShell\profile.ps1
@@ -395,6 +417,7 @@ oh-my-posh init pwsh --config $env:POSH_THEMES_PATH\OhMyPosh-Atomic-Custom.json 
 **Problem: Theme not displaying or git segment not working**
 
 **Solution:**
+
 ```bash
 # Add to ~/.bashrc
 eval "$(oh-my-posh init bash --config ~/path/to/theme.json)"
@@ -408,6 +431,7 @@ export PATH="$PATH:/c/Program Files/Oh\ My\ Posh"
 **Problem: Colors not displaying in WSL terminal**
 
 **Solution:**
+
 ```bash
 # WSL1: May not support ANSI colors well
 # WSL2: Full support with Windows Terminal
@@ -429,6 +453,7 @@ curl -s https://ohmyposh.dev/install.sh | bash -s
 **Problem: Command not found when running from PowerShell**
 
 **Solution:**
+
 ```powershell
 # Install via WinGet (modern method)
 winget install JanDeDobbeleer.OhMyPosh
@@ -448,6 +473,7 @@ oh-my-posh --version
 **Problem: Long paths cause slow performance**
 
 **Solution:**
+
 ```json
 {
   "type": "path",
@@ -463,6 +489,7 @@ oh-my-posh --version
 **Problem: Brew install of Oh My Posh not in PATH**
 
 **Solution:**
+
 ```bash
 # Brew installs to specific location
 eval "$(oh-my-posh init zsh)"
@@ -474,6 +501,7 @@ export PATH="/opt/homebrew/bin:$PATH"
 **Problem: Font rendering issues in iTerm2**
 
 **Solution:**
+
 ```
 iTerm2 Preferences > Profiles > Text > Font
 - Select "Noto Nerd Font" or similar
@@ -485,6 +513,7 @@ iTerm2 Preferences > Profiles > Text > Font
 **Problem: Theme works in GUI terminal but not SSH**
 
 **Solution:**
+
 ```bash
 # SSH terminal may be limited
 # Set TERM variable:
@@ -497,6 +526,7 @@ ssh -t user@host "TERM=xterm-256color bash"
 **Problem: Slow performance over SSH**
 
 **Solution:**
+
 ```json
 {
   "cache": {
@@ -504,7 +534,7 @@ ssh -t user@host "TERM=xterm-256color bash"
     "duration": "10m"
   },
   "properties": {
-    "fetch_status": false  // Disable expensive operations
+    "fetch_status": false // Disable expensive operations
   }
 }
 ```
@@ -518,11 +548,13 @@ ssh -t user@host "TERM=xterm-256color bash"
 **Problem: Colors wrong or not showing**
 
 **Solutions:**
+
 1. **Check Terminal Color Theme**
    - Command Palette > Preferences: Open Settings (JSON)
    - Check `"workbench.colorTheme"`
 
 2. **Configure Terminal Font**
+
    ```json
    {
      "terminal.integrated.fontFamily": "\"FiraCode Nerd Font\"",
@@ -544,6 +576,7 @@ ssh -t user@host "TERM=xterm-256color bash"
 **Problem: Changes not applying**
 
 **Solutions:**
+
 1. **Save and Reload**
    - Settings > Save (Ctrl+S)
    - Close and reopen terminal
@@ -569,6 +602,7 @@ ssh -t user@host "TERM=xterm-256color bash"
 ### Problem: Theme File Not Found
 
 **Solutions:**
+
 ```powershell
 # Use absolute path
 oh-my-posh init pwsh --config "C:\full\path\theme.json"
@@ -581,6 +615,7 @@ oh-my-posh init pwsh --config $env:POSH_THEME
 ### Problem: Invalid JSON in Theme File
 
 **Solutions:**
+
 ```powershell
 # Validate JSON
 try {
@@ -597,6 +632,7 @@ try {
 ### Problem: Palette Key Referenced But Not Defined
 
 **Solutions:**
+
 ```powershell
 # Run validation script
 .\validate-palette.ps1

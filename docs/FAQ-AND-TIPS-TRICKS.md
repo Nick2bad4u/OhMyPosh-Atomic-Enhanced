@@ -27,6 +27,7 @@
 #### Q: I installed Oh My Posh but the theme isn't showing up
 
 **A:** You need to:
+
 1. Install the theme file
 2. Initialize it in your shell profile
 3. Reload your shell
@@ -36,6 +37,7 @@ See [Quick Start Guide](./QUICK-START-GUIDE.md) for step-by-step instructions.
 #### Q: Where do I put the theme file?
 
 **A:** Anywhere convenient. Common locations:
+
 - Windows: `C:\Users\{username}\Documents\OhMyPosh\themes\`
 - macOS/Linux: `~/.config/ohmyposh/themes/`
 - Or keep it in the cloned repository
@@ -43,6 +45,7 @@ See [Quick Start Guide](./QUICK-START-GUIDE.md) for step-by-step instructions.
 #### Q: My Nerd Font isn't installing
 
 **A:**
+
 1. Verify you're downloading from [nerdfonts.com](https://nerdfonts.com)
 2. Extract the .ttf files
 3. Install by double-clicking or using system font manager
@@ -116,12 +119,15 @@ Or manually create a JSON file following the Oh My Posh schema.
 **A:** See [PERFORMANCE-OPTIMIZATION-GUIDE.md](./PERFORMANCE-OPTIMIZATION-GUIDE.md)
 
 Quick fixes:
+
 1. Enable caching:
+
    ```json
    "cache": {"strategy": "folder", "duration": "5m"}
    ```
 
 2. Disable `fetch_status`:
+
    ```json
    "properties": {"fetch_status": false}
    ```
@@ -133,13 +139,15 @@ Quick fixes:
 **A:** Large repositories take time to check status. Solutions:
 
 1. **Disable status checking entirely:**
+
    ```json
-   {"type": "git", "properties": {"fetch_status": false}}
+   { "type": "git", "properties": { "fetch_status": false } }
    ```
 
 2. **Cache aggressively:**
+
    ```json
-   {"cache": {"duration": "10m"}}
+   { "cache": { "duration": "10m" } }
    ```
 
 3. **Optimize repository:**
@@ -161,6 +169,7 @@ Quick fixes:
 #### Q: Colors look wrong
 
 **A:**
+
 1. Check terminal color scheme matches theme
 2. Verify terminal supports 256-color or truecolor
 3. Try different terminal emulator (Windows Terminal recommended)
@@ -169,6 +178,7 @@ Quick fixes:
 #### Q: Seeing boxes instead of icons
 
 **A:**
+
 1. Nerd Font not installed - see [TROUBLESHOOTING-GUIDE.md](./TROUBLESHOOTING-GUIDE.md#font--glyph-problems)
 2. Terminal not using Nerd Font
 3. Font file corrupted - reinstall it
@@ -176,9 +186,11 @@ Quick fixes:
 #### Q: Prompt wrapping to multiple lines
 
 **A:**
+
 1. Reduce path depth:
+
    ```json
-   {"type": "path", "properties": {"max_depth": 2}}
+   { "type": "path", "properties": { "max_depth": 2 } }
    ```
 
 2. Simplify path display
@@ -187,6 +199,7 @@ Quick fixes:
 #### Q: Colors are different every time I open terminal
 
 **A:** Likely caused by:
+
 1. Terminal color scheme changing
 2. Oh My Posh version different
 3. Theme file in different location
@@ -204,6 +217,7 @@ oh-my-posh init pwsh --config "C:\full\path\to\theme.json"
 #### Q: Theme worked yesterday but not today
 
 **A:** Try:
+
 1. Reload shell: `& $profile` (PowerShell) or `source ~/.bashrc` (Bash)
 2. Restart terminal completely
 3. Reinstall Oh My Posh: `winget upgrade JanDeDobbeleer.OhMyPosh`
@@ -212,6 +226,7 @@ oh-my-posh init pwsh --config "C:\full\path\to\theme.json"
 #### Q: Works in VS Code but not Windows Terminal
 
 **A:** VS Code terminal and Windows Terminal are different. Ensure:
+
 1. Windows Terminal has Nerd Font configured
 2. PowerShell profile runs in both places
 3. Theme file path is absolute (not relative)
@@ -219,6 +234,7 @@ oh-my-posh init pwsh --config "C:\full\path\to\theme.json"
 #### Q: SSH prompt is different from local
 
 **A:** Remote host has different Oh My Posh version or config. Solutions:
+
 1. Install same Oh My Posh version on remote
 2. Copy theme file to remote
 3. Use cached/simplified segments on remote
@@ -306,7 +322,7 @@ After choosing a theme, update your terminal's color scheme to match:
     {
       "name": "Atomic Enhanced Custom",
       "background": "#1E1E1E",
-      "foreground": "#D4D4D4",
+      "foreground": "#D4D4D4"
       // ... rest of colors
     }
   ]
@@ -369,11 +385,13 @@ Start with a simple, fast prompt:
 ```json
 {
   "blocks": [
-    {"segments": [
-      {"type": "shell"},
-      {"type": "path"},
-      {"type": "status"}
-    ]}
+    {
+      "segments": [
+        { "type": "shell" },
+        { "type": "path" },
+        { "type": "status" }
+      ]
+    }
   ]
 }
 ```
@@ -383,13 +401,15 @@ Then add segments as needed:
 ```json
 {
   "blocks": [
-    {"segments": [
-      {"type": "shell"},
-      {"type": "path"},
-      {"type": "git"},      // Add git
-      {"type": "node"},     // Add version managers
-      {"type": "status"}
-    ]}
+    {
+      "segments": [
+        { "type": "shell" },
+        { "type": "path" },
+        { "type": "git" }, // Add git
+        { "type": "node" }, // Add version managers
+        { "type": "status" }
+      ]
+    }
   ]
 }
 ```
@@ -412,7 +432,7 @@ For most users, 5-10 minute caching is fine:
 {
   "cache": {
     "strategy": "folder",
-    "duration": "5m"  // Good balance
+    "duration": "5m" // Good balance
   }
 }
 ```
@@ -599,15 +619,15 @@ git commit -m "Backup custom theme configuration"
 
 ### Table of Quick Fixes
 
-| Problem | Cause | Solution |
-|---------|-------|----------|
-| Slow prompt | Uncached segments | Add `"cache"` config |
-| Wrong colors | Terminal scheme mismatch | Change terminal theme |
-| Boxes instead of icons | No Nerd Font | Install from nerdfonts.com |
-| Theme not applying | Not initialized | Run `& $profile` |
-| Git status missing | `fetch_status: false` | Set to `true` |
-| Colors flickering | Frequent refreshes | Increase cache duration |
-| Wrapping text | Too many segments | `max_depth: 2` on path |
+| Problem                | Cause                    | Solution                   |
+| ---------------------- | ------------------------ | -------------------------- |
+| Slow prompt            | Uncached segments        | Add `"cache"` config       |
+| Wrong colors           | Terminal scheme mismatch | Change terminal theme      |
+| Boxes instead of icons | No Nerd Font             | Install from nerdfonts.com |
+| Theme not applying     | Not initialized          | Run `& $profile`           |
+| Git status missing     | `fetch_status: false`    | Set to `true`              |
+| Colors flickering      | Frequent refreshes       | Increase cache duration    |
+| Wrapping text          | Too many segments        | `max_depth: 2` on path     |
 
 ### Troubleshooting Flowchart
 
@@ -634,26 +654,31 @@ Issue: Prompt looks wrong
 ### Most Common Modifications
 
 **Show only current directory (not full path):**
+
 ```json
-{"type": "path", "properties": {"max_depth": 1}}
+{ "type": "path", "properties": { "max_depth": 1 } }
 ```
 
 **Hide a segment:**
+
 ```json
-{"type": "git", "template": ""}
+{ "type": "git", "template": "" }
 ```
 
 **Disable git status checking:**
+
 ```json
-{"type": "git", "properties": {"fetch_status": false}}
+{ "type": "git", "properties": { "fetch_status": false } }
 ```
 
 **Add spacing between segments:**
+
 ```json
-{"template": " | {{ .Content }} | "}
+{ "template": " | {{ .Content }} | " }
 ```
 
 **Change segment colors:**
+
 ```json
 {
   "type": "git",

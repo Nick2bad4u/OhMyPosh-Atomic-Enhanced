@@ -71,6 +71,7 @@ The prompt uses special characters that require a **Nerd Font**.
 ### Option B: Alternative Fonts
 
 Any Nerd Font will work. Popular alternatives:
+
 - JetBrains Mono Nerd Font
 - Meslo Nerd Font
 - Ubuntu Mono Nerd Font
@@ -78,6 +79,7 @@ Any Nerd Font will work. Popular alternatives:
 ### Verify Font Installation
 
 See special characters display:
+
 ```powershell
 Write-Host "✓ ✗ → ← ↑ ↓ 🔧 ⚡"
 # Should display: ✓ ✗ → ← ↑ ↓ 🔧 ⚡
@@ -92,11 +94,13 @@ If you see boxes instead, the font isn't installed or selected. See [TROUBLESHOO
 ### For PowerShell
 
 1. **Open PowerShell profile:**
+
    ```powershell
    notepad $PROFILE
    ```
 
 2. **Add this line at the bottom:**
+
    ```powershell
    oh-my-posh init pwsh --config "$env:PROGRAMFILES\oh-my-posh\themes\atomic.omp.json" | Invoke-Expression
    ```
@@ -111,6 +115,7 @@ If you see boxes instead, the font isn't installed or selected. See [TROUBLESHOO
 ### For Bash/Zsh (macOS/Linux)
 
 1. **Edit your shell config:**
+
    ```bash
    # For Bash
    nano ~/.bashrc
@@ -120,6 +125,7 @@ If you see boxes instead, the font isn't installed or selected. See [TROUBLESHOO
    ```
 
 2. **Add this line at the bottom:**
+
    ```bash
    eval "$(oh-my-posh init bash --config ~/path/to/OhMyPosh-Atomic-Custom.json)"
    # or for Zsh:
@@ -188,6 +194,7 @@ Close your terminal completely and open a new window.
 With your current directory, git branch (if in a repo), and exit status.
 
 **If you don't see the prompt:**
+
 - Reload shell: `& $PROFILE` (PowerShell) or `source ~/.bashrc` (Bash)
 - Or restart terminal completely
 
@@ -200,6 +207,7 @@ Your Oh My Posh Atomic Enhanced prompt is ready!
 ### What You Get
 
 The prompt displays:
+
 - ✅ Current directory with icons for different file types
 - ✅ Git branch and status (if in a git repository)
 - ✅ Exit status of last command (✓ or ✗)
@@ -222,6 +230,7 @@ Want to customize further?
 ### Prompt doesn't show
 
 **Try:**
+
 1. Close terminal completely, open new window
 2. Reload: `& $PROFILE` (PowerShell) or `source ~/.bashrc` (Bash)
 3. Check path is correct: `oh-my-posh --version`
@@ -229,6 +238,7 @@ Want to customize further?
 ### Icons are boxes
 
 **The font didn't install properly:**
+
 1. Download font again from [nerdfonts.com](https://www.nerdfonts.com/)
 2. Install to system fonts
 3. Restart terminal
@@ -237,6 +247,7 @@ Want to customize further?
 ### Colors look wrong
 
 **Terminal color scheme issue:**
+
 1. Your terminal might have a different color scheme
 2. Update terminal colors to match theme
 3. Or switch to a different color scheme
@@ -270,23 +281,23 @@ $env:OHMYPOSH_DEBUG = "true"
 
 ## System Requirements
 
-| Component | Windows | macOS | Linux |
-|-----------|---------|-------|-------|
-| PowerShell | 7.0+ | — | — |
-| Bash/Zsh | — | Included | Included |
-| Oh My Posh | Latest | Latest | Latest |
-| Nerd Font | Required | Required | Required |
-| Terminal | Windows Terminal recommended | iTerm2+ | Any |
+| Component  | Windows                      | macOS    | Linux    |
+| ---------- | ---------------------------- | -------- | -------- |
+| PowerShell | 7.0+                         | —        | —        |
+| Bash/Zsh   | —                            | Included | Included |
+| Oh My Posh | Latest                       | Latest   | Latest   |
+| Nerd Font  | Required                     | Required | Required |
+| Terminal   | Windows Terminal recommended | iTerm2+  | Any      |
 
 ---
 
 ## File Locations
 
-| Item | Windows | macOS | Linux |
-|------|---------|-------|-------|
-| Shell Config | `$PROFILE` | `~/.zshrc` or `~/.bashrc` | `~/.bashrc` or `~/.zshrc` |
-| Themes | `Program Files\oh-my-posh\themes` | `/usr/local/opt/oh-my-posh/themes` | `/usr/share/oh-my-posh/themes` |
-| Custom | Anywhere | Anywhere | Anywhere |
+| Item         | Windows                           | macOS                              | Linux                          |
+| ------------ | --------------------------------- | ---------------------------------- | ------------------------------ |
+| Shell Config | `$PROFILE`                        | `~/.zshrc` or `~/.bashrc`          | `~/.bashrc` or `~/.zshrc`      |
+| Themes       | `Program Files\oh-my-posh\themes` | `/usr/local/opt/oh-my-posh/themes` | `/usr/share/oh-my-posh/themes` |
+| Custom       | Anywhere                          | Anywhere                           | Anywhere                       |
 
 ---
 
@@ -337,14 +348,14 @@ Learn more in [ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.m
 
 ## Need More Help?
 
-| Question | Resource |
-|----------|----------|
-| How do I customize? | [ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.md) |
-| Why is it slow? | [PERFORMANCE-OPTIMIZATION-GUIDE.md](./PERFORMANCE-OPTIMIZATION-GUIDE.md) |
-| It looks wrong | [TROUBLESHOOTING-GUIDE.md](./TROUBLESHOOTING-GUIDE.md) |
-| Common questions | [FAQ-AND-TIPS-TRICKS.md](./FAQ-AND-TIPS-TRICKS.md) |
-| Platform-specific | [CROSS-PLATFORM-SETUP-GUIDE.md](./CROSS-PLATFORM-SETUP-GUIDE.md) |
-| Use with my IDE/tool | [INTEGRATION-GUIDES.md](./INTEGRATION-GUIDES.md) |
+| Question             | Resource                                                                 |
+| -------------------- | ------------------------------------------------------------------------ |
+| How do I customize?  | [ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.md)     |
+| Why is it slow?      | [PERFORMANCE-OPTIMIZATION-GUIDE.md](./PERFORMANCE-OPTIMIZATION-GUIDE.md) |
+| It looks wrong       | [TROUBLESHOOTING-GUIDE.md](./TROUBLESHOOTING-GUIDE.md)                   |
+| Common questions     | [FAQ-AND-TIPS-TRICKS.md](./FAQ-AND-TIPS-TRICKS.md)                       |
+| Platform-specific    | [CROSS-PLATFORM-SETUP-GUIDE.md](./CROSS-PLATFORM-SETUP-GUIDE.md)         |
+| Use with my IDE/tool | [INTEGRATION-GUIDES.md](./INTEGRATION-GUIDES.md)                         |
 
 ---
 

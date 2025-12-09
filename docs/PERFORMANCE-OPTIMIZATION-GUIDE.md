@@ -87,16 +87,16 @@ $env:OHMYPOSH_DEBUG = "true"
 
 ### Segment Execution Cost
 
-| Segment Type | Typical Cost | Cacheable |
-|--------------|-------------|-----------|
-| **shell** | 1-2ms | ✅ Yes |
-| **path** | 5-10ms | ⚠️ Sometimes |
-| **git** | 50-200ms | ✅ Yes (by folder) |
-| **status** | 1-2ms | ✅ Yes |
-| **command** | 10-100ms+ | ✅ Yes |
-| **node** | 30-80ms | ✅ Yes |
-| **python** | 30-80ms | ✅ Yes |
-| **owm (weather)** | 500ms+ | ⚠️ Network |
+| Segment Type      | Typical Cost | Cacheable          |
+| ----------------- | ------------ | ------------------ |
+| **shell**         | 1-2ms        | ✅ Yes             |
+| **path**          | 5-10ms       | ⚠️ Sometimes       |
+| **git**           | 50-200ms     | ✅ Yes (by folder) |
+| **status**        | 1-2ms        | ✅ Yes             |
+| **command**       | 10-100ms+    | ✅ Yes             |
+| **node**          | 30-80ms      | ✅ Yes             |
+| **python**        | 30-80ms      | ✅ Yes             |
+| **owm (weather)** | 500ms+       | ⚠️ Network         |
 
 ---
 
@@ -121,12 +121,13 @@ Cache for entire shell session (from startup to close).
 **Best for:** Runtime versions, environment variables, fixed state
 
 **Example:**
+
 ```json
 {
   "type": "node",
   "cache": {
     "strategy": "session",
-    "duration": "1h"  // Effectively entire session
+    "duration": "1h" // Effectively entire session
   }
 }
 ```
@@ -141,6 +142,7 @@ Cache per directory (resets when changing directories).
 **Best for:** Git status, file-dependent info
 
 **Example:**
+
 ```json
 {
   "type": "git",
@@ -161,6 +163,7 @@ Cache per PowerShell window session.
 **Best for:** OS-specific info
 
 **Example:**
+
 ```json
 {
   "type": "env",
@@ -172,13 +175,13 @@ Cache per PowerShell window session.
 
 ### Duration Formatting
 
-| Format | Meaning | Use Case |
-|--------|---------|----------|
-| `"500ms"` | 500 milliseconds | Very frequent updates |
-| `"2s"` | 2 seconds | Time display |
-| `"30s"` | 30 seconds | Active development |
-| `"5m"` | 5 minutes | Git status in slow repos |
-| `"1h"` | 1 hour | Runtime versions |
+| Format    | Meaning          | Use Case                 |
+| --------- | ---------------- | ------------------------ |
+| `"500ms"` | 500 milliseconds | Very frequent updates    |
+| `"2s"`    | 2 seconds        | Time display             |
+| `"30s"`   | 30 seconds       | Active development       |
+| `"5m"`    | 5 minutes        | Git status in slow repos |
+| `"1h"`    | 1 hour           | Runtime versions         |
 
 ### Recommended Caching Configuration
 
@@ -209,7 +212,7 @@ Cache per PowerShell window session.
           },
           "properties": {
             "fetch_status": true,
-            "fetch_upstream_icon": false  // Expensive
+            "fetch_upstream_icon": false // Expensive
           }
         },
         {
@@ -243,9 +246,9 @@ Hide a segment without removing it:
 ```json
 {
   "type": "owm",
-  "template": "",  // Empty = hidden
+  "template": "", // Empty = hidden
   "properties": {
-    "api_key": "..."  // Won't execute
+    "api_key": "..." // Won't execute
   }
 }
 ```
@@ -267,7 +270,7 @@ Only show in certain directories:
 {
   "type": "git",
   "properties": {
-    "fetch_status": false,        // Expensive network call
+    "fetch_status": false, // Expensive network call
     "fetch_upstream_icon": false, // Upstream tracking
     "fetch_worktree_count": false // Worktree checking
   }
@@ -332,6 +335,7 @@ For large repositories:
 ### 3. Remove Unnecessary Segments
 
 **Analyze each segment:**
+
 - Do I need this information in my prompt?
 - How often do I look at it?
 - What's the actual cost vs. benefit?
@@ -397,7 +401,7 @@ Show simplified prompt after command execution:
 {
   "type": "path",
   "properties": {
-    "max_depth": 2,           // Show only last 2 directories
+    "max_depth": 2, // Show only last 2 directories
     "folder_separator_icon": "/"
   }
 }
@@ -475,12 +479,12 @@ $results | Format-Table
 
 ### Expected Performance
 
-| Configuration | Time | Notes |
-|---------------|------|-------|
-| Minimal (2-3 segments) | 30-50ms | ✅ Excellent |
-| Standard (5-7 segments) | 50-150ms | ✅ Good |
-| Full-featured | 150-300ms | ⚠️ Acceptable |
-| Poorly optimized | 500ms+ | ❌ Needs work |
+| Configuration           | Time      | Notes         |
+| ----------------------- | --------- | ------------- |
+| Minimal (2-3 segments)  | 30-50ms   | ✅ Excellent  |
+| Standard (5-7 segments) | 50-150ms  | ✅ Good       |
+| Full-featured           | 150-300ms | ⚠️ Acceptable |
+| Poorly optimized        | 500ms+    | ❌ Needs work |
 
 ---
 
@@ -558,7 +562,10 @@ $results | Format-Table
             "fetch_upstream_icon": false
           }
         },
-        { "type": "node", "cache": { "strategy": "folder", "duration": "30m" } },
+        {
+          "type": "node",
+          "cache": { "strategy": "folder", "duration": "30m" }
+        },
         { "type": "status", "cache": { "strategy": "session" } }
       ]
     }
@@ -577,13 +584,15 @@ $results | Format-Table
 **Cause:** First-time git status evaluation or caching not working
 
 **Solutions:**
+
 1. Increase git cache duration:
+
    ```json
    {
      "type": "git",
      "cache": {
        "strategy": "folder",
-       "duration": "10m"  // Longer cache
+       "duration": "10m" // Longer cache
      }
    }
    ```
@@ -603,22 +612,25 @@ $results | Format-Table
 **Cause:** Network latency amplifies segment delays
 
 **Solutions:**
+
 1. Aggressive caching for remote:
+
    ```json
    {
      "type": "git",
      "cache": {
        "strategy": "folder",
-       "duration": "30m"  // Very long cache
+       "duration": "30m" // Very long cache
      }
    }
    ```
 
 2. Disable network-dependent segments:
+
    ```json
    {
      "type": "owm",
-     "template": ""  // Disable weather
+     "template": "" // Disable weather
    }
    ```
 
@@ -626,7 +638,7 @@ $results | Format-Table
    ```json
    {
      "type": "path",
-     "properties": { "max_depth": 1 }  // Only current dir
+     "properties": { "max_depth": 1 } // Only current dir
    }
    ```
 
@@ -635,7 +647,9 @@ $results | Format-Table
 **Cause:** Git status checking takes time in large repos
 
 **Solutions:**
+
 1. Disable status checking:
+
    ```json
    {
      "type": "git",
@@ -644,6 +658,7 @@ $results | Format-Table
    ```
 
 2. Use `.gitignore` to exclude untracked files:
+
    ```bash
    # .gitignore in repo root
    # This speeds up git status
@@ -656,7 +671,7 @@ $results | Format-Table
    ```json
    {
      "cache": {
-       "duration": "30m"  // Cache for 30 minutes
+       "duration": "30m" // Cache for 30 minutes
      }
    }
    ```
@@ -666,13 +681,15 @@ $results | Format-Table
 **Cause:** Caching not working or disabled
 
 **Solutions:**
+
 1. Verify cache strategy exists:
+
    ```json
    {
      "cache": {
        "strategy": "folder",
        "duration": "5m",
-       "skip_cache": false  // Make sure not skipped
+       "skip_cache": false // Make sure not skipped
      }
    }
    ```

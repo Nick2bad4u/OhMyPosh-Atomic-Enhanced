@@ -19,11 +19,12 @@ JSON (JavaScript Object Notation) is a text format for structured data:
 
 ```json
 {
-  "key": "value",           // String value
-  "number": 42,             // Number
-  "boolean": true,          // true/false
-  "array": [1, 2, 3],      // Array (ordered list)
-  "object": {              // Nested object
+  "key": "value", // String value
+  "number": 42, // Number
+  "boolean": true, // true/false
+  "array": [1, 2, 3], // Array (ordered list)
+  "object": {
+    // Nested object
     "nested_key": "value"
   }
 }
@@ -293,22 +294,15 @@ Theme Root
   "blocks": [
     {
       "alignment": "left",
-      "segments": [
-        {"type": "shell"},
-        {"type": "path"}
-      ]
+      "segments": [{ "type": "shell" }, { "type": "path" }]
     },
     {
       "alignment": "right",
-      "segments": [
-        {"type": "time"}
-      ]
+      "segments": [{ "type": "time" }]
     },
     {
       "alignment": "newline",
-      "segments": [
-        {"type": "text", "template": "❯ "}
-      ]
+      "segments": [{ "type": "text", "template": "❯ " }]
     }
   ]
 }
@@ -343,13 +337,13 @@ Theme Root
 ```json
 {
   "palette": {
-    "blue_bright": "#00E5FF",      // 100% brightness
-    "blue_normal": "#0080FF",      // 50% brightness
-    "blue_dim": "#004B99",         // 30% brightness
+    "blue_bright": "#00E5FF", // 100% brightness
+    "blue_normal": "#0080FF", // 50% brightness
+    "blue_dim": "#004B99", // 30% brightness
 
-    "blue_sat_high": "#0080FF",    // 100% saturation
-    "blue_sat_med": "#4DB8DD",     // 60% saturation
-    "blue_sat_low": "#8FBDD9"      // 30% saturation
+    "blue_sat_high": "#0080FF", // 100% saturation
+    "blue_sat_med": "#4DB8DD", // 60% saturation
+    "blue_sat_low": "#8FBDD9" // 30% saturation
   }
 }
 ```
@@ -365,18 +359,19 @@ Theme Root
 ```json
 {
   "segments": [
-    {"type": "shell"},
-    {"type": "path"},    // ❌ Trailing comma here!
+    { "type": "shell" },
+    { "type": "path" } // ❌ Trailing comma here!
   ]
 }
 ```
 
 **Fix:**
+
 ```json
 {
   "segments": [
-    {"type": "shell"},
-    {"type": "path"}     // ✅ No comma
+    { "type": "shell" },
+    { "type": "path" } // ✅ No comma
   ]
 }
 ```
@@ -393,10 +388,11 @@ Theme Root
 ```
 
 **Fix:**
+
 ```json
 {
   "type": "git",
-  "template": "{{ .Branch }}"  // ✅ Comma added
+  "template": "{{ .Branch }}" // ✅ Comma added
 }
 ```
 
@@ -406,15 +402,16 @@ Theme Root
 
 ```json
 {
-  'type': 'git',     // ❌ Single quotes not allowed
-  'template': '...'
+  "type": "git", // ❌ Single quotes not allowed
+  "template": "..."
 }
 ```
 
 **Fix:**
+
 ```json
 {
-  "type": "git",     // ✅ Double quotes
+  "type": "git", // ✅ Double quotes
   "template": "..."
 }
 ```
@@ -425,15 +422,16 @@ Theme Root
 
 ```json
 {
-  type: "git",       // ❌ Key not quoted
-  template: "..."
+  "type": "git", // ❌ Key not quoted
+  "template": "..."
 }
 ```
 
 **Fix:**
+
 ```json
 {
-  "type": "git",     // ✅ Key quoted
+  "type": "git", // ✅ Key quoted
   "template": "..."
 }
 ```
@@ -450,9 +448,10 @@ Theme Root
 ```
 
 **Fix:**
+
 ```json
 {
-  "template": "{{ .Branch }}\n{{ .Status }}"  // ✅ Use \n
+  "template": "{{ .Branch }}\n{{ .Status }}" // ✅ Use \n
 }
 ```
 
@@ -469,11 +468,12 @@ Theme Root
 ```
 
 **Fix:**
+
 ```json
 {
   "number": 42,
   "boolean": true,
-  "string": "some text"  // ✅ Quoted
+  "string": "some text" // ✅ Quoted
 }
 ```
 
@@ -490,6 +490,7 @@ Theme Root
 ```
 
 **Fix:**
+
 ```json
 {
   "type": "git",
@@ -512,10 +513,11 @@ Theme Root
 ```
 
 **Fix:**
+
 ```json
 {
   "segments": [
-    {"type": "git"}  // ✅ Proper object
+    { "type": "git" } // ✅ Proper object
   ]
 }
 ```
@@ -555,6 +557,7 @@ Test-JSON "C:\path\to\theme.json"
 ### VS Code Validation
 
 VS Code has built-in JSON validation:
+
 1. Open JSON file in VS Code
 2. Look for red squiggles (errors)
 3. Hover over error for details
@@ -595,19 +598,21 @@ VS Code has built-in JSON validation:
           "background": "p:orange_accent",
           "foreground": "p:black",
           "template": "  {{ .Path }} ",
-          "properties": {"max_depth": 3}
+          "properties": { "max_depth": 3 }
         },
         {
           "type": "git",
           "background": "p:yellow_warn",
           "foreground": "p:black",
           "template": " {{ .Branch }} ",
-          "cache": {"strategy": "folder", "duration": "5m"},
-          "properties": {"fetch_status": false}
+          "cache": { "strategy": "folder", "duration": "5m" },
+          "properties": { "fetch_status": false }
         },
         {
           "type": "status",
-          "background_templates": ["{{ if .Error }}p:red_error{{ else }}p:green_success{{ end }}"],
+          "background_templates": [
+            "{{ if .Error }}p:red_error{{ else }}p:green_success{{ end }}"
+          ],
           "foreground": "p:white",
           "template": " {{ if .Error }}✗{{ else }}✓{{ end }} "
         }
@@ -642,11 +647,13 @@ VS Code has built-in JSON validation:
           "type": "path",
           "background": "p:accent",
           "template": " {{ .Path }} ",
-          "properties": {"max_depth": 1}
+          "properties": { "max_depth": 1 }
         },
         {
           "type": "status",
-          "background_templates": ["{{ if .Error }}#FF0000{{ else }}#00AA00{{ end }}"],
+          "background_templates": [
+            "{{ if .Error }}#FF0000{{ else }}#00AA00{{ end }}"
+          ],
           "template": " {{ if .Error }}✗{{ else }}✓{{ end }} "
         }
       ]
@@ -664,26 +671,21 @@ VS Code has built-in JSON validation:
     {
       "alignment": "left",
       "segments": [
-        {"type": "shell"},
-        {"type": "path"},
-        {"type": "git"},
-        {"type": "node"},
-        {"type": "python"},
-        {"type": "status"}
+        { "type": "shell" },
+        { "type": "path" },
+        { "type": "git" },
+        { "type": "node" },
+        { "type": "python" },
+        { "type": "status" }
       ]
     },
     {
       "alignment": "right",
-      "segments": [
-        {"type": "time"},
-        {"type": "battery"}
-      ]
+      "segments": [{ "type": "time" }, { "type": "battery" }]
     },
     {
       "alignment": "newline",
-      "segments": [
-        {"type": "text", "template": "❯ "}
-      ]
+      "segments": [{ "type": "text", "template": "❯ " }]
     }
   ]
 }

@@ -361,17 +361,8 @@
       "invalidColor": "blue"
     },
     "testDurations": {
-      "valid": [
-        "1h",
-        "5m",
-        "30s",
-        "24h"
-      ],
-      "invalid": [
-        "1hour",
-        "5mins",
-        "forever"
-      ]
+      "valid": ["1h", "5m", "30s", "24h"],
+      "invalid": ["1hour", "5mins", "forever"]
     }
   }
 }

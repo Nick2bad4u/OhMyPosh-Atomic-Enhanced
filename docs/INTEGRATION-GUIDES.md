@@ -117,6 +117,7 @@ Solution: Close terminal tab and reopen (Ctrl+`)
 **Problem: Colors look wrong**
 
 Solution:
+
 1. Check `workbench.colorTheme` setting
 2. Try disabling other color themes
 3. Verify Nerd Font is installed
@@ -124,6 +125,7 @@ Solution:
 **Problem: Slow terminal startup**
 
 Solution:
+
 1. Reduce Oh My Posh complexity
 2. Profile with `$env:OHMYPOSH_DEBUG = $true`
 3. Move expensive initialization outside -Command
@@ -259,7 +261,7 @@ Add or modify PowerShell profile in `settings.json`:
 {
   "profiles": {
     "defaults": {
-      "startingDirectory": "%USERPROFILE%\\Projects"  // Start in Projects folder
+      "startingDirectory": "%USERPROFILE%\\Projects" // Start in Projects folder
     }
   }
 }
@@ -340,12 +342,12 @@ echo $PS1
 
 ⚠️ **Note:** Git Bash has limited ANSI support compared to modern terminals
 
-| Feature | Status | Notes |
-|---------|--------|-------|
-| Colors | ⚠️ Limited | Some color codes not rendered |
-| Icons | ✅ Works | Nerd Font icons display |
-| Git status | ✅ Full | Works well |
-| Performance | ✅ Good | Generally fast |
+| Feature     | Status     | Notes                         |
+| ----------- | ---------- | ----------------------------- |
+| Colors      | ⚠️ Limited | Some color codes not rendered |
+| Icons       | ✅ Works   | Nerd Font icons display       |
+| Git status  | ✅ Full    | Works well                    |
+| Performance | ✅ Good    | Generally fast                |
 
 ### Recommendation
 
@@ -463,6 +465,7 @@ Profiles > Window > Background image
 #### Custom Color Scheme
 
 Create theme file and import:
+
 ```
 Profiles > Colors > Load Presets > Import
 ```
@@ -474,6 +477,7 @@ Profiles > Colors > Load Presets > Import
 ### Alacritty (Linux/macOS)
 
 1. Install:
+
    ```bash
    cargo install alacritty
    # or
@@ -481,6 +485,7 @@ Profiles > Colors > Load Presets > Import
    ```
 
 2. Configure `~/.config/alacritty/alacritty.yml`:
+
    ```yaml
    font:
      family: FiraCode Nerd Font
@@ -500,11 +505,13 @@ Profiles > Colors > Load Presets > Import
 ### Kitty (Linux/macOS)
 
 1. Install:
+
    ```bash
    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
    ```
 
 2. Configure `~/.config/kitty/kitty.conf`:
+
    ```
    font_family FiraCode Nerd Font
    font_size 12
@@ -518,6 +525,7 @@ Profiles > Colors > Load Presets > Import
 ### Terminator (Linux)
 
 1. Install:
+
    ```bash
    sudo apt-get install terminator
    ```
@@ -665,6 +673,7 @@ echo $SHELL
 ### Problem: Oh My Posh not initializing
 
 **Solution:**
+
 1. Verify installation: `which oh-my-posh`
 2. Check shell config file loaded: `source ~/.bashrc`
 3. Verify init line in config: `grep oh-my-posh ~/.bashrc`
@@ -672,6 +681,7 @@ echo $SHELL
 ### Problem: Wrong colors in IDE terminal
 
 **Solution:**
+
 1. Check IDE terminal settings
 2. Verify TERM variable: `echo $TERM` (should be `xterm-256color`)
 3. Test with basic prompt to isolate issue
@@ -679,6 +689,7 @@ echo $SHELL
 ### Problem: Performance different across terminals
 
 **Solution:**
+
 1. Profile with `$env:OHMYPOSH_DEBUG = $true`
 2. Check for different segment configurations per terminal
 3. Verify caching enabled in all environments

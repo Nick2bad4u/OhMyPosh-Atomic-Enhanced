@@ -26,14 +26,14 @@ The OhMyPosh Atomic Enhanced themes are designed to work across Windows, macOS, 
 
 ### Platform Comparison
 
-| Aspect | Windows | macOS | Linux |
-|--------|---------|-------|-------|
-| Default Shell | PowerShell | Bash/Zsh | Bash |
-| Package Manager | WinGet/Chocolatey | Homebrew | apt/dnf/pacman |
-| Terminal Emulator | Windows Terminal | iTerm2/Terminal.app | GNOME/Konsole |
-| Font Installation | Settings GUI | System Preferences | Font Manager |
-| Config Location | `$PROFILE` | `~/.bashrc`, `~/.zshrc` | `~/.bashrc`, `~/.zshrc` |
-| Color Support | ✅ Excellent | ✅ Excellent | ✅ Excellent |
+| Aspect            | Windows           | macOS                   | Linux                   |
+| ----------------- | ----------------- | ----------------------- | ----------------------- |
+| Default Shell     | PowerShell        | Bash/Zsh                | Bash                    |
+| Package Manager   | WinGet/Chocolatey | Homebrew                | apt/dnf/pacman          |
+| Terminal Emulator | Windows Terminal  | iTerm2/Terminal.app     | GNOME/Konsole           |
+| Font Installation | Settings GUI      | System Preferences      | Font Manager            |
+| Config Location   | `$PROFILE`        | `~/.bashrc`, `~/.zshrc` | `~/.bashrc`, `~/.zshrc` |
+| Color Support     | ✅ Excellent      | ✅ Excellent            | ✅ Excellent            |
 
 ---
 
@@ -489,12 +489,12 @@ source ~/.zshrc
 
 ### WSL1 vs WSL2
 
-| Aspect | WSL1 | WSL2 |
-|--------|------|------|
-| Architecture | Compatibility layer | Virtual machine |
-| Performance | Faster filesystem | Better performance |
-| Colors | Limited | Full ANSI support |
-| **Recommendation** | Migrate to WSL2 | ✅ Recommended |
+| Aspect             | WSL1                | WSL2               |
+| ------------------ | ------------------- | ------------------ |
+| Architecture       | Compatibility layer | Virtual machine    |
+| Performance        | Faster filesystem   | Better performance |
+| Colors             | Limited             | Full ANSI support  |
+| **Recommendation** | Migrate to WSL2     | ✅ Recommended     |
 
 ### Step 1: Upgrade to WSL2 (Recommended)
 
@@ -661,6 +661,7 @@ ssh user@remote.host
 **Cause:** Platform-specific differences in shell or terminal.
 
 **Solutions:**
+
 1. Verify Oh My Posh version matches across platforms
 2. Check shell type: `echo $SHELL` (Linux/macOS) vs `$PSVersionTable` (Windows)
 3. Ensure Nerd Font installed on all platforms
@@ -671,6 +672,7 @@ ssh user@remote.host
 **Cause:** Terminal color scheme settings different.
 
 **Solutions:**
+
 1. Standardize terminal color scheme across platforms
 2. Use explicit RGB colors (Truecolor) in palette
 3. Test theme on each platform individually
@@ -680,6 +682,7 @@ ssh user@remote.host
 **Cause:** Remote host has different shell or Oh My Posh configuration.
 
 **Solutions:**
+
 ```bash
 # Ensure Oh My Posh installed on remote
 ssh user@host "which oh-my-posh"
@@ -695,28 +698,30 @@ ssh -t user@host "TERM=xterm-256color bash"
 
 ## Platform Feature Comparison
 
-| Feature | Windows | macOS | Linux | WSL2 |
-|---------|---------|-------|-------|------|
-| Colors | ✅ Full | ✅ Full | ✅ Full | ✅ Full |
-| Icons | ✅ Full | ✅ Full | ✅ Full | ✅ Full |
-| Git Status | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
-| System Info | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
-| Time Display | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
-| Weather | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
-| Performance | Good | Excellent | Excellent | Excellent |
-| **Recommended** | Windows Terminal | iTerm2/Zsh | Zsh | WSL2 + Windows Terminal |
+| Feature         | Windows          | macOS      | Linux     | WSL2                    |
+| --------------- | ---------------- | ---------- | --------- | ----------------------- |
+| Colors          | ✅ Full          | ✅ Full    | ✅ Full   | ✅ Full                 |
+| Icons           | ✅ Full          | ✅ Full    | ✅ Full   | ✅ Full                 |
+| Git Status      | ✅ Yes           | ✅ Yes     | ✅ Yes    | ✅ Yes                  |
+| System Info     | ✅ Yes           | ✅ Yes     | ✅ Yes    | ✅ Yes                  |
+| Time Display    | ✅ Yes           | ✅ Yes     | ✅ Yes    | ✅ Yes                  |
+| Weather         | ✅ Yes           | ✅ Yes     | ✅ Yes    | ✅ Yes                  |
+| Performance     | Good             | Excellent  | Excellent | Excellent               |
+| **Recommended** | Windows Terminal | iTerm2/Zsh | Zsh       | WSL2 + Windows Terminal |
 
 ---
 
 ## Quick Reference: Post-Installation Steps
 
 1. **Verify Installation**
+
    ```bash
    oh-my-posh --version
    oh-my-posh get shell
    ```
 
 2. **Download Theme**
+
    ```bash
    # From GitHub
    git clone https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced.git
@@ -724,6 +729,7 @@ ssh -t user@host "TERM=xterm-256color bash"
    ```
 
 3. **Test Theme**
+
    ```bash
    # Temporary test
    oh-my-posh init bash --config ./OhMyPosh-Atomic-Custom.json | source

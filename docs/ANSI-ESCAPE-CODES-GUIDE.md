@@ -21,6 +21,7 @@ Terminal color output is fundamental to modern prompt theming engines like Oh My
 ### Why This Matters
 
 Understanding ANSI escape codes allows you to:
+
 - Customize terminal appearance at a fundamental level
 - Debug color rendering issues in your themes
 - Create dynamic, responsive prompt segments
@@ -39,6 +40,7 @@ ANSI escape codes are special character sequences that instruct terminal emulato
 ```
 
 Where:
+
 - `<ESC>` is the escape character (ASCII 27 or `0x1B`)
 - `[` is a literal left bracket
 - `<parameters>` are numeric codes separated by semicolons
@@ -55,6 +57,7 @@ Write-Host "${esc}[31mRed Text${esc}[0m"
 This outputs: `Red Text` (in red color)
 
 Breaking it down:
+
 - `${esc}[31m` - Set foreground color to red (code 31)
 - `Red Text` - The actual text to display
 - `${esc}[0m` - Reset all attributes
@@ -71,16 +74,16 @@ The original ANSI palette consists of 8 colors, each available in normal and bri
 
 #### Standard Colors (30-37 for foreground, 40-47 for background)
 
-| Color     | Foreground Code | Background Code | Bright Foreground | Bright Background |
-|-----------|-----------------|-----------------|-------------------|--------------------|
-| Black     | 30              | 40              | 90                | 100                |
-| Red       | 31              | 41              | 91                | 101                |
-| Green     | 32              | 42              | 92                | 102                |
-| Yellow    | 33              | 43              | 93                | 103                |
-| Blue      | 34              | 44              | 94                | 104                |
-| Magenta   | 35              | 45              | 95                | 105                |
-| Cyan      | 36              | 46              | 96                | 106                |
-| White     | 37              | 47              | 97                | 107                |
+| Color   | Foreground Code | Background Code | Bright Foreground | Bright Background |
+| ------- | --------------- | --------------- | ----------------- | ----------------- |
+| Black   | 30              | 40              | 90                | 100               |
+| Red     | 31              | 41              | 91                | 101               |
+| Green   | 32              | 42              | 92                | 102               |
+| Yellow  | 33              | 43              | 93                | 103               |
+| Blue    | 34              | 44              | 94                | 104               |
+| Magenta | 35              | 45              | 95                | 105               |
+| Cyan    | 36              | 46              | 96                | 106               |
+| White   | 37              | 47              | 97                | 107               |
 
 ### PowerShell Examples: 16 Colors
 
@@ -116,6 +119,7 @@ Modern terminals support multiple color models beyond the basic 16 colors. Each 
 ### 1. 256-Color Extended Palette
 
 The 256-color model provides:
+
 - **16 standard colors** (indices 0-15)
 - **216 colors** (indices 16-231) - a 6×6×6 RGB cube
 - **24 grayscale colors** (indices 232-255)
@@ -130,6 +134,7 @@ ESC[48;5;<color_index>m    (background)
 #### RGB Cube Calculation
 
 For colors 16-231 (the 6×6×6 cube):
+
 ```
 index = 16 + (36 × r) + (6 × g) + b
 where r, g, b ∈ [0, 5]
@@ -173,6 +178,7 @@ for ($i = 0; $i -lt 256; $i++) {
 ### 2. 24-Bit True Color (Truecolor/RGB)
 
 The 24-bit model provides the full RGB color space:
+
 - 16,777,216 possible colors (2^24)
 - Direct RGB specification
 - Full color fidelity for precise themes
@@ -229,14 +235,14 @@ Write-Host "${esc}[38;2;$($color.r);$($color.g);$($color.b)m#FF5733 Orange${esc}
 
 ### Color Model Compatibility
 
-| Terminal | 16 Colors | 256 Colors | Truecolor |
-|----------|-----------|------------|-----------|
-| Windows Terminal | ✅ | ✅ | ✅ |
-| VS Code | ✅ | ✅ | ✅ |
-| iTerm2 | ✅ | ✅ | ✅ |
-| GNOME Terminal | ✅ | ✅ | ✅ |
-| xterm | ✅ | ✅ | ❌ |
-| cmd.exe | ⚠️ Limited | ❌ | ❌ |
+| Terminal         | 16 Colors  | 256 Colors | Truecolor |
+| ---------------- | ---------- | ---------- | --------- |
+| Windows Terminal | ✅         | ✅         | ✅        |
+| VS Code          | ✅         | ✅         | ✅        |
+| iTerm2           | ✅         | ✅         | ✅        |
+| GNOME Terminal   | ✅         | ✅         | ✅        |
+| xterm            | ✅         | ✅         | ❌        |
+| cmd.exe          | ⚠️ Limited | ❌         | ❌        |
 
 ---
 
@@ -298,17 +304,17 @@ Write-Host "$($colors.red)Red$reset $($colors.blue)Blue$reset $($colors.green)Gr
 
 Beyond colors, ANSI also supports text styling:
 
-| Attribute | Code | Example |
-|-----------|------|---------|
-| Reset all | 0 | `${esc}[0m` |
-| Bold/Bright | 1 | `${esc}[1m` |
-| Dim | 2 | `${esc}[2m` |
-| Italic | 3 | `${esc}[3m` |
-| Underline | 4 | `${esc}[4m` |
-| Blink | 5 | `${esc}[5m` (often not supported) |
-| Reverse | 7 | `${esc}[7m` |
-| Hidden | 8 | `${esc}[8m` |
-| Strikethrough | 9 | `${esc}[9m` |
+| Attribute     | Code | Example                           |
+| ------------- | ---- | --------------------------------- |
+| Reset all     | 0    | `${esc}[0m`                       |
+| Bold/Bright   | 1    | `${esc}[1m`                       |
+| Dim           | 2    | `${esc}[2m`                       |
+| Italic        | 3    | `${esc}[3m`                       |
+| Underline     | 4    | `${esc}[4m`                       |
+| Blink         | 5    | `${esc}[5m` (often not supported) |
+| Reverse       | 7    | `${esc}[7m`                       |
+| Hidden        | 8    | `${esc}[8m`                       |
+| Strikethrough | 9    | `${esc}[9m`                       |
 
 #### PowerShell Styling Examples
 
@@ -590,6 +596,7 @@ Oh My Posh abstracts away direct ANSI code management through its JSON configura
 ```
 
 When rendered, this produces ANSI escape sequences equivalent to:
+
 ```
 \033[38;2;0;255;0m\033[48;2;0;0;255m ✓ \033[0m
 ```
