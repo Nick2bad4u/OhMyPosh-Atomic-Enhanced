@@ -199,15 +199,15 @@ foreach ($theme in $themeFiles) {
     try {
         $configPath = $theme.FullName
 
-        # Build command arguments
-        $args = @(
+        # Build command arguments (avoid PowerShell automatic variable 'args')
+        $exportArgs = @(
             'config', 'export', 'image',
             '--config', $configPath,
             '--output', $outputImage
         ) + $imageSettingsParam
 
-        # Run oh-my-posh export
-        $output = & oh-my-posh @args 2>&1
+        # Run oh-my-posh export and capture result for diagnostics
+        $exportResult = & oh-my-posh @exportArgs 2>&1
 
         if ($LASTEXITCODE -eq 0 -and (Test-Path $outputImage)) {
             Write-Success "Generated: $themeName.png"
@@ -221,6 +221,8 @@ foreach ($theme in $themeFiles) {
             }
         }
         else {
+            Write-Warning "oh-my-posh returned exit code $LASTEXITCODE"
+            Write-ErrorMessage "Export output: $exportResult"
             throw "oh-my-posh returned exit code $LASTEXITCODE"
         }
     }

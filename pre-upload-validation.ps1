@@ -27,7 +27,7 @@ param(
 $errors = @()
 $warnings = @()
 
-Write-Host "Starting pre-upload validation for Oh My Posh theme..." -ForegroundColor Cyan
+Write-Host 'Starting pre-upload validation for Oh My Posh theme...' -ForegroundColor Cyan
 
 # 1. Check if files exist
 if (-not (Test-Path $ThemePath)) {
@@ -42,11 +42,11 @@ if ($errors.Count -gt 0) {
 }
 
 # 2. Validate JSON syntax
-Write-Host "Validating JSON syntax..." -ForegroundColor Yellow
+Write-Host 'Validating JSON syntax...' -ForegroundColor Yellow
 try {
     $themeContent = Get-Content $ThemePath -Raw
     $themeJson = $themeContent | ConvertFrom-Json
-    Write-Host "✓ JSON syntax is valid" -ForegroundColor Green
+    Write-Host '✓ JSON syntax is valid' -ForegroundColor Green
 }
 catch {
     $errors += "JSON syntax error in $ThemePath`: $($_.Exception.Message)"
@@ -55,7 +55,7 @@ catch {
 try {
     $testContent = Get-Content $TestPath -Raw
     $testJson = $testContent | ConvertFrom-Json
-    Write-Host "✓ Test file JSON syntax is valid" -ForegroundColor Green
+    Write-Host '✓ Test file JSON syntax is valid' -ForegroundColor Green
 }
 catch {
     $errors += "JSON syntax error in $TestPath`: $($_.Exception.Message)"
@@ -67,7 +67,7 @@ if ($errors.Count -gt 0) {
 }
 
 # 3. Validate palette
-Write-Host "Validating palette keys..." -ForegroundColor Yellow
+Write-Host 'Validating palette keys...' -ForegroundColor Yellow
 $palette = $themeJson.palette.PSObject.Properties.Name
 $refs = [regex]::Matches($themeContent, 'p:([a-zA-Z0-9_\-\.]+)') | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique
 $missing = $refs | Where-Object { $_ -notin $palette }
@@ -81,14 +81,14 @@ if ($unused.Count -gt 0) {
 }
 
 if ($missing.Count -eq 0) {
-    Write-Host "✓ All palette references are defined" -ForegroundColor Green
+    Write-Host '✓ All palette references are defined' -ForegroundColor Green
 }
 if ($unused.Count -gt 0) {
     foreach ($warning in $warnings) { Write-Host "WARNING: $warning" -ForegroundColor Yellow }
 }
 
 # 3.5 Validate mapped_locations
-Write-Host "Validating mapped_locations configuration..." -ForegroundColor Yellow
+Write-Host 'Validating mapped_locations configuration...' -ForegroundColor Yellow
 $pathSegment = $themeJson.blocks[0].segments | Where-Object { $_.type -eq 'path' }
 if ($pathSegment -and $pathSegment.properties.mapped_locations) {
     $mappedLocs = $pathSegment.properties.mapped_locations
@@ -100,13 +100,13 @@ if ($pathSegment -and $pathSegment.properties.mapped_locations) {
         $errors += "Duplicate mapped_locations keys found: $($duplicates.Name -join ', ')"
     }
     else {
-        Write-Host "✓ No duplicate mapped_locations keys" -ForegroundColor Green
+        Write-Host '✓ No duplicate mapped_locations keys' -ForegroundColor Green
     }
 
     # Validate regex patterns
     $invalidPatterns = @()
     foreach ($key in $keys) {
-        if ($key.StartsWith("re:")) {
+        if ($key.StartsWith('re:')) {
             try {
                 $pattern = $key -replace '^re:', ''
                 [regex]::new($pattern) | Out-Null
@@ -123,15 +123,15 @@ if ($pathSegment -and $pathSegment.properties.mapped_locations) {
         }
     }
     else {
-        Write-Host "✓ All regex patterns are valid" -ForegroundColor Green
+        Write-Host '✓ All regex patterns are valid' -ForegroundColor Green
     }
 
     # Check for GitHub project mappings
     $githubProjects = @(
-        "re:.*(wintertodt-scouter).*",
-        "re:.*(GE-Filters).*",
-        "re:.*(OhMyPosh-Atomic-Enhanced).*",
-        "re:.*(Nick2bad4u).*"
+        're:.*(wintertodt-scouter).*',
+        're:.*(GE-Filters).*',
+        're:.*(OhMyPosh-Atomic-Enhanced).*',
+        're:.*(Nick2bad4u).*'
     )
     $missingProjectMaps = @()
     foreach ($project in $githubProjects) {
@@ -144,7 +144,7 @@ if ($pathSegment -and $pathSegment.properties.mapped_locations) {
         $warnings += "Missing GitHub project mappings: $($missingProjectMaps -join ', ')"
     }
     else {
-        Write-Host "✓ GitHub project mappings are configured" -ForegroundColor Green
+        Write-Host '✓ GitHub project mappings are configured' -ForegroundColor Green
     }
 
     # Check for extra parentheses in patterns (common formatting error)
@@ -155,16 +155,16 @@ if ($pathSegment -and $pathSegment.properties.mapped_locations) {
 }
 
 # 3.6 Validate async configuration
-Write-Host "Validating async configuration..." -ForegroundColor Yellow
+Write-Host 'Validating async configuration...' -ForegroundColor Yellow
 if ($themeJson.async -eq $true) {
-    Write-Host "✓ Async loading is enabled for better performance" -ForegroundColor Green
+    Write-Host '✓ Async loading is enabled for better performance' -ForegroundColor Green
 }
 else {
-    $warnings += "Async loading is disabled - consider enabling for better prompt responsiveness"
+    $warnings += 'Async loading is disabled - consider enabling for better prompt responsiveness'
 }
 
 # 4. Run test assertions
-Write-Host "Running test assertions..." -ForegroundColor Yellow
+Write-Host 'Running test assertions...' -ForegroundColor Yellow
 $failedTests = @()
 
 foreach ($test in $testJson.tests) {
@@ -195,12 +195,60 @@ foreach ($test in $testJson.tests) {
 
         $passed = $false
         switch ($type) {
-            "equals" { $passed = $actual -eq $expected }
-            "regex" { $passed = $actual -match $expected }
-            "exists" { $passed = $null -ne $actual }
-            "isArray" { $passed = $actual -is [System.Array] }
-            "isString" { $passed = $actual -is [string] }
-            "greaterThan" { $passed = $actual -gt $expected }
+            'equals' { $passed = $actual -eq $expected }
+            'regex' { $passed = $actual -match $expected }
+            'exists' { $passed = $null -ne $actual }
+            'isArray' { $passed = $actual -is [System.Array] }
+            'isString' { $passed = $actual -is [string] }
+            'greaterThan' { $passed = $actual -gt $expected }
+            'containsSegmentType' {
+                # $property points to an array path (e.g., blocks[0].segments)
+                # $expected is the segment type to find (e.g., 'path')
+                $array = $actual
+                if ($array -is [System.Array]) {
+                    $found = $false
+                    foreach ($item in $array) {
+                        if ($item -and $item.type -eq $expected) { $found = $true; break }
+                    }
+                    $passed = $found
+                }
+                else { $passed = $false }
+            }
+            'segmentPropertyEquals' {
+                # $property points to an array of segments; $expected is an object
+                # { "type": "path", "property": "properties.max_width", "expectedValue": 40 }
+                try {
+                    $exp = $expected | ConvertFrom-Json -ErrorAction SilentlyContinue
+                    if (-not $exp) { $exp = $expected }
+                }
+                catch { $exp = $expected }
+
+                if ($null -eq $exp.type -or $null -eq $exp.property) { $passed = $false }
+                else {
+                    $segments = $actual
+                    if ($segments -is [System.Array]) {
+                        $segFound = $null
+                        foreach ($seg in $segments) { if ($seg.type -eq $exp.type) { $segFound = $seg; break } }
+                        if ($null -eq $segFound) { $passed = $false }
+                        else {
+                            # Traverse segFound property path
+                            $propPath = $exp.property
+                            $propVal = $segFound
+                            while ($propPath -ne '') {
+                                if ($propPath -match '^([^\.\[]+)(\[(\d+)\])?(?:\.(.*))?$') {
+                                    $p = $matches[1]
+                                    $propVal = $propVal.$p
+                                    if ($matches[3]) { $index = [int]$matches[3]; $propVal = $propVal[$index] }
+                                    $propPath = if ($matches[4]) { $matches[4] } else { '' }
+                                }
+                                else { break }
+                            }
+                            $passed = $propVal -eq $exp.expectedValue
+                        }
+                    }
+                    else { $passed = $false }
+                }
+            }
         }
 
         if (-not $passed) {
@@ -241,11 +289,11 @@ if ($failedTests.Count -gt 0) {
 # Summary
 Write-Host "`nValidation Summary:" -ForegroundColor Cyan
 if ($errors.Count -eq 0) {
-    Write-Host "✓ All checks passed! Theme is ready for upload." -ForegroundColor Green
+    Write-Host '✓ All checks passed! Theme is ready for upload.' -ForegroundColor Green
     exit 0
 }
 else {
     foreach ($err in $errors) { Write-Host "ERROR: $err" -ForegroundColor Red }
-    Write-Host "✗ Validation failed. Please fix the errors before uploading." -ForegroundColor Red
+    Write-Host '✗ Validation failed. Please fix the errors before uploading.' -ForegroundColor Red
     exit 1
 }

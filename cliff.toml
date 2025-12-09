@@ -8,11 +8,12 @@
 [changelog]
   # template for the changelog header
   header = """
-<!-- markdownlint-disable -->
-<!-- eslint-disable markdown/no-missing-label-refs -->
-# Changelog\n
-All notable changes to this project will be documented in this file.\n
-"""
+  <!-- markdownlint-disable -->
+  <!-- eslint-disable markdown/no-missing-label-refs -->
+  {% raw %}
+  # Changelog\n
+  All notable changes to this project will be documented in this file.\n
+  """
   # template for the changelog body
   # https://keats.github.io/tera/docs/#introduction
   body = """
@@ -51,12 +52,13 @@ All notable changes to this project will be documented in this file.\n
 """
   # template for the changelog footer
   footer = """
-## Contributors
-Thanks to all the [contributors](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/graphs/contributors) for their hard work!
-## License
-This project is licensed under the [UnLicense](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/blob/main/LICENSE)
-*This changelog was automatically generated with [git-cliff](https://github.com/orhun/git-cliff).*
-"""
+  {% endraw %}
+  ## Contributors
+  Thanks to all the [contributors](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/graphs/contributors) for their hard work!
+  ## License
+  This project is licensed under the [UnLicense](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/blob/main/LICENSE)
+  *This changelog was automatically generated with [git-cliff](https://github.com/orhun/git-cliff).*
+  """
   # Remove leading and trailing whitespace from the changelog content
   trim = true
   # postprocessors

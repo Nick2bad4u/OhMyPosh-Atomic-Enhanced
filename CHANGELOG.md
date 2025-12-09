@@ -1,5 +1,6 @@
 <!-- markdownlint-disable -->
 <!-- eslint-disable markdown/no-missing-label-refs -->
+{% raw %}
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -39,7 +40,6 @@ This commit introduces a significant update to the theme generation process and 
 - Adds missing color keys like `cyan_renamed` to ensure consistency across all themes.
 
 Signed-off-by: Nick2bad4u <20943337+Nick2bad4u@users.noreply.github.com> [`(71e686d)`](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/commit/71e686df7962b2a3f607c6ac9fcb3e798b6ddba3)
-
 
 - ✨ [feat] Add a collection of new oh-my-posh themes
 
@@ -353,3 +353,4 @@ Thanks to all the [contributors](https://github.com/Nick2bad4u/OhMyPosh-Atomic-E
 ## License
 This project is licensed under the [UnLicense](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/blob/main/LICENSE)
 *This changelog was automatically generated with [git-cliff](https://github.com/orhun/git-cliff).*
+{% endraw %}

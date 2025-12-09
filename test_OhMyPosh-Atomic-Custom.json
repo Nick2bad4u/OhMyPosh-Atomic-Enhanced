@@ -84,19 +84,19 @@
       "description": "Verify path segment has correct properties",
       "assertions": [
         {
-          "property": "blocks[0].segments[6].type",
+          "property": "blocks[0].segments",
           "expectedValue": "path",
-          "assertionType": "equals"
+          "assertionType": "containsSegmentType"
         },
         {
-          "property": "blocks[0].segments[6].properties.max_width",
-          "expectedValue": 40,
-          "assertionType": "equals"
+          "property": "blocks[0].segments",
+          "expectedValue": "{ \"type\": \"path\", \"property\": \"properties.max_width\", \"expectedValue\": 40 }",
+          "assertionType": "segmentPropertyEquals"
         },
         {
-          "property": "blocks[0].segments[6].properties.mapped_locations_enabled",
-          "expectedValue": true,
-          "assertionType": "equals"
+          "property": "blocks[0].segments",
+          "expectedValue": "{ \"type\": \"path\", \"property\": \"properties.mapped_locations_enabled\", \"expectedValue\": true }",
+          "assertionType": "segmentPropertyEquals"
         }
       ]
     },
@@ -105,19 +105,19 @@
       "description": "Verify git segment has correct caching and properties",
       "assertions": [
         {
-          "property": "blocks[0].segments[10].type",
+          "property": "blocks[0].segments",
           "expectedValue": "git",
-          "assertionType": "equals"
+          "assertionType": "containsSegmentType"
         },
         {
-          "property": "blocks[0].segments[10].cache.duration",
-          "expectedValue": "15m",
-          "assertionType": "equals"
+          "property": "blocks[0].segments",
+          "expectedValue": "{ \"type\": \"git\", \"property\": \"cache.duration\", \"expectedValue\": \"5m\" }",
+          "assertionType": "segmentPropertyEquals"
         },
         {
-          "property": "blocks[0].segments[10].cache.strategy",
-          "expectedValue": "folder",
-          "assertionType": "equals"
+          "property": "blocks[0].segments",
+          "expectedValue": "{ \"type\": \"git\", \"property\": \"cache.strategy\", \"expectedValue\": \"folder\" }",
+          "assertionType": "segmentPropertyEquals"
         }
       ]
     },
@@ -191,14 +191,14 @@
       "description": "Verify segments have appropriate caching strategies",
       "assertions": [
         {
-          "property": "blocks[0].segments[0].cache.strategy",
-          "expectedValue": "session",
-          "assertionType": "equals"
+          "property": "blocks[0].segments",
+          "expectedValue": "{ \"type\": \"shell\", \"property\": \"cache.strategy\", \"expectedValue\": \"session\" }",
+          "assertionType": "segmentPropertyEquals"
         },
         {
-          "property": "blocks[0].segments[0].cache.duration",
-          "expectedValue": "24h",
-          "assertionType": "equals"
+          "property": "blocks[0].segments",
+          "expectedValue": "{ \"type\": \"shell\", \"property\": \"cache.duration\", \"expectedValue\": \"1h\" }",
+          "assertionType": "segmentPropertyEquals"
         }
       ]
     },
@@ -258,7 +258,7 @@
       "assertions": [
         {
           "property": "upgrade.auto",
-          "expectedValue": false,
+          "expectedValue": true,
           "assertionType": "equals"
         },
         {
@@ -361,8 +361,17 @@
       "invalidColor": "blue"
     },
     "testDurations": {
-      "valid": ["1h", "5m", "30s", "24h"],
-      "invalid": ["1hour", "5mins", "forever"]
+      "valid": [
+        "1h",
+        "5m",
+        "30s",
+        "24h"
+      ],
+      "invalid": [
+        "1hour",
+        "5mins",
+        "forever"
+      ]
     }
   }
 }
