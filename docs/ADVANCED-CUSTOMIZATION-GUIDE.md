@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # 🔧 Advanced Theme Customization Guide
 
 ## Table of Contents
@@ -910,3 +911,4 @@ Key Areas Covered:
 9. **Best Practices**: Professional configuration techniques
 
 For more advanced topics, refer to the [Official Oh My Posh Documentation](https://ohmyposh.dev/docs/configuration/overview).
+<!-- {% endraw %} -->

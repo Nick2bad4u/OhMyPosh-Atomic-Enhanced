@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # 🚀 OhMyPosh Atomic Enhanced
 
 [![GitHub stars](https://img.shields.io/github/stars/Nick2bad4u/OhMyPosh-Atomic-Enhanced?style=social)](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced) [![GitHub issues](https://img.shields.io/github/issues/Nick2bad4u/OhMyPosh-Atomic-Enhanced)](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/issues) [![License: UnLicense](https://img.shields.io/badge/License-UnLicense-yellow.svg)](https://opensource.org/licenses/UnLicense) [![Oh My Posh](https://img.shields.io/badge/Oh%20My%20Posh-Compatible-blue)](https://ohmyposh.dev/) [![DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced)
@@ -385,6 +386,10 @@ For more details, see the [Oh My Posh documentation](https://ohmyposh.dev/docs/)
 ## 📚 Documentation
 
 For comprehensive guides, configuration options, and troubleshooting, refer to the official Oh My Posh documentation at [https://ohmyposh.dev/docs](https://ohmyposh.dev/docs).
+
+Project docs:
+- [Documentation Index](./docs/DOCUMENTATION-INDEX.md)
+- [GitHub Pages + Liquid (template collisions)](./docs/GITHUB-PAGES-LIQUID.md)
 
 <details>
 <a id="palette-color-groups"></a>
@@ -1421,3 +1426,4 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 - **Lavender Peach** - Soft lavender and warm peach 🍑
 
 ---
+<!-- {% endraw %} -->

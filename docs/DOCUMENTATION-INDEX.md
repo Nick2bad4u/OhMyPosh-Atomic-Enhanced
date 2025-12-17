@@ -15,6 +15,7 @@ Welcome to the comprehensive documentation for **OhMyPosh Atomic Enhanced**. Thi
 - **[ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.md)** - Deep customization and advanced features
 - **[COLOR-THEORY-GUIDE.md](./COLOR-THEORY-GUIDE.md)** - Understanding colors and creating palettes
 - **[DIVIDERS-COLOR-TRANSITIONS-GUIDE.md](./DIVIDERS-COLOR-TRANSITIONS-GUIDE.md)** - Visual separators and transitions
+- **[GITHUB-PAGES-LIQUID.md](./GITHUB-PAGES-LIQUID.md)** - Prevent GitHub Pages/Jekyll from breaking on `&#123;&#123; ... &#125;&#125;` template examples
 - **[THEME-GENERATOR-README.md](./THEME-GENERATOR-README.md)** - Using theme generation tools
 
 ### 🔧 Integration & Setup

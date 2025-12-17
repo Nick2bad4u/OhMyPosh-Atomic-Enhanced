@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # ⚡ Performance Optimization Guide
 
 ## Table of Contents
@@ -729,3 +730,4 @@ $results | Format-Table
 **Target:** < 200ms for typical usage, < 300ms maximum
 
 For more details on specific segment configuration, see [ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.md).
+<!-- {% endraw %} -->

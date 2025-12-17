@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # ❓ FAQ & Tips & Tricks
 
 ## Frequently Asked Questions
@@ -718,3 +719,4 @@ Found a great customization? Share it!
 4. Open an [issue on GitHub](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/issues)
 
 We're here to help! 🎉
+<!-- {% endraw %} -->

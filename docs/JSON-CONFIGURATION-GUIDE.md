@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # 🔍 JSON Structure & Configuration Patterns
 
 ## Table of Contents
@@ -717,3 +718,4 @@ VS Code has built-in JSON validation:
 - See [COMPLETE-SEGMENT-REFERENCE.md](./COMPLETE-SEGMENT-REFERENCE.md) for segment options
 - See [COLOR-THEORY-GUIDE.md](./COLOR-THEORY-GUIDE.md) for color selection
 - See [ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.md) for advanced techniques
+<!-- {% endraw %} -->

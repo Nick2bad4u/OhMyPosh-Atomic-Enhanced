@@ -1,4 +1,4 @@
-{% raw %}
+<!-- {% raw %} -->
 # Oh My Posh Experimental Dividers: Complete Color Transition System Guide
 
 ## Table of Contents
@@ -1704,4 +1704,4 @@ Neutral Spectrum:
 **Last Updated**: October 30, 2025
 **Theme Version**: Atomic Custom Enhanced - Experimental Dividers
 **Compatibility**: Oh My Posh 3.0+
-{% endraw %}
+<!-- {% endraw %} -->

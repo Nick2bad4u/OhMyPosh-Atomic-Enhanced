@@ -10,7 +10,7 @@
   header = """
   <!-- markdownlint-disable -->
   <!-- eslint-disable markdown/no-missing-label-refs -->
-  {% raw %}
+  <!-- {% raw %} -->
   # Changelog\n
   All notable changes to this project will be documented in this file.\n
   """
@@ -52,7 +52,7 @@
 """
   # template for the changelog footer
   footer = """
-  {% endraw %}
+  <!-- {% endraw %} -->
   ## Contributors
   Thanks to all the [contributors](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/graphs/contributors) for their hard work!
   ## License

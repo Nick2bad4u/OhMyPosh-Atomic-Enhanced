@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # 📋 Complete Segment & Configuration Reference
 
 ## Table of Contents
@@ -884,3 +885,4 @@ function Convert-RGBToHex {
 ✅ Blocks arrange segments on prompt lines
 
 For detailed segment information, check official Oh My Posh docs: https://ohmyposh.dev/docs/segments/
+<!-- {% endraw %} -->

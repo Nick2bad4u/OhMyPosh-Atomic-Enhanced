@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # 🆘 Comprehensive Troubleshooting Guide
 
 ## Table of Contents
@@ -777,3 +778,4 @@ Common issue categories:
 6. **Configuration**: Validate JSON, check palette references
 
 Most issues fall into one of these categories. Follow the relevant section for your specific problem.
+<!-- {% endraw %} -->

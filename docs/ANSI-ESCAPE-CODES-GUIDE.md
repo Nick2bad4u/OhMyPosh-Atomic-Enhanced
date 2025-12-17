@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # 🎨 PowerShell ANSI Escape Codes & Terminal Color Guide
 
 ## Table of Contents
@@ -682,3 +683,4 @@ Understanding ANSI escape codes and their implementation in PowerShell allows yo
 6. Test your colors in your target terminal emulator
 
 For more information, see the [ANSI/VT100 Escape Sequence Reference](https://en.wikipedia.org/wiki/ANSI_escape_code).
+<!-- {% endraw %} -->
