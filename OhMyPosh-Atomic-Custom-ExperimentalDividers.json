@@ -212,31 +212,33 @@
               "develop": "Dev",
               "development": "Dev",
               "feature": "Feat",
+              "staging": "Stage",
               "main": "Main",
-              "master": "Master"
+              "master": "Master",
+              "production": "Prod"
             },
             "branch_icon": "  ",
-            "branch_template": "{{ if .Mapped }}{{ .Mapped }}{{ else }}{{ .Icon }}{{ end }}{{ .Branch }}",
+            "branch_template": "<b>{{ if .Mapped }}{{ title .Mapped }}{{ else }}{{ .Icon }}{{ end }}{{ title .Branch }}</b>",
             "fetch_bare_info": true,
             "fetch_status": true,
             "fetch_upstream_icon": true,
             "fetch_user": true,
             "native_fallback": true,
             "status_formats": {
-              "Added": "<p:green_added>+%d</>",
-              "Copied": "<p:magenta_copied>c%d</>",
-              "Deleted": "<p:red_deleted>-%d</>",
-              "Modified": "<p:yellow_modified>~%d</>",
-              "Renamed": "<p:cyan_renamed>r%d</>",
-              "Unmerged": "<p:orange_unmerged>x%d</>",
-              "Untracked": "<p:gray_untracked>?%d</>"
+              "Added": "<b><p:green_added>+%d</></b>",
+              "Copied": "<b><p:magenta_copied>c%d</></b>",
+              "Deleted": "<b><p:red_deleted>-%d</></b>",
+              "Modified": "<b><p:yellow_modified>~%d</></b>",
+              "Renamed": "<b><p:cyan_renamed>r%d</></b>",
+              "Unmerged": "<b><p:orange_unmerged>x%d</></b>",
+              "Untracked": "<b><p:gray_untracked>?%d</></b>"
             },
             "untracked_modes": {
               "*": "normal"
             }
           },
           "style": "diamond",
-          "template": "<parentBackground></> {{ .UpstreamIcon }}<b>{{ .HEAD }}</b>{{if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }} ",
+          "template": "<parentBackground></> {{ .UpstreamIcon }}<b>{{ .HEAD }}{{if .BranchStatus }} <d>{{ .BranchStatus }}</d></b>{{ end }} ",
           "trailing_diamond": "",
           "interactive": true,
           "type": "git"
@@ -251,10 +253,6 @@
         {
           "background": "p:divider_yellow_bright_to_navy_text",
           "min_width": 130,
-          "cache": {
-            "duration": "3s",
-            "strategy": "session"
-          },
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -283,6 +281,7 @@
           "min_width": 80,
           "options": {
             "style": "roundrock",
+            "always_enabled": false,
             "threshold": 0
           },
           "style": "diamond",
@@ -327,13 +326,12 @@
           "leading_diamond": "",
           "min_width": 80,
           "options": {
+            "status_separator": "|",
+            "status_template": "|",
             "always_enabled": false
           },
-          "status_template": [
-            "{{ if eq .Code 0 }}{{ else }}{{ end }}"
-          ],
           "style": "diamond",
-          "template": "<parentBackground></>  ",
+          "template": "<parentBackground></><b>  </b>",
           "trailing_diamond": "",
           "type": "status"
         }
@@ -393,9 +391,15 @@
         {
           "background": "p:teal_sysinfo",
           "cache": {
-            "duration": "1m",
+            "duration": "3m",
             "strategy": "session"
           },
+          "foreground_templates": [
+            "{{ if gt .Load1 75 }}p:red_alert{{ end }}",
+            "{{ if and (lt .Load1 75) (gt .Load1 50) }}p:orange{{ end }}",
+            "{{ if and (lt .Load1 50) (gt .Load1 25) }}p:yellow_bright{{ end }}"
+          ],
+          "alias": "sysinfo-rprompt",
           "foreground": "p:black",
           "invert_powerline": true,
           "leading_diamond": "",
@@ -405,7 +409,7 @@
             "precision": 1
           },
           "style": "diamond",
-          "template": " 󰇅 {{ round .Load1 .Precision  }}%  {{ round .PhysicalPercentUsed .Precision  }}%  {{ round .Disks .Precision  }}% ",
+          "template": "<b> 󰇅 {{ round .Load1 .Precision  }}%  {{ round .PhysicalPercentUsed .Precision  }}%  {{ round .Disks .Precision  }}% </b>",
           "trailing_diamond": "",
           "type": "sysinfo"
         },
@@ -471,7 +475,7 @@
             "time_format": "3:04 PM"
           },
           "style": "diamond",
-          "template": "  {{ .CurrentDate | date .Format }} ",
+          "template": "<b>  {{ .CurrentDate | date .Format }} </b>",
           "trailing_diamond": "",
           "type": "time"
         },
@@ -532,7 +536,7 @@
             "units": "imperial"
           },
           "style": "diamond",
-          "template": "<b>󰖐</b> {{.Temperature}}{{.UnitIcon}}",
+          "template": "<b> {{.Temperature}}{{.UnitIcon}}</b>",
           "trailing_diamond": "",
           "type": "owm"
         }
@@ -618,18 +622,13 @@
         },
         {
           "background": "p:yellow_update",
-          "cache": {
-            "duration": "24h",
-            "strategy": "session"
-          },
           "foreground": "p:gray_os_fg",
           "invert_powerline": false,
+          "options": {
+            "cache_duration": "1h"
+          },
           "leading_diamond": "",
           "min_width": 80,
-          "options": {
-            "cache_duration": "6h",
-            "strategy": "session"
-          },
           "style": "diamond",
           "timeout": 1000,
           "trailing_diamond": "",
@@ -1270,9 +1269,12 @@
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "cache_duration": "24h",
         "http_timeout": 5000,
         "url": "https://api.ipify.org"
+      },
+      "cache": {
+        "duration": "24h",
+        "strategy": "session"
       },
       "style": "diamond",
       "template": " <b>  IP: {{ .IP }}</b>",
@@ -1634,7 +1636,6 @@
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "display_version": true,
         "windows": "<b> Win 11</b>"
       },
       "style": "diamond",
@@ -1673,8 +1674,10 @@
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "cache_duration": "1h",
-        "display_error": true,
+        "display_error": true
+      },
+      "cache": {
+        "duration": "10m",
         "strategy": "session"
       },
       "style": "diamond",
@@ -1690,7 +1693,7 @@
     },
     {
       "background": "p:blue_primary",
-      "foreground": "p:black",
+      "foreground": "p:white",
       "leading_diamond": "",
       "min_width": 80,
       "options": {
@@ -1710,14 +1713,19 @@
         }
       },
       "style": "diamond",
-      "template": "  {{ .Name }} {{ .Version }} ",
+      "template": "<b>  {{ upper .Name }} {{ upper .Version }} </b>",
       "tips": [
         "pwsh",
         "powershell",
         "bash",
         "cmd",
         "zsh",
-        "fish"
+        "fish",
+        "xonsh",
+        "elvish",
+        "nu",
+        "nushell",
+        "oh-my-posh"
       ],
       "trailing_diamond": "",
       "type": "shell"
@@ -1768,8 +1776,9 @@
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
-      "options": {
-        "display_host": true
+      "cache": {
+        "duration": "10m",
+        "strategy": "session"
       },
       "style": "diamond",
       "template": " {{ if .SSHSession }} SSH: {{ end }}{{ .UserName }}@{{ .HostName }} ",
