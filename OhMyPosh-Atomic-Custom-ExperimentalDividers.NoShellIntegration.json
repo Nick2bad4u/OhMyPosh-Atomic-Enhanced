@@ -826,7 +826,6 @@
   "extends": "",
   "final_space": true,
   "iterm_features": [
-    "prompt_mark",
     "current_dir",
     "remote_host"
   ],
@@ -1007,7 +1006,7 @@
     "options": {},
     "template": "╰─ "
   },
-  "shell_integration": true,
+  "shell_integration": false,
   "terminal_background": "p:black",
   "tooltips": [
     {

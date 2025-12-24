@@ -1,0 +1,265 @@
+# Starship config generated to approximate:
+#   OhMyPosh-Atomic-Custom-ExperimentalDividers.json
+#
+# Notes/limitations (Starship vs OMP):
+# - No OMP-style `background_templates` per-segment; per-shell coloring is approximated via the `shell` module indicators.
+# - No OMP tooltips, min_width, or divider gradients.
+# - “Sysinfo” (CPU/Disk %) + Copilot gauge are not built-ins; see optional `custom.sysinfo` below.
+# - Weather: Starship has no built-in OWM module. You can approximate it via `custom.weather`.
+#
+# Advanced features you can enable outside this TOML (from https://starship.rs/advanced-config/):
+# - PowerShell transient prompt:
+#     Invoke-Expression (&starship init powershell)
+#     Enable-TransientPrompt
+# - Cmd (Clink) transient prompt:
+#     clink set prompt.transient always
+#     (then edit starship.lua per docs)
+# - Bash right prompt requires ble.sh v0.4+ (Starship docs).
+# - Window title hooks require shell-specific init (PowerShell Invoke-Starship-PreCommand, etc.)
+#
+# Usage:
+#   - Copy/rename to %USERPROFILE%\.config\starship.toml (or wherever Starship reads it)
+#   - Ensure you’re using a Nerd Font.
+
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+palette = "atomic_enhanced"
+command_timeout = 1000
+scan_timeout = 10
+
+# Left prompt (2 lines) with a right-aligned first line.
+# This mirrors OMP's “lprompt + rprompt on the same line” using the `$fill` module.
+format = """\
+$shell$sudo$directory$git_branch$git_status$status$cmd_duration[](fg:prev_bg bg:none)$fill$memory_usage$os$time$battery$custom$nodejs$java$package
+[╰─](fg:accent)$character
+"""
+
+# Match your OMP “prompt symbol” feel
+[character]
+success_symbol = "[](fg:accent)"
+error_symbol = "[](fg:red_alert)"
+vimcmd_symbol = "[](fg:accent)"
+
+[fill]
+symbol = " "
+
+[palettes.atomic_enhanced]
+# Core / shared
+accent = "#21c7c7"
+black = "#000000"
+white = "#ffffff"
+blue_primary = "#0077c2"
+navy_text = "#011627"
+purple_exec = "#83769c"
+orange = "#FF9248"
+red_alert = "#ef5350"
+maroon_error = "#890000"
+yellow_bright = "#FFFB38"
+yellow_modified = "#ffff00"
+green_added = "#00ff00"
+cyan_renamed = "#00ffff"
+magenta_copied = "#ff00ff"
+red_deleted = "#ff0000"
+gray_untracked = "#808080"
+orange_unmerged = "#ff8000"
+purple_ahead = "#C792EA"
+
+# Right prompt colors
+teal_sysinfo = "#437683"
+gray_os = "#b2bec3"
+gray_os_fg = "#222222"
+blue_time = "#40c4ff"
+orange_battery = "#f36943"
+pink_weather = "#e797e7"
+
+# Language/tool colors
+node_green = "#6CA35E"
+npm_yellow = "#ffeb3b"
+npm_dark = "#193549"
+java_blue = "#4063D8"
+
+# Per-shell colors (from your OMP theme)
+shell_cmd_black = "#0C0C0C"
+shell_powershell_blue = "#5391FE"
+shell_bash_green = "#4EAA25"
+shell_ubuntu_orange = "#E95420"
+shell_zsh_orange = "#F15A24"
+shell_fish_cyan = "#4AA3DF"
+shell_cygwin_green = "#00A95C"
+shell_tcsh_blue = "#1E90FF"
+shell_elvish_teal = "#00BFA5"
+shell_nushell_purple = "#8E44AD"
+shell_xonsh_yellow = "#FFD54F"
+shell_omp_accent = "#21c7c7"
+
+# --- Modules ---
+
+# Shell block (closest match to your OMP “shell-lprompt”)
+# Starship can't show shell *version* natively; this shows the shell name with your icon.
+[shell]
+disabled = false
+format = "$indicator"
+
+# Indicators can include their own styles, so we can approximate per-shell coloring.
+# Using a rounded block to avoid fragile powerline transitions.
+unknown_indicator = "[╭─](fg:blue_primary)[ SH](fg:white bg:blue_primary) "
+
+bash_indicator = "[╭─](fg:shell_bash_green)[ BASH](fg:white bg:shell_bash_green) "
+zsh_indicator = "[╭─](fg:shell_zsh_orange)[ ZSH](fg:white bg:shell_zsh_orange) "
+fish_indicator = "[╭─](fg:shell_fish_cyan)[ FISH](fg:white bg:shell_fish_cyan) "
+
+# PowerShell variants
+powershell_indicator = "[╭─](fg:shell_powershell_blue)[ PS](fg:white bg:shell_powershell_blue) "
+pwsh_indicator = "[╭─](fg:shell_powershell_blue)[ PS](fg:white bg:shell_powershell_blue) "
+
+# Windows cmd
+cmd_indicator = "[╭─](fg:shell_cmd_black)[ CMD](fg:white bg:shell_cmd_black) "
+
+# Nu shell
+nu_indicator = "[╭─](fg:shell_nushell_purple)[ NU](fg:white bg:shell_nushell_purple) "
+
+# Elvish / xonsh / tcsh (best-effort: module support depends on Starship version)
+# If your Starship build doesn't recognize these keys, remove them.
+elvish_indicator = "[╭─](fg:shell_elvish_teal)[ ELV](fg:white bg:shell_elvish_teal) "
+xonsh_indicator = "[╭─](fg:shell_xonsh_yellow)[ XSH](fg:black bg:shell_xonsh_yellow) "
+tcsh_indicator = "[╭─](fg:shell_tcsh_blue)[ TCSH](fg:white bg:shell_tcsh_blue) "
+
+# Shows when elevated (admin/root). Approximates your red root segment.
+[sudo]
+disabled = false
+format = "[](fg:red_alert bg:prev_bg)[  ](fg:black bg:red_alert)"
+
+[status]
+disabled = false
+# Only shows when non-zero by default, similar to your OMP status segment.
+format = "[](fg:maroon_error bg:prev_bg)[  $status ](fg:black bg:maroon_error)"
+map_symbol = true
+pipestatus = true
+
+[directory]
+format = "[](fg:orange bg:prev_bg)[  $path ](fg:black bg:orange)"
+truncation_length = 4
+truncate_to_repo = false
+home_symbol = "~"
+read_only = " "
+read_only_style = "fg:black bg:orange"
+
+# Folder-name substitutions (OMP mapped_locations-style, Starship-friendly).
+# These operate on individual path components.
+[directory.substitutions]
+"Desktop" = "🖥️"
+"Documents" = "📄"
+"Downloads" = "📥"
+"Dropbox" = "DB"
+"GitHub" = "GH"
+"OneDrive" = "OD"
+"Pictures" = "Pics"
+"Projects" = "Proj"
+"Workspace" = "WS"
+"LocalHistory" = "⏰ LocHist"
+"Library" = "Lib"
+"Music" = "Music"
+"Videos" = "Videos"
+"OhMyPosh-Atomic-Enhanced" = "✨ OhMyPosh"
+"node_modules" = "📚"
+".git" = "🌳"
+".github" = "🐙"
+"auth" = "🔐"
+"security" = "🔐"
+"ci" = "🔄"
+"cd" = "🔄"
+"pipeline" = "🔄"
+
+[git_branch]
+format = "[](fg:yellow_bright bg:prev_bg)[  $branch ]($style)"
+style = "fg:navy_text bg:yellow_bright"
+
+[git_status]
+format = "[](fg:yellow_bright bg:prev_bg)[ $all_status$ahead_behind ]($style)"
+style = "fg:navy_text bg:yellow_bright"
+conflicted = "[x$count](fg:orange_unmerged bg:yellow_bright)"
+ahead = "[⇡$count](fg:purple_ahead bg:yellow_bright)"
+behind = "[⇣$count](fg:purple_ahead bg:yellow_bright)"
+diverged = "[⇕⇡$ahead_count⇣$behind_count](fg:purple_ahead bg:yellow_bright)"
+untracked = "[?$count](fg:gray_untracked bg:yellow_bright)"
+stashed = "[≡$count](fg:magenta_copied bg:yellow_bright)"
+modified = "[~$count](fg:yellow_modified bg:yellow_bright)"
+staged = "[+$count](fg:green_added bg:yellow_bright)"
+renamed = "[r$count](fg:cyan_renamed bg:yellow_bright)"
+deleted = "[-$count](fg:red_deleted bg:yellow_bright)"
+
+[cmd_duration]
+format = "[](fg:purple_exec bg:prev_bg)[ 󱑅 $duration ](fg:white bg:purple_exec)"
+min_time = 0
+show_milliseconds = true
+
+# --- Right-side (first-line) approximations ---
+
+[memory_usage]
+disabled = false
+format = "[  $ram_pct ]($style) "
+style = "fg:black bg:teal_sysinfo"
+threshold = 0
+
+[os]
+disabled = false
+format = "[ $symbol ]($style) "
+style = "fg:gray_os_fg bg:gray_os"
+
+[os.symbols]
+Windows = ""
+Linux = ""
+Macos = ""
+
+[time]
+disabled = false
+format = "[  $time ]($style) "
+style = "fg:black bg:blue_time"
+time_format = "%I:%M %p"
+
+[battery]
+disabled = false
+format = "[ $symbol $percentage ]($style) "
+
+[[battery.display]]
+threshold = 15
+style = "fg:black bg:red_alert"
+
+[[battery.display]]
+threshold = 50
+style = "fg:black bg:orange_battery"
+
+[[battery.display]]
+threshold = 100
+style = "fg:black bg:orange_battery"
+
+# Node/Java/Package blocks approximate your rprompt language/tool segments.
+[nodejs]
+format = "[  $version ](fg:white bg:node_green) "
+
+[java]
+format = "[  $version ](fg:white bg:java_blue) "
+
+[package]
+format = "[  $version ](fg:npm_dark bg:npm_yellow) "
+
+# --- Custom modules ---
+# Weather (disabled by default).
+# Starship doesn't ship an OpenWeather module like OMP's `owm` segment, so we approximate.
+# This example uses wttr.in (no API key). If you prefer OpenWeatherMap, swap `command`.
+[custom.weather]
+disabled = true
+command = "curl -s \"https://wttr.in/?format=%t\""
+when = "true"
+format = "[  $output ](fg:black bg:pink_weather) "
+
+# Sysinfo (disabled by default).
+# OMP shows CPU/mem/disk percent in one segment; Starship has memory_usage but no CPU/Disk%.
+# Enable this and provide your own fast command if you want a closer match.
+[custom.sysinfo]
+disabled = true
+command = "echo CPU: --% RAM: --% Disk: --%"
+when = "true"
+format = "[ 󰇅 $output ](fg:black bg:teal_sysinfo) "
