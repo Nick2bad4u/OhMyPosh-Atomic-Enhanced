@@ -19,7 +19,10 @@
       "assertions": [
         {
           "property": "version",
-          "expectedValue": 3,
+          "expectedValue": [
+            3,
+            4
+          ],
           "assertionType": "equals"
         }
       ]
@@ -111,7 +114,7 @@
         },
         {
           "property": "blocks[0].segments",
-          "expectedValue": "{ \"type\": \"git\", \"property\": \"cache.duration\", \"expectedValue\": \"5m\" }",
+          "expectedValue": "{ \"type\": \"git\", \"property\": \"cache.duration\", \"expectedValue\": [\"5m\", \"15m\"] }",
           "assertionType": "segmentPropertyEquals"
         },
         {
@@ -197,7 +200,7 @@
         },
         {
           "property": "blocks[0].segments",
-          "expectedValue": "{ \"type\": \"shell\", \"property\": \"cache.duration\", \"expectedValue\": \"1h\" }",
+          "expectedValue": "{ \"type\": \"shell\", \"property\": \"cache.duration\", \"expectedValue\": [\"1h\", \"24h\"] }",
           "assertionType": "segmentPropertyEquals"
         }
       ]
@@ -263,12 +266,18 @@
         },
         {
           "property": "upgrade.interval",
-          "expectedValue": "24h",
+          "expectedValue": [
+            "24h",
+            "4h"
+          ],
           "assertionType": "equals"
         },
         {
           "property": "upgrade.source",
-          "expectedValue": "github",
+          "expectedValue": [
+            "github",
+            "cdn"
+          ],
           "assertionType": "equals"
         }
       ]
@@ -361,8 +370,17 @@
       "invalidColor": "blue"
     },
     "testDurations": {
-      "valid": ["1h", "5m", "30s", "24h"],
-      "invalid": ["1hour", "5mins", "forever"]
+      "valid": [
+        "1h",
+        "5m",
+        "30s",
+        "24h"
+      ],
+      "invalid": [
+        "1hour",
+        "5mins",
+        "forever"
+      ]
     }
   }
 }

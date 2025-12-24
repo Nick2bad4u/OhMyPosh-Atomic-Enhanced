@@ -27,6 +27,27 @@ param(
 $errors = @()
 $warnings = @()
 
+function Get-OMPProperty {
+    param(
+        [Parameter(Mandatory = $true)]$Object,
+        [Parameter(Mandatory = $true)][string]$Name
+    )
+
+    if ($null -eq $Object) { return $null }
+
+    # Dynamic property access with a compatibility shim for the Oh My Posh
+    # segment config key rename: some themes use "properties", others use "options".
+    $propNames = @($Object.PSObject.Properties.Name)
+    $resolvedName = $Name
+
+    if ($propNames -notcontains $resolvedName) {
+        if ($resolvedName -eq 'properties' -and ($propNames -contains 'options')) { $resolvedName = 'options' }
+        elseif ($resolvedName -eq 'options' -and ($propNames -contains 'properties')) { $resolvedName = 'properties' }
+    }
+
+    return $Object.$resolvedName
+}
+
 Write-Host 'Starting pre-upload validation for Oh My Posh theme...' -ForegroundColor Cyan
 
 # 1. Check if files exist
@@ -89,9 +110,11 @@ if ($unused.Count -gt 0) {
 
 # 3.5 Validate mapped_locations
 Write-Host 'Validating mapped_locations configuration...' -ForegroundColor Yellow
-$pathSegment = $themeJson.blocks[0].segments | Where-Object { $_.type -eq 'path' }
-if ($pathSegment -and $pathSegment.properties.mapped_locations) {
-    $mappedLocs = $pathSegment.properties.mapped_locations
+$pathSegment = @($themeJson.blocks[0].segments | Where-Object { $_.type -eq 'path' })[0]
+$pathProps = if ($pathSegment) { (Get-OMPProperty -Object $pathSegment -Name 'properties') } else { $null }
+
+if ($pathSegment -and $pathProps -and $pathProps.mapped_locations) {
+    $mappedLocs = $pathProps.mapped_locations
     $keys = $mappedLocs.PSObject.Properties.Name
 
     # Check for duplicates
@@ -180,7 +203,7 @@ foreach ($test in $testJson.tests) {
         while ($path) {
             if ($path -match '^([^.\[]+)(\[(\d+)\])?') {
                 $prop = $matches[1]
-                $actual = $actual.$prop
+                $actual = Get-OMPProperty -Object $actual -Name $prop
                 if ($matches[3]) {
                     $index = [int]$matches[3]
                     $actual = $actual[$index]
@@ -195,7 +218,11 @@ foreach ($test in $testJson.tests) {
 
         $passed = $false
         switch ($type) {
-            'equals' { $passed = $actual -eq $expected }
+            'equals' {
+                # If the test provides an array, treat it as "one of".
+                if ($expected -is [System.Array]) { $passed = $expected -contains $actual }
+                else { $passed = $actual -eq $expected }
+            }
             'regex' { $passed = $actual -match $expected }
             'exists' { $passed = $null -ne $actual }
             'isArray' { $passed = $actual -is [System.Array] }
@@ -237,13 +264,14 @@ foreach ($test in $testJson.tests) {
                             while ($propPath -ne '') {
                                 if ($propPath -match '^([^\.\[]+)(\[(\d+)\])?(?:\.(.*))?$') {
                                     $p = $matches[1]
-                                    $propVal = $propVal.$p
+                                    $propVal = Get-OMPProperty -Object $propVal -Name $p
                                     if ($matches[3]) { $index = [int]$matches[3]; $propVal = $propVal[$index] }
                                     $propPath = if ($matches[4]) { $matches[4] } else { '' }
                                 }
                                 else { break }
                             }
-                            $passed = $propVal -eq $exp.expectedValue
+                            if ($exp.expectedValue -is [System.Array]) { $passed = $exp.expectedValue -contains $propVal }
+                            else { $passed = $propVal -eq $exp.expectedValue }
                         }
                     }
                     else { $passed = $false }

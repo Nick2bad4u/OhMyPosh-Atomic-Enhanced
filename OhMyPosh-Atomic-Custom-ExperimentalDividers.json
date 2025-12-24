@@ -11,24 +11,6 @@
         {
           "alias": "shell-lprompt",
           "background": "p:blue_primary",
-          "cache": {
-            "duration": "24h",
-            "strategy": "session"
-          },
-          "foreground": "p:white",
-          "foreground_templates": [],
-          "leading_diamond": "╭─",
-          "min_width": 80,
-          "options": {
-            "mapped_shell_names": {
-              "elvish": "ELV",
-              "nushell": "NU",
-              "oh-my-posh": "OMP",
-              "powershell": "PS",
-              "pwsh": "PS",
-              "xonsh": "XSH"
-            }
-          },
           "background_templates": [
             "{{ if or (eq .Name \"cmd\") (eq .Shell \"cmd\") }}p:shell_cmd_black{{ end }}",
             "{{ if or (eq .Name \"powershell\") (eq .Shell \"powershell\") (eq .Name \"pwsh\") (eq .Shell \"pwsh\") }}p:shell_powershell_blue{{ end }}",
@@ -43,6 +25,30 @@
             "{{ if or (eq .Name \"XSH\") (eq .Shell \"xonsh\") }}p:shell_xonsh_yellow{{ end }}",
             "{{ if or (eq .Name \"oh-my-posh\") (eq .Shell \"oh-my-posh\") }}p:shell_omp_accent{{ end }}"
           ],
+          "cache": {
+            "duration": "24h",
+            "strategy": "session"
+          },
+          "foreground": "p:white",
+          "foreground_templates": [],
+          "leading_diamond": "╭─",
+          "min_width": 80,
+          "options": {
+            "mapped_shell_names": {
+              "bash": "BASH",
+              "cmd": "CMD",
+              "elvish": "ELV",
+              "fish": "FISH",
+              "nu": "NU",
+              "nushell": "NU",
+              "oh-my-posh": "OMP",
+              "powershell": "PS",
+              "ps": "PS",
+              "pwsh": "PS",
+              "xonsh": "XSH",
+              "zsh": "ZSH"
+            }
+          },
           "style": "diamond",
           "template": " {{ upper .Name  }} {{ substr 0 5 .Version }} ",
           "type": "shell"
@@ -61,6 +67,7 @@
           "type": "root"
         },
         {
+          "alias": "divider-01",
           "background": "p:divider_blue_primary_to_ipify_purple",
           "min_width": 130,
           "style": "diamond",
@@ -68,6 +75,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-02",
           "background": "p:divider_blue_primary_to_red_alert",
           "min_width": 130,
           "style": "diamond",
@@ -75,6 +83,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-03",
           "background": "p:divider_ipify_purple_to_typescript_eslint_pink",
           "min_width": 130,
           "style": "diamond",
@@ -82,6 +91,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-04",
           "background": "p:divider_typescript_eslint_pink_to_orange",
           "min_width": 130,
           "style": "diamond",
@@ -173,6 +183,7 @@
           "type": "path"
         },
         {
+          "alias": "divider-05",
           "background": "p:divider_orange_to_green_added",
           "min_width": 130,
           "style": "diamond",
@@ -180,6 +191,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-06",
           "background": "p:green_added",
           "min_width": 130,
           "style": "diamond",
@@ -187,6 +199,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-07",
           "background": "p:divider_green_added_to_yellow_bright",
           "min_width": 130,
           "style": "diamond",
@@ -260,6 +273,7 @@
           "type": "git"
         },
         {
+          "alias": "divider-08",
           "background": "p:navy_text",
           "min_width": 130,
           "style": "diamond",
@@ -267,6 +281,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-09",
           "background": "p:divider_yellow_bright_to_navy_text",
           "min_width": 130,
           "style": "diamond",
@@ -274,6 +289,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-10",
           "background": "p:npm_dark",
           "min_width": 130,
           "style": "diamond",
@@ -281,6 +297,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-11",
           "background": "p:divider_navy_text_to_purple_exec",
           "min_width": 130,
           "style": "diamond",
@@ -307,6 +324,7 @@
           "type": "executiontime"
         },
         {
+          "alias": "divider-12",
           "background": "p:purple_exec",
           "min_width": 130,
           "style": "diamond",
@@ -314,6 +332,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-13",
           "background": "p:divider_purple_exec_to_electron_red",
           "min_width": 130,
           "style": "diamond",
@@ -321,6 +340,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-14",
           "background": "p:axios_yellow",
           "min_width": 130,
           "style": "diamond",
@@ -328,6 +348,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-15",
           "background": "transparent",
           "min_width": 130,
           "style": "diamond",
@@ -365,6 +386,7 @@
       "overflow": "hide",
       "segments": [
         {
+          "alias": "divider-16",
           "background": "transparent",
           "min_width": 130,
           "style": "diamond",
@@ -372,6 +394,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-17",
           "background": "p:green_ahead",
           "min_width": 130,
           "style": "diamond",
@@ -379,6 +402,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-18",
           "background": "p:green_valid_line",
           "min_width": 130,
           "style": "diamond",
@@ -386,6 +410,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-19",
           "background": "p:accent",
           "min_width": 130,
           "style": "diamond",
@@ -393,6 +418,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-20",
           "background": "p:chart_teal",
           "min_width": 130,
           "style": "diamond",
@@ -400,6 +426,7 @@
           "type": "text"
         },
         {
+          "alias": "divider-21",
           "background": "p:teal_sysinfo",
           "min_width": 130,
           "style": "diamond",
@@ -432,12 +459,14 @@
           "type": "sysinfo"
         },
         {
+          "alias": "divider-22",
           "min_width": 130,
           "style": "diamond",
           "template": "<p:tailwind_cyan,p:teal_sysinfo></>",
           "type": "text"
         },
         {
+          "alias": "divider-23",
           "background": "p:purple_exec",
           "min_width": 130,
           "style": "diamond",
@@ -458,8 +487,8 @@
           "options": {
             "linux": "",
             "macos": "",
-            "windows": "",
-            "ubuntu": ""
+            "ubuntu": "",
+            "windows": ""
           },
           "powerline_symbol": "",
           "style": "diamond",
@@ -468,12 +497,14 @@
           "type": "os"
         },
         {
+          "alias": "divider-24",
           "min_width": 130,
           "style": "diamond",
           "template": "<p:blue_tooltip,p:gray_os></>",
           "type": "text"
         },
         {
+          "alias": "divider-25",
           "background": "p:gray_prompt_count_bg",
           "min_width": 130,
           "style": "diamond",
@@ -530,12 +561,14 @@
           "type": "battery"
         },
         {
+          "alias": "divider-26",
           "min_width": 130,
           "style": "diamond",
           "template": "<p:purple_ahead,p:blue_time></>",
           "type": "text"
         },
         {
+          "alias": "divider-27",
           "background": "p:violet_project",
           "min_width": 130,
           "style": "diamond",
@@ -857,18 +890,6 @@
   },
   "palette": {
     "accent": "#21c7c7",
-    "shell_bash_green": "#4EAA25",
-    "shell_cmd_black": "#444444",
-    "shell_cygwin_green": "#00A95C",
-    "shell_elvish_teal": "#00BFA5",
-    "shell_fish_cyan": "#8fcffa",
-    "shell_nushell_purple": "#8E44AD",
-    "shell_omp_accent": "#21c7c7",
-    "shell_powershell_blue": "#5391FE",
-    "shell_tcsh_blue": "#1E90FF",
-    "shell_ubuntu_orange": "#E95420",
-    "shell_xonsh_yellow": "#ceaa34",
-    "shell_zsh_orange": "#F15A24",
     "axios_yellow": "#f7b93e",
     "black": "#000000",
     "blue_primary": "#0077c2",
@@ -922,19 +943,11 @@
     "cycle_watermelon": "#F67280",
     "divider_blue_primary_to_ipify_purple": "#617ed9",
     "divider_blue_primary_to_red_alert": "#786589",
-    "divider_blue_time_to_electron_red": "#9a929f",
-    "divider_blue_time_to_violet_project": "#6577f0",
-    "divider_electron_red_to_maroon_error": "#bf3020",
-    "divider_gray_os_to_electron_red": "#d38f81",
-    "divider_gray_os_to_gray_prompt_count_bg": "#707c84",
     "divider_green_added_to_yellow_bright": "#7ffd1c",
     "divider_ipify_purple_to_typescript_eslint_pink": "#d45dce",
-    "divider_maroon_error_to_pink_weather": "#b84b73",
     "divider_navy_text_to_purple_exec": "#424661",
     "divider_orange_to_green_added": "#7fc824",
     "divider_purple_exec_to_electron_red": "#bc6b6e",
-    "divider_red_alert_to_orange": "#f7724c",
-    "divider_teal_sysinfo_to_electron_red": "#9c6b61",
     "divider_typescript_eslint_pink_to_orange": "#f26379",
     "divider_yellow_bright_to_navy_text": "#808830",
     "electron_red": "#f56040",
@@ -970,7 +983,6 @@
     "pink_storybook": "#ff4785",
     "pink_weather": "#e797e7",
     "playwright_teal": "#47848f",
-    "prettier_black": "#000000",
     "prettier_yellow": "#f3df49",
     "purple_ahead": "#C792EA",
     "purple_exec": "#83769c",
@@ -980,6 +992,18 @@
     "react_cyan": "#61dafb",
     "red_alert": "#ef5350",
     "red_deleted": "#ff0000",
+    "shell_bash_green": "#4EAA25",
+    "shell_cmd_black": "#444444",
+    "shell_cygwin_green": "#00A95C",
+    "shell_elvish_teal": "#00BFA5",
+    "shell_fish_cyan": "#8fcffa",
+    "shell_nushell_purple": "#8E44AD",
+    "shell_omp_accent": "#21c7c7",
+    "shell_powershell_blue": "#5391FE",
+    "shell_tcsh_blue": "#1E90FF",
+    "shell_ubuntu_orange": "#E95420",
+    "shell_xonsh_yellow": "#ceaa34",
+    "shell_zsh_orange": "#F15A24",
     "tailwind_cyan": "#06b6d4",
     "teal_sysinfo": "#437683",
     "typescript_blue": "#3178c6",
@@ -2020,7 +2044,7 @@
     "filler": "<p:purple_session></>",
     "foreground": "p:blue_primary",
     "newline": false,
-    "template": "<p:accent>╰─<p:purple_session,transparent>{{ .Segments.shell-lprompt.Name }}<p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
+    "template": "<p:accent>╰─<p:purple_session,transparent>{{ .Segments.shell-lprompt.Name }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
   },
   "upgrade": {
     "auto": true,
