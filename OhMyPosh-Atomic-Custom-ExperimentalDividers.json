@@ -192,7 +192,7 @@
         },
         {
           "alias": "divider-06",
-          "background": "p:green_added",
+          "background": "p:divider_green_added",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
@@ -274,7 +274,7 @@
         },
         {
           "alias": "divider-08",
-          "background": "p:navy_text",
+          "background": "p:divider_navy_text",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
@@ -290,7 +290,7 @@
         },
         {
           "alias": "divider-10",
-          "background": "p:npm_dark",
+          "background": "p:divider_npm_dark",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
@@ -325,7 +325,7 @@
         },
         {
           "alias": "divider-12",
-          "background": "p:purple_exec",
+          "background": "p:divider_purple_exec",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
@@ -341,7 +341,7 @@
         },
         {
           "alias": "divider-14",
-          "background": "p:axios_yellow",
+          "background": "p:divider_axios_yellow",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
@@ -390,47 +390,47 @@
           "background": "transparent",
           "min_width": 130,
           "style": "diamond",
-          "template": "<p:green_ahead></>",
+          "template": "<p:divider_green_ahead></>",
           "type": "text"
         },
         {
           "alias": "divider-17",
-          "background": "p:green_ahead",
+          "background": "p:divider_green_ahead",
           "min_width": 130,
           "style": "diamond",
-          "template": "<p:green_valid_line></>",
+          "template": "<p:divider_green_valid_line></>",
           "type": "text"
         },
         {
           "alias": "divider-18",
-          "background": "p:green_valid_line",
+          "background": "p:divider_green_valid_line",
           "min_width": 130,
           "style": "diamond",
-          "template": "<p:accent></>",
+          "template": "<p:divider_accent></>",
           "type": "text"
         },
         {
           "alias": "divider-19",
-          "background": "p:accent",
+          "background": "p:divider_accent",
           "min_width": 130,
           "style": "diamond",
-          "template": "<p:chart_teal></>",
+          "template": "<p:divider_chart_teal></>",
           "type": "text"
         },
         {
           "alias": "divider-20",
-          "background": "p:chart_teal",
+          "background": "p:divider_chart_teal",
           "min_width": 130,
           "style": "diamond",
-          "template": "<p:teal_sysinfo></>",
+          "template": "<p:divider_teal_sysinfo></>",
           "type": "text"
         },
         {
           "alias": "divider-21",
-          "background": "p:teal_sysinfo",
+          "background": "p:divider_teal_sysinfo",
           "min_width": 130,
           "style": "diamond",
-          "template": "<p:teal_sysinfo></>",
+          "template": "<p:divider_teal_sysinfo></>",
           "type": "text"
         },
         {
@@ -462,15 +462,15 @@
           "alias": "divider-22",
           "min_width": 130,
           "style": "diamond",
-          "template": "<p:tailwind_cyan,p:teal_sysinfo></>",
+          "template": "<p:divider_tailwind_cyan,p:divider_teal_sysinfo></>",
           "type": "text"
         },
         {
           "alias": "divider-23",
-          "background": "p:purple_exec",
+          "background": "p:divider_purple_exec",
           "min_width": 130,
           "style": "diamond",
-          "template": "<p:purple_exec,p:tailwind_cyan></>",
+          "template": "<p:divider_purple_exec,p:divider_tailwind_cyan></>",
           "type": "text"
         },
         {
@@ -500,15 +500,15 @@
           "alias": "divider-24",
           "min_width": 130,
           "style": "diamond",
-          "template": "<p:blue_tooltip,p:gray_os></>",
+          "template": "<p:divider_blue_tooltip,p:divider_gray_os></>",
           "type": "text"
         },
         {
           "alias": "divider-25",
-          "background": "p:gray_prompt_count_bg",
+          "background": "p:divider_gray_prompt_count_bg",
           "min_width": 130,
           "style": "diamond",
-          "template": "<p:gray_prompt_count_bg,p:blue_tooltip></>",
+          "template": "<p:divider_gray_prompt_count_bg,p:divider_blue_tooltip></>",
           "type": "text"
         },
         {
@@ -564,15 +564,15 @@
           "alias": "divider-26",
           "min_width": 130,
           "style": "diamond",
-          "template": "<p:purple_ahead,p:blue_time></>",
+          "template": "<p:divider_purple_ahead,p:divider_blue_time></>",
           "type": "text"
         },
         {
           "alias": "divider-27",
-          "background": "p:violet_project",
+          "background": "p:divider_violet_project",
           "min_width": 130,
           "style": "diamond",
-          "template": "<p:violet_project,p:purple_ahead></>",
+          "template": "<p:divider_violet_project,p:divider_purple_ahead></>",
           "type": "text"
         },
         {
@@ -950,6 +950,23 @@
     "divider_purple_exec_to_electron_red": "#bc6b6e",
     "divider_typescript_eslint_pink_to_orange": "#f26379",
     "divider_yellow_bright_to_navy_text": "#808830",
+    "divider_accent": "#21c7c7",
+    "divider_axios_yellow": "#f7b93e",
+    "divider_blue_time": "#40c4ff",
+    "divider_blue_tooltip": "#81a1c1",
+    "divider_chart_teal": "#47a1ad",
+    "divider_gray_os": "#b2bec3",
+    "divider_gray_prompt_count_bg": "#2f3b45",
+    "divider_green_added": "#00ff00",
+    "divider_green_ahead": "#c5e478",
+    "divider_green_valid_line": "#266e36",
+    "divider_navy_text": "#011627",
+    "divider_npm_dark": "#193549",
+    "divider_purple_ahead": "#C792EA",
+    "divider_purple_exec": "#83769c",
+    "divider_tailwind_cyan": "#06b6d4",
+    "divider_teal_sysinfo": "#437683",
+    "divider_violet_project": "#8A2BE2",
     "electron_red": "#f56040",
     "eslint_purple": "#c386f1",
     "gray_os": "#b2bec3",

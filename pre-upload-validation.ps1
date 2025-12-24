@@ -48,6 +48,51 @@ function Get-OMPProperty {
     return $Object.$resolvedName
 }
 
+function Get-OMPPaletteReferences {
+    param(
+        [Parameter(Mandatory = $true)][string]$RawJson,
+        [Parameter(Mandatory = $true)]$ThemeObject
+    )
+
+    # Collect palette references like p:<key> in a robust way.
+    # - Case-insensitive (covers accidental "P:" or mixed casing)
+    # - Traverses the parsed JSON object (covers references anywhere: blocks, tooltips, templates, etc.)
+    $set = New-Object System.Collections.Generic.HashSet[string]
+    $rx = [regex]::new('(?i)p:([a-z0-9_\-\.]+)')
+
+    foreach ($m in $rx.Matches($RawJson)) {
+        [void]$set.Add($m.Groups[1].Value.ToLowerInvariant())
+    }
+
+    function Visit($node) {
+        if ($null -eq $node) { return }
+
+        # Arrays
+        if ($node -is [System.Array]) {
+            foreach ($item in $node) { Visit $item }
+            return
+        }
+
+        # Strings
+        if ($node -is [string]) {
+            foreach ($m in $rx.Matches($node)) {
+                [void]$set.Add($m.Groups[1].Value.ToLowerInvariant())
+            }
+            return
+        }
+
+        # Objects (PSCustomObject)
+        $props = $node.PSObject.Properties
+        if ($null -ne $props -and $props.Count -gt 0) {
+            foreach ($p in $props) { Visit $p.Value }
+        }
+    }
+
+    Visit $ThemeObject
+    # Return as a list of strings (PowerShell will enumerate the HashSet)
+    return $set
+}
+
 Write-Host 'Starting pre-upload validation for Oh My Posh theme...' -ForegroundColor Cyan
 
 # 1. Check if files exist
@@ -90,7 +135,7 @@ if ($errors.Count -gt 0) {
 # 3. Validate palette
 Write-Host 'Validating palette keys...' -ForegroundColor Yellow
 $palette = $themeJson.palette.PSObject.Properties.Name
-$refs = [regex]::Matches($themeContent, 'p:([a-zA-Z0-9_\-\.]+)') | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique
+$refs = @(Get-OMPPaletteReferences -RawJson $themeContent -ThemeObject $themeJson) | Sort-Object -Unique
 $missing = $refs | Where-Object { $_ -notin $palette }
 $unused = $palette | Where-Object { $_ -notin $refs }
 
