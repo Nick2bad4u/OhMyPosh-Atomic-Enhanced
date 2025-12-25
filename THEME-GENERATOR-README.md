@@ -149,7 +149,7 @@ $oceanPalette = @{
 
 ```powershell
 # Test Tokyo Night theme in current session
-oh-my-posh init pwsh --config '.\OhMyPosh-Atomic-Custom.TokyoNight.json' | Invoke-Expression
+oh-my-posh init pwsh --config '.\atomic\OhMyPosh-Atomic-Custom.TokyoNight.json' | Invoke-Expression
 ```
 
 ### Set Permanently
@@ -158,7 +158,7 @@ Add to your PowerShell profile (`$PROFILE`):
 
 ```powershell
 # Add this line to your profile
-oh-my-posh init pwsh --config 'C:\Path\To\OhMyPosh-Atomic-Custom.TokyoNight.json' | Invoke-Expression
+oh-my-posh init pwsh --config 'C:\Path\To\Themes\atomic\OhMyPosh-Atomic-Custom.TokyoNight.json' | Invoke-Expression
 ```
 
 Edit your profile:
@@ -179,7 +179,7 @@ function Set-OhMyPoshTheme {
         [string]$Theme
     )
 
-    $themePath = "C:\Path\To\Themes\OhMyPosh-Atomic-Custom.$Theme.json"
+    $themePath = "C:\Path\To\Themes\atomic\OhMyPosh-Atomic-Custom.$Theme.json"
     oh-my-posh init pwsh --config $themePath | Invoke-Expression
 }
 

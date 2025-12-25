@@ -48,7 +48,7 @@ All scripts are in the **root directory** of the repository.
 
 | Script                         | Purpose                     | Input          | Output                  |
 | ------------------------------ | --------------------------- | -------------- | ----------------------- |
-| **Generate-AllThemes.ps1**     | Generate all theme variants | Color palettes | Multiple .json files    |
+| **Generate-AllThemes.ps1**     | Generate all theme variants | Color palettes | Theme-family folders (default) or one output folder |
 | **New-ThemeWithPalette.ps1**   | Create theme from palette   | Palette file   | Single .json file       |
 | **cycle-themes.ps1**           | Cycle through themes        | Theme folder   | Activates one at a time |
 | **Merge-OhMyPoshThemes.ps1**   | Merge multiple themes       | Theme files    | Merged theme            |
@@ -75,33 +75,44 @@ Generates all theme variants from available color palettes.
 
 **What it does:**
 
-- Reads all palette files
-- Generates themes from each palette
-- Saves as individual `.json` files
-- Creates one theme per palette
+- Reads palettes from `color-palette-alternatives.json` (by default)
+- Generates variants for each source theme template
+- Writes variants into the theme-family folders by default:
+  - `./atomic/`
+  - `./1_shell/`
+  - `./slimfat/`
+  - `./atomicBit/`
+  - `./cleanDetailed/`
 
 #### Advanced Usage
 
 ```powershell
-# Generate for specific theme type
-.\Generate-AllThemes.ps1 -ThemeType "atomic"
+# Use a custom palettes file
+.\Generate-AllThemes.ps1 -PalettesFile ".\color-palette-alternatives.json" -Force
 
-# Generate and output to specific folder
-.\Generate-AllThemes.ps1 -OutputPath "C:\my-themes"
+# Exclude specific palettes
+.\Generate-AllThemes.ps1 -ExcludePalettes @('original') -Force
 
-# Generate using specific palettes only
-.\Generate-AllThemes.ps1 -PaletteFilter "Blue*"
+# Only generate for some source themes
+.\Generate-AllThemes.ps1 -SourceThemes @(
+  'OhMyPosh-Atomic-Custom.json',
+  '1_shell-Enhanced.omp.json'
+) -Force
+
+# Override output: put ALL generated variants into one directory
+.\Generate-AllThemes.ps1 -OutputDirectory "C:\my-themes" -Force
 ```
 
 ### Parameters
 
 ```powershell
 # Common parameters:
--ThemeType <string>      # Theme template to use (atomic, atomicBit, etc.)
--OutputPath <string>     # Where to save generated themes
--PaletteFilter <string>  # Only use palettes matching pattern
--Force                   # Overwrite existing files
--Verbose                 # Show detailed output
+-SourceThemes <string[]>     # Theme templates to generate from
+-PalettesFile <string>       # Palette JSON file (default: .\color-palette-alternatives.json)
+-ExcludePalettes <string[]>  # Palette IDs to skip (e.g. 'original')
+-OutputDirectory <string>    # Optional: write all generated variants to one folder
+-Force                        # Overwrite existing files
+-UpdateAccentColor            # Update theme accent_color to match palette accent
 ```
 
 ### Example Workflow
@@ -111,16 +122,16 @@ Generates all theme variants from available color palettes.
 Copy-Item "color-palette-alternatives.json" "my-palette.json"
 
 # 2. Generate all themes from palette
-.\Generate-AllThemes.ps1 -PaletteFilter "my-palette"
+.\Generate-AllThemes.ps1 -PalettesFile "my-palette.json" -Force
 
 # 3. Check generated files
-Get-ChildItem -Path ".\atomic" -Filter "*my-palette*"
+Get-ChildItem -Path ".\atomic" -Filter "OhMyPosh-Atomic-Custom.*.json"
 
 # 4. Validate generated themes
-.\pre-upload-validation.ps1 -ThemePath ".\atomic\OhMyPosh-Atomic-Custom.my-palette.json"
+.\pre-upload-validation.ps1 -ThemePath ".\atomic\OhMyPosh-Atomic-Custom.TokyoNight.json"
 
 # 5. Test the theme
-oh-my-posh init pwsh --config ".\atomic\OhMyPosh-Atomic-Custom.my-palette.json" | Invoke-Expression
+oh-my-posh init pwsh --config ".\atomic\OhMyPosh-Atomic-Custom.TokyoNight.json" | Invoke-Expression
 ```
 
 ---
@@ -136,27 +147,29 @@ Creates a **single theme** from a specific color palette.
 #### Basic Usage
 
 ```powershell
-.\New-ThemeWithPalette.ps1 -PalettePath "color-palette-alternatives.json" -OutputPath "my-theme.json"
+.\New-ThemeWithPalette.ps1 -PaletteName "tokyo_night" -OutputName "TokyoNight"
 ```
 
 #### With Template
 
 ```powershell
 .\New-ThemeWithPalette.ps1 `
-  -PalettePath "my-colors.json" `
-  -TemplateFile "OhMyPosh-Atomic-Custom.json" `
-  -OutputPath "my-custom-theme.json"
+  -SourceTheme "OhMyPosh-Atomic-Custom.json" `
+  -PaletteName "nord_frost" `
+  -OutputPath ".\atomic\OhMyPosh-Atomic-Custom.NordFrost.json" `
+  -UpdateAccentColor
 ```
 
 ### Parameters
 
 ```powershell
--PalettePath <string>      # Path to palette JSON file (required)
--TemplateFile <string>     # Template to base theme on (default: atomic)
--OutputPath <string>       # Where to save theme (required)
--ThemeName <string>        # Name for the theme
--Description <string>      # Theme description
--Force                     # Overwrite existing file
+-SourceTheme <string>      # Source theme JSON to apply the palette to (default: OhMyPosh-Atomic-Custom.json)
+-PaletteName <string>      # Palette ID from color-palette-alternatives.json (e.g. nord_frost)
+-PaletteObject <object>    # Provide a custom palette object directly instead of PaletteName
+-OutputName <string>       # Suffix for output filename (e.g. TokyoNight)
+-OutputPath <string>       # Full path to output file (overrides OutputName)
+-PalettesFile <string>     # Palette JSON file (default: color-palette-alternatives.json)
+-UpdateAccentColor         # Update accent_color to match the palette accent
 ```
 
 ### Example Workflow
@@ -197,57 +210,38 @@ Cycles through available themes, activating each one so you can preview them.
 
 ### Usage
 
-#### Basic Usage
+#### Basic Usage (cycles official + custom)
 
 ```powershell
 .\cycle-themes.ps1
 ```
 
-**What it does:**
-
-- Displays each theme
-- Waits for user input
-- Shows next theme on Enter
-- Shows previous on Backspace
-
-#### Cycle Specific Folder
+#### Only custom themes
 
 ```powershell
-.\cycle-themes.ps1 -ThemeFolder ".\atomic"
+.\cycle-themes.ps1 -Custom -Official:$false
 ```
 
-#### Set Timeout Between Themes
+#### Include palette variants from theme-family folders
 
 ```powershell
-.\cycle-themes.ps1 -DisplaySeconds 5
+.\cycle-themes.ps1 -Custom -Variants
+```
+
+#### Control the delay (seconds)
+
+```powershell
+.\cycle-themes.ps1 -Delay 3
 ```
 
 ### Parameters
 
 ```powershell
--ThemeFolder <string>      # Which folder contains themes to cycle
--DisplaySeconds <number>   # Seconds to show each theme (0 = manual)
--Verbose                   # Show theme file paths
+-Official     # Include themes under ./ohmyposh-official-themes
+-Custom       # Include this repo's themes
+-Variants     # Also include palette variants from theme-family folders
+-Delay <int>  # Seconds to display each theme before switching
 ```
-
-### Interactive Commands
-
-| Key           | Action                  |
-| ------------- | ----------------------- |
-| **Enter**     | Next theme              |
-| **Backspace** | Previous theme          |
-| **Q**         | Quit                    |
-| **S**         | Save current theme      |
-| **C**         | Copy current theme path |
-
-### Example Session
-
-```powershell
-# Start cycling
-.\cycle-themes.ps1 -ThemeFolder ".\atomic"
-
-# Output:
-# Currently previewing: OhMyPosh-Atomic-Custom.BlueOcean.json
 # Press Enter for next, Backspace for previous, Q to quit
 
 # Press Enter to go to next...
@@ -491,17 +485,15 @@ New-AtomicTheme -ThemeName "MyCustom" -ColorPalette $myColors
 ```powershell
 # Generate themes for multiple palettes
 $palettes = @(
-    "BlueOcean",
-    "NordFrost",
-    "DraculaNight",
-    "GruvboxDark"
+  @{ id = "blue_ocean"; out = "BlueOcean" },
+  @{ id = "nord_frost"; out = "NordFrost" },
+  @{ id = "dracula_night"; out = "DraculaNight" },
+  @{ id = "gruvbox_dark"; out = "GruvboxDark" }
 )
 
-foreach ($palette in $palettes) {
-    Write-Host "Generating: $palette"
-    .\New-ThemeWithPalette.ps1 `
-      -PaletteFilter $palette `
-      -OutputPath ".\output\OhMyPosh-Atomic-Custom.$palette.json"
+foreach ($p in $palettes) {
+  Write-Host "Generating: $($p.id)"
+  .\New-ThemeWithPalette.ps1 -PaletteName $p.id -OutputPath ".\output\OhMyPosh-Atomic-Custom.$($p.out).json"
 }
 
 Write-Host "✓ Generated $($palettes.Count) themes"

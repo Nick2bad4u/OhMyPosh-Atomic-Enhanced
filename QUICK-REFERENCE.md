@@ -21,7 +21,7 @@
 ## Test a Theme (Temporary)
 
 ```powershell
-oh-my-posh init pwsh --config '.\OhMyPosh-Atomic-Custom.TokyoNight.json' | Invoke-Expression
+oh-my-posh init pwsh --config '.\atomic\OhMyPosh-Atomic-Custom.TokyoNight.json' | Invoke-Expression
 ```
 
 ## Available Palettes

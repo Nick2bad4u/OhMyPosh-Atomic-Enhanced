@@ -1037,7 +1037,6 @@
   "secondary_prompt": {
     "background": "transparent",
     "foreground": "p:accent",
-    "options": {},
     "template": "╰─ "
   },
   "shell_integration": true,

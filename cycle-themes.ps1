@@ -4,17 +4,21 @@
 param(
     [switch]$Official,
     [switch]$Custom,
-    [string]$Delay = "2"
+    [switch]$Variants,
+    [string]$Delay = '2'
 )
 
 $customThemes = @(
-    "OhMyPosh-Atomic-Custom.json",
-    "OhMyPosh-Atomic-Advanced-V1.json",
-    "OhMyPosh-Atomic-Advanced-V2.json",
-    "OhMyPosh-Atomic-Advanced-V3-BRACKETS.json"
+    # Base themes
+    'OhMyPosh-Atomic-Custom.json',
+    'OhMyPosh-Atomic-Custom-ExperimentalDividers.json',
+    '1_shell-Enhanced.omp.json',
+    'slimfat-Enhanced.omp.json',
+    'atomicBit-Enhanced.omp.json',
+    'clean-detailed-Enhanced.omp.json'
 )
 
-$officialThemesPath = "ohmyposh-official-themes\themes"
+$officialThemesPath = 'ohmyposh-official-themes\themes'
 
 function Show-ThemePreview {
     param(
@@ -23,24 +27,24 @@ function Show-ThemePreview {
     )
 
     Clear-Host
-    Write-Host "╔════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-    Write-Host "║" -ForegroundColor Cyan -NoNewline
+    Write-Host '╔════════════════════════════════════════════════════════════╗' -ForegroundColor Cyan
+    Write-Host '║' -ForegroundColor Cyan -NoNewline
     Write-Host " 🎨 $ThemeName" -ForegroundColor Yellow -NoNewline
     $padding = 57 - $ThemeName.Length
     Write-Host "$(' ' * $padding)║" -ForegroundColor Cyan
-    Write-Host "╚════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
-    Write-Host ""
-    Write-Host "Loading theme preview... (Press Ctrl+C to stop cycling)" -ForegroundColor Gray
-    Write-Host ""
+    Write-Host '╚════════════════════════════════════════════════════════════╝' -ForegroundColor Cyan
+    Write-Host ''
+    Write-Host 'Loading theme preview... (Press Ctrl+C to stop cycling)' -ForegroundColor Gray
+    Write-Host ''
 
     oh-my-posh init pwsh --config $ThemePath | Invoke-Expression
 
-    Write-Host ""
-    Write-Host "════════════════════════════════════════════════════════════" -ForegroundColor Cyan
+    Write-Host ''
+    Write-Host '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
     Write-Host "Theme: $ThemeName" -ForegroundColor Yellow
     Write-Host "Path:  $ThemePath" -ForegroundColor Gray
-    Write-Host "════════════════════════════════════════════════════════════" -ForegroundColor Cyan
-    Write-Host ""
+    Write-Host '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
+    Write-Host ''
 }
 
 if (-not $Official -and -not $Custom) {
@@ -56,37 +60,57 @@ Start-Sleep -Seconds 2
 $themes = @()
 
 if ($Custom) {
-    Write-Host "📦 Loading custom themes..." -ForegroundColor Cyan
+    Write-Host '📦 Loading custom themes...' -ForegroundColor Cyan
     foreach ($theme in $customThemes) {
         if (Test-Path $theme) {
             $themes += @{
                 Path = $theme
-                Name = $theme.Replace(".json", "").Replace("OhMyPosh-Atomic-", "")
-                Type = "Custom"
+                Name = $theme.Replace('.json', '').Replace('OhMyPosh-Atomic-', '')
+                Type = 'Custom'
+            }
+        }
+    }
+
+    if ($Variants) {
+        Write-Host '🧩 Loading palette variants from theme-family folders...' -ForegroundColor Cyan
+        $variantGlobs = @(
+            'atomic/OhMyPosh-Atomic-Custom.*.json',
+            '1_shell/1_shell-Enhanced.omp.*.json',
+            'slimfat/slimfat-Enhanced.omp.*.json',
+            'atomicBit/atomicBit-Enhanced.omp.*.json',
+            'cleanDetailed/clean-detailed-Enhanced.omp.*.json',
+            'experimentalDividers/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json'
+        )
+        foreach ($glob in $variantGlobs) {
+            Get-ChildItem -File -Path $glob -ErrorAction SilentlyContinue | ForEach-Object {
+                $themes += @{
+                    Path = $_.FullName
+                    Name = $_.Name
+                }
             }
         }
     }
 }
 
 if ($Official) {
-    Write-Host "📦 Loading official themes..." -ForegroundColor Cyan
+    Write-Host '📦 Loading official themes...' -ForegroundColor Cyan
     if (Test-Path $officialThemesPath) {
         $officialFiles = Get-ChildItem "$officialThemesPath\*.json" | Sort-Object Name
         foreach ($file in $officialFiles) {
             $themes += @{
                 Path = $file.FullName
                 Name = $file.BaseName
-                Type = "Official"
+                Type = 'Official'
             }
         }
     }
     else {
-        Write-Host "⚠️  Official themes folder not found. Run: git subtree pull --prefix=ohmyposh-official-themes ohmyposh-themes main --squash" -ForegroundColor Yellow
+        Write-Host '⚠️  Official themes folder not found. Run: git subtree pull --prefix=ohmyposh-official-themes ohmyposh-themes main --squash' -ForegroundColor Yellow
     }
 }
 
 if ($themes.Count -eq 0) {
-    Write-Host "❌ No themes found!" -ForegroundColor Red
+    Write-Host '❌ No themes found!' -ForegroundColor Red
     exit 1
 }
 

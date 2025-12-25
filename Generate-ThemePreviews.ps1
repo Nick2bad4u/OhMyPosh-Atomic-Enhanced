@@ -49,12 +49,15 @@
 param(
     [Parameter()]
     [string[]]$ThemePattern = @(
+        # ExperimentalDividers variants
         'experimentalDividers/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json',
-        'OhMyPosh-Atomic-Custom.*.json',
-        '1_shell-Enhanced.omp.*.json',
-        'slimfat-Enhanced.omp.*.json',
-        'atomicBit-Enhanced.omp.*.json',
-        'clean-detailed-Enhanced.omp.*.json'
+
+        # Folder-based variants for each theme family
+        'atomic/OhMyPosh-Atomic-Custom.*.json',
+        '1_shell/1_shell-Enhanced.omp.*.json',
+        'slimfat/slimfat-Enhanced.omp.*.json',
+        'atomicBit/atomicBit-Enhanced.omp.*.json',
+        'cleanDetailed/clean-detailed-Enhanced.omp.*.json'
     ),
 
     [Parameter()]
@@ -152,7 +155,9 @@ else {
 Write-Step 'Scanning for custom theme files...'
 $themeFiles = @()
 foreach ($pattern in $ThemePattern) {
-    $found = Get-ChildItem -Recurse -File -Filter $pattern -ErrorAction SilentlyContinue
+    # NOTE: -Filter only matches leaf names and does not support path segments.
+    # Use -Path so patterns like 'atomic/*.json' work correctly.
+    $found = Get-ChildItem -File -Path $pattern -ErrorAction SilentlyContinue
     if ($found) {
         $themeFiles += $found
     }
@@ -414,7 +419,7 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 
 - `slimfat-Enhanced.omp.<Palette>.json` - Two-line compact theme
 
-- `\atomicBit-Enhanced.omp.<Palette>.json` - Box-style technical theme
+- `atomicBit-Enhanced.omp.<Palette>.json` - Box-style technical theme
 
 - `clean-detailed-Enhanced.omp.<Palette>.json` - Minimalist clean theme
 
@@ -424,7 +429,7 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/atomic/OhMyPosh-Atomic-Custom.NordFrost.json" | Invoke-Expression
 
 # 1_shell Enhanced with Tokyo Night palette
-oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/1_shell-Enhanced.omp.TokyoNight.json" | Invoke-Expression
+oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/1_shell/1_shell-Enhanced.omp.TokyoNight.json" | Invoke-Expression
 
 # Slimfat Enhanced with Dracula Night palette
 oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/slimfat/slimfat-Enhanced.omp.DraculaNight.json" | Invoke-Expression
