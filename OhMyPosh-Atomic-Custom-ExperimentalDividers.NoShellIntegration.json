@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
-  "accent_color": "#21c7c7",
+  "accent_color": "p:accent",
   "async": true,
   "blocks": [
     {
@@ -13,7 +13,7 @@
           "background": "p:blue_primary",
           "background_templates": [
             "{{ if or (eq .Name \"cmd\") (eq .Shell \"cmd\") }}p:shell_cmd_black{{ end }}",
-            "{{ if or (eq .Name \"powershell\") (eq .Shell \"powershell\") (eq .Name \"pwsh\") (eq .Shell \"pwsh\") }}p:shell_powershell_blue{{ end }}",
+            "{{ if or (eq .Name \"powershell\") (eq .Shell \"PS\") (eq .Name \"pwsh\") (eq .Shell \"pwsh\") }}p:shell_powershell_blue{{ end }}",
             "{{ if and (or (eq .Name \"bash\") (eq .Shell \"bash\")) (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
             "{{ if or (eq .Name \"bash\") (eq .Shell \"bash\") }}p:shell_bash_green{{ end }}",
             "{{ if or (eq .Name \"zsh\") (eq .Shell \"zsh\") (eq .Name \"zshell\") (eq .Shell \"zshell\") }}p:shell_zsh_orange{{ end }}",
@@ -22,8 +22,7 @@
             "{{ if or (eq .Name \"tcsh\") (eq .Shell \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
             "{{ if or (eq .Name \"ELV\") (eq .Shell \"elvish\") }}p:shell_elvish_teal{{ end }}",
             "{{ if or (eq .Name \"nu\") (eq .Shell \"nu\") (eq .Name \"nushell\") (eq .Shell \"nushell\") }}p:shell_nushell_purple{{ end }}",
-            "{{ if or (eq .Name \"XSH\") (eq .Shell \"xonsh\") }}p:shell_xonsh_yellow{{ end }}",
-            "{{ if or (eq .Name \"oh-my-posh\") (eq .Shell \"oh-my-posh\") }}p:shell_omp_accent{{ end }}"
+            "{{ if or (eq .Name \"XSH\") (eq .Shell \"xonsh\") }}p:shell_xonsh_yellow{{ end }}"
           ],
           "cache": {
             "duration": "24h",
@@ -35,22 +34,16 @@
           "min_width": 80,
           "options": {
             "mapped_shell_names": {
-              "bash": "BASH",
-              "cmd": "CMD",
               "elvish": "ELV",
-              "fish": "FISH",
-              "nu": "NU",
               "nushell": "NU",
-              "oh-my-posh": "OMP",
               "powershell": "PS",
-              "ps": "PS",
               "pwsh": "PS",
-              "xonsh": "XSH",
-              "zsh": "ZSH"
+              "xonsh": "XSH"
             }
           },
           "style": "diamond",
           "template": " {{ upper .Name  }} {{ substr 0 5 .Version }} ",
+          "templates_logic": "first_match",
           "type": "shell"
         },
         {
@@ -68,7 +61,7 @@
         },
         {
           "alias": "divider-01",
-          "background": "p:divider_blue_primary_to_ipify_purple",
+          "background": "p:divider_blue_primary_to_tooling_purple",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
@@ -84,7 +77,7 @@
         },
         {
           "alias": "divider-03",
-          "background": "p:divider_ipify_purple_to_typescript_eslint_pink",
+          "background": "p:divider_tooling_purple_to_typescript_eslint_pink",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
@@ -142,8 +135,6 @@
               "re:.*(Videos).*": "Videos",
               "re:.*(Workspace).*": "WS",
               "re:.*(ZwiftScripts).*": "📜 ZScript",
-              "re:.*(\\.git).*": "🌳 ",
-              "re:.*(\\.github).*": "🐙 ",
               "re:.*(auth|security).*": "🔐 ",
               "re:.*(ci|cd|pipeline).*": "🔄 ",
               "re:.*(dnsValidator).*": "🌐 DNS",
@@ -157,7 +148,6 @@
               "re:.*(internet-archive-upload).*": "🗄️ Archive",
               "re:.*(node_modules).*": "📚 ",
               "re:.*(nodejs).*": "Node",
-              "re:.*(npm).*": "NPM",
               "re:.*(plugin-hub).*": "🪝 PlugHub",
               "re:.*(pnpm).*": "PNPM",
               "re:.*(ps-color-scripts-enhanced|ps-color-scripts).*": "🎨 PSColor",
@@ -168,13 +158,18 @@
               "re:.*(wintertodt-scouter).*": "❄️ WintTodt",
               "re:.*(worktree-backup).*": "🌳 WTBackup",
               "re:.*(yarn).*": "Yarn",
+              "re:.*\\\\bnpm\\\\b.*": "NPM",
+              "re:^\\.git$": "🌳 ",
+              "re:^\\.github$": "🐙 ",
               "~/": "~",
               "~\\\\Desktop": "🖥️ ",
               "~\\\\Documents": "📄 ",
               "~\\\\Downloads": "📥 "
             },
             "mapped_locations_enabled": true,
+            "max_depth": 1,
             "max_width": 40,
+            "mixed_threshold": 4,
             "style": "folder"
           },
           "style": "diamond",
@@ -213,7 +208,7 @@
             "{{ if or (.Working.Changed) (.Staging.Changed) }}p:yellow_git_changed{{ end }}",
             "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:green_ahead{{ end }}",
             "{{ if gt .Ahead 0 }}p:purple_ahead{{ end }}",
-            "{{ if gt .Behind 0 }}p:purple_ahead{{ end }}"
+            "{{ if gt .Behind 0 }}p:purple_behind{{ end }}"
           ],
           "cache": {
             "duration": "15m",
@@ -225,11 +220,6 @@
             ".*\\.cache.*"
           ],
           "foreground": "p:navy_text",
-          "include_folders": [
-            ".*\\.git.*",
-            ".*/.*",
-            "~/.*"
-          ],
           "interactive": true,
           "leading_diamond": "",
           "min_width": 80,
@@ -256,7 +246,7 @@
             "native_fallback": true,
             "status_formats": {
               "Added": "<b><p:green_added>+%d</></b>",
-              "Copied": "<b><p:magenta_copied>c%d</></b>",
+              "Copied": "<b><p:magenta>c%d</></b>",
               "Deleted": "<b><p:red_deleted>-%d</></b>",
               "Modified": "<b><p:yellow_modified>~%d</></b>",
               "Renamed": "<b><p:cyan_renamed>r%d</></b>",
@@ -268,7 +258,8 @@
             }
           },
           "style": "diamond",
-          "template": "<parentBackground></> {{ .UpstreamIcon }}<b>{{ .HEAD }}{{if .BranchStatus }} <d>{{ .BranchStatus }}</d></b>{{ end }} ",
+          "template": "<parentBackground></> {{ .UpstreamIcon }}<b>{{ .HEAD }}{{if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }}</b> ",
+          "templates_logic": "first_match",
           "trailing_diamond": "",
           "type": "git"
         },
@@ -341,7 +332,7 @@
         },
         {
           "alias": "divider-14",
-          "background": "p:divider_axios_yellow",
+          "background": "p:divider_tooling_yellow",
           "min_width": 130,
           "style": "diamond",
           "template": "<parentBackground></>",
@@ -371,6 +362,7 @@
           },
           "style": "diamond",
           "template": "<parentBackground></><b>  </b>",
+          "templates_logic": "first_match",
           "trailing_diamond": "",
           "type": "status"
         }
@@ -455,6 +447,7 @@
           "powerline_symbol": "",
           "style": "diamond",
           "template": "<b> 󰇅 {{ round .Load1 .Precision  }}%  {{ round .PhysicalPercentUsed .Precision  }}%  {{ round .Disks .Precision  }}% </b>",
+          "templates_logic": "first_match",
           "trailing_diamond": "",
           "type": "sysinfo"
         },
@@ -557,6 +550,7 @@
           "powerline_symbol": "",
           "style": "diamond",
           "template": " {{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }} ",
+          "templates_logic": "first_match",
           "trailing_diamond": "",
           "type": "battery"
         },
@@ -587,12 +581,13 @@
           "leading_diamond": "",
           "min_width": 100,
           "options": {
-            "http_timeout": 500,
+            "http_timeout": 1000,
             "units": "imperial"
           },
           "powerline_symbol": "",
           "style": "diamond",
           "template": "<b> {{.Temperature}}{{.UnitIcon}}</b>",
+          "timeout": 1000,
           "trailing_diamond": "",
           "type": "owm"
         }
@@ -614,12 +609,10 @@
           "leading_diamond": "",
           "min_width": 80,
           "options": {
-            "cache_duration": "24h",
             "display_mode": "context",
             "fetch_version": true,
             "home_enabled": false,
             "missing_command_text": "",
-            "strategy": "session",
             "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
           },
           "style": "diamond",
@@ -638,14 +631,12 @@
           "leading_diamond": "",
           "min_width": 80,
           "options": {
-            "cache_duration": "24h",
             "display_mode": "context",
             "fetch_package_manager": true,
             "fetch_version": true,
             "home_enabled": false,
             "missing_command_text": "",
             "npm_icon": "",
-            "strategy": "session",
             "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest",
             "yarn_icon": ""
           },
@@ -665,12 +656,10 @@
           "leading_diamond": "",
           "min_width": 80,
           "options": {
-            "cache_duration": "24h",
             "display_mode": "context",
             "fetch_version": true,
             "home_enabled": false,
             "missing_command_text": "",
-            "strategy": "folder",
             "version_url_template": "https://api.adoptium.net/v3/info/release_names?version={{ .Major }}&os={{ .OS }}&arch={{ .Arch }}&image_type=jdk&jvm_impl=hotspot&vendor=eclipse"
           },
           "style": "diamond",
@@ -682,10 +671,17 @@
           "alias": "upgrade-rprompt",
           "background": "p:yellow_update",
           "foreground": "p:gray_os_fg",
+          "include_folders": [
+            "C:\\Users\\Nick"
+          ],
           "invert_powerline": false,
           "leading_diamond": "",
           "min_width": 80,
+          "options": {
+            "cache_duration": "24h"
+          },
           "style": "diamond",
+          "template": "<b> Current: {{ .Current }}  Latest: {{ .Latest }}</b>",
           "timeout": 1000,
           "trailing_diamond": "",
           "type": "upgrade"
@@ -713,7 +709,7 @@
             "duration": "30m",
             "strategy": "session"
           },
-          "foreground": "p:copilot_fg",
+          "foreground": "p:white",
           "interactive": false,
           "leading_diamond": "",
           "min_width": 104,
@@ -722,6 +718,7 @@
           },
           "style": "diamond",
           "template": "{{ if .Segments.git-lprompt }} 󰦈 {{ .Premium.Remaining.Gauge }} 󱋊 {{ .Premium.Percent }}% {{ end }}",
+          "timeout": 1000,
           "trailing_diamond": "",
           "type": "copilot"
         },
@@ -761,12 +758,12 @@
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"ELV\") }}p:shell_elvish_teal{{ end }}",
             "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\")) }}p:shell_nushell_purple{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"oh-my-posh\") }}p:shell_omp_accent{{ end }}"
+            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
           ],
           "min_width": 80,
           "style": "plain",
           "template": "╰─",
+          "templates_logic": "first_match",
           "type": "text"
         },
         {
@@ -788,12 +785,12 @@
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"ELV\") }}p:shell_elvish_teal{{ end }}",
             "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\")) }}p:shell_nushell_purple{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"oh-my-posh\") }}p:shell_omp_accent{{ end }}"
+            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
           ],
           "min_width": 80,
           "style": "diamond",
           "template": "{{ if .SSHSession }} {{ end }}{{ if .Root }}─<parentForeground,transparent>{{ if eq .OS \"windows\" }}{{ else }}{{ end }}</>─{{ .UserName }}─{{ end }}",
+          "templates_logic": "first_match",
           "type": "session"
         },
         {
@@ -815,8 +812,7 @@
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"ELV\") }}p:shell_elvish_teal{{ end }}",
             "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\")) }}p:shell_nushell_purple{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"oh-my-posh\") }}p:shell_omp_accent{{ end }}"
+            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
           ],
           "min_width": 80,
           "options": {
@@ -825,13 +821,14 @@
           },
           "style": "plain",
           "template": "",
+          "templates_logic": "first_match",
           "type": "status"
         }
       ],
       "type": "prompt"
     }
   ],
-  "console_title_template": "{{.Folder}}{{if .Root}} : root{{end}} : {{.Shell}}",
+  "console_title_template": "{{ if .Segments.git-lprompt }}{{ if .Segments.git-lprompt.RepoName }}{{ .Segments.git-lprompt.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ .Segments.git-lprompt.HEAD }}{{ if .Segments.git-lprompt.BranchStatus }} {{ .Segments.git-lprompt.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} : root{{ end }} : {{ .Shell }}",
   "cycle": [],
   "debug_prompt": {
     "background": "transparent",
@@ -874,7 +871,6 @@
       "fish": "FISH",
       "nu": "NU",
       "nushell": "NU",
-      "oh-my-posh": "OMP",
       "powershell": "PS",
       "ps": "PS",
       "pwsh": "PS",
@@ -889,14 +885,12 @@
   },
   "palette": {
     "accent": "#21c7c7",
-    "axios_yellow": "#f7b93e",
     "black": "#000000",
     "blue_primary": "#0077c2",
     "blue_time": "#40c4ff",
     "blue_tooltip": "#81a1c1",
     "chart_teal": "#47a1ad",
     "copilot_bg": "#501DAF",
-    "copilot_fg": "#ffffff",
     "cyan_renamed": "#00ffff",
     "cycle_apricot": "#F8B195",
     "cycle_aqua": "#3DFFDB",
@@ -918,7 +912,6 @@
     "cycle_ice_blue": "#C4FCEF",
     "cycle_inky": "#0E0E1A",
     "cycle_lilac": "#C77DFF",
-    "cycle_magenta": "#FF00FF",
     "cycle_mahogany": "#291813",
     "cycle_marmalade": "#FFA14B",
     "cycle_midnight_blue": "#1E1E2E",
@@ -940,34 +933,33 @@
     "cycle_swamp": "#04201F",
     "cycle_violet": "#110011",
     "cycle_watermelon": "#F67280",
-    "divider_blue_primary_to_ipify_purple": "#617ed9",
-    "divider_blue_primary_to_red_alert": "#786589",
-    "divider_green_added_to_yellow_bright": "#7ffd1c",
-    "divider_ipify_purple_to_typescript_eslint_pink": "#d45dce",
-    "divider_navy_text_to_purple_exec": "#424661",
-    "divider_orange_to_green_added": "#7fc824",
-    "divider_purple_exec_to_electron_red": "#bc6b6e",
-    "divider_typescript_eslint_pink_to_orange": "#f26379",
-    "divider_yellow_bright_to_navy_text": "#808830",
     "divider_accent": "#21c7c7",
-    "divider_axios_yellow": "#f7b93e",
+    "divider_blue_primary_to_red_alert": "#786589",
+    "divider_blue_primary_to_tooling_purple": "#617ed9",
     "divider_blue_time": "#40c4ff",
     "divider_blue_tooltip": "#81a1c1",
     "divider_chart_teal": "#47a1ad",
     "divider_gray_os": "#b2bec3",
     "divider_gray_prompt_count_bg": "#2f3b45",
     "divider_green_added": "#00ff00",
+    "divider_green_added_to_yellow_bright": "#7ffd1c",
     "divider_green_ahead": "#c5e478",
     "divider_green_valid_line": "#266e36",
     "divider_navy_text": "#011627",
+    "divider_navy_text_to_purple_exec": "#424661",
     "divider_npm_dark": "#193549",
+    "divider_orange_to_green_added": "#7fc824",
     "divider_purple_ahead": "#C792EA",
     "divider_purple_exec": "#83769c",
+    "divider_purple_exec_to_electron_red": "#bc6b6e",
     "divider_tailwind_cyan": "#06b6d4",
     "divider_teal_sysinfo": "#437683",
+    "divider_tooling_purple_to_typescript_eslint_pink": "#d45dce",
+    "divider_tooling_yellow": "#f7b93e",
+    "divider_typescript_eslint_pink_to_orange": "#f26379",
     "divider_violet_project": "#8A2BE2",
+    "divider_yellow_bright_to_navy_text": "#808830",
     "electron_red": "#f56040",
-    "eslint_purple": "#c386f1",
     "gray_os": "#b2bec3",
     "gray_os_fg": "#222222",
     "gray_path_fg": "#2d3436",
@@ -981,11 +973,10 @@
     "green_help": "#4CAF50",
     "green_success": "#00aa00",
     "green_valid_line": "#266e36",
-    "ipify_purple": "#c386f1",
     "ipify_purple_v6": "#e486f1",
     "java_blue": "#4063D8",
     "java_orange": "#F89820",
-    "magenta_copied": "#ff00ff",
+    "magenta": "#FF00FF",
     "maroon_error": "#890000",
     "navy_text": "#011627",
     "node_green": "#6CA35E",
@@ -1001,6 +992,7 @@
     "playwright_teal": "#47848f",
     "prettier_yellow": "#f3df49",
     "purple_ahead": "#C792EA",
+    "purple_behind": "#82AAFF",
     "purple_exec": "#83769c",
     "purple_session": "#7C4DFF",
     "python_blue": "#306998",
@@ -1014,18 +1006,18 @@
     "shell_elvish_teal": "#00BFA5",
     "shell_fish_cyan": "#8fcffa",
     "shell_nushell_purple": "#8E44AD",
-    "shell_omp_accent": "#21c7c7",
-    "shell_powershell_blue": "#5391FE",
+    "shell_powershell_blue": "#0077c2",
     "shell_tcsh_blue": "#1E90FF",
     "shell_ubuntu_orange": "#E95420",
     "shell_xonsh_yellow": "#ceaa34",
     "shell_zsh_orange": "#F15A24",
     "tailwind_cyan": "#06b6d4",
     "teal_sysinfo": "#437683",
+    "tooling_purple": "#c386f1",
+    "tooling_yellow": "#f7b93e",
     "typescript_blue": "#3178c6",
     "typescript_eslint_pink": "#e535ab",
     "violet_project": "#8A2BE2",
-    "vite_yellow": "#f7b93e",
     "vitest_green": "#729b1b",
     "white": "#ffffff",
     "windows_blue": "#0078D4",
@@ -1090,6 +1082,7 @@
       },
       "style": "diamond",
       "template": " <b>TS: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
       "tips": [
         "typescript",
         "npm run type-check"
@@ -1099,7 +1092,7 @@
     },
     {
       "alias": "vite-tooltip",
-      "background": "p:axios_yellow",
+      "background": "p:tooling_yellow",
       "cache": {
         "duration": "24h",
         "strategy": "session"
@@ -1113,6 +1106,7 @@
       },
       "style": "diamond",
       "template": " <b>⚡ Vite: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
       "tips": [
         "vite",
         "npm run build"
@@ -1136,6 +1130,7 @@
       },
       "style": "diamond",
       "template": " <b>🧪 Vitest: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
       "tips": [
         "vitest",
         "npm run test"
@@ -1159,6 +1154,7 @@
       },
       "style": "diamond",
       "template": " <b>🎭 Playwright: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
       "tips": [
         "playwright",
         "npm run test:e2e"
@@ -1167,7 +1163,7 @@
       "type": "http"
     },
     {
-      "alias": "playwright-tooltip",
+      "alias": "tailwind-tooltip",
       "background": "p:tailwind_cyan",
       "cache": {
         "duration": "24h",
@@ -1182,6 +1178,7 @@
       },
       "style": "diamond",
       "template": " <b>🎨 Tailwind CSS: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
       "tips": [
         "tailwindcss",
         "npm run lint:css"
@@ -1205,6 +1202,7 @@
       },
       "style": "diamond",
       "template": " <b>🐻 Zustand: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
       "tips": [
         "zustand",
         "state management"
@@ -1228,6 +1226,7 @@
       },
       "style": "diamond",
       "template": " <b>📊 Chart.js: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
       "tips": [
         "chart.js",
         "data visualization"
@@ -1251,6 +1250,7 @@
       },
       "style": "diamond",
       "template": " <b>󱀤 Electron: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
       "tips": [
         "electron",
         "npm run start:electron"
@@ -1274,6 +1274,7 @@
       },
       "style": "diamond",
       "template": " 📚 {{ .Body.version }} ",
+      "timeout": 1000,
       "tips": [
         "storybook",
         "npm run storybook"
@@ -1283,7 +1284,7 @@
     },
     {
       "alias": "axios-tooltip",
-      "background": "p:vite_yellow",
+      "background": "p:tooling_yellow",
       "cache": {
         "duration": "24h",
         "strategy": "session"
@@ -1297,6 +1298,7 @@
       },
       "style": "diamond",
       "template": " <b>🎯 Axios: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
       "tips": [
         "axios",
         "http client"
@@ -1320,6 +1322,7 @@
       },
       "style": "diamond",
       "template": " <b>🛡️ Zod: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
       "tips": [
         "zod",
         "schema validation"
@@ -1343,9 +1346,11 @@
       },
       "style": "diamond",
       "template": " <b>💅 Prettier: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
       "tips": [
         "prettier",
-        "npm run lint:prettier-fix"
+        "npm run lint:prettier-fix",
+        "prettynow"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1366,6 +1371,7 @@
       },
       "style": "diamond",
       "template": " <b>🎨 TypeScript-ESLint: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
       "tips": [
         "typescript-eslint",
         "npm run lint:ts"
@@ -1375,7 +1381,7 @@
     },
     {
       "alias": "eslint-tooltip",
-      "background": "p:eslint_purple",
+      "background": "p:tooling_purple",
       "cache": {
         "duration": "24h",
         "strategy": "session"
@@ -1389,6 +1395,7 @@
       },
       "style": "diamond",
       "template": "<b> ESLint: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
       "tips": [
         "eslint",
         "npm run lint"
@@ -1398,7 +1405,7 @@
     },
     {
       "alias": "ipify-tooltip",
-      "background": "p:ipify_purple",
+      "background": "p:tooling_purple",
       "cache": {
         "duration": "24h",
         "strategy": "session"
@@ -1412,6 +1419,7 @@
       },
       "style": "diamond",
       "template": " <b>  IP: {{ .IP }}</b>",
+      "timeout": 5000,
       "tips": [
         "ipconfig",
         "ip",
@@ -1456,6 +1464,7 @@
       },
       "style": "diamond",
       "template": " <b>  IPv6: {{ .Body.ip }}</b>",
+      "timeout": 1000,
       "tips": [
         "ipconfig",
         "ip",
@@ -1499,6 +1508,7 @@
       },
       "style": "diamond",
       "template": "  React {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
+      "timeout": 1000,
       "tips": [
         "react",
         "tsx",
@@ -1524,6 +1534,7 @@
       "powerline_symbol": "",
       "style": "diamond",
       "template": "  Git {{ .MajorMinorPatch }}  ",
+      "timeout": 1000,
       "tips": [
         "gitversion",
         "gitv",
@@ -1546,6 +1557,7 @@
       },
       "style": "diamond",
       "template": "  {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} ",
+      "timeout": 1000,
       "tips": [
         "git",
         "g"
@@ -1569,6 +1581,7 @@
       },
       "style": "diamond",
       "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }} {{ .Venv }} {{ end }}{{ .Full }}{{ end }} ",
+      "timeout": 1000,
       "tips": [
         "python",
         "python3",
@@ -1597,6 +1610,7 @@
       },
       "style": "diamond",
       "template": " {{ if .Segments.npm-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}</b>{{ end }} ",
+      "timeout": 1000,
       "tips": [
         "node",
         "npm",
@@ -1624,6 +1638,7 @@
       },
       "style": "diamond",
       "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
+      "timeout": 1000,
       "tips": [
         "java",
         "javac",
@@ -1636,8 +1651,13 @@
     },
     {
       "alias": "folder-tooltip",
-      "background": "#003147",
-      "foreground": "#3DFFDB",
+      "background": "p:cycle_deep_navy",
+      "cache": {
+        "duration": "1h",
+        "strategy": "folder"
+      },
+      "foreground": "p:cycle_aqua",
+      "interactive": true,
       "leading_diamond": "",
       "min_width": 80,
       "options": {
@@ -1661,7 +1681,7 @@
           "p:cycle_soft_lavender,p:cycle_inky",
           "p:cycle_creme,p:cycle_onyx",
           "p:cycle_neon_green,p:cycle_black_forest",
-          "p:cycle_magenta,p:cycle_violet",
+          "p:magenta,p:cycle_violet",
           "p:cycle_sunburst,p:cycle_deep_mocha"
         ],
         "cycle_folder_separator": true,
@@ -1669,7 +1689,12 @@
         "display_cygpath": false,
         "edge_format": "%s",
         "folder_format": "%s",
+        "folder_icon": "",
+        "folder_separator_icon": "/",
+        "full_length_dirs": 1,
+        "gitdir_format": "%s",
         "hide_root_location": false,
+        "home_icon": "🏠",
         "left_format": "%s",
         "mapped_locations": {
           "C:\\": "C:",
@@ -1700,8 +1725,6 @@
           "re:.*(Videos).*": "Videos",
           "re:.*(Workspace).*": "WS",
           "re:.*(ZwiftScripts).*": "📜 ZScript",
-          "re:.*(\\.git).*": "🌳 ",
-          "re:.*(\\.github).*": "🐙 ",
           "re:.*(auth|security).*": "🔐 ",
           "re:.*(ci|cd|pipeline).*": "🔄 ",
           "re:.*(dnsValidator).*": "🌐 DNS",
@@ -1715,7 +1738,6 @@
           "re:.*(internet-archive-upload).*": "🗄️ Archive",
           "re:.*(node_modules).*": "📚 ",
           "re:.*(nodejs).*": "Node",
-          "re:.*(npm).*": "NPM",
           "re:.*(plugin-hub).*": "🪝 PlugHub",
           "re:.*(pnpm).*": "PNPM",
           "re:.*(ps-color-scripts-enhanced|ps-color-scripts).*": "🎨 PSColor",
@@ -1726,6 +1748,9 @@
           "re:.*(wintertodt-scouter).*": "❄️ WintTodt",
           "re:.*(worktree-backup).*": "🌳 WTBackup",
           "re:.*(yarn).*": "Yarn",
+          "re:.*\\\\bnpm\\\\b.*": "NPM",
+          "re:^\\.git$": "🌳 ",
+          "re:^\\.github$": "🐙 ",
           "~/": "~",
           "~\\\\Desktop": "🖥️ ",
           "~\\\\Documents": "📄 ",
@@ -1733,11 +1758,14 @@
         },
         "mapped_locations_enabled": true,
         "max_depth": 10,
+        "mixed_threshold": 4,
         "right_format": "%s ",
-        "style": "agnoster_short"
+        "style": "agnoster_short",
+        "windows_registry_icon": ""
       },
       "style": "diamond",
       "template": "  {{ path .Path .AbsolutePWD }} ",
+      "timeout": 1000,
       "tips": [
         "cd",
         "z",
@@ -1763,6 +1791,7 @@
       },
       "style": "diamond",
       "template": "  Memory: {{ round .PhysicalPercentUsed .Precision }}%  Disk: {{ round .Disks .Precision }}%  CPU: {{ round .Load1 .Precision }}% ",
+      "timeout": 1000,
       "tips": [
         "htop",
         "top",
@@ -1789,6 +1818,7 @@
       },
       "style": "diamond",
       "template": " {{ if .WSL }}WSL at {{ end }}{{.Icon}} ",
+      "timeout": 1000,
       "tips": [
         "uname",
         "ver",
@@ -1809,6 +1839,7 @@
       },
       "style": "diamond",
       "template": "  {{ .CurrentDate | date \"Monday, January 2, 2006 3:04:05 PM\" }} ",
+      "timeout": 1000,
       "tips": [
         "date",
         "time",
@@ -1833,6 +1864,7 @@
       },
       "style": "diamond",
       "template": " {{ .Icon }}{{ .Percentage }}% {{ .State.String }} ",
+      "timeout": 1000,
       "tips": [
         "powercfg",
         "battery",
@@ -1850,22 +1882,16 @@
       "min_width": 80,
       "options": {
         "mapped_shell_names": {
-          "bash": "BASH",
-          "cmd": "CMD",
           "elvish": "ELV",
-          "fish": "FISH",
-          "nu": "NU",
           "nushell": "NU",
-          "oh-my-posh": "OMP",
           "powershell": "PS",
-          "ps": "PS",
           "pwsh": "PS",
-          "xonsh": "XSH",
-          "zsh": "ZSH"
+          "xonsh": "XSH"
         }
       },
       "style": "diamond",
       "template": "<b>  {{ upper .Name }} {{ upper .Version }} </b>",
+      "timeout": 1000,
       "tips": [
         "pwsh",
         "powershell",
@@ -1876,8 +1902,7 @@
         "xonsh",
         "elvish",
         "nu",
-        "nushell",
-        "oh-my-posh"
+        "nushell"
       ],
       "trailing_diamond": "",
       "type": "shell"
@@ -1894,6 +1919,7 @@
       },
       "style": "diamond",
       "template": " 󱑅 Execution time: {{ .FormattedMs }} ",
+      "timeout": 1000,
       "tips": [
         "measure",
         "cputime",
@@ -1917,6 +1943,7 @@
       },
       "style": "diamond",
       "template": " {{ if eq .Code 0 }} Success{{ else }} Error: {{ .Code }}{{ end }} ",
+      "timeout": 1000,
       "tips": [
         "$LASTEXITCODE",
         "echo $?",
@@ -1932,11 +1959,12 @@
         "duration": "10m",
         "strategy": "session"
       },
-      "foreground": "p:black",
+      "foreground": "p:white",
       "leading_diamond": "",
       "min_width": 80,
       "style": "diamond",
       "template": " {{ if .SSHSession }} SSH: {{ end }}{{ .UserName }}@{{ .HostName }} ",
+      "timeout": 1000,
       "tips": [
         "whoami",
         "id",
@@ -1955,6 +1983,7 @@
       "min_width": 80,
       "style": "diamond",
       "template": "  Administrator/Root ",
+      "timeout": 1000,
       "tips": [
         "su",
         "sudo",
@@ -1971,6 +2000,7 @@
       "min_width": 80,
       "style": "diamond",
       "template": "  {{ .Name }} ",
+      "timeout": 1000,
       "tips": [
         "ping",
         "wget",
@@ -1989,6 +2019,7 @@
       "min_width": 80,
       "style": "diamond",
       "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }} {{.Version}}{{ end }} {{ if .Name }}{{ .Name }}{{ end }}{{ end }}</b> ",
+      "timeout": 1000,
       "tips": [
         "project",
         "workspace",
@@ -2012,6 +2043,7 @@
       },
       "style": "diamond",
       "template": "  {{ .Value }} ",
+      "timeout": 1000,
       "tips": [
         "reg",
         "regedit",
@@ -2030,6 +2062,7 @@
       "min_width": 80,
       "style": "diamond",
       "template": "  {{ .Shell }} ",
+      "timeout": 1000,
       "tips": [
         "echo",
         "printf"
@@ -2045,6 +2078,7 @@
       "min_width": 80,
       "style": "diamond",
       "template": "  {{ .Shell }} ",
+      "timeout": 1000,
       "tips": [
         "help",
         "man",
