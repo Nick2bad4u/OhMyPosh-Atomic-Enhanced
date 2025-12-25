@@ -1085,7 +1085,13 @@
       "timeout": 1000,
       "tips": [
         "typescript",
-        "npm run type-check"
+        "npm run type-check",
+        "tsx",
+        "tsc",
+        "ts-node",
+        "tslint",
+        "tsserver",
+        "tsconfig.json"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1109,7 +1115,16 @@
       "timeout": 1000,
       "tips": [
         "vite",
-        "npm run build"
+        "npm run build",
+        "npm run dev",
+        "vite dev",
+        "vite build",
+        "vite preview",
+        "npm run preview",
+        "npx vite",
+        "npx vite dev",
+        "npx vite build",
+        "npx vite preview"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1133,7 +1148,13 @@
       "timeout": 1000,
       "tips": [
         "vitest",
-        "npm run test"
+        "npm run test",
+        "npx vitest",
+        "npx vitest run",
+        "npx vitest watch",
+        "npx vitest --coverage",
+        "npm test",
+        "npm run test:coverage"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1157,7 +1178,16 @@
       "timeout": 1000,
       "tips": [
         "playwright",
-        "npm run test:e2e"
+        "npm run test:e2e",
+        "npx playwright test",
+        "npx playwright test --headed",
+        "npx playwright test --project=chromium",
+        "npx playwright test --project=firefox",
+        "npx playwright test --project=webkit",
+        "npx playwright",
+        "npx playwright open",
+        "npm run playwright",
+        "npm run test:playwright"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1181,7 +1211,12 @@
       "timeout": 1000,
       "tips": [
         "tailwindcss",
-        "npm run lint:css"
+        "npm run lint:css",
+        "npx tailwindcss",
+        "npx tailwindcss build",
+        "npx tailwindcss watch",
+        "npm run build:css",
+        "npm run watch:css"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1205,7 +1240,10 @@
       "timeout": 1000,
       "tips": [
         "zustand",
-        "state management"
+        "state management",
+        "npm install zustand",
+        "npx zustand",
+        "npm run zustand"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1229,7 +1267,12 @@
       "timeout": 1000,
       "tips": [
         "chart.js",
-        "data visualization"
+        "data visualization",
+        "npm install chart.js",
+        "npx chart.js",
+        "npm run chart.js",
+        "npm run build:chart.js",
+        "npm run watch:chart.js"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1253,7 +1296,16 @@
       "timeout": 1000,
       "tips": [
         "electron",
-        "npm run start:electron"
+        "npm run start:electron",
+        "npm run build:electron",
+        "npm run watch:electron",
+        "npm run lint:electron",
+        "npm run test:electron",
+        "electron .",
+        "npx electron .",
+        "npx electron",
+        "npx electron build",
+        "npx electron watch"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1277,7 +1329,13 @@
       "timeout": 1000,
       "tips": [
         "storybook",
-        "npm run storybook"
+        "npm run storybook",
+        "npm run build:storybook",
+        "npm run watch:storybook",
+        "npm run lint:storybook",
+        "npm run test:storybook",
+        "npm run test:storybook",
+        "vitest storybook"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1301,7 +1359,14 @@
       "timeout": 1000,
       "tips": [
         "axios",
-        "http client"
+        "http client",
+        "npm install axios",
+        "npx axios",
+        "npm run axios",
+        "npm run build:axios",
+        "npm run watch:axios",
+        "npm run lint:axios",
+        "npm run test:axios"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1325,7 +1390,16 @@
       "timeout": 1000,
       "tips": [
         "zod",
-        "schema validation"
+        "schema validation",
+        "npm install zod",
+        "npx zod",
+        "npm run zod",
+        "npm run build:zod",
+        "npm run watch:zod",
+        "npm run lint:zod",
+        "npm run test:zod",
+        "vitest zod",
+        "vitest watch zod"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1350,7 +1424,16 @@
       "tips": [
         "prettier",
         "npm run lint:prettier-fix",
-        "prettynow"
+        "prettynow",
+        "npm install prettier",
+        "npx prettier",
+        "npm run prettier",
+        "npm run lint:prettier",
+        "pretty",
+        "prettiernow",
+        "npm run pretty",
+        "npm run format",
+        "npm run format:prettier"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1374,7 +1457,12 @@
       "timeout": 1000,
       "tips": [
         "typescript-eslint",
-        "npm run lint:ts"
+        "npm run lint:ts",
+        "vitest typescript-eslint",
+        "vitest watch typescript-eslint",
+        "vitest run typescript-eslint",
+        "npm run lint",
+        "npm run lint:typescript-eslint"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1398,7 +1486,14 @@
       "timeout": 1000,
       "tips": [
         "eslint",
-        "npm run lint"
+        "npm run lint",
+        "vitest eslint",
+        "vitest watch eslint",
+        "vitest run eslint",
+        "npm run lint:eslint",
+        "npx eslint",
+        "npx eslint .",
+        "npx eslint --fix"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1528,7 +1623,10 @@
         "jsx",
         "npm run dev",
         "react-local",
-        "react folder"
+        "react folder",
+        "vitest react",
+        "vitest watch react",
+        "vitest run react"
       ],
       "type": "react"
     },
@@ -1551,7 +1649,9 @@
         "gitv",
         "git v",
         "git version",
-        "git --version"
+        "git --version",
+        "git show",
+        "git log"
       ],
       "trailing_diamond": "",
       "type": "gitversion"
@@ -1605,7 +1705,16 @@
       "timeout": 1000,
       "tips": [
         "git",
-        "g"
+        "g",
+        "git --version",
+        "git show",
+        "git log",
+        "git status",
+        "git diff",
+        "git add",
+        "git commit",
+        "git push",
+        "git pull"
       ],
       "trailing_diamond": "",
       "type": "git"
@@ -1634,7 +1743,9 @@
         "pip",
         "conda",
         "poetry",
-        "pipenv"
+        "pipenv",
+        "python --version",
+        "python3 --version"
       ],
       "trailing_diamond": "",
       "type": "python"
@@ -1663,7 +1774,8 @@
         "pnpm",
         "nx",
         "bun",
-        "npx"
+        "npx",
+        "node --version"
       ],
       "trailing_diamond": "",
       "type": "node"
@@ -1689,7 +1801,8 @@
         "javac",
         "mvn",
         "gradle",
-        "ant"
+        "ant",
+        "java --version"
       ],
       "trailing_diamond": "",
       "type": "java"
@@ -1820,7 +1933,9 @@
         "dir",
         "pwd",
         "find",
-        "locate"
+        "locate",
+        "which",
+        "where"
       ],
       "trailing_diamond": "",
       "type": "path"
@@ -1851,7 +1966,9 @@
         "cpu",
         "memory",
         "disk",
-        "vmstat"
+        "vmstat",
+        "free",
+        "uptime"
       ],
       "trailing_diamond": "",
       "type": "sysinfo"
@@ -1876,7 +1993,9 @@
         "uname",
         "ver",
         "systeminfo",
-        "lsb_release"
+        "lsb_release",
+        "hostname",
+        "cat /etc/os-release"
       ],
       "trailing_diamond": "",
       "type": "os"
@@ -1901,7 +2020,10 @@
         "date",
         "time",
         "cal",
-        "timedatectl"
+        "timedatectl",
+        "date +%T",
+        "date +%F %T",
+        "date +%Y-%m-%d %H:%M:%S"
       ],
       "trailing_diamond": "",
       "type": "time"
@@ -1926,7 +2048,8 @@
         "powercfg",
         "battery",
         "acpi",
-        "upower"
+        "upower",
+        "pmset"
       ],
       "trailing_diamond": "",
       "type": "battery"
@@ -1963,7 +2086,8 @@
         "xonsh",
         "elvish",
         "nu",
-        "nushell"
+        "nushell",
+        "elvish"
       ],
       "trailing_diamond": "",
       "type": "shell"
@@ -1989,7 +2113,11 @@
         "measure",
         "cputime",
         "elapsed",
-        "benchmark"
+        "benchmark",
+        "time",
+        "date",
+        "howlong",
+        "stopwatch"
       ],
       "trailing_diamond": "",
       "type": "executiontime"
@@ -2016,7 +2144,9 @@
       "tips": [
         "$LASTEXITCODE",
         "echo $?",
-        "echo %ERRORLEVEL%"
+        "echo %ERRORLEVEL%",
+        "echo $?",
+        "echo $LASTEXITCODE"
       ],
       "trailing_diamond": "",
       "type": "status"
@@ -2039,7 +2169,10 @@
         "id",
         "ssh",
         "su",
-        "sudo"
+        "sudo",
+        "admin",
+        "root",
+        "administrator"
       ],
       "trailing_diamond": "",
       "type": "session"
@@ -2060,7 +2193,11 @@
       "tips": [
         "su",
         "sudo",
-        "admin"
+        "admin",
+        "root",
+        "administrator",
+        "superuser",
+        "wheel"
       ],
       "trailing_diamond": "",
       "type": "root"
@@ -2083,7 +2220,11 @@
         "wget",
         "curl",
         "telnet",
-        "ssh"
+        "ssh",
+        "ftp",
+        "sftp",
+        "http",
+        "https"
       ],
       "trailing_diamond": "",
       "type": "connection"
@@ -2107,7 +2248,10 @@
         "version",
         "name",
         "semver",
-        "package"
+        "package",
+        "dependency",
+        "module",
+        "library"
       ],
       "trailing_diamond": "",
       "type": "project"
@@ -2134,7 +2278,11 @@
         "regedit",
         "registry",
         "winreg",
-        "windows registry"
+        "windows registry",
+        "hklm",
+        "currentversion",
+        "buildlab",
+        "software"
       ],
       "trailing_diamond": "",
       "type": "winreg"
@@ -2154,7 +2302,15 @@
       "timeout": 1000,
       "tips": [
         "echo",
-        "printf"
+        "printf",
+        "script",
+        "shell",
+        "bash",
+        "zsh",
+        "fish",
+        "powershell",
+        "pwsh",
+        "cmd"
       ],
       "trailing_diamond": "",
       "type": "text"
@@ -2175,7 +2331,12 @@
       "tips": [
         "help",
         "man",
-        "info"
+        "info",
+        "documentation",
+        "manual",
+        "guide",
+        "tutorial",
+        "reference"
       ],
       "trailing_diamond": "",
       "type": "text"
