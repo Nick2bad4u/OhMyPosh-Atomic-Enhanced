@@ -75,7 +75,8 @@ foreach ($name in $paletteNames) {
         RecomputeDividers = $RecomputeDividers
     }
 
-    & "$PSScriptRoot\New-ExperimentalDividersThemeWithPalette.ps1" @params
+    $scriptPath = Join-Path -Path $PSScriptRoot -ChildPath 'New-ExperimentalDividersThemeWithPalette.ps1'
+    & $scriptPath @params
 }
 
 Write-Host '✅ Generation complete' -ForegroundColor Green

@@ -202,8 +202,9 @@ foreach ($SourceTheme in $SourceThemes) {
                 $params.UpdateAccentColor = $true
             }
 
-            # Run the script silently
-            $null = & "$PSScriptRoot\New-ThemeWithPalette.ps1" @params 2>&1
+            # Run the script silently (use Join-Path for cross-platform compatibility)
+            $scriptPath = Join-Path -Path $PSScriptRoot -ChildPath 'New-ThemeWithPalette.ps1'
+            $null = & $scriptPath @params 2>&1
 
             Write-Host "    ✅ Success: " -NoNewline -ForegroundColor Green
             Write-Host ([System.IO.Path]::GetFileName($outputFile)) -ForegroundColor White

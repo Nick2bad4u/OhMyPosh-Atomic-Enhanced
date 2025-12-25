@@ -9,9 +9,23 @@ on:
     branches:
       - main
     paths:
-      - "*.json"
-      - "*-Enhanced.omp.json"
+      # Root theme JSONs
+      - "OhMyPosh-Atomic-*.json"
+      - "*_shell-*.json"
+      - "1_shell*.json"
+      - "slimfat*.json"
+      - "atomicBit*.json"
+      - "clean-detailed*.json"
+      # Generated theme variants in folders
+      - "1_shell/**"
+      - "slimfat/**"
+      - "atomic/**"
+      - "atomicBit/**"
+      - "cleanDetailed/**"
+      - "experimentalDividers/**"
+      # Palette sources / extra theme types
       - "color-palette-alternatives.json"
+      - "starship-atomic-enhanced.toml"
   workflow_dispatch:
     inputs:
       version:
@@ -66,6 +80,21 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Generate all theme variants (PowerShell)
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Using PowerShell:"; pwsh -NoProfile -Command '$PSVersionTable.PSVersion'
+
+          # Generate the 5 primary theme families into the repo root
+          pwsh -NoProfile -File ./Generate-AllThemes.ps1 -Force
+
+          # Generate ExperimentalDividers palette variants into ./experimentalDividers
+          pwsh -NoProfile -File ./Generate-ExperimentalDividers.ps1 -Force
+
+          # Ensure the NoShellIntegration variant is in sync
+          pwsh -NoProfile -File ./scripts/Make-NoShellIntegration.ps1
+
       - name: Set up Node.js
         uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
@@ -108,13 +137,22 @@ jobs:
           SLIMFAT_COUNT=$(ls -1 slimfat-Enhanced.omp.*.json 2>/dev/null | wc -l)
           ATOMICBIT_COUNT=$(ls -1 atomicBit-Enhanced.omp.*.json 2>/dev/null | wc -l)
           CLEAN_COUNT=$(ls -1 clean-detailed-Enhanced.omp.*.json 2>/dev/null | wc -l)
-          TOTAL=$((ATOMIC_COUNT + SHELL_COUNT + SLIMFAT_COUNT + ATOMICBIT_COUNT + CLEAN_COUNT))
+          EXPDIV_COUNT=$(ls -1 experimentalDividers/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json 2>/dev/null | wc -l)
+          EXPDIV_NOSI_COUNT=$(ls -1 OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json 2>/dev/null | wc -l)
+
+          # Starship config isn't a theme family variant, but we ship it as an asset.
+          STARSHIP_COUNT=$(ls -1 starship-atomic-enhanced.toml 2>/dev/null | wc -l)
+
+          TOTAL=$((ATOMIC_COUNT + SHELL_COUNT + SLIMFAT_COUNT + ATOMICBIT_COUNT + CLEAN_COUNT + EXPDIV_COUNT + EXPDIV_NOSI_COUNT))
 
           echo "atomic_count=$ATOMIC_COUNT" >> $GITHUB_OUTPUT
           echo "shell_count=$SHELL_COUNT" >> $GITHUB_OUTPUT
           echo "slimfat_count=$SLIMFAT_COUNT" >> $GITHUB_OUTPUT
           echo "atomicbit_count=$ATOMICBIT_COUNT" >> $GITHUB_OUTPUT
           echo "clean_count=$CLEAN_COUNT" >> $GITHUB_OUTPUT
+          echo "expdiv_count=$EXPDIV_COUNT" >> $GITHUB_OUTPUT
+          echo "expdiv_nosi_count=$EXPDIV_NOSI_COUNT" >> $GITHUB_OUTPUT
+          echo "starship_count=$STARSHIP_COUNT" >> $GITHUB_OUTPUT
           echo "total_count=$TOTAL" >> $GITHUB_OUTPUT
 
       - name: Generate theme lists
@@ -163,6 +201,21 @@ jobs:
             fi
           done
 
+          echo "### 🧪 ExperimentalDividers Themes (${{ steps.count_themes.outputs.expdiv_count }} variants)" > /tmp/theme-lists/experimentaldividers.md
+          for file in experimentalDividers/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json; do
+            if [ -f "$file" ]; then
+              base=$(basename "$file")
+              palette=$(echo "$base" | sed 's/OhMyPosh-Atomic-Custom-ExperimentalDividers\.\(.*\)\.json/\1/')
+              echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/experimentaldividers.md
+            fi
+          done
+
+          if [ -f "OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json" ]; then
+            echo "" >> /tmp/theme-lists/experimentaldividers.md
+            echo "**No Shell Integration Variant:**" >> /tmp/theme-lists/experimentaldividers.md
+            echo "- [\`OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json)" >> /tmp/theme-lists/experimentaldividers.md
+          fi
+
       - name: Create release with theme files
         uses: softprops/action-gh-release@6da8fa9354ddfdc4aeace5fc48d7f679b5214090 # v2.4.1
         with:
@@ -173,7 +226,7 @@ jobs:
 
             **Release Date:** ${{ needs.prepare-release.outputs.release_date }}
 
-            This release contains **${{ steps.count_themes.outputs.total_count }}** Oh My Posh theme files across **5 theme families** with **24 color palettes** each.
+            This release contains **${{ steps.count_themes.outputs.total_count }}** Oh My Posh theme files across **6 theme families** (24 palettes each), plus a small number of special variants (e.g. NoShellIntegration).
 
             ---
 
@@ -192,6 +245,8 @@ jobs:
             | 🎯 **Slimfat-Enhanced** | ${{ steps.count_themes.outputs.slimfat_count }} | Two-line compact theme |
             | 📦 **AtomicBit-Enhanced** | ${{ steps.count_themes.outputs.atomicbit_count }} | Box-style technical theme |
             | 🧹 **Clean-Detailed-Enhanced** | ${{ steps.count_themes.outputs.clean_count }} | Minimalist clean theme |
+            | 🧪 **ExperimentalDividers** | ${{ steps.count_themes.outputs.expdiv_count }} | Experimental dividers + transitions variant |
+            | 🧪 **ExperimentalDividers (NoShellIntegration)** | ${{ steps.count_themes.outputs.expdiv_nosi_count }} | Same theme with shell integration disabled |
             | | |
             | **Total** | **${{ steps.count_themes.outputs.total_count }}** | All theme files included |
 
@@ -269,6 +324,8 @@ jobs:
 
             $(cat /tmp/theme-lists/clean.md)
 
+            $(cat /tmp/theme-lists/experimentaldividers.md)
+
             ---
 
             ### 📖 Documentation
@@ -290,12 +347,16 @@ jobs:
             slimfat-Enhanced.omp.*.json
             atomicBit-Enhanced.omp.*.json
             clean-detailed-Enhanced.omp.*.json
+            experimentalDividers/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json
             OhMyPosh-Atomic-Custom.json
             1_shell-Enhanced.omp.json
             slimfat-Enhanced.omp.json
             atomicBit-Enhanced.omp.json
             clean-detailed-Enhanced.omp.json
+            OhMyPosh-Atomic-Custom-ExperimentalDividers.json
+            OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json
             color-palette-alternatives.json
+            starship-atomic-enhanced.toml
           draft: false
           prerelease: false
           make_latest: true
@@ -319,6 +380,11 @@ jobs:
             echo "- 🎯 Slimfat-Enhanced: ${{ steps.count_themes.outputs.slimfat_count }} themes"
             echo "- 📦 AtomicBit-Enhanced: ${{ steps.count_themes.outputs.atomicbit_count }} themes"
             echo "- 🧹 Clean-Detailed-Enhanced: ${{ steps.count_themes.outputs.clean_count }} themes"
+            echo "- 🧪 ExperimentalDividers: ${{ steps.count_themes.outputs.expdiv_count }} themes"
+            echo "- 🧪 ExperimentalDividers (NoShellIntegration): ${{ steps.count_themes.outputs.expdiv_nosi_count }} theme"
+            if [ "${{ steps.count_themes.outputs.starship_count }}" != "0" ]; then
+              echo "- ⭐ Starship: ${{ steps.count_themes.outputs.starship_count }} config file"
+            fi
             echo ""
             echo "### ✅ Status"
             echo "Release created successfully! All theme files are now available for download."
