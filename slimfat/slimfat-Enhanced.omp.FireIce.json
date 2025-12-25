@@ -172,7 +172,9 @@
         },
         {
           "foreground": "p:green_success",
-          "foreground_templates": ["{{ if gt .Code 0 }}p:red_alert{{ end }}"],
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}p:red_alert{{ end }}"
+          ],
           "properties": {
             "always_enabled": true
           },
@@ -199,7 +201,11 @@
   },
   "extends": "",
   "final_space": true,
-  "iterm_features": ["prompt_mark", "current_dir", "remote_host"],
+  "iterm_features": [
+    "prompt_mark",
+    "current_dir",
+    "remote_host"
+  ],
   "maps": {
     "host_name": {
       "Nick2bad4u": "💻",
@@ -222,72 +228,72 @@
     }
   },
   "palette": {
-    "npm_yellow": "#ffa07a",
-    "magenta_copied": "#ff69b4",
-    "blue_primary": "#00bfff",
-    "accent": "#ff4500",
-    "green_charging": "#5fdfef",
-    "pink_storybook": "#ff69b4",
-    "green_ahead": "#40e0d0",
-    "yellow_discharging": "#ffb380",
-    "prettier_yellow": "#ffa07a",
-    "electron_red": "#ff4500",
-    "typescript_blue": "#00bfff",
-    "green_valid_line": "#006f7f",
-    "windows_blue": "#00bfff",
-    "gray_os": "#b0c4de",
-    "gray_prompt_count_bg": "#1f1f2f",
-    "orange_battery": "#ff7f50",
-    "violet_project": "#9370db",
-    "vite_yellow": "#ffa07a",
-    "teal_sysinfo": "#20b2aa",
-    "gray_os_fg": "#1a1a24",
-    "tailwind_cyan": "#00ced1",
-    "typescript_eslint_pink": "#ff69b4",
-    "purple_session": "#9932cc",
-    "pink_error_line": "#ff0000",
-    "vitest_green": "#00ced1",
-    "ipify_purple": "#9370db",
-    "node_green": "#00ced1",
-    "ipify_purple_v6": "#ba55d3",
-    "react_cyan": "#00ffff",
-    "orange": "#ff6347",
-    "white": "#f0ffff",
-    "pink_status_fail": "#dc143c",
-    "green_success": "#00ced1",
-    "gray_path_fg": "#2a2a34",
-    "purple_ahead": "#9370db",
-    "java_orange": "#ff8c00",
-    "navy_text": "#0a0a14",
-    "black": "#0a0a14",
-    "orange_unmerged": "#ff4500",
-    "python_blue": "#00bfff",
-    "purple_exec": "#8b008b",
     "yellow_root_alt": "#ffb380",
-    "red_deleted": "#dc143c",
-    "cyan_renamed": "#00ffff",
-    "maroon_error": "#8b0000",
-    "green_help": "#20b2aa",
-    "yellow_bright": "#ffa07a",
-    "eslint_purple": "#9370db",
-    "yellow_modified": "#ffa07a",
-    "gray_prompt_count_fg": "#e0f7ff",
-    "playwright_teal": "#00ced1",
-    "npm_dark": "#0a0a14",
-    "green_full": "#00ced1",
-    "blue_tooltip": "#b0e0e6",
-    "gray_untracked": "#708090",
-    "blue_time": "#87ceeb",
+    "violet_project": "#9370db",
+    "tailwind_cyan": "#00ced1",
+    "prettier_yellow": "#ffa07a",
+    "purple_ahead": "#9370db",
+    "typescript_blue": "#00bfff",
     "axios_yellow": "#ffa07a",
-    "prettier_black": "#0a0a14",
-    "yellow_update": "#ffb380",
-    "red_alert": "#ff4500",
-    "python_yellow": "#ffa07a",
-    "green_added": "#00ffff",
-    "zustand_purple": "#9370db",
+    "green_full": "#00ced1",
+    "magenta_copied": "#ff69b4",
+    "cyan_renamed": "#00ffff",
+    "gray_prompt_count_fg": "#e0f7ff",
+    "ipify_purple_v6": "#ba55d3",
+    "red_deleted": "#dc143c",
+    "yellow_git_changed": "#ffd9b3",
+    "pink_storybook": "#ff69b4",
+    "yellow_modified": "#ffa07a",
+    "black": "#0a0a14",
+    "node_green": "#00ced1",
+    "green_charging": "#5fdfef",
+    "npm_dark": "#0a0a14",
     "chart_teal": "#00ced1",
+    "playwright_teal": "#00ced1",
+    "gray_prompt_count_bg": "#1f1f2f",
+    "vite_yellow": "#ffa07a",
+    "yellow_bright": "#ffa07a",
+    "vitest_green": "#00ced1",
+    "purple_exec": "#8b008b",
+    "npm_yellow": "#ffa07a",
+    "typescript_eslint_pink": "#ff69b4",
+    "white": "#f0ffff",
+    "green_ahead": "#40e0d0",
+    "pink_status_fail": "#dc143c",
+    "ipify_purple": "#9370db",
+    "yellow_discharging": "#ffb380",
+    "purple_session": "#9932cc",
+    "teal_sysinfo": "#20b2aa",
+    "gray_path_fg": "#2a2a34",
+    "gray_os": "#b0c4de",
+    "orange_unmerged": "#ff4500",
+    "eslint_purple": "#9370db",
+    "java_orange": "#ff8c00",
     "pink_weather": "#afeeee",
-    "yellow_git_changed": "#ffd9b3"
+    "yellow_update": "#ffb380",
+    "prettier_black": "#0a0a14",
+    "green_help": "#20b2aa",
+    "gray_os_fg": "#1a1a24",
+    "orange": "#ff6347",
+    "windows_blue": "#00bfff",
+    "navy_text": "#0a0a14",
+    "red_alert": "#ff4500",
+    "accent": "#ff4500",
+    "orange_battery": "#ff7f50",
+    "blue_time": "#87ceeb",
+    "maroon_error": "#8b0000",
+    "green_valid_line": "#006f7f",
+    "pink_error_line": "#ff0000",
+    "gray_untracked": "#708090",
+    "blue_primary": "#00bfff",
+    "green_added": "#00ffff",
+    "blue_tooltip": "#b0e0e6",
+    "react_cyan": "#00ffff",
+    "python_blue": "#00bfff",
+    "python_yellow": "#ffa07a",
+    "green_success": "#00ced1",
+    "electron_red": "#ff4500",
+    "zustand_purple": "#9370db"
   },
   "palettes": {},
   "patch_pwsh_bleed": true,
@@ -311,7 +317,10 @@
       },
       "style": "diamond",
       "template": " <b> React: v{{ .Body.version }}</b> ",
-      "tips": ["react", "npm run dev"],
+      "tips": [
+        "react",
+        "npm run dev"
+      ],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -325,7 +334,10 @@
       },
       "style": "diamond",
       "template": " <b>TS: v{{ .Body.version }}</b> ",
-      "tips": ["typescript", "npm run type-check"],
+      "tips": [
+        "typescript",
+        "npm run type-check"
+      ],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -339,7 +351,10 @@
       },
       "style": "diamond",
       "template": " <b>⚡ Vite: v{{ .Body.version }}</b> ",
-      "tips": ["vite", "npm run build"],
+      "tips": [
+        "vite",
+        "npm run build"
+      ],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -353,7 +368,10 @@
       },
       "style": "diamond",
       "template": " <b>🧪 Vitest: v{{ .Body.version }}</b> ",
-      "tips": ["vitest", "npm run test"],
+      "tips": [
+        "vitest",
+        "npm run test"
+      ],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -367,7 +385,10 @@
       },
       "style": "diamond",
       "template": " <b>🎭 Playwright: v{{ .Body.version }}</b> ",
-      "tips": ["playwright", "npm run test:e2e"],
+      "tips": [
+        "playwright",
+        "npm run test:e2e"
+      ],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -381,7 +402,10 @@
       },
       "style": "diamond",
       "template": " <b>🎨 Tailwind CSS: v{{ .Body.version }}</b> ",
-      "tips": ["tailwindcss", "npm run lint:css"],
+      "tips": [
+        "tailwindcss",
+        "npm run lint:css"
+      ],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -395,7 +419,10 @@
       },
       "style": "diamond",
       "template": " <b>🐻 Zustand: v{{ .Body.version }}</b> ",
-      "tips": ["zustand", "state management"],
+      "tips": [
+        "zustand",
+        "state management"
+      ],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -409,7 +436,10 @@
       },
       "style": "diamond",
       "template": " <b>📊 Chart.js: v{{ .Body.version }}</b> ",
-      "tips": ["chart.js", "data visualization"],
+      "tips": [
+        "chart.js",
+        "data visualization"
+      ],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -423,7 +453,10 @@
       },
       "style": "diamond",
       "template": " <b>󱀤 Electron: v{{ .Body.version }}</b> ",
-      "tips": ["electron", "npm run start:electron"],
+      "tips": [
+        "electron",
+        "npm run start:electron"
+      ],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -437,7 +470,10 @@
       },
       "style": "diamond",
       "template": " 📚 {{ .Body.version }} ",
-      "tips": ["storybook", "npm run storybook"],
+      "tips": [
+        "storybook",
+        "npm run storybook"
+      ],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -451,7 +487,10 @@
       },
       "style": "diamond",
       "template": " <b>🎯 Axios: v{{ .Body.version }}</b> ",
-      "tips": ["axios", "http client"],
+      "tips": [
+        "axios",
+        "http client"
+      ],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -465,7 +504,10 @@
       },
       "style": "diamond",
       "template": " <b>🛡️ Zod: v{{ .Body.version }}</b> ",
-      "tips": ["zod", "schema validation"],
+      "tips": [
+        "zod",
+        "schema validation"
+      ],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -479,7 +521,10 @@
       },
       "style": "diamond",
       "template": " <b>💅 Prettier: v{{ .Body.version }}</b> ",
-      "tips": ["prettier", "npm run lint:prettier-fix"],
+      "tips": [
+        "prettier",
+        "npm run lint:prettier-fix"
+      ],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -493,7 +538,10 @@
       },
       "style": "diamond",
       "template": " <b>🎨 TypeScript-ESLint: v{{ .Body.version }}</b> ",
-      "tips": ["typescript-eslint", "npm run lint:ts"],
+      "tips": [
+        "typescript-eslint",
+        "npm run lint:ts"
+      ],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -507,7 +555,10 @@
       },
       "style": "diamond",
       "template": "<b> ESLint: v{{ .Body.version }}</b> ",
-      "tips": ["eslint", "npm run lint"],
+      "tips": [
+        "eslint",
+        "npm run lint"
+      ],
       "trailing_diamond": "",
       "type": "http"
     },
@@ -601,7 +652,10 @@
       },
       "style": "diamond",
       "template": "  React {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
-      "tips": ["react", "tsx"],
+      "tips": [
+        "react",
+        "tsx"
+      ],
       "type": "react"
     },
     {
@@ -616,7 +670,12 @@
       },
       "style": "diamond",
       "template": "  Git {{ .MajorMinorPatch }}  ",
-      "tips": ["gitversion", "gitv", "git v", "git version"],
+      "tips": [
+        "gitversion",
+        "gitv",
+        "git v",
+        "git version"
+      ],
       "type": "gitversion"
     },
     {
@@ -629,7 +688,10 @@
       },
       "style": "diamond",
       "template": "  {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} ",
-      "tips": ["git", "g"],
+      "tips": [
+        "git",
+        "g"
+      ],
       "trailing_diamond": "",
       "type": "git"
     },
@@ -647,7 +709,15 @@
       },
       "style": "diamond",
       "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }} {{ .Venv }} {{ end }}{{ .Full }}{{ end }} ",
-      "tips": ["python", "python3", "py", "pip", "conda", "poetry", "pipenv"],
+      "tips": [
+        "python",
+        "python3",
+        "py",
+        "pip",
+        "conda",
+        "poetry",
+        "pipenv"
+      ],
       "trailing_diamond": "",
       "type": "python"
     },
@@ -665,7 +735,15 @@
       },
       "style": "diamond",
       "template": " <b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}</b> ",
-      "tips": ["node", "npm", "yarn", "pnpm", "nx", "bun", "npx"],
+      "tips": [
+        "node",
+        "npm",
+        "yarn",
+        "pnpm",
+        "nx",
+        "bun",
+        "npx"
+      ],
       "trailing_diamond": "",
       "type": "node"
     },
@@ -682,7 +760,13 @@
       },
       "style": "diamond",
       "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
-      "tips": ["java", "javac", "mvn", "gradle", "ant"],
+      "tips": [
+        "java",
+        "javac",
+        "mvn",
+        "gradle",
+        "ant"
+      ],
       "trailing_diamond": "",
       "type": "java"
     },
@@ -726,7 +810,14 @@
       },
       "style": "diamond",
       "template": "  {{ .Path }} ",
-      "tips": ["cd", "ls", "dir", "pwd", "find", "locate"],
+      "tips": [
+        "cd",
+        "ls",
+        "dir",
+        "pwd",
+        "find",
+        "locate"
+      ],
       "trailing_diamond": "",
       "type": "path"
     },
@@ -764,7 +855,12 @@
       },
       "style": "diamond",
       "template": " {{ if .WSL }}WSL at {{ end }}{{.Icon}} ",
-      "tips": ["uname", "ver", "systeminfo", "lsb_release"],
+      "tips": [
+        "uname",
+        "ver",
+        "systeminfo",
+        "lsb_release"
+      ],
       "trailing_diamond": "",
       "type": "os"
     },
@@ -777,7 +873,12 @@
       },
       "style": "diamond",
       "template": "  {{ .CurrentDate | date \"Monday, January 2, 2006 3:04:05 PM\" }} ",
-      "tips": ["date", "time", "cal", "timedatectl"],
+      "tips": [
+        "date",
+        "time",
+        "cal",
+        "timedatectl"
+      ],
       "trailing_diamond": "",
       "type": "time"
     },
@@ -792,7 +893,12 @@
       },
       "style": "diamond",
       "template": " {{ .Icon }}{{ .Percentage }}% {{ .State.String }} ",
-      "tips": ["powercfg", "battery", "acpi", "upower"],
+      "tips": [
+        "powercfg",
+        "battery",
+        "acpi",
+        "upower"
+      ],
       "trailing_diamond": "",
       "type": "battery"
     },
@@ -813,7 +919,14 @@
       },
       "style": "diamond",
       "template": "  {{ .Name }} {{ .Version }} ",
-      "tips": ["pwsh", "powershell", "bash", "cmd", "zsh", "fish"],
+      "tips": [
+        "pwsh",
+        "powershell",
+        "bash",
+        "cmd",
+        "zsh",
+        "fish"
+      ],
       "trailing_diamond": "",
       "type": "shell"
     },
@@ -827,7 +940,12 @@
       },
       "style": "diamond",
       "template": " 󱑅 Execution time: {{ .FormattedMs }} ",
-      "tips": ["measure", "cputime", "elapsed", "benchmark"],
+      "tips": [
+        "measure",
+        "cputime",
+        "elapsed",
+        "benchmark"
+      ],
       "trailing_diamond": "",
       "type": "executiontime"
     },
@@ -843,7 +961,11 @@
       },
       "style": "diamond",
       "template": " {{ if eq .Code 0 }} Success{{ else }} Error: {{ .Code }}{{ end }} ",
-      "tips": ["$LASTEXITCODE", "echo $?", "echo %ERRORLEVEL%"],
+      "tips": [
+        "$LASTEXITCODE",
+        "echo $?",
+        "echo %ERRORLEVEL%"
+      ],
       "trailing_diamond": "",
       "type": "status"
     },
@@ -856,7 +978,13 @@
       },
       "style": "diamond",
       "template": " {{ if .SSHSession }} SSH: {{ end }}{{ .UserName }}@{{ .HostName }} ",
-      "tips": ["whoami", "id", "ssh", "su", "sudo"],
+      "tips": [
+        "whoami",
+        "id",
+        "ssh",
+        "su",
+        "sudo"
+      ],
       "trailing_diamond": "",
       "type": "session"
     },
@@ -866,7 +994,11 @@
       "leading_diamond": "",
       "style": "diamond",
       "template": "  Administrator/Root ",
-      "tips": ["su", "sudo", "admin"],
+      "tips": [
+        "su",
+        "sudo",
+        "admin"
+      ],
       "trailing_diamond": "",
       "type": "root"
     },
@@ -876,7 +1008,13 @@
       "leading_diamond": "",
       "style": "diamond",
       "template": "  {{ .Name }} ",
-      "tips": ["ping", "wget", "curl", "telnet", "ssh"],
+      "tips": [
+        "ping",
+        "wget",
+        "curl",
+        "telnet",
+        "ssh"
+      ],
       "trailing_diamond": "",
       "type": "connection"
     },
@@ -886,7 +1024,14 @@
       "leading_diamond": "",
       "style": "diamond",
       "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }} {{.Version}}{{ end }} {{ if .Name }}{{ .Name }}{{ end }}{{ end }}</b> ",
-      "tips": ["project", "workspace", "version", "name", "semver", "package"],
+      "tips": [
+        "project",
+        "workspace",
+        "version",
+        "name",
+        "semver",
+        "package"
+      ],
       "trailing_diamond": "",
       "type": "project"
     },
@@ -900,7 +1045,10 @@
       },
       "style": "diamond",
       "template": "  {{ .Value }} ",
-      "tips": ["reg", "regedit"],
+      "tips": [
+        "reg",
+        "regedit"
+      ],
       "trailing_diamond": "",
       "type": "winreg"
     },
@@ -910,7 +1058,10 @@
       "leading_diamond": "",
       "style": "diamond",
       "template": "  {{ .Shell }} ",
-      "tips": ["echo", "printf"],
+      "tips": [
+        "echo",
+        "printf"
+      ],
       "trailing_diamond": "",
       "type": "text"
     },
@@ -920,7 +1071,11 @@
       "leading_diamond": "",
       "style": "diamond",
       "template": "  {{ .Shell }} ",
-      "tips": ["help", "man", "info"],
+      "tips": [
+        "help",
+        "man",
+        "info"
+      ],
       "trailing_diamond": "",
       "type": "text"
     }
