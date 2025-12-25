@@ -1496,15 +1496,28 @@
     {
       "alias": "react-folder-tooltip",
       "background": "p:blue_tooltip",
+      "cache": {
+        "duration": "24h",
+        "strategy": "session"
+      },
       "foreground": "p:white",
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "cache": {
-          "duration": "24h",
-          "strategy": "folder"
-        },
-        "fetch_version": true
+        "cache_duration": "24h",
+        "display_mode": "context",
+        "extensions": [
+          "ts",
+          "tsx",
+          "js",
+          "jsx",
+          "mts",
+          "mjs",
+          "cjs",
+          "cts"
+        ],
+        "fetch_version": true,
+        "home_enabled": false
       },
       "style": "diamond",
       "template": "  React {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
@@ -1522,15 +1535,13 @@
     {
       "alias": "gitversion-tooltip",
       "background": "p:blue_tooltip",
+      "cache": {
+        "duration": "24h",
+        "strategy": "session"
+      },
       "foreground": "p:white",
       "leading_diamond": "",
       "min_width": 80,
-      "options": {
-        "cache": {
-          "duration": "24h",
-          "strategy": "folder"
-        }
-      },
       "powerline_symbol": "",
       "style": "diamond",
       "template": "  Git {{ .MajorMinorPatch }}  ",
@@ -1548,12 +1559,46 @@
     {
       "alias": "git-tooltip",
       "background": "p:yellow_bright",
+      "cache": {
+        "duration": "20m",
+        "strategy": "folder"
+      },
       "foreground": "p:navy_text",
       "leading_diamond": "",
       "min_width": 80,
       "options": {
+        "branch_icon": "  ",
+        "branch_template": "<b>{{ if .Mapped }}{{ title .Mapped }}{{ else }}{{ .Icon }}{{ end }}{{ title .Branch }}</b>",
+        "disable_with_jj": false,
+        "fetch_bare_info": true,
         "fetch_status": true,
-        "fetch_upstream_icon": true
+        "fetch_upstream_icon": true,
+        "fetch_user": true,
+        "fetch_worktree_count": true,
+        "ignore_status": [],
+        "ignore_submodules": {},
+        "mapped_branches": {
+          "develop": "Dev",
+          "development": "Dev",
+          "feature": "Feat",
+          "main": "Main",
+          "master": "Master",
+          "production": "Prod",
+          "staging": "Stage"
+        },
+        "native_fallback": true,
+        "status_formats": {
+          "Added": "<b><p:green_added>+%d</></b>",
+          "Copied": "<b><p:magenta>c%d</></b>",
+          "Deleted": "<b><p:red_deleted>-%d</></b>",
+          "Modified": "<b><p:yellow_modified>~%d</></b>",
+          "Renamed": "<b><p:cyan_renamed>r%d</></b>",
+          "Unmerged": "<b><p:orange_unmerged>x%d</></b>",
+          "Untracked": "<b><p:gray_untracked>?%d</></b>"
+        },
+        "untracked_modes": {
+          "*": "normal"
+        }
       },
       "style": "diamond",
       "template": "  {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} ",
@@ -1569,7 +1614,7 @@
       "alias": "python-folder-tooltip",
       "background": "p:python_blue",
       "cache": {
-        "duration": "5m",
+        "duration": "1h",
         "strategy": "folder"
       },
       "foreground": "p:python_yellow",
@@ -1602,7 +1647,7 @@
       "min_width": 80,
       "options": {
         "cache": {
-          "duration": "60m",
+          "duration": "1h",
           "strategy": "folder"
         },
         "fetch_package_manager": true,
@@ -1783,6 +1828,10 @@
     {
       "alias": "sysinfo-tooltip",
       "background": "p:teal_sysinfo",
+      "cache": {
+        "duration": "1m",
+        "strategy": "session"
+      },
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
@@ -1810,6 +1859,10 @@
     {
       "alias": "os-tooltip",
       "background": "p:gray_os",
+      "cache": {
+        "duration": "24h",
+        "strategy": "session"
+      },
       "foreground": "p:gray_os_fg",
       "leading_diamond": "",
       "min_width": 80,
@@ -1831,6 +1884,10 @@
     {
       "alias": "time-tooltip",
       "background": "p:blue_time",
+      "cache": {
+        "duration": "1m",
+        "strategy": "session"
+      },
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
@@ -1877,6 +1934,10 @@
     {
       "alias": "shell-tooltip",
       "background": "p:blue_primary",
+      "cache": {
+        "duration": "24h",
+        "strategy": "session"
+      },
       "foreground": "p:white",
       "leading_diamond": "",
       "min_width": 80,
@@ -1910,6 +1971,10 @@
     {
       "alias": "executiontime-tooltip",
       "background": "p:purple_exec",
+      "cache": {
+        "duration": "2s",
+        "strategy": "session"
+      },
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
@@ -1935,6 +2000,10 @@
       "background_templates": [
         "{{ if eq .Code 0 }}p:green_success{{ else }}p:pink_status_fail{{ end }}"
       ],
+      "cache": {
+        "duration": "5s",
+        "strategy": "session"
+      },
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
@@ -1956,7 +2025,7 @@
       "alias": "session-tooltip",
       "background": "p:black",
       "cache": {
-        "duration": "10m",
+        "duration": "1h",
         "strategy": "session"
       },
       "foreground": "p:white",
@@ -1978,11 +2047,15 @@
     {
       "alias": "root-tooltip",
       "background": "p:red_alert",
+      "cache": {
+        "duration": "24h",
+        "strategy": "session"
+      },
       "foreground": "p:yellow_bright",
       "leading_diamond": "",
       "min_width": 80,
       "style": "diamond",
-      "template": "  Administrator/Root ",
+      "template": "<b>  Administrator/Root </b>",
       "timeout": 1000,
       "tips": [
         "su",
@@ -1995,11 +2068,15 @@
     {
       "alias": "connection-tooltip",
       "background": "p:blue_time",
+      "cache": {
+        "duration": "24h",
+        "strategy": "session"
+      },
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
       "style": "diamond",
-      "template": "  {{ .Name }} ",
+      "template": "<b>  {{ .Name }} </b>",
       "timeout": 1000,
       "tips": [
         "ping",
@@ -2014,6 +2091,10 @@
     {
       "alias": "project-tooltip",
       "background": "p:violet_project",
+      "cache": {
+        "duration": "24h",
+        "strategy": "folder"
+      },
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
@@ -2034,6 +2115,10 @@
     {
       "alias": "winreg-tooltip",
       "background": "p:windows_blue",
+      "cache": {
+        "duration": "24h",
+        "strategy": "session"
+      },
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
@@ -2042,7 +2127,7 @@
         "path": "HKLM\\software\\microsoft\\windows nt\\currentversion\\buildlab"
       },
       "style": "diamond",
-      "template": "  {{ .Value }} ",
+      "template": "<b>  {{ .Value }} </b>",
       "timeout": 1000,
       "tips": [
         "reg",
@@ -2057,6 +2142,10 @@
     {
       "alias": "script-tooltip",
       "background": "transparent",
+      "cache": {
+        "duration": "24h",
+        "strategy": "session"
+      },
       "foreground": "p:accent",
       "leading_diamond": "",
       "min_width": 80,
@@ -2073,6 +2162,10 @@
     {
       "alias": "help-tooltip",
       "background": "p:green_help",
+      "cache": {
+        "duration": "24h",
+        "strategy": "session"
+      },
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,

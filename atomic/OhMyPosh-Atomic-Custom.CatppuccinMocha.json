@@ -16,7 +16,7 @@
           "foreground": "p:white",
           "leading_diamond": "╭─",
           "min_width": 80,
-          "properties": {
+          "options": {
             "mapped_shell_names": {
               "bash": "BASH",
               "cmd": "CMD",
@@ -44,7 +44,7 @@
           "foreground": "p:black",
           "min_width": 80,
           "powerline_symbol": "",
-          "properties": {
+          "options": {
             "edge_format": "<b>%s</b>",
             "folder_format": "<b>%s</b>",
             "folder_icon": "  ",
@@ -120,12 +120,13 @@
           "type": "path"
         },
         {
+          "alias": "git",
           "background": "p:yellow_bright",
           "background_templates": [
             "{{ if or (.Working.Changed) (.Staging.Changed) }}p:yellow_git_changed{{ end }}",
             "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:green_ahead{{ end }}",
             "{{ if gt .Ahead 0 }}p:purple_ahead{{ end }}",
-            "{{ if gt .Behind 0 }}p:purple_ahead{{ end }}"
+            "{{ if gt .Behind 0 }}p:purple_behind{{ end }}"
           ],
           "cache": {
             "duration": "5m",
@@ -137,18 +138,12 @@
             ".*\\.cache.*"
           ],
           "foreground": "p:navy_text",
-          "include_folders": [
-            ".*\\.git.*",
-            ".*/.*",
-            "~/.*"
-          ],
           "min_width": 80,
           "powerline_symbol": "",
-          "properties": {
+          "options": {
             "branch_icon": "  ",
             "branch_template": "{{ if .Mapped }}{{ .Mapped }}{{ else }}{{ .Icon }}{{ end }}{{ .Branch }}",
             "fetch_bare_info": true,
-            "fetch_stash_count": false,
             "fetch_status": false,
             "fetch_upstream_icon": true,
             "fetch_user": true,
@@ -177,7 +172,7 @@
           },
           "foreground": "p:white",
           "min_width": 80,
-          "properties": {
+          "options": {
             "style": "roundrock",
             "threshold": 0
           },
@@ -193,7 +188,7 @@
           ],
           "foreground": "p:black",
           "min_width": 80,
-          "properties": {
+          "options": {
             "always_enabled": false
           },
           "status_template": [
@@ -223,7 +218,7 @@
           "leading_diamond": "",
           "min_width": 100,
           "powerline_symbol": "",
-          "properties": {
+          "options": {
             "precision": 1
           },
           "style": "diamond",
@@ -241,7 +236,7 @@
           "leading_diamond": "",
           "min_width": 100,
           "powerline_symbol": "",
-          "properties": {
+          "options": {
             "linux": "",
             "macos": "",
             "windows": ""
@@ -257,7 +252,7 @@
           "leading_diamond": "",
           "min_width": 100,
           "powerline_symbol": "",
-          "properties": {
+          "options": {
             "time_format": "3:04 PM"
           },
           "style": "diamond",
@@ -280,11 +275,10 @@
           "leading_diamond": "",
           "min_width": 100,
           "powerline_symbol": "",
-          "properties": {
+          "options": {
             "charged_icon": "󱊣",
             "charging_icon": "󰂄",
             "discharging_icon": "󰂃",
-            "display_errors": true,
             "not_charging_icon": "󰂂"
           },
           "style": "diamond",
@@ -302,7 +296,7 @@
           "leading_diamond": "",
           "min_width": 100,
           "powerline_symbol": "",
-          "properties": {
+          "options": {
             "http_timeout": 500,
             "units": "imperial"
           },
@@ -323,7 +317,7 @@
           "invert_powerline": false,
           "leading_diamond": "",
           "min_width": 80,
-          "properties": {
+          "options": {
             "always_enabled": true
           },
           "style": "diamond",
@@ -336,7 +330,7 @@
           "foreground": "p:npm_dark",
           "leading_diamond": "",
           "min_width": 80,
-          "properties": {
+          "options": {
             "cache_duration": "24h",
             "display_mode": "context",
             "fetch_version": true,
@@ -355,7 +349,7 @@
           "foreground": "#ffffff",
           "leading_diamond": "",
           "min_width": 80,
-          "properties": {
+          "options": {
             "cache_duration": "24h",
             "strategy": "session",
             "display_mode": "context",
@@ -377,7 +371,7 @@
           "foreground": "#ffffff",
           "leading_diamond": "",
           "min_width": 80,
-          "properties": {
+          "options": {
             "cache_duration": "24h",
             "strategy": "session",
             "display_mode": "context",
@@ -401,9 +395,8 @@
           "invert_powerline": false,
           "leading_diamond": "",
           "min_width": 80,
-          "properties": {
-            "cache_duration": "24h",
-            "strategy": "session"
+          "options": {
+            "cache_duration": "24h"
           },
           "style": "diamond",
           "trailing_diamond": "",
@@ -451,7 +444,7 @@
           "foreground_templates": [
             "{{ if gt .Code 0 }}p:red_alert{{ end }}"
           ],
-          "properties": {
+          "options": {
             "always_enabled": true
           },
           "style": "plain",
@@ -462,7 +455,7 @@
       "type": "prompt"
     }
   ],
-  "console_title_template": "{{.Folder}}{{if .Root}} : root{{end}} : {{.Shell}}",
+  "console_title_template": "{{ if .Segments.git }}{{ if .Segments.git.RepoName }}{{ .Segments.git.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ .Segments.git.HEAD }}{{ if .Segments.git.BranchStatus }} {{ .Segments.git.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} : root{{ end }} : {{ .Shell }}",
   "debug_prompt": {
     "background": "transparent",
     "foreground": "p:black",
@@ -551,6 +544,7 @@
     "orange": "#fab387",
     "windows_blue": "#89b4fa",
     "navy_text": "#1e1e2e",
+    "purple_behind": "#82AAFF",
     "java_blue": "#89b4fa",
     "red_alert": "#f38ba8",
     "accent": "#89dceb",
@@ -575,7 +569,7 @@
   "secondary_prompt": {
     "background": "transparent",
     "foreground": "p:accent",
-    "properties": {},
+    "options": {},
     "template": "╰─ "
   },
   "shell_integration": true,
@@ -584,7 +578,7 @@
       "background": "#61dafb",
       "foreground": "#ffffff",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://registry.npmjs.org/react/latest"
       },
@@ -601,7 +595,7 @@
       "background": "#3178c6",
       "foreground": "#ffffff",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://registry.npmjs.org/typescript/latest"
       },
@@ -618,7 +612,7 @@
       "background": "#f7b93e",
       "foreground": "#000000",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://registry.npmjs.org/vite/latest"
       },
@@ -635,7 +629,7 @@
       "background": "#729b1b",
       "foreground": "#ffffff",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://registry.npmjs.org/vitest/latest"
       },
@@ -652,7 +646,7 @@
       "background": "#47848f",
       "foreground": "#ffffff",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://registry.npmjs.org/playwright/latest"
       },
@@ -669,7 +663,7 @@
       "background": "#06b6d4",
       "foreground": "#ffffff",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://registry.npmjs.org/tailwindcss/latest"
       },
@@ -686,7 +680,7 @@
       "background": "#9b59d0",
       "foreground": "#000000",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://registry.npmjs.org/zustand/latest"
       },
@@ -703,7 +697,7 @@
       "background": "#47a1ad",
       "foreground": "#ffffff",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://registry.npmjs.org/chart.js/latest"
       },
@@ -720,7 +714,7 @@
       "background": "#f56040",
       "foreground": "#000000",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://registry.npmjs.org/electron/latest"
       },
@@ -737,7 +731,7 @@
       "background": "#ff4785",
       "foreground": "#ffffff",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://registry.npmjs.org/storybook/latest"
       },
@@ -754,7 +748,7 @@
       "background": "#f7b93e",
       "foreground": "#000000",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://registry.npmjs.org/axios/latest"
       },
@@ -771,7 +765,7 @@
       "background": "#3068b7",
       "foreground": "#ffffff",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://registry.npmjs.org/zod/latest"
       },
@@ -788,7 +782,7 @@
       "background": "#f3df49",
       "foreground": "#000000",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://registry.npmjs.org/prettier/latest"
       },
@@ -805,7 +799,7 @@
       "background": "#e535ab",
       "foreground": "#ffffff",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://registry.npmjs.org/typescript-eslint/latest"
       },
@@ -822,7 +816,7 @@
       "background": "#c386f1",
       "foreground": "#ffffff",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://registry.npmjs.org/eslint/latest"
       },
@@ -839,8 +833,7 @@
       "background": "#c386f1",
       "foreground": "#ffffff",
       "leading_diamond": "",
-      "properties": {
-        "cache_duration": "24h",
+      "options": {
         "http_timeout": 5000,
         "url": "https://api.ipify.org"
       },
@@ -878,7 +871,7 @@
       "background": "#e486f1",
       "foreground": "#ffffff",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "method": "GET",
         "url": "https://api64.ipify.org?format=json"
       },
@@ -916,7 +909,7 @@
       "foreground": "p:blue_tooltip",
       "leading_diamond": "",
       "powerline_symbol": "",
-      "properties": {
+      "options": {
         "cache": {
           "duration": "24h",
           "strategy": "folder"
@@ -935,7 +928,7 @@
       "foreground": "p:blue_tooltip",
       "leading_diamond": "",
       "powerline_symbol": "",
-      "properties": {
+      "options": {
         "cache": {
           "duration": "24h",
           "strategy": "folder"
@@ -956,7 +949,7 @@
       "background": "p:yellow_bright",
       "foreground": "p:navy_text",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "fetch_status": true,
         "fetch_upstream_icon": true
       },
@@ -977,7 +970,7 @@
       },
       "foreground": "p:python_yellow",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "display_mode": "files",
         "fetch_version": true
       },
@@ -999,7 +992,7 @@
       "background": "p:node_green",
       "foreground": "p:black",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "cache": {
           "duration": "60m",
           "strategy": "folder"
@@ -1025,7 +1018,7 @@
       "background": "p:java_orange",
       "foreground": "p:black",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "cache": {
           "duration": "24h",
           "strategy": "folder"
@@ -1048,7 +1041,7 @@
       "background": "p:orange",
       "foreground": "p:gray_path_fg",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "cycle": [
           "#2d3436,#FF9248",
           "#FF6B6B,#1E1E2E",
@@ -1099,7 +1092,7 @@
       "background": "p:teal_sysinfo",
       "foreground": "p:black",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "precision": 2
       },
       "style": "diamond",
@@ -1123,8 +1116,7 @@
       "background": "p:gray_os",
       "foreground": "p:gray_os_fg",
       "leading_diamond": "",
-      "properties": {
-        "display_version": true,
+      "options": {
         "windows": "<b> Win 11</b>"
       },
       "style": "diamond",
@@ -1142,7 +1134,7 @@
       "background": "p:blue_time",
       "foreground": "p:black",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "time_format": "Monday, January 2, 2006 3:04:05 PM"
       },
       "style": "diamond",
@@ -1160,10 +1152,8 @@
       "background": "p:orange_battery",
       "foreground": "p:gray_path_fg",
       "leading_diamond": "",
-      "properties": {
-        "display_error": true,
-        "cache_duration": "1h",
-        "strategy": "session"
+      "options": {
+        "display_error": true
       },
       "style": "diamond",
       "template": " {{ .Icon }}{{ .Percentage }}% {{ .State.String }} ",
@@ -1180,7 +1170,7 @@
       "background": "p:blue_primary",
       "foreground": "p:black",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "mapped_shell_names": {
           "bash": "BASH",
           "cmd": "CMD",
@@ -1208,7 +1198,7 @@
       "background": "p:purple_exec",
       "foreground": "p:black",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "style": "roundrock",
         "threshold": 0
       },
@@ -1230,7 +1220,7 @@
       ],
       "foreground": "p:black",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "always_enabled": true
       },
       "style": "diamond",
@@ -1247,9 +1237,7 @@
       "background": "p:black",
       "foreground": "p:black",
       "leading_diamond": "",
-      "properties": {
-        "display_host": true
-      },
+      "options": {},
       "style": "diamond",
       "template": " {{ if .SSHSession }} SSH: {{ end }}{{ .UserName }}@{{ .HostName }} ",
       "tips": [
@@ -1313,7 +1301,7 @@
       "background": "p:windows_blue",
       "foreground": "p:black",
       "leading_diamond": "",
-      "properties": {
+      "options": {
         "fallback": "unknown",
         "path": "HKLM\\software\\microsoft\\windows nt\\currentversion\\buildlab"
       },
@@ -1358,17 +1346,6 @@
   "transient_prompt": {
     "background": "transparent",
     "foreground": "p:blue_primary",
-    "properties": {
-      "mapped_shell_names": {
-        "bash": "BASH",
-        "cmd": "CMD",
-        "fish": "FISH",
-        "powershell": "PS",
-        "ps": "PS",
-        "pwsh": "PS",
-        "zsh": "ZSH"
-      }
-    },
     "template": "<p:accent>╰─<p:purple_session,transparent>{{ .Shell }}<p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
   },
   "upgrade": {
@@ -1383,7 +1360,7 @@
     "template": "<p:green_valid_line,transparent></> "
   },
   "var": {},
-  "version": 3,
+  "version": 4,
   "yaml-language-server": {
     "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"
   },

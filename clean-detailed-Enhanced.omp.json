@@ -59,7 +59,14 @@
       "alignment": "right",
       "segments": [
         {
+          "alias": "git",
           "background": "p:green_ahead",
+          "background_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}p:yellow_git_changed{{ end }}",
+            "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:green_ahead{{ end }}",
+            "{{ if gt .Ahead 0 }}p:purple_ahead{{ end }}",
+            "{{ if gt .Behind 0 }}p:purple_behind{{ end }}"
+          ],
           "foreground": "p:navy_text",
           "leading_diamond": "",
           "options": {
@@ -144,7 +151,7 @@
       "type": "prompt"
     }
   ],
-  "console_title_template": "{{ .Folder }}",
+  "console_title_template": "{{ if .Segments.git }}{{ if .Segments.git.RepoName }}{{ .Segments.git.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ .Segments.git.HEAD }}{{ if .Segments.git.BranchStatus }} {{ .Segments.git.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} : root{{ end }} : {{ .Shell }}",
   "cycle": [],
   "debug_prompt": {
     "background": "transparent",
@@ -228,6 +235,7 @@
     "prettier_black": "#1b1e2b",
     "prettier_yellow": "#c792ea",
     "purple_ahead": "#C792EA",
+    "purple_behind": "#82AAFF",
     "purple_exec": "#83769c",
     "purple_session": "#7C4DFF",
     "python_blue": "#306998",

@@ -120,12 +120,13 @@
           "type": "path"
         },
         {
+          "alias": "git",
           "background": "p:yellow_bright",
           "background_templates": [
             "{{ if or (.Working.Changed) (.Staging.Changed) }}p:yellow_git_changed{{ end }}",
             "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:green_ahead{{ end }}",
             "{{ if gt .Ahead 0 }}p:purple_ahead{{ end }}",
-            "{{ if gt .Behind 0 }}p:purple_ahead{{ end }}"
+            "{{ if gt .Behind 0 }}p:purple_behind{{ end }}"
           ],
           "cache": {
             "duration": "5m",
@@ -137,11 +138,6 @@
             ".*\\.cache.*"
           ],
           "foreground": "p:navy_text",
-          "include_folders": [
-            ".*\\.git.*",
-            ".*/.*",
-            "~/.*"
-          ],
           "min_width": 80,
           "powerline_symbol": "",
           "options": {
@@ -459,7 +455,7 @@
       "type": "prompt"
     }
   ],
-  "console_title_template": "{{.Folder}}{{if .Root}} : root{{end}} : {{.Shell}}",
+  "console_title_template": "{{ if .Segments.git }}{{ if .Segments.git.RepoName }}{{ .Segments.git.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ .Segments.git.HEAD }}{{ if .Segments.git.BranchStatus }} {{ .Segments.git.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} : root{{ end }} : {{ .Shell }}",
   "debug_prompt": {
     "background": "transparent",
     "foreground": "p:black",
@@ -543,6 +539,7 @@
     "prettier_yellow": "#f3df49",
     "prettier_black": "#000000",
     "purple_ahead": "#C792EA",
+    "purple_behind": "#82AAFF",
     "purple_exec": "#83769c",
     "purple_session": "#7C4DFF",
     "python_blue": "#306998",
