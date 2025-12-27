@@ -1,4 +1,5 @@
 <!-- {% raw %} -->
+
 # ❓ FAQ & Tips & Tricks
 
 ## Frequently Asked Questions
@@ -63,10 +64,10 @@ See [Quick Start Guide](./QUICK-START-GUIDE.md) for step-by-step instructions.
 
 ```json
 {
-  "palette": {
-    "accent": "#YOUR_COLOR_HERE",
-    "blue_primary": "#ANOTHER_COLOR"
-  }
+ "palette": {
+  "accent": "#YOUR_COLOR_HERE",
+  "blue_primary": "#ANOTHER_COLOR"
+ }
 }
 ```
 
@@ -78,8 +79,8 @@ Use [color.adobe.com](https://color.adobe.com) to find colors you like.
 
 ```json
 {
-  "type": "git",
-  "template": "{{ .Branch }} ({{ .UpstreamIcon }})"
+ "template": "{{ .Branch }} ({{ .UpstreamIcon }})",
+ "type": "git"
 }
 ```
 
@@ -101,13 +102,13 @@ Or manually create a JSON file following the Oh My Posh schema.
 
 ```json
 {
-  "version": 3,
-  "palette": {
-    // From theme 1
-  },
-  "blocks": [
-    // From theme 2
-  ]
+ "blocks": [
+  // From theme 2
+ ],
+ "palette": {
+  // From theme 1
+ },
+ "version": 3
 }
 ```
 
@@ -142,7 +143,7 @@ Quick fixes:
 1. **Disable status checking entirely:**
 
    ```json
-   { "type": "git", "properties": { "fetch_status": false } }
+   { "properties": { "fetch_status": false }, "type": "git" }
    ```
 
 2. **Cache aggressively:**
@@ -191,7 +192,7 @@ Quick fixes:
 1. Reduce path depth:
 
    ```json
-   { "type": "path", "properties": { "max_depth": 2 } }
+   { "properties": { "max_depth": 2 }, "type": "path" }
    ```
 
 2. Simplify path display
@@ -252,12 +253,12 @@ After command execution, show minimal prompt:
 
 ```json
 {
-  "transient_prompt": {
-    "background": "transparent",
-    "foreground": "p:accent",
-    "template": "❯ ",
-    "type": "prompt"
-  }
+ "transient_prompt": {
+  "background": "transparent",
+  "foreground": "p:accent",
+  "template": "❯ ",
+  "type": "prompt"
+ }
 }
 ```
 
@@ -267,7 +268,7 @@ Detect elevated privileges:
 
 ```json
 {
-  "template": "{{ if .Root }}🔒{{ else }}{{ .Path }}{{ end }}"
+ "template": "{{ if .Root }}🔒{{ else }}{{ .Path }}{{ end }}"
 }
 ```
 
@@ -277,12 +278,12 @@ Display previous command's result:
 
 ```json
 {
-  "type": "status",
-  "background": "red",
-  "properties": {
-    "template": "✗ {{ .Code }}",
-    "always_show": false
-  }
+ "background": "red",
+ "properties": {
+  "template": "✗ {{ .Code }}",
+  "always_show": false
+ },
+ "type": "status"
 }
 ```
 
@@ -319,14 +320,14 @@ After choosing a theme, update your terminal's color scheme to match:
 
 ```json
 {
-  "schemes": [
-    {
-      "name": "Atomic Enhanced Custom",
-      "background": "#1E1E1E",
-      "foreground": "#D4D4D4"
-      // ... rest of colors
-    }
-  ]
+ "schemes": [
+  {
+   "name": "Atomic Enhanced Custom",
+   "background": "#1E1E1E",
+   "foreground": "#D4D4D4"
+   // ... rest of colors
+  }
+ ]
 }
 ```
 
@@ -336,14 +337,14 @@ In your palette, create semantic names:
 
 ```json
 {
-  "palette": {
-    "accent": "#00BCD4",
-    "success": "#00C853",
-    "warning": "#FFD600",
-    "error": "#FF0000",
-    "info": "#2196F3",
-    "neutral": "#757575"
-  }
+ "palette": {
+  "accent": "#00BCD4",
+  "success": "#00C853",
+  "warning": "#FFD600",
+  "error": "#FF0000",
+  "info": "#2196F3",
+  "neutral": "#757575"
+ }
 }
 ```
 
@@ -351,8 +352,8 @@ Then use them:
 
 ```json
 {
-  "template": "{{ .Branch }}",
-  "foreground": "p:accent"
+ "foreground": "p:accent",
+ "template": "{{ .Branch }}"
 }
 ```
 
@@ -362,7 +363,7 @@ Show different info based on conditions:
 
 ```json
 {
-  "template": "{{ if .VirtualEnv }}🐍 {{ .VirtualEnv }}{{ end }} {{ .Version }}"
+ "template": "{{ if .VirtualEnv }}🐍 {{ .VirtualEnv }}{{ end }} {{ .Version }}"
 }
 ```
 
@@ -370,8 +371,8 @@ Show different info based on conditions:
 
 ```json
 {
-  "type": "status",
-  "template": "{{ if eq .Code 0 }}✓{{ else }}✗ {{ .Code }}{{ end }}"
+ "template": "{{ if eq .Code 0 }}✓{{ else }}✗ {{ .Code }}{{ end }}",
+ "type": "status"
 }
 ```
 
@@ -385,15 +386,11 @@ Start with a simple, fast prompt:
 
 ```json
 {
-  "blocks": [
-    {
-      "segments": [
-        { "type": "shell" },
-        { "type": "path" },
-        { "type": "status" }
-      ]
-    }
-  ]
+ "blocks": [
+  {
+   "segments": [{ "type": "shell" }, { "type": "path" }, { "type": "status" }]
+  }
+ ]
 }
 ```
 
@@ -401,17 +398,17 @@ Then add segments as needed:
 
 ```json
 {
-  "blocks": [
-    {
-      "segments": [
-        { "type": "shell" },
-        { "type": "path" },
-        { "type": "git" }, // Add git
-        { "type": "node" }, // Add version managers
-        { "type": "status" }
-      ]
-    }
-  ]
+ "blocks": [
+  {
+   "segments": [
+    { "type": "shell" },
+    { "type": "path" },
+    { "type": "git" }, // Add git
+    { "type": "node" }, // Add version managers
+    { "type": "status" }
+   ]
+  }
+ ]
 }
 ```
 
@@ -431,10 +428,10 @@ For most users, 5-10 minute caching is fine:
 
 ```json
 {
-  "cache": {
-    "strategy": "folder",
-    "duration": "5m" // Good balance
-  }
+ "cache": {
+  "strategy": "folder",
+  "duration": "5m" // Good balance
+ }
 }
 ```
 
@@ -448,7 +445,7 @@ Use different segments for different environments:
 
 ```json
 {
-  "template": "{{ if eq .Env \"PROD\" }}⚠️ PROD{{ else }}DEV{{ end }}"
+ "template": "{{ if eq .Env \"PROD\" }}⚠️ PROD{{ else }}DEV{{ end }}"
 }
 ```
 
@@ -458,7 +455,7 @@ Show when connected via SSH:
 
 ```json
 {
-  "template": "{{ if env \"SSH_CONNECTION\" }}[SSH] {{ end }}{{ .Path }}"
+ "template": "{{ if env \"SSH_CONNECTION\" }}[SSH] {{ end }}{{ .Path }}"
 }
 ```
 
@@ -468,11 +465,11 @@ For Python developers:
 
 ```json
 {
-  "type": "python",
-  "properties": {
-    "display_mode": "files",
-    "template": "🐍 {{ .Version }} ({{ .Venv }})"
-  }
+ "properties": {
+  "display_mode": "files",
+  "template": "🐍 {{ .Version }} ({{ .Venv }})"
+ },
+ "type": "python"
 }
 ```
 
@@ -482,11 +479,11 @@ If using git worktrees:
 
 ```json
 {
-  "type": "git",
-  "properties": {
-    "fetch_worktree_count": true
-  },
-  "template": "{{ .Branch }} ({{ .WorktreeCount }} worktrees)"
+ "properties": {
+  "fetch_worktree_count": true
+ },
+ "template": "{{ .Branch }} ({{ .WorktreeCount }} worktrees)",
+ "type": "git"
 }
 ```
 
@@ -500,7 +497,7 @@ Add visual separation between segments:
 
 ```json
 {
-  "template": "{{ .Path }} | {{ .Branch }}"
+ "template": "{{ .Path }} | {{ .Branch }}"
 }
 ```
 
@@ -508,7 +505,7 @@ Or use Unicode:
 
 ```json
 {
-  "template": "{{ .Path }} • {{ .Branch }} • {{ .Status }}"
+ "template": "{{ .Path }} • {{ .Branch }} • {{ .Status }}"
 }
 ```
 
@@ -518,7 +515,7 @@ Group related information:
 
 ```json
 {
-  "template": "📁 {{ .Path }} | 🔧 {{ .Command }} | ✅ {{ .Status }}"
+ "template": "📁 {{ .Path }} | 🔧 {{ .Command }} | ✅ {{ .Status }}"
 }
 ```
 
@@ -528,7 +525,7 @@ Use spaces or Unicode for visual alignment:
 
 ```json
 {
-  "template": "{{ .Path | padright 40 }} {{ .Branch }}"
+ "template": "{{ .Path | padright 40 }} {{ .Branch }}"
 }
 ```
 
@@ -538,13 +535,13 @@ Use progressively darker/lighter colors for related segments:
 
 ```json
 {
-  "palette": {
-    "accent_100": "#00E5FF",
-    "accent_80": "#26D4FF",
-    "accent_60": "#4DC4FF",
-    "accent_40": "#75B4FF",
-    "accent_20": "#9DA4FF"
-  }
+ "palette": {
+  "accent_100": "#00E5FF",
+  "accent_80": "#26D4FF",
+  "accent_60": "#4DC4FF",
+  "accent_40": "#75B4FF",
+  "accent_20": "#9DA4FF"
+ }
 }
 ```
 
@@ -620,15 +617,15 @@ git commit -m "Backup custom theme configuration"
 
 ### Table of Quick Fixes
 
-| Problem                | Cause                    | Solution                   |
-| ---------------------- | ------------------------ | -------------------------- |
-| Slow prompt            | Uncached segments        | Add `"cache"` config       |
-| Wrong colors           | Terminal scheme mismatch | Change terminal theme      |
-| Boxes instead of icons | No Nerd Font             | Install from nerdfonts.com |
-| Theme not applying     | Not initialized          | Run `& $profile`           |
-| Git status missing     | `fetch_status: false`    | Set to `true`              |
-| Colors flickering      | Frequent refreshes       | Increase cache duration    |
-| Wrapping text          | Too many segments        | `max_depth: 2` on path     |
+| Problem | Cause | Solution |
+| --- | --- | --- |
+| Slow prompt | Uncached segments | Add `"cache"` config |
+| Wrong colors | Terminal scheme mismatch | Change terminal theme |
+| Boxes instead of icons | No Nerd Font | Install from nerdfonts.com |
+| Theme not applying | Not initialized | Run `& $profile` |
+| Git status missing | `fetch_status: false` | Set to `true` |
+| Colors flickering | Frequent refreshes | Increase cache duration |
+| Wrapping text | Too many segments | `max_depth: 2` on path |
 
 ### Troubleshooting Flowchart
 
@@ -657,19 +654,19 @@ Issue: Prompt looks wrong
 **Show only current directory (not full path):**
 
 ```json
-{ "type": "path", "properties": { "max_depth": 1 } }
+{ "properties": { "max_depth": 1 }, "type": "path" }
 ```
 
 **Hide a segment:**
 
 ```json
-{ "type": "git", "template": "" }
+{ "template": "", "type": "git" }
 ```
 
 **Disable git status checking:**
 
 ```json
-{ "type": "git", "properties": { "fetch_status": false } }
+{ "properties": { "fetch_status": false }, "type": "git" }
 ```
 
 **Add spacing between segments:**
@@ -682,9 +679,9 @@ Issue: Prompt looks wrong
 
 ```json
 {
-  "type": "git",
-  "background": "#FF0000",
-  "foreground": "#FFFFFF"
+ "background": "#FF0000",
+ "foreground": "#FFFFFF",
+ "type": "git"
 }
 ```
 
@@ -719,4 +716,5 @@ Found a great customization? Share it!
 4. Open an [issue on GitHub](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/issues)
 
 We're here to help! 🎉
+
 <!-- {% endraw %} -->

@@ -1,22 +1,22 @@
 repos:
-  - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.16.3
-    hooks:
-      - id: gitleaks
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
-    hooks:
-      - id: end-of-file-fixer
-      - id: trailing-whitespace
-  - repo: local
-    hooks:
-      - id: validate-theme
-        name: Validate Oh My Posh theme
-        entry: pwsh -File ./pre-upload-validation.ps1
-        language: system
-        files: OhMyPosh-Atomic-Custom\.json$
-      - id: validate-palette
-        name: Validate palette references
-        entry: pwsh -File ./validate-palette.ps1
-        language: system
-        files: OhMyPosh-Atomic-Custom\.json$
+    - repo: https://github.com/gitleaks/gitleaks
+      rev: v8.16.3
+      hooks:
+          - id: gitleaks
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.4.0
+      hooks:
+          - id: end-of-file-fixer
+          - id: trailing-whitespace
+    - repo: local
+      hooks:
+          - id: validate-theme
+            name: Validate Oh My Posh theme
+            entry: pwsh -File ./pre-upload-validation.ps1
+            language: system
+            files: OhMyPosh-Atomic-Custom\.json$
+          - id: validate-palette
+            name: Validate palette references
+            entry: pwsh -File ./validate-palette.ps1
+            language: system
+            files: OhMyPosh-Atomic-Custom\.json$

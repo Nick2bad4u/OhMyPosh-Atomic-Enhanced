@@ -1,4 +1,5 @@
 <!-- {% raw %} -->
+
 # Oh My Posh Experimental Dividers: Complete Color Transition System Guide
 
 ## Table of Contents
@@ -69,19 +70,19 @@ Segments are individual information units within blocks. Each segment has:
 
 ```json
 {
-  "type": "shell|git|path|time|status|text|...",
-  "background": "color",
-  "foreground": "color",
-  "style": "powerline|diamond|plain",
-  "template": "content template",
-  "leading_diamond": "╭─",
-  "trailing_diamond": "╮",
-  "properties": {
-    /* type-specific config */
-  },
-  "cache": {
-    /* performance optimization */
-  }
+ "background": "color",
+ "cache": {
+  /* performance optimization */
+ },
+ "foreground": "color",
+ "leading_diamond": "╭─",
+ "properties": {
+  /* type-specific config */
+ },
+ "style": "powerline|diamond|plain",
+ "template": "content template",
+ "trailing_diamond": "╮",
+ "type": "shell|git|path|time|status|text|..."
 }
 ```
 
@@ -99,11 +100,11 @@ In this theme, dividers are **dedicated segments** rather than automatic connect
 
 ```json
 {
-  "type": "text",
-  "background": "p:divider_color",
-  "style": "diamond",
-  "template": "<parentBackground></>",
-  "min_width": 130
+ "background": "p:divider_color",
+ "min_width": 130,
+ "style": "diamond",
+ "template": "<parentBackground></>",
+ "type": "text"
 }
 ```
 
@@ -314,10 +315,10 @@ The main left-aligned prompt demonstrates the complete color transition system:
 
 ```json
 {
-  "background": "p:blue_primary", // #0077c2
-  "foreground": "p:white", // #ffffff
-  "template": " {{ .Name }} {{ substr 0 5 .Version }} ",
-  "type": "shell"
+ "background": "p:blue_primary", // #0077c2
+ "foreground": "p:white", // #ffffff
+ "template": " {{ .Name }} {{ substr 0 5 .Version }} ",
+ "type": "shell"
 }
 ```
 
@@ -338,10 +339,10 @@ The main left-aligned prompt demonstrates the complete color transition system:
 
 ```json
 {
-  "background": "p:red_alert", // #ef5350
-  "foreground": "p:black", // #000000
-  "template": "<parentBackground></>  ", // Divider symbol + padding
-  "type": "root"
+ "background": "p:red_alert", // #ef5350
+ "foreground": "p:black", // #000000
+ "template": "<parentBackground></>  ", // Divider symbol + padding
+ "type": "root"
 }
 ```
 
@@ -362,10 +363,10 @@ If not root: segment is skipped entirely
 
 ```json
 {
-  "background": "p:palette_divider_blue_primary_to_red_alert", // #786589 (purple)
-  "template": "<parentBackground></>",
-  "type": "text",
-  "style": "diamond"
+ "background": "p:palette_divider_blue_primary_to_red_alert", // #786589 (purple)
+ "style": "diamond",
+ "template": "<parentBackground></>",
+ "type": "text"
 }
 ```
 
@@ -391,23 +392,23 @@ Next Segment:                                 [Red Background]
 
 ```json
 {
-  "background": "p:orange", // #FF9248
-  "foreground": "p:black", // #000000
-  "template": "<parentBackground></>  {{ .Path }} ",
-  "properties": {
-    "max_width": 40,
-    "folder_format": "<b>%s</b>",
-    "home_icon": "",
-    "folder_separator_icon": "/",
-    "mapped_locations": {
-      "re:.*(GitHub).*": "GH",
-      "re:.*(OhMyPosh-Atomic-Enhanced).*": "✨ OhMyPosh",
-      "~\\\\Desktop": "🖥️ ",
-      "~/": "~"
-      // ... more mappings
-    }
-  },
-  "type": "path"
+ "background": "p:orange", // #FF9248
+ "foreground": "p:black", // #000000
+ "properties": {
+  "max_width": 40,
+  "folder_format": "<b>%s</b>",
+  "home_icon": "",
+  "folder_separator_icon": "/",
+  "mapped_locations": {
+   "re:.*(GitHub).*": "GH",
+   "re:.*(OhMyPosh-Atomic-Enhanced).*": "✨ OhMyPosh",
+   "~\\\\Desktop": "🖥️ ",
+   "~/": "~"
+   // ... more mappings
+  }
+ },
+ "template": "<parentBackground></>  {{ .Path }} ",
+ "type": "path"
 }
 ```
 
@@ -436,16 +437,16 @@ Reasoning:
 
 ```json
 {
-  "background": "p:yellow_bright", // #FFFB38
-  "foreground": "p:navy_text", // #011627
-  "background_templates": [
-    "{{ if or (.Working.Changed) (.Staging.Changed) }}p:yellow_git_changed{{ end }}",
-    "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:green_ahead{{ end }}",
-    "{{ if gt .Ahead 0 }}p:purple_ahead{{ end }}",
-    "{{ if gt .Behind 0 }}p:purple_ahead{{ end }}"
-  ],
-  "template": "<parentBackground></> {{ .UpstreamIcon }}<b>{{ .HEAD }}</b>{{if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }} ",
-  "type": "git"
+ "background": "p:yellow_bright", // #FFFB38
+ "background_templates": [
+  "{{ if or (.Working.Changed) (.Staging.Changed) }}p:yellow_git_changed{{ end }}",
+  "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:green_ahead{{ end }}",
+  "{{ if gt .Ahead 0 }}p:purple_ahead{{ end }}",
+  "{{ if gt .Behind 0 }}p:purple_ahead{{ end }}"
+ ],
+ "foreground": "p:navy_text", // #011627
+ "template": "<parentBackground></> {{ .UpstreamIcon }}<b>{{ .HEAD }}</b>{{if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }} ",
+ "type": "git"
 }
 ```
 
@@ -489,26 +490,26 @@ Display: ⬆ main ⬇2 (commits to pull)
 
 **Visual State Matrix:**
 
-| State    | Background Color | Visual Indicator | Meaning       |
-| -------- | ---------------- | ---------------- | ------------- |
-| Clean    | #FFFB38          | ⬆ main          | No changes    |
-| Modified | #ffeb95          | ⬆ main \[~3\]   | Files changed |
-| Ahead    | #C792EA          | ⬆ main ⬆3      | Ready to push |
-| Behind   | #C792EA          | ⬆ main ⬇2      | Need to pull  |
-| Diverged | #C792EA          | ⬆ main ⬆3⬇2   | Need sync     |
+| State | Background Color | Visual Indicator | Meaning |
+| --- | --- | --- | --- |
+| Clean | #FFFB38 | ⬆ main | No changes |
+| Modified | #ffeb95 | ⬆ main \[~3\] | Files changed |
+| Ahead | #C792EA | ⬆ main ⬆3 | Ready to push |
+| Behind | #C792EA | ⬆ main ⬇2 | Need to pull |
+| Diverged | #C792EA | ⬆ main ⬆3⬇2 | Need sync |
 
 #### Segment 5: Execution Time
 
 ```json
 {
-  "background": "p:purple_exec", // #83769c
-  "foreground": "p:white", // #ffffff
-  "template": "<parentBackground></> 󱑅 {{ .FormattedMs }}⠀",
-  "properties": {
-    "style": "roundrock",
-    "threshold": 0
-  },
-  "type": "executiontime"
+ "background": "p:purple_exec", // #83769c
+ "foreground": "p:white", // #ffffff
+ "properties": {
+  "style": "roundrock",
+  "threshold": 0
+ },
+ "template": "<parentBackground></> 󱑅 {{ .FormattedMs }}⠀",
+ "type": "executiontime"
 }
 ```
 
@@ -532,11 +533,11 @@ Display: ⬆ main ⬇2 (commits to pull)
 
 ```json
 {
-  "background": "p:maroon_error", // #890000 (default)
-  "background_templates": ["{{ if .Error }}p:maroon_error{{ end }}"],
-  "foreground": "p:black", // #000000
-  "template": "<parentBackground></>  ",
-  "type": "status"
+ "background": "p:maroon_error", // #890000 (default)
+ "background_templates": ["{{ if .Error }}p:maroon_error{{ end }}"],
+ "foreground": "p:black", // #000000
+ "template": "<parentBackground></>  ",
+ "type": "status"
 }
 ```
 
@@ -828,17 +829,17 @@ Perception: Warm, muted - indicates context change
 
 ### Divider Color Palette Summary Table
 
-| Divider                            | From    | To      | Result  | Hue Path | Saturation | Lightness |
-| ---------------------------------- | ------- | ------- | ------- | -------- | ---------- | --------- |
-| palette_divider_blue_to_red        | #0077c2 | #ef5350 | #786589 | 200→1°   | 100→92%    | 38→62%    |
-| palette_divider_blue_to_ipify      | #0077c2 | #c386f1 | #617ed9 | 200→274° | 100→88%    | 38→73%    |
-| palette_divider_ipify_to_pink      | #c386f1 | #e535ab | #d45dce | 274→320° | 88→80%     | 73→55%    |
-| palette_divider_pink_to_orange     | #e535ab | #FF9248 | #f26379 | 320→19°  | 80→100%    | 55→64%    |
-| palette_divider_orange_to_green    | #FF9248 | #00ff00 | #7fc824 | 19→120°  | 100→100%   | 64→50%    |
-| palette_divider_green_to_yellow    | #00ff00 | #FFFB38 | #7ffd1c | 120→58°  | 100→100%   | 50→60%    |
-| palette_divider_yellow_to_navy     | #FFFB38 | #011627 | #808830 | 58→209°  | 100→95%    | 60→8%     |
-| palette_divider_navy_to_purple     | #011627 | #83769c | #424661 | 209→259° | 95→13%     | 8→54%     |
-| palette_divider_purple_to_electron | #83769c | #f56040 | #bc6b6e | 259→9°   | 13→91%     | 54→60%    |
+| Divider | From | To | Result | Hue Path | Saturation | Lightness |
+| --- | --- | --- | --- | --- | --- | --- |
+| palette_divider_blue_to_red | #0077c2 | #ef5350 | #786589 | 200→1° | 100→92% | 38→62% |
+| palette_divider_blue_to_ipify | #0077c2 | #c386f1 | #617ed9 | 200→274° | 100→88% | 38→73% |
+| palette_divider_ipify_to_pink | #c386f1 | #e535ab | #d45dce | 274→320° | 88→80% | 73→55% |
+| palette_divider_pink_to_orange | #e535ab | #FF9248 | #f26379 | 320→19° | 80→100% | 55→64% |
+| palette_divider_orange_to_green | #FF9248 | #00ff00 | #7fc824 | 19→120° | 100→100% | 64→50% |
+| palette_divider_green_to_yellow | #00ff00 | #FFFB38 | #7ffd1c | 120→58° | 100→100% | 50→60% |
+| palette_divider_yellow_to_navy | #FFFB38 | #011627 | #808830 | 58→209° | 100→95% | 60→8% |
+| palette_divider_navy_to_purple | #011627 | #83769c | #424661 | 209→259° | 95→13% | 8→54% |
+| palette_divider_purple_to_electron | #83769c | #f56040 | #bc6b6e | 259→9° | 13→91% | 54→60% |
 
 ---
 
@@ -1006,14 +1007,14 @@ The git segment demonstrates sophisticated conditional coloring:
 
 **Evaluation Matrix:**
 
-| Working Changes | Ahead | Behind | Selected Background | Color   | Semantic              |
-| --------------- | ----- | ------ | ------------------- | ------- | --------------------- |
-| No              | No    | No     | default             | #FFFB38 | Clean, synced         |
-| Yes             | No    | No     | yellow_git_changed  | #ffeb95 | Attention: edits      |
-| No              | Yes   | No     | purple_ahead        | #C792EA | Ready to push         |
-| No              | No    | Yes    | purple_ahead        | #C792EA | Ready to pull         |
-| No              | Yes   | Yes    | purple_ahead        | #C792EA | Diverged, sync needed |
-| Yes             | Yes   | No     | yellow_git_changed  | #ffeb95 | Edits override ahead  |
+| Working Changes | Ahead | Behind | Selected Background | Color | Semantic |
+| --- | --- | --- | --- | --- | --- |
+| No | No | No | default | #FFFB38 | Clean, synced |
+| Yes | No | No | yellow_git_changed | #ffeb95 | Attention: edits |
+| No | Yes | No | purple_ahead | #C792EA | Ready to push |
+| No | No | Yes | purple_ahead | #C792EA | Ready to pull |
+| No | Yes | Yes | purple_ahead | #C792EA | Diverged, sync needed |
+| Yes | Yes | No | yellow_git_changed | #ffeb95 | Edits override ahead |
 
 **Implementation Logic:**
 
@@ -1055,14 +1056,14 @@ Segments can cache results for performance:
 
 **Performance Impact Analysis:**
 
-| Segment        | Cache Strategy | Duration | Justification                        |
-| -------------- | -------------- | -------- | ------------------------------------ |
-| shell          | session        | 24h      | Never changes per session            |
-| git            | folder         | 15m      | Changes per repo, but not frequently |
-| path           | folder         | n/a      | Changes with `cd`, no cache          |
-| sysinfo        | session        | 1m       | System state changes slowly          |
-| time           | session        | 15s      | Updates every 15 seconds             |
-| execution time | session        | 3s       | Updates every command                |
+| Segment | Cache Strategy | Duration | Justification |
+| --- | --- | --- | --- |
+| shell | session | 24h | Never changes per session |
+| git | folder | 15m | Changes per repo, but not frequently |
+| path | folder | n/a | Changes with `cd`, no cache |
+| sysinfo | session | 1m | System state changes slowly |
+| time | session | 15s | Updates every 15 seconds |
+| execution time | session | 3s | Updates every command |
 
 ### 3. Min Width Enforcement
 
@@ -1181,13 +1182,13 @@ Acceptable tradeoff for visual benefit
 
 #### Tested Terminal Emulators
 
-| Terminal         | Powerline Support | Divider Rendering | Notes                     |
-| ---------------- | ----------------- | ----------------- | ------------------------- |
-| Windows Terminal | ✓ Excellent       | Perfect           | Native glyph support      |
-| PowerShell ISE   | ⚠ Good           | Good              | Minor spacing issues      |
-| ConEmu           | ✓ Excellent       | Perfect           | Full Unicode support      |
-| Git Bash         | ✓ Good            | Good              | Monospace fonts work well |
-| WSL Ubuntu       | ✓ Excellent       | Perfect           | Linux terminal emulation  |
+| Terminal | Powerline Support | Divider Rendering | Notes |
+| --- | --- | --- | --- |
+| Windows Terminal | ✓ Excellent | Perfect | Native glyph support |
+| PowerShell ISE | ⚠ Good | Good | Minor spacing issues |
+| ConEmu | ✓ Excellent | Perfect | Full Unicode support |
+| Git Bash | ✓ Good | Good | Monospace fonts work well |
+| WSL Ubuntu | ✓ Excellent | Perfect | Linux terminal emulation |
 
 #### Font Requirements
 
@@ -1262,11 +1263,11 @@ HSL(100.5°, 96%, 50%) → #786589
 
 ```json
 {
-  "background": "p:divider_blue_primary_to_red_alert",
-  "template": "<parentBackground></>",
-  "type": "text",
-  "style": "diamond",
-  "min_width": 130
+ "background": "p:divider_blue_primary_to_red_alert",
+ "min_width": 130,
+ "style": "diamond",
+ "template": "<parentBackground></>",
+ "type": "text"
 }
 ```
 
@@ -1434,10 +1435,10 @@ Long delay (>200ms) before each prompt appears
 
 ```json
 {
-  "cache": {
-    "duration": "15m",
-    "strategy": "folder"
-  }
+ "cache": {
+  "duration": "15m",
+  "strategy": "folder"
+ }
 }
 ```
 
@@ -1496,7 +1497,7 @@ Right-aligned segments overlap left prompt
 
 ```json
 {
-  "overflow": "hide" // Hide overflow content
+ "overflow": "hide" // Hide overflow content
 }
 ```
 
@@ -1630,37 +1631,37 @@ This documentation serves as both a technical reference and a creative guide for
 
 ```json
 {
-  "accent": "#21c7c7",
-  "blue_primary": "#0077c2",
-  "red_alert": "#ef5350",
-  "orange": "#FF9248",
-  "yellow_bright": "#FFFB38",
-  "navy_text": "#011627",
-  "purple_exec": "#83769c",
-  "green_added": "#00ff00",
-  "ipify_purple": "#c386f1",
-  "typescript_eslint_pink": "#e535ab",
-  "electron_red": "#f56040",
-  "maroon_error": "#890000",
-  "yellow_git_changed": "#ffeb95",
-  "purple_ahead": "#C792EA",
-  "green_valid_line": "#266e36",
-  "teal_sysinfo": "#437683",
-  "gray_os": "#b2bec3",
-  "blue_time": "#40c4ff",
-  "orange_battery": "#f36943",
-  "gray_prompt_count_bg": "#2f3b45",
-  "chart_teal": "#47a1ad",
-  "tailwind_cyan": "#06b6d4",
-  "palette_divider_blue_primary_to_red_alert": "#786589",
-  "palette_divider_blue_primary_to_ipify_purple": "#617ed9",
-  "palette_divider_ipify_purple_to_typescript_eslint_pink": "#d45dce",
-  "palette_divider_typescript_eslint_pink_to_orange": "#f26379",
-  "palette_divider_orange_to_green_added": "#7fc824",
-  "palette_divider_green_added_to_yellow_bright": "#7ffd1c",
-  "palette_divider_yellow_bright_to_navy_text": "#808830",
-  "palette_divider_navy_text_to_purple_exec": "#424661",
-  "palette_divider_purple_exec_to_electron_red": "#bc6b6e"
+ "accent": "#21c7c7",
+ "blue_primary": "#0077c2",
+ "blue_time": "#40c4ff",
+ "chart_teal": "#47a1ad",
+ "electron_red": "#f56040",
+ "gray_os": "#b2bec3",
+ "gray_prompt_count_bg": "#2f3b45",
+ "green_added": "#00ff00",
+ "green_valid_line": "#266e36",
+ "ipify_purple": "#c386f1",
+ "maroon_error": "#890000",
+ "navy_text": "#011627",
+ "orange": "#FF9248",
+ "orange_battery": "#f36943",
+ "palette_divider_blue_primary_to_ipify_purple": "#617ed9",
+ "palette_divider_blue_primary_to_red_alert": "#786589",
+ "palette_divider_green_added_to_yellow_bright": "#7ffd1c",
+ "palette_divider_ipify_purple_to_typescript_eslint_pink": "#d45dce",
+ "palette_divider_navy_text_to_purple_exec": "#424661",
+ "palette_divider_orange_to_green_added": "#7fc824",
+ "palette_divider_purple_exec_to_electron_red": "#bc6b6e",
+ "palette_divider_typescript_eslint_pink_to_orange": "#f26379",
+ "palette_divider_yellow_bright_to_navy_text": "#808830",
+ "purple_ahead": "#C792EA",
+ "purple_exec": "#83769c",
+ "red_alert": "#ef5350",
+ "tailwind_cyan": "#06b6d4",
+ "teal_sysinfo": "#437683",
+ "typescript_eslint_pink": "#e535ab",
+ "yellow_bright": "#FFFB38",
+ "yellow_git_changed": "#ffeb95"
 }
 ```
 
@@ -1704,4 +1705,5 @@ Neutral Spectrum:
 **Last Updated**: October 30, 2025
 **Theme Version**: Atomic Custom Enhanced - Experimental Dividers
 **Compatibility**: Oh My Posh 3.0+
+
 <!-- {% endraw %} -->

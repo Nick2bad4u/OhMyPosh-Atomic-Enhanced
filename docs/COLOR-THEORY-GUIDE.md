@@ -36,13 +36,13 @@ The traditional color wheel organizes colors by hue relationships:
 
 ### Primary Color Relationships
 
-| Relationship          | Definition                    | Example                 |
-| --------------------- | ----------------------------- | ----------------------- |
-| **Complementary**     | Opposite colors on wheel      | Red ↔ Cyan             |
-| **Analogous**         | Adjacent colors (30-60°)      | Red, Red-Orange, Orange |
-| **Triadic**           | Three equally spaced colors   | Red, Green, Blue        |
-| **Tetradic (Square)** | Four equally spaced colors    | Red, Yellow, Cyan, Blue |
-| **Monochromatic**     | Single hue, varied brightness | Navy, Blue, Light Blue  |
+| Relationship | Definition | Example |
+| --- | --- | --- |
+| **Complementary** | Opposite colors on wheel | Red ↔ Cyan |
+| **Analogous** | Adjacent colors (30-60°) | Red, Red-Orange, Orange |
+| **Triadic** | Three equally spaced colors | Red, Green, Blue |
+| **Tetradic (Square)** | Four equally spaced colors | Red, Yellow, Cyan, Blue |
+| **Monochromatic** | Single hue, varied brightness | Navy, Blue, Light Blue |
 
 ### Hue, Saturation, Value (HSV)
 
@@ -171,13 +171,13 @@ Choose a base that provides contrast for all foreground colors:
 
 Semantic colors for common states:
 
-| State   | Typical Color      | Alternative            |
-| ------- | ------------------ | ---------------------- |
-| Success | Green (`#00C853`)  | Lime (`#76FF03`)       |
-| Error   | Red (`#FF0000`)    | Orange-Red (`#FF3D00`) |
-| Warning | Yellow (`#FFD600`) | Orange (`#FF9100`)     |
-| Info    | Blue (`#2196F3`)   | Cyan (`#00E5FF`)       |
-| Neutral | Gray (`#757575`)   | Taupe (`#795548`)      |
+| State | Typical Color | Alternative |
+| --- | --- | --- |
+| Success | Green (`#00C853`) | Lime (`#76FF03`) |
+| Error | Red (`#FF0000`) | Orange-Red (`#FF3D00`) |
+| Warning | Yellow (`#FFD600`) | Orange (`#FF9100`) |
+| Info | Blue (`#2196F3`) | Cyan (`#00E5FF`) |
+| Neutral | Gray (`#757575`) | Taupe (`#795548`) |
 
 ### 5. Ensure Visual Harmony
 
@@ -204,11 +204,11 @@ Bad Harmony:
 
 Web Content Accessibility Guidelines define minimum contrast:
 
-| Level          | Ratio | Use Case                        |
-| -------------- | ----- | ------------------------------- |
-| **AA**         | 4.5:1 | Normal text (minimum standard)  |
-| **AAA**        | 7:1   | Enhanced accessibility          |
-| **Large Text** | 3:1   | Larger text can use lower ratio |
+| Level | Ratio | Use Case |
+| --- | --- | --- |
+| **AA** | 4.5:1 | Normal text (minimum standard) |
+| **AAA** | 7:1 | Enhanced accessibility |
+| **Large Text** | 3:1 | Larger text can use lower ratio |
 
 ### Calculating Contrast Ratio
 
@@ -246,13 +246,13 @@ Where Luminance is calculated as:
 
 **Original Theme Analysis:**
 
-| Foreground | Background   | Contrast | Level  |
-| ---------- | ------------ | -------- | ------ |
-| White      | Blue Primary | 10:1+    | ✅ AAA |
-| Black      | Yellow       | 19:1     | ✅ AAA |
-| Light Gray | Dark Gray    | 4.5:1    | ✅ AA  |
-| Green      | Dark Gray    | 8:1      | ✅ AAA |
-| Red        | Dark Gray    | 5:1      | ✅ AA  |
+| Foreground | Background | Contrast | Level |
+| --- | --- | --- | --- |
+| White | Blue Primary | 10:1+ | ✅ AAA |
+| Black | Yellow | 19:1 | ✅ AAA |
+| Light Gray | Dark Gray | 4.5:1 | ✅ AA |
+| Green | Dark Gray | 8:1 | ✅ AAA |
+| Red | Dark Gray | 5:1 | ✅ AA |
 
 ---
 
@@ -310,29 +310,29 @@ Colors evoke emotional responses and associations:
 
 ```json
 {
-  "palette": {
-    "accent": "#00bcd4", // Primary cyan
-    "blue_primary": "#0080FF", // Tech blue
-    "green_success": "#00C853", // Success green
-    "yellow_bright": "#FFD600", // Warning yellow
-    "red_alert": "#FF0000", // Error red
-    "white": "#FFFFFF", // Text (light)
-    "black": "#000000", // Text (dark)
-    "gray_dim": "#808080" // Subtle elements
-  }
+ "palette": {
+  "accent": "#00bcd4", // Primary cyan
+  "blue_primary": "#0080FF", // Tech blue
+  "green_success": "#00C853", // Success green
+  "yellow_bright": "#FFD600", // Warning yellow
+  "red_alert": "#FF0000", // Error red
+  "white": "#FFFFFF", // Text (light)
+  "black": "#000000", // Text (dark)
+  "gray_dim": "#808080" // Subtle elements
+ }
 }
 ```
 
 ### Color Purpose Matrix
 
-| Color              | Primary Use                | Secondary Use   | Psychological Effect      |
-| ------------------ | -------------------------- | --------------- | ------------------------- |
-| Cyan (`#00bcd4`)   | Dividers, accents          | Path segment    | Modern, tech-forward      |
-| Blue (`#0080FF`)   | Git info, primary segments | Time display    | Trustworthy, professional |
-| Green (`#00C853`)  | Status success             | Environment     | Positive, safe            |
-| Yellow (`#FFD600`) | Warnings, git branches     | Status messages | Alert, attention          |
-| Red (`#FF0000`)    | Error states               | Status alerts   | Urgent, stop              |
-| White/Gray         | Text on dark               | Readable        | Clean, professional       |
+| Color | Primary Use | Secondary Use | Psychological Effect |
+| --- | --- | --- | --- |
+| Cyan (`#00bcd4`) | Dividers, accents | Path segment | Modern, tech-forward |
+| Blue (`#0080FF`) | Git info, primary segments | Time display | Trustworthy, professional |
+| Green (`#00C853`) | Status success | Environment | Positive, safe |
+| Yellow (`#FFD600`) | Warnings, git branches | Status messages | Alert, attention |
+| Red (`#FF0000`) | Error states | Status alerts | Urgent, stop |
+| White/Gray | Text on dark | Readable | Clean, professional |
 
 ### Palette Balance Analysis
 
@@ -396,20 +396,20 @@ Analogous (±30°):
 
 ```json
 {
-  "palette": {
-    "accent": "#FF6B35", // Primary
-    "accent_secondary": "#FF9535", // Analogous right
-    "accent_complement": "#35BDFF", // Complementary
+ "palette": {
+  "accent": "#FF6B35", // Primary
+  "accent_secondary": "#FF9535", // Analogous right
+  "accent_complement": "#35BDFF", // Complementary
 
-    "blue_primary": "#6B7FFF", // Secondary
-    "green_success": "#FFD700", // Warm gold
-    "yellow_bright": "#FFA500", // Orange
-    "red_alert": "#CC0000", // Deep red
+  "blue_primary": "#6B7FFF", // Secondary
+  "green_success": "#FFD700", // Warm gold
+  "yellow_bright": "#FFA500", // Orange
+  "red_alert": "#CC0000", // Deep red
 
-    "white": "#F5F5F5", // Light text
-    "black": "#1A1A1A", // Dark text
-    "background": "#3D2817" // Dark brown
-  }
+  "white": "#F5F5F5", // Light text
+  "black": "#1A1A1A", // Dark text
+  "background": "#3D2817" // Dark brown
+ }
 }
 ```
 

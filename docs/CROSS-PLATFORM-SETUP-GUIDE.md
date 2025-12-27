@@ -26,14 +26,14 @@ The OhMyPosh Atomic Enhanced themes are designed to work across Windows, macOS, 
 
 ### Platform Comparison
 
-| Aspect            | Windows           | macOS                   | Linux                   |
-| ----------------- | ----------------- | ----------------------- | ----------------------- |
-| Default Shell     | PowerShell        | Bash/Zsh                | Bash                    |
-| Package Manager   | WinGet/Chocolatey | Homebrew                | apt/dnf/pacman          |
-| Terminal Emulator | Windows Terminal  | iTerm2/Terminal.app     | GNOME/Konsole           |
-| Font Installation | Settings GUI      | System Preferences      | Font Manager            |
-| Config Location   | `$PROFILE`        | `~/.bashrc`, `~/.zshrc` | `~/.bashrc`, `~/.zshrc` |
-| Color Support     | ✅ Excellent      | ✅ Excellent            | ✅ Excellent            |
+| Aspect | Windows | macOS | Linux |
+| --- | --- | --- | --- |
+| Default Shell | PowerShell | Bash/Zsh | Bash |
+| Package Manager | WinGet/Chocolatey | Homebrew | apt/dnf/pacman |
+| Terminal Emulator | Windows Terminal | iTerm2/Terminal.app | GNOME/Konsole |
+| Font Installation | Settings GUI | System Preferences | Font Manager |
+| Config Location | `$PROFILE` | `~/.bashrc`, `~/.zshrc` | `~/.bashrc`, `~/.zshrc` |
+| Color Support | ✅ Excellent | ✅ Excellent | ✅ Excellent |
 
 ---
 
@@ -179,29 +179,29 @@ Create custom profile in Windows Terminal settings:
 
 ```json
 {
-  "profiles": {
-    "defaults": {
-      "fontFace": "FiraCode Nerd Font",
-      "fontSize": 11,
-      "useAcrylic": true,
-      "acrylicOpacity": 0.85
-    },
-    "list": [
-      {
-        "name": "PowerShell",
-        "commandline": "pwsh.exe",
-        "startingDirectory": "%USERPROFILE%",
-        "icon": "ms-appx:///ProfileIcons/PowerShell_{9ACB9455-CA41-5AF7-950F-6BACA7E80194}.png"
-      }
-    ]
+ "profiles": {
+  "defaults": {
+   "fontFace": "FiraCode Nerd Font",
+   "fontSize": 11,
+   "useAcrylic": true,
+   "acrylicOpacity": 0.85
   },
-  "schemes": [
-    {
-      "name": "AtomicEnhanced",
-      "background": "#1E1E2E",
-      "foreground": "#CDD6F4"
-    }
+  "list": [
+   {
+    "name": "PowerShell",
+    "commandline": "pwsh.exe",
+    "startingDirectory": "%USERPROFILE%",
+    "icon": "ms-appx:///ProfileIcons/PowerShell_{9ACB9455-CA41-5AF7-950F-6BACA7E80194}.png"
+   }
   ]
+ },
+ "schemes": [
+  {
+   "name": "AtomicEnhanced",
+   "background": "#1E1E2E",
+   "foreground": "#CDD6F4"
+  }
+ ]
 }
 ```
 
@@ -489,12 +489,12 @@ source ~/.zshrc
 
 ### WSL1 vs WSL2
 
-| Aspect             | WSL1                | WSL2               |
-| ------------------ | ------------------- | ------------------ |
-| Architecture       | Compatibility layer | Virtual machine    |
-| Performance        | Faster filesystem   | Better performance |
-| Colors             | Limited             | Full ANSI support  |
-| **Recommendation** | Migrate to WSL2     | ✅ Recommended     |
+| Aspect | WSL1 | WSL2 |
+| --- | --- | --- |
+| Architecture | Compatibility layer | Virtual machine |
+| Performance | Faster filesystem | Better performance |
+| Colors | Limited | Full ANSI support |
+| **Recommendation** | Migrate to WSL2 | ✅ Recommended |
 
 ### Step 1: Upgrade to WSL2 (Recommended)
 
@@ -557,16 +557,16 @@ Windows Terminal automatically detects WSL distributions. To use WSL profile:
 
 ```json
 {
-  "profiles": {
-    "list": [
-      {
-        "name": "Ubuntu",
-        "commandline": "wsl.exe -d Ubuntu",
-        "startingDirectory": "//wsl$/Ubuntu/home/username",
-        "icon": "ms-appx:///ProfileIcons/Ubuntu_{9ACB9455-CA41-5AF7-950F-6BACA7E80194}.png"
-      }
-    ]
-  }
+ "profiles": {
+  "list": [
+   {
+    "name": "Ubuntu",
+    "commandline": "wsl.exe -d Ubuntu",
+    "startingDirectory": "//wsl$/Ubuntu/home/username",
+    "icon": "ms-appx:///ProfileIcons/Ubuntu_{9ACB9455-CA41-5AF7-950F-6BACA7E80194}.png"
+   }
+  ]
+ }
 }
 ```
 
@@ -698,16 +698,16 @@ ssh -t user@host "TERM=xterm-256color bash"
 
 ## Platform Feature Comparison
 
-| Feature         | Windows          | macOS      | Linux     | WSL2                    |
-| --------------- | ---------------- | ---------- | --------- | ----------------------- |
-| Colors          | ✅ Full          | ✅ Full    | ✅ Full   | ✅ Full                 |
-| Icons           | ✅ Full          | ✅ Full    | ✅ Full   | ✅ Full                 |
-| Git Status      | ✅ Yes           | ✅ Yes     | ✅ Yes    | ✅ Yes                  |
-| System Info     | ✅ Yes           | ✅ Yes     | ✅ Yes    | ✅ Yes                  |
-| Time Display    | ✅ Yes           | ✅ Yes     | ✅ Yes    | ✅ Yes                  |
-| Weather         | ✅ Yes           | ✅ Yes     | ✅ Yes    | ✅ Yes                  |
-| Performance     | Good             | Excellent  | Excellent | Excellent               |
-| **Recommended** | Windows Terminal | iTerm2/Zsh | Zsh       | WSL2 + Windows Terminal |
+| Feature | Windows | macOS | Linux | WSL2 |
+| --- | --- | --- | --- | --- |
+| Colors | ✅ Full | ✅ Full | ✅ Full | ✅ Full |
+| Icons | ✅ Full | ✅ Full | ✅ Full | ✅ Full |
+| Git Status | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
+| System Info | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
+| Time Display | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
+| Weather | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
+| Performance | Good | Excellent | Excellent | Excellent |
+| **Recommended** | Windows Terminal | iTerm2/Zsh | Zsh | WSL2 + Windows Terminal |
 
 ---
 

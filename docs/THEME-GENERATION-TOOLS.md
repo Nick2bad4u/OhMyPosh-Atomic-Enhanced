@@ -46,16 +46,16 @@ All scripts are in the **root directory** of the repository.
 
 ### Quick Reference Table
 
-| Script                         | Purpose                     | Input          | Output                  |
-| ------------------------------ | --------------------------- | -------------- | ----------------------- |
-| **Generate-AllThemes.ps1**     | Generate all theme variants | Color palettes | Theme-family folders (default) or one output folder |
-| **New-ThemeWithPalette.ps1**   | Create theme from palette   | Palette file   | Single .json file       |
-| **cycle-themes.ps1**           | Cycle through themes        | Theme folder   | Activates one at a time |
-| **Merge-OhMyPoshThemes.ps1**   | Merge multiple themes       | Theme files    | Merged theme            |
-| **pre-upload-validation.ps1**  | Validate before upload      | Theme path     | Pass/fail report        |
-| **Generate-ThemePreviews.ps1** | Create preview images       | Theme files    | PNG preview images      |
-| **sync-official-themes.ps1**   | Sync official themes        | Official repo  | Updated themes          |
-| **validate-palette.ps1**       | Validate palette file       | Palette JSON   | Validation report       |
+| Script | Purpose | Input | Output |
+| --- | --- | --- | --- |
+| **Generate-AllThemes.ps1** | Generate all theme variants | Color palettes | Theme-family folders (default) or one output folder |
+| **New-ThemeWithPalette.ps1** | Create theme from palette | Palette file | Single .json file |
+| **cycle-themes.ps1** | Cycle through themes | Theme folder | Activates one at a time |
+| **Merge-OhMyPoshThemes.ps1** | Merge multiple themes | Theme files | Merged theme |
+| **pre-upload-validation.ps1** | Validate before upload | Theme path | Pass/fail report |
+| **Generate-ThemePreviews.ps1** | Create preview images | Theme files | PNG preview images |
+| **sync-official-themes.ps1** | Sync official themes | Official repo | Updated themes |
+| **validate-palette.ps1** | Validate palette file | Palette JSON | Validation report |
 
 ---
 
@@ -242,14 +242,18 @@ Cycles through available themes, activating each one so you can preview them.
 -Variants     # Also include palette variants from theme-family folders
 -Delay <int>  # Seconds to display each theme before switching
 ```
+
 # Press Enter for next, Backspace for previous, Q to quit
 
 # Press Enter to go to next...
+
 # Currently previewing: OhMyPosh-Atomic-Custom.CatppuccinMocha.json
 
 # Like this one? Press S to save
+
 # [Saved: C:\...\OhMyPosh-Atomic-Custom.CatppuccinMocha.json]
-```
+
+````
 
 ---
 
@@ -268,7 +272,7 @@ Combines multiple theme configurations into a single theme file.
   -PrimaryTheme "base-theme.json" `
   -SecondaryTheme "accent-theme.json" `
   -OutputPath "merged-theme.json"
-```
+````
 
 #### Merge Multiple Themes
 

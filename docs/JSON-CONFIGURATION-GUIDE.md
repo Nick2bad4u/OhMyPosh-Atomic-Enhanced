@@ -1,4 +1,5 @@
 <!-- {% raw %} -->
+
 # 🔍 JSON Structure & Configuration Patterns
 
 ## Table of Contents
@@ -20,14 +21,14 @@ JSON (JavaScript Object Notation) is a text format for structured data:
 
 ```json
 {
-  "key": "value", // String value
-  "number": 42, // Number
-  "boolean": true, // true/false
-  "array": [1, 2, 3], // Array (ordered list)
-  "object": {
-    // Nested object
-    "nested_key": "value"
-  }
+ "array": [1, 2, 3], // Array (ordered list)
+ "boolean": true, // true/false
+ "key": "value", // String value
+ "number": 42, // Number
+ "object": {
+  // Nested object
+  "nested_key": "value"
+ }
 }
 ```
 
@@ -76,13 +77,13 @@ JSON (JavaScript Object Notation) is a text format for structured data:
 
 ```json
 {
-  "version": 3,
-  "blocks": [
-    {
-      "alignment": "left",
-      "segments": []
-    }
-  ]
+ "blocks": [
+  {
+   "alignment": "left",
+   "segments": []
+  }
+ ],
+ "version": 3
 }
 ```
 
@@ -185,10 +186,10 @@ Theme Root
 
 ```json
 {
-  "type": "shell",
-  "background": "p:blue_primary",
-  "foreground": "p:white",
-  "template": " {{ .Shell }} "
+ "background": "p:blue_primary",
+ "foreground": "p:white",
+ "template": " {{ .Shell }} ",
+ "type": "shell"
 }
 ```
 
@@ -202,12 +203,12 @@ Theme Root
 
 ```json
 {
-  "type": "status",
-  "background_templates": [
-    "{{ if .Error }}p:red_alert{{ else }}p:green_success{{ end }}"
-  ],
-  "foreground": "p:white",
-  "template": " {{ if .Error }}✗{{ else }}✓{{ end }} "
+ "background_templates": [
+  "{{ if .Error }}p:red_alert{{ else }}p:green_success{{ end }}"
+ ],
+ "foreground": "p:white",
+ "template": " {{ if .Error }}✗{{ else }}✓{{ end }} ",
+ "type": "status"
 }
 ```
 
@@ -221,14 +222,14 @@ Theme Root
 
 ```json
 {
-  "type": "node",
-  "background": "p:green_primary",
-  "foreground": "p:black",
-  "template": " ⬢ {{ .Version }} ",
-  "cache": {
-    "strategy": "folder",
-    "duration": "30m"
-  }
+ "background": "p:green_primary",
+ "cache": {
+  "strategy": "folder",
+  "duration": "30m"
+ },
+ "foreground": "p:black",
+ "template": " ⬢ {{ .Version }} ",
+ "type": "node"
 }
 ```
 
@@ -242,19 +243,19 @@ Theme Root
 
 ```json
 {
-  "type": "git",
-  "background": "p:yellow_bright",
-  "foreground": "p:black",
-  "template": " {{ if .UpstreamIcon }}{{ .UpstreamIcon }} {{ end }}{{ .Branch }}{{ if .BranchStatus }} ({{ .BranchStatus }}){{ end }} ",
-  "properties": {
-    "fetch_status": true,
-    "fetch_upstream_icon": false,
-    "branch_max_length": 25
-  },
-  "cache": {
-    "strategy": "folder",
-    "duration": "5m"
-  }
+ "background": "p:yellow_bright",
+ "cache": {
+  "strategy": "folder",
+  "duration": "5m"
+ },
+ "foreground": "p:black",
+ "properties": {
+  "fetch_status": true,
+  "fetch_upstream_icon": false,
+  "branch_max_length": 25
+ },
+ "template": " {{ if .UpstreamIcon }}{{ .UpstreamIcon }} {{ end }}{{ .Branch }}{{ if .BranchStatus }} ({{ .BranchStatus }}){{ end }} ",
+ "type": "git"
 }
 ```
 
@@ -268,17 +269,17 @@ Theme Root
 
 ```json
 {
-  "type": "command",
-  "background": "p:purple_accent",
-  "template": "{{ .Output }}",
-  "properties": {
-    "shell": "powershell",
-    "command": "Get-Date -Format 'HH:mm:ss'"
-  },
-  "cache": {
-    "strategy": "session",
-    "duration": "1s"
-  }
+ "background": "p:purple_accent",
+ "cache": {
+  "strategy": "session",
+  "duration": "1s"
+ },
+ "properties": {
+  "shell": "powershell",
+  "command": "Get-Date -Format 'HH:mm:ss'"
+ },
+ "template": "{{ .Output }}",
+ "type": "command"
 }
 ```
 
@@ -292,20 +293,20 @@ Theme Root
 
 ```json
 {
-  "blocks": [
-    {
-      "alignment": "left",
-      "segments": [{ "type": "shell" }, { "type": "path" }]
-    },
-    {
-      "alignment": "right",
-      "segments": [{ "type": "time" }]
-    },
-    {
-      "alignment": "newline",
-      "segments": [{ "type": "text", "template": "❯ " }]
-    }
-  ]
+ "blocks": [
+  {
+   "alignment": "left",
+   "segments": [{ "type": "shell" }, { "type": "path" }]
+  },
+  {
+   "alignment": "right",
+   "segments": [{ "type": "time" }]
+  },
+  {
+   "alignment": "newline",
+   "segments": [{ "type": "text", "template": "❯ " }]
+  }
+ ]
 }
 ```
 
@@ -319,11 +320,11 @@ Theme Root
 
 ```json
 {
-  "transient_prompt": {
-    "background": "transparent",
-    "foreground": "p:accent_color",
-    "template": "❯ "
-  }
+ "transient_prompt": {
+  "background": "transparent",
+  "foreground": "p:accent_color",
+  "template": "❯ "
+ }
 }
 ```
 
@@ -337,15 +338,15 @@ Theme Root
 
 ```json
 {
-  "palette": {
-    "blue_bright": "#00E5FF", // 100% brightness
-    "blue_normal": "#0080FF", // 50% brightness
-    "blue_dim": "#004B99", // 30% brightness
+ "palette": {
+  "blue_bright": "#00E5FF", // 100% brightness
+  "blue_normal": "#0080FF", // 50% brightness
+  "blue_dim": "#004B99", // 30% brightness
 
-    "blue_sat_high": "#0080FF", // 100% saturation
-    "blue_sat_med": "#4DB8DD", // 60% saturation
-    "blue_sat_low": "#8FBDD9" // 30% saturation
-  }
+  "blue_sat_high": "#0080FF", // 100% saturation
+  "blue_sat_med": "#4DB8DD", // 60% saturation
+  "blue_sat_low": "#8FBDD9" // 30% saturation
+ }
 }
 ```
 
@@ -359,10 +360,10 @@ Theme Root
 
 ```json
 {
-  "segments": [
-    { "type": "shell" },
-    { "type": "path" } // ❌ Trailing comma here!
-  ]
+ "segments": [
+  { "type": "shell" },
+  { "type": "path" } // ❌ Trailing comma here!
+ ]
 }
 ```
 
@@ -370,10 +371,10 @@ Theme Root
 
 ```json
 {
-  "segments": [
-    { "type": "shell" },
-    { "type": "path" } // ✅ No comma
-  ]
+ "segments": [
+  { "type": "shell" },
+  { "type": "path" } // ✅ No comma
+ ]
 }
 ```
 
@@ -392,8 +393,8 @@ Theme Root
 
 ```json
 {
-  "type": "git",
-  "template": "{{ .Branch }}" // ✅ Comma added
+ "template": "{{ .Branch }}", // ✅ Comma added
+ "type": "git"
 }
 ```
 
@@ -403,8 +404,8 @@ Theme Root
 
 ```json
 {
-  "type": "git", // ❌ Single quotes not allowed
-  "template": "..."
+ "template": "...",
+ "type": "git" // ❌ Single quotes not allowed
 }
 ```
 
@@ -412,8 +413,8 @@ Theme Root
 
 ```json
 {
-  "type": "git", // ✅ Double quotes
-  "template": "..."
+ "template": "...",
+ "type": "git" // ✅ Double quotes
 }
 ```
 
@@ -423,8 +424,8 @@ Theme Root
 
 ```json
 {
-  "type": "git", // ❌ Key not quoted
-  "template": "..."
+ "template": "...",
+ "type": "git" // ❌ Key not quoted
 }
 ```
 
@@ -432,8 +433,8 @@ Theme Root
 
 ```json
 {
-  "type": "git", // ✅ Key quoted
-  "template": "..."
+ "template": "...",
+ "type": "git" // ✅ Key quoted
 }
 ```
 
@@ -452,7 +453,7 @@ Theme Root
 
 ```json
 {
-  "template": "{{ .Branch }}\n{{ .Status }}" // ✅ Use \n
+ "template": "{{ .Branch }}\n{{ .Status }}" // ✅ Use \n
 }
 ```
 
@@ -472,9 +473,9 @@ Theme Root
 
 ```json
 {
-  "number": 42,
-  "boolean": true,
-  "string": "some text" // ✅ Quoted
+ "boolean": true,
+ "number": 42,
+ "string": "some text" // ✅ Quoted
 }
 ```
 
@@ -484,9 +485,9 @@ Theme Root
 
 ```json
 {
-  "type": "git",
-  // This is a comment - NOT allowed in JSON!
-  "template": "{{ .Branch }}"
+ // This is a comment - NOT allowed in JSON!
+ "template": "{{ .Branch }}",
+ "type": "git"
 }
 ```
 
@@ -494,8 +495,8 @@ Theme Root
 
 ```json
 {
-  "type": "git",
-  "template": "{{ .Branch }}"
+ "template": "{{ .Branch }}",
+ "type": "git"
 }
 ```
 
@@ -517,9 +518,9 @@ Theme Root
 
 ```json
 {
-  "segments": [
-    { "type": "git" } // ✅ Proper object
-  ]
+ "segments": [
+  { "type": "git" } // ✅ Proper object
+ ]
 }
 ```
 
@@ -574,62 +575,62 @@ VS Code has built-in JSON validation:
 
 ```json
 {
-  "version": 3,
-  "palette": {
-    "blue_primary": "#0080FF",
-    "orange_accent": "#FF6B35",
-    "yellow_warn": "#FFD600",
-    "green_success": "#00C853",
-    "red_error": "#FF0000",
-    "white": "#FFFFFF",
-    "black": "#000000"
-  },
-  "blocks": [
+ "blocks": [
+  {
+   "alignment": "left",
+   "segments": [
     {
-      "alignment": "left",
-      "segments": [
-        {
-          "type": "shell",
-          "background": "p:blue_primary",
-          "foreground": "p:white",
-          "template": " {{ .Shell }} "
-        },
-        {
-          "type": "path",
-          "background": "p:orange_accent",
-          "foreground": "p:black",
-          "template": "  {{ .Path }} ",
-          "properties": { "max_depth": 3 }
-        },
-        {
-          "type": "git",
-          "background": "p:yellow_warn",
-          "foreground": "p:black",
-          "template": " {{ .Branch }} ",
-          "cache": { "strategy": "folder", "duration": "5m" },
-          "properties": { "fetch_status": false }
-        },
-        {
-          "type": "status",
-          "background_templates": [
-            "{{ if .Error }}p:red_error{{ else }}p:green_success{{ end }}"
-          ],
-          "foreground": "p:white",
-          "template": " {{ if .Error }}✗{{ else }}✓{{ end }} "
-        }
-      ]
+     "type": "shell",
+     "background": "p:blue_primary",
+     "foreground": "p:white",
+     "template": " {{ .Shell }} "
     },
     {
-      "alignment": "newline",
-      "segments": [
-        {
-          "type": "text",
-          "template": "❯ ",
-          "foreground": "p:blue_primary"
-        }
-      ]
+     "type": "path",
+     "background": "p:orange_accent",
+     "foreground": "p:black",
+     "template": "  {{ .Path }} ",
+     "properties": { "max_depth": 3 }
+    },
+    {
+     "type": "git",
+     "background": "p:yellow_warn",
+     "foreground": "p:black",
+     "template": " {{ .Branch }} ",
+     "cache": { "strategy": "folder", "duration": "5m" },
+     "properties": { "fetch_status": false }
+    },
+    {
+     "type": "status",
+     "background_templates": [
+      "{{ if .Error }}p:red_error{{ else }}p:green_success{{ end }}"
+     ],
+     "foreground": "p:white",
+     "template": " {{ if .Error }}✗{{ else }}✓{{ end }} "
     }
-  ]
+   ]
+  },
+  {
+   "alignment": "newline",
+   "segments": [
+    {
+     "type": "text",
+     "template": "❯ ",
+     "foreground": "p:blue_primary"
+    }
+   ]
+  }
+ ],
+ "palette": {
+  "blue_primary": "#0080FF",
+  "orange_accent": "#FF6B35",
+  "yellow_warn": "#FFD600",
+  "green_success": "#00C853",
+  "red_error": "#FF0000",
+  "white": "#FFFFFF",
+  "black": "#000000"
+ },
+ "version": 3
 }
 ```
 
@@ -637,29 +638,29 @@ VS Code has built-in JSON validation:
 
 ```json
 {
-  "version": 3,
-  "palette": {
-    "accent": "#00BCD4"
-  },
-  "blocks": [
+ "blocks": [
+  {
+   "segments": [
     {
-      "segments": [
-        {
-          "type": "path",
-          "background": "p:accent",
-          "template": " {{ .Path }} ",
-          "properties": { "max_depth": 1 }
-        },
-        {
-          "type": "status",
-          "background_templates": [
-            "{{ if .Error }}#FF0000{{ else }}#00AA00{{ end }}"
-          ],
-          "template": " {{ if .Error }}✗{{ else }}✓{{ end }} "
-        }
-      ]
+     "type": "path",
+     "background": "p:accent",
+     "template": " {{ .Path }} ",
+     "properties": { "max_depth": 1 }
+    },
+    {
+     "type": "status",
+     "background_templates": [
+      "{{ if .Error }}#FF0000{{ else }}#00AA00{{ end }}"
+     ],
+     "template": " {{ if .Error }}✗{{ else }}✓{{ end }} "
     }
-  ]
+   ]
+  }
+ ],
+ "palette": {
+  "accent": "#00BCD4"
+ },
+ "version": 3
 }
 ```
 
@@ -667,28 +668,28 @@ VS Code has built-in JSON validation:
 
 ```json
 {
-  "version": 3,
-  "blocks": [
-    {
-      "alignment": "left",
-      "segments": [
-        { "type": "shell" },
-        { "type": "path" },
-        { "type": "git" },
-        { "type": "node" },
-        { "type": "python" },
-        { "type": "status" }
-      ]
-    },
-    {
-      "alignment": "right",
-      "segments": [{ "type": "time" }, { "type": "battery" }]
-    },
-    {
-      "alignment": "newline",
-      "segments": [{ "type": "text", "template": "❯ " }]
-    }
-  ]
+ "blocks": [
+  {
+   "alignment": "left",
+   "segments": [
+    { "type": "shell" },
+    { "type": "path" },
+    { "type": "git" },
+    { "type": "node" },
+    { "type": "python" },
+    { "type": "status" }
+   ]
+  },
+  {
+   "alignment": "right",
+   "segments": [{ "type": "time" }, { "type": "battery" }]
+  },
+  {
+   "alignment": "newline",
+   "segments": [{ "type": "text", "template": "❯ " }]
+  }
+ ],
+ "version": 3
 }
 ```
 

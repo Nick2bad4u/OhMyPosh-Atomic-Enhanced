@@ -1,2224 +1,2359 @@
 {
-  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
-  "accent_color": "p:accent",
-  "async": true,
-  "blocks": [
-    {
-      "alignment": "left",
-      "leading_diamond": "",
-      "newline": false,
-      "segments": [
+    "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+    "accent_color": "p:accent",
+    "async": true,
+    "blocks": [
         {
-          "alias": "shell-lprompt",
-          "background": "p:blue_primary",
-          "background_templates": [
-            "{{ if or (eq .Name \"cmd\") (eq .Shell \"cmd\") }}p:shell_cmd_black{{ end }}",
-            "{{ if or (eq .Name \"powershell\") (eq .Shell \"PS\") (eq .Name \"pwsh\") (eq .Shell \"pwsh\") }}p:shell_powershell_blue{{ end }}",
-            "{{ if and (or (eq .Name \"bash\") (eq .Shell \"bash\")) (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
-            "{{ if or (eq .Name \"bash\") (eq .Shell \"bash\") }}p:shell_bash_green{{ end }}",
-            "{{ if or (eq .Name \"zsh\") (eq .Shell \"zsh\") (eq .Name \"zshell\") (eq .Shell \"zshell\") }}p:shell_zsh_orange{{ end }}",
-            "{{ if or (eq .Name \"fish\") (eq .Shell \"fish\") }}p:shell_fish_cyan{{ end }}",
-            "{{ if or (eq .Name \"cygwin\") (eq .Shell \"cygwin\") }}p:shell_cygwin_green{{ end }}",
-            "{{ if or (eq .Name \"tcsh\") (eq .Shell \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
-            "{{ if or (eq .Name \"ELV\") (eq .Shell \"elvish\") }}p:shell_elvish_teal{{ end }}",
-            "{{ if or (eq .Name \"nu\") (eq .Shell \"nu\") (eq .Name \"nushell\") (eq .Shell \"nushell\") }}p:shell_nushell_purple{{ end }}",
-            "{{ if or (eq .Name \"XSH\") (eq .Shell \"xonsh\") }}p:shell_xonsh_yellow{{ end }}"
-          ],
-          "cache": {
-            "duration": "24h",
-            "strategy": "session"
-          },
-          "foreground": "p:white",
-          "foreground_templates": [],
-          "leading_diamond": "╭─",
-          "min_width": 80,
-          "options": {
-            "mapped_shell_names": {
-              "elvish": "ELV",
-              "nushell": "NU",
-              "powershell": "PS",
-              "pwsh": "PS",
-              "xonsh": "XSH"
-            }
-          },
-          "style": "diamond",
-          "template": " {{ upper .Name  }} {{ substr 0 5 .Version }} ",
-          "templates_logic": "first_match",
-          "type": "shell"
+            "alignment": "left",
+            "leading_diamond": "",
+            "newline": false,
+            "segments": [
+                {
+                    "alias": "shell-lprompt",
+                    "background": "p:blue_primary",
+                    "background_templates": [
+                        "{{ if or (eq .Name \"cmd\") (eq .Shell \"cmd\") }}p:shell_cmd_black{{ end }}",
+                        "{{ if or (eq .Name \"powershell\") (eq .Shell \"PS\") (eq .Name \"pwsh\") (eq .Shell \"pwsh\") }}p:shell_powershell_blue{{ end }}",
+                        "{{ if and (or (eq .Name \"bash\") (eq .Shell \"bash\")) (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
+                        "{{ if or (eq .Name \"bash\") (eq .Shell \"bash\") }}p:shell_bash_green{{ end }}",
+                        "{{ if or (eq .Name \"zsh\") (eq .Shell \"zsh\") (eq .Name \"zshell\") (eq .Shell \"zshell\") }}p:shell_zsh_orange{{ end }}",
+                        "{{ if or (eq .Name \"fish\") (eq .Shell \"fish\") }}p:shell_fish_cyan{{ end }}",
+                        "{{ if or (eq .Name \"cygwin\") (eq .Shell \"cygwin\") }}p:shell_cygwin_green{{ end }}",
+                        "{{ if or (eq .Name \"tcsh\") (eq .Shell \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
+                        "{{ if or (eq .Name \"ELV\") (eq .Shell \"elvish\") }}p:shell_elvish_teal{{ end }}",
+                        "{{ if or (eq .Name \"nu\") (eq .Shell \"nu\") (eq .Name \"nushell\") (eq .Shell \"nushell\") }}p:shell_nushell_purple{{ end }}",
+                        "{{ if or (eq .Name \"XSH\") (eq .Shell \"xonsh\") }}p:shell_xonsh_yellow{{ end }}"
+                    ],
+                    "cache": {
+                        "duration": "24h",
+                        "strategy": "session"
+                    },
+                    "foreground": "p:white",
+                    "foreground_templates": [],
+                    "leading_diamond": "╭─",
+                    "min_width": 80,
+                    "options": {
+                        "mapped_shell_names": {
+                            "elvish": "ELV",
+                            "nushell": "NU",
+                            "powershell": "PS",
+                            "pwsh": "PS",
+                            "xonsh": "XSH"
+                        }
+                    },
+                    "style": "diamond",
+                    "template": " {{ upper .Name  }} {{ substr 0 5 .Version }} ",
+                    "templates_logic": "first_match",
+                    "type": "shell"
+                },
+                {
+                    "alias": "root-lprompt",
+                    "background": "p:red_alert",
+                    "cache": {
+                        "duration": "144h",
+                        "strategy": "session"
+                    },
+                    "foreground": "p:black",
+                    "min_width": 80,
+                    "style": "diamond",
+                    "template": "<parentBackground></>  ",
+                    "type": "root"
+                },
+                {
+                    "alias": "divider-01",
+                    "background": "p:divider_blue_primary_to_tooling_purple",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<parentBackground></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-02",
+                    "background": "p:divider_blue_primary_to_red_alert",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<parentBackground></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-03",
+                    "background": "p:divider_tooling_purple_to_typescript_eslint_pink",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<parentBackground></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-04",
+                    "background": "p:divider_typescript_eslint_pink_to_orange",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<parentBackground></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "path-lprompt",
+                    "background": "p:orange",
+                    "foreground": "p:black",
+                    "leading_diamond": "",
+                    "min_width": 80,
+                    "options": {
+                        "cycle_folder_separator": true,
+                        "display_cygpath": false,
+                        "edge_format": "<b>%s</b>",
+                        "folder_format": "<b>%s</b>",
+                        "folder_icon": "  ",
+                        "folder_separator_icon": "/",
+                        "gitdir_format": "<d>%s</d>",
+                        "home_icon": "",
+                        "mapped_locations": {
+                            "C:\\": "C:",
+                            "re:.*(BH-Scripts).*": "🎬 BH",
+                            "re:.*(Code).*": "Code",
+                            "re:.*(DemoMan-Fork|DemoMan).*": "🎥 DemoMan",
+                            "re:.*(Desktop).*": "DT",
+                            "re:.*(Documents).*": "Docs",
+                            "re:.*(Downloads).*": "DLs",
+                            "re:.*(Dropbox).*": "DB",
+                            "re:.*(FitFileViewer).*": "🗂️ FitView",
+                            "re:.*(GE-Filters).*": "💰 GE-Flt",
+                            "re:.*(GitHub).*": "GH",
+                            "re:.*(Google Drive).*": "GD",
+                            "re:.*(Library).*": "Lib",
+                            "re:.*(LocalHistory).*": "⏰ LocHist",
+                            "re:.*(MarkOfDarknessHelper).*": "🌑 MOD-Help",
+                            "re:.*(Music).*": "Music",
+                            "re:.*(Nick2bad4u).*": "👤 Profile",
+                            "re:.*(OhMyPosh-Atomic-Enhanced).*": "✨ OhMyPosh",
+                            "re:.*(OneDrive).*": "OD",
+                            "re:.*(Pictures).*": "Pics",
+                            "re:.*(Projects).*": "Proj",
+                            "re:.*(Sauce4ZwiftModsRepo).*": "🚴 Zwift",
+                            "re:.*(Typpis-ESLint).*": "🔍 Typpis",
+                            "re:.*(Uptime-Watcher).*": "UW",
+                            "re:.*(UserStyles).*": "🖼️ Styles",
+                            "re:.*(Videos).*": "Videos",
+                            "re:.*(Workspace).*": "WS",
+                            "re:.*(ZwiftScripts).*": "📜 ZScript",
+                            "re:.*(auth|security).*": "🔐 ",
+                            "re:.*(ci|cd|pipeline).*": "🔄 ",
+                            "re:.*(dnsValidator).*": "🌐 DNS",
+                            "re:.*(eslint-config-Typescript-Extreme).*": "⚡ TSExtm",
+                            "re:.*(eslint-plugin-chunkyLint).*": "📏 ChunkyL",
+                            "re:.*(generate-repo-file-list).*": "🗂️ GenList",
+                            "re:.*(git-backup).*": "💾 GitBkup",
+                            "re:.*(github-drama).*": "🎭 Drama",
+                            "re:.*(gitlab|bitbucket).*": "🐙 ",
+                            "re:.*(iCloud).*": "IC",
+                            "re:.*(internet-archive-upload).*": "🗄️ Archive",
+                            "re:.*(node_modules).*": "📚 ",
+                            "re:.*(nodejs).*": "Node",
+                            "re:.*(plugin-hub).*": "🪝 PlugHub",
+                            "re:.*(pnpm).*": "PNPM",
+                            "re:.*(ps-color-scripts-enhanced|ps-color-scripts).*": "🎨 PSColor",
+                            "re:.*(runelite.phyce.dev).*": "🔮 Runite",
+                            "re:.*(tf2).*": "🎮 TF2",
+                            "re:.*(thrall-helper).*": "👹 Thrall",
+                            "re:.*(wiki-bank-tag-integration).*": "🏦 BankTag",
+                            "re:.*(wintertodt-scouter).*": "❄️ WintTodt",
+                            "re:.*(worktree-backup).*": "🌳 WTBackup",
+                            "re:.*(yarn).*": "Yarn",
+                            "re:.*\\\\bnpm\\\\b.*": "NPM",
+                            "re:^\\.git$": "🌳 ",
+                            "re:^\\.github$": "🐙 ",
+                            "~/": "~",
+                            "~\\\\Desktop": "🖥️ ",
+                            "~\\\\Documents": "📄 ",
+                            "~\\\\Downloads": "📥 "
+                        },
+                        "mapped_locations_enabled": true,
+                        "max_depth": 1,
+                        "max_width": 40,
+                        "mixed_threshold": 4,
+                        "style": "folder"
+                    },
+                    "style": "diamond",
+                    "template": "<parentBackground></>  {{ path .Path .Location }} ",
+                    "trailing_diamond": "",
+                    "type": "path"
+                },
+                {
+                    "alias": "divider-05",
+                    "background": "p:divider_orange_to_green_added",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<parentBackground></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-06",
+                    "background": "p:divider_green_added",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<parentBackground></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-07",
+                    "background": "p:divider_green_added_to_yellow_bright",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<parentBackground></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "git-lprompt",
+                    "background": "p:yellow_bright",
+                    "background_templates": [
+                        "{{ if or (.Working.Changed) (.Staging.Changed) }}p:yellow_git_changed{{ end }}",
+                        "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:green_ahead{{ end }}",
+                        "{{ if gt .Ahead 0 }}p:purple_ahead{{ end }}",
+                        "{{ if gt .Behind 0 }}p:purple_behind{{ end }}"
+                    ],
+                    "cache": {
+                        "duration": "15m",
+                        "strategy": "folder"
+                    },
+                    "exclude_folders": [
+                        ".*node_modules.*",
+                        ".*\\.tmp.*",
+                        ".*\\.cache.*"
+                    ],
+                    "foreground": "p:navy_text",
+                    "interactive": true,
+                    "leading_diamond": "",
+                    "min_width": 80,
+                    "options": {
+                        "branch_icon": "  ",
+                        "branch_template": "<b>{{ if .Mapped }}{{ title .Mapped }}{{ else }}{{ .Icon }}{{ end }}{{ title .Branch }}</b>",
+                        "disable_with_jj": false,
+                        "fetch_bare_info": true,
+                        "fetch_status": true,
+                        "fetch_upstream_icon": true,
+                        "fetch_user": true,
+                        "fetch_worktree_count": true,
+                        "ignore_status": [],
+                        "ignore_submodules": {},
+                        "mapped_branches": {
+                            "develop": "Dev",
+                            "development": "Dev",
+                            "feature": "Feat",
+                            "main": "Main",
+                            "master": "Master",
+                            "production": "Prod",
+                            "staging": "Stage"
+                        },
+                        "native_fallback": true,
+                        "status_formats": {
+                            "Added": "<b><p:green_added>+%d</></b>",
+                            "Copied": "<b><p:magenta>c%d</></b>",
+                            "Deleted": "<b><p:red_deleted>-%d</></b>",
+                            "Modified": "<b><p:yellow_modified>~%d</></b>",
+                            "Renamed": "<b><p:cyan_renamed>r%d</></b>",
+                            "Unmerged": "<b><p:orange_unmerged>x%d</></b>",
+                            "Untracked": "<b><p:gray_untracked>?%d</></b>"
+                        },
+                        "untracked_modes": {
+                            "*": "normal"
+                        }
+                    },
+                    "style": "diamond",
+                    "template": "<parentBackground></> {{ .UpstreamIcon }}<b>{{ .HEAD }}{{if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }}</b> ",
+                    "templates_logic": "first_match",
+                    "trailing_diamond": "",
+                    "type": "git"
+                },
+                {
+                    "alias": "divider-08",
+                    "background": "p:divider_navy_text",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<parentBackground></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-09",
+                    "background": "p:divider_yellow_bright_to_navy_text",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<parentBackground></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-10",
+                    "background": "p:divider_npm_dark",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<parentBackground></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-11",
+                    "background": "p:divider_navy_text_to_purple_exec",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<parentBackground></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "executiontime-lprompt",
+                    "background": "p:purple_exec",
+                    "cache": {
+                        "duration": "3s",
+                        "strategy": "session"
+                    },
+                    "foreground": "p:white",
+                    "min_width": 80,
+                    "options": {
+                        "always_enabled": false,
+                        "style": "roundrock",
+                        "threshold": 0
+                    },
+                    "style": "diamond",
+                    "template": "<parentBackground></> 󱑅 {{ .FormattedMs }}⠀",
+                    "trailing_diamond": "",
+                    "type": "executiontime"
+                },
+                {
+                    "alias": "divider-12",
+                    "background": "p:divider_purple_exec",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<parentBackground></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-13",
+                    "background": "p:divider_purple_exec_to_electron_red",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<parentBackground></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-14",
+                    "background": "p:divider_tooling_yellow",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<parentBackground></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-15",
+                    "background": "transparent",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<parentBackground></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "status-lprompt",
+                    "background": "p:maroon_error",
+                    "background_templates": [
+                        "{{ if .Error }}p:maroon_error{{ end }}"
+                    ],
+                    "foreground": "p:black",
+                    "leading_diamond": "",
+                    "min_width": 80,
+                    "options": {
+                        "always_enabled": false,
+                        "status_separator": "|",
+                        "status_template": "|"
+                    },
+                    "style": "diamond",
+                    "template": "<parentBackground></><b>  </b>",
+                    "templates_logic": "first_match",
+                    "trailing_diamond": "",
+                    "type": "status"
+                }
+            ],
+            "trailing_diamond": "",
+            "type": "prompt"
         },
         {
-          "alias": "root-lprompt",
-          "background": "p:red_alert",
-          "cache": {
-            "duration": "144h",
-            "strategy": "session"
-          },
-          "foreground": "p:black",
-          "min_width": 80,
-          "style": "diamond",
-          "template": "<parentBackground></>  ",
-          "type": "root"
+            "alignment": "right",
+            "filler": "",
+            "leading_diamond": "",
+            "newline": false,
+            "overflow": "hide",
+            "segments": [
+                {
+                    "alias": "divider-16",
+                    "background": "transparent",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<p:divider_green_ahead></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-17",
+                    "background": "p:divider_green_ahead",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<p:divider_green_valid_line></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-18",
+                    "background": "p:divider_green_valid_line",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<p:divider_accent></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-19",
+                    "background": "p:divider_accent",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<p:divider_chart_teal></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-20",
+                    "background": "p:divider_chart_teal",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<p:divider_teal_sysinfo></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-21",
+                    "background": "p:divider_teal_sysinfo",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<p:divider_teal_sysinfo></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "sysinfo-rprompt",
+                    "background": "p:teal_sysinfo",
+                    "cache": {
+                        "duration": "3m",
+                        "strategy": "session"
+                    },
+                    "foreground": "p:black",
+                    "foreground_templates": [
+                        "{{ if gt .Load1 75 }}p:red_alert{{ end }}",
+                        "{{ if and (lt .Load1 75) (gt .Load1 50) }}p:orange{{ end }}",
+                        "{{ if and (lt .Load1 50) (gt .Load1 25) }}p:yellow_bright{{ end }}"
+                    ],
+                    "invert_powerline": true,
+                    "leading_diamond": "",
+                    "min_width": 100,
+                    "options": {
+                        "precision": 1
+                    },
+                    "powerline_symbol": "",
+                    "style": "diamond",
+                    "template": "<b> 󰇅 {{ round .Load1 .Precision  }}%  {{ round .PhysicalPercentUsed .Precision  }}%  {{ round .Disks .Precision  }}% </b>",
+                    "templates_logic": "first_match",
+                    "trailing_diamond": "",
+                    "type": "sysinfo"
+                },
+                {
+                    "alias": "divider-22",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<p:divider_tailwind_cyan,p:divider_teal_sysinfo></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-23",
+                    "background": "p:divider_purple_exec",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<p:divider_purple_exec,p:divider_tailwind_cyan></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "os-rprompt",
+                    "background": "p:gray_os",
+                    "cache": {
+                        "duration": "10m",
+                        "strategy": "session"
+                    },
+                    "foreground": "p:gray_os_fg",
+                    "invert_powerline": false,
+                    "leading_diamond": "",
+                    "min_width": 100,
+                    "options": {
+                        "linux": "",
+                        "macos": "",
+                        "ubuntu": "",
+                        "windows": ""
+                    },
+                    "powerline_symbol": "",
+                    "style": "diamond",
+                    "template": "<b> {{ if .WSL }}WSL at {{ end }}{{ .Icon }} </b>",
+                    "trailing_diamond": "",
+                    "type": "os"
+                },
+                {
+                    "alias": "divider-24",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<p:divider_blue_tooltip,p:divider_gray_os></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-25",
+                    "background": "p:divider_gray_prompt_count_bg",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<p:divider_gray_prompt_count_bg,p:divider_blue_tooltip></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "time-rprompt",
+                    "background": "p:blue_time",
+                    "cache": {
+                        "duration": "15s",
+                        "strategy": "session"
+                    },
+                    "foreground": "p:black",
+                    "invert_powerline": false,
+                    "leading_diamond": "",
+                    "min_width": 100,
+                    "options": {
+                        "time_format": "3:04 PM"
+                    },
+                    "powerline_symbol": "",
+                    "style": "diamond",
+                    "template": "<b>  {{ .CurrentDate | date .Format }} </b>",
+                    "trailing_diamond": "",
+                    "type": "time"
+                },
+                {
+                    "alias": "battery-rprompt",
+                    "background": "p:orange_battery",
+                    "background_templates": [
+                        "{{if eq \"Charging\" .State.String}}p:green_charging{{end}}",
+                        "{{if eq \"Discharging\" .State.String}}p:yellow_discharging{{end}}",
+                        "{{if eq \"Full\" .State.String}}p:green_full{{end}}"
+                    ],
+                    "cache": {
+                        "duration": "60m",
+                        "strategy": "session"
+                    },
+                    "foreground": "p:black",
+                    "invert_powerline": false,
+                    "leading_diamond": "",
+                    "min_width": 100,
+                    "options": {
+                        "charged_icon": "󱊣",
+                        "charging_icon": "󰂄",
+                        "discharging_icon": "󰂃",
+                        "display_error": true,
+                        "not_charging_icon": "󰂂"
+                    },
+                    "powerline_symbol": "",
+                    "style": "diamond",
+                    "template": " {{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }} ",
+                    "templates_logic": "first_match",
+                    "trailing_diamond": "",
+                    "type": "battery"
+                },
+                {
+                    "alias": "divider-26",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<p:divider_purple_ahead,p:divider_blue_time></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "divider-27",
+                    "background": "p:divider_violet_project",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "<p:divider_violet_project,p:divider_purple_ahead></>",
+                    "type": "text"
+                },
+                {
+                    "alias": "owm-rprompt",
+                    "background": "p:pink_weather",
+                    "cache": {
+                        "duration": "10m",
+                        "strategy": "session"
+                    },
+                    "foreground": "p:black",
+                    "invert_powerline": false,
+                    "leading_diamond": "",
+                    "min_width": 100,
+                    "options": {
+                        "http_timeout": 1000,
+                        "units": "imperial"
+                    },
+                    "powerline_symbol": "",
+                    "style": "diamond",
+                    "template": "<b> {{.Temperature}}{{.UnitIcon}}</b>",
+                    "timeout": 1000,
+                    "trailing_diamond": "",
+                    "type": "owm"
+                }
+            ],
+            "trailing_diamond": "",
+            "type": "prompt"
         },
         {
-          "alias": "divider-01",
-          "background": "p:divider_blue_primary_to_tooling_purple",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<parentBackground></>",
-          "type": "text"
+            "alignment": "right",
+            "segments": [
+                {
+                    "alias": "npm-rprompt",
+                    "background": "p:npm_yellow",
+                    "cache": {
+                        "duration": "24h",
+                        "strategy": "folder"
+                    },
+                    "foreground": "p:npm_dark",
+                    "leading_diamond": "",
+                    "min_width": 80,
+                    "options": {
+                        "display_mode": "context",
+                        "fetch_version": true,
+                        "home_enabled": false,
+                        "missing_command_text": "",
+                        "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
+                    },
+                    "style": "diamond",
+                    "template": " <b> {{ .Full }}</b> ",
+                    "trailing_diamond": "",
+                    "type": "npm"
+                },
+                {
+                    "alias": "node-rprompt",
+                    "background": "p:node_green",
+                    "cache": {
+                        "duration": "24h",
+                        "strategy": "folder"
+                    },
+                    "foreground": "p:white",
+                    "leading_diamond": "",
+                    "min_width": 80,
+                    "options": {
+                        "display_mode": "context",
+                        "fetch_package_manager": true,
+                        "fetch_version": true,
+                        "home_enabled": false,
+                        "missing_command_text": "",
+                        "npm_icon": "",
+                        "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest",
+                        "yarn_icon": ""
+                    },
+                    "style": "diamond",
+                    "template": " <b> {{ .Full }}</b> ",
+                    "trailing_diamond": "",
+                    "type": "node"
+                },
+                {
+                    "alias": "java-rprompt",
+                    "background": "p:java_blue",
+                    "cache": {
+                        "duration": "24h",
+                        "strategy": "folder"
+                    },
+                    "foreground": "p:white",
+                    "leading_diamond": "",
+                    "min_width": 80,
+                    "options": {
+                        "display_mode": "context",
+                        "fetch_version": true,
+                        "home_enabled": false,
+                        "missing_command_text": "",
+                        "version_url_template": "https://api.adoptium.net/v3/info/release_names?version={{ .Major }}&os={{ .OS }}&arch={{ .Arch }}&image_type=jdk&jvm_impl=hotspot&vendor=eclipse"
+                    },
+                    "style": "diamond",
+                    "template": "  {{ .Full }}",
+                    "trailing_diamond": "",
+                    "type": "java"
+                },
+                {
+                    "alias": "upgrade-rprompt",
+                    "background": "p:yellow_update",
+                    "foreground": "p:gray_os_fg",
+                    "include_folders": ["C:\\Users\\Nick"],
+                    "invert_powerline": false,
+                    "leading_diamond": "",
+                    "min_width": 80,
+                    "options": {
+                        "cache_duration": "24h"
+                    },
+                    "style": "diamond",
+                    "template": "<b> Current: {{ .Current }}  Latest: {{ .Latest }}</b>",
+                    "timeout": 1000,
+                    "trailing_diamond": "",
+                    "type": "upgrade"
+                },
+                {
+                    "alias": "root-rprompt",
+                    "background": "p:yellow_root_alt",
+                    "cache": {
+                        "duration": "1m",
+                        "strategy": "session"
+                    },
+                    "foreground": "p:gray_os_fg",
+                    "invert_powerline": false,
+                    "leading_diamond": "",
+                    "min_width": 80,
+                    "style": "diamond",
+                    "template": "",
+                    "trailing_diamond": "",
+                    "type": "root"
+                },
+                {
+                    "alias": "copilot",
+                    "background": "p:copilot_bg",
+                    "cache": {
+                        "duration": "30m",
+                        "strategy": "session"
+                    },
+                    "foreground": "p:white",
+                    "interactive": false,
+                    "leading_diamond": "",
+                    "min_width": 104,
+                    "options": {
+                        "http_timeout": 1000
+                    },
+                    "style": "diamond",
+                    "template": "{{ if .Segments.git-lprompt }} 󰦈 {{ .Premium.Remaining.Gauge }} 󱋊 {{ .Premium.Percent }}% {{ end }}",
+                    "timeout": 1000,
+                    "trailing_diamond": "",
+                    "type": "copilot"
+                },
+                {
+                    "alias": "promptcount-rprompt",
+                    "background": "p:gray_prompt_count_bg",
+                    "foreground": "p:gray_prompt_count_fg",
+                    "invert_powerline": false,
+                    "leading_diamond": "",
+                    "min_width": 80,
+                    "options": {
+                        "always_enabled": true
+                    },
+                    "style": "diamond",
+                    "template": "<b> 󰘳 {{ .PromptCount }} </b>",
+                    "trailing_diamond": "",
+                    "type": "text"
+                }
+            ],
+            "type": "rprompt"
         },
         {
-          "alias": "divider-02",
-          "background": "p:divider_blue_primary_to_red_alert",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<parentBackground></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-03",
-          "background": "p:divider_tooling_purple_to_typescript_eslint_pink",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<parentBackground></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-04",
-          "background": "p:divider_typescript_eslint_pink_to_orange",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<parentBackground></>",
-          "type": "text"
-        },
-        {
-          "alias": "path-lprompt",
-          "background": "p:orange",
-          "foreground": "p:black",
-          "leading_diamond": "",
-          "min_width": 80,
-          "options": {
-            "cycle_folder_separator": true,
-            "display_cygpath": false,
-            "edge_format": "<b>%s</b>",
-            "folder_format": "<b>%s</b>",
-            "folder_icon": "  ",
-            "folder_separator_icon": "/",
-            "gitdir_format": "<d>%s</d>",
-            "home_icon": "",
-            "mapped_locations": {
-              "C:\\": "C:",
-              "re:.*(BH-Scripts).*": "🎬 BH",
-              "re:.*(Code).*": "Code",
-              "re:.*(DemoMan-Fork|DemoMan).*": "🎥 DemoMan",
-              "re:.*(Desktop).*": "DT",
-              "re:.*(Documents).*": "Docs",
-              "re:.*(Downloads).*": "DLs",
-              "re:.*(Dropbox).*": "DB",
-              "re:.*(FitFileViewer).*": "🗂️ FitView",
-              "re:.*(GE-Filters).*": "💰 GE-Flt",
-              "re:.*(GitHub).*": "GH",
-              "re:.*(Google Drive).*": "GD",
-              "re:.*(Library).*": "Lib",
-              "re:.*(LocalHistory).*": "⏰ LocHist",
-              "re:.*(MarkOfDarknessHelper).*": "🌑 MOD-Help",
-              "re:.*(Music).*": "Music",
-              "re:.*(Nick2bad4u).*": "👤 Profile",
-              "re:.*(OhMyPosh-Atomic-Enhanced).*": "✨ OhMyPosh",
-              "re:.*(OneDrive).*": "OD",
-              "re:.*(Pictures).*": "Pics",
-              "re:.*(Projects).*": "Proj",
-              "re:.*(Sauce4ZwiftModsRepo).*": "🚴 Zwift",
-              "re:.*(Typpis-ESLint).*": "🔍 Typpis",
-              "re:.*(Uptime-Watcher).*": "UW",
-              "re:.*(UserStyles).*": "🖼️ Styles",
-              "re:.*(Videos).*": "Videos",
-              "re:.*(Workspace).*": "WS",
-              "re:.*(ZwiftScripts).*": "📜 ZScript",
-              "re:.*(auth|security).*": "🔐 ",
-              "re:.*(ci|cd|pipeline).*": "🔄 ",
-              "re:.*(dnsValidator).*": "🌐 DNS",
-              "re:.*(eslint-config-Typescript-Extreme).*": "⚡ TSExtm",
-              "re:.*(eslint-plugin-chunkyLint).*": "📏 ChunkyL",
-              "re:.*(generate-repo-file-list).*": "🗂️ GenList",
-              "re:.*(git-backup).*": "💾 GitBkup",
-              "re:.*(github-drama).*": "🎭 Drama",
-              "re:.*(gitlab|bitbucket).*": "🐙 ",
-              "re:.*(iCloud).*": "IC",
-              "re:.*(internet-archive-upload).*": "🗄️ Archive",
-              "re:.*(node_modules).*": "📚 ",
-              "re:.*(nodejs).*": "Node",
-              "re:.*(plugin-hub).*": "🪝 PlugHub",
-              "re:.*(pnpm).*": "PNPM",
-              "re:.*(ps-color-scripts-enhanced|ps-color-scripts).*": "🎨 PSColor",
-              "re:.*(runelite.phyce.dev).*": "🔮 Runite",
-              "re:.*(tf2).*": "🎮 TF2",
-              "re:.*(thrall-helper).*": "👹 Thrall",
-              "re:.*(wiki-bank-tag-integration).*": "🏦 BankTag",
-              "re:.*(wintertodt-scouter).*": "❄️ WintTodt",
-              "re:.*(worktree-backup).*": "🌳 WTBackup",
-              "re:.*(yarn).*": "Yarn",
-              "re:.*\\\\bnpm\\\\b.*": "NPM",
-              "re:^\\.git$": "🌳 ",
-              "re:^\\.github$": "🐙 ",
-              "~/": "~",
-              "~\\\\Desktop": "🖥️ ",
-              "~\\\\Documents": "📄 ",
-              "~\\\\Downloads": "📥 "
-            },
-            "mapped_locations_enabled": true,
-            "max_depth": 1,
-            "max_width": 40,
-            "mixed_threshold": 4,
-            "style": "folder"
-          },
-          "style": "diamond",
-          "template": "<parentBackground></>  {{ path .Path .Location }} ",
-          "trailing_diamond": "",
-          "type": "path"
-        },
-        {
-          "alias": "divider-05",
-          "background": "p:divider_orange_to_green_added",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<parentBackground></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-06",
-          "background": "p:divider_green_added",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<parentBackground></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-07",
-          "background": "p:divider_green_added_to_yellow_bright",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<parentBackground></>",
-          "type": "text"
-        },
-        {
-          "alias": "git-lprompt",
-          "background": "p:yellow_bright",
-          "background_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}p:yellow_git_changed{{ end }}",
-            "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:green_ahead{{ end }}",
-            "{{ if gt .Ahead 0 }}p:purple_ahead{{ end }}",
-            "{{ if gt .Behind 0 }}p:purple_behind{{ end }}"
-          ],
-          "cache": {
-            "duration": "15m",
-            "strategy": "folder"
-          },
-          "exclude_folders": [
-            ".*node_modules.*",
-            ".*\\.tmp.*",
-            ".*\\.cache.*"
-          ],
-          "foreground": "p:navy_text",
-          "interactive": true,
-          "leading_diamond": "",
-          "min_width": 80,
-          "options": {
-            "branch_icon": "  ",
-            "branch_template": "<b>{{ if .Mapped }}{{ title .Mapped }}{{ else }}{{ .Icon }}{{ end }}{{ title .Branch }}</b>",
-            "disable_with_jj": false,
-            "fetch_bare_info": true,
-            "fetch_status": true,
-            "fetch_upstream_icon": true,
-            "fetch_user": true,
-            "fetch_worktree_count": true,
-            "ignore_status": [],
-            "ignore_submodules": {},
-            "mapped_branches": {
-              "develop": "Dev",
-              "development": "Dev",
-              "feature": "Feat",
-              "main": "Main",
-              "master": "Master",
-              "production": "Prod",
-              "staging": "Stage"
-            },
-            "native_fallback": true,
-            "status_formats": {
-              "Added": "<b><p:green_added>+%d</></b>",
-              "Copied": "<b><p:magenta>c%d</></b>",
-              "Deleted": "<b><p:red_deleted>-%d</></b>",
-              "Modified": "<b><p:yellow_modified>~%d</></b>",
-              "Renamed": "<b><p:cyan_renamed>r%d</></b>",
-              "Unmerged": "<b><p:orange_unmerged>x%d</></b>",
-              "Untracked": "<b><p:gray_untracked>?%d</></b>"
-            },
-            "untracked_modes": {
-              "*": "normal"
-            }
-          },
-          "style": "diamond",
-          "template": "<parentBackground></> {{ .UpstreamIcon }}<b>{{ .HEAD }}{{if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }}</b> ",
-          "templates_logic": "first_match",
-          "trailing_diamond": "",
-          "type": "git"
-        },
-        {
-          "alias": "divider-08",
-          "background": "p:divider_navy_text",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<parentBackground></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-09",
-          "background": "p:divider_yellow_bright_to_navy_text",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<parentBackground></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-10",
-          "background": "p:divider_npm_dark",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<parentBackground></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-11",
-          "background": "p:divider_navy_text_to_purple_exec",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<parentBackground></>",
-          "type": "text"
-        },
-        {
-          "alias": "executiontime-lprompt",
-          "background": "p:purple_exec",
-          "cache": {
-            "duration": "3s",
-            "strategy": "session"
-          },
-          "foreground": "p:white",
-          "min_width": 80,
-          "options": {
-            "always_enabled": false,
-            "style": "roundrock",
-            "threshold": 0
-          },
-          "style": "diamond",
-          "template": "<parentBackground></> 󱑅 {{ .FormattedMs }}⠀",
-          "trailing_diamond": "",
-          "type": "executiontime"
-        },
-        {
-          "alias": "divider-12",
-          "background": "p:divider_purple_exec",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<parentBackground></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-13",
-          "background": "p:divider_purple_exec_to_electron_red",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<parentBackground></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-14",
-          "background": "p:divider_tooling_yellow",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<parentBackground></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-15",
-          "background": "transparent",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<parentBackground></>",
-          "type": "text"
-        },
-        {
-          "alias": "status-lprompt",
-          "background": "p:maroon_error",
-          "background_templates": [
-            "{{ if .Error }}p:maroon_error{{ end }}"
-          ],
-          "foreground": "p:black",
-          "leading_diamond": "",
-          "min_width": 80,
-          "options": {
-            "always_enabled": false,
-            "status_separator": "|",
-            "status_template": "|"
-          },
-          "style": "diamond",
-          "template": "<parentBackground></><b>  </b>",
-          "templates_logic": "first_match",
-          "trailing_diamond": "",
-          "type": "status"
+            "alignment": "left",
+            "newline": true,
+            "segments": [
+                {
+                    "alias": "shell-lprompt-end",
+                    "foreground": "p:blue_primary",
+                    "foreground_templates": [
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cmd\") }}p:shell_cmd_black{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"powershell\") (eq .Segments.shell-lprompt.Name \"pwsh\")) }}p:shell_powershell_blue{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") }}p:shell_bash_green{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"zsh\") (eq .Segments.shell-lprompt.Name \"zshell\")) }}p:shell_zsh_orange{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"fish\") }}p:shell_fish_cyan{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cygwin\") }}p:shell_cygwin_green{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"ELV\") }}p:shell_elvish_teal{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\")) }}p:shell_nushell_purple{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
+                    ],
+                    "min_width": 80,
+                    "style": "plain",
+                    "template": "╰─",
+                    "templates_logic": "first_match",
+                    "type": "text"
+                },
+                {
+                    "alias": "session-lprompt-end",
+                    "background": "transparent",
+                    "cache": {
+                        "duration": "24h",
+                        "strategy": "session"
+                    },
+                    "foreground": "p:blue_primary",
+                    "foreground_templates": [
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cmd\") }}p:shell_cmd_black{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"powershell\") (eq .Segments.shell-lprompt.Name \"pwsh\")) }}p:shell_powershell_blue{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") }}p:shell_bash_green{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"zsh\") (eq .Segments.shell-lprompt.Name \"zshell\")) }}p:shell_zsh_orange{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"fish\") }}p:shell_fish_cyan{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cygwin\") }}p:shell_cygwin_green{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"ELV\") }}p:shell_elvish_teal{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\")) }}p:shell_nushell_purple{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
+                    ],
+                    "min_width": 80,
+                    "style": "diamond",
+                    "template": "{{ if .SSHSession }} {{ end }}{{ if .Root }}─<parentForeground,transparent>{{ if eq .OS \"windows\" }}{{ else }}{{ end }}</>─{{ .UserName }}─{{ end }}",
+                    "templates_logic": "first_match",
+                    "type": "session"
+                },
+                {
+                    "alias": "status-lprompt-end",
+                    "cache": {
+                        "duration": "2s",
+                        "strategy": "session"
+                    },
+                    "foreground": "p:accent",
+                    "foreground_templates": [
+                        "{{ if gt .Code 0 }}p:red_alert{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cmd\") }}p:shell_cmd_black{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"powershell\") (eq .Segments.shell-lprompt.Name \"pwsh\")) }}p:shell_powershell_blue{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") }}p:shell_bash_green{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"zsh\") (eq .Segments.shell-lprompt.Name \"zshell\")) }}p:shell_zsh_orange{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"fish\") }}p:shell_fish_cyan{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cygwin\") }}p:shell_cygwin_green{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"ELV\") }}p:shell_elvish_teal{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\")) }}p:shell_nushell_purple{{ end }}",
+                        "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
+                    ],
+                    "min_width": 80,
+                    "options": {
+                        "always_enabled": true,
+                        "status_separator": "|"
+                    },
+                    "style": "plain",
+                    "template": "",
+                    "templates_logic": "first_match",
+                    "type": "status"
+                }
+            ],
+            "type": "prompt"
         }
-      ],
-      "trailing_diamond": "",
-      "type": "prompt"
-    },
-    {
-      "alignment": "right",
-      "filler": "",
-      "leading_diamond": "",
-      "newline": false,
-      "overflow": "hide",
-      "segments": [
-        {
-          "alias": "divider-16",
-          "background": "transparent",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_green_ahead></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-17",
-          "background": "p:divider_green_ahead",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_green_valid_line></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-18",
-          "background": "p:divider_green_valid_line",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_accent></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-19",
-          "background": "p:divider_accent",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_chart_teal></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-20",
-          "background": "p:divider_chart_teal",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_teal_sysinfo></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-21",
-          "background": "p:divider_teal_sysinfo",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_teal_sysinfo></>",
-          "type": "text"
-        },
-        {
-          "alias": "sysinfo-rprompt",
-          "background": "p:teal_sysinfo",
-          "cache": {
-            "duration": "3m",
-            "strategy": "session"
-          },
-          "foreground": "p:black",
-          "foreground_templates": [
-            "{{ if gt .Load1 75 }}p:red_alert{{ end }}",
-            "{{ if and (lt .Load1 75) (gt .Load1 50) }}p:orange{{ end }}",
-            "{{ if and (lt .Load1 50) (gt .Load1 25) }}p:yellow_bright{{ end }}"
-          ],
-          "invert_powerline": true,
-          "leading_diamond": "",
-          "min_width": 100,
-          "options": {
-            "precision": 1
-          },
-          "powerline_symbol": "",
-          "style": "diamond",
-          "template": "<b> 󰇅 {{ round .Load1 .Precision  }}%  {{ round .PhysicalPercentUsed .Precision  }}%  {{ round .Disks .Precision  }}% </b>",
-          "templates_logic": "first_match",
-          "trailing_diamond": "",
-          "type": "sysinfo"
-        },
-        {
-          "alias": "divider-22",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_tailwind_cyan,p:divider_teal_sysinfo></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-23",
-          "background": "p:divider_purple_exec",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_purple_exec,p:divider_tailwind_cyan></>",
-          "type": "text"
-        },
-        {
-          "alias": "os-rprompt",
-          "background": "p:gray_os",
-          "cache": {
-            "duration": "10m",
-            "strategy": "session"
-          },
-          "foreground": "p:gray_os_fg",
-          "invert_powerline": false,
-          "leading_diamond": "",
-          "min_width": 100,
-          "options": {
-            "linux": "",
-            "macos": "",
-            "ubuntu": "",
-            "windows": ""
-          },
-          "powerline_symbol": "",
-          "style": "diamond",
-          "template": "<b> {{ if .WSL }}WSL at {{ end }}{{ .Icon }} </b>",
-          "trailing_diamond": "",
-          "type": "os"
-        },
-        {
-          "alias": "divider-24",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_blue_tooltip,p:divider_gray_os></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-25",
-          "background": "p:divider_gray_prompt_count_bg",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_gray_prompt_count_bg,p:divider_blue_tooltip></>",
-          "type": "text"
-        },
-        {
-          "alias": "time-rprompt",
-          "background": "p:blue_time",
-          "cache": {
-            "duration": "15s",
-            "strategy": "session"
-          },
-          "foreground": "p:black",
-          "invert_powerline": false,
-          "leading_diamond": "",
-          "min_width": 100,
-          "options": {
-            "time_format": "3:04 PM"
-          },
-          "powerline_symbol": "",
-          "style": "diamond",
-          "template": "<b>  {{ .CurrentDate | date .Format }} </b>",
-          "trailing_diamond": "",
-          "type": "time"
-        },
-        {
-          "alias": "battery-rprompt",
-          "background": "p:orange_battery",
-          "background_templates": [
-            "{{if eq \"Charging\" .State.String}}p:green_charging{{end}}",
-            "{{if eq \"Discharging\" .State.String}}p:yellow_discharging{{end}}",
-            "{{if eq \"Full\" .State.String}}p:green_full{{end}}"
-          ],
-          "cache": {
-            "duration": "60m",
-            "strategy": "session"
-          },
-          "foreground": "p:black",
-          "invert_powerline": false,
-          "leading_diamond": "",
-          "min_width": 100,
-          "options": {
-            "charged_icon": "󱊣",
-            "charging_icon": "󰂄",
-            "discharging_icon": "󰂃",
-            "display_error": true,
-            "not_charging_icon": "󰂂"
-          },
-          "powerline_symbol": "",
-          "style": "diamond",
-          "template": " {{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }} ",
-          "templates_logic": "first_match",
-          "trailing_diamond": "",
-          "type": "battery"
-        },
-        {
-          "alias": "divider-26",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_purple_ahead,p:divider_blue_time></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-27",
-          "background": "p:divider_violet_project",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_violet_project,p:divider_purple_ahead></>",
-          "type": "text"
-        },
-        {
-          "alias": "owm-rprompt",
-          "background": "p:pink_weather",
-          "cache": {
-            "duration": "10m",
-            "strategy": "session"
-          },
-          "foreground": "p:black",
-          "invert_powerline": false,
-          "leading_diamond": "",
-          "min_width": 100,
-          "options": {
-            "http_timeout": 1000,
-            "units": "imperial"
-          },
-          "powerline_symbol": "",
-          "style": "diamond",
-          "template": "<b> {{.Temperature}}{{.UnitIcon}}</b>",
-          "timeout": 1000,
-          "trailing_diamond": "",
-          "type": "owm"
-        }
-      ],
-      "trailing_diamond": "",
-      "type": "prompt"
-    },
-    {
-      "alignment": "right",
-      "segments": [
-        {
-          "alias": "npm-rprompt",
-          "background": "p:npm_yellow",
-          "cache": {
-            "duration": "24h",
-            "strategy": "folder"
-          },
-          "foreground": "p:npm_dark",
-          "leading_diamond": "",
-          "min_width": 80,
-          "options": {
-            "display_mode": "context",
-            "fetch_version": true,
-            "home_enabled": false,
-            "missing_command_text": "",
-            "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
-          },
-          "style": "diamond",
-          "template": " <b> {{ .Full }}</b> ",
-          "trailing_diamond": "",
-          "type": "npm"
-        },
-        {
-          "alias": "node-rprompt",
-          "background": "p:node_green",
-          "cache": {
-            "duration": "24h",
-            "strategy": "folder"
-          },
-          "foreground": "p:white",
-          "leading_diamond": "",
-          "min_width": 80,
-          "options": {
-            "display_mode": "context",
-            "fetch_package_manager": true,
-            "fetch_version": true,
-            "home_enabled": false,
-            "missing_command_text": "",
-            "npm_icon": "",
-            "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest",
-            "yarn_icon": ""
-          },
-          "style": "diamond",
-          "template": " <b> {{ .Full }}</b> ",
-          "trailing_diamond": "",
-          "type": "node"
-        },
-        {
-          "alias": "java-rprompt",
-          "background": "p:java_blue",
-          "cache": {
-            "duration": "24h",
-            "strategy": "folder"
-          },
-          "foreground": "p:white",
-          "leading_diamond": "",
-          "min_width": 80,
-          "options": {
-            "display_mode": "context",
-            "fetch_version": true,
-            "home_enabled": false,
-            "missing_command_text": "",
-            "version_url_template": "https://api.adoptium.net/v3/info/release_names?version={{ .Major }}&os={{ .OS }}&arch={{ .Arch }}&image_type=jdk&jvm_impl=hotspot&vendor=eclipse"
-          },
-          "style": "diamond",
-          "template": "  {{ .Full }}",
-          "trailing_diamond": "",
-          "type": "java"
-        },
-        {
-          "alias": "upgrade-rprompt",
-          "background": "p:yellow_update",
-          "foreground": "p:gray_os_fg",
-          "include_folders": [
-            "C:\\Users\\Nick"
-          ],
-          "invert_powerline": false,
-          "leading_diamond": "",
-          "min_width": 80,
-          "options": {
-            "cache_duration": "24h"
-          },
-          "style": "diamond",
-          "template": "<b> Current: {{ .Current }}  Latest: {{ .Latest }}</b>",
-          "timeout": 1000,
-          "trailing_diamond": "",
-          "type": "upgrade"
-        },
-        {
-          "alias": "root-rprompt",
-          "background": "p:yellow_root_alt",
-          "cache": {
-            "duration": "1m",
-            "strategy": "session"
-          },
-          "foreground": "p:gray_os_fg",
-          "invert_powerline": false,
-          "leading_diamond": "",
-          "min_width": 80,
-          "style": "diamond",
-          "template": "",
-          "trailing_diamond": "",
-          "type": "root"
-        },
-        {
-          "alias": "copilot",
-          "background": "p:copilot_bg",
-          "cache": {
-            "duration": "30m",
-            "strategy": "session"
-          },
-          "foreground": "p:white",
-          "interactive": false,
-          "leading_diamond": "",
-          "min_width": 104,
-          "options": {
-            "http_timeout": 1000
-          },
-          "style": "diamond",
-          "template": "{{ if .Segments.git-lprompt }} 󰦈 {{ .Premium.Remaining.Gauge }} 󱋊 {{ .Premium.Percent }}% {{ end }}",
-          "timeout": 1000,
-          "trailing_diamond": "",
-          "type": "copilot"
-        },
-        {
-          "alias": "promptcount-rprompt",
-          "background": "p:gray_prompt_count_bg",
-          "foreground": "p:gray_prompt_count_fg",
-          "invert_powerline": false,
-          "leading_diamond": "",
-          "min_width": 80,
-          "options": {
-            "always_enabled": true
-          },
-          "style": "diamond",
-          "template": "<b> 󰘳 {{ .PromptCount }} </b>",
-          "trailing_diamond": "",
-          "type": "text"
-        }
-      ],
-      "type": "rprompt"
-    },
-    {
-      "alignment": "left",
-      "newline": true,
-      "segments": [
-        {
-          "alias": "shell-lprompt-end",
-          "foreground": "p:blue_primary",
-          "foreground_templates": [
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cmd\") }}p:shell_cmd_black{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"powershell\") (eq .Segments.shell-lprompt.Name \"pwsh\")) }}p:shell_powershell_blue{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") }}p:shell_bash_green{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"zsh\") (eq .Segments.shell-lprompt.Name \"zshell\")) }}p:shell_zsh_orange{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"fish\") }}p:shell_fish_cyan{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cygwin\") }}p:shell_cygwin_green{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"ELV\") }}p:shell_elvish_teal{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\")) }}p:shell_nushell_purple{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
-          ],
-          "min_width": 80,
-          "style": "plain",
-          "template": "╰─",
-          "templates_logic": "first_match",
-          "type": "text"
-        },
-        {
-          "alias": "session-lprompt-end",
-          "background": "transparent",
-          "cache": {
-            "duration": "24h",
-            "strategy": "session"
-          },
-          "foreground": "p:blue_primary",
-          "foreground_templates": [
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cmd\") }}p:shell_cmd_black{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"powershell\") (eq .Segments.shell-lprompt.Name \"pwsh\")) }}p:shell_powershell_blue{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") }}p:shell_bash_green{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"zsh\") (eq .Segments.shell-lprompt.Name \"zshell\")) }}p:shell_zsh_orange{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"fish\") }}p:shell_fish_cyan{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cygwin\") }}p:shell_cygwin_green{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"ELV\") }}p:shell_elvish_teal{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\")) }}p:shell_nushell_purple{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
-          ],
-          "min_width": 80,
-          "style": "diamond",
-          "template": "{{ if .SSHSession }} {{ end }}{{ if .Root }}─<parentForeground,transparent>{{ if eq .OS \"windows\" }}{{ else }}{{ end }}</>─{{ .UserName }}─{{ end }}",
-          "templates_logic": "first_match",
-          "type": "session"
-        },
-        {
-          "alias": "status-lprompt-end",
-          "cache": {
-            "duration": "2s",
-            "strategy": "session"
-          },
-          "foreground": "p:accent",
-          "foreground_templates": [
-            "{{ if gt .Code 0 }}p:red_alert{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cmd\") }}p:shell_cmd_black{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"powershell\") (eq .Segments.shell-lprompt.Name \"pwsh\")) }}p:shell_powershell_blue{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") }}p:shell_bash_green{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"zsh\") (eq .Segments.shell-lprompt.Name \"zshell\")) }}p:shell_zsh_orange{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"fish\") }}p:shell_fish_cyan{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cygwin\") }}p:shell_cygwin_green{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"ELV\") }}p:shell_elvish_teal{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\")) }}p:shell_nushell_purple{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
-          ],
-          "min_width": 80,
-          "options": {
-            "always_enabled": true,
-            "status_separator": "|"
-          },
-          "style": "plain",
-          "template": "",
-          "templates_logic": "first_match",
-          "type": "status"
-        }
-      ],
-      "type": "prompt"
-    }
-  ],
-  "console_title_template": "{{ if .Segments.git-lprompt }}{{ if .Segments.git-lprompt.RepoName }}{{ .Segments.git-lprompt.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ .Segments.git-lprompt.HEAD }}{{ if .Segments.git-lprompt.BranchStatus }} {{ .Segments.git-lprompt.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} : root{{ end }} : {{ .Shell }}",
-  "cycle": [],
-  "debug_prompt": {
-    "background": "transparent",
-    "background_templates": [
-      "{{ if eq .LogLevel \"DEBUG\" }}p:purple_session{{ end }}"
     ],
-    "foreground": "p:black",
-    "foreground_templates": [
-      "{{ if eq .LogLevel \"DEBUG\" }}p:black{{ end }}"
-    ],
-    "template": "</><p:purple_session,transparent></><p:black,p:purple_session>  DEBUG </><p:purple_session,transparent></>"
-  },
-  "enable_cursor_positioning": true,
-  "error_line": {
-    "background": "transparent",
-    "background_templates": [
-      "{{ if .Error }}p:pink_error_line{{ end }}"
-    ],
-    "foreground": "p:black",
-    "foreground_templates": [
-      "{{ if .Error }}p:black{{ end }}"
-    ],
-    "template": "<p:pink_error_line,transparent></>"
-  },
-  "extends": "",
-  "final_space": true,
-  "iterm_features": [
-    "prompt_mark",
-    "current_dir",
-    "remote_host"
-  ],
-  "maps": {
-    "host_name": {
-      "Nick2bad4u": "💻",
-      "Nick2bad4u2": "💻"
-    },
-    "shell_name": {
-      "bash": "BASH",
-      "cmd": "CMD",
-      "elvish": "ELV",
-      "fish": "FISH",
-      "nu": "NU",
-      "nushell": "NU",
-      "powershell": "PS",
-      "ps": "PS",
-      "pwsh": "PS",
-      "xonsh": "XSH",
-      "zsh": "ZSH"
-    },
-    "user_name": {
-      "Nick": "Nick",
-      "Nick2": "Nick",
-      "Nick2bad4u": "Nick2bad4u"
-    }
-  },
-  "palette": {
-    "java_orange": "#7dd3fc",
-    "zod_blue": "#3068b7",
-    "cycle_forest": "#0B3D2E",
-    "cycle_deep_mocha": "#211A08",
-    "magenta_copied": "#3b82f6",
-    "vitest_green": "#38bdf8",
-    "red_deleted": "#075985",
-    "pink_storybook": "#3b82f6",
-    "divider_purple_ahead": "#C792EA",
-    "shell_cygwin_green": "#00A95C",
-    "purple_session": "#0ea5e9",
-    "blue_primary": "#0284c7",
-    "violet_project": "#2563eb",
-    "node_green": "#38bdf8",
-    "zustand_purple": "#3b82f6",
-    "cycle_deep_teal": "#002025",
-    "cycle_periwinkle": "#BDB2FF",
-    "divider_accent": "#21c7c7",
-    "prettier_yellow": "#7dd3fc",
-    "cycle_electric_cyan": "#00E5FF",
-    "green_charging": "#7dd3fc",
-    "yellow_update": "#bae6fd",
-    "cycle_apricot": "#F8B195",
-    "cycle_nightshade": "#151026",
-    "pink_weather": "#7dd3fc",
-    "shell_elvish_teal": "#00BFA5",
-    "cycle_seaweed": "#023535",
-    "divider_teal_sysinfo": "#437683",
-    "divider_gray_os_to_electron_red": "#3D80CF",
-    "divider_chart_teal": "#47a1ad",
-    "tooling_purple": "#c386f1",
-    "blue_tooltip": "#0ea5e9",
-    "shell_ubuntu_orange": "#E95420",
-    "blue_time": "#38bdf8",
-    "divider_tailwind_cyan": "#06b6d4",
-    "green_valid_line": "#0369a1",
-    "tailwind_cyan": "#06b6d4",
-    "accent": "#0ea5e9",
-    "copilot_bg": "#501DAF",
-    "vite_yellow": "#7dd3fc",
-    "prettier_black": "#001a2e",
-    "cycle_deep_jungle": "#0B2A14",
-    "green_added": "#38bdf8",
-    "divider_electron_red_to_maroon_error": "#0462A8",
-    "cycle_rust": "#2B0D0D",
-    "cycle_soft_lavender": "#D5D5FE",
-    "divider_purple_exec_to_electron_red": "#bc6b6e",
-    "cycle_blush": "#FFADAD",
-    "magenta": "#FF00FF",
-    "divider_blue_primary_to_tooling_purple": "#617ed9",
-    "maroon_error": "#075985",
-    "yellow_modified": "#7dd3fc",
-    "divider_navy_text_to_purple_exec": "#424661",
-    "divider_purple_exec": "#83769c",
-    "python_yellow": "#7dd3fc",
-    "divider_red_alert_to_orange": "#26A4FD",
-    "cycle_hot_pink": "#FF7AB6",
-    "divider_blue_primary_to_ipify_purple": "#0783F6",
-    "yellow_git_changed": "#bae6fd",
-    "shell_nushell_purple": "#8E44AD",
-    "divider_tooling_yellow": "#f7b93e",
-    "electron_red": "#0066cc",
-    "cycle_oxblood": "#2A1212",
-    "shell_cmd_black": "#444444",
-    "cycle_black_forest": "#07100A",
-    "react_cyan": "#06b6d4",
-    "gray_untracked": "#475569",
-    "python_blue": "#0284c7",
-    "cycle_lilac": "#C77DFF",
-    "green_full": "#38bdf8",
-    "cycle_watermelon": "#F67280",
-    "divider_green_valid_line": "#266e36",
-    "cycle_ice_blue": "#C4FCEF",
-    "divider_green_added_to_yellow_bright": "#7ffd1c",
-    "divider_npm_dark": "#193549",
-    "shell_bash_green": "#4EAA25",
-    "cycle_spring_mint": "#9AE6B4",
-    "cycle_deep_navy": "#003147",
-    "gray_prompt_count_fg": "#e0f2fe",
-    "orange_battery": "#38bdf8",
-    "cycle_swamp": "#04201F",
-    "cycle_aqua": "#3DFFDB",
-    "cycle_creme": "#F6F6C9",
-    "typescript_blue": "#0284c7",
-    "npm_yellow": "#7dd3fc",
-    "green_success": "#0ea5e9",
-    "cycle_spring_green": "#6BCB77",
-    "gray_os": "#94a3b8",
-    "black": "#001a2e",
-    "windows_blue": "#0284c7",
-    "shell_xonsh_yellow": "#ceaa34",
-    "purple_behind": "#82AAFF",
-    "cycle_midnight_blue": "#1E1E2E",
-    "divider_typescript_eslint_pink_to_orange": "#f26379",
-    "green_help": "#06b6d4",
-    "chart_teal": "#06b6d4",
-    "divider_ipify_purple_to_typescript_eslint_pink": "#3B82F6",
-    "cycle_sunshine": "#FFD93D",
-    "typescript_eslint_pink": "#3b82f6",
-    "gray_prompt_count_bg": "#0f172a",
-    "shell_powershell_blue": "#0077c2",
-    "shell_tcsh_blue": "#1E90FF",
-    "shell_fish_cyan": "#8fcffa",
-    "green_ahead": "#7dd3fc",
-    "cycle_espresso": "#2D1E0B",
-    "npm_dark": "#001a2e",
-    "ipify_purple_v6": "#60a5fa",
-    "divider_blue_time": "#40c4ff",
-    "purple_ahead": "#3b82f6",
-    "navy_text": "#001a2e",
-    "cycle_sky_blue": "#4D96FF",
-    "divider_green_added": "#00ff00",
-    "divider_yellow_bright_to_navy_text": "#808830",
-    "cycle_coral": "#FF6B6B",
-    "cycle_onyx": "#191910",
-    "divider_blue_time_to_electron_red": "#0497FA",
-    "cycle_deep_plum": "#2A1120",
-    "divider_gray_os_to_gray_prompt_count_bg": "#405882",
-    "divider_tooling_purple_to_typescript_eslint_pink": "#d45dce",
-    "yellow_discharging": "#7dd3fc",
-    "ipify_purple": "#3b82f6",
-    "teal_sysinfo": "#06b6d4",
-    "cycle_inky": "#0E0E1A",
-    "divider_violet_project": "#8A2BE2",
-    "cycle_mahogany": "#291813",
-    "divider_gray_os": "#b2bec3",
-    "divider_maroon_error_to_pink_weather": "#0DA7F6",
-    "white": "#e0f2fe",
-    "cycle_violet": "#110011",
-    "divider_teal_sysinfo_to_electron_red": "#038ED0",
-    "orange": "#7dd3fc",
-    "cyan_renamed": "#22d3ee",
-    "java_blue": "#0284c7",
-    "divider_blue_tooltip": "#81a1c1",
-    "divider_navy_text": "#011627",
-    "tooling_yellow": "#f7b93e",
-    "cycle_charcoal": "#2B2B20",
-    "cycle_mint": "#A0E7E5",
-    "cycle_stormy_night": "#091A2A",
-    "divider_orange_to_green_added": "#7fc824",
-    "divider_blue_time_to_violet_project": "#2E91F2",
-    "cycle_neon_green": "#39FF14",
-    "purple_exec": "#2563eb",
-    "orange_unmerged": "#0ea5e9",
-    "playwright_teal": "#06b6d4",
-    "cycle_sunburst": "#FFB86B",
-    "divider_blue_primary_to_red_alert": "#786589",
-    "gray_path_fg": "#1e293b",
-    "axios_yellow": "#7dd3fc",
-    "gray_os_fg": "#0f172a",
-    "pink_error_line": "#0066cc",
-    "eslint_purple": "#3b82f6",
-    "yellow_bright": "#7dd3fc",
-    "red_alert": "#0066cc",
-    "yellow_root_alt": "#bae6fd",
-    "divider_green_ahead": "#c5e478",
-    "divider_gray_prompt_count_bg": "#2f3b45",
-    "shell_zsh_orange": "#F15A24",
-    "cycle_eggplant": "#21122A",
-    "cycle_marmalade": "#FFA14B",
-    "pink_status_fail": "#0369a1"
-  },
-  "palettes": {},
-  "patch_pwsh_bleed": true,
-  "pwd": "osc7",
-  "secondary_prompt": {
-    "background": "transparent",
-    "foreground": "p:accent",
-    "template": "╰─ "
-  },
-  "shell_integration": true,
-  "terminal_background": "p:black",
-  "tooltips": [
-    {
-      "alias": "react-tooltip",
-      "background": "p:react_cyan",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/react/latest"
-      },
-      "style": "diamond",
-      "template": " <b> React: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
-      "tips": [
-        "react",
-        "npm run dev"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "typescript-tooltip",
-      "background": "p:typescript_blue",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/typescript/latest"
-      },
-      "style": "diamond",
-      "template": " <b>TS: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
-      "tips": [
-        "typescript",
-        "npm run type-check"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "vite-tooltip",
-      "background": "p:tooling_yellow",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:black",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/vite/latest"
-      },
-      "style": "diamond",
-      "template": " <b>⚡ Vite: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
-      "tips": [
-        "vite",
-        "npm run build"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "vitest-tooltip",
-      "background": "p:vitest_green",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/vitest/latest"
-      },
-      "style": "diamond",
-      "template": " <b>🧪 Vitest: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
-      "tips": [
-        "vitest",
-        "npm run test"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "playwright-tooltip",
-      "background": "p:playwright_teal",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/playwright/latest"
-      },
-      "style": "diamond",
-      "template": " <b>🎭 Playwright: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
-      "tips": [
-        "playwright",
-        "npm run test:e2e"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "tailwind-tooltip",
-      "background": "p:tailwind_cyan",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/tailwindcss/latest"
-      },
-      "style": "diamond",
-      "template": " <b>🎨 Tailwind CSS: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
-      "tips": [
-        "tailwindcss",
-        "npm run lint:css"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "zustand-tooltip",
-      "background": "p:zustand_purple",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:black",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/zustand/latest"
-      },
-      "style": "diamond",
-      "template": " <b>🐻 Zustand: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
-      "tips": [
-        "zustand",
-        "state management"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "chartjs-tooltip",
-      "background": "p:chart_teal",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/chart.js/latest"
-      },
-      "style": "diamond",
-      "template": " <b>📊 Chart.js: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
-      "tips": [
-        "chart.js",
-        "data visualization"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "electron-tooltip",
-      "background": "p:electron_red",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:black",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/electron/latest"
-      },
-      "style": "diamond",
-      "template": " <b>󱀤 Electron: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
-      "tips": [
-        "electron",
-        "npm run start:electron"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "storybook-tooltip",
-      "background": "p:pink_storybook",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/storybook/latest"
-      },
-      "style": "diamond",
-      "template": " 📚 {{ .Body.version }} ",
-      "timeout": 1000,
-      "tips": [
-        "storybook",
-        "npm run storybook"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "axios-tooltip",
-      "background": "p:tooling_yellow",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:black",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/axios/latest"
-      },
-      "style": "diamond",
-      "template": " <b>🎯 Axios: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
-      "tips": [
-        "axios",
-        "http client"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "zod-tooltip",
-      "background": "p:zod_blue",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/zod/latest"
-      },
-      "style": "diamond",
-      "template": " <b>🛡️ Zod: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
-      "tips": [
-        "zod",
-        "schema validation"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "prettier-tooltip",
-      "background": "p:prettier_yellow",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:black",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/prettier/latest"
-      },
-      "style": "diamond",
-      "template": " <b>💅 Prettier: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
-      "tips": [
-        "prettier",
-        "npm run lint:prettier-fix",
-        "prettynow"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "typescript-eslint-tooltip",
-      "background": "p:typescript_eslint_pink",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/typescript-eslint/latest"
-      },
-      "style": "diamond",
-      "template": " <b>🎨 TypeScript-ESLint: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
-      "tips": [
-        "typescript-eslint",
-        "npm run lint:ts"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "eslint-tooltip",
-      "background": "p:tooling_purple",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/eslint/latest"
-      },
-      "style": "diamond",
-      "template": "<b> ESLint: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
-      "tips": [
-        "eslint",
-        "npm run lint"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "ipify-tooltip",
-      "background": "p:tooling_purple",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "http_timeout": 5000,
-        "url": "https://api.ipify.org"
-      },
-      "style": "diamond",
-      "template": " <b>  IP: {{ .IP }}</b>",
-      "timeout": 5000,
-      "tips": [
-        "ipconfig",
-        "ip",
-        "ifconfig",
-        "ping",
-        "tracert",
-        "traceroute",
-        "curl",
-        "wget",
-        "network",
-        "internet",
-        "connection",
-        "dns",
-        "gateway",
-        "nslookup",
-        "dig",
-        "whois",
-        "ipify",
-        "what is my ip",
-        "what's my ip",
-        "my ip",
-        "public ip",
-        "external ip",
-        "check ip"
-      ],
-      "trailing_diamond": "",
-      "type": "ipify"
-    },
-    {
-      "alias": "ipify-v6-tooltip",
-      "background": "p:ipify_purple_v6",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "method": "GET",
-        "url": "https://api64.ipify.org?format=json"
-      },
-      "style": "diamond",
-      "template": " <b>  IPv6: {{ .Body.ip }}</b>",
-      "timeout": 1000,
-      "tips": [
-        "ipconfig",
-        "ip",
-        "ifconfig",
-        "ping",
-        "tracert",
-        "traceroute",
-        "curl",
-        "wget",
-        "network",
-        "internet",
-        "connection",
-        "dns",
-        "gateway",
-        "nslookup",
-        "dig",
-        "whois",
-        "ipify",
-        "what is my ip",
-        "what's my ip",
-        "my ip",
-        "public ip",
-        "external ip",
-        "check ip"
-      ],
-      "trailing_diamond": "",
-      "type": "http"
-    },
-    {
-      "alias": "react-folder-tooltip",
-      "background": "p:blue_tooltip",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "cache_duration": "24h",
-        "display_mode": "context",
-        "extensions": [
-          "ts",
-          "tsx",
-          "js",
-          "jsx",
-          "mts",
-          "mjs",
-          "cjs",
-          "cts"
+    "console_title_template": "{{ if .Segments.git-lprompt }}{{ if .Segments.git-lprompt.RepoName }}{{ .Segments.git-lprompt.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ .Segments.git-lprompt.HEAD }}{{ if .Segments.git-lprompt.BranchStatus }} {{ .Segments.git-lprompt.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} : root{{ end }} : {{ .Shell }}",
+    "cycle": [],
+    "debug_prompt": {
+        "background": "transparent",
+        "background_templates": [
+            "{{ if eq .LogLevel \"DEBUG\" }}p:purple_session{{ end }}"
         ],
-        "fetch_version": true,
-        "home_enabled": false
-      },
-      "style": "diamond",
-      "template": "  React {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
-      "timeout": 1000,
-      "tips": [
-        "react",
-        "tsx",
-        "jsx",
-        "npm run dev",
-        "react-local",
-        "react folder"
-      ],
-      "type": "react"
-    },
-    {
-      "alias": "gitversion-tooltip",
-      "background": "p:blue_tooltip",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "powerline_symbol": "",
-      "style": "diamond",
-      "template": "  Git {{ .MajorMinorPatch }}  ",
-      "timeout": 1000,
-      "tips": [
-        "gitversion",
-        "gitv",
-        "git v",
-        "git version",
-        "git --version"
-      ],
-      "trailing_diamond": "",
-      "type": "gitversion"
-    },
-    {
-      "alias": "git-tooltip",
-      "background": "p:yellow_bright",
-      "cache": {
-        "duration": "20m",
-        "strategy": "folder"
-      },
-      "foreground": "p:navy_text",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "branch_icon": "  ",
-        "branch_template": "<b>{{ if .Mapped }}{{ title .Mapped }}{{ else }}{{ .Icon }}{{ end }}{{ title .Branch }}</b>",
-        "disable_with_jj": false,
-        "fetch_bare_info": true,
-        "fetch_status": true,
-        "fetch_upstream_icon": true,
-        "fetch_user": true,
-        "fetch_worktree_count": true,
-        "ignore_status": [],
-        "ignore_submodules": {},
-        "mapped_branches": {
-          "develop": "Dev",
-          "development": "Dev",
-          "feature": "Feat",
-          "main": "Main",
-          "master": "Master",
-          "production": "Prod",
-          "staging": "Stage"
-        },
-        "native_fallback": true,
-        "status_formats": {
-          "Added": "<b><p:green_added>+%d</></b>",
-          "Copied": "<b><p:magenta>c%d</></b>",
-          "Deleted": "<b><p:red_deleted>-%d</></b>",
-          "Modified": "<b><p:yellow_modified>~%d</></b>",
-          "Renamed": "<b><p:cyan_renamed>r%d</></b>",
-          "Unmerged": "<b><p:orange_unmerged>x%d</></b>",
-          "Untracked": "<b><p:gray_untracked>?%d</></b>"
-        },
-        "untracked_modes": {
-          "*": "normal"
-        }
-      },
-      "style": "diamond",
-      "template": "  {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} ",
-      "timeout": 1000,
-      "tips": [
-        "git",
-        "g"
-      ],
-      "trailing_diamond": "",
-      "type": "git"
-    },
-    {
-      "alias": "python-folder-tooltip",
-      "background": "p:python_blue",
-      "cache": {
-        "duration": "1h",
-        "strategy": "folder"
-      },
-      "foreground": "p:python_yellow",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "display_mode": "files",
-        "fetch_version": true
-      },
-      "style": "diamond",
-      "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }} {{ .Venv }} {{ end }}{{ .Full }}{{ end }} ",
-      "timeout": 1000,
-      "tips": [
-        "python",
-        "python3",
-        "py",
-        "pip",
-        "conda",
-        "poetry",
-        "pipenv"
-      ],
-      "trailing_diamond": "",
-      "type": "python"
-    },
-    {
-      "alias": "node-folder-tooltip",
-      "background": "p:node_green",
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "cache": {
-          "duration": "1h",
-          "strategy": "folder"
-        },
-        "fetch_package_manager": true,
-        "fetch_version": true
-      },
-      "style": "diamond",
-      "template": " {{ if .Segments.npm-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}</b>{{ end }} ",
-      "timeout": 1000,
-      "tips": [
-        "node",
-        "npm",
-        "yarn",
-        "pnpm",
-        "nx",
-        "bun",
-        "npx"
-      ],
-      "trailing_diamond": "",
-      "type": "node"
-    },
-    {
-      "alias": "java-folder-tooltip",
-      "background": "p:java_orange",
-      "foreground": "p:black",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "cache": {
-          "duration": "24h",
-          "strategy": "folder"
-        },
-        "fetch_version": true
-      },
-      "style": "diamond",
-      "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
-      "timeout": 1000,
-      "tips": [
-        "java",
-        "javac",
-        "mvn",
-        "gradle",
-        "ant"
-      ],
-      "trailing_diamond": "",
-      "type": "java"
-    },
-    {
-      "alias": "folder-tooltip",
-      "background": "p:cycle_deep_navy",
-      "cache": {
-        "duration": "1h",
-        "strategy": "folder"
-      },
-      "foreground": "p:cycle_aqua",
-      "interactive": true,
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "cycle": [
-          "p:cycle_aqua,p:cycle_deep_navy",
-          "p:cycle_coral,p:cycle_midnight_blue",
-          "p:cycle_sunshine,p:cycle_charcoal",
-          "p:cycle_spring_green,p:cycle_forest",
-          "p:cycle_sky_blue,p:cycle_stormy_night",
-          "p:cycle_lilac,p:cycle_eggplant",
-          "p:cycle_hot_pink,p:cycle_deep_plum",
-          "p:cycle_marmalade,p:cycle_espresso",
-          "p:cycle_electric_cyan,p:cycle_deep_teal",
-          "p:cycle_mint,p:cycle_seaweed",
-          "p:cycle_blush,p:cycle_rust",
-          "p:cycle_periwinkle,p:cycle_nightshade",
-          "p:cycle_spring_mint,p:cycle_deep_jungle",
-          "p:cycle_apricot,p:cycle_mahogany",
-          "p:cycle_watermelon,p:cycle_oxblood",
-          "p:cycle_ice_blue,p:cycle_swamp",
-          "p:cycle_soft_lavender,p:cycle_inky",
-          "p:cycle_creme,p:cycle_onyx",
-          "p:cycle_neon_green,p:cycle_black_forest",
-          "p:magenta,p:cycle_violet",
-          "p:cycle_sunburst,p:cycle_deep_mocha"
+        "foreground": "p:black",
+        "foreground_templates": [
+            "{{ if eq .LogLevel \"DEBUG\" }}p:black{{ end }}"
         ],
-        "cycle_folder_separator": true,
-        "dir_length": 8,
-        "display_cygpath": false,
-        "edge_format": "%s",
-        "folder_format": "%s",
-        "folder_icon": "",
-        "folder_separator_icon": "/",
-        "full_length_dirs": 1,
-        "gitdir_format": "%s",
-        "hide_root_location": false,
-        "home_icon": "🏠",
-        "left_format": "%s",
-        "mapped_locations": {
-          "C:\\": "C:",
-          "re:.*(BH-Scripts).*": "🎬 BH",
-          "re:.*(Code).*": "Code",
-          "re:.*(DemoMan-Fork|DemoMan).*": "🎥 DemoMan",
-          "re:.*(Desktop).*": "DT",
-          "re:.*(Documents).*": "Docs",
-          "re:.*(Downloads).*": "DLs",
-          "re:.*(Dropbox).*": "DB",
-          "re:.*(FitFileViewer).*": "🗂️ FitView",
-          "re:.*(GE-Filters).*": "💰 GE-Flt",
-          "re:.*(GitHub).*": "GH",
-          "re:.*(Google Drive).*": "GD",
-          "re:.*(Library).*": "Lib",
-          "re:.*(LocalHistory).*": "⏰ LocHist",
-          "re:.*(MarkOfDarknessHelper).*": "🌑 MOD-Help",
-          "re:.*(Music).*": "Music",
-          "re:.*(Nick2bad4u).*": "👤 Profile",
-          "re:.*(OhMyPosh-Atomic-Enhanced).*": "✨ OhMyPosh",
-          "re:.*(OneDrive).*": "OD",
-          "re:.*(Pictures).*": "Pics",
-          "re:.*(Projects).*": "Proj",
-          "re:.*(Sauce4ZwiftModsRepo).*": "🚴 Zwift",
-          "re:.*(Typpis-ESLint).*": "🔍 Typpis",
-          "re:.*(Uptime-Watcher).*": "UW",
-          "re:.*(UserStyles).*": "🖼️ Styles",
-          "re:.*(Videos).*": "Videos",
-          "re:.*(Workspace).*": "WS",
-          "re:.*(ZwiftScripts).*": "📜 ZScript",
-          "re:.*(auth|security).*": "🔐 ",
-          "re:.*(ci|cd|pipeline).*": "🔄 ",
-          "re:.*(dnsValidator).*": "🌐 DNS",
-          "re:.*(eslint-config-Typescript-Extreme).*": "⚡ TSExtm",
-          "re:.*(eslint-plugin-chunkyLint).*": "📏 ChunkyL",
-          "re:.*(generate-repo-file-list).*": "🗂️ GenList",
-          "re:.*(git-backup).*": "💾 GitBkup",
-          "re:.*(github-drama).*": "🎭 Drama",
-          "re:.*(gitlab|bitbucket).*": "🐙 ",
-          "re:.*(iCloud).*": "IC",
-          "re:.*(internet-archive-upload).*": "🗄️ Archive",
-          "re:.*(node_modules).*": "📚 ",
-          "re:.*(nodejs).*": "Node",
-          "re:.*(plugin-hub).*": "🪝 PlugHub",
-          "re:.*(pnpm).*": "PNPM",
-          "re:.*(ps-color-scripts-enhanced|ps-color-scripts).*": "🎨 PSColor",
-          "re:.*(runelite.phyce.dev).*": "🔮 Runite",
-          "re:.*(tf2).*": "🎮 TF2",
-          "re:.*(thrall-helper).*": "👹 Thrall",
-          "re:.*(wiki-bank-tag-integration).*": "🏦 BankTag",
-          "re:.*(wintertodt-scouter).*": "❄️ WintTodt",
-          "re:.*(worktree-backup).*": "🌳 WTBackup",
-          "re:.*(yarn).*": "Yarn",
-          "re:.*\\\\bnpm\\\\b.*": "NPM",
-          "re:^\\.git$": "🌳 ",
-          "re:^\\.github$": "🐙 ",
-          "~/": "~",
-          "~\\\\Desktop": "🖥️ ",
-          "~\\\\Documents": "📄 ",
-          "~\\\\Downloads": "📥 "
+        "template": "</><p:purple_session,transparent></><p:black,p:purple_session>  DEBUG </><p:purple_session,transparent></>"
+    },
+    "enable_cursor_positioning": true,
+    "error_line": {
+        "background": "transparent",
+        "background_templates": ["{{ if .Error }}p:pink_error_line{{ end }}"],
+        "foreground": "p:black",
+        "foreground_templates": ["{{ if .Error }}p:black{{ end }}"],
+        "template": "<p:pink_error_line,transparent></>"
+    },
+    "extends": "",
+    "final_space": true,
+    "iterm_features": ["prompt_mark", "current_dir", "remote_host"],
+    "maps": {
+        "host_name": {
+            "Nick2bad4u": "💻",
+            "Nick2bad4u2": "💻"
         },
-        "mapped_locations_enabled": true,
-        "max_depth": 10,
-        "mixed_threshold": 4,
-        "right_format": "%s ",
-        "style": "agnoster_short",
-        "windows_registry_icon": ""
-      },
-      "style": "diamond",
-      "template": "  {{ path .Path .AbsolutePWD }} ",
-      "timeout": 1000,
-      "tips": [
-        "cd",
-        "z",
-        "zo",
-        "zoxide",
-        "ls",
-        "dir",
-        "pwd",
-        "find",
-        "locate"
-      ],
-      "trailing_diamond": "",
-      "type": "path"
-    },
-    {
-      "alias": "sysinfo-tooltip",
-      "background": "p:teal_sysinfo",
-      "cache": {
-        "duration": "1m",
-        "strategy": "session"
-      },
-      "foreground": "p:black",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "precision": 2
-      },
-      "style": "diamond",
-      "template": "  Memory: {{ round .PhysicalPercentUsed .Precision }}%  Disk: {{ round .Disks .Precision }}%  CPU: {{ round .Load1 .Precision }}% ",
-      "timeout": 1000,
-      "tips": [
-        "htop",
-        "top",
-        "ps",
-        "df",
-        "free",
-        "iostat",
-        "cpu",
-        "memory",
-        "disk",
-        "vmstat"
-      ],
-      "trailing_diamond": "",
-      "type": "sysinfo"
-    },
-    {
-      "alias": "os-tooltip",
-      "background": "p:gray_os",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:gray_os_fg",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "windows": "<b> Win 11</b>"
-      },
-      "style": "diamond",
-      "template": " {{ if .WSL }}WSL at {{ end }}{{.Icon}} ",
-      "timeout": 1000,
-      "tips": [
-        "uname",
-        "ver",
-        "systeminfo",
-        "lsb_release"
-      ],
-      "trailing_diamond": "",
-      "type": "os"
-    },
-    {
-      "alias": "time-tooltip",
-      "background": "p:blue_time",
-      "cache": {
-        "duration": "1m",
-        "strategy": "session"
-      },
-      "foreground": "p:black",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "time_format": "Monday, January 2, 2006 3:04:05 PM"
-      },
-      "style": "diamond",
-      "template": "  {{ .CurrentDate | date \"Monday, January 2, 2006 3:04:05 PM\" }} ",
-      "timeout": 1000,
-      "tips": [
-        "date",
-        "time",
-        "cal",
-        "timedatectl"
-      ],
-      "trailing_diamond": "",
-      "type": "time"
-    },
-    {
-      "alias": "battery-tooltip",
-      "background": "p:orange_battery",
-      "cache": {
-        "duration": "10m",
-        "strategy": "session"
-      },
-      "foreground": "p:gray_path_fg",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "display_error": true
-      },
-      "style": "diamond",
-      "template": " {{ .Icon }}{{ .Percentage }}% {{ .State.String }} ",
-      "timeout": 1000,
-      "tips": [
-        "powercfg",
-        "battery",
-        "acpi",
-        "upower"
-      ],
-      "trailing_diamond": "",
-      "type": "battery"
-    },
-    {
-      "alias": "shell-tooltip",
-      "background": "p:blue_primary",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "mapped_shell_names": {
-          "elvish": "ELV",
-          "nushell": "NU",
-          "powershell": "PS",
-          "pwsh": "PS",
-          "xonsh": "XSH"
+        "shell_name": {
+            "bash": "BASH",
+            "cmd": "CMD",
+            "elvish": "ELV",
+            "fish": "FISH",
+            "nu": "NU",
+            "nushell": "NU",
+            "powershell": "PS",
+            "ps": "PS",
+            "pwsh": "PS",
+            "xonsh": "XSH",
+            "zsh": "ZSH"
+        },
+        "user_name": {
+            "Nick": "Nick",
+            "Nick2": "Nick",
+            "Nick2bad4u": "Nick2bad4u"
         }
-      },
-      "style": "diamond",
-      "template": "<b>  {{ upper .Name }} {{ upper .Version }} </b>",
-      "timeout": 1000,
-      "tips": [
-        "pwsh",
-        "powershell",
-        "bash",
-        "cmd",
-        "zsh",
-        "fish",
-        "xonsh",
-        "elvish",
-        "nu",
-        "nushell"
-      ],
-      "trailing_diamond": "",
-      "type": "shell"
     },
-    {
-      "alias": "executiontime-tooltip",
-      "background": "p:purple_exec",
-      "cache": {
-        "duration": "2s",
-        "strategy": "session"
-      },
-      "foreground": "p:black",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "style": "roundrock",
-        "threshold": 0
-      },
-      "style": "diamond",
-      "template": " 󱑅 Execution time: {{ .FormattedMs }} ",
-      "timeout": 1000,
-      "tips": [
-        "measure",
-        "cputime",
-        "elapsed",
-        "benchmark"
-      ],
-      "trailing_diamond": "",
-      "type": "executiontime"
+    "palette": {
+        "green_ahead": "#7dd3fc",
+        "shell_tcsh_blue": "#1E90FF",
+        "yellow_bright": "#7dd3fc",
+        "divider_navy_text_to_purple_exec": "#424661",
+        "tooling_yellow": "#f7b93e",
+        "tooling_purple": "#c386f1",
+        "orange": "#7dd3fc",
+        "typescript_blue": "#0284c7",
+        "divider_electron_red_to_maroon_error": "#0462A8",
+        "purple_ahead": "#3b82f6",
+        "divider_gray_os_to_gray_prompt_count_bg": "#405882",
+        "java_blue": "#0284c7",
+        "cycle_forest": "#0B3D2E",
+        "shell_bash_green": "#4EAA25",
+        "divider_violet_project": "#8A2BE2",
+        "shell_nushell_purple": "#8E44AD",
+        "cycle_spring_mint": "#9AE6B4",
+        "blue_tooltip": "#0ea5e9",
+        "cycle_deep_jungle": "#0B2A14",
+        "cycle_sky_blue": "#4D96FF",
+        "cycle_swamp": "#04201F",
+        "divider_green_added": "#00ff00",
+        "cycle_lilac": "#C77DFF",
+        "divider_npm_dark": "#193549",
+        "cycle_neon_green": "#39FF14",
+        "black": "#001a2e",
+        "python_blue": "#0284c7",
+        "shell_elvish_teal": "#00BFA5",
+        "shell_ubuntu_orange": "#E95420",
+        "divider_green_ahead": "#c5e478",
+        "prettier_yellow": "#7dd3fc",
+        "divider_red_alert_to_orange": "#26A4FD",
+        "cycle_deep_mocha": "#211A08",
+        "green_success": "#0ea5e9",
+        "gray_prompt_count_fg": "#e0f2fe",
+        "cycle_deep_teal": "#002025",
+        "vitest_green": "#38bdf8",
+        "cycle_soft_lavender": "#D5D5FE",
+        "teal_sysinfo": "#06b6d4",
+        "typescript_eslint_pink": "#3b82f6",
+        "purple_session": "#0ea5e9",
+        "axios_yellow": "#7dd3fc",
+        "divider_teal_sysinfo": "#437683",
+        "cycle_mahogany": "#291813",
+        "cycle_charcoal": "#2B2B20",
+        "cycle_eggplant": "#21122A",
+        "divider_blue_time": "#40c4ff",
+        "cycle_mint": "#A0E7E5",
+        "cycle_onyx": "#191910",
+        "magenta": "#FF00FF",
+        "blue_time": "#38bdf8",
+        "pink_weather": "#7dd3fc",
+        "playwright_teal": "#06b6d4",
+        "yellow_git_changed": "#bae6fd",
+        "white": "#e0f2fe",
+        "divider_green_added_to_yellow_bright": "#7ffd1c",
+        "green_added": "#38bdf8",
+        "divider_accent": "#21c7c7",
+        "divider_typescript_eslint_pink_to_orange": "#f26379",
+        "cycle_deep_plum": "#2A1120",
+        "yellow_discharging": "#7dd3fc",
+        "cycle_electric_cyan": "#00E5FF",
+        "divider_tooling_yellow": "#f7b93e",
+        "yellow_update": "#bae6fd",
+        "chart_teal": "#06b6d4",
+        "divider_maroon_error_to_pink_weather": "#0DA7F6",
+        "ipify_purple": "#3b82f6",
+        "cycle_oxblood": "#2A1212",
+        "shell_cmd_black": "#444444",
+        "shell_xonsh_yellow": "#ceaa34",
+        "divider_orange_to_green_added": "#7fc824",
+        "cycle_espresso": "#2D1E0B",
+        "shell_cygwin_green": "#00A95C",
+        "magenta_copied": "#3b82f6",
+        "orange_battery": "#38bdf8",
+        "zod_blue": "#3068b7",
+        "red_alert": "#0066cc",
+        "cycle_blush": "#FFADAD",
+        "gray_untracked": "#475569",
+        "cycle_midnight_blue": "#1E1E2E",
+        "copilot_bg": "#501DAF",
+        "gray_prompt_count_bg": "#0f172a",
+        "shell_zsh_orange": "#F15A24",
+        "cycle_hot_pink": "#FF7AB6",
+        "divider_teal_sysinfo_to_electron_red": "#038ED0",
+        "divider_blue_primary_to_ipify_purple": "#0783F6",
+        "windows_blue": "#0284c7",
+        "cycle_coral": "#FF6B6B",
+        "divider_blue_time_to_electron_red": "#0497FA",
+        "ipify_purple_v6": "#60a5fa",
+        "divider_blue_time_to_violet_project": "#2E91F2",
+        "cycle_watermelon": "#F67280",
+        "maroon_error": "#075985",
+        "cycle_violet": "#110011",
+        "gray_os": "#94a3b8",
+        "cycle_aqua": "#3DFFDB",
+        "divider_ipify_purple_to_typescript_eslint_pink": "#3B82F6",
+        "gray_os_fg": "#0f172a",
+        "shell_powershell_blue": "#0077c2",
+        "divider_tailwind_cyan": "#06b6d4",
+        "divider_navy_text": "#011627",
+        "prettier_black": "#001a2e",
+        "accent": "#0ea5e9",
+        "green_valid_line": "#0369a1",
+        "shell_fish_cyan": "#8fcffa",
+        "purple_behind": "#82AAFF",
+        "cycle_ice_blue": "#C4FCEF",
+        "npm_yellow": "#7dd3fc",
+        "tailwind_cyan": "#06b6d4",
+        "divider_gray_os_to_electron_red": "#3D80CF",
+        "orange_unmerged": "#0ea5e9",
+        "divider_blue_primary_to_red_alert": "#786589",
+        "vite_yellow": "#7dd3fc",
+        "green_help": "#06b6d4",
+        "cyan_renamed": "#22d3ee",
+        "cycle_black_forest": "#07100A",
+        "divider_blue_tooltip": "#81a1c1",
+        "cycle_rust": "#2B0D0D",
+        "blue_primary": "#0284c7",
+        "react_cyan": "#06b6d4",
+        "cycle_nightshade": "#151026",
+        "yellow_modified": "#7dd3fc",
+        "red_deleted": "#075985",
+        "java_orange": "#7dd3fc",
+        "node_green": "#38bdf8",
+        "cycle_deep_navy": "#003147",
+        "yellow_root_alt": "#bae6fd",
+        "cycle_inky": "#0E0E1A",
+        "purple_exec": "#2563eb",
+        "navy_text": "#001a2e",
+        "eslint_purple": "#3b82f6",
+        "divider_gray_prompt_count_bg": "#2f3b45",
+        "pink_error_line": "#0066cc",
+        "gray_path_fg": "#1e293b",
+        "green_charging": "#7dd3fc",
+        "divider_purple_exec": "#83769c",
+        "cycle_sunburst": "#FFB86B",
+        "cycle_periwinkle": "#BDB2FF",
+        "pink_status_fail": "#0369a1",
+        "cycle_creme": "#F6F6C9",
+        "cycle_seaweed": "#023535",
+        "divider_purple_exec_to_electron_red": "#bc6b6e",
+        "pink_storybook": "#3b82f6",
+        "cycle_marmalade": "#FFA14B",
+        "divider_chart_teal": "#47a1ad",
+        "divider_tooling_purple_to_typescript_eslint_pink": "#d45dce",
+        "cycle_spring_green": "#6BCB77",
+        "python_yellow": "#7dd3fc",
+        "cycle_sunshine": "#FFD93D",
+        "divider_purple_ahead": "#C792EA",
+        "cycle_stormy_night": "#091A2A",
+        "npm_dark": "#001a2e",
+        "cycle_apricot": "#F8B195",
+        "divider_yellow_bright_to_navy_text": "#808830",
+        "divider_blue_primary_to_tooling_purple": "#617ed9",
+        "violet_project": "#2563eb",
+        "divider_gray_os": "#b2bec3",
+        "zustand_purple": "#3b82f6",
+        "divider_green_valid_line": "#266e36",
+        "green_full": "#38bdf8",
+        "electron_red": "#0066cc"
     },
-    {
-      "alias": "status-tooltip",
-      "background": "p:maroon_error",
-      "background_templates": [
-        "{{ if eq .Code 0 }}p:green_success{{ else }}p:pink_status_fail{{ end }}"
-      ],
-      "cache": {
-        "duration": "5s",
-        "strategy": "session"
-      },
-      "foreground": "p:black",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "always_enabled": true
-      },
-      "style": "diamond",
-      "template": " {{ if eq .Code 0 }} Success{{ else }} Error: {{ .Code }}{{ end }} ",
-      "timeout": 1000,
-      "tips": [
-        "$LASTEXITCODE",
-        "echo $?",
-        "echo %ERRORLEVEL%"
-      ],
-      "trailing_diamond": "",
-      "type": "status"
+    "palettes": {},
+    "patch_pwsh_bleed": true,
+    "pwd": "osc7",
+    "secondary_prompt": {
+        "background": "transparent",
+        "foreground": "p:accent",
+        "template": "╰─ "
     },
-    {
-      "alias": "session-tooltip",
-      "background": "p:black",
-      "cache": {
-        "duration": "1h",
-        "strategy": "session"
-      },
-      "foreground": "p:white",
-      "leading_diamond": "",
-      "min_width": 80,
-      "style": "diamond",
-      "template": " {{ if .SSHSession }} SSH: {{ end }}{{ .UserName }}@{{ .HostName }} ",
-      "timeout": 1000,
-      "tips": [
-        "whoami",
-        "id",
-        "ssh",
-        "su",
-        "sudo"
-      ],
-      "trailing_diamond": "",
-      "type": "session"
+    "shell_integration": true,
+    "terminal_background": "p:black",
+    "tooltips": [
+        {
+            "alias": "react-tooltip",
+            "background": "p:react_cyan",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://registry.npmjs.org/react/latest"
+            },
+            "style": "diamond",
+            "template": " <b> React: v{{ .Body.version }}</b> ",
+            "timeout": 1000,
+            "tips": ["react", "npm run dev"],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "typescript-tooltip",
+            "background": "p:typescript_blue",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://registry.npmjs.org/typescript/latest"
+            },
+            "style": "diamond",
+            "template": " <b>TS: v{{ .Body.version }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "typescript",
+                "npm run type-check",
+                "tsx",
+                "tsc",
+                "ts-node",
+                "tslint",
+                "tsserver",
+                "tsconfig.json"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "vite-tooltip",
+            "background": "p:tooling_yellow",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://registry.npmjs.org/vite/latest"
+            },
+            "style": "diamond",
+            "template": " <b>⚡ Vite: v{{ .Body.version }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "vite",
+                "npm run build",
+                "npm run dev",
+                "vite dev",
+                "vite build",
+                "vite preview",
+                "npm run preview",
+                "npx vite",
+                "npx vite dev",
+                "npx vite build",
+                "npx vite preview"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "vitest-tooltip",
+            "background": "p:vitest_green",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://registry.npmjs.org/vitest/latest"
+            },
+            "style": "diamond",
+            "template": " <b>🧪 Vitest: v{{ .Body.version }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "vitest",
+                "npm run test",
+                "npx vitest",
+                "npx vitest run",
+                "npx vitest watch",
+                "npx vitest --coverage",
+                "npm test",
+                "npm run test:coverage"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "playwright-tooltip",
+            "background": "p:playwright_teal",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://registry.npmjs.org/playwright/latest"
+            },
+            "style": "diamond",
+            "template": " <b>🎭 Playwright: v{{ .Body.version }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "playwright",
+                "npm run test:e2e",
+                "npx playwright test",
+                "npx playwright test --headed",
+                "npx playwright test --project=chromium",
+                "npx playwright test --project=firefox",
+                "npx playwright test --project=webkit",
+                "npx playwright",
+                "npx playwright open",
+                "npm run playwright",
+                "npm run test:playwright"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "tailwind-tooltip",
+            "background": "p:tailwind_cyan",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://registry.npmjs.org/tailwindcss/latest"
+            },
+            "style": "diamond",
+            "template": " <b>🎨 Tailwind CSS: v{{ .Body.version }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "tailwindcss",
+                "npm run lint:css",
+                "npx tailwindcss",
+                "npx tailwindcss build",
+                "npx tailwindcss watch",
+                "npm run build:css",
+                "npm run watch:css"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "zustand-tooltip",
+            "background": "p:zustand_purple",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://registry.npmjs.org/zustand/latest"
+            },
+            "style": "diamond",
+            "template": " <b>🐻 Zustand: v{{ .Body.version }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "zustand",
+                "state management",
+                "npm install zustand",
+                "npx zustand",
+                "npm run zustand"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "chartjs-tooltip",
+            "background": "p:chart_teal",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://registry.npmjs.org/chart.js/latest"
+            },
+            "style": "diamond",
+            "template": " <b>📊 Chart.js: v{{ .Body.version }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "chart.js",
+                "data visualization",
+                "npm install chart.js",
+                "npx chart.js",
+                "npm run chart.js",
+                "npm run build:chart.js",
+                "npm run watch:chart.js"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "electron-tooltip",
+            "background": "p:electron_red",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://registry.npmjs.org/electron/latest"
+            },
+            "style": "diamond",
+            "template": " <b>󱀤 Electron: v{{ .Body.version }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "electron",
+                "npm run start:electron",
+                "npm run build:electron",
+                "npm run watch:electron",
+                "npm run lint:electron",
+                "npm run test:electron",
+                "electron .",
+                "npx electron .",
+                "npx electron",
+                "npx electron build",
+                "npx electron watch"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "storybook-tooltip",
+            "background": "p:pink_storybook",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://registry.npmjs.org/storybook/latest"
+            },
+            "style": "diamond",
+            "template": " 📚 {{ .Body.version }} ",
+            "timeout": 1000,
+            "tips": [
+                "storybook",
+                "npm run storybook",
+                "npm run build:storybook",
+                "npm run watch:storybook",
+                "npm run lint:storybook",
+                "npm run test:storybook",
+                "npm run test:storybook",
+                "vitest storybook"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "axios-tooltip",
+            "background": "p:tooling_yellow",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://registry.npmjs.org/axios/latest"
+            },
+            "style": "diamond",
+            "template": " <b>🎯 Axios: v{{ .Body.version }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "axios",
+                "http client",
+                "npm install axios",
+                "npx axios",
+                "npm run axios",
+                "npm run build:axios",
+                "npm run watch:axios",
+                "npm run lint:axios",
+                "npm run test:axios"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "zod-tooltip",
+            "background": "p:zod_blue",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://registry.npmjs.org/zod/latest"
+            },
+            "style": "diamond",
+            "template": " <b>🛡️ Zod: v{{ .Body.version }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "zod",
+                "schema validation",
+                "npm install zod",
+                "npx zod",
+                "npm run zod",
+                "npm run build:zod",
+                "npm run watch:zod",
+                "npm run lint:zod",
+                "npm run test:zod",
+                "vitest zod",
+                "vitest watch zod"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "prettier-tooltip",
+            "background": "p:prettier_yellow",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://registry.npmjs.org/prettier/latest"
+            },
+            "style": "diamond",
+            "template": " <b>💅 Prettier: v{{ .Body.version }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "prettier",
+                "npm run lint:prettier-fix",
+                "prettynow",
+                "npm install prettier",
+                "npx prettier",
+                "npm run prettier",
+                "npm run lint:prettier",
+                "pretty",
+                "prettiernow",
+                "npm run pretty",
+                "npm run format",
+                "npm run format:prettier"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "typescript-eslint-tooltip",
+            "background": "p:typescript_eslint_pink",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://registry.npmjs.org/typescript-eslint/latest"
+            },
+            "style": "diamond",
+            "template": " <b>🎨 TypeScript-ESLint: v{{ .Body.version }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "typescript-eslint",
+                "npm run lint:ts",
+                "vitest typescript-eslint",
+                "vitest watch typescript-eslint",
+                "vitest run typescript-eslint",
+                "npm run lint",
+                "npm run lint:typescript-eslint"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "eslint-tooltip",
+            "background": "p:tooling_purple",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://registry.npmjs.org/eslint/latest"
+            },
+            "style": "diamond",
+            "template": "<b> ESLint: v{{ .Body.version }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "eslint",
+                "npm run lint",
+                "vitest eslint",
+                "vitest watch eslint",
+                "vitest run eslint",
+                "npm run lint:eslint",
+                "npx eslint",
+                "npx eslint .",
+                "npx eslint --fix"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "ipify-tooltip",
+            "background": "p:tooling_purple",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "http_timeout": 5000,
+                "url": "https://api.ipify.org"
+            },
+            "style": "diamond",
+            "template": " <b>  IP: {{ .IP }}</b>",
+            "timeout": 5000,
+            "tips": [
+                "ipconfig",
+                "ip",
+                "ifconfig",
+                "ping",
+                "tracert",
+                "traceroute",
+                "curl",
+                "wget",
+                "network",
+                "internet",
+                "connection",
+                "dns",
+                "gateway",
+                "nslookup",
+                "dig",
+                "whois",
+                "ipify",
+                "what is my ip",
+                "what's my ip",
+                "my ip",
+                "public ip",
+                "external ip",
+                "check ip"
+            ],
+            "trailing_diamond": "",
+            "type": "ipify"
+        },
+        {
+            "alias": "ipify-v6-tooltip",
+            "background": "p:ipify_purple_v6",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://api64.ipify.org?format=json"
+            },
+            "style": "diamond",
+            "template": " <b>  IPv6: {{ .Body.ip }}</b>",
+            "timeout": 1000,
+            "tips": [
+                "ipconfig",
+                "ip",
+                "ifconfig",
+                "ping",
+                "tracert",
+                "traceroute",
+                "curl",
+                "wget",
+                "network",
+                "internet",
+                "connection",
+                "dns",
+                "gateway",
+                "nslookup",
+                "dig",
+                "whois",
+                "ipify",
+                "what is my ip",
+                "what's my ip",
+                "my ip",
+                "public ip",
+                "external ip",
+                "check ip"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "react-folder-tooltip",
+            "background": "p:blue_tooltip",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "cache_duration": "24h",
+                "display_mode": "context",
+                "extensions": [
+                    "ts",
+                    "tsx",
+                    "js",
+                    "jsx",
+                    "mts",
+                    "mjs",
+                    "cjs",
+                    "cts"
+                ],
+                "fetch_version": true,
+                "home_enabled": false
+            },
+            "style": "diamond",
+            "template": "  React {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
+            "timeout": 1000,
+            "tips": [
+                "react",
+                "tsx",
+                "jsx",
+                "npm run dev",
+                "react-local",
+                "react folder",
+                "vitest react",
+                "vitest watch react",
+                "vitest run react"
+            ],
+            "type": "react"
+        },
+        {
+            "alias": "gitversion-tooltip",
+            "background": "p:blue_tooltip",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "powerline_symbol": "",
+            "style": "diamond",
+            "template": "  Git {{ .MajorMinorPatch }}  ",
+            "timeout": 1000,
+            "tips": [
+                "gitversion",
+                "gitv",
+                "git v",
+                "git version",
+                "git --version",
+                "git show",
+                "git log"
+            ],
+            "trailing_diamond": "",
+            "type": "gitversion"
+        },
+        {
+            "alias": "git-tooltip",
+            "background": "p:yellow_bright",
+            "cache": {
+                "duration": "20m",
+                "strategy": "folder"
+            },
+            "foreground": "p:navy_text",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "branch_icon": "  ",
+                "branch_template": "<b>{{ if .Mapped }}{{ title .Mapped }}{{ else }}{{ .Icon }}{{ end }}{{ title .Branch }}</b>",
+                "disable_with_jj": false,
+                "fetch_bare_info": true,
+                "fetch_status": true,
+                "fetch_upstream_icon": true,
+                "fetch_user": true,
+                "fetch_worktree_count": true,
+                "ignore_status": [],
+                "ignore_submodules": {},
+                "mapped_branches": {
+                    "develop": "Dev",
+                    "development": "Dev",
+                    "feature": "Feat",
+                    "main": "Main",
+                    "master": "Master",
+                    "production": "Prod",
+                    "staging": "Stage"
+                },
+                "native_fallback": true,
+                "status_formats": {
+                    "Added": "<b><p:green_added>+%d</></b>",
+                    "Copied": "<b><p:magenta>c%d</></b>",
+                    "Deleted": "<b><p:red_deleted>-%d</></b>",
+                    "Modified": "<b><p:yellow_modified>~%d</></b>",
+                    "Renamed": "<b><p:cyan_renamed>r%d</></b>",
+                    "Unmerged": "<b><p:orange_unmerged>x%d</></b>",
+                    "Untracked": "<b><p:gray_untracked>?%d</></b>"
+                },
+                "untracked_modes": {
+                    "*": "normal"
+                }
+            },
+            "style": "diamond",
+            "template": "  {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} ",
+            "timeout": 1000,
+            "tips": [
+                "git",
+                "g",
+                "git --version",
+                "git show",
+                "git log",
+                "git status",
+                "git diff",
+                "git add",
+                "git commit",
+                "git push",
+                "git pull"
+            ],
+            "trailing_diamond": "",
+            "type": "git"
+        },
+        {
+            "alias": "python-folder-tooltip",
+            "background": "p:python_blue",
+            "cache": {
+                "duration": "1h",
+                "strategy": "folder"
+            },
+            "foreground": "p:python_yellow",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "display_mode": "files",
+                "fetch_version": true
+            },
+            "style": "diamond",
+            "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }} {{ .Venv }} {{ end }}{{ .Full }}{{ end }} ",
+            "timeout": 1000,
+            "tips": [
+                "python",
+                "python3",
+                "py",
+                "pip",
+                "conda",
+                "poetry",
+                "pipenv",
+                "python --version",
+                "python3 --version"
+            ],
+            "trailing_diamond": "",
+            "type": "python"
+        },
+        {
+            "alias": "node-folder-tooltip",
+            "background": "p:node_green",
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "cache": {
+                    "duration": "1h",
+                    "strategy": "folder"
+                },
+                "fetch_package_manager": true,
+                "fetch_version": true
+            },
+            "style": "diamond",
+            "template": " {{ if .Segments.npm-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}</b>{{ end }} ",
+            "timeout": 1000,
+            "tips": [
+                "node",
+                "npm",
+                "yarn",
+                "pnpm",
+                "nx",
+                "bun",
+                "npx",
+                "node --version"
+            ],
+            "trailing_diamond": "",
+            "type": "node"
+        },
+        {
+            "alias": "java-folder-tooltip",
+            "background": "p:java_orange",
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "cache": {
+                    "duration": "24h",
+                    "strategy": "folder"
+                },
+                "fetch_version": true
+            },
+            "style": "diamond",
+            "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
+            "timeout": 1000,
+            "tips": ["java", "javac", "mvn", "gradle", "ant", "java --version"],
+            "trailing_diamond": "",
+            "type": "java"
+        },
+        {
+            "alias": "folder-tooltip",
+            "background": "p:cycle_deep_navy",
+            "cache": {
+                "duration": "1h",
+                "strategy": "folder"
+            },
+            "foreground": "p:cycle_aqua",
+            "interactive": true,
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "cycle": [
+                    "p:cycle_aqua,p:cycle_deep_navy",
+                    "p:cycle_coral,p:cycle_midnight_blue",
+                    "p:cycle_sunshine,p:cycle_charcoal",
+                    "p:cycle_spring_green,p:cycle_forest",
+                    "p:cycle_sky_blue,p:cycle_stormy_night",
+                    "p:cycle_lilac,p:cycle_eggplant",
+                    "p:cycle_hot_pink,p:cycle_deep_plum",
+                    "p:cycle_marmalade,p:cycle_espresso",
+                    "p:cycle_electric_cyan,p:cycle_deep_teal",
+                    "p:cycle_mint,p:cycle_seaweed",
+                    "p:cycle_blush,p:cycle_rust",
+                    "p:cycle_periwinkle,p:cycle_nightshade",
+                    "p:cycle_spring_mint,p:cycle_deep_jungle",
+                    "p:cycle_apricot,p:cycle_mahogany",
+                    "p:cycle_watermelon,p:cycle_oxblood",
+                    "p:cycle_ice_blue,p:cycle_swamp",
+                    "p:cycle_soft_lavender,p:cycle_inky",
+                    "p:cycle_creme,p:cycle_onyx",
+                    "p:cycle_neon_green,p:cycle_black_forest",
+                    "p:magenta,p:cycle_violet",
+                    "p:cycle_sunburst,p:cycle_deep_mocha"
+                ],
+                "cycle_folder_separator": true,
+                "dir_length": 8,
+                "display_cygpath": false,
+                "edge_format": "%s",
+                "folder_format": "%s",
+                "folder_icon": "",
+                "folder_separator_icon": "/",
+                "full_length_dirs": 1,
+                "gitdir_format": "%s",
+                "hide_root_location": false,
+                "home_icon": "🏠",
+                "left_format": "%s",
+                "mapped_locations": {
+                    "C:\\": "C:",
+                    "re:.*(BH-Scripts).*": "🎬 BH",
+                    "re:.*(Code).*": "Code",
+                    "re:.*(DemoMan-Fork|DemoMan).*": "🎥 DemoMan",
+                    "re:.*(Desktop).*": "DT",
+                    "re:.*(Documents).*": "Docs",
+                    "re:.*(Downloads).*": "DLs",
+                    "re:.*(Dropbox).*": "DB",
+                    "re:.*(FitFileViewer).*": "🗂️ FitView",
+                    "re:.*(GE-Filters).*": "💰 GE-Flt",
+                    "re:.*(GitHub).*": "GH",
+                    "re:.*(Google Drive).*": "GD",
+                    "re:.*(Library).*": "Lib",
+                    "re:.*(LocalHistory).*": "⏰ LocHist",
+                    "re:.*(MarkOfDarknessHelper).*": "🌑 MOD-Help",
+                    "re:.*(Music).*": "Music",
+                    "re:.*(Nick2bad4u).*": "👤 Profile",
+                    "re:.*(OhMyPosh-Atomic-Enhanced).*": "✨ OhMyPosh",
+                    "re:.*(OneDrive).*": "OD",
+                    "re:.*(Pictures).*": "Pics",
+                    "re:.*(Projects).*": "Proj",
+                    "re:.*(Sauce4ZwiftModsRepo).*": "🚴 Zwift",
+                    "re:.*(Typpis-ESLint).*": "🔍 Typpis",
+                    "re:.*(Uptime-Watcher).*": "UW",
+                    "re:.*(UserStyles).*": "🖼️ Styles",
+                    "re:.*(Videos).*": "Videos",
+                    "re:.*(Workspace).*": "WS",
+                    "re:.*(ZwiftScripts).*": "📜 ZScript",
+                    "re:.*(auth|security).*": "🔐 ",
+                    "re:.*(ci|cd|pipeline).*": "🔄 ",
+                    "re:.*(dnsValidator).*": "🌐 DNS",
+                    "re:.*(eslint-config-Typescript-Extreme).*": "⚡ TSExtm",
+                    "re:.*(eslint-plugin-chunkyLint).*": "📏 ChunkyL",
+                    "re:.*(generate-repo-file-list).*": "🗂️ GenList",
+                    "re:.*(git-backup).*": "💾 GitBkup",
+                    "re:.*(github-drama).*": "🎭 Drama",
+                    "re:.*(gitlab|bitbucket).*": "🐙 ",
+                    "re:.*(iCloud).*": "IC",
+                    "re:.*(internet-archive-upload).*": "🗄️ Archive",
+                    "re:.*(node_modules).*": "📚 ",
+                    "re:.*(nodejs).*": "Node",
+                    "re:.*(plugin-hub).*": "🪝 PlugHub",
+                    "re:.*(pnpm).*": "PNPM",
+                    "re:.*(ps-color-scripts-enhanced|ps-color-scripts).*": "🎨 PSColor",
+                    "re:.*(runelite.phyce.dev).*": "🔮 Runite",
+                    "re:.*(tf2).*": "🎮 TF2",
+                    "re:.*(thrall-helper).*": "👹 Thrall",
+                    "re:.*(wiki-bank-tag-integration).*": "🏦 BankTag",
+                    "re:.*(wintertodt-scouter).*": "❄️ WintTodt",
+                    "re:.*(worktree-backup).*": "🌳 WTBackup",
+                    "re:.*(yarn).*": "Yarn",
+                    "re:.*\\\\bnpm\\\\b.*": "NPM",
+                    "re:^\\.git$": "🌳 ",
+                    "re:^\\.github$": "🐙 ",
+                    "~/": "~",
+                    "~\\\\Desktop": "🖥️ ",
+                    "~\\\\Documents": "📄 ",
+                    "~\\\\Downloads": "📥 "
+                },
+                "mapped_locations_enabled": true,
+                "max_depth": 10,
+                "mixed_threshold": 4,
+                "right_format": "%s ",
+                "style": "agnoster_short",
+                "windows_registry_icon": ""
+            },
+            "style": "diamond",
+            "template": "  {{ path .Path .AbsolutePWD }} ",
+            "timeout": 1000,
+            "tips": [
+                "cd",
+                "z",
+                "zo",
+                "zoxide",
+                "ls",
+                "dir",
+                "pwd",
+                "find",
+                "locate",
+                "which",
+                "where"
+            ],
+            "trailing_diamond": "",
+            "type": "path"
+        },
+        {
+            "alias": "sysinfo-tooltip",
+            "background": "p:teal_sysinfo",
+            "cache": {
+                "duration": "1m",
+                "strategy": "session"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "precision": 2
+            },
+            "style": "diamond",
+            "template": "  Memory: {{ round .PhysicalPercentUsed .Precision }}%  Disk: {{ round .Disks .Precision }}%  CPU: {{ round .Load1 .Precision }}% ",
+            "timeout": 1000,
+            "tips": [
+                "htop",
+                "top",
+                "ps",
+                "df",
+                "free",
+                "iostat",
+                "cpu",
+                "memory",
+                "disk",
+                "vmstat",
+                "free",
+                "uptime"
+            ],
+            "trailing_diamond": "",
+            "type": "sysinfo"
+        },
+        {
+            "alias": "os-tooltip",
+            "background": "p:gray_os",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:gray_os_fg",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "windows": "<b> Win 11</b>"
+            },
+            "style": "diamond",
+            "template": " {{ if .WSL }}WSL at {{ end }}{{.Icon}} ",
+            "timeout": 1000,
+            "tips": [
+                "uname",
+                "ver",
+                "systeminfo",
+                "lsb_release",
+                "hostname",
+                "cat /etc/os-release"
+            ],
+            "trailing_diamond": "",
+            "type": "os"
+        },
+        {
+            "alias": "time-tooltip",
+            "background": "p:blue_time",
+            "cache": {
+                "duration": "1m",
+                "strategy": "session"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "time_format": "Monday, January 2, 2006 3:04:05 PM"
+            },
+            "style": "diamond",
+            "template": "  {{ .CurrentDate | date \"Monday, January 2, 2006 3:04:05 PM\" }} ",
+            "timeout": 1000,
+            "tips": [
+                "date",
+                "time",
+                "cal",
+                "timedatectl",
+                "date +%T",
+                "date +%F %T",
+                "date +%Y-%m-%d %H:%M:%S"
+            ],
+            "trailing_diamond": "",
+            "type": "time"
+        },
+        {
+            "alias": "battery-tooltip",
+            "background": "p:orange_battery",
+            "cache": {
+                "duration": "10m",
+                "strategy": "session"
+            },
+            "foreground": "p:gray_path_fg",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "display_error": true
+            },
+            "style": "diamond",
+            "template": " {{ .Icon }}{{ .Percentage }}% {{ .State.String }} ",
+            "timeout": 1000,
+            "tips": ["powercfg", "battery", "acpi", "upower", "pmset"],
+            "trailing_diamond": "",
+            "type": "battery"
+        },
+        {
+            "alias": "shell-tooltip",
+            "background": "p:blue_primary",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "mapped_shell_names": {
+                    "elvish": "ELV",
+                    "nushell": "NU",
+                    "powershell": "PS",
+                    "pwsh": "PS",
+                    "xonsh": "XSH"
+                }
+            },
+            "style": "diamond",
+            "template": "<b>  {{ upper .Name }} {{ upper .Version }} </b>",
+            "timeout": 1000,
+            "tips": [
+                "pwsh",
+                "powershell",
+                "bash",
+                "cmd",
+                "zsh",
+                "fish",
+                "xonsh",
+                "elvish",
+                "nu",
+                "nushell",
+                "elvish"
+            ],
+            "trailing_diamond": "",
+            "type": "shell"
+        },
+        {
+            "alias": "executiontime-tooltip",
+            "background": "p:purple_exec",
+            "cache": {
+                "duration": "2s",
+                "strategy": "session"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "style": "roundrock",
+                "threshold": 0
+            },
+            "style": "diamond",
+            "template": " 󱑅 Execution time: {{ .FormattedMs }} ",
+            "timeout": 1000,
+            "tips": [
+                "measure",
+                "cputime",
+                "elapsed",
+                "benchmark",
+                "time",
+                "date",
+                "howlong",
+                "stopwatch"
+            ],
+            "trailing_diamond": "",
+            "type": "executiontime"
+        },
+        {
+            "alias": "status-tooltip",
+            "background": "p:maroon_error",
+            "background_templates": [
+                "{{ if eq .Code 0 }}p:green_success{{ else }}p:pink_status_fail{{ end }}"
+            ],
+            "cache": {
+                "duration": "5s",
+                "strategy": "session"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "always_enabled": true
+            },
+            "style": "diamond",
+            "template": " {{ if eq .Code 0 }} Success{{ else }} Error: {{ .Code }}{{ end }} ",
+            "timeout": 1000,
+            "tips": [
+                "$LASTEXITCODE",
+                "echo $?",
+                "echo %ERRORLEVEL%",
+                "echo $?",
+                "echo $LASTEXITCODE"
+            ],
+            "trailing_diamond": "",
+            "type": "status"
+        },
+        {
+            "alias": "session-tooltip",
+            "background": "p:black",
+            "cache": {
+                "duration": "1h",
+                "strategy": "session"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "style": "diamond",
+            "template": " {{ if .SSHSession }} SSH: {{ end }}{{ .UserName }}@{{ .HostName }} ",
+            "timeout": 1000,
+            "tips": [
+                "whoami",
+                "id",
+                "ssh",
+                "su",
+                "sudo",
+                "admin",
+                "root",
+                "administrator"
+            ],
+            "trailing_diamond": "",
+            "type": "session"
+        },
+        {
+            "alias": "root-tooltip",
+            "background": "p:red_alert",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:yellow_bright",
+            "leading_diamond": "",
+            "min_width": 80,
+            "style": "diamond",
+            "template": "<b>  Administrator/Root </b>",
+            "timeout": 1000,
+            "tips": [
+                "su",
+                "sudo",
+                "admin",
+                "root",
+                "administrator",
+                "superuser",
+                "wheel"
+            ],
+            "trailing_diamond": "",
+            "type": "root"
+        },
+        {
+            "alias": "connection-tooltip",
+            "background": "p:blue_time",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "style": "diamond",
+            "template": "<b>  {{ .Name }} </b>",
+            "timeout": 1000,
+            "tips": [
+                "ping",
+                "wget",
+                "curl",
+                "telnet",
+                "ssh",
+                "ftp",
+                "sftp",
+                "http",
+                "https"
+            ],
+            "trailing_diamond": "",
+            "type": "connection"
+        },
+        {
+            "alias": "project-tooltip",
+            "background": "p:violet_project",
+            "cache": {
+                "duration": "24h",
+                "strategy": "folder"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "style": "diamond",
+            "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }} {{.Version}}{{ end }} {{ if .Name }}{{ .Name }}{{ end }}{{ end }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "project",
+                "workspace",
+                "version",
+                "name",
+                "semver",
+                "package",
+                "dependency",
+                "module",
+                "library"
+            ],
+            "trailing_diamond": "",
+            "type": "project"
+        },
+        {
+            "alias": "winreg-tooltip",
+            "background": "p:windows_blue",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "fallback": "unknown",
+                "path": "HKLM\\software\\microsoft\\windows nt\\currentversion\\buildlab"
+            },
+            "style": "diamond",
+            "template": "<b>  {{ .Value }} </b>",
+            "timeout": 1000,
+            "tips": [
+                "reg",
+                "regedit",
+                "registry",
+                "winreg",
+                "windows registry",
+                "hklm",
+                "currentversion",
+                "buildlab",
+                "software"
+            ],
+            "trailing_diamond": "",
+            "type": "winreg"
+        },
+        {
+            "alias": "script-tooltip",
+            "background": "transparent",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:accent",
+            "leading_diamond": "",
+            "min_width": 80,
+            "style": "diamond",
+            "template": "  {{ .Shell }} ",
+            "timeout": 1000,
+            "tips": [
+                "echo",
+                "printf",
+                "script",
+                "shell",
+                "bash",
+                "zsh",
+                "fish",
+                "powershell",
+                "pwsh",
+                "cmd"
+            ],
+            "trailing_diamond": "",
+            "type": "text"
+        },
+        {
+            "alias": "help-tooltip",
+            "background": "p:green_help",
+            "cache": {
+                "duration": "24h",
+                "strategy": "session"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "style": "diamond",
+            "template": "  {{ .Shell }} ",
+            "timeout": 1000,
+            "tips": [
+                "help",
+                "man",
+                "info",
+                "documentation",
+                "manual",
+                "guide",
+                "tutorial",
+                "reference"
+            ],
+            "trailing_diamond": "",
+            "type": "text"
+        }
+    ],
+    "tooltips_action": "prepend",
+    "transient_prompt": {
+        "background": "transparent",
+        "filler": "<p:purple_session></>",
+        "foreground": "p:blue_primary",
+        "newline": false,
+        "template": "<p:accent>╰─<p:purple_session,transparent>{{ .Segments.shell-lprompt.Name }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
     },
-    {
-      "alias": "root-tooltip",
-      "background": "p:red_alert",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:yellow_bright",
-      "leading_diamond": "",
-      "min_width": 80,
-      "style": "diamond",
-      "template": "<b>  Administrator/Root </b>",
-      "timeout": 1000,
-      "tips": [
-        "su",
-        "sudo",
-        "admin"
-      ],
-      "trailing_diamond": "",
-      "type": "root"
+    "upgrade": {
+        "auto": true,
+        "interval": "4h",
+        "notice": true,
+        "source": "cdn"
     },
-    {
-      "alias": "connection-tooltip",
-      "background": "p:blue_time",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:black",
-      "leading_diamond": "",
-      "min_width": 80,
-      "style": "diamond",
-      "template": "<b>  {{ .Name }} </b>",
-      "timeout": 1000,
-      "tips": [
-        "ping",
-        "wget",
-        "curl",
-        "telnet",
-        "ssh"
-      ],
-      "trailing_diamond": "",
-      "type": "connection"
+    "valid_line": {
+        "background": "transparent",
+        "foreground": "p:black",
+        "template": "<p:green_valid_line,transparent></> "
     },
-    {
-      "alias": "project-tooltip",
-      "background": "p:violet_project",
-      "cache": {
-        "duration": "24h",
-        "strategy": "folder"
-      },
-      "foreground": "p:black",
-      "leading_diamond": "",
-      "min_width": 80,
-      "style": "diamond",
-      "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }} {{.Version}}{{ end }} {{ if .Name }}{{ .Name }}{{ end }}{{ end }}</b> ",
-      "timeout": 1000,
-      "tips": [
-        "project",
-        "workspace",
-        "version",
-        "name",
-        "semver",
-        "package"
-      ],
-      "trailing_diamond": "",
-      "type": "project"
-    },
-    {
-      "alias": "winreg-tooltip",
-      "background": "p:windows_blue",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:black",
-      "leading_diamond": "",
-      "min_width": 80,
-      "options": {
-        "fallback": "unknown",
-        "path": "HKLM\\software\\microsoft\\windows nt\\currentversion\\buildlab"
-      },
-      "style": "diamond",
-      "template": "<b>  {{ .Value }} </b>",
-      "timeout": 1000,
-      "tips": [
-        "reg",
-        "regedit",
-        "registry",
-        "winreg",
-        "windows registry"
-      ],
-      "trailing_diamond": "",
-      "type": "winreg"
-    },
-    {
-      "alias": "script-tooltip",
-      "background": "transparent",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:accent",
-      "leading_diamond": "",
-      "min_width": 80,
-      "style": "diamond",
-      "template": "  {{ .Shell }} ",
-      "timeout": 1000,
-      "tips": [
-        "echo",
-        "printf"
-      ],
-      "trailing_diamond": "",
-      "type": "text"
-    },
-    {
-      "alias": "help-tooltip",
-      "background": "p:green_help",
-      "cache": {
-        "duration": "24h",
-        "strategy": "session"
-      },
-      "foreground": "p:black",
-      "leading_diamond": "",
-      "min_width": 80,
-      "style": "diamond",
-      "template": "  {{ .Shell }} ",
-      "timeout": 1000,
-      "tips": [
-        "help",
-        "man",
-        "info"
-      ],
-      "trailing_diamond": "",
-      "type": "text"
+    "var": {},
+    "version": 4,
+    "yaml-language-server": {
+        "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"
     }
-  ],
-  "tooltips_action": "prepend",
-  "transient_prompt": {
-    "background": "transparent",
-    "filler": "<p:purple_session></>",
-    "foreground": "p:blue_primary",
-    "newline": false,
-    "template": "<p:accent>╰─<p:purple_session,transparent>{{ .Segments.shell-lprompt.Name }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
-  },
-  "upgrade": {
-    "auto": true,
-    "interval": "4h",
-    "notice": true,
-    "source": "cdn"
-  },
-  "valid_line": {
-    "background": "transparent",
-    "foreground": "p:black",
-    "template": "<p:green_valid_line,transparent></> "
-  },
-  "var": {},
-  "version": 4,
-  "yaml-language-server": {
-    "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"
-  }
 }

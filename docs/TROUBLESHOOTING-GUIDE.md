@@ -1,4 +1,5 @@
 <!-- {% raw %} -->
+
 # 🆘 Comprehensive Troubleshooting Guide
 
 ## Table of Contents
@@ -160,11 +161,11 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 
    ```json
    {
-     "type": "git",
-     "cache": {
-       "strategy": "folder",
-       "duration": "10m"
-     }
+    "cache": {
+     "strategy": "folder",
+     "duration": "10m"
+    },
+    "type": "git"
    }
    ```
 
@@ -172,10 +173,10 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 
    ```json
    {
-     "type": "time",
-     "cache": {
-       "duration": "1s"
-     }
+    "cache": {
+     "duration": "1s"
+    },
+    "type": "time"
    }
    ```
 
@@ -227,7 +228,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
    - **VS Code**: settings.json:
      ```json
      {
-       "terminal.integrated.fontFamily": "\"FiraCode Nerd Font\""
+      "terminal.integrated.fontFamily": "\"FiraCode Nerd Font\""
      }
      ```
    - **PowerShell Profile**:
@@ -248,7 +249,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 4. **Fallback to Basic Icons**
    ```json
    {
-     "template": "{{ .Name }} [{{ .Branch }}]" // No icons
+    "template": "{{ .Name }} [{{ .Branch }}]" // No icons
    }
    ```
 
@@ -274,7 +275,7 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 3. **Adjust Template Spacing**
    ```json
    {
-     "template": "{{ .Content }}" // Remove extra spaces
+    "template": "{{ .Content }}" // Remove extra spaces
    }
    ```
 
@@ -305,11 +306,11 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 
    ```json
    {
-     "type": "git",
-     "cache": {
-       "strategy": "folder",
-       "duration": "5m" // Cache for 5 minutes
-     }
+    "cache": {
+     "strategy": "folder",
+     "duration": "5m" // Cache for 5 minutes
+    },
+    "type": "git"
    }
    ```
 
@@ -317,9 +318,9 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 
    ```json
    {
-     "type": "command",
-     "template": "", // Hide temporarily
-     "properties": { "command": "expensive_script.ps1" }
+    "properties": { "command": "expensive_script.ps1" },
+    "template": "", // Hide temporarily
+    "type": "command"
    }
    ```
 
@@ -340,10 +341,10 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 
    ```json
    {
-     "cache": {
-       "strategy": "session",
-       "duration": "10m"
-     }
+    "cache": {
+     "strategy": "session",
+     "duration": "10m"
+    }
    }
    ```
 
@@ -351,8 +352,8 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 
    ```json
    {
-     "type": "owm",
-     "template": "" // Disable
+    "template": "", // Disable
+    "type": "owm"
    }
    ```
 
@@ -360,11 +361,11 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 
    ```json
    {
-     "type": "git",
-     "properties": {
-       "fetch_status": false,
-       "fetch_upstream_icon": false
-     }
+    "properties": {
+     "fetch_status": false,
+     "fetch_upstream_icon": false
+    },
+    "type": "git"
    }
    ```
 
@@ -477,11 +478,11 @@ oh-my-posh --version
 
 ```json
 {
-  "type": "path",
-  "properties": {
-    "max_depth": 2,
-    "truncation_mode": "start"
-  }
+ "properties": {
+  "max_depth": 2,
+  "truncation_mode": "start"
+ },
+ "type": "path"
 }
 ```
 
@@ -530,13 +531,13 @@ ssh -t user@host "TERM=xterm-256color bash"
 
 ```json
 {
-  "cache": {
-    "strategy": "session",
-    "duration": "10m"
-  },
-  "properties": {
-    "fetch_status": false // Disable expensive operations
-  }
+ "cache": {
+  "strategy": "session",
+  "duration": "10m"
+ },
+ "properties": {
+  "fetch_status": false // Disable expensive operations
+ }
 }
 ```
 
@@ -558,17 +559,17 @@ ssh -t user@host "TERM=xterm-256color bash"
 
    ```json
    {
-     "terminal.integrated.fontFamily": "\"FiraCode Nerd Font\"",
-     "terminal.integrated.fontSize": 12,
-     "terminal.integrated.enableBell": false
+    "terminal.integrated.enableBell": false,
+    "terminal.integrated.fontFamily": "\"FiraCode Nerd Font\"",
+    "terminal.integrated.fontSize": 12
    }
    ```
 
 3. **Use Windows Terminal Profile in VS Code**
    ```json
    {
-     "terminal.external.windowsExec": "wt.exe",
-     "terminal.integrated.defaultProfile.windows": "PowerShell"
+    "terminal.external.windowsExec": "wt.exe",
+    "terminal.integrated.defaultProfile.windows": "PowerShell"
    }
    ```
 
@@ -585,14 +586,14 @@ ssh -t user@host "TERM=xterm-256color bash"
 2. **Modify settings.json Directly**
    ```json
    {
-     "profiles": {
-       "defaults": {
-         "font": {
-           "face": "FiraCode Nerd Font",
-           "size": 11
-         }
-       }
+    "profiles": {
+     "defaults": {
+      "font": {
+       "face": "FiraCode Nerd Font",
+       "size": 11
+      }
      }
+    }
    }
    ```
 
@@ -702,21 +703,21 @@ foreach ($block in $theme.blocks) {
 
 ```json
 {
-  "version": 3,
-  "final_space": true,
-  "blocks": [
+ "blocks": [
+  {
+   "alignment": "left",
+   "segments": [
     {
-      "alignment": "left",
-      "segments": [
-        {
-          "type": "shell",
-          "background": "#FF0000",
-          "foreground": "#FFFFFF",
-          "template": "SHELL"
-        }
-      ]
+     "type": "shell",
+     "background": "#FF0000",
+     "foreground": "#FFFFFF",
+     "template": "SHELL"
     }
-  ]
+   ]
+  }
+ ],
+ "final_space": true,
+ "version": 3
 }
 ```
 
@@ -778,4 +779,5 @@ Common issue categories:
 6. **Configuration**: Validate JSON, check palette references
 
 Most issues fall into one of these categories. Follow the relevant section for your specific problem.
+
 <!-- {% endraw %} -->

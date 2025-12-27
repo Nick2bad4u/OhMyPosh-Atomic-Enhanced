@@ -162,7 +162,7 @@ The prompt requires the terminal to use the Nerd Font.
 2. **Add or update:**
    ```json
    {
-     "terminal.integrated.fontFamily": "FiraCode Nerd Font"
+    "terminal.integrated.fontFamily": "FiraCode Nerd Font"
    }
    ```
 3. **Save**
@@ -281,23 +281,23 @@ $env:OHMYPOSH_DEBUG = "true"
 
 ## System Requirements
 
-| Component  | Windows                      | macOS    | Linux    |
-| ---------- | ---------------------------- | -------- | -------- |
-| PowerShell | 7.0+                         | —        | —        |
-| Bash/Zsh   | —                            | Included | Included |
-| Oh My Posh | Latest                       | Latest   | Latest   |
-| Nerd Font  | Required                     | Required | Required |
-| Terminal   | Windows Terminal recommended | iTerm2+  | Any      |
+| Component | Windows | macOS | Linux |
+| --- | --- | --- | --- |
+| PowerShell | 7.0+ | — | — |
+| Bash/Zsh | — | Included | Included |
+| Oh My Posh | Latest | Latest | Latest |
+| Nerd Font | Required | Required | Required |
+| Terminal | Windows Terminal recommended | iTerm2+ | Any |
 
 ---
 
 ## File Locations
 
-| Item         | Windows                           | macOS                              | Linux                          |
-| ------------ | --------------------------------- | ---------------------------------- | ------------------------------ |
-| Shell Config | `$PROFILE`                        | `~/.zshrc` or `~/.bashrc`          | `~/.bashrc` or `~/.zshrc`      |
-| Themes       | `Program Files\oh-my-posh\themes` | `/usr/local/opt/oh-my-posh/themes` | `/usr/share/oh-my-posh/themes` |
-| Custom       | Anywhere                          | Anywhere                           | Anywhere                       |
+| Item | Windows | macOS | Linux |
+| --- | --- | --- | --- |
+| Shell Config | `$PROFILE` | `~/.zshrc` or `~/.bashrc` | `~/.bashrc` or `~/.zshrc` |
+| Themes | `Program Files\oh-my-posh\themes` | `/usr/local/opt/oh-my-posh/themes` | `/usr/share/oh-my-posh/themes` |
+| Custom | Anywhere | Anywhere | Anywhere |
 
 ---
 
@@ -321,24 +321,24 @@ You can customize:
 
 ```json
 {
-  "segments": [
-    {
-      "type": "path",
-      "style": "powerline",
-      "foreground": "p:accent"
-    },
-    {
-      "type": "git",
-      "style": "powerline",
-      "properties": {
-        "fetch_status": true
-      }
-    }
-  ],
-  "palette": {
-    "accent": "#00BCD4",
-    "success": "#00C853"
+ "palette": {
+  "accent": "#00BCD4",
+  "success": "#00C853"
+ },
+ "segments": [
+  {
+   "type": "path",
+   "style": "powerline",
+   "foreground": "p:accent"
+  },
+  {
+   "type": "git",
+   "style": "powerline",
+   "properties": {
+    "fetch_status": true
+   }
   }
+ ]
 }
 ```
 
@@ -348,14 +348,14 @@ Learn more in [ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.m
 
 ## Need More Help?
 
-| Question             | Resource                                                                 |
-| -------------------- | ------------------------------------------------------------------------ |
-| How do I customize?  | [ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.md)     |
-| Why is it slow?      | [PERFORMANCE-OPTIMIZATION-GUIDE.md](./PERFORMANCE-OPTIMIZATION-GUIDE.md) |
-| It looks wrong       | [TROUBLESHOOTING-GUIDE.md](./TROUBLESHOOTING-GUIDE.md)                   |
-| Common questions     | [FAQ-AND-TIPS-TRICKS.md](./FAQ-AND-TIPS-TRICKS.md)                       |
-| Platform-specific    | [CROSS-PLATFORM-SETUP-GUIDE.md](./CROSS-PLATFORM-SETUP-GUIDE.md)         |
-| Use with my IDE/tool | [INTEGRATION-GUIDES.md](./INTEGRATION-GUIDES.md)                         |
+| Question | Resource |
+| --- | --- |
+| How do I customize? | [ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.md) |
+| Why is it slow? | [PERFORMANCE-OPTIMIZATION-GUIDE.md](./PERFORMANCE-OPTIMIZATION-GUIDE.md) |
+| It looks wrong | [TROUBLESHOOTING-GUIDE.md](./TROUBLESHOOTING-GUIDE.md) |
+| Common questions | [FAQ-AND-TIPS-TRICKS.md](./FAQ-AND-TIPS-TRICKS.md) |
+| Platform-specific | [CROSS-PLATFORM-SETUP-GUIDE.md](./CROSS-PLATFORM-SETUP-GUIDE.md) |
+| Use with my IDE/tool | [INTEGRATION-GUIDES.md](./INTEGRATION-GUIDES.md) |
 
 ---
 

@@ -391,20 +391,20 @@ Use this guide to find **exactly** what you're looking for by searching for keyw
 
 ## 📊 Documentation Statistics
 
-| Document                   | Length       | Read Time | Topic           |
-| -------------------------- | ------------ | --------- | --------------- |
-| QUICK-START-GUIDE          | ~2,500 words | 5 min     | Getting started |
-| CROSS-PLATFORM-SETUP       | ~3,500 words | 15 min    | Platform setup  |
-| ADVANCED-CUSTOMIZATION     | ~4,000 words | 20 min    | Customization   |
-| JSON-CONFIGURATION         | ~3,000 words | 15 min    | JSON syntax     |
-| COMPLETE-SEGMENT-REFERENCE | ~4,500 words | 25 min    | Segments        |
-| COLOR-THEORY               | ~5,000 words | 20 min    | Color theory    |
-| COLOR-INTERPLAY            | ~4,500 words | 20 min    | Color design    |
-| ANSI-ESCAPE-CODES          | ~3,000 words | 15 min    | ANSI codes      |
-| PERFORMANCE-OPTIMIZATION   | ~3,500 words | 15 min    | Performance     |
-| TROUBLESHOOTING            | ~3,500 words | 15 min    | Troubleshooting |
-| INTEGRATION-GUIDES         | ~4,000 words | 20 min    | Integration     |
-| FAQ-AND-TIPS               | ~3,500 words | 15 min    | FAQ & tips      |
+| Document | Length | Read Time | Topic |
+| --- | --- | --- | --- |
+| QUICK-START-GUIDE | ~2,500 words | 5 min | Getting started |
+| CROSS-PLATFORM-SETUP | ~3,500 words | 15 min | Platform setup |
+| ADVANCED-CUSTOMIZATION | ~4,000 words | 20 min | Customization |
+| JSON-CONFIGURATION | ~3,000 words | 15 min | JSON syntax |
+| COMPLETE-SEGMENT-REFERENCE | ~4,500 words | 25 min | Segments |
+| COLOR-THEORY | ~5,000 words | 20 min | Color theory |
+| COLOR-INTERPLAY | ~4,500 words | 20 min | Color design |
+| ANSI-ESCAPE-CODES | ~3,000 words | 15 min | ANSI codes |
+| PERFORMANCE-OPTIMIZATION | ~3,500 words | 15 min | Performance |
+| TROUBLESHOOTING | ~3,500 words | 15 min | Troubleshooting |
+| INTEGRATION-GUIDES | ~4,000 words | 20 min | Integration |
+| FAQ-AND-TIPS | ~3,500 words | 15 min | FAQ & tips |
 
 **Total:** ~45,500 words | ~175 minutes (~3 hours) for complete read
 

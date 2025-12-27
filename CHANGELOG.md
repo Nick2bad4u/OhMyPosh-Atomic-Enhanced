@@ -2,6 +2,7 @@
 <!-- eslint-disable markdown/no-missing-label-refs -->
 
 <!-- {% raw %} -->
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -324,4 +325,5 @@ Thanks to all the [contributors](https://github.com/Nick2bad4u/OhMyPosh-Atomic-E
 
 This project is licensed under the [UnLicense](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/blob/main/LICENSE)
 _This changelog was automatically generated with [git-cliff](https://github.com/orhun/git-cliff)._
+
 <!-- {% endraw %} -->

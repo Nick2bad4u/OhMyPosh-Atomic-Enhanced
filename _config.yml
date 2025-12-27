@@ -3,13 +3,13 @@ title: OhMyPosh-Atomic-Enhanced
 description: OhMyPosh-Atomic-Enhanced made by Typpi / Nick2bad4u
 url: "https://nick2bad4u.github.io/OhMyPosh-Atomic-Enhanced/" # the base hostname & protocol for your site
 plugins:
-  - jekyll-sitemap
-  - jekyll-seo-tag
-  - jekyll-paginate
-  - jekyll-feed
-  - jekyll-archives
-  - jekyll-language-plugin
-  - jekyll-algolia
-  - jekyll-mentions
-  - jekyll-admin
-  - jekyll-loading-lazy
+    - jekyll-sitemap
+    - jekyll-seo-tag
+    - jekyll-paginate
+    - jekyll-feed
+    - jekyll-archives
+    - jekyll-language-plugin
+    - jekyll-algolia
+    - jekyll-mentions
+    - jekyll-admin
+    - jekyll-loading-lazy

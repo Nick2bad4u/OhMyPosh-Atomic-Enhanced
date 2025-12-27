@@ -1,4 +1,5 @@
 <!-- {% raw %} -->
+
 # 📋 Complete Segment & Configuration Reference
 
 ## Table of Contents
@@ -70,17 +71,17 @@ Displays the current shell name and version.
 
 ```json
 {
-  "type": "shell",
-  "background": "p:blue_primary",
-  "foreground": "p:white",
-  "template": " {{ .Shell }} ",
-  "properties": {
-    "mapped_names": {
-      "pwsh": "PowerShell",
-      "bash": "Bash",
-      "zsh": "Zsh"
-    }
+ "background": "p:blue_primary",
+ "foreground": "p:white",
+ "properties": {
+  "mapped_names": {
+   "pwsh": "PowerShell",
+   "bash": "Bash",
+   "zsh": "Zsh"
   }
+ },
+ "template": " {{ .Shell }} ",
+ "type": "shell"
 }
 ```
 
@@ -102,24 +103,24 @@ Displays the current working directory.
 
 ```json
 {
-  "type": "path",
-  "background": "p:orange_accent",
-  "foreground": "p:black",
-  "template": "  {{ .Path }} ",
-  "properties": {
-    "style": "folder",
-    "max_depth": 3,
-    "folder_separator_icon": "/",
-    "home_icon": "~",
-    "read_only_icon": "🔒",
-    "truncation_mode": "start",
-    "truncated_indicator": "...",
-    "mapped_locations": {
-      "C:\\Users\\{user}\\Documents": "📄 Docs",
-      "C:\\Users\\{user}\\Desktop": "🖥️ Desktop",
-      "/home/user/projects": "💼 Projects"
-    }
+ "background": "p:orange_accent",
+ "foreground": "p:black",
+ "properties": {
+  "style": "folder",
+  "max_depth": 3,
+  "folder_separator_icon": "/",
+  "home_icon": "~",
+  "read_only_icon": "🔒",
+  "truncation_mode": "start",
+  "truncated_indicator": "...",
+  "mapped_locations": {
+   "C:\\Users\\{user}\\Documents": "📄 Docs",
+   "C:\\Users\\{user}\\Desktop": "🖥️ Desktop",
+   "/home/user/projects": "💼 Projects"
   }
+ },
+ "template": "  {{ .Path }} ",
+ "type": "path"
 }
 ```
 
@@ -150,18 +151,18 @@ Displays git repository information and status.
 
 ```json
 {
-  "type": "git",
-  "background": "p:yellow_bright",
-  "foreground": "p:black",
-  "template": " {{ .Branch }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }} ",
-  "properties": {
-    "fetch_status": true,
-    "fetch_upstream_icon": true,
-    "branch_max_length": 25,
-    "truncation_symbol": "…",
-    "windows_registry": false,
-    "fetch_worktree_count": false
-  }
+ "background": "p:yellow_bright",
+ "foreground": "p:black",
+ "properties": {
+  "fetch_status": true,
+  "fetch_upstream_icon": true,
+  "branch_max_length": 25,
+  "truncation_symbol": "…",
+  "windows_registry": false,
+  "fetch_worktree_count": false
+ },
+ "template": " {{ .Branch }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }} ",
+ "type": "git"
 }
 ```
 
@@ -194,16 +195,16 @@ Displays the exit status of the previous command.
 
 ```json
 {
-  "type": "status",
-  "background_templates": [
-    "{{ if .Error }}p:red_alert{{ else }}p:green_success{{ end }}"
-  ],
-  "foreground": "p:white",
-  "template": " {{ if .Error }}✗{{ else }}✓{{ end }} ",
-  "properties": {
-    "always_show": false,
-    "ignore_error": false
-  }
+ "background_templates": [
+  "{{ if .Error }}p:red_alert{{ else }}p:green_success{{ end }}"
+ ],
+ "foreground": "p:white",
+ "properties": {
+  "always_show": false,
+  "ignore_error": false
+ },
+ "template": " {{ if .Error }}✗{{ else }}✓{{ end }} ",
+ "type": "status"
 }
 ```
 
@@ -231,14 +232,14 @@ Displays current date and time.
 
 ```json
 {
-  "type": "time",
-  "background": "p:purple_accent",
-  "foreground": "p:white",
-  "template": " 🕒 {{ .CurrentDate | date \"15:04\" }} ",
-  "properties": {
-    "time_format": "15:04:05",
-    "hide_if_nonzero_exit_code": false
-  }
+ "background": "p:purple_accent",
+ "foreground": "p:white",
+ "properties": {
+  "time_format": "15:04:05",
+  "hide_if_nonzero_exit_code": false
+ },
+ "template": " 🕒 {{ .CurrentDate | date \"15:04\" }} ",
+ "type": "time"
 }
 ```
 
@@ -270,16 +271,16 @@ Displays battery status and percentage.
 
 ```json
 {
-  "type": "battery",
-  "background_templates": [
-    "{{ if lt .Percentage 20 }}p:red_alert{{ else if lt .Percentage 50 }}p:yellow{{ else }}p:green{{ end }}"
-  ],
-  "template": " {{ if lt .Percentage 10 }}🪫{{ else }}🔋{{ end }} {{ .Percentage }}% ",
-  "properties": {
-    "display_as_percentage": true,
-    "charging_icon": "⚡",
-    "discharging_icon": "🔋"
-  }
+ "background_templates": [
+  "{{ if lt .Percentage 20 }}p:red_alert{{ else if lt .Percentage 50 }}p:yellow{{ else }}p:green{{ end }}"
+ ],
+ "properties": {
+  "display_as_percentage": true,
+  "charging_icon": "⚡",
+  "discharging_icon": "🔋"
+ },
+ "template": " {{ if lt .Percentage 10 }}🪫{{ else }}🔋{{ end }} {{ .Percentage }}% ",
+ "type": "battery"
 }
 ```
 
@@ -302,14 +303,14 @@ Displays how long the last command took.
 
 ```json
 {
-  "type": "executiontime",
-  "background": "p:cyan_accent",
-  "foreground": "p:black",
-  "template": " ⏱️  {{ .FormattedMs }} ",
-  "properties": {
-    "threshold": 2000,
-    "style": "plain"
-  }
+ "background": "p:cyan_accent",
+ "foreground": "p:black",
+ "properties": {
+  "threshold": 2000,
+  "style": "plain"
+ },
+ "template": " ⏱️  {{ .FormattedMs }} ",
+ "type": "executiontime"
 }
 ```
 
@@ -338,44 +339,44 @@ These show version info for runtimes in current directory:
 #### `node`
 
 ```json
-{ "type": "node", "template": " ⬢ {{ .Version }} " }
+{ "template": " ⬢ {{ .Version }} ", "type": "node" }
 ```
 
 #### `python`
 
 ```json
-{ "type": "python", "template": " 🐍 {{ .Version }} " }
+{ "template": " 🐍 {{ .Version }} ", "type": "python" }
 ```
 
 #### `ruby`
 
 ```json
-{ "type": "ruby", "template": " 💎 {{ .Version }} " }
+{ "template": " 💎 {{ .Version }} ", "type": "ruby" }
 ```
 
 #### `go`
 
 ```json
-{ "type": "go", "template": " 🐹 {{ .Version }} " }
+{ "template": " 🐹 {{ .Version }} ", "type": "go" }
 ```
 
 #### `rust`
 
 ```json
-{ "type": "rust", "template": " 🦀 {{ .Version }} " }
+{ "template": " 🦀 {{ .Version }} ", "type": "rust" }
 ```
 
 **Common Pattern:**
 
 ```json
 {
-  "type": "node",
-  "background": "p:node_green",
-  "template": " ⬢ {{ .Version }} ",
-  "cache": {
-    "strategy": "folder",
-    "duration": "30m"
-  }
+ "background": "p:node_green",
+ "cache": {
+  "strategy": "folder",
+  "duration": "30m"
+ },
+ "template": " ⬢ {{ .Version }} ",
+ "type": "node"
 }
 ```
 
@@ -389,13 +390,13 @@ Displays CPU, memory, and disk usage.
 
 ```json
 {
-  "type": "sysinfo",
-  "background": "p:blue_primary",
-  "template": " CPU: {{ .CPUPercentage }}% | RAM: {{ .Memory }}% ",
-  "cache": {
-    "strategy": "session",
-    "duration": "5s"
-  }
+ "background": "p:blue_primary",
+ "cache": {
+  "strategy": "session",
+  "duration": "5s"
+ },
+ "template": " CPU: {{ .CPUPercentage }}% | RAM: {{ .Memory }}% ",
+ "type": "sysinfo"
 }
 ```
 
@@ -407,9 +408,9 @@ Displays operating system and WSL status.
 
 ```json
 {
-  "type": "os",
-  "background": "p:gray",
-  "template": " {{ .Icon }} {{ .OS }}{{ if .WSL }} (WSL){{ end }} "
+ "background": "p:gray",
+ "template": " {{ .Icon }} {{ .OS }}{{ if .WSL }} (WSL){{ end }} ",
+ "type": "os"
 }
 ```
 
@@ -423,17 +424,17 @@ Executes custom command and displays output.
 
 ```json
 {
-  "type": "command",
-  "template": "{{ .Output }}",
-  "properties": {
-    "shell": "powershell",
-    "command": "Get-Date -Format 'HH:mm'",
-    "parse": true
-  },
-  "cache": {
-    "strategy": "session",
-    "duration": "5s"
-  }
+ "cache": {
+  "strategy": "session",
+  "duration": "5s"
+ },
+ "properties": {
+  "shell": "powershell",
+  "command": "Get-Date -Format 'HH:mm'",
+  "parse": true
+ },
+ "template": "{{ .Output }}",
+ "type": "command"
 }
 ```
 
@@ -445,11 +446,11 @@ Displays environment variable value.
 
 ```json
 {
-  "type": "env",
-  "template": " ENV: {{ .Env.ENVIRONMENT }} ",
-  "properties": {
-    "var_name": "ENVIRONMENT"
-  }
+ "properties": {
+  "var_name": "ENVIRONMENT"
+ },
+ "template": " ENV: {{ .Env.ENVIRONMENT }} ",
+ "type": "env"
 }
 ```
 
@@ -461,9 +462,9 @@ Displays static text or custom template.
 
 ```json
 {
-  "type": "text",
-  "template": " → ",
-  "foreground": "p:accent"
+ "foreground": "p:accent",
+ "template": " → ",
+ "type": "text"
 }
 ```
 
@@ -477,44 +478,43 @@ All segments support:
 
 ```json
 {
-  "type": "segment_type",
+ // Colors
+ "background": "p:palette_key|#hexcolor|transparent",
+ "background_templates": [
+  "{{ if condition }}p:color1{{ else }}p:color2{{ end }}"
+ ],
 
-  // Colors
-  "background": "p:palette_key|#hexcolor|transparent",
-  "foreground": "p:palette_key|#hexcolor",
-  "background_templates": [
-    "{{ if condition }}p:color1{{ else }}p:color2{{ end }}"
-  ],
+ // Performance
+ "cache": {
+  "strategy": "session|folder|windows",
+  "duration": "5m",
+  "skip_cache": false
+ },
 
-  // Styling
-  "style": "powerline|diamond|plain",
-  "leading_diamond": "◆",
-  "trailing_diamond": "◆",
+ "foreground": "p:palette_key|#hexcolor",
+ "leading_diamond": "◆",
+ // Type-specific
+ "properties": {
+  "key": "value"
+ },
+ // Styling
+ "style": "powerline|diamond|plain",
+ // Content
+ "template": "{{ .Variable }}",
 
-  // Content
-  "template": "{{ .Variable }}",
+ "trailing_diamond": "◆",
 
-  // Performance
-  "cache": {
-    "strategy": "session|folder|windows",
-    "duration": "5m",
-    "skip_cache": false
-  },
-
-  // Type-specific
-  "properties": {
-    "key": "value"
-  }
+ "type": "segment_type"
 }
 ```
 
 ### Style Types
 
-| Style       | Symbol  | Example       | Use Case          |
-| ----------- | ------- | ------------- | ----------------- |
-| `powerline` | ` `     | Modern, clean | Default choice    |
-| `diamond`   | `◆`     | Enclosed      | Accent segments   |
-| `plain`     | Nothing | Text only     | Simple separators |
+| Style | Symbol | Example | Use Case |
+| --- | --- | --- | --- |
+| `powerline` | ` ` | Modern, clean | Default choice |
+| `diamond` | `◆` | Enclosed | Accent segments |
+| `plain` | Nothing | Text only | Simple separators |
 
 ---
 
@@ -577,11 +577,11 @@ All segments support:
 
 ```json
 {
-  "palette": {
-    "accent": "#00BCD4", // Hex color
-    "blue_primary": "#0080FF",
-    "red_alert": "#FF0000"
-  }
+ "palette": {
+  "accent": "#00BCD4", // Hex color
+  "blue_primary": "#0080FF",
+  "red_alert": "#FF0000"
+ }
 }
 ```
 
@@ -589,11 +589,11 @@ All segments support:
 
 ```json
 {
-  "foreground": "p:accent", // Reference palette
-  "background": "#FFFFFF", // Direct hex
-  "background_templates": [
-    "{{ if .Error }}p:red_alert{{ else }}p:accent{{ end }}"
-  ]
+ "background": "#FFFFFF", // Direct hex
+ "background_templates": [
+  "{{ if .Error }}p:red_alert{{ else }}p:accent{{ end }}"
+ ],
+ "foreground": "p:accent" // Reference palette
 }
 ```
 
@@ -662,20 +662,20 @@ function Convert-RGBToHex {
 
 ```json
 {
-  "blocks": [
-    {
-      "alignment": "left",
-      "segments": [{ "type": "shell" }, { "type": "path" }, { "type": "git" }]
-    },
-    {
-      "alignment": "right",
-      "segments": [{ "type": "time" }, { "type": "battery" }]
-    },
-    {
-      "alignment": "newline",
-      "segments": [{ "type": "text", "template": "❯ " }]
-    }
-  ]
+ "blocks": [
+  {
+   "alignment": "left",
+   "segments": [{ "type": "shell" }, { "type": "path" }, { "type": "git" }]
+  },
+  {
+   "alignment": "right",
+   "segments": [{ "type": "time" }, { "type": "battery" }]
+  },
+  {
+   "alignment": "newline",
+   "segments": [{ "type": "text", "template": "❯ " }]
+  }
+ ]
 }
 ```
 
@@ -687,12 +687,12 @@ function Convert-RGBToHex {
 
 ```json
 {
-  "version": 3,
-  "blocks": [
-    {
-      "segments": [{ "type": "text", "template": "❯ " }]
-    }
-  ]
+ "blocks": [
+  {
+   "segments": [{ "type": "text", "template": "❯ " }]
+  }
+ ],
+ "version": 3
 }
 ```
 
@@ -702,15 +702,15 @@ function Convert-RGBToHex {
 
 ```json
 {
-  "blocks": [
-    {
-      "segments": [
-        { "type": "shell" },
-        { "type": "path", "properties": { "max_depth": 2 } },
-        { "type": "status" }
-      ]
-    }
-  ]
+ "blocks": [
+  {
+   "segments": [
+    { "type": "shell" },
+    { "type": "path", "properties": { "max_depth": 2 } },
+    { "type": "status" }
+   ]
+  }
+ ]
 }
 ```
 
@@ -720,20 +720,20 @@ function Convert-RGBToHex {
 
 ```json
 {
-  "blocks": [
+ "blocks": [
+  {
+   "segments": [
+    { "type": "shell" },
+    { "type": "path" },
     {
-      "segments": [
-        { "type": "shell" },
-        { "type": "path" },
-        {
-          "type": "git",
-          "properties": { "fetch_status": false },
-          "cache": { "strategy": "folder", "duration": "5m" }
-        },
-        { "type": "status" }
-      ]
-    }
-  ]
+     "type": "git",
+     "properties": { "fetch_status": false },
+     "cache": { "strategy": "folder", "duration": "5m" }
+    },
+    { "type": "status" }
+   ]
+  }
+ ]
 }
 ```
 
@@ -761,13 +761,13 @@ function Convert-RGBToHex {
 
 ```json
 {
-  "segments": [
-    { "type": "path" },
-    { "type": "git" },
-    { "type": "node" },
-    { "type": "python" },
-    { "type": "status" }
-  ]
+ "segments": [
+  { "type": "path" },
+  { "type": "git" },
+  { "type": "node" },
+  { "type": "python" },
+  { "type": "status" }
+ ]
 }
 ```
 
@@ -775,12 +775,12 @@ function Convert-RGBToHex {
 
 ```json
 {
-  "segments": [
-    { "type": "shell" },
-    { "type": "path" },
-    { "type": "env", "properties": { "var_name": "ENVIRONMENT" } },
-    { "type": "status" }
-  ]
+ "segments": [
+  { "type": "shell" },
+  { "type": "path" },
+  { "type": "env", "properties": { "var_name": "ENVIRONMENT" } },
+  { "type": "status" }
+ ]
 }
 ```
 
@@ -788,7 +788,7 @@ function Convert-RGBToHex {
 
 ```json
 {
-  "segments": [{ "type": "sysinfo" }, { "type": "battery" }, { "type": "time" }]
+ "segments": [{ "type": "sysinfo" }, { "type": "battery" }, { "type": "time" }]
 }
 ```
 
@@ -808,9 +808,9 @@ function Convert-RGBToHex {
 
 ```json
 {
-  "type": "git",
-  "template": " {{ .Branch }} ", // Not empty
-  "cache": { "skip_cache": false }
+ "cache": { "skip_cache": false },
+ "template": " {{ .Branch }} ", // Not empty
+ "type": "git"
 }
 ```
 
@@ -826,8 +826,8 @@ function Convert-RGBToHex {
 
 ```json
 {
-  "foreground": "p:white", // Verify exists in palette
-  "background": "p:blue_primary"
+ "background": "p:blue_primary",
+ "foreground": "p:white" // Verify exists in palette
 }
 ```
 
@@ -843,13 +843,13 @@ function Convert-RGBToHex {
 
 ```json
 {
-  "cache": {
-    "strategy": "folder",
-    "duration": "5m" // Cache for 5 minutes
-  },
-  "properties": {
-    "fetch_status": false // Don't fetch git status
-  }
+ "cache": {
+  "strategy": "folder",
+  "duration": "5m" // Cache for 5 minutes
+ },
+ "properties": {
+  "fetch_status": false // Don't fetch git status
+ }
 }
 ```
 
@@ -857,18 +857,18 @@ function Convert-RGBToHex {
 
 ## Quick Reference Table
 
-| Need              | Segment Type | Key Property            |
-| ----------------- | ------------ | ----------------------- | ---- | --- |
-| Show shell name   | `shell`      | —                       |
-| Show directory    | `path`       | `max_depth`             |
-| Show git info     | `git`        | `fetch_status`          |
-| Show success/fail | `status`     | `always_show`           |
-| Show time         | `time`       | `time_format`           |
-| Show version      | `node        | python                  | etc` | —   |
-| Show resources    | `sysinfo`    | —                       |
-| Show battery      | `battery`    | `display_as_percentage` |
-| Run custom        | `command`    | `command`               |
-| Show variable     | `env`        | `var_name`              |
+| Need | Segment Type | Key Property |
+| --- | --- | --- |
+| Show shell name | `shell` | — |
+| Show directory | `path` | `max_depth` |
+| Show git info | `git` | `fetch_status` |
+| Show success/fail | `status` | `always_show` |
+| Show time | `time` | `time_format` |
+| Show version | `node | python | etc` | — |
+| Show resources | `sysinfo` | — |
+| Show battery | `battery` | `display_as_percentage` |
+| Run custom | `command` | `command` |
+| Show variable | `env` | `var_name` |
 
 ---
 
@@ -885,4 +885,5 @@ function Convert-RGBToHex {
 ✅ Blocks arrange segments on prompt lines
 
 For detailed segment information, check official Oh My Posh docs: https://ohmyposh.dev/docs/segments/
+
 <!-- {% endraw %} -->

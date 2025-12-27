@@ -359,18 +359,18 @@ Use this section to find documentation by searching for ANY keyword related to y
 
 ## 📍 Problem-to-Document Quick Map
 
-| Problem Category     | Documents                          | Priority     |
-| -------------------- | ---------------------------------- | ------------ |
-| **Installation**     | QUICK-START, CROSS-PLATFORM        | 🔴 First     |
-| **Font Issues**      | TROUBLESHOOTING, QUICK-START       | 🔴 First     |
-| **Wrong Colors**     | TROUBLESHOOTING, COLOR-THEORY      | 🟡 High      |
-| **Customization**    | ADVANCED-CUSTOMIZATION, JSON       | 🟡 High      |
-| **Slow Prompt**      | PERFORMANCE-OPTIMIZATION           | 🟡 High      |
-| **Git Issues**       | TROUBLESHOOTING, SEGMENT-REFERENCE | 🟢 Medium    |
-| **Tool Integration** | INTEGRATION-GUIDES                 | 🟢 Medium    |
-| **Color Design**     | COLOR-THEORY, COLOR-INTERPLAY      | 🟢 Medium    |
-| **Template Syntax**  | COMPLETE-SEGMENT-REFERENCE         | 🟢 Medium    |
-| **ANSI Codes**       | ANSI-ESCAPE-CODES-GUIDE            | 🔵 Reference |
+| Problem Category | Documents | Priority |
+| --- | --- | --- |
+| **Installation** | QUICK-START, CROSS-PLATFORM | 🔴 First |
+| **Font Issues** | TROUBLESHOOTING, QUICK-START | 🔴 First |
+| **Wrong Colors** | TROUBLESHOOTING, COLOR-THEORY | 🟡 High |
+| **Customization** | ADVANCED-CUSTOMIZATION, JSON | 🟡 High |
+| **Slow Prompt** | PERFORMANCE-OPTIMIZATION | 🟡 High |
+| **Git Issues** | TROUBLESHOOTING, SEGMENT-REFERENCE | 🟢 Medium |
+| **Tool Integration** | INTEGRATION-GUIDES | 🟢 Medium |
+| **Color Design** | COLOR-THEORY, COLOR-INTERPLAY | 🟢 Medium |
+| **Template Syntax** | COMPLETE-SEGMENT-REFERENCE | 🟢 Medium |
+| **ANSI Codes** | ANSI-ESCAPE-CODES-GUIDE | 🔵 Reference |
 
 ---
 

@@ -144,17 +144,17 @@ Quick lookup materials:
 
 ## Topic Coverage Matrix
 
-| Topic               | Beginner | Intermediate | Advanced | Reference |
-| ------------------- | -------- | ------------ | -------- | --------- |
-| **Installation**    | ✅       | —            | —        | ✅        |
-| **Basic Setup**     | ✅       | ✅           | —        | ✅        |
-| **Colors**          | —        | ✅           | ✅       | —         |
-| **Segments**        | ✅       | ✅           | ✅       | ✅        |
-| **Performance**     | ⚠️       | ✅           | ✅       | —         |
-| **Customization**   | ⚠️       | ✅           | ✅       | ✅        |
-| **Troubleshooting** | ✅       | ✅           | ✅       | ✅        |
-| **Integration**     | ✅       | ✅           | —        | —         |
-| **FAQ**             | ✅       | ✅           | ✅       | —         |
+| Topic | Beginner | Intermediate | Advanced | Reference |
+| --- | --- | --- | --- | --- |
+| **Installation** | ✅ | — | — | ✅ |
+| **Basic Setup** | ✅ | ✅ | — | ✅ |
+| **Colors** | — | ✅ | ✅ | — |
+| **Segments** | ✅ | ✅ | ✅ | ✅ |
+| **Performance** | ⚠️ | ✅ | ✅ | — |
+| **Customization** | ⚠️ | ✅ | ✅ | ✅ |
+| **Troubleshooting** | ✅ | ✅ | ✅ | ✅ |
+| **Integration** | ✅ | ✅ | — | — |
+| **FAQ** | ✅ | ✅ | ✅ | — |
 
 Key: ✅ = Comprehensive, ⚠️ = Partial coverage, — = Not covered
 

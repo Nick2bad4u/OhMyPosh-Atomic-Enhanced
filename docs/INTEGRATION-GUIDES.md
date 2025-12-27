@@ -21,20 +21,19 @@ Open VS Code settings (Ctrl+,) and search for "terminal":
 
 ```json
 {
-  // Terminal font configuration
-  "terminal.integrated.fontFamily": "\"FiraCode Nerd Font\", \"JetBrains Mono Nerd Font\", monospace",
-  "terminal.integrated.fontSize": 12,
-  "terminal.integrated.lineHeight": 1.3,
-  "terminal.integrated.fontWeightBold": "600",
+ // Color integration
+ "terminal.ansi16BitColors": true,
+ // Terminal behavior
+ "terminal.integrated.enableBell": false,
+ "terminal.integrated.enableMultiLinePasting": true,
+ // Terminal font configuration
+ "terminal.integrated.fontFamily": "\"FiraCode Nerd Font\", \"JetBrains Mono Nerd Font\", monospace",
+ "terminal.integrated.fontSize": 12,
+ "terminal.integrated.fontWeightBold": "600",
 
-  // Terminal behavior
-  "terminal.integrated.enableBell": false,
-  "terminal.integrated.enableMultiLinePasting": true,
-  "terminal.integrated.smoothScrolling": true,
-
-  // Color integration
-  "terminal.ansi16BitColors": true,
-  "terminal.integrated.inheritEnv": true
+ "terminal.integrated.inheritEnv": true,
+ "terminal.integrated.lineHeight": 1.3,
+ "terminal.integrated.smoothScrolling": true
 }
 ```
 
@@ -46,19 +45,19 @@ Add Oh My Posh initialization to terminal profiles:
 
 ```json
 {
-  "terminal.integrated.profiles.windows": {
-    "PowerShell": {
-      "source": "PowerShell",
-      "icon": "terminal-powershell",
-      "overrideName": true,
-      "args": [
-        "-NoExit",
-        "-Command",
-        "oh-my-posh init pwsh --config 'C:\\path\\to\\theme.json' | Invoke-Expression"
-      ]
-    }
-  },
-  "terminal.integrated.defaultProfile.windows": "PowerShell"
+ "terminal.integrated.defaultProfile.windows": "PowerShell",
+ "terminal.integrated.profiles.windows": {
+  "PowerShell": {
+   "source": "PowerShell",
+   "icon": "terminal-powershell",
+   "overrideName": true,
+   "args": [
+    "-NoExit",
+    "-Command",
+    "oh-my-posh init pwsh --config 'C:\\path\\to\\theme.json' | Invoke-Expression"
+   ]
+  }
+ }
 }
 ```
 
@@ -66,14 +65,14 @@ Add Oh My Posh initialization to terminal profiles:
 
 ```json
 {
-  "terminal.integrated.profiles.linux": {
-    "bash": {
-      "path": "bash",
-      "args": ["--init-file", "~/.bashrc"],
-      "overrideName": true
-    }
-  },
-  "terminal.integrated.defaultProfile.linux": "bash"
+ "terminal.integrated.defaultProfile.linux": "bash",
+ "terminal.integrated.profiles.linux": {
+  "bash": {
+   "path": "bash",
+   "args": ["--init-file", "~/.bashrc"],
+   "overrideName": true
+  }
+ }
 }
 ```
 
@@ -88,8 +87,8 @@ VS Code can use a matching color theme:
 2. Configure in settings.json:
    ```json
    {
-     "workbench.colorTheme": "Dracula",
-     "workbench.iconTheme": "material-icon-theme"
+    "workbench.colorTheme": "Dracula",
+    "workbench.iconTheme": "material-icon-theme"
    }
    ```
 
@@ -154,51 +153,51 @@ Add or modify PowerShell profile in `settings.json`:
 
 ```json
 {
-  "profiles": {
-    "defaults": {
-      "fontFace": "FiraCode Nerd Font",
-      "fontSize": 11,
-      "fontWeight": "normal",
-      "useAcrylic": true,
-      "acrylicOpacity": 0.85
-    },
-    "list": [
-      {
-        "name": "PowerShell",
-        "source": "Windows.Terminal.PowershellCore",
-        "hidden": false,
-        "startingDirectory": "%USERPROFILE%",
-        "commandline": "pwsh.exe",
-        "icon": "ms-appx:///ProfileIcons/PowerShell_{9ACB9455-CA41-5AF7-950F-6BACA7E80194}.png"
-      }
-    ]
+ "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+ "profiles": {
+  "defaults": {
+   "fontFace": "FiraCode Nerd Font",
+   "fontSize": 11,
+   "fontWeight": "normal",
+   "useAcrylic": true,
+   "acrylicOpacity": 0.85
   },
-  "schemes": [
-    {
-      "name": "Atomic Enhanced",
-      "background": "#1E1E1E",
-      "foreground": "#D4D4D4",
-      "cursorColor": "#00BCD4",
-      "selectionBackground": "#264F78",
-      "black": "#000000",
-      "blue": "#0080FF",
-      "brightBlack": "#808080",
-      "brightBlue": "#00B7FF",
-      "brightCyan": "#00F5FF",
-      "brightGreen": "#00FF00",
-      "brightMagenta": "#FF00FF",
-      "brightRed": "#FF3D3D",
-      "brightWhite": "#FFFFFF",
-      "brightYellow": "#FFD600",
-      "cyan": "#00D4FF",
-      "green": "#00C853",
-      "magenta": "#D946EF",
-      "red": "#FF0000",
-      "white": "#E0E0E0",
-      "yellow": "#FFD600"
-    }
-  ],
-  "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}"
+  "list": [
+   {
+    "name": "PowerShell",
+    "source": "Windows.Terminal.PowershellCore",
+    "hidden": false,
+    "startingDirectory": "%USERPROFILE%",
+    "commandline": "pwsh.exe",
+    "icon": "ms-appx:///ProfileIcons/PowerShell_{9ACB9455-CA41-5AF7-950F-6BACA7E80194}.png"
+   }
+  ]
+ },
+ "schemes": [
+  {
+   "name": "Atomic Enhanced",
+   "background": "#1E1E1E",
+   "foreground": "#D4D4D4",
+   "cursorColor": "#00BCD4",
+   "selectionBackground": "#264F78",
+   "black": "#000000",
+   "blue": "#0080FF",
+   "brightBlack": "#808080",
+   "brightBlue": "#00B7FF",
+   "brightCyan": "#00F5FF",
+   "brightGreen": "#00FF00",
+   "brightMagenta": "#FF00FF",
+   "brightRed": "#FF3D3D",
+   "brightWhite": "#FFFFFF",
+   "brightYellow": "#FFD600",
+   "cyan": "#00D4FF",
+   "green": "#00C853",
+   "magenta": "#D946EF",
+   "red": "#FF0000",
+   "white": "#E0E0E0",
+   "yellow": "#FFD600"
+  }
+ ]
 }
 ```
 
@@ -206,15 +205,15 @@ Add or modify PowerShell profile in `settings.json`:
 
 ```json
 {
-  "appearance": {
-    "theme": "dark",
-    "acrylic": true,
-    "useAcrylicInTabRow": true,
-    "tabWidthMode": "equal"
-  },
-  "colorScheme": "Atomic Enhanced",
-  "bellStyle": "none",
-  "showTabsInTitleBar": true
+ "appearance": {
+  "theme": "dark",
+  "acrylic": true,
+  "useAcrylicInTabRow": true,
+  "tabWidthMode": "equal"
+ },
+ "bellStyle": "none",
+ "colorScheme": "Atomic Enhanced",
+ "showTabsInTitleBar": true
 }
 ```
 
@@ -222,13 +221,13 @@ Add or modify PowerShell profile in `settings.json`:
 
 ```json
 {
-  "keybindings": [
-    {
-      "command": "sendInput",
-      "keys": ["ctrl+alt+n"],
-      "input": "New-Item -ItemType Directory -Name 'test'"
-    }
-  ]
+ "keybindings": [
+  {
+   "command": "sendInput",
+   "keys": ["ctrl+alt+n"],
+   "input": "New-Item -ItemType Directory -Name 'test'"
+  }
+ ]
 }
 ```
 
@@ -238,20 +237,20 @@ Add or modify PowerShell profile in `settings.json`:
 
 ```json
 {
-  "profiles": {
-    "list": [
-      {
-        "name": "PowerShell 7 (Current)",
-        "commandline": "pwsh.exe",
-        "source": "Windows.Terminal.PowershellCore"
-      },
-      {
-        "name": "Windows PowerShell 5.1",
-        "commandline": "powershell.exe",
-        "hidden": false
-      }
-    ]
-  }
+ "profiles": {
+  "list": [
+   {
+    "name": "PowerShell 7 (Current)",
+    "commandline": "pwsh.exe",
+    "source": "Windows.Terminal.PowershellCore"
+   },
+   {
+    "name": "Windows PowerShell 5.1",
+    "commandline": "powershell.exe",
+    "hidden": false
+   }
+  ]
+ }
 }
 ```
 
@@ -259,11 +258,11 @@ Add or modify PowerShell profile in `settings.json`:
 
 ```json
 {
-  "profiles": {
-    "defaults": {
-      "startingDirectory": "%USERPROFILE%\\Projects" // Start in Projects folder
-    }
+ "profiles": {
+  "defaults": {
+   "startingDirectory": "%USERPROFILE%\\Projects" // Start in Projects folder
   }
+ }
 }
 ```
 
@@ -271,16 +270,16 @@ Add or modify PowerShell profile in `settings.json`:
 
 ```json
 {
-  "profiles": {
-    "list": [
-      {
-        "name": "PowerShell",
-        "icon": "ms-appx:///ProfileIcons/PowerShell_{guid}.png"
-        // Or custom file path:
-        // "icon": "file:///C:\\path\\to\\icon.png"
-      }
-    ]
-  }
+ "profiles": {
+  "list": [
+   {
+    "name": "PowerShell",
+    "icon": "ms-appx:///ProfileIcons/PowerShell_{guid}.png"
+    // Or custom file path:
+    // "icon": "file:///C:\\path\\to\\icon.png"
+   }
+  ]
+ }
 }
 ```
 
@@ -342,12 +341,12 @@ echo $PS1
 
 ⚠️ **Note:** Git Bash has limited ANSI support compared to modern terminals
 
-| Feature     | Status     | Notes                         |
-| ----------- | ---------- | ----------------------------- |
-| Colors      | ⚠️ Limited | Some color codes not rendered |
-| Icons       | ✅ Works   | Nerd Font icons display       |
-| Git status  | ✅ Full    | Works well                    |
-| Performance | ✅ Good    | Generally fast                |
+| Feature | Status | Notes |
+| --- | --- | --- |
+| Colors | ⚠️ Limited | Some color codes not rendered |
+| Icons | ✅ Works | Nerd Font icons display |
+| Git status | ✅ Full | Works well |
+| Performance | ✅ Good | Generally fast |
 
 ### Recommendation
 
@@ -394,16 +393,16 @@ Windows Terminal automatically detects WSL. To customize:
 
 ```json
 {
-  "profiles": {
-    "list": [
-      {
-        "name": "Ubuntu",
-        "commandline": "wsl.exe -d Ubuntu",
-        "startingDirectory": "//wsl$/Ubuntu/home/username",
-        "icon": "ms-appx:///ProfileIcons/Ubuntu_{guid}.png"
-      }
-    ]
-  }
+ "profiles": {
+  "list": [
+   {
+    "name": "Ubuntu",
+    "commandline": "wsl.exe -d Ubuntu",
+    "startingDirectory": "//wsl$/Ubuntu/home/username",
+    "icon": "ms-appx:///ProfileIcons/Ubuntu_{guid}.png"
+   }
+  ]
+ }
 }
 ```
 
@@ -488,13 +487,13 @@ Profiles > Colors > Load Presets > Import
 
    ```yaml
    font:
-     family: FiraCode Nerd Font
-     size: 12.0
+    family: FiraCode Nerd Font
+    size: 12.0
 
    colors:
-     primary:
-       background: "#1e1e1e"
-       foreground: "#d4d4d4"
+    primary:
+     background: "#1e1e1e"
+     foreground: "#d4d4d4"
    ```
 
 3. Add to shell config:

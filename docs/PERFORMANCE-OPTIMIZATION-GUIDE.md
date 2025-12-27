@@ -1,4 +1,5 @@
 <!-- {% raw %} -->
+
 # ⚡ Performance Optimization Guide
 
 ## Table of Contents
@@ -88,16 +89,16 @@ $env:OHMYPOSH_DEBUG = "true"
 
 ### Segment Execution Cost
 
-| Segment Type      | Typical Cost | Cacheable          |
-| ----------------- | ------------ | ------------------ |
-| **shell**         | 1-2ms        | ✅ Yes             |
-| **path**          | 5-10ms       | ⚠️ Sometimes       |
-| **git**           | 50-200ms     | ✅ Yes (by folder) |
-| **status**        | 1-2ms        | ✅ Yes             |
-| **command**       | 10-100ms+    | ✅ Yes             |
-| **node**          | 30-80ms      | ✅ Yes             |
-| **python**        | 30-80ms      | ✅ Yes             |
-| **owm (weather)** | 500ms+       | ⚠️ Network         |
+| Segment Type | Typical Cost | Cacheable |
+| --- | --- | --- |
+| **shell** | 1-2ms | ✅ Yes |
+| **path** | 5-10ms | ⚠️ Sometimes |
+| **git** | 50-200ms | ✅ Yes (by folder) |
+| **status** | 1-2ms | ✅ Yes |
+| **command** | 10-100ms+ | ✅ Yes |
+| **node** | 30-80ms | ✅ Yes |
+| **python** | 30-80ms | ✅ Yes |
+| **owm (weather)** | 500ms+ | ⚠️ Network |
 
 ---
 
@@ -107,11 +108,11 @@ $env:OHMYPOSH_DEBUG = "true"
 
 ```json
 {
-  "cache": {
-    "strategy": "session|folder|windows",
-    "duration": "5m",
-    "skip_cache": false
-  }
+ "cache": {
+  "strategy": "session|folder|windows",
+  "duration": "5m",
+  "skip_cache": false
+ }
 }
 ```
 
@@ -125,11 +126,11 @@ Cache for entire shell session (from startup to close).
 
 ```json
 {
-  "type": "node",
-  "cache": {
-    "strategy": "session",
-    "duration": "1h" // Effectively entire session
-  }
+ "cache": {
+  "strategy": "session",
+  "duration": "1h" // Effectively entire session
+ },
+ "type": "node"
 }
 ```
 
@@ -146,11 +147,11 @@ Cache per directory (resets when changing directories).
 
 ```json
 {
-  "type": "git",
-  "cache": {
-    "strategy": "folder",
-    "duration": "5m"
-  }
+ "cache": {
+  "strategy": "folder",
+  "duration": "5m"
+ },
+ "type": "git"
 }
 ```
 
@@ -167,72 +168,72 @@ Cache per PowerShell window session.
 
 ```json
 {
-  "type": "env",
-  "cache": {
-    "strategy": "windows"
-  }
+ "cache": {
+  "strategy": "windows"
+ },
+ "type": "env"
 }
 ```
 
 ### Duration Formatting
 
-| Format    | Meaning          | Use Case                 |
-| --------- | ---------------- | ------------------------ |
-| `"500ms"` | 500 milliseconds | Very frequent updates    |
-| `"2s"`    | 2 seconds        | Time display             |
-| `"30s"`   | 30 seconds       | Active development       |
-| `"5m"`    | 5 minutes        | Git status in slow repos |
-| `"1h"`    | 1 hour           | Runtime versions         |
+| Format | Meaning | Use Case |
+| --- | --- | --- |
+| `"500ms"` | 500 milliseconds | Very frequent updates |
+| `"2s"` | 2 seconds | Time display |
+| `"30s"` | 30 seconds | Active development |
+| `"5m"` | 5 minutes | Git status in slow repos |
+| `"1h"` | 1 hour | Runtime versions |
 
 ### Recommended Caching Configuration
 
 ```json
 {
-  "blocks": [
+ "blocks": [
+  {
+   "segments": [
     {
-      "segments": [
-        {
-          "type": "shell",
-          "cache": {
-            "strategy": "session",
-            "duration": "1h"
-          }
-        },
-        {
-          "type": "path",
-          "cache": {
-            "strategy": "session",
-            "duration": "1h"
-          }
-        },
-        {
-          "type": "git",
-          "cache": {
-            "strategy": "folder",
-            "duration": "5m"
-          },
-          "properties": {
-            "fetch_status": true,
-            "fetch_upstream_icon": false // Expensive
-          }
-        },
-        {
-          "type": "node",
-          "cache": {
-            "strategy": "folder",
-            "duration": "30m"
-          }
-        },
-        {
-          "type": "command",
-          "cache": {
-            "strategy": "session",
-            "duration": "5m"
-          }
-        }
-      ]
+     "type": "shell",
+     "cache": {
+      "strategy": "session",
+      "duration": "1h"
+     }
+    },
+    {
+     "type": "path",
+     "cache": {
+      "strategy": "session",
+      "duration": "1h"
+     }
+    },
+    {
+     "type": "git",
+     "cache": {
+      "strategy": "folder",
+      "duration": "5m"
+     },
+     "properties": {
+      "fetch_status": true,
+      "fetch_upstream_icon": false // Expensive
+     }
+    },
+    {
+     "type": "node",
+     "cache": {
+      "strategy": "folder",
+      "duration": "30m"
+     }
+    },
+    {
+     "type": "command",
+     "cache": {
+      "strategy": "session",
+      "duration": "5m"
+     }
     }
-  ]
+   ]
+  }
+ ]
 }
 ```
 
@@ -246,11 +247,11 @@ Hide a segment without removing it:
 
 ```json
 {
-  "type": "owm",
-  "template": "", // Empty = hidden
-  "properties": {
-    "api_key": "..." // Won't execute
-  }
+ "properties": {
+  "api_key": "..." // Won't execute
+ },
+ "template": "", // Empty = hidden
+ "type": "owm"
 }
 ```
 
@@ -260,8 +261,8 @@ Only show in certain directories:
 
 ```json
 {
-  "type": "git",
-  "template": "{{ if or .Error .Detached }}{{ .Branch }}{{ end }}"
+ "template": "{{ if or .Error .Detached }}{{ .Branch }}{{ end }}",
+ "type": "git"
 }
 ```
 
@@ -269,12 +270,12 @@ Only show in certain directories:
 
 ```json
 {
-  "type": "git",
-  "properties": {
-    "fetch_status": false, // Expensive network call
-    "fetch_upstream_icon": false, // Upstream tracking
-    "fetch_worktree_count": false // Worktree checking
-  }
+ "properties": {
+  "fetch_status": false, // Expensive network call
+  "fetch_upstream_icon": false, // Upstream tracking
+  "fetch_worktree_count": false // Worktree checking
+ },
+ "type": "git"
 }
 ```
 
@@ -320,16 +321,16 @@ For large repositories:
 
 ```json
 {
-  "type": "git",
-  "properties": {
-    "fetch_status": false,
-    "fetch_upstream_icon": false,
-    "windows_registry": false
-  },
-  "cache": {
-    "strategy": "folder",
-    "duration": "10m"
-  }
+ "cache": {
+  "strategy": "folder",
+  "duration": "10m"
+ },
+ "properties": {
+  "fetch_status": false,
+  "fetch_upstream_icon": false,
+  "windows_registry": false
+ },
+ "type": "git"
 }
 ```
 
@@ -364,12 +365,12 @@ Show simplified prompt after command execution:
 
 ```json
 {
-  "transient_prompt": {
-    "background": "transparent",
-    "foreground": "p:accent_color",
-    "template": "❯ ",
-    "type": "prompt"
-  }
+ "transient_prompt": {
+  "background": "transparent",
+  "foreground": "p:accent_color",
+  "template": "❯ ",
+  "type": "prompt"
+ }
 }
 ```
 
@@ -379,20 +380,20 @@ Show simplified prompt after command execution:
 
 ```json
 {
-  "type": "command",
-  "template": "{{ .Output }}",
-  "properties": {
-    "shell": "powershell",
-    // ❌ SLOW: Searches entire filesystem
-    // "command": "Get-ChildItem -Recurse | Measure-Object"
+ "cache": {
+  "strategy": "folder",
+  "duration": "5m"
+ },
+ "properties": {
+  "shell": "powershell",
+  // ❌ SLOW: Searches entire filesystem
+  // "command": "Get-ChildItem -Recurse | Measure-Object"
 
-    // ✅ FAST: Only checks current directory
-    "command": "(Get-ChildItem | Measure-Object).Count"
-  },
-  "cache": {
-    "strategy": "folder",
-    "duration": "5m"
-  }
+  // ✅ FAST: Only checks current directory
+  "command": "(Get-ChildItem | Measure-Object).Count"
+ },
+ "template": "{{ .Output }}",
+ "type": "command"
 }
 ```
 
@@ -400,11 +401,11 @@ Show simplified prompt after command execution:
 
 ```json
 {
-  "type": "path",
-  "properties": {
-    "max_depth": 2, // Show only last 2 directories
-    "folder_separator_icon": "/"
-  }
+ "properties": {
+  "max_depth": 2, // Show only last 2 directories
+  "folder_separator_icon": "/"
+ },
+ "type": "path"
 }
 ```
 
@@ -480,12 +481,12 @@ $results | Format-Table
 
 ### Expected Performance
 
-| Configuration           | Time      | Notes         |
-| ----------------------- | --------- | ------------- |
-| Minimal (2-3 segments)  | 30-50ms   | ✅ Excellent  |
-| Standard (5-7 segments) | 50-150ms  | ✅ Good       |
-| Full-featured           | 150-300ms | ⚠️ Acceptable |
-| Poorly optimized        | 500ms+    | ❌ Needs work |
+| Configuration | Time | Notes |
+| --- | --- | --- |
+| Minimal (2-3 segments) | 30-50ms | ✅ Excellent |
+| Standard (5-7 segments) | 50-150ms | ✅ Good |
+| Full-featured | 150-300ms | ⚠️ Acceptable |
+| Poorly optimized | 500ms+ | ❌ Needs work |
 
 ---
 
@@ -495,19 +496,19 @@ $results | Format-Table
 
 ```json
 {
-  "version": 3,
-  "blocks": [
+ "blocks": [
+  {
+   "alignment": "left",
+   "segments": [
     {
-      "alignment": "left",
-      "segments": [
-        {
-          "type": "text",
-          "template": "❯ ",
-          "foreground": "p:accent"
-        }
-      ]
+     "type": "text",
+     "template": "❯ ",
+     "foreground": "p:accent"
     }
-  ]
+   ]
+  }
+ ],
+ "version": 3
 }
 ```
 
@@ -517,28 +518,28 @@ $results | Format-Table
 
 ```json
 {
-  "version": 3,
-  "blocks": [
+ "blocks": [
+  {
+   "alignment": "left",
+   "segments": [
     {
-      "alignment": "left",
-      "segments": [
-        {
-          "type": "shell",
-          "cache": { "strategy": "session" }
-        },
-        {
-          "type": "path",
-          "properties": { "max_depth": 2 },
-          "cache": { "strategy": "session" }
-        },
-        {
-          "type": "git",
-          "properties": { "fetch_status": false },
-          "cache": { "strategy": "folder", "duration": "5m" }
-        }
-      ]
+     "type": "shell",
+     "cache": { "strategy": "session" }
+    },
+    {
+     "type": "path",
+     "properties": { "max_depth": 2 },
+     "cache": { "strategy": "session" }
+    },
+    {
+     "type": "git",
+     "properties": { "fetch_status": false },
+     "cache": { "strategy": "folder", "duration": "5m" }
     }
-  ]
+   ]
+  }
+ ],
+ "version": 3
 }
 ```
 
@@ -548,29 +549,29 @@ $results | Format-Table
 
 ```json
 {
-  "version": 3,
-  "blocks": [
+ "blocks": [
+  {
+   "alignment": "left",
+   "segments": [
+    { "type": "shell", "cache": { "strategy": "session" } },
+    { "type": "path", "cache": { "strategy": "session" } },
     {
-      "alignment": "left",
-      "segments": [
-        { "type": "shell", "cache": { "strategy": "session" } },
-        { "type": "path", "cache": { "strategy": "session" } },
-        {
-          "type": "git",
-          "cache": { "strategy": "folder", "duration": "5m" },
-          "properties": {
-            "fetch_status": true,
-            "fetch_upstream_icon": false
-          }
-        },
-        {
-          "type": "node",
-          "cache": { "strategy": "folder", "duration": "30m" }
-        },
-        { "type": "status", "cache": { "strategy": "session" } }
-      ]
-    }
-  ]
+     "type": "git",
+     "cache": { "strategy": "folder", "duration": "5m" },
+     "properties": {
+      "fetch_status": true,
+      "fetch_upstream_icon": false
+     }
+    },
+    {
+     "type": "node",
+     "cache": { "strategy": "folder", "duration": "30m" }
+    },
+    { "type": "status", "cache": { "strategy": "session" } }
+   ]
+  }
+ ],
+ "version": 3
 }
 ```
 
@@ -590,21 +591,21 @@ $results | Format-Table
 
    ```json
    {
-     "type": "git",
-     "cache": {
-       "strategy": "folder",
-       "duration": "10m" // Longer cache
-     }
+    "cache": {
+     "strategy": "folder",
+     "duration": "10m" // Longer cache
+    },
+    "type": "git"
    }
    ```
 
 2. Disable expensive git features:
    ```json
    {
-     "properties": {
-       "fetch_status": false,
-       "fetch_upstream_icon": false
-     }
+    "properties": {
+     "fetch_status": false,
+     "fetch_upstream_icon": false
+    }
    }
    ```
 
@@ -618,11 +619,11 @@ $results | Format-Table
 
    ```json
    {
-     "type": "git",
-     "cache": {
-       "strategy": "folder",
-       "duration": "30m" // Very long cache
-     }
+    "cache": {
+     "strategy": "folder",
+     "duration": "30m" // Very long cache
+    },
+    "type": "git"
    }
    ```
 
@@ -630,16 +631,16 @@ $results | Format-Table
 
    ```json
    {
-     "type": "owm",
-     "template": "" // Disable weather
+    "template": "", // Disable weather
+    "type": "owm"
    }
    ```
 
 3. Simplify path display:
    ```json
    {
-     "type": "path",
-     "properties": { "max_depth": 1 } // Only current dir
+    "properties": { "max_depth": 1 }, // Only current dir
+    "type": "path"
    }
    ```
 
@@ -653,8 +654,8 @@ $results | Format-Table
 
    ```json
    {
-     "type": "git",
-     "properties": { "fetch_status": false }
+    "properties": { "fetch_status": false },
+    "type": "git"
    }
    ```
 
@@ -671,9 +672,9 @@ $results | Format-Table
 3. Increase git cache significantly:
    ```json
    {
-     "cache": {
-       "duration": "30m" // Cache for 30 minutes
-     }
+    "cache": {
+     "duration": "30m" // Cache for 30 minutes
+    }
    }
    ```
 
@@ -687,11 +688,11 @@ $results | Format-Table
 
    ```json
    {
-     "cache": {
-       "strategy": "folder",
-       "duration": "5m",
-       "skip_cache": false // Make sure not skipped
-     }
+    "cache": {
+     "strategy": "folder",
+     "duration": "5m",
+     "skip_cache": false // Make sure not skipped
+    }
    }
    ```
 
@@ -730,4 +731,5 @@ $results | Format-Table
 **Target:** < 200ms for typical usage, < 300ms maximum
 
 For more details on specific segment configuration, see [ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.md).
+
 <!-- {% endraw %} -->

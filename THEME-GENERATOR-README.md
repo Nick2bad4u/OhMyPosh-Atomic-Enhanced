@@ -46,26 +46,26 @@ $myPalette = @{
 
 ### New-ThemeWithPalette.ps1
 
-| Parameter            | Type   | Description                 | Default                           |
-| -------------------- | ------ | --------------------------- | --------------------------------- |
-| `-SourceTheme`       | String | Source theme JSON file      | `OhMyPosh-Atomic-Custom.json`     |
-| `-PaletteName`       | String | Palette name from JSON file | (Required)                        |
-| `-PaletteObject`     | Object | Custom palette hashtable    | (Alternative to PaletteName)      |
-| `-OutputName`        | String | Name suffix for output file | Auto-generated from palette name  |
-| `-OutputPath`        | String | Full output file path       | Auto-generated                    |
-| `-PalettesFile`      | String | JSON file with palettes     | `color-palette-alternatives.json` |
-| `-UpdateAccentColor` | Switch | Update root accent_color    | `$false`                          |
+| Parameter | Type | Description | Default |
+| --- | --- | --- | --- |
+| `-SourceTheme` | String | Source theme JSON file | `OhMyPosh-Atomic-Custom.json` |
+| `-PaletteName` | String | Palette name from JSON file | (Required) |
+| `-PaletteObject` | Object | Custom palette hashtable | (Alternative to PaletteName) |
+| `-OutputName` | String | Name suffix for output file | Auto-generated from palette name |
+| `-OutputPath` | String | Full output file path | Auto-generated |
+| `-PalettesFile` | String | JSON file with palettes | `color-palette-alternatives.json` |
+| `-UpdateAccentColor` | Switch | Update root accent_color | `$false` |
 
 ### Generate-AllThemes.ps1
 
-| Parameter            | Type     | Description                 | Default                           |
-| -------------------- | -------- | --------------------------- | --------------------------------- |
-| `-SourceTheme`       | String   | Source theme JSON file      | `OhMyPosh-Atomic-Custom.json`     |
-| `-PalettesFile`      | String   | JSON file with palettes     | `color-palette-alternatives.json` |
-| `-OutputDirectory`   | String   | Output directory for themes | Same as source                    |
-| `-UpdateAccentColor` | Switch   | Update root accent_color    | `$false`                          |
-| `-ExcludePalettes`   | String[] | Palettes to skip            | `@()`                             |
-| `-Force`             | Switch   | Overwrite existing files    | `$false`                          |
+| Parameter | Type | Description | Default |
+| --- | --- | --- | --- |
+| `-SourceTheme` | String | Source theme JSON file | `OhMyPosh-Atomic-Custom.json` |
+| `-PalettesFile` | String | JSON file with palettes | `color-palette-alternatives.json` |
+| `-OutputDirectory` | String | Output directory for themes | Same as source |
+| `-UpdateAccentColor` | Switch | Update root accent_color | `$false` |
+| `-ExcludePalettes` | String[] | Palettes to skip | `@()` |
+| `-Force` | Switch | Overwrite existing files | `$false` |
 
 ## 🎨 Available Palettes
 
@@ -197,18 +197,18 @@ To add your own palette to the collection:
 
 ```json
 {
-  "palettes": {
-    "my_custom": {
-      "name": "My Custom Theme",
-      "description": "A unique theme with custom colors",
-      "palette": {
-        "accent": "#your-color",
-        "axios_yellow": "#your-color",
-        "black": "#your-color"
-        // ... all 67 color keys
-      }
-    }
+ "palettes": {
+  "my_custom": {
+   "name": "My Custom Theme",
+   "description": "A unique theme with custom colors",
+   "palette": {
+    "accent": "#your-color",
+    "axios_yellow": "#your-color",
+    "black": "#your-color"
+    // ... all 67 color keys
+   }
   }
+ }
 }
 ```
 

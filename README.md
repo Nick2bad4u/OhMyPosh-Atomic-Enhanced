@@ -1,4 +1,5 @@
 <!-- {% raw %} -->
+
 # 🚀 OhMyPosh Atomic Enhanced
 
 [![GitHub stars](https://img.shields.io/github/stars/Nick2bad4u/OhMyPosh-Atomic-Enhanced?style=social)](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced) [![GitHub issues](https://img.shields.io/github/issues/Nick2bad4u/OhMyPosh-Atomic-Enhanced)](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/issues) [![License: UnLicense](https://img.shields.io/badge/License-UnLicense-yellow.svg)](https://opensource.org/licenses/UnLicense) [![Oh My Posh](https://img.shields.io/badge/Oh%20My%20Posh-Compatible-blue)](https://ohmyposh.dev/) [![DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced)
@@ -388,6 +389,7 @@ For more details, see the [Oh My Posh documentation](https://ohmyposh.dev/docs/)
 For comprehensive guides, configuration options, and troubleshooting, refer to the official Oh My Posh documentation at [https://ohmyposh.dev/docs](https://ohmyposh.dev/docs).
 
 Project docs:
+
 - [Documentation Index](./docs/DOCUMENTATION-INDEX.md)
 - [GitHub Pages + Liquid (template collisions)](./docs/GITHUB-PAGES-LIQUID.md)
 
@@ -397,54 +399,54 @@ Project docs:
 
 The theme centralizes all colors in a `palette` so segments and templates stay consistent and easy to tweak. Colors are grouped by functional intent rather than pure hue. Use `p:<key>` anywhere a color is accepted (foreground/background, templates like `<p:key>` or `<p:fg,p:bg>`).
 
-| Group                                                  | Key                                                    | Description                                                   |
-| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------------- |
-| Core / Base                                            | `accent`                                               | Primary accent and prompt line markers.                       |
-| `black`, `white`                                       | Base monochrome anchors.                               |
-| Blues (Shell / Time / Info)                            | `blue_primary`                                         | Shell segment background & transient prompt color.            |
-| `blue_time`                                            | Time and connection segments.                          |
-| `blue_tooltip`                                         | Tooltip foreground accents.                            |
-| `windows_blue`                                         | Windows registry/version segment.                      |
-| `python_blue`                                          | Python runtime background.                             |
-| `navy_text`                                            | Dark readable foreground on bright yellows.            |
-| Purples (Session / Branch State / Execution)           | `purple_session`                                       | Session username & debug banners.                             |
-| `purple_ahead`                                         | Git ahead/behind highlighting.                         |
-| `purple_exec`                                          | Execution time segment.                                |
-| `violet_project`                                       | Project/workspace segment.                             |
-| Reds & Pinks (Errors / Alerts)                         | `red_alert`                                            | Root/admin & error emphasis.                                  |
-| `red_deleted`                                          | Git deleted files counter.                             |
-| `maroon_error`                                         | Error status background.                               |
-| `pink_error_line`                                      | Error line symbol in multiline prompts.                |
-| `pink_status_fail`                                     | Failure state in status templates.                     |
-| Oranges (Path / Battery / Java / General Warm Accents) | `orange`                                               | Path and tooltip path segment.                                |
-| `orange_unmerged`                                      | Git unmerged count.                                    |
-| `orange_battery`                                       | Battery base color.                                    |
-| `java_orange`                                          | Java version tooltip.                                  |
-| Yellows (Attention / Status / Update)                  | `yellow_bright`                                        | Git base background & root foreground; high-attention blocks. |
-| `yellow_modified`                                      | Git modified files.                                    |
-| `yellow_git_changed`                                   | Git working/staging changed blend.                     |
-| `yellow_update`                                        | Upgrade notification segment.                          |
-| `yellow_root_alt`                                      | Alt root indicator (rprompt).                          |
-| `yellow_discharging`                                   | Battery discharging state.                             |
-| Greens (Success / Health / Battery / Helpers)          | `green_added`                                          | Git added files.                                              |
-| `green_ahead`                                          | Combined ahead/behind git state.                       |
-| `green_full`                                           | Battery full state.                                    |
-| `green_success`                                        | Command success background template.                   |
-| `green_help`                                           | Help / generic info text badge.                        |
-| `green_valid_line`                                     | Valid line symbol.                                     |
-| `green_charging`                                       | Battery charging state.                                |
-| Cyans                                                  | `cyan_renamed`                                         | Git renamed files count.                                      |
-| `cyan_status_fg`                                       | Status indicator foreground (multiline tail).          |
-| Magenta                                                | `magenta_copied`                                       | Git copied files count.                                       |
-| Weather / Misc                                         | `pink_weather`                                         | Weather segment background.                                   |
-| Grays (Neutral/UI Framing)                             | `gray_os`                                              | OS segment background.                                        |
-| `gray_os_fg`                                           | OS / neutral text foreground & reused for subtle text. |
-| `gray_untracked`                                       | Git untracked file count.                              |
-| `gray_prompt_count_bg`                                 | Prompt count background.                               |
-| `gray_prompt_count_fg`                                 | Prompt count foreground.                               |
-| `gray_path_fg`                                         | Path tooltip foreground & neutral dark text.           |
-| Language / Tool Specific                               | `node_green`                                           | Node.js / package manager tooltip background.                 |
-| `python_yellow`                                        | Python secondary (logo yellow).                        |
+| Group | Key | Description |
+| --- | --- | --- |
+| Core / Base | `accent` | Primary accent and prompt line markers. |
+| `black`, `white` | Base monochrome anchors. |
+| Blues (Shell / Time / Info) | `blue_primary` | Shell segment background & transient prompt color. |
+| `blue_time` | Time and connection segments. |
+| `blue_tooltip` | Tooltip foreground accents. |
+| `windows_blue` | Windows registry/version segment. |
+| `python_blue` | Python runtime background. |
+| `navy_text` | Dark readable foreground on bright yellows. |
+| Purples (Session / Branch State / Execution) | `purple_session` | Session username & debug banners. |
+| `purple_ahead` | Git ahead/behind highlighting. |
+| `purple_exec` | Execution time segment. |
+| `violet_project` | Project/workspace segment. |
+| Reds & Pinks (Errors / Alerts) | `red_alert` | Root/admin & error emphasis. |
+| `red_deleted` | Git deleted files counter. |
+| `maroon_error` | Error status background. |
+| `pink_error_line` | Error line symbol in multiline prompts. |
+| `pink_status_fail` | Failure state in status templates. |
+| Oranges (Path / Battery / Java / General Warm Accents) | `orange` | Path and tooltip path segment. |
+| `orange_unmerged` | Git unmerged count. |
+| `orange_battery` | Battery base color. |
+| `java_orange` | Java version tooltip. |
+| Yellows (Attention / Status / Update) | `yellow_bright` | Git base background & root foreground; high-attention blocks. |
+| `yellow_modified` | Git modified files. |
+| `yellow_git_changed` | Git working/staging changed blend. |
+| `yellow_update` | Upgrade notification segment. |
+| `yellow_root_alt` | Alt root indicator (rprompt). |
+| `yellow_discharging` | Battery discharging state. |
+| Greens (Success / Health / Battery / Helpers) | `green_added` | Git added files. |
+| `green_ahead` | Combined ahead/behind git state. |
+| `green_full` | Battery full state. |
+| `green_success` | Command success background template. |
+| `green_help` | Help / generic info text badge. |
+| `green_valid_line` | Valid line symbol. |
+| `green_charging` | Battery charging state. |
+| Cyans | `cyan_renamed` | Git renamed files count. |
+| `cyan_status_fg` | Status indicator foreground (multiline tail). |
+| Magenta | `magenta_copied` | Git copied files count. |
+| Weather / Misc | `pink_weather` | Weather segment background. |
+| Grays (Neutral/UI Framing) | `gray_os` | OS segment background. |
+| `gray_os_fg` | OS / neutral text foreground & reused for subtle text. |
+| `gray_untracked` | Git untracked file count. |
+| `gray_prompt_count_bg` | Prompt count background. |
+| `gray_prompt_count_fg` | Prompt count foreground. |
+| `gray_path_fg` | Path tooltip foreground & neutral dark text. |
+| Language / Tool Specific | `node_green` | Node.js / package manager tooltip background. |
+| `python_yellow` | Python secondary (logo yellow). |
 
 </details>
 
@@ -1426,4 +1428,5 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 - **Lavender Peach** - Soft lavender and warm peach 🍑
 
 ---
+
 <!-- {% endraw %} -->

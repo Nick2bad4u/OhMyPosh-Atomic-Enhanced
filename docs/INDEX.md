@@ -32,63 +32,63 @@
 
 ### 🎯 Navigation & Overview (5 docs)
 
-| Document                                                             | Purpose                | Read Time | Key Topics                     |
-| -------------------------------------------------------------------- | ---------------------- | --------- | ------------------------------ |
-| **[README.md](./README.md)**                                         | Suite overview         | 10 min    | Navigation, stats, quick links |
-| **[MASTER-DOCUMENTATION-GUIDE.md](./MASTER-DOCUMENTATION-GUIDE.md)** | Main index & reference | 15 min    | All topics, cross-references   |
-| **[VISUAL-NAVIGATION-GUIDE.md](./VISUAL-NAVIGATION-GUIDE.md)**       | A-Z keyword index      | 10 min    | 200+ keywords, quick find      |
-| **[DOCUMENTATION-INDEX.md](./DOCUMENTATION-INDEX.md)**               | Original index         | 10 min    | Use-case based navigation      |
-| **[DOCUMENTATION-ROADMAP.md](./DOCUMENTATION-ROADMAP.md)**           | Visual roadmap         | 10 min    | Architecture, paths, map       |
+| Document | Purpose | Read Time | Key Topics |
+| --- | --- | --- | --- |
+| **[README.md](./README.md)** | Suite overview | 10 min | Navigation, stats, quick links |
+| **[MASTER-DOCUMENTATION-GUIDE.md](./MASTER-DOCUMENTATION-GUIDE.md)** | Main index & reference | 15 min | All topics, cross-references |
+| **[VISUAL-NAVIGATION-GUIDE.md](./VISUAL-NAVIGATION-GUIDE.md)** | A-Z keyword index | 10 min | 200+ keywords, quick find |
+| **[DOCUMENTATION-INDEX.md](./DOCUMENTATION-INDEX.md)** | Original index | 10 min | Use-case based navigation |
+| **[DOCUMENTATION-ROADMAP.md](./DOCUMENTATION-ROADMAP.md)** | Visual roadmap | 10 min | Architecture, paths, map |
 
 ### 💻 Installation & Setup (2 docs)
 
-| Document                                                             | Purpose                 | Read Time | Covers                               |
-| -------------------------------------------------------------------- | ----------------------- | --------- | ------------------------------------ |
-| **[QUICK-START-GUIDE.md](./QUICK-START-GUIDE.md)**                   | 5-minute setup          | 5 min     | All platforms, fonts, first run      |
-| **[CROSS-PLATFORM-SETUP-GUIDE.md](./CROSS-PLATFORM-SETUP-GUIDE.md)** | Platform-specific setup | 20 min    | Windows, macOS, Linux, WSL, Git Bash |
+| Document | Purpose | Read Time | Covers |
+| --- | --- | --- | --- |
+| **[QUICK-START-GUIDE.md](./QUICK-START-GUIDE.md)** | 5-minute setup | 5 min | All platforms, fonts, first run |
+| **[CROSS-PLATFORM-SETUP-GUIDE.md](./CROSS-PLATFORM-SETUP-GUIDE.md)** | Platform-specific setup | 20 min | Windows, macOS, Linux, WSL, Git Bash |
 
 ### ⚙️ Configuration (3 docs)
 
-| Document                                                                 | Purpose            | Read Time | Topics                               |
-| ------------------------------------------------------------------------ | ------------------ | --------- | ------------------------------------ |
-| **[JSON-CONFIGURATION-GUIDE.md](./JSON-CONFIGURATION-GUIDE.md)**         | JSON structure     | 20 min    | Structure, patterns, validation      |
-| **[COMPLETE-SEGMENT-REFERENCE.md](./COMPLETE-SEGMENT-REFERENCE.md)**     | Segment reference  | 30 min    | 20+ segment types, properties        |
-| **[ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.md)** | Deep customization | 30 min    | Custom segments, templates, advanced |
+| Document | Purpose | Read Time | Topics |
+| --- | --- | --- | --- |
+| **[JSON-CONFIGURATION-GUIDE.md](./JSON-CONFIGURATION-GUIDE.md)** | JSON structure | 20 min | Structure, patterns, validation |
+| **[COMPLETE-SEGMENT-REFERENCE.md](./COMPLETE-SEGMENT-REFERENCE.md)** | Segment reference | 30 min | 20+ segment types, properties |
+| **[ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.md)** | Deep customization | 30 min | Custom segments, templates, advanced |
 
 ### 🎨 Colors & Design (3 docs)
 
-| Document                                                                 | Purpose             | Read Time | Content                           |
-| ------------------------------------------------------------------------ | ------------------- | --------- | --------------------------------- |
-| **[COLOR-THEORY-GUIDE.md](./COLOR-THEORY-GUIDE.md)**                     | Color fundamentals  | 25 min    | Wheel, HSV, RGB, palettes, WCAG   |
-| **[COLOR-INTERPLAY-SEGMENTATION.md](./COLOR-INTERPLAY-SEGMENTATION.md)** | Color relationships | 20 min    | Interplay, transitions, hierarchy |
-| **[ANSI-ESCAPE-CODES-GUIDE.md](./ANSI-ESCAPE-CODES-GUIDE.md)**           | ANSI codes          | 15 min    | Codes, modes, PowerShell patterns |
+| Document | Purpose | Read Time | Content |
+| --- | --- | --- | --- |
+| **[COLOR-THEORY-GUIDE.md](./COLOR-THEORY-GUIDE.md)** | Color fundamentals | 25 min | Wheel, HSV, RGB, palettes, WCAG |
+| **[COLOR-INTERPLAY-SEGMENTATION.md](./COLOR-INTERPLAY-SEGMENTATION.md)** | Color relationships | 20 min | Interplay, transitions, hierarchy |
+| **[ANSI-ESCAPE-CODES-GUIDE.md](./ANSI-ESCAPE-CODES-GUIDE.md)** | ANSI codes | 15 min | Codes, modes, PowerShell patterns |
 
 ### ⚡ Performance (2 docs)
 
-| Document                                                                     | Purpose             | Read Time | Includes                            |
-| ---------------------------------------------------------------------------- | ------------------- | --------- | ----------------------------------- |
-| **[PERFORMANCE-OPTIMIZATION-GUIDE.md](./PERFORMANCE-OPTIMIZATION-GUIDE.md)** | Optimization        | 20 min    | Techniques, benchmarking, configs   |
-| **[ADVANCED-CACHING-PROFILING.md](./ADVANCED-CACHING-PROFILING.md)**         | Caching & profiling | 25 min    | Strategies, profiling, case studies |
+| Document | Purpose | Read Time | Includes |
+| --- | --- | --- | --- |
+| **[PERFORMANCE-OPTIMIZATION-GUIDE.md](./PERFORMANCE-OPTIMIZATION-GUIDE.md)** | Optimization | 20 min | Techniques, benchmarking, configs |
+| **[ADVANCED-CACHING-PROFILING.md](./ADVANCED-CACHING-PROFILING.md)** | Caching & profiling | 25 min | Strategies, profiling, case studies |
 
 ### 🔧 Support & Help (2 docs)
 
-| Document                                                   | Purpose         | Read Time | Contains                       |
-| ---------------------------------------------------------- | --------------- | --------- | ------------------------------ |
-| **[TROUBLESHOOTING-GUIDE.md](./TROUBLESHOOTING-GUIDE.md)** | Problem solving | 20 min    | Diagnostics, fixes, flowcharts |
-| **[FAQ-AND-TIPS-TRICKS.md](./FAQ-AND-TIPS-TRICKS.md)**     | FAQs & tips     | Reference | 40+ Q&A, 20+ pro tips          |
+| Document | Purpose | Read Time | Contains |
+| --- | --- | --- | --- |
+| **[TROUBLESHOOTING-GUIDE.md](./TROUBLESHOOTING-GUIDE.md)** | Problem solving | 20 min | Diagnostics, fixes, flowcharts |
+| **[FAQ-AND-TIPS-TRICKS.md](./FAQ-AND-TIPS-TRICKS.md)** | FAQs & tips | Reference | 40+ Q&A, 20+ pro tips |
 
 ### 🔗 Tools & Integration (2 docs)
 
-| Document                                                     | Purpose     | Read Time | Tools                                |
-| ------------------------------------------------------------ | ----------- | --------- | ------------------------------------ |
-| **[INTEGRATION-GUIDES.md](./INTEGRATION-GUIDES.md)**         | Tool setup  | 25 min    | VS Code, Terminal, WSL, iTerm2, IDEs |
-| **[THEME-GENERATION-TOOLS.md](./THEME-GENERATION-TOOLS.md)** | Theme tools | 20 min    | Scripts, workflows, batch processing |
+| Document | Purpose | Read Time | Tools |
+| --- | --- | --- | --- |
+| **[INTEGRATION-GUIDES.md](./INTEGRATION-GUIDES.md)** | Tool setup | 25 min | VS Code, Terminal, WSL, iTerm2, IDEs |
+| **[THEME-GENERATION-TOOLS.md](./THEME-GENERATION-TOOLS.md)** | Theme tools | 20 min | Scripts, workflows, batch processing |
 
 ### 📊 Summary (1 doc)
 
-| Document                                                                         | Purpose | Read Time | Info                        |
-| -------------------------------------------------------------------------------- | ------- | --------- | --------------------------- |
-| **[DOCUMENTATION-COMPLETION-SUMMARY.md](./DOCUMENTATION-COMPLETION-SUMMARY.md)** | Summary | 10 min    | Coverage, stats, new topics |
+| Document | Purpose | Read Time | Info |
+| --- | --- | --- | --- |
+| **[DOCUMENTATION-COMPLETION-SUMMARY.md](./DOCUMENTATION-COMPLETION-SUMMARY.md)** | Summary | 10 min | Coverage, stats, new topics |
 
 ---
 
@@ -178,19 +178,19 @@ Read all 20 documents in order
 
 ## 📊 Documentation Statistics
 
-| Metric                   | Value   |
-| ------------------------ | ------- |
-| Total Documents          | 20      |
-| Total Lines              | 9,100+  |
-| Total Words              | 55,000+ |
-| Searchable Keywords      | 200+    |
-| Code Examples            | 150+    |
-| Tables & Diagrams        | 40+     |
-| Segment Types Documented | 20+     |
-| Integration Tools        | 10+     |
-| Learning Paths           | 5       |
-| Cross-References         | 150+    |
-| Topics Covered           | 100+    |
+| Metric | Value |
+| --- | --- |
+| Total Documents | 20 |
+| Total Lines | 9,100+ |
+| Total Words | 55,000+ |
+| Searchable Keywords | 200+ |
+| Code Examples | 150+ |
+| Tables & Diagrams | 40+ |
+| Segment Types Documented | 20+ |
+| Integration Tools | 10+ |
+| Learning Paths | 5 |
+| Cross-References | 150+ |
+| Topics Covered | 100+ |
 
 ---
 
@@ -297,11 +297,11 @@ Read all 20 documents in order
 
 ## 📱 Available Tools
 
-| Tool                   | Guide                                                            | Purpose                |
-| ---------------------- | ---------------------------------------------------------------- | ---------------------- |
-| **PowerShell Scripts** | [THEME-GENERATION-TOOLS.md](./THEME-GENERATION-TOOLS.md)         | Auto-generate themes   |
-| **Validation Tools**   | [TROUBLESHOOTING-GUIDE.md](./TROUBLESHOOTING-GUIDE.md)           | Validate configuration |
-| **Performance Tools**  | [ADVANCED-CACHING-PROFILING.md](./ADVANCED-CACHING-PROFILING.md) | Profile & optimize     |
+| Tool | Guide | Purpose |
+| --- | --- | --- |
+| **PowerShell Scripts** | [THEME-GENERATION-TOOLS.md](./THEME-GENERATION-TOOLS.md) | Auto-generate themes |
+| **Validation Tools** | [TROUBLESHOOTING-GUIDE.md](./TROUBLESHOOTING-GUIDE.md) | Validate configuration |
+| **Performance Tools** | [ADVANCED-CACHING-PROFILING.md](./ADVANCED-CACHING-PROFILING.md) | Profile & optimize |
 
 ---
 

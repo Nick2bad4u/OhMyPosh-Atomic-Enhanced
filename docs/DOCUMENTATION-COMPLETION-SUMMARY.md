@@ -209,16 +209,16 @@
 
 ## 📊 Documentation Statistics
 
-| Metric              | Value    |
-| ------------------- | -------- |
-| Total Documents     | 15       |
-| Total Words         | ~50,000+ |
-| Searchable Keywords | 200+     |
-| Code Examples       | 100+     |
-| Tables/Matrices     | 30+      |
-| Sections            | 150+     |
-| Cross-References    | 100+     |
-| Topics Covered      | 80+      |
+| Metric | Value |
+| --- | --- |
+| Total Documents | 15 |
+| Total Words | ~50,000+ |
+| Searchable Keywords | 200+ |
+| Code Examples | 100+ |
+| Tables/Matrices | 30+ |
+| Sections | 150+ |
+| Cross-References | 100+ |
+| Topics Covered | 80+ |
 
 ---
 

@@ -70,10 +70,10 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
 
 ```json
 {
-  "cache": {
-    "strategy": "session",
-    "duration": "5m"
-  }
+ "cache": {
+  "strategy": "session",
+  "duration": "5m"
+ }
 }
 ```
 
@@ -87,11 +87,11 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
 
 ```json
 {
-  "type": "time",
-  "cache": {
-    "strategy": "session",
-    "duration": "1s"
-  }
+ "cache": {
+  "strategy": "session",
+  "duration": "1s"
+ },
+ "type": "time"
 }
 ```
 
@@ -104,10 +104,10 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
 
 ```json
 {
-  "cache": {
-    "strategy": "folder",
-    "duration": "5m"
-  }
+ "cache": {
+  "strategy": "folder",
+  "duration": "5m"
+ }
 }
 ```
 
@@ -121,14 +121,14 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
 
 ```json
 {
-  "type": "git",
-  "cache": {
-    "strategy": "folder",
-    "duration": "5m"
-  },
-  "properties": {
-    "fetch_status": true // This is slow, cache it
-  }
+ "cache": {
+  "strategy": "folder",
+  "duration": "5m"
+ },
+ "properties": {
+  "fetch_status": true // This is slow, cache it
+ },
+ "type": "git"
 }
 ```
 
@@ -141,10 +141,10 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
 
 ```json
 {
-  "cache": {
-    "strategy": "windows",
-    "duration": "5m"
-  }
+ "cache": {
+  "strategy": "windows",
+  "duration": "5m"
+ }
 }
 ```
 
@@ -158,12 +158,12 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
 
 ### Strategy Comparison
 
-| Strategy    | Duration    | Resets           | Best For                 |
-| ----------- | ----------- | ---------------- | ------------------------ |
-| **session** | Session     | Close PowerShell | Expensive one-time calcs |
-| **folder**  | Per folder  | Change dir       | Git, versions in repos   |
-| **windows** | System-wide | OS timeout       | System-level info        |
-| **none**    | Never       | Manual           | Dynamic data             |
+| Strategy | Duration | Resets | Best For |
+| --- | --- | --- | --- |
+| **session** | Session | Close PowerShell | Expensive one-time calcs |
+| **folder** | Per folder | Change dir | Git, versions in repos |
+| **windows** | System-wide | OS timeout | System-level info |
+| **none** | Never | Manual | Dynamic data |
 
 ---
 
@@ -173,11 +173,11 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
 
 ```json
 {
-  "type": "git",
-  "cache": {
-    "strategy": "folder",
-    "duration": "30m"
-  }
+ "cache": {
+  "strategy": "folder",
+  "duration": "30m"
+ },
+ "type": "git"
 }
 ```
 
@@ -189,11 +189,11 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
 
 ```json
 {
-  "type": "git",
-  "cache": {
-    "strategy": "folder",
-    "duration": "5m"
-  }
+ "cache": {
+  "strategy": "folder",
+  "duration": "5m"
+ },
+ "type": "git"
 }
 ```
 
@@ -205,11 +205,11 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
 
 ```json
 {
-  "type": "git",
-  "cache": {
-    "strategy": "folder",
-    "duration": "60m"
-  }
+ "cache": {
+  "strategy": "folder",
+  "duration": "60m"
+ },
+ "type": "git"
 }
 ```
 
@@ -223,50 +223,50 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
 
 ```json
 {
-  "blocks": [
+ "blocks": [
+  {
+   "segments": [
     {
-      "segments": [
-        {
-          "type": "shell",
-          "cache": {
-            "strategy": "session",
-            "duration": "1h" // Shell doesn't change
-          }
-        },
-        {
-          "type": "path",
-          "cache": {
-            "strategy": "folder",
-            "duration": "5m" // Cache per folder
-          }
-        },
-        {
-          "type": "git",
-          "cache": {
-            "strategy": "folder",
-            "duration": "5m"
-          },
-          "properties": {
-            "fetch_status": true // This is what's slow
-          }
-        },
-        {
-          "type": "node",
-          "cache": {
-            "strategy": "folder",
-            "duration": "30m" // Versions change rarely
-          }
-        },
-        {
-          "type": "status",
-          "cache": {
-            "strategy": "session",
-            "duration": "0s" // Always fresh
-          }
-        }
-      ]
+     "type": "shell",
+     "cache": {
+      "strategy": "session",
+      "duration": "1h" // Shell doesn't change
+     }
+    },
+    {
+     "type": "path",
+     "cache": {
+      "strategy": "folder",
+      "duration": "5m" // Cache per folder
+     }
+    },
+    {
+     "type": "git",
+     "cache": {
+      "strategy": "folder",
+      "duration": "5m"
+     },
+     "properties": {
+      "fetch_status": true // This is what's slow
+     }
+    },
+    {
+     "type": "node",
+     "cache": {
+      "strategy": "folder",
+      "duration": "30m" // Versions change rarely
+     }
+    },
+    {
+     "type": "status",
+     "cache": {
+      "strategy": "session",
+      "duration": "0s" // Always fresh
+     }
     }
-  ]
+   ]
+  }
+ ]
 }
 ```
 
@@ -325,10 +325,10 @@ Write-Host "Cache size: $($cacheSize.Sum / 1MB)MB"
 
 ```json
 {
-  "type": "git",
-  "cache": {
-    "strategy": "none" // No caching
-  }
+ "cache": {
+  "strategy": "none" // No caching
+ },
+ "type": "git"
 }
 ```
 
@@ -599,29 +599,29 @@ Compare-Performance -OldConfig "my-theme.json" -NewConfig "my-theme-optimized.js
 
 ```json
 {
-  "blocks": [
+ "blocks": [
+  {
+   "segments": [
     {
-      "segments": [
-        {
-          "type": "shell",
-          "cache": { "strategy": "session", "duration": "1h" }
-        },
-        {
-          "type": "path",
-          "cache": { "strategy": "folder", "duration": "5m" }
-        },
-        {
-          "type": "git",
-          "cache": { "strategy": "folder", "duration": "5m" },
-          "properties": { "fetch_status": false }
-        },
-        {
-          "type": "status",
-          "cache": { "strategy": "session", "duration": "0s" }
-        }
-      ]
+     "type": "shell",
+     "cache": { "strategy": "session", "duration": "1h" }
+    },
+    {
+     "type": "path",
+     "cache": { "strategy": "folder", "duration": "5m" }
+    },
+    {
+     "type": "git",
+     "cache": { "strategy": "folder", "duration": "5m" },
+     "properties": { "fetch_status": false }
+    },
+    {
+     "type": "status",
+     "cache": { "strategy": "session", "duration": "0s" }
     }
-  ]
+   ]
+  }
+ ]
 }
 ```
 
@@ -685,11 +685,11 @@ oh-my-posh cache clean --duration 1h
 
 ```json
 {
-  "type": "git",
-  "cache": {
-    "strategy": "folder",
-    "duration": "30s" // Shorter timeout
-  }
+ "cache": {
+  "strategy": "folder",
+  "duration": "30s" // Shorter timeout
+ },
+ "type": "git"
 }
 ```
 
@@ -707,10 +707,10 @@ oh-my-posh cache clean
 
 ```json
 {
-  "cache": {
-    "strategy": "folder",
-    "duration": "60m"
-  }
+ "cache": {
+  "strategy": "folder",
+  "duration": "60m"
+ }
 }
 // + Disable fetch_status and fetch_upstream_icon
 // Performance: 10-15ms
@@ -720,10 +720,10 @@ oh-my-posh cache clean
 
 ```json
 {
-  "cache": {
-    "strategy": "folder",
-    "duration": "5m"
-  }
+ "cache": {
+  "strategy": "folder",
+  "duration": "5m"
+ }
 }
 // Performance: 30-50ms
 ```
@@ -732,10 +732,10 @@ oh-my-posh cache clean
 
 ```json
 {
-  "cache": {
-    "strategy": "session",
-    "duration": "0s"
-  }
+ "cache": {
+  "strategy": "session",
+  "duration": "0s"
+ }
 }
 // Performance: 100-200ms
 ```

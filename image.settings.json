@@ -1,18 +1,18 @@
 {
-  "colors": {
-    "red": "#FF6B6B",
-    "blue": "#4ECDC4",
-    "green": "#45B7D1",
-    "yellow": "#FFA07A",
-    "magenta": "#98D8C8",
-    "cyan": "#F7DC6F"
-  },
-  "fonts": {
-    "regular": "C:/Users/Nick/AppData/Local/Microsoft/Windows/Fonts/CodeNewRomanNerdFontMono-Regular.otf",
-    "bold": "C:/Users/Nick/AppData/Local/Microsoft/Windows/Fonts/CodeNewRomanNerdFontMono-Bold.otf",
-    "italic": "C:/Users/Nick/AppData/Local/Microsoft/Windows/Fonts/CodeNewRomanNerdFontMono-Italic.otf"
-  },
-  "author": "Nick2bad4u",
-  "background_color": "#000000",
-  "cursor": "\udb81\udde7"
+    "author": "Nick2bad4u",
+    "background_color": "#000000",
+    "colors": {
+        "red": "#FF6B6B",
+        "blue": "#4ECDC4",
+        "green": "#45B7D1",
+        "yellow": "#FFA07A",
+        "magenta": "#98D8C8",
+        "cyan": "#F7DC6F"
+    },
+    "cursor": "\udb81\udde7",
+    "fonts": {
+        "regular": "C:/Users/Nick/AppData/Local/Microsoft/Windows/Fonts/CodeNewRomanNerdFontMono-Regular.otf",
+        "bold": "C:/Users/Nick/AppData/Local/Microsoft/Windows/Fonts/CodeNewRomanNerdFontMono-Bold.otf",
+        "italic": "C:/Users/Nick/AppData/Local/Microsoft/Windows/Fonts/CodeNewRomanNerdFontMono-Italic.otf"
+    }
 }

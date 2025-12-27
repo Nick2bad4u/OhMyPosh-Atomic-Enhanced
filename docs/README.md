@@ -10,16 +10,16 @@
 
 ## 📊 Documentation Statistics
 
-| Metric                  | Count    |
-| ----------------------- | -------- |
-| **Total Documents**     | 18       |
-| **Total Lines**         | 9,118    |
-| **Total Words**         | ~55,000+ |
-| **Code Examples**       | 150+     |
-| **Tables/Diagrams**     | 40+      |
-| **Searchable Keywords** | 200+     |
-| **Topics Covered**      | 100+     |
-| **Cross-References**    | 150+     |
+| Metric | Count |
+| --- | --- |
+| **Total Documents** | 18 |
+| **Total Lines** | 9,118 |
+| **Total Words** | ~55,000+ |
+| **Code Examples** | 150+ |
+| **Tables/Diagrams** | 40+ |
+| **Searchable Keywords** | 200+ |
+| **Topics Covered** | 100+ |
+| **Cross-References** | 150+ |
 
 ---
 
@@ -252,16 +252,16 @@
 
 ### Coverage by Category
 
-| Category            | Coverage | Status           |
-| ------------------- | -------- | ---------------- |
-| **Installation**    | 100%     | ✅ Complete      |
-| **Configuration**   | 100%     | ✅ Complete      |
-| **Colors**          | 100%     | ✅ Complete      |
-| **Segments**        | 100%     | ✅ Complete      |
-| **Performance**     | 100%     | ✅ Complete      |
-| **Tools**           | 95%      | ✅ Comprehensive |
-| **Troubleshooting** | 100%     | ✅ Complete      |
-| **Reference**       | 100%     | ✅ Complete      |
+| Category | Coverage | Status |
+| --- | --- | --- |
+| **Installation** | 100% | ✅ Complete |
+| **Configuration** | 100% | ✅ Complete |
+| **Colors** | 100% | ✅ Complete |
+| **Segments** | 100% | ✅ Complete |
+| **Performance** | 100% | ✅ Complete |
+| **Tools** | 95% | ✅ Comprehensive |
+| **Troubleshooting** | 100% | ✅ Complete |
+| **Reference** | 100% | ✅ Complete |
 
 ---
 

@@ -1,4 +1,5 @@
 <!-- {% raw %} -->
+
 # 🔧 Advanced Theme Customization Guide
 
 ## Table of Contents
@@ -38,65 +39,65 @@ Every Oh My Posh theme follows a defined JSON schema. Understanding this structu
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
-  "version": 3,
-  "final_space": true,
-  "console_title_template": "{{.Folder}}",
-  "console_title": "{{ .Shell }} - {{.Folder}}",
-  "accent_color": "#00bcd4",
-  "tooltip": {
-    "text": "{{.Name}}",
-    "background": "transparent",
-    "foreground": "#000000"
-  },
-  "palette": {
-    // Color definitions
-  },
-  "blocks": [
-    // Prompt layout blocks
-  ],
-  "transient_prompt": {
-    // Optional simplified prompt after execution
-  }
+ "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+ "accent_color": "#00bcd4",
+ "blocks": [
+  // Prompt layout blocks
+ ],
+ "console_title": "{{ .Shell }} - {{.Folder}}",
+ "console_title_template": "{{.Folder}}",
+ "final_space": true,
+ "palette": {
+  // Color definitions
+ },
+ "tooltip": {
+  "text": "{{.Name}}",
+  "background": "transparent",
+  "foreground": "#000000"
+ },
+ "transient_prompt": {
+  // Optional simplified prompt after execution
+ },
+ "version": 3
 }
 ```
 
 ### Key Top-Level Properties
 
-| Property                 | Purpose                          | Example             |
-| ------------------------ | -------------------------------- | ------------------- |
-| `$schema`                | Validation & IDE support         | Official schema URL |
-| `version`                | Schema version for Oh My Posh    | `3` (current)       |
-| `final_space`            | Trailing space in prompt         | `true` or `false`   |
-| `console_title_template` | Terminal tab/window title        | `"{{.Folder}}"`     |
-| `accent_color`           | Primary accent hue (not palette) | `"#00bcd4"`         |
-| `palette`                | Color definitions object         | `{...}`             |
-| `blocks`                 | Array of prompt line blocks      | `[{...}]`           |
-| `transient_prompt`       | Quick re-prompt display          | Optional `{...}`    |
+| Property | Purpose | Example |
+| --- | --- | --- |
+| `$schema` | Validation & IDE support | Official schema URL |
+| `version` | Schema version for Oh My Posh | `3` (current) |
+| `final_space` | Trailing space in prompt | `true` or `false` |
+| `console_title_template` | Terminal tab/window title | `"{{.Folder}}"` |
+| `accent_color` | Primary accent hue (not palette) | `"#00bcd4"` |
+| `palette` | Color definitions object | `{...}` |
+| `blocks` | Array of prompt line blocks | `[{...}]` |
+| `transient_prompt` | Quick re-prompt display | Optional `{...}` |
 
 ### Block Structure
 
 ```json
 {
-  "alignment": "left|right|rprompt|newline",
-  "vertical_offset": 0,
-  "segments": [
-    {
-      "type": "segment_type",
-      "background": "p:palette_key|#hexcolor",
-      "foreground": "p:palette_key|#hexcolor",
-      "template": "template_string",
-      "properties": {},
-      "style": "powerline|diamond|plain",
-      "leading_diamond": "◊",
-      "trailing_diamond": "◊",
-      "cache": {
-        "strategy": "session|folder|windows",
-        "duration": "5m",
-        "skip_cache": false
-      }
-    }
-  ]
+ "alignment": "left|right|rprompt|newline",
+ "segments": [
+  {
+   "type": "segment_type",
+   "background": "p:palette_key|#hexcolor",
+   "foreground": "p:palette_key|#hexcolor",
+   "template": "template_string",
+   "properties": {},
+   "style": "powerline|diamond|plain",
+   "leading_diamond": "◊",
+   "trailing_diamond": "◊",
+   "cache": {
+    "strategy": "session|folder|windows",
+    "duration": "5m",
+    "skip_cache": false
+   }
+  }
+ ],
+ "vertical_offset": 0
 }
 ```
 
@@ -114,26 +115,26 @@ Displays the current working directory with customizable format.
 
 ```json
 {
-  "type": "path",
-  "background": "p:blue_primary",
-  "foreground": "p:white",
-  "template": " {{ .Path }} ",
-  "style": "powerline",
-  "properties": {
-    "style": "folder",
-    "max_depth": 3,
-    "folder_separator_icon": "/",
-    "home_icon": "~",
-    "hide_root_location": false,
-    "read_only_icon": "🔒",
-    "truncation_mode": "start",
-    "truncated_indicator": "....",
-    "mapped_locations": {
-      "C:\\Users\\YourName\\Documents": "📄 Docs",
-      "C:\\Users\\YourName\\Desktop": "🖥️ Desktop",
-      "/home/user/projects": "💼 Projects"
-    }
+ "background": "p:blue_primary",
+ "foreground": "p:white",
+ "properties": {
+  "style": "folder",
+  "max_depth": 3,
+  "folder_separator_icon": "/",
+  "home_icon": "~",
+  "hide_root_location": false,
+  "read_only_icon": "🔒",
+  "truncation_mode": "start",
+  "truncated_indicator": "....",
+  "mapped_locations": {
+   "C:\\Users\\YourName\\Documents": "📄 Docs",
+   "C:\\Users\\YourName\\Desktop": "🖥️ Desktop",
+   "/home/user/projects": "💼 Projects"
   }
+ },
+ "style": "powerline",
+ "template": " {{ .Path }} ",
+ "type": "path"
 }
 ```
 
@@ -141,19 +142,19 @@ Displays the current working directory with customizable format.
 
 ```json
 {
-  "properties": {
-    "style": "mixed|folder|letter",
-    "max_depth": 2,
-    "folder_separator_icon": " > ",
-    "home_icon": "⌂",
-    "read_only_icon": "  ",
-    "truncation_mode": "start|end|middle",
-    "truncated_indicator": "…",
-    "mapped_locations": {
-      "/home/user/dev": "🔧 Dev",
-      "C:\\code": "📝 Code"
-    }
+ "properties": {
+  "style": "mixed|folder|letter",
+  "max_depth": 2,
+  "folder_separator_icon": " > ",
+  "home_icon": "⌂",
+  "read_only_icon": "  ",
+  "truncation_mode": "start|end|middle",
+  "truncated_indicator": "…",
+  "mapped_locations": {
+   "/home/user/dev": "🔧 Dev",
+   "C:\\code": "📝 Code"
   }
+ }
 }
 ```
 
@@ -163,19 +164,19 @@ Shows git status with detailed information.
 
 ```json
 {
-  "type": "git",
-  "background": "p:yellow_bright",
-  "foreground": "p:black",
-  "template": " {{ .Branch }} ",
-  "style": "powerline",
-  "properties": {
-    "fetch_status": true,
-    "fetch_upstream_icon": true,
-    "branch_max_length": 25,
-    "truncation_symbol": "…",
-    "fetch_worktree_count": false,
-    "windows_registry": false
-  }
+ "background": "p:yellow_bright",
+ "foreground": "p:black",
+ "properties": {
+  "fetch_status": true,
+  "fetch_upstream_icon": true,
+  "branch_max_length": 25,
+  "truncation_symbol": "…",
+  "fetch_worktree_count": false,
+  "windows_registry": false
+ },
+ "style": "powerline",
+ "template": " {{ .Branch }} ",
+ "type": "git"
 }
 ```
 
@@ -183,7 +184,7 @@ Shows git status with detailed information.
 
 ```json
 {
-  "template": "{{ if .UpstreamIcon }}{{ .UpstreamIcon }} {{ end }}{{ .Branch }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .RepositoryStatus }} {{ .RepositoryStatus }}{{ end }}"
+ "template": "{{ if .UpstreamIcon }}{{ .UpstreamIcon }} {{ end }}{{ .Branch }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .RepositoryStatus }} {{ .RepositoryStatus }}{{ end }}"
 }
 ```
 
@@ -193,16 +194,16 @@ Indicates success/failure of last command.
 
 ```json
 {
-  "type": "status",
-  "background": "p:green_success",
-  "foreground": "p:black",
-  "background_templates": [
-    "{{ if .Error }}p:maroon_error{{ else }}p:green_success{{ end }}"
-  ],
-  "template": " {{ if .Error }}✗{{ else }}✓{{ end }} ",
-  "style": "diamond",
-  "leading_diamond": "◊",
-  "trailing_diamond": "◊"
+ "background": "p:green_success",
+ "background_templates": [
+  "{{ if .Error }}p:maroon_error{{ else }}p:green_success{{ end }}"
+ ],
+ "foreground": "p:black",
+ "leading_diamond": "◊",
+ "style": "diamond",
+ "template": " {{ if .Error }}✗{{ else }}✓{{ end }} ",
+ "trailing_diamond": "◊",
+ "type": "status"
 }
 ```
 
@@ -212,17 +213,17 @@ Display any environment variable or command output.
 
 ```json
 {
-  "type": "env",
-  "background": "p:blue_primary",
-  "foreground": "p:white",
-  "template": " {{ .Env.CUSTOM_VAR }} ",
-  "properties": {
-    "var_name": "CUSTOM_VAR"
-  },
-  "cache": {
-    "strategy": "session",
-    "duration": "1h"
-  }
+ "background": "p:blue_primary",
+ "cache": {
+  "strategy": "session",
+  "duration": "1h"
+ },
+ "foreground": "p:white",
+ "properties": {
+  "var_name": "CUSTOM_VAR"
+ },
+ "template": " {{ .Env.CUSTOM_VAR }} ",
+ "type": "env"
 }
 ```
 
@@ -232,20 +233,20 @@ Execute custom commands and display results.
 
 ```json
 {
-  "type": "command",
-  "background": "p:purple_session",
-  "foreground": "p:white",
-  "template": "{{ .Output }}",
-  "properties": {
-    "shell": "powershell",
-    "command": "Get-Date -Format 'HH:mm:ss'",
-    "parse": true,
-    "parse_separator": ":"
-  },
-  "cache": {
-    "strategy": "session",
-    "duration": "2s"
-  }
+ "background": "p:purple_session",
+ "cache": {
+  "strategy": "session",
+  "duration": "2s"
+ },
+ "foreground": "p:white",
+ "properties": {
+  "shell": "powershell",
+  "command": "Get-Date -Format 'HH:mm:ss'",
+  "parse": true,
+  "parse_separator": ":"
+ },
+ "template": "{{ .Output }}",
+ "type": "command"
 }
 ```
 
@@ -255,18 +256,18 @@ Display runtime versions for Node, Python, etc.
 
 ```json
 {
-  "type": "node",
-  "background": "p:node_green",
-  "foreground": "p:black",
-  "template": " ⬢ {{ .Full }} ",
-  "style": "powerline",
-  "properties": {
-    "fetch_version": true
-  },
-  "cache": {
-    "strategy": "folder",
-    "duration": "5m"
-  }
+ "background": "p:node_green",
+ "cache": {
+  "strategy": "folder",
+  "duration": "5m"
+ },
+ "foreground": "p:black",
+ "properties": {
+  "fetch_version": true
+ },
+ "style": "powerline",
+ "template": " ⬢ {{ .Full }} ",
+ "type": "node"
 }
 ```
 
@@ -282,7 +283,7 @@ Oh My Posh uses Go template syntax (similar to Handlebars). Templates appear in 
 
 ```json
 {
-  "template": "User: {{ .User }}" // Output: User: john
+ "template": "User: {{ .User }}" // Output: User: john
 }
 ```
 
@@ -290,7 +291,7 @@ Oh My Posh uses Go template syntax (similar to Handlebars). Templates appear in 
 
 ```json
 {
-  "template": "{{ if .Error }}✗ Failed{{ else }}✓ Success{{ end }}"
+ "template": "{{ if .Error }}✗ Failed{{ else }}✓ Success{{ end }}"
 }
 ```
 
@@ -298,7 +299,7 @@ Oh My Posh uses Go template syntax (similar to Handlebars). Templates appear in 
 
 ```json
 {
-  "template": "{{ range .Items }}{{ . }}{{ end }}"
+ "template": "{{ range .Items }}{{ . }}{{ end }}"
 }
 ```
 
@@ -308,7 +309,7 @@ Oh My Posh uses Go template syntax (similar to Handlebars). Templates appear in 
 
 ```json
 {
-  "template": "{{ if .Version }}{{ .Name }} {{ .Version }}{{ else }}{{ .Name }}{{ end }}"
+ "template": "{{ if .Version }}{{ .Name }} {{ .Version }}{{ else }}{{ .Name }}{{ end }}"
 }
 ```
 
@@ -316,7 +317,7 @@ Oh My Posh uses Go template syntax (similar to Handlebars). Templates appear in 
 
 ```json
 {
-  "template": "<#00bcd4>Cyan</>{{ .Content }}<#ff0000>Red</>"
+ "template": "<#00bcd4>Cyan</>{{ .Content }}<#ff0000>Red</>"
 }
 ```
 
@@ -324,8 +325,8 @@ Oh My Posh uses Go template syntax (similar to Handlebars). Templates appear in 
 
 ```json
 {
-  "type": "git",
-  "template": "{{ if or .Error .Detached }}{{ if .Detached }}(detached){{ else }}(error){{ end }}{{ else }}{{ .Branch }}{{ end }}"
+ "template": "{{ if or .Error .Detached }}{{ if .Detached }}(detached){{ else }}(error){{ end }}{{ else }}{{ .Branch }}{{ end }}",
+ "type": "git"
 }
 ```
 
@@ -333,7 +334,7 @@ Oh My Posh uses Go template syntax (similar to Handlebars). Templates appear in 
 
 ```json
 {
-  "template": "{{ if .Value }} {{ .Value }} {{ else }}(empty){{ end }}"
+ "template": "{{ if .Value }} {{ .Value }} {{ else }}(empty){{ end }}"
 }
 ```
 
@@ -341,30 +342,30 @@ Oh My Posh uses Go template syntax (similar to Handlebars). Templates appear in 
 
 ```json
 {
-  "background_templates": [
-    "{{ if eq .ExitCode 0 }}p:green_success{{ else }}p:red_alert{{ end }}"
-  ]
+ "background_templates": [
+  "{{ if eq .ExitCode 0 }}p:green_success{{ else }}p:red_alert{{ end }}"
+ ]
 }
 ```
 
 ### Built-In Template Functions
 
-| Function   | Purpose           | Example                                                   |
-| ---------- | ----------------- | --------------------------------------------------------- |
-| `eq`       | Equals comparison | `{{ if eq .Shell "pwsh" }}PowerShell{{ end }}`            |
-| `ne`       | Not equals        | `{{ if ne .User "root" }}Regular User{{ end }}`           |
-| `gt`       | Greater than      | `{{ if gt .Memory 80 }}High Memory{{ end }}`              |
-| `lt`       | Less than         | `{{ if lt .Memory 20 }}Low Memory{{ end }}`               |
-| `and`      | Logical AND       | `{{ if and .Error .Warning }}Both{{ end }}`               |
-| `or`       | Logical OR        | `{{ if or .Error .Warning }}Either{{ end }}`              |
-| `not`      | Logical NOT       | `{{ if not .Error }}Success{{ end }}`                     |
-| `len`      | Length of string  | `{{ if gt (len .Text) 5 }}Long{{ end }}`                  |
-| `contains` | String contains   | `{{ if contains .Path "node_modules" }}Has deps{{ end }}` |
-| `split`    | Split string      | `{{ index (split .Path "/") 0 }}`                         |
-| `join`     | Join array        | `{{ join (split .Path "/") "-" }}`                        |
-| `title`    | Capitalize        | `{{ title .Name }}`                                       |
-| `lower`    | Lowercase         | `{{ lower .Text }}`                                       |
-| `upper`    | Uppercase         | `{{ upper .Text }}`                                       |
+| Function | Purpose | Example |
+| --- | --- | --- |
+| `eq` | Equals comparison | `{{ if eq .Shell "pwsh" }}PowerShell{{ end }}` |
+| `ne` | Not equals | `{{ if ne .User "root" }}Regular User{{ end }}` |
+| `gt` | Greater than | `{{ if gt .Memory 80 }}High Memory{{ end }}` |
+| `lt` | Less than | `{{ if lt .Memory 20 }}Low Memory{{ end }}` |
+| `and` | Logical AND | `{{ if and .Error .Warning }}Both{{ end }}` |
+| `or` | Logical OR | `{{ if or .Error .Warning }}Either{{ end }}` |
+| `not` | Logical NOT | `{{ if not .Error }}Success{{ end }}` |
+| `len` | Length of string | `{{ if gt (len .Text) 5 }}Long{{ end }}` |
+| `contains` | String contains | `{{ if contains .Path "node_modules" }}Has deps{{ end }}` |
+| `split` | Split string | `{{ index (split .Path "/") 0 }}` |
+| `join` | Join array | `{{ join (split .Path "/") "-" }}` |
+| `title` | Capitalize | `{{ title .Name }}` |
+| `lower` | Lowercase | `{{ lower .Text }}` |
+| `upper` | Uppercase | `{{ upper .Text }}` |
 
 ### Practical Template Examples
 
@@ -372,8 +373,8 @@ Oh My Posh uses Go template syntax (similar to Handlebars). Templates appear in 
 
 ```json
 {
-  "type": "status",
-  "template": "{{ if .Error }}❌ {{ .Error.Message }}{{ else }}✅{{ end }}"
+ "template": "{{ if .Error }}❌ {{ .Error.Message }}{{ else }}✅{{ end }}",
+ "type": "status"
 }
 ```
 
@@ -381,8 +382,8 @@ Oh My Posh uses Go template syntax (similar to Handlebars). Templates appear in 
 
 ```json
 {
-  "type": "git",
-  "template": "{{ if .UpstreamIcon }}{{ .UpstreamIcon }} {{ end }}{{ .Branch }}{{ if .BranchStatus }} ({{ .BranchStatus }}){{ end }}"
+ "template": "{{ if .UpstreamIcon }}{{ .UpstreamIcon }} {{ end }}{{ .Branch }}{{ if .BranchStatus }} ({{ .BranchStatus }}){{ end }}",
+ "type": "git"
 }
 ```
 
@@ -390,8 +391,8 @@ Oh My Posh uses Go template syntax (similar to Handlebars). Templates appear in 
 
 ```json
 {
-  "type": "path",
-  "template": "{{ if gt (len .Path) 40 }}...{{ substr .Path -35 }}{{ else }}{{ .Path }}{{ end }}"
+ "template": "{{ if gt (len .Path) 40 }}...{{ substr .Path -35 }}{{ else }}{{ .Path }}{{ end }}",
+ "type": "path"
 }
 ```
 
@@ -399,11 +400,11 @@ Oh My Posh uses Go template syntax (similar to Handlebars). Templates appear in 
 
 ```json
 {
-  "type": "env",
-  "template": "{{ if .Env.DEVELOPMENT }}[DEV]{{ else if .Env.STAGING }}[STAGING]{{ else }}[PROD]{{ end }}",
-  "properties": {
-    "var_name": "ENVIRONMENT"
-  }
+ "properties": {
+  "var_name": "ENVIRONMENT"
+ },
+ "template": "{{ if .Env.DEVELOPMENT }}[DEV]{{ else if .Env.STAGING }}[STAGING]{{ else }}[PROD]{{ end }}",
+ "type": "env"
 }
 ```
 
@@ -427,8 +428,8 @@ Oh My Posh includes collections of pre-designed icons:
 
 ```json
 {
-  "type": "git",
-  "template": "⎇ {{ .Branch }}"
+ "template": "⎇ {{ .Branch }}",
+ "type": "git"
 }
 ```
 
@@ -436,8 +437,8 @@ Oh My Posh includes collections of pre-designed icons:
 
 ```json
 {
-  "type": "status",
-  "template": "{{ if .Error }}󰅖 Error{{ else }}󰄬 Success{{ end }}"
+ "template": "{{ if .Error }}󰅖 Error{{ else }}󰄬 Success{{ end }}",
+ "type": "status"
 }
 ```
 
@@ -445,8 +446,8 @@ Oh My Posh includes collections of pre-designed icons:
 
 ```json
 {
-  "type": "command",
-  "template": "{{ if contains .Output 'python' }}🐍 Python{{ else if contains .Output 'node' }}⬢ Node{{ else }}?{{ end }}"
+ "template": "{{ if contains .Output 'python' }}🐍 Python{{ else if contains .Output 'node' }}⬢ Node{{ else }}?{{ end }}",
+ "type": "command"
 }
 ```
 
@@ -461,16 +462,16 @@ Use sites like [nerdfonts.com](https://nerdfonts.com) to browse available icons:
 
 #### Example Icons
 
-| Icon | Unicode | Name        | Use Case              |
-| ---- | ------- | ----------- | --------------------- |
-| ⬢    | U+2B22  | Node.js     | JavaScript/TypeScript |
-| 🐍   | U+1F40D | Python      | Python projects       |
-| 󰌠    | Custom  | Rust        | Rust projects         |
-| ☸   | U+2328  | Kubernetes  | K8s contexts          |
-| 󰔒    | Custom  | Lock        | Read-only indicator   |
-| ⚡   | U+26A1  | Electricity | Power/speed indicator |
-| 🔧   | U+1F527 | Wrench      | Tools/configuration   |
-| 📦   | U+1F4E6 | Package     | Dependencies          |
+| Icon | Unicode | Name | Use Case |
+| --- | --- | --- | --- |
+| ⬢ | U+2B22 | Node.js | JavaScript/TypeScript |
+| 🐍 | U+1F40D | Python | Python projects |
+| 󰌠 | Custom | Rust | Rust projects |
+| ☸ | U+2328 | Kubernetes | K8s contexts |
+| 󰔒 | Custom | Lock | Read-only indicator |
+| ⚡ | U+26A1 | Electricity | Power/speed indicator |
+| 🔧 | U+1F527 | Wrench | Tools/configuration |
+| 📦 | U+1F4E6 | Package | Dependencies |
 
 ---
 
@@ -490,8 +491,8 @@ p:<palette_key>
 
 ```json
 {
-  "foreground": "p:white",
-  "background": "p:blue_primary"
+ "background": "p:blue_primary",
+ "foreground": "p:white"
 }
 ```
 
@@ -499,11 +500,11 @@ p:<palette_key>
 
 ```json
 {
-  "palette": {
-    "my_custom_color": "#FF6B9D",
-    "my_custom_dark": "#2D1B3D",
-    "my_accent": "#00D9FF"
-  }
+ "palette": {
+  "my_custom_color": "#FF6B9D",
+  "my_custom_dark": "#2D1B3D",
+  "my_accent": "#00D9FF"
+ }
 }
 ```
 
@@ -513,8 +514,8 @@ When not using palettes, you can specify colors directly:
 
 ```json
 {
-  "foreground": "#FFFFFF",
-  "background": "#000000"
+ "background": "#000000",
+ "foreground": "#FFFFFF"
 }
 ```
 
@@ -524,12 +525,12 @@ The `background_templates` array allows conditional colors:
 
 ```json
 {
-  "type": "status",
-  "foreground": "p:white",
-  "background_templates": [
-    "{{ if .Error }}p:red_alert{{ else }}p:green_success{{ end }}"
-  ],
-  "template": "{{ if .Error }}✗{{ else }}✓{{ end }}"
+ "background_templates": [
+  "{{ if .Error }}p:red_alert{{ else }}p:green_success{{ end }}"
+ ],
+ "foreground": "p:white",
+ "template": "{{ if .Error }}✗{{ else }}✓{{ end }}",
+ "type": "status"
 }
 ```
 
@@ -543,11 +544,11 @@ While Oh My Posh doesn't directly support color blending, you can simulate it by
 
 ```json
 {
-  "palette": {
-    "red_to_orange": "#FF4500",
-    "orange_to_yellow": "#FFB347",
-    "yellow_to_green": "#ADFF2F"
-  }
+ "palette": {
+  "red_to_orange": "#FF4500",
+  "orange_to_yellow": "#FFB347",
+  "yellow_to_green": "#ADFF2F"
+ }
 }
 ```
 
@@ -559,7 +560,7 @@ While Oh My Posh doesn't directly support color blending, you can simulate it by
 
 ```json
 {
-  "alignment": "left|right|rprompt|newline"
+ "alignment": "left|right|rprompt|newline"
 }
 ```
 
@@ -611,13 +612,13 @@ While Oh My Posh doesn't directly support color blending, you can simulate it by
 
 ```json
 {
-  "type": "text",
-  "background": "transparent",
-  "template": " ", // Single space
-  "properties": {
-    "prefix": "",
-    "suffix": ""
-  }
+ "background": "transparent",
+ "properties": {
+  "prefix": "",
+  "suffix": ""
+ },
+ "template": " ", // Single space
+ "type": "text"
 }
 ```
 
@@ -629,19 +630,19 @@ While Oh My Posh doesn't directly support color blending, you can simulate it by
 
 ```json
 {
-  "type": "command",
-  "background": "p:blue_primary",
-  "foreground": "p:white",
-  "template": "{{ .Output }}",
-  "properties": {
-    "shell": "powershell",
-    "command": "Get-Process -Name 'notable-app' -ErrorAction SilentlyContinue | Measure-Object | ForEach-Object { $_.Count }",
-    "parse": true
-  },
-  "cache": {
-    "strategy": "session",
-    "duration": "30s"
-  }
+ "background": "p:blue_primary",
+ "cache": {
+  "strategy": "session",
+  "duration": "30s"
+ },
+ "foreground": "p:white",
+ "properties": {
+  "shell": "powershell",
+  "command": "Get-Process -Name 'notable-app' -ErrorAction SilentlyContinue | Measure-Object | ForEach-Object { $_.Count }",
+  "parse": true
+ },
+ "template": "{{ .Output }}",
+ "type": "command"
 }
 ```
 
@@ -674,12 +675,12 @@ Configure in theme:
 
 ```json
 {
-  "type": "command",
-  "template": "{{ .Output }}",
-  "properties": {
-    "shell": "powershell",
-    "command": "&{ . ./CustomSegments.ps1; Get-GitStats }"
-  }
+ "properties": {
+  "shell": "powershell",
+  "command": "&{ . ./CustomSegments.ps1; Get-GitStats }"
+ },
+ "template": "{{ .Output }}",
+ "type": "command"
 }
 ```
 
@@ -687,16 +688,16 @@ Configure in theme:
 
 ```json
 {
-  "type": "env",
-  "background": "p:purple_session",
-  "foreground": "p:white",
-  "template": "[{{ .Env.ENVIRONMENT }}]",
-  "properties": {
-    "var_name": "ENVIRONMENT"
-  },
-  "cache": {
-    "strategy": "session"
-  }
+ "background": "p:purple_session",
+ "cache": {
+  "strategy": "session"
+ },
+ "foreground": "p:white",
+ "properties": {
+  "var_name": "ENVIRONMENT"
+ },
+ "template": "[{{ .Env.ENVIRONMENT }}]",
+ "type": "env"
 }
 ```
 
@@ -712,11 +713,11 @@ Caching prevents expensive segment evaluations on every prompt.
 
 ```json
 {
-  "cache": {
-    "strategy": "session|folder|windows",
-    "duration": "5m",
-    "skip_cache": false
-  }
+ "cache": {
+  "strategy": "session|folder|windows",
+  "duration": "5m",
+  "skip_cache": false
+ }
 }
 ```
 
@@ -764,12 +765,12 @@ If a segment is very slow, consider disabling or replacing it:
 
 ```json
 {
-  "type": "command",
-  "background": "transparent",
-  "template": "", // Empty template = hidden
-  "properties": {
-    "command": "..." // Expensive logic disabled
-  }
+ "background": "transparent",
+ "properties": {
+  "command": "..." // Expensive logic disabled
+ },
+ "template": "", // Empty template = hidden
+ "type": "command"
 }
 ```
 
@@ -779,12 +780,12 @@ Load segments only in certain conditions:
 
 ```json
 {
-  "type": "command",
-  "template": "{{ if eq .Shell \"pwsh\" }}⚡{{ end }}",
-  "properties": {
-    "shell": "powershell",
-    "command": "$PSVersionTable.PSVersion.Major"
-  }
+ "properties": {
+  "shell": "powershell",
+  "command": "$PSVersionTable.PSVersion.Major"
+ },
+ "template": "{{ if eq .Shell \"pwsh\" }}⚡{{ end }}",
+ "type": "command"
 }
 ```
 
@@ -798,25 +799,25 @@ Separate concerns into distinct segments:
 
 ```json
 {
-  "blocks": [
-    {
-      "type": "prompt",
-      "alignment": "left",
-      "segments": [
-        { "type": "shell" }, // ① System info
-        { "type": "path" }, // ② Location
-        { "type": "git" } // ③ VCS status
-      ]
-    },
-    {
-      "type": "prompt",
-      "alignment": "right",
-      "segments": [
-        { "type": "time" }, // ④ Clock
-        { "type": "battery" } // ⑤ Power
-      ]
-    }
-  ]
+ "blocks": [
+  {
+   "type": "prompt",
+   "alignment": "left",
+   "segments": [
+    { "type": "shell" }, // ① System info
+    { "type": "path" }, // ② Location
+    { "type": "git" } // ③ VCS status
+   ]
+  },
+  {
+   "type": "prompt",
+   "alignment": "right",
+   "segments": [
+    { "type": "time" }, // ④ Clock
+    { "type": "battery" } // ⑤ Power
+   ]
+  }
+ ]
 }
 ```
 
@@ -826,21 +827,21 @@ Use palette colors consistently:
 
 ```json
 {
-  "palette": {
-    "bg_primary": "#1e1e2e",
-    "bg_secondary": "#313244",
-    "fg_primary": "#cdd6f4"
-  },
-  "blocks": [
+ "blocks": [
+  {
+   "segments": [
     {
-      "segments": [
-        {
-          "background": "p:bg_primary",
-          "foreground": "p:fg_primary"
-        }
-      ]
+     "background": "p:bg_primary",
+     "foreground": "p:fg_primary"
     }
-  ]
+   ]
+  }
+ ],
+ "palette": {
+  "bg_primary": "#1e1e2e",
+  "bg_secondary": "#313244",
+  "fg_primary": "#cdd6f4"
+ }
 }
 ```
 
@@ -850,14 +851,14 @@ Cache aggressively and consider disabling optional segments:
 
 ```json
 {
-  "cache": {
-    "strategy": "folder",
-    "duration": "5m"
-  },
-  "properties": {
-    "fetch_status": true, // Only when needed
-    "fetch_upstream_icon": false // Optional detail
-  }
+ "cache": {
+  "strategy": "folder",
+  "duration": "5m"
+ },
+ "properties": {
+  "fetch_status": true, // Only when needed
+  "fetch_upstream_icon": false // Optional detail
+ }
 }
 ```
 
@@ -867,9 +868,9 @@ Ensure adequate contrast and spacing:
 
 ```json
 {
-  "template": "  {{ .Content }}  ", // Breathing room
-  "background": "p:dark_color",
-  "foreground": "p:light_color" // High contrast
+ "background": "p:dark_color",
+ "foreground": "p:light_color", // High contrast
+ "template": "  {{ .Content }}  " // Breathing room
 }
 ```
 
@@ -911,4 +912,5 @@ Key Areas Covered:
 9. **Best Practices**: Professional configuration techniques
 
 For more advanced topics, refer to the [Official Oh My Posh Documentation](https://ohmyposh.dev/docs/configuration/overview).
+
 <!-- {% endraw %} -->

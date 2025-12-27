@@ -1,4 +1,5 @@
 <!-- {% raw %} -->
+
 # 🎨 PowerShell ANSI Escape Codes & Terminal Color Guide
 
 ## Table of Contents
@@ -75,16 +76,16 @@ The original ANSI palette consists of 8 colors, each available in normal and bri
 
 #### Standard Colors (30-37 for foreground, 40-47 for background)
 
-| Color   | Foreground Code | Background Code | Bright Foreground | Bright Background |
-| ------- | --------------- | --------------- | ----------------- | ----------------- |
-| Black   | 30              | 40              | 90                | 100               |
-| Red     | 31              | 41              | 91                | 101               |
-| Green   | 32              | 42              | 92                | 102               |
-| Yellow  | 33              | 43              | 93                | 103               |
-| Blue    | 34              | 44              | 94                | 104               |
-| Magenta | 35              | 45              | 95                | 105               |
-| Cyan    | 36              | 46              | 96                | 106               |
-| White   | 37              | 47              | 97                | 107               |
+| Color | Foreground Code | Background Code | Bright Foreground | Bright Background |
+| --- | --- | --- | --- | --- |
+| Black | 30 | 40 | 90 | 100 |
+| Red | 31 | 41 | 91 | 101 |
+| Green | 32 | 42 | 92 | 102 |
+| Yellow | 33 | 43 | 93 | 103 |
+| Blue | 34 | 44 | 94 | 104 |
+| Magenta | 35 | 45 | 95 | 105 |
+| Cyan | 36 | 46 | 96 | 106 |
+| White | 37 | 47 | 97 | 107 |
 
 ### PowerShell Examples: 16 Colors
 
@@ -236,14 +237,14 @@ Write-Host "${esc}[38;2;$($color.r);$($color.g);$($color.b)m#FF5733 Orange${esc}
 
 ### Color Model Compatibility
 
-| Terminal         | 16 Colors  | 256 Colors | Truecolor |
-| ---------------- | ---------- | ---------- | --------- |
-| Windows Terminal | ✅         | ✅         | ✅        |
-| VS Code          | ✅         | ✅         | ✅        |
-| iTerm2           | ✅         | ✅         | ✅        |
-| GNOME Terminal   | ✅         | ✅         | ✅        |
-| xterm            | ✅         | ✅         | ❌        |
-| cmd.exe          | ⚠️ Limited | ❌         | ❌        |
+| Terminal | 16 Colors | 256 Colors | Truecolor |
+| --- | --- | --- | --- |
+| Windows Terminal | ✅ | ✅ | ✅ |
+| VS Code | ✅ | ✅ | ✅ |
+| iTerm2 | ✅ | ✅ | ✅ |
+| GNOME Terminal | ✅ | ✅ | ✅ |
+| xterm | ✅ | ✅ | ❌ |
+| cmd.exe | ⚠️ Limited | ❌ | ❌ |
 
 ---
 
@@ -305,17 +306,17 @@ Write-Host "$($colors.red)Red$reset $($colors.blue)Blue$reset $($colors.green)Gr
 
 Beyond colors, ANSI also supports text styling:
 
-| Attribute     | Code | Example                           |
-| ------------- | ---- | --------------------------------- |
-| Reset all     | 0    | `${esc}[0m`                       |
-| Bold/Bright   | 1    | `${esc}[1m`                       |
-| Dim           | 2    | `${esc}[2m`                       |
-| Italic        | 3    | `${esc}[3m`                       |
-| Underline     | 4    | `${esc}[4m`                       |
-| Blink         | 5    | `${esc}[5m` (often not supported) |
-| Reverse       | 7    | `${esc}[7m`                       |
-| Hidden        | 8    | `${esc}[8m`                       |
-| Strikethrough | 9    | `${esc}[9m`                       |
+| Attribute | Code | Example |
+| --- | --- | --- |
+| Reset all | 0 | `${esc}[0m` |
+| Bold/Bright | 1 | `${esc}[1m` |
+| Dim | 2 | `${esc}[2m` |
+| Italic | 3 | `${esc}[3m` |
+| Underline | 4 | `${esc}[4m` |
+| Blink | 5 | `${esc}[5m` (often not supported) |
+| Reverse | 7 | `${esc}[7m` |
+| Hidden | 8 | `${esc}[8m` |
+| Strikethrough | 9 | `${esc}[9m` |
 
 #### PowerShell Styling Examples
 
@@ -574,25 +575,25 @@ Oh My Posh abstracts away direct ANSI code management through its JSON configura
 
 ```json
 {
-  "palette": {
-    "red_alert": "#ff0000",
-    "green_success": "#00ff00",
-    "blue_primary": "#0000ff"
-  },
-  "blocks": [
+ "blocks": [
+  {
+   "type": "prompt",
+   "alignment": "left",
+   "segments": [
     {
-      "type": "prompt",
-      "alignment": "left",
-      "segments": [
-        {
-          "type": "status",
-          "foreground": "p:green_success",
-          "background": "p:blue_primary",
-          "template": " {{ if .Error }}✗{{ else }}✓{{ end }} "
-        }
-      ]
+     "type": "status",
+     "foreground": "p:green_success",
+     "background": "p:blue_primary",
+     "template": " {{ if .Error }}✗{{ else }}✓{{ end }} "
     }
-  ]
+   ]
+  }
+ ],
+ "palette": {
+  "red_alert": "#ff0000",
+  "green_success": "#00ff00",
+  "blue_primary": "#0000ff"
+ }
 }
 ```
 
@@ -683,4 +684,5 @@ Understanding ANSI escape codes and their implementation in PowerShell allows yo
 6. Test your colors in your target terminal emulator
 
 For more information, see the [ANSI/VT100 Escape Sequence Reference](https://en.wikipedia.org/wiki/ANSI_escape_code).
+
 <!-- {% endraw %} -->

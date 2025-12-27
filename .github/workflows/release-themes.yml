@@ -1,462 +1,462 @@
 name: Release Oh My Posh Themes
 
 concurrency:
-  group: release-themes-${{ github.ref }}
-  cancel-in-progress: true
+    group: release-themes-${{ github.ref }}
+    cancel-in-progress: true
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      # Root theme JSONs
-      - "OhMyPosh-Atomic-*.json"
-      - "*_shell-*.json"
-      - "1_shell*.json"
-      - "slimfat*.json"
-      - "atomicBit*.json"
-      - "clean-detailed*.json"
-      # Generated theme variants in folders
-      - "1_shell/**"
-      - "slimfat/**"
-      - "atomic/**"
-      - "atomicBit/**"
-      - "cleanDetailed/**"
-      - "experimentalDividers/**"
-      # Palette sources / extra theme types
-      - "color-palette-alternatives.json"
-      - "starship-atomic-enhanced.toml"
-  workflow_dispatch:
-    inputs:
-      version:
-        description: "Release version (e.g., v1.0.0)"
-        required: true
-        default: "v1.0.0"
+    push:
+        branches:
+            - main
+        paths:
+            # Root theme JSONs
+            - "OhMyPosh-Atomic-*.json"
+            - "*_shell-*.json"
+            - "1_shell*.json"
+            - "slimfat*.json"
+            - "atomicBit*.json"
+            - "clean-detailed*.json"
+            # Generated theme variants in folders
+            - "1_shell/**"
+            - "slimfat/**"
+            - "atomic/**"
+            - "atomicBit/**"
+            - "cleanDetailed/**"
+            - "experimentalDividers/**"
+            # Palette sources / extra theme types
+            - "color-palette-alternatives.json"
+            - "starship-atomic-enhanced.toml"
+    workflow_dispatch:
+        inputs:
+            version:
+                description: "Release version (e.g., v1.0.0)"
+                required: true
+                default: "v1.0.0"
 
 permissions:
-  contents: write
+    contents: write
 
 jobs:
-  prepare-release:
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.set_version.outputs.version }}
-      release_date: ${{ steps.set_version.outputs.release_date }}
-    steps:
-      - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
-        with:
-          egress-policy: audit
-
-      - name: Checkout repository
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          fetch-depth: 0
-
-      - name: Set version and date
-        id: set_version
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            VERSION="${{ github.event.inputs.version }}"
-          else
-            # Generate version from date and commit
-            VERSION="v$(date +%Y.%m.%d)-${GITHUB_SHA::7}"
-          fi
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "release_date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
-          echo "📦 Release version: $VERSION"
-
-  build-release-assets:
-    name: Build Release Assets (Windows)
-    runs-on: windows-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          fetch-depth: 0
-
-      - name: Generate all theme variants (PowerShell)
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-
-          # Generate the 5 primary theme families into the repo root
-          pwsh -NoProfile -File .\Generate-AllThemes.ps1 -Force
-
-          # Generate ExperimentalDividers palette variants into .\experimentalDividers
-          pwsh -NoProfile -File .\Generate-ExperimentalDividers.ps1 -Force
-
-          # Ensure the NoShellIntegration variant is in sync
-          pwsh -NoProfile -File .\scripts\Make-NoShellIntegration.ps1
-
-      - name: Stage release assets (flattened)
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-
-          $dist = Join-Path -Path $PWD -ChildPath 'release-assets'
-          New-Item -ItemType Directory -Path $dist -Force | Out-Null
-
-          function Copy-Glob([string]$pattern) {
-            Get-ChildItem -File -Path $pattern -ErrorAction SilentlyContinue | ForEach-Object {
-              Copy-Item -LiteralPath $_.FullName -Destination $dist -Force
-            }
-          }
-
-          # Palette variants (theme-family folders)
-          Copy-Glob 'atomic/OhMyPosh-Atomic-Custom.*.json'
-          Copy-Glob '1_shell/1_shell-Enhanced.omp.*.json'
-          Copy-Glob 'slimfat/slimfat-Enhanced.omp.*.json'
-          Copy-Glob 'atomicBit/atomicBit-Enhanced.omp.*.json'
-          Copy-Glob 'cleanDetailed/clean-detailed-Enhanced.omp.*.json'
-
-          # Back-compat: if variants also exist in repo root, copy them too (folder versions win if names collide)
-          Copy-Glob 'OhMyPosh-Atomic-Custom.*.json'
-          Copy-Glob '1_shell-Enhanced.omp.*.json'
-          Copy-Glob 'slimfat-Enhanced.omp.*.json'
-          Copy-Glob 'atomicBit-Enhanced.omp.*.json'
-          Copy-Glob 'clean-detailed-Enhanced.omp.*.json'
-
-          # Base themes (root)
-          Copy-Glob 'OhMyPosh-Atomic-Custom.json'
-          Copy-Glob '1_shell-Enhanced.omp.json'
-          Copy-Glob 'slimfat-Enhanced.omp.json'
-          Copy-Glob 'atomicBit-Enhanced.omp.json'
-          Copy-Glob 'clean-detailed-Enhanced.omp.json'
-
-          # ExperimentalDividers
-          Copy-Glob 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
-          Copy-Glob 'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json'
-
-          Get-ChildItem -File -Path .\experimentalDividers -Filter 'OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json' -ErrorAction SilentlyContinue |
-            ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $dist -Force }
-
-          # Extras
-          Copy-Glob 'color-palette-alternatives.json'
-          Copy-Glob 'starship-atomic-enhanced.toml'
-
-          # Show a short inventory for debugging
-          Get-ChildItem -Path $dist -File | Sort-Object Name | Select-Object -First 25 | Format-Table Name,Length
-
-      - name: Upload release asset bundle
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
-        with:
-          name: release-assets
-          path: release-assets/
-          if-no-files-found: error
-          retention-days: 7
-
-  create-release:
-    needs:
-      - prepare-release
-      - build-release-assets
-    runs-on: ubuntu-latest
-    steps:
-      - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
-        with:
-          egress-policy: audit
-
-      - name: Checkout repository
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          fetch-depth: 0
-
-      - name: Download release asset bundle
-        uses: actions/download-artifact@v4
-        with:
-          name: release-assets
-          path: release-assets
-
-      - name: Set up Node.js
-        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
-        with:
-          node-version: "20"
-
-      - name: Install git-cliff
-        run: npm install -g git-cliff
-
-      - name: Generate changelog
-        id: changelog
-        run: |
-          # Generate changelog for the latest changes
-          echo "Generating changelog with git-cliff..."
-
-          # Get the previous tag if it exists
-          PREV_TAG=$(git tag --sort=-creatordate | head -n 1 2>/dev/null || echo "")
-
-          if [ -n "$PREV_TAG" ]; then
-            echo "Previous tag found: $PREV_TAG"
-            CHANGELOG=$(npx git-cliff $PREV_TAG..HEAD --strip all)
-          else
-            echo "No previous tag found, generating full changelog"
-            CHANGELOG=$(npx git-cliff --strip all)
-          fi
-
-          # Save changelog to file and output
-          echo "$CHANGELOG" > /tmp/changelog.md
-
-          # Also save a short version (last 10 commits) for the summary
-          echo "$CHANGELOG" | head -n 50 > /tmp/changelog-short.md
-
-          echo "Changelog generated successfully"
-          cat /tmp/changelog-short.md
-
-      - name: Count theme files
-        id: count_themes
-        run: |
-          ATOMIC_COUNT=$(ls -1 release-assets/OhMyPosh-Atomic-Custom.*.json 2>/dev/null | wc -l)
-          SHELL_COUNT=$(ls -1 release-assets/1_shell-Enhanced.omp.*.json 2>/dev/null | wc -l)
-          SLIMFAT_COUNT=$(ls -1 release-assets/slimfat-Enhanced.omp.*.json 2>/dev/null | wc -l)
-          ATOMICBIT_COUNT=$(ls -1 release-assets/atomicBit-Enhanced.omp.*.json 2>/dev/null | wc -l)
-          CLEAN_COUNT=$(ls -1 release-assets/clean-detailed-Enhanced.omp.*.json 2>/dev/null | wc -l)
-          EXPDIV_COUNT=$(ls -1 release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json 2>/dev/null | grep -v NoShellIntegration | wc -l)
-          EXPDIV_NOSI_COUNT=$(ls -1 release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json 2>/dev/null | wc -l)
-
-          # Starship config isn't a theme family variant, but we ship it as an asset.
-          STARSHIP_COUNT=$(ls -1 release-assets/starship-atomic-enhanced.toml 2>/dev/null | wc -l)
-
-          TOTAL=$((ATOMIC_COUNT + SHELL_COUNT + SLIMFAT_COUNT + ATOMICBIT_COUNT + CLEAN_COUNT + EXPDIV_COUNT + EXPDIV_NOSI_COUNT))
-
-          echo "atomic_count=$ATOMIC_COUNT" >> $GITHUB_OUTPUT
-          echo "shell_count=$SHELL_COUNT" >> $GITHUB_OUTPUT
-          echo "slimfat_count=$SLIMFAT_COUNT" >> $GITHUB_OUTPUT
-          echo "atomicbit_count=$ATOMICBIT_COUNT" >> $GITHUB_OUTPUT
-          echo "clean_count=$CLEAN_COUNT" >> $GITHUB_OUTPUT
-          echo "expdiv_count=$EXPDIV_COUNT" >> $GITHUB_OUTPUT
-          echo "expdiv_nosi_count=$EXPDIV_NOSI_COUNT" >> $GITHUB_OUTPUT
-          echo "starship_count=$STARSHIP_COUNT" >> $GITHUB_OUTPUT
-          echo "total_count=$TOTAL" >> $GITHUB_OUTPUT
-
-      - name: Generate theme lists
-        id: theme_lists
-        run: |
-          # Create markdown lists for each theme family
-          mkdir -p /tmp/theme-lists
-
-          echo "### 🚀 Atomic Custom Themes (${{ steps.count_themes.outputs.atomic_count }} variants)" > /tmp/theme-lists/atomic.md
-          for file in release-assets/OhMyPosh-Atomic-Custom.*.json; do
-            if [ -f "$file" ]; then
-              base=$(basename "$file")
-              palette=$(echo "$base" | sed 's/OhMyPosh-Atomic-Custom\.\(.*\)\.json/\1/')
-              echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/atomic.md
-            fi
-          done
-
-          echo "### ✨ 1_shell-Enhanced Themes (${{ steps.count_themes.outputs.shell_count }} variants)" > /tmp/theme-lists/shell.md
-          for file in release-assets/1_shell-Enhanced.omp.*.json; do
-            if [ -f "$file" ]; then
-              base=$(basename "$file")
-              palette=$(echo "$base" | sed 's/1_shell-Enhanced\.omp\.\(.*\)\.json/\1/')
-              echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/shell.md
-            fi
-          done
-
-          echo "### 🎯 Slimfat-Enhanced Themes (${{ steps.count_themes.outputs.slimfat_count }} variants)" > /tmp/theme-lists/slimfat.md
-          for file in release-assets/slimfat-Enhanced.omp.*.json; do
-            if [ -f "$file" ]; then
-              base=$(basename "$file")
-              palette=$(echo "$base" | sed 's/slimfat-Enhanced\.omp\.\(.*\)\.json/\1/')
-              echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/slimfat.md
-            fi
-          done
-
-          echo "### 📦 AtomicBit-Enhanced Themes (${{ steps.count_themes.outputs.atomicbit_count }} variants)" > /tmp/theme-lists/atomicbit.md
-          for file in release-assets/atomicBit-Enhanced.omp.*.json; do
-            if [ -f "$file" ]; then
-              base=$(basename "$file")
-              palette=$(echo "$base" | sed 's/atomicBit-Enhanced\.omp\.\(.*\)\.json/\1/')
-              echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/atomicbit.md
-            fi
-          done
-
-          echo "### 🧹 Clean-Detailed-Enhanced Themes (${{ steps.count_themes.outputs.clean_count }} variants)" > /tmp/theme-lists/clean.md
-          for file in release-assets/clean-detailed-Enhanced.omp.*.json; do
-            if [ -f "$file" ]; then
-              base=$(basename "$file")
-              palette=$(echo "$base" | sed 's/clean-detailed-Enhanced\.omp\.\(.*\)\.json/\1/')
-              echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/clean.md
-            fi
-          done
-
-          echo "### 🧪 ExperimentalDividers Themes (${{ steps.count_themes.outputs.expdiv_count }} variants)" > /tmp/theme-lists/experimentaldividers.md
-          for file in release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json; do
-            if [ -f "$file" ]; then
-              base=$(basename "$file")
-              if [[ "$base" == *"NoShellIntegration"* ]]; then
-                continue
-              fi
-              palette=$(echo "$base" | sed 's/OhMyPosh-Atomic-Custom-ExperimentalDividers\.\(.*\)\.json/\1/')
-              echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/experimentaldividers.md
-            fi
-          done
-
-          if [ -f "release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json" ]; then
-            echo "" >> /tmp/theme-lists/experimentaldividers.md
-            echo "**No Shell Integration Variant:**" >> /tmp/theme-lists/experimentaldividers.md
-            echo "- [\`OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json)" >> /tmp/theme-lists/experimentaldividers.md
-          fi
-
-      - name: Create release with theme files
-        uses: softprops/action-gh-release@6da8fa9354ddfdc4aeace5fc48d7f679b5214090 # v2.4.1
-        with:
-          tag_name: ${{ needs.prepare-release.outputs.version }}
-          name: Oh My Posh Atomic Enhanced ${{ needs.prepare-release.outputs.version }}
-          body: |
-            ## 🎨 Oh My Posh Theme Collection Release
-
-            **Release Date:** ${{ needs.prepare-release.outputs.release_date }}
-
-            This release contains **${{ steps.count_themes.outputs.total_count }}** Oh My Posh theme files across **6 theme families** (24 palettes each), plus a small number of special variants (e.g. NoShellIntegration).
-
-            ---
-
-            ## 📝 What's Changed
-
-            $(cat /tmp/changelog.md)
-
-            ---
-
-            ### 📊 Theme Statistics
-
-            | Theme Family | Variants | Description |
-            |--------------|----------|-------------|
-            | 🚀 **Atomic Custom** | ${{ steps.count_themes.outputs.atomic_count }} | Flagship comprehensive theme with all features |
-            | ✨ **1_shell-Enhanced** | ${{ steps.count_themes.outputs.shell_count }} | Single-line sleek theme |
-            | 🎯 **Slimfat-Enhanced** | ${{ steps.count_themes.outputs.slimfat_count }} | Two-line compact theme |
-            | 📦 **AtomicBit-Enhanced** | ${{ steps.count_themes.outputs.atomicbit_count }} | Box-style technical theme |
-            | 🧹 **Clean-Detailed-Enhanced** | ${{ steps.count_themes.outputs.clean_count }} | Minimalist clean theme |
-            | 🧪 **ExperimentalDividers** | ${{ steps.count_themes.outputs.expdiv_count }} | Experimental dividers + transitions variant |
-            | 🧪 **ExperimentalDividers (NoShellIntegration)** | ${{ steps.count_themes.outputs.expdiv_nosi_count }} | Same theme with shell integration disabled |
-            | | |
-            | **Total** | **${{ steps.count_themes.outputs.total_count }}** | All theme files included |
-
-            ---
-
-            ### 🎨 Available Color Palettes
-
-            All themes are available in these color palettes:
-
-            **Classic Themes:**
-            - Original (Vibrant Tech) - Your current bright theme
-            - Nord Frost - Arctic cool tones
-            - Gruvbox Dark - Warm retro earth tones
-            - Dracula Night - Bold purple/pink
-            - Tokyo Night - Modern neon blues
-            - Monokai Pro - Classic neon colors
-            - Solarized Dark - Eye-friendly
-            - Catppuccin Mocha - Soft pastels
-
-            **Solid Colors:**
-            - Forest Ember - Deep greens with amber
-            - Pink Paradise - Vibrant pink/magenta 💗
-            - Purple Reign - Royal purples 👑
-            - Red Alert - Fiery reds/oranges 🔥
-            - Blue Ocean - Deep ocean blues 🌊
-            - Green Matrix - Matrix-inspired greens 💚
-            - Amber Sunset - Warm sunset tones 🌅
-            - Teal Cyan - Electric teals ⚡
-
-            **Festive Themes:**
-            - Rainbow Bright - ROYGBIV celebration 🌈
-            - Christmas Cheer - Festive holiday colors 🎄
-            - Halloween Spooky - Spooky theme 🎃
-            - Easter Pastel - Soft pastel colors 🐰
-
-            **Dual-Tone Themes:**
-            - Fire & Ice - Red/orange and blue/cyan ❄️🔥
-            - Midnight Gold - Navy blue and gold ⭐
-            - Cherry Mint - Cherry red and mint green 🍒
-            - Lavender Peach - Lavender and peach 🍑
-
-            ---
-
-            ### 🚀 Quick Install
-
-            To use any theme, run one of these commands:
-
-            ```powershell
-            # Example: Atomic Custom with Nord Frost palette
-            oh-my-posh init pwsh --config "https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/OhMyPosh-Atomic-Custom.NordFrost.json" | Invoke-Expression
-
-            # Example: 1_shell-Enhanced with Tokyo Night palette
-            oh-my-posh init pwsh --config "https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/1_shell-Enhanced.omp.TokyoNight.json" | Invoke-Expression
-
-            # Example: Slimfat-Enhanced with Dracula Night palette
-            oh-my-posh init pwsh --config "https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/slimfat-Enhanced.omp.DraculaNight.json" | Invoke-Expression
-            ```
-
-            **For permanent installation**, add the command to your PowerShell profile:
-            ```powershell
-            notepad $PROFILE
-            ```
-
-            ---
-
-            ### 📥 All Theme Files
-
-            $(cat /tmp/theme-lists/atomic.md)
-
-            $(cat /tmp/theme-lists/shell.md)
-
-            $(cat /tmp/theme-lists/slimfat.md)
-
-            $(cat /tmp/theme-lists/atomicbit.md)
-
-            $(cat /tmp/theme-lists/clean.md)
-
-            $(cat /tmp/theme-lists/experimentaldividers.md)
-
-            ---
-
-            ### 📖 Documentation
-
-            For detailed documentation, customization guides, and feature descriptions, visit the [main README](https://github.com/${{ github.repository }}/blob/main/README.md).
-
-            ### 🎨 Preview Gallery
-
-            Check out the [Theme Gallery](https://github.com/${{ github.repository }}#-theme-gallery) in the README to see preview images of all themes.
-
-            ---
-
-            **[⭐ Star this repo](https://github.com/${{ github.repository }})** if you find these themes useful!
-
-            _Thank you for using **Oh My Posh Atomic Enhanced**!_
-          files: |
-            release-assets/*
-          draft: false
-          prerelease: false
-          make_latest: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Add Job Summary
-        if: always()
-        run: |
-          {
-            echo "## 🎨 Theme Release Summary"
-            echo ""
-            echo "### 📦 Release Details"
-            echo "- **Version:** ${{ needs.prepare-release.outputs.version }}"
-            echo "- **Date:** ${{ needs.prepare-release.outputs.release_date }}"
-            echo "- **Total Themes:** ${{ steps.count_themes.outputs.total_count }}"
-            echo ""
-            echo "### 📊 Theme Breakdown"
-            echo "- 🚀 Atomic Custom: ${{ steps.count_themes.outputs.atomic_count }} themes"
-            echo "- ✨ 1_shell-Enhanced: ${{ steps.count_themes.outputs.shell_count }} themes"
-            echo "- 🎯 Slimfat-Enhanced: ${{ steps.count_themes.outputs.slimfat_count }} themes"
-            echo "- 📦 AtomicBit-Enhanced: ${{ steps.count_themes.outputs.atomicbit_count }} themes"
-            echo "- 🧹 Clean-Detailed-Enhanced: ${{ steps.count_themes.outputs.clean_count }} themes"
-            echo "- 🧪 ExperimentalDividers: ${{ steps.count_themes.outputs.expdiv_count }} themes"
-            echo "- 🧪 ExperimentalDividers (NoShellIntegration): ${{ steps.count_themes.outputs.expdiv_nosi_count }} theme"
-            if [ "${{ steps.count_themes.outputs.starship_count }}" != "0" ]; then
-              echo "- ⭐ Starship: ${{ steps.count_themes.outputs.starship_count }} config file"
-            fi
-            echo ""
-            echo "### ✅ Status"
-            echo "Release created successfully! All theme files are now available for download."
-            echo ""
-            echo "### 🔗 Quick Links"
-            echo "- [View Release](https://github.com/${{ github.repository }}/releases/tag/${{ needs.prepare-release.outputs.version }})"
-            echo "- [Download Themes](https://github.com/${{ github.repository }}/releases/tag/${{ needs.prepare-release.outputs.version }})"
-          } >> "$GITHUB_STEP_SUMMARY"
+    prepare-release:
+        runs-on: ubuntu-latest
+        outputs:
+            version: ${{ steps.set_version.outputs.version }}
+            release_date: ${{ steps.set_version.outputs.release_date }}
+        steps:
+            - name: Harden the runner (Audit all outbound calls)
+              uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
+              with:
+                  egress-policy: audit
+
+            - name: Checkout repository
+              uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+              with:
+                  fetch-depth: 0
+
+            - name: Set version and date
+              id: set_version
+              run: |
+                  if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+                    VERSION="${{ github.event.inputs.version }}"
+                  else
+                    # Generate version from date and commit
+                    VERSION="v$(date +%Y.%m.%d)-${GITHUB_SHA::7}"
+                  fi
+                  echo "version=$VERSION" >> $GITHUB_OUTPUT
+                  echo "release_date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+                  echo "📦 Release version: $VERSION"
+
+    build-release-assets:
+        name: Build Release Assets (Windows)
+        runs-on: windows-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+              with:
+                  fetch-depth: 0
+
+            - name: Generate all theme variants (PowerShell)
+              shell: pwsh
+              run: |
+                  $ErrorActionPreference = 'Stop'
+
+                  # Generate the 5 primary theme families into the repo root
+                  pwsh -NoProfile -File .\Generate-AllThemes.ps1 -Force
+
+                  # Generate ExperimentalDividers palette variants into .\experimentalDividers
+                  pwsh -NoProfile -File .\Generate-ExperimentalDividers.ps1 -Force
+
+                  # Ensure the NoShellIntegration variant is in sync
+                  pwsh -NoProfile -File .\scripts\Make-NoShellIntegration.ps1
+
+            - name: Stage release assets (flattened)
+              shell: pwsh
+              run: |
+                  $ErrorActionPreference = 'Stop'
+
+                  $dist = Join-Path -Path $PWD -ChildPath 'release-assets'
+                  New-Item -ItemType Directory -Path $dist -Force | Out-Null
+
+                  function Copy-Glob([string]$pattern) {
+                    Get-ChildItem -File -Path $pattern -ErrorAction SilentlyContinue | ForEach-Object {
+                      Copy-Item -LiteralPath $_.FullName -Destination $dist -Force
+                    }
+                  }
+
+                  # Palette variants (theme-family folders)
+                  Copy-Glob 'atomic/OhMyPosh-Atomic-Custom.*.json'
+                  Copy-Glob '1_shell/1_shell-Enhanced.omp.*.json'
+                  Copy-Glob 'slimfat/slimfat-Enhanced.omp.*.json'
+                  Copy-Glob 'atomicBit/atomicBit-Enhanced.omp.*.json'
+                  Copy-Glob 'cleanDetailed/clean-detailed-Enhanced.omp.*.json'
+
+                  # Back-compat: if variants also exist in repo root, copy them too (folder versions win if names collide)
+                  Copy-Glob 'OhMyPosh-Atomic-Custom.*.json'
+                  Copy-Glob '1_shell-Enhanced.omp.*.json'
+                  Copy-Glob 'slimfat-Enhanced.omp.*.json'
+                  Copy-Glob 'atomicBit-Enhanced.omp.*.json'
+                  Copy-Glob 'clean-detailed-Enhanced.omp.*.json'
+
+                  # Base themes (root)
+                  Copy-Glob 'OhMyPosh-Atomic-Custom.json'
+                  Copy-Glob '1_shell-Enhanced.omp.json'
+                  Copy-Glob 'slimfat-Enhanced.omp.json'
+                  Copy-Glob 'atomicBit-Enhanced.omp.json'
+                  Copy-Glob 'clean-detailed-Enhanced.omp.json'
+
+                  # ExperimentalDividers
+                  Copy-Glob 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
+                  Copy-Glob 'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json'
+
+                  Get-ChildItem -File -Path .\experimentalDividers -Filter 'OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json' -ErrorAction SilentlyContinue |
+                    ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $dist -Force }
+
+                  # Extras
+                  Copy-Glob 'color-palette-alternatives.json'
+                  Copy-Glob 'starship-atomic-enhanced.toml'
+
+                  # Show a short inventory for debugging
+                  Get-ChildItem -Path $dist -File | Sort-Object Name | Select-Object -First 25 | Format-Table Name,Length
+
+            - name: Upload release asset bundle
+              uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+              with:
+                  name: release-assets
+                  path: release-assets/
+                  if-no-files-found: error
+                  retention-days: 7
+
+    create-release:
+        needs:
+            - prepare-release
+            - build-release-assets
+        runs-on: ubuntu-latest
+        steps:
+            - name: Harden the runner (Audit all outbound calls)
+              uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
+              with:
+                  egress-policy: audit
+
+            - name: Checkout repository
+              uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+              with:
+                  fetch-depth: 0
+
+            - name: Download release asset bundle
+              uses: actions/download-artifact@v4
+              with:
+                  name: release-assets
+                  path: release-assets
+
+            - name: Set up Node.js
+              uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+              with:
+                  node-version: "20"
+
+            - name: Install git-cliff
+              run: npm install -g git-cliff
+
+            - name: Generate changelog
+              id: changelog
+              run: |
+                  # Generate changelog for the latest changes
+                  echo "Generating changelog with git-cliff..."
+
+                  # Get the previous tag if it exists
+                  PREV_TAG=$(git tag --sort=-creatordate | head -n 1 2>/dev/null || echo "")
+
+                  if [ -n "$PREV_TAG" ]; then
+                    echo "Previous tag found: $PREV_TAG"
+                    CHANGELOG=$(npx git-cliff $PREV_TAG..HEAD --strip all)
+                  else
+                    echo "No previous tag found, generating full changelog"
+                    CHANGELOG=$(npx git-cliff --strip all)
+                  fi
+
+                  # Save changelog to file and output
+                  echo "$CHANGELOG" > /tmp/changelog.md
+
+                  # Also save a short version (last 10 commits) for the summary
+                  echo "$CHANGELOG" | head -n 50 > /tmp/changelog-short.md
+
+                  echo "Changelog generated successfully"
+                  cat /tmp/changelog-short.md
+
+            - name: Count theme files
+              id: count_themes
+              run: |
+                  ATOMIC_COUNT=$(ls -1 release-assets/OhMyPosh-Atomic-Custom.*.json 2>/dev/null | wc -l)
+                  SHELL_COUNT=$(ls -1 release-assets/1_shell-Enhanced.omp.*.json 2>/dev/null | wc -l)
+                  SLIMFAT_COUNT=$(ls -1 release-assets/slimfat-Enhanced.omp.*.json 2>/dev/null | wc -l)
+                  ATOMICBIT_COUNT=$(ls -1 release-assets/atomicBit-Enhanced.omp.*.json 2>/dev/null | wc -l)
+                  CLEAN_COUNT=$(ls -1 release-assets/clean-detailed-Enhanced.omp.*.json 2>/dev/null | wc -l)
+                  EXPDIV_COUNT=$(ls -1 release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json 2>/dev/null | grep -v NoShellIntegration | wc -l)
+                  EXPDIV_NOSI_COUNT=$(ls -1 release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json 2>/dev/null | wc -l)
+
+                  # Starship config isn't a theme family variant, but we ship it as an asset.
+                  STARSHIP_COUNT=$(ls -1 release-assets/starship-atomic-enhanced.toml 2>/dev/null | wc -l)
+
+                  TOTAL=$((ATOMIC_COUNT + SHELL_COUNT + SLIMFAT_COUNT + ATOMICBIT_COUNT + CLEAN_COUNT + EXPDIV_COUNT + EXPDIV_NOSI_COUNT))
+
+                  echo "atomic_count=$ATOMIC_COUNT" >> $GITHUB_OUTPUT
+                  echo "shell_count=$SHELL_COUNT" >> $GITHUB_OUTPUT
+                  echo "slimfat_count=$SLIMFAT_COUNT" >> $GITHUB_OUTPUT
+                  echo "atomicbit_count=$ATOMICBIT_COUNT" >> $GITHUB_OUTPUT
+                  echo "clean_count=$CLEAN_COUNT" >> $GITHUB_OUTPUT
+                  echo "expdiv_count=$EXPDIV_COUNT" >> $GITHUB_OUTPUT
+                  echo "expdiv_nosi_count=$EXPDIV_NOSI_COUNT" >> $GITHUB_OUTPUT
+                  echo "starship_count=$STARSHIP_COUNT" >> $GITHUB_OUTPUT
+                  echo "total_count=$TOTAL" >> $GITHUB_OUTPUT
+
+            - name: Generate theme lists
+              id: theme_lists
+              run: |
+                  # Create markdown lists for each theme family
+                  mkdir -p /tmp/theme-lists
+
+                  echo "### 🚀 Atomic Custom Themes (${{ steps.count_themes.outputs.atomic_count }} variants)" > /tmp/theme-lists/atomic.md
+                  for file in release-assets/OhMyPosh-Atomic-Custom.*.json; do
+                    if [ -f "$file" ]; then
+                      base=$(basename "$file")
+                      palette=$(echo "$base" | sed 's/OhMyPosh-Atomic-Custom\.\(.*\)\.json/\1/')
+                      echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/atomic.md
+                    fi
+                  done
+
+                  echo "### ✨ 1_shell-Enhanced Themes (${{ steps.count_themes.outputs.shell_count }} variants)" > /tmp/theme-lists/shell.md
+                  for file in release-assets/1_shell-Enhanced.omp.*.json; do
+                    if [ -f "$file" ]; then
+                      base=$(basename "$file")
+                      palette=$(echo "$base" | sed 's/1_shell-Enhanced\.omp\.\(.*\)\.json/\1/')
+                      echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/shell.md
+                    fi
+                  done
+
+                  echo "### 🎯 Slimfat-Enhanced Themes (${{ steps.count_themes.outputs.slimfat_count }} variants)" > /tmp/theme-lists/slimfat.md
+                  for file in release-assets/slimfat-Enhanced.omp.*.json; do
+                    if [ -f "$file" ]; then
+                      base=$(basename "$file")
+                      palette=$(echo "$base" | sed 's/slimfat-Enhanced\.omp\.\(.*\)\.json/\1/')
+                      echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/slimfat.md
+                    fi
+                  done
+
+                  echo "### 📦 AtomicBit-Enhanced Themes (${{ steps.count_themes.outputs.atomicbit_count }} variants)" > /tmp/theme-lists/atomicbit.md
+                  for file in release-assets/atomicBit-Enhanced.omp.*.json; do
+                    if [ -f "$file" ]; then
+                      base=$(basename "$file")
+                      palette=$(echo "$base" | sed 's/atomicBit-Enhanced\.omp\.\(.*\)\.json/\1/')
+                      echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/atomicbit.md
+                    fi
+                  done
+
+                  echo "### 🧹 Clean-Detailed-Enhanced Themes (${{ steps.count_themes.outputs.clean_count }} variants)" > /tmp/theme-lists/clean.md
+                  for file in release-assets/clean-detailed-Enhanced.omp.*.json; do
+                    if [ -f "$file" ]; then
+                      base=$(basename "$file")
+                      palette=$(echo "$base" | sed 's/clean-detailed-Enhanced\.omp\.\(.*\)\.json/\1/')
+                      echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/clean.md
+                    fi
+                  done
+
+                  echo "### 🧪 ExperimentalDividers Themes (${{ steps.count_themes.outputs.expdiv_count }} variants)" > /tmp/theme-lists/experimentaldividers.md
+                  for file in release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json; do
+                    if [ -f "$file" ]; then
+                      base=$(basename "$file")
+                      if [[ "$base" == *"NoShellIntegration"* ]]; then
+                        continue
+                      fi
+                      palette=$(echo "$base" | sed 's/OhMyPosh-Atomic-Custom-ExperimentalDividers\.\(.*\)\.json/\1/')
+                      echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/experimentaldividers.md
+                    fi
+                  done
+
+                  if [ -f "release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json" ]; then
+                    echo "" >> /tmp/theme-lists/experimentaldividers.md
+                    echo "**No Shell Integration Variant:**" >> /tmp/theme-lists/experimentaldividers.md
+                    echo "- [\`OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json)" >> /tmp/theme-lists/experimentaldividers.md
+                  fi
+
+            - name: Create release with theme files
+              uses: softprops/action-gh-release@6da8fa9354ddfdc4aeace5fc48d7f679b5214090 # v2.4.1
+              with:
+                  tag_name: ${{ needs.prepare-release.outputs.version }}
+                  name: Oh My Posh Atomic Enhanced ${{ needs.prepare-release.outputs.version }}
+                  body: |
+                      ## 🎨 Oh My Posh Theme Collection Release
+
+                      **Release Date:** ${{ needs.prepare-release.outputs.release_date }}
+
+                      This release contains **${{ steps.count_themes.outputs.total_count }}** Oh My Posh theme files across **6 theme families** (24 palettes each), plus a small number of special variants (e.g. NoShellIntegration).
+
+                      ---
+
+                      ## 📝 What's Changed
+
+                      $(cat /tmp/changelog.md)
+
+                      ---
+
+                      ### 📊 Theme Statistics
+
+                      | Theme Family | Variants | Description |
+                      |--------------|----------|-------------|
+                      | 🚀 **Atomic Custom** | ${{ steps.count_themes.outputs.atomic_count }} | Flagship comprehensive theme with all features |
+                      | ✨ **1_shell-Enhanced** | ${{ steps.count_themes.outputs.shell_count }} | Single-line sleek theme |
+                      | 🎯 **Slimfat-Enhanced** | ${{ steps.count_themes.outputs.slimfat_count }} | Two-line compact theme |
+                      | 📦 **AtomicBit-Enhanced** | ${{ steps.count_themes.outputs.atomicbit_count }} | Box-style technical theme |
+                      | 🧹 **Clean-Detailed-Enhanced** | ${{ steps.count_themes.outputs.clean_count }} | Minimalist clean theme |
+                      | 🧪 **ExperimentalDividers** | ${{ steps.count_themes.outputs.expdiv_count }} | Experimental dividers + transitions variant |
+                      | 🧪 **ExperimentalDividers (NoShellIntegration)** | ${{ steps.count_themes.outputs.expdiv_nosi_count }} | Same theme with shell integration disabled |
+                      | | |
+                      | **Total** | **${{ steps.count_themes.outputs.total_count }}** | All theme files included |
+
+                      ---
+
+                      ### 🎨 Available Color Palettes
+
+                      All themes are available in these color palettes:
+
+                      **Classic Themes:**
+                      - Original (Vibrant Tech) - Your current bright theme
+                      - Nord Frost - Arctic cool tones
+                      - Gruvbox Dark - Warm retro earth tones
+                      - Dracula Night - Bold purple/pink
+                      - Tokyo Night - Modern neon blues
+                      - Monokai Pro - Classic neon colors
+                      - Solarized Dark - Eye-friendly
+                      - Catppuccin Mocha - Soft pastels
+
+                      **Solid Colors:**
+                      - Forest Ember - Deep greens with amber
+                      - Pink Paradise - Vibrant pink/magenta 💗
+                      - Purple Reign - Royal purples 👑
+                      - Red Alert - Fiery reds/oranges 🔥
+                      - Blue Ocean - Deep ocean blues 🌊
+                      - Green Matrix - Matrix-inspired greens 💚
+                      - Amber Sunset - Warm sunset tones 🌅
+                      - Teal Cyan - Electric teals ⚡
+
+                      **Festive Themes:**
+                      - Rainbow Bright - ROYGBIV celebration 🌈
+                      - Christmas Cheer - Festive holiday colors 🎄
+                      - Halloween Spooky - Spooky theme 🎃
+                      - Easter Pastel - Soft pastel colors 🐰
+
+                      **Dual-Tone Themes:**
+                      - Fire & Ice - Red/orange and blue/cyan ❄️🔥
+                      - Midnight Gold - Navy blue and gold ⭐
+                      - Cherry Mint - Cherry red and mint green 🍒
+                      - Lavender Peach - Lavender and peach 🍑
+
+                      ---
+
+                      ### 🚀 Quick Install
+
+                      To use any theme, run one of these commands:
+
+                      ```powershell
+                      # Example: Atomic Custom with Nord Frost palette
+                      oh-my-posh init pwsh --config "https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/OhMyPosh-Atomic-Custom.NordFrost.json" | Invoke-Expression
+
+                      # Example: 1_shell-Enhanced with Tokyo Night palette
+                      oh-my-posh init pwsh --config "https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/1_shell-Enhanced.omp.TokyoNight.json" | Invoke-Expression
+
+                      # Example: Slimfat-Enhanced with Dracula Night palette
+                      oh-my-posh init pwsh --config "https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/slimfat-Enhanced.omp.DraculaNight.json" | Invoke-Expression
+                      ```
+
+                      **For permanent installation**, add the command to your PowerShell profile:
+                      ```powershell
+                      notepad $PROFILE
+                      ```
+
+                      ---
+
+                      ### 📥 All Theme Files
+
+                      $(cat /tmp/theme-lists/atomic.md)
+
+                      $(cat /tmp/theme-lists/shell.md)
+
+                      $(cat /tmp/theme-lists/slimfat.md)
+
+                      $(cat /tmp/theme-lists/atomicbit.md)
+
+                      $(cat /tmp/theme-lists/clean.md)
+
+                      $(cat /tmp/theme-lists/experimentaldividers.md)
+
+                      ---
+
+                      ### 📖 Documentation
+
+                      For detailed documentation, customization guides, and feature descriptions, visit the [main README](https://github.com/${{ github.repository }}/blob/main/README.md).
+
+                      ### 🎨 Preview Gallery
+
+                      Check out the [Theme Gallery](https://github.com/${{ github.repository }}#-theme-gallery) in the README to see preview images of all themes.
+
+                      ---
+
+                      **[⭐ Star this repo](https://github.com/${{ github.repository }})** if you find these themes useful!
+
+                      _Thank you for using **Oh My Posh Atomic Enhanced**!_
+                  files: |
+                      release-assets/*
+                  draft: false
+                  prerelease: false
+                  make_latest: true
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Add Job Summary
+              if: always()
+              run: |
+                  {
+                    echo "## 🎨 Theme Release Summary"
+                    echo ""
+                    echo "### 📦 Release Details"
+                    echo "- **Version:** ${{ needs.prepare-release.outputs.version }}"
+                    echo "- **Date:** ${{ needs.prepare-release.outputs.release_date }}"
+                    echo "- **Total Themes:** ${{ steps.count_themes.outputs.total_count }}"
+                    echo ""
+                    echo "### 📊 Theme Breakdown"
+                    echo "- 🚀 Atomic Custom: ${{ steps.count_themes.outputs.atomic_count }} themes"
+                    echo "- ✨ 1_shell-Enhanced: ${{ steps.count_themes.outputs.shell_count }} themes"
+                    echo "- 🎯 Slimfat-Enhanced: ${{ steps.count_themes.outputs.slimfat_count }} themes"
+                    echo "- 📦 AtomicBit-Enhanced: ${{ steps.count_themes.outputs.atomicbit_count }} themes"
+                    echo "- 🧹 Clean-Detailed-Enhanced: ${{ steps.count_themes.outputs.clean_count }} themes"
+                    echo "- 🧪 ExperimentalDividers: ${{ steps.count_themes.outputs.expdiv_count }} themes"
+                    echo "- 🧪 ExperimentalDividers (NoShellIntegration): ${{ steps.count_themes.outputs.expdiv_nosi_count }} theme"
+                    if [ "${{ steps.count_themes.outputs.starship_count }}" != "0" ]; then
+                      echo "- ⭐ Starship: ${{ steps.count_themes.outputs.starship_count }} config file"
+                    fi
+                    echo ""
+                    echo "### ✅ Status"
+                    echo "Release created successfully! All theme files are now available for download."
+                    echo ""
+                    echo "### 🔗 Quick Links"
+                    echo "- [View Release](https://github.com/${{ github.repository }}/releases/tag/${{ needs.prepare-release.outputs.version }})"
+                    echo "- [Download Themes](https://github.com/${{ github.repository }}/releases/tag/${{ needs.prepare-release.outputs.version }})"
+                  } >> "$GITHUB_STEP_SUMMARY"
