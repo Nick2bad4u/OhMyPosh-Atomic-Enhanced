@@ -359,13 +359,21 @@ Docs: Installation: [Windows](https://ohmyposh.dev/docs/installation/windows) ·
 1. **Quick Start (from GitHub URL):** You can use the theme directly from the GitHub repository without downloading it:
 
 ```pwsh
-oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/OhMyPosh-Atomic-Custom.json" | Invoke-Expression
+oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/OhMyPosh-Atomic-Custom-ExperimentalDividers.json" | Invoke-Expression
 ```
 
-2. **Local Setup:** Copy the theme JSON (`OhMyPosh-Atomic-Custom.json`) to your system. Set your shell to use this theme with Oh My Posh:
+2. **Local Setup:** Copy the theme JSON (`OhMyPosh-Atomic-Custom-ExperimentalDividers.json`) to your system. Set your shell to use this theme with Oh My Posh:
 
 ```pwsh
-oh-my-posh init pwsh --config "<path-to>/OhMyPosh-Atomic-Custom.json" | Invoke-Expression
+oh-my-posh init pwsh --config "<path-to>/OhMyPosh-Atomic-Custom-ExperimentalDividers.json" | Invoke-Expression
+```
+
+3. **Fish (recommended variant):** Fish uses a native right prompt (`fish_right_prompt`). Prompts that draw right-aligned blocks inside the left prompt via cursor positioning can cause truncation/ellipsis.
+
+Use the Fish-specific variant (right-side content is rendered via `fish_right_prompt`):
+
+```fish
+oh-my-posh init fish --config https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json | source
 ```
 
 Customize mapped locations, icons, and colors as needed in the JSON file.

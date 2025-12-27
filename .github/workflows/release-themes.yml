@@ -127,6 +127,7 @@ jobs:
                   # ExperimentalDividers
                   Copy-Glob 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
                   Copy-Glob 'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json'
+                  Copy-Glob 'OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json'
 
                   Get-ChildItem -File -Path .\experimentalDividers -Filter 'OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json' -ErrorAction SilentlyContinue |
                     ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $dist -Force }
