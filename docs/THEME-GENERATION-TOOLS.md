@@ -651,6 +651,34 @@ oh-my-posh init pwsh --config $fullPath | Invoke-Expression
 
 ---
 
+## Special Variant Generators
+
+These scripts generate “derived” theme files from the main **ExperimentalDividers** theme.
+
+### Make-NoShellIntegration.ps1
+
+Generates:
+- `OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json`
+
+```powershell
+.\scripts\Make-NoShellIntegration.ps1
+```
+
+### Make-FishVariant.ps1
+
+Generates:
+- `OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json`
+
+Why it exists:
+- Fish does not reliably support cursor-positioned right-aligned prompt blocks rendered inside the left prompt.
+- This script moves the right-aligned “top bar” segments into the `rprompt` so fish renders them via `fish_right_prompt`, and disables cursor positioning.
+
+It also preserves your Fish-only tweaks (segment order/selection + per-segment overrides) by reading the existing Fish file and re-applying those customizations during regeneration.
+
+```powershell
+.\scripts\Make-FishVariant.ps1
+```
+
 ## Summary
 
 The PowerShell tools provide:

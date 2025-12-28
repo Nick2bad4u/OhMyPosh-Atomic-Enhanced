@@ -89,6 +89,9 @@ jobs:
                   # Ensure the NoShellIntegration variant is in sync
                   pwsh -NoProfile -File .\scripts\Make-NoShellIntegration.ps1
 
+                  # Ensure the Fish variant is in sync
+                  pwsh -NoProfile -File .\scripts\Make-FishVariant.ps1
+
             - name: Stage release assets (flattened)
               shell: pwsh
               run: |

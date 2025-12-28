@@ -374,218 +374,143 @@
       "alignment": "right",
       "segments": [
         {
-          "alias": "divider-16",
-          "background": "transparent",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_green_ahead></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-17",
-          "background": "p:divider_green_ahead",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_green_valid_line></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-18",
-          "background": "p:divider_green_valid_line",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_accent></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-19",
-          "background": "p:divider_accent",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_chart_teal></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-20",
-          "background": "p:divider_chart_teal",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_teal_sysinfo></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-21",
-          "background": "p:divider_teal_sysinfo",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_teal_sysinfo></>",
-          "type": "text"
-        },
-        {
-          "alias": "sysinfo-rprompt",
-          "background": "p:teal_sysinfo",
+          "alias": "npm-rprompt",
+          "background": "p:npm_yellow",
           "cache": {
-            "duration": "3m",
-            "strategy": "session"
+            "duration": "24h",
+            "strategy": "folder"
           },
-          "foreground": "p:black",
-          "foreground_templates": [
-            "{{ if gt .Load1 75 }}p:red_alert{{ end }}",
-            "{{ if and (lt .Load1 75) (gt .Load1 50) }}p:orange{{ end }}",
-            "{{ if and (lt .Load1 50) (gt .Load1 25) }}p:yellow_bright{{ end }}"
-          ],
-          "invert_powerline": true,
+          "foreground": "p:npm_dark",
           "leading_diamond": "",
-          "min_width": 100,
+          "min_width": 80,
           "options": {
-            "precision": 1
+            "display_mode": "context",
+            "fetch_version": true,
+            "home_enabled": false,
+            "missing_command_text": "",
+            "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
           },
-          "powerline_symbol": "",
           "style": "diamond",
-          "template": "<b> 󰇅 {{ round .Load1 .Precision  }}%  {{ round .PhysicalPercentUsed .Precision  }}%  {{ round .Disks .Precision  }}% </b>",
-          "templates_logic": "first_match",
-          "trailing_diamond": "",
-          "type": "sysinfo"
+          "template": " <b> {{ .Full }}</b> ",
+          "trailing_diamond": "",
+          "type": "npm"
         },
         {
-          "alias": "divider-22",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_tailwind_cyan,p:divider_teal_sysinfo></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-23",
-          "background": "p:divider_purple_exec",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_purple_exec,p:divider_tailwind_cyan></>",
-          "type": "text"
-        },
-        {
-          "alias": "os-rprompt",
-          "background": "p:gray_os",
+          "alias": "node-rprompt",
+          "background": "p:node_green",
           "cache": {
-            "duration": "10m",
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "options": {
+            "display_mode": "context",
+            "fetch_package_manager": true,
+            "fetch_version": true,
+            "home_enabled": false,
+            "missing_command_text": "",
+            "npm_icon": "",
+            "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest",
+            "yarn_icon": ""
+          },
+          "style": "diamond",
+          "template": " <b> {{ .Full }}</b> ",
+          "trailing_diamond": "",
+          "type": "node"
+        },
+        {
+          "alias": "java-rprompt",
+          "background": "p:java_blue",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "options": {
+            "display_mode": "context",
+            "fetch_version": true,
+            "home_enabled": false,
+            "missing_command_text": "",
+            "version_url_template": "https://api.adoptium.net/v3/info/release_names?version={{ .Major }}&os={{ .OS }}&arch={{ .Arch }}&image_type=jdk&jvm_impl=hotspot&vendor=eclipse"
+          },
+          "style": "diamond",
+          "template": "  {{ .Full }}",
+          "trailing_diamond": "",
+          "type": "java"
+        },
+        {
+          "alias": "upgrade-rprompt",
+          "background": "p:yellow_update",
+          "foreground": "p:gray_os_fg",
+          "include_folders": [
+            "C:\\Users\\Nick"
+          ],
+          "invert_powerline": false,
+          "leading_diamond": "",
+          "min_width": 80,
+          "options": {
+            "cache_duration": "24h"
+          },
+          "style": "diamond",
+          "template": "<b> Current: {{ .Current }}  Latest: {{ .Latest }}</b>",
+          "timeout": 1000,
+          "trailing_diamond": "",
+          "type": "upgrade"
+        },
+        {
+          "alias": "root-rprompt",
+          "background": "p:yellow_root_alt",
+          "cache": {
+            "duration": "1m",
             "strategy": "session"
           },
           "foreground": "p:gray_os_fg",
           "invert_powerline": false,
-          "leading_diamond": "",
-          "min_width": 100,
-          "options": {
-            "linux": "",
-            "macos": "",
-            "ubuntu": "",
-            "windows": ""
-          },
-          "powerline_symbol": "",
+          "leading_diamond": "",
+          "min_width": 80,
           "style": "diamond",
-          "template": "<b> {{ if .WSL }}WSL at {{ end }}{{ .Icon }} </b>",
-          "trailing_diamond": "",
-          "type": "os"
+          "template": "",
+          "trailing_diamond": "",
+          "type": "root"
         },
         {
-          "alias": "divider-24",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_blue_tooltip,p:divider_gray_os></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-25",
-          "background": "p:divider_gray_prompt_count_bg",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_gray_prompt_count_bg,p:divider_blue_tooltip></>",
-          "type": "text"
-        },
-        {
-          "alias": "time-rprompt",
-          "background": "p:blue_time",
+          "alias": "copilot",
+          "background": "p:copilot_bg",
           "cache": {
-            "duration": "15s",
+            "duration": "30m",
             "strategy": "session"
           },
-          "foreground": "p:black",
-          "invert_powerline": false,
-          "leading_diamond": "",
-          "min_width": 100,
+          "foreground": "p:white",
+          "interactive": false,
+          "leading_diamond": "",
+          "min_width": 104,
           "options": {
-            "time_format": "3:04 PM"
+            "http_timeout": 1000
           },
-          "powerline_symbol": "",
           "style": "diamond",
-          "template": "<b>  {{ .CurrentDate | date .Format }} </b>",
-          "trailing_diamond": "",
-          "type": "time"
-        },
-        {
-          "alias": "battery-rprompt",
-          "background": "p:orange_battery",
-          "background_templates": [
-            "{{if eq \"Charging\" .State.String}}p:green_charging{{end}}",
-            "{{if eq \"Discharging\" .State.String}}p:yellow_discharging{{end}}",
-            "{{if eq \"Full\" .State.String}}p:green_full{{end}}"
-          ],
-          "cache": {
-            "duration": "60m",
-            "strategy": "session"
-          },
-          "foreground": "p:black",
-          "invert_powerline": false,
-          "leading_diamond": "",
-          "min_width": 100,
-          "options": {
-            "charged_icon": "󱊣",
-            "charging_icon": "󰂄",
-            "discharging_icon": "󰂃",
-            "display_error": true,
-            "not_charging_icon": "󰂂"
-          },
-          "powerline_symbol": "",
-          "style": "diamond",
-          "template": " {{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }} ",
-          "templates_logic": "first_match",
-          "trailing_diamond": "",
-          "type": "battery"
-        },
-        {
-          "alias": "divider-26",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_purple_ahead,p:divider_blue_time></>",
-          "type": "text"
-        },
-        {
-          "alias": "divider-27",
-          "background": "p:divider_violet_project",
-          "min_width": 130,
-          "style": "diamond",
-          "template": "<p:divider_violet_project,p:divider_purple_ahead></>",
-          "type": "text"
-        },
-        {
-          "alias": "owm-rprompt",
-          "background": "p:pink_weather",
-          "cache": {
-            "duration": "10m",
-            "strategy": "session"
-          },
-          "foreground": "p:black",
-          "invert_powerline": false,
-          "leading_diamond": "",
-          "min_width": 100,
-          "options": {
-            "http_timeout": 1000,
-            "units": "imperial"
-          },
-          "powerline_symbol": "",
-          "style": "diamond",
-          "template": "<b> {{.Temperature}}{{.UnitIcon}}</b>",
+          "template": "{{ if .Segments.git-lprompt }} 󰦈 {{ .Premium.Remaining.Gauge }} 󱋊 {{ .Premium.Percent }}% {{ end }}",
           "timeout": 1000,
           "trailing_diamond": "",
-          "type": "owm"
+          "type": "copilot"
+        },
+        {
+          "alias": "promptcount-rprompt",
+          "background": "p:gray_prompt_count_bg",
+          "foreground": "p:gray_prompt_count_fg",
+          "invert_powerline": false,
+          "leading_diamond": "",
+          "min_width": 80,
+          "options": {
+            "always_enabled": true
+          },
+          "style": "diamond",
+          "template": "<b> 󰘳 {{ .PromptCount }} </b>",
+          "trailing_diamond": "",
+          "type": "text"
         }
       ],
       "type": "rprompt"
