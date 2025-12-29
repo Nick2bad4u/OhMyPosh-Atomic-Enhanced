@@ -42,7 +42,7 @@
                         }
                     },
                     "style": "diamond",
-                    "template": " {{ upper .Name  }} {{ substr 0 5 .Version }} ",
+                    "template": " {{ upper .Name }} {{ if or (eq .Name \"nu\") (eq .Name \"NU\") (eq .Name \"nushell\") (eq .Shell \"nu\") (eq .Shell \"nushell\") (eq .Name \"xonsh\") (eq .Name \"XSH\") (eq .Shell \"xonsh\") (eq .Name \"elv\") (eq .Name \"ELV\") (eq .Shell \"elv\") (eq .Name \"zsh\") (eq .Name \"ZSH\") (eq .Name \"zshell\") (eq .Shell \"zsh\") (eq .Shell \"zshell\") }}{{ substr 0 5 (.Version | replace \"0.\" \"\") }}{{ else }}{{ substr 0 5 .Version }}{{ end }} ",
                     "templates_logic": "first_match",
                     "type": "shell"
                 },
@@ -671,7 +671,9 @@
                     "alias": "upgrade-rprompt",
                     "background": "p:yellow_update",
                     "foreground": "p:gray_os_fg",
-                    "include_folders": ["C:\\Users\\Nick"],
+                    "include_folders": [
+                        "C:\\Users\\Nick"
+                    ],
                     "invert_powerline": false,
                     "leading_diamond": "",
                     "min_width": 80,
@@ -842,14 +844,22 @@
     "enable_cursor_positioning": true,
     "error_line": {
         "background": "transparent",
-        "background_templates": ["{{ if .Error }}p:pink_error_line{{ end }}"],
+        "background_templates": [
+            "{{ if .Error }}p:pink_error_line{{ end }}"
+        ],
         "foreground": "p:black",
-        "foreground_templates": ["{{ if .Error }}p:black{{ end }}"],
+        "foreground_templates": [
+            "{{ if .Error }}p:black{{ end }}"
+        ],
         "template": "<p:pink_error_line,transparent></>"
     },
     "extends": "",
     "final_space": true,
-    "iterm_features": ["prompt_mark", "current_dir", "remote_host"],
+    "iterm_features": [
+        "prompt_mark",
+        "current_dir",
+        "remote_host"
+    ],
     "maps": {
         "host_name": {
             "Nick2bad4u": "💻",
@@ -1049,7 +1059,10 @@
             "style": "diamond",
             "template": " <b> React: v{{ .Body.version }}</b> ",
             "timeout": 1000,
-            "tips": ["react", "npm run dev"],
+            "tips": [
+                "react",
+                "npm run dev"
+            ],
             "trailing_diamond": "",
             "type": "http"
         },
@@ -1783,7 +1796,14 @@
             "style": "diamond",
             "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
             "timeout": 1000,
-            "tips": ["java", "javac", "mvn", "gradle", "ant", "java --version"],
+            "tips": [
+                "java",
+                "javac",
+                "mvn",
+                "gradle",
+                "ant",
+                "java --version"
+            ],
             "trailing_diamond": "",
             "type": "java"
         },
@@ -2024,7 +2044,13 @@
             "style": "diamond",
             "template": " {{ .Icon }}{{ .Percentage }}% {{ .State.String }} ",
             "timeout": 1000,
-            "tips": ["powercfg", "battery", "acpi", "upower", "pmset"],
+            "tips": [
+                "powercfg",
+                "battery",
+                "acpi",
+                "upower",
+                "pmset"
+            ],
             "trailing_diamond": "",
             "type": "battery"
         },

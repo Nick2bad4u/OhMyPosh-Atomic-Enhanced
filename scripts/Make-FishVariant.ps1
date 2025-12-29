@@ -1,252 +1,165 @@
 <#
 .SYNOPSIS
-Generate a Fish-safe variant of the ExperimentalDividers theme.
+Copy the regular ExperimentalDividers theme to a Fish variant,
+disable shell integration, and remove the "prompt_mark" entry from iterm_features.
 
 .DESCRIPTION
-Fish (fish_prompt/fish_right_prompt) does not reliably handle cursor-positioned right-aligned
-prompt blocks rendered inside the left prompt. This script generates a Fish-specific variant
-from the main ExperimentalDividers theme by:
+This script copies OhMyPosh-Atomic-Custom-ExperimentalDividers.json to
+OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json (overwriting if present),
+sets shell_integration to false, and removes only the "prompt_mark" entry from
+iterm_features (if present). If iterm_features becomes empty it will be removed.
 
-1) Disabling enable_cursor_positioning
-2) Removing the right-aligned prompt block (type=prompt, alignment=right)
-3) Prepending its segments into the rprompt block so Fish renders them via fish_right_prompt
-
-To keep your hand-tuned Fish layout/settings stable over time (like the NoShellIntegration
-variant), the script will, when an existing Fish variant file is present:
-
-- Preserve the existing rprompt segment order/selection by alias
-- Deep-merge segment overrides by alias (existing Fish segment values override regenerated)
-
-This allows the Fish variant to track upstream theme changes while retaining a small set of
-Fish-only tweaks.
+It also converts any blocks with alignment "right" to "left" (Fish-friendly),
+and forces newline=true on the main right-aligned prompt block (the one with a
+"filler" property) so those segments start on a new line.
 
 .PARAMETER Source
-Path to the source theme JSON (defaults to repo root theme).
+Path to the source theme JSON (defaults to the theme in the script's directory).
 
 .PARAMETER Destination
-Path to the destination Fish JSON (defaults to repo root Fish variant).
+Path to the destination (Fish) JSON (defaults to the same folder).
 
 .PARAMETER Backup
 If set, back up the existing destination before overwriting.
 
-.PARAMETER IncludeNewRPromptSegments
-If set, any newly introduced rprompt segments (not present in the existing Fish variant)
-will be appended after the preserved alias order. By default, the script keeps the existing
-Fish rprompt selection exactly.
-
 .EXAMPLE
-./scripts/Make-FishVariant.ps1
-
-.EXAMPLE
-./scripts/Make-FishVariant.ps1 -Backup
+./Make-Fish.ps1 -Backup
 
 # Requires PowerShell 6+ (PowerShell Core / pwsh recommended.)
 #>
 
 [CmdletBinding()]
 param(
-    [string]$Source = (Join-Path (Split-Path -Path $PSScriptRoot -Parent) 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'),
-    [string]$Destination = (Join-Path (Split-Path -Path $PSScriptRoot -Parent) 'OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json'),
-    [switch]$Backup,
-    [switch]$IncludeNewRPromptSegments
+    [string]$Source = (Join-Path $PSScriptRoot 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'),
+    [string]$Destination = $null,
+    [switch]$Backup
 )
 
-if ($PSVersionTable.PSVersion.Major -lt 7) {
-    throw "Make-FishVariant.ps1 requires PowerShell 7+ (pwsh). Detected $($PSVersionTable.PSVersion)."
-}
-
 function Write-Info([string]$Message) { Write-Host "[INFO] $Message" -ForegroundColor Cyan }
-function Write-Warn([string]$Message) { Write-Host "[WARN] $Message" -ForegroundColor Yellow }
 function Write-Err([string]$Message) { Write-Host "[ERROR] $Message" -ForegroundColor Red }
 
-function Merge-Deep {
-    param(
-        [Parameter(Mandatory)]$Base,
-        [Parameter(Mandatory)]$Override
-    )
-
-    if ($null -eq $Override) { return $Base }
-    if ($null -eq $Base) { return $Override }
-
-    # For arrays, prefer Override entirely
-    if (($Base -is [object[]]) -or ($Override -is [object[]])) {
-        return $Override
-    }
-
-    # For hashtables, merge keys recursively
-    if (($Base -is [hashtable]) -and ($Override -is [hashtable])) {
-        $out = [ordered]@{}
-        foreach ($k in $Base.Keys) { $out[$k] = $Base[$k] }
-        foreach ($k in $Override.Keys) {
-            if ($out.Contains($k)) {
-                $out[$k] = Merge-Deep -Base $out[$k] -Override $Override[$k]
+try {
+    # Resolve script-root defaults (when run interactively from another dir)
+    if (-not (Test-Path -LiteralPath $Source)) {
+        $leaf = Split-Path -Path $Source -Leaf
+        # Try script folder
+        $candidate = Join-Path -Path $PSScriptRoot -ChildPath $leaf
+        if (Test-Path -LiteralPath $candidate) {
+            $Source = $candidate
+        }
+        else {
+            # Try parent folder (repo root)
+            $parent = Split-Path -Path $PSScriptRoot -Parent
+            $candidate2 = Join-Path -Path $parent -ChildPath $leaf
+            if (Test-Path -LiteralPath $candidate2) {
+                $Source = $candidate2
             }
             else {
-                $out[$k] = $Override[$k]
+                # Try current working directory
+                $candidate3 = Join-Path -Path (Get-Location) -ChildPath $leaf
+                if (Test-Path -LiteralPath $candidate3) {
+                    $Source = $candidate3
+                }
             }
         }
-        return $out
     }
 
-    # Scalars: override wins
-    return $Override
-}
-
-function Get-BlocksByType {
-    param(
-        [Parameter(Mandatory)][hashtable]$Theme,
-        [Parameter(Mandatory)][string]$Type
-    )
-    return @($Theme.blocks | Where-Object { $_.type -eq $Type })
-}
-
-function Get-RightAlignedPromptBlockIndex {
-    param([Parameter(Mandatory)][hashtable]$Theme)
-    for ($i = 0; $i -lt $Theme.blocks.Count; $i++) {
-        $b = $Theme.blocks[$i]
-        if ($b.type -eq 'prompt' -and $b.alignment -eq 'right') { return $i }
-    }
-    return -1
-}
-
-function Find-FirstBlockIndex {
-    param(
-        [Parameter(Mandatory)][hashtable]$Theme,
-        [Parameter(Mandatory)][string]$Type
-    )
-    for ($i = 0; $i -lt $Theme.blocks.Count; $i++) {
-        if ($Theme.blocks[$i].type -eq $Type) { return $i }
-    }
-    return -1
-}
-
-function Get-SegmentMapByAlias {
-    param([Parameter(Mandatory)][hashtable]$Theme)
-
-    $map = @{}
-    foreach ($b in $Theme.blocks) {
-        if ($null -eq $b.segments) { continue }
-        foreach ($s in $b.segments) {
-            if ($null -eq $s.alias -or $s.alias -eq '') { continue }
-            $map[$s.alias] = $s
-        }
-    }
-    return $map
-}
-
-try {
     if (-not (Test-Path -LiteralPath $Source)) {
         Write-Err "Source not found: $Source"
         exit 1
     }
 
-    if ((Test-Path -LiteralPath $Destination) -and $Backup) {
-        $bak = "$Destination.bak.$((Get-Date).ToString('yyyyMMddHHmmss'))"
-        Copy-Item -LiteralPath $Destination -Destination $bak -Force
-        Write-Info "Backed up existing destination to: $bak"
+    if (-not $Destination) {
+        $Destination = Join-Path -Path (Split-Path -Path $Source -Parent) -ChildPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json'
+        Write-Info "Using destination: $Destination"
+    }
+
+    if (Test-Path -LiteralPath $Destination) {
+        if ($Backup) {
+            $bak = "$Destination.bak.$((Get-Date).ToString('yyyyMMddHHmmss'))"
+            Copy-Item -LiteralPath $Destination -Destination $bak -Force
+            Write-Info "Backed up existing destination to: $bak"
+        }
     }
 
     Write-Info "Reading source JSON: $Source"
-    $theme = (Get-Content -LiteralPath $Source -Raw -ErrorAction Stop) | ConvertFrom-Json -AsHashtable -Depth 99 -ErrorAction Stop
+    $raw = Get-Content -LiteralPath $Source -Raw -ErrorAction Stop
+    $obj = $raw | ConvertFrom-Json -ErrorAction Stop
 
-    # Fish-safe: disable cursor positioning.
-    $theme['enable_cursor_positioning'] = $false
-
-    $rightIdx = Get-RightAlignedPromptBlockIndex -Theme $theme
-    if ($rightIdx -lt 0) {
-        Write-Warn 'No right-aligned prompt block found (type=prompt, alignment=right). Nothing to merge.'
+    # Fish: disable shell integration (avoid shell-specific integration issues)
+    if ($obj.PSObject.Properties.Name -contains 'shell_integration') {
+        $obj.shell_integration = $true
+        Write-Info 'Set shell_integration=true'
     }
     else {
-        $rightBlock = $theme.blocks[$rightIdx]
-        $rightSegs = @($rightBlock.segments)
-
-        # Remove the right-aligned prompt block
-        $theme.blocks = @($theme.blocks | Where-Object { $_ -ne $rightBlock })
-
-        # Merge into rprompt
-        $rIdx = Find-FirstBlockIndex -Theme $theme -Type 'rprompt'
-        if ($rIdx -lt 0) {
-            Write-Err 'Missing rprompt block (type=rprompt). Cannot build Fish variant.'
-            exit 1
-        }
-
-        if ($null -eq $theme.blocks[$rIdx].segments) { $theme.blocks[$rIdx].segments = @() }
-        $theme.blocks[$rIdx].segments = @($rightSegs + $theme.blocks[$rIdx].segments)
+        $obj | Add-Member -NotePropertyName 'shell_integration' -NotePropertyValue $true
+        Write-Info 'Added shell_integration=true'
     }
 
-    # Preserve existing Fish customizations if present
-    $existing = $null
-    if (Test-Path -LiteralPath $Destination) {
-        Write-Info "Found existing Fish variant: $Destination (preserving Fish-only tweaks)"
-        $existing = (Get-Content -LiteralPath $Destination -Raw -ErrorAction Stop) | ConvertFrom-Json -AsHashtable -Depth 99 -ErrorAction Stop
+    # Fish: move the *main* right-aligned prompt block to the left and onto a new line.
+    # We specifically target the right-aligned block that has a "filler" property.
+    # (We intentionally do NOT change the rprompt block alignment.)
+    if ($obj.PSObject.Properties.Name -contains 'blocks' -and $null -ne $obj.blocks) {
+        for ($i = 0; $i -lt $obj.blocks.Count; $i++) {
+            $block = $obj.blocks[$i]
+            if ($null -eq $block) { continue }
 
-        $existingSegMap = Get-SegmentMapByAlias -Theme $existing
+            $hasAlignment = $block.PSObject.Properties.Name -contains 'alignment'
+            if (-not $hasAlignment) { continue }
 
-        # Deep-merge segment overrides by alias
-        foreach ($b in $theme.blocks) {
-            if ($null -eq $b.segments) { continue }
-            for ($i = 0; $i -lt $b.segments.Count; $i++) {
-                $seg = $b.segments[$i]
-                $alias = $seg.alias
-                if ($null -eq $alias -or $alias -eq '') { continue }
-                if ($existingSegMap.ContainsKey($alias)) {
-                    $b.segments[$i] = Merge-Deep -Base $seg -Override $existingSegMap[$alias]
-                }
-            }
-        }
+            $hasFiller = $block.PSObject.Properties.Name -contains 'filler'
 
-        # Preserve rprompt selection + ordering by alias
-        $newRIdx = Find-FirstBlockIndex -Theme $theme -Type 'rprompt'
-        $oldRIdx = Find-FirstBlockIndex -Theme $existing -Type 'rprompt'
-        if ($newRIdx -ge 0 -and $oldRIdx -ge 0) {
-            $newSegs = @($theme.blocks[$newRIdx].segments)
-            $newMap = @{}
-            foreach ($s in $newSegs) {
-                if ($null -ne $s.alias -and $s.alias -ne '') { $newMap[$s.alias] = $s }
-            }
-
-            $ordered = @()
-            $oldAliases = @()
-            foreach ($s in @($existing.blocks[$oldRIdx].segments)) {
-                if ($null -ne $s.alias -and $s.alias -ne '') { $oldAliases += $s.alias }
-            }
-
-            foreach ($a in $oldAliases) {
-                if ($newMap.ContainsKey($a)) {
-                    $ordered += $newMap[$a]
+            if ($block.alignment -eq 'right' -and $hasFiller) {
+                $block.alignment = 'left'
+                if ($block.PSObject.Properties.Name -contains 'newline') {
+                    $block.newline = $true
                 }
                 else {
-                    # Segment no longer exists upstream; keep existing as fallback
-                    $fallback = $existingSegMap[$a]
-                    if ($null -ne $fallback) { $ordered += $fallback }
+                    $block | Add-Member -NotePropertyName 'newline' -NotePropertyValue $true
                 }
+                Write-Info "Converted main prompt block[$i] right->left and set newline=true"
             }
-
-            if ($IncludeNewRPromptSegments) {
-                foreach ($s in $newSegs) {
-                    if ($null -eq $s.alias -or $s.alias -eq '') { continue }
-                    if ($oldAliases -notcontains $s.alias) { $ordered += $s }
-                }
-            }
-
-            $theme.blocks[$newRIdx].segments = $ordered
         }
     }
     else {
-        Write-Info 'No existing Fish variant found; generating fresh.'
+        Write-Info 'No blocks array found — cannot convert right->left'
     }
 
-    # Write destination JSON
-    $jsonOut = $theme | ConvertTo-Json -Depth 99
+    # Remove only the 'prompt_mark' item from iterm_features if present
+    if ($obj.PSObject.Properties.Name -contains 'iterm_features') {
+        $it = $obj.iterm_features
+        if ($null -ne $it) {
+            # Ensure we have a list to work with
+            $list = @()
+            foreach ($item in $it) { $list += $item }
+            $filtered = $list | Where-Object { $_ -ne 'prompt_mark' }
+            if ($filtered.Count -eq 0) {
+                $obj.PSObject.Properties.Remove('iterm_features')
+                Write-Info "Removed iterm_features because only 'prompt_mark' was present"
+            }
+            else {
+                $obj.iterm_features = $filtered
+                Write-Info "Removed 'prompt_mark' from iterm_features (kept: $($filtered -join ', '))"
+            }
+        }
+    }
+    else {
+        Write-Info 'No iterm_features found — nothing to remove'
+    }
+
+    # Write destination JSON (pretty printed)
+    $jsonOut = $obj | ConvertTo-Json -Depth 99
+    # Ensure destination directory exists
     $destDir = Split-Path -Path $Destination -Parent
     if (-not (Test-Path $destDir)) { New-Item -ItemType Directory -Path $destDir -Force | Out-Null }
-    # PowerShell 7: utf8 is BOM-less. Keep newline at end.
-    Set-Content -LiteralPath $Destination -Value $jsonOut -Encoding utf8
-    Write-Info "Wrote Fish variant JSON to: $Destination"
+
+    $jsonOut | Out-File -LiteralPath $Destination -Encoding utf8 -Force
+    Write-Info "Wrote updated Fish JSON to: $Destination"
+
 }
 catch {
     Write-Err "An error occurred: $_"
     throw
 }
 
-Write-Info 'Done.'
+Write-Info "Done. Run 'oh-my-posh debug' inside the target environment to verify."

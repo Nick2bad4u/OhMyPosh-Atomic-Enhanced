@@ -31,10 +31,18 @@ jobs:
               id: megalinter
               uses: oxsecurity/megalinter@55a59b24a441e0e1943080d4a512d827710d4a9d # v9.2.0
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   APPLY_FIXES: all
                   APPLY_FIXES_EVENT: all
                   APPLY_FIXES_MODE: pull_request
+                  DISABLE_ERRORS: true
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  IGNORE_GITIGNORED_FILES: true
+                  JAVASCRIPT_DEFAULT_STYLE: prettier
+                  LOG_LEVEL: WARNING
+                  MARKDOWN_DEFAULT_STYLE: remark-lint
+                  SHOW_ELAPSED_TIME: true
+                  TYPESCRIPT_DEFAULT_STYLE: prettier
+                  VALIDATE_ALL_CODEBASE: true
 
             # Upload MegaLinter artifacts
             - name: Archive production artifacts

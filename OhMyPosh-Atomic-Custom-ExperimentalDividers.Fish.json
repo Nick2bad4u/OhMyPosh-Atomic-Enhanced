@@ -42,7 +42,7 @@
             }
           },
           "style": "diamond",
-          "template": " {{ upper .Name  }} {{ substr 0 5 .Version }} ",
+          "template": " {{ upper .Name }} {{ if or (eq .Name \"nu\") (eq .Name \"nushell\") (eq .Shell \"nu\") (eq .Shell \"nushell\") }}{{ substr 0 5 (.Version | replace \"0.\" \"\") }}{{ else }}{{ substr 0 5 .Version }}{{ end }} ",
           "templates_logic": "first_match",
           "type": "shell"
         },
@@ -371,6 +371,231 @@
       "type": "prompt"
     },
     {
+      "alignment": "left",
+      "filler": "",
+      "leading_diamond": "",
+      "newline": true,
+      "overflow": "hide",
+      "segments": [
+        {
+          "alias": "divider-16",
+          "background": "transparent",
+          "min_width": 130,
+          "style": "diamond",
+          "template": "<p:divider_green_ahead></>",
+          "type": "text"
+        },
+        {
+          "alias": "divider-17",
+          "background": "p:divider_green_ahead",
+          "min_width": 130,
+          "style": "diamond",
+          "template": "<p:divider_green_valid_line></>",
+          "type": "text"
+        },
+        {
+          "alias": "divider-18",
+          "background": "p:divider_green_valid_line",
+          "min_width": 130,
+          "style": "diamond",
+          "template": "<p:divider_accent></>",
+          "type": "text"
+        },
+        {
+          "alias": "divider-19",
+          "background": "p:divider_accent",
+          "min_width": 130,
+          "style": "diamond",
+          "template": "<p:divider_chart_teal></>",
+          "type": "text"
+        },
+        {
+          "alias": "divider-20",
+          "background": "p:divider_chart_teal",
+          "min_width": 130,
+          "style": "diamond",
+          "template": "<p:divider_teal_sysinfo></>",
+          "type": "text"
+        },
+        {
+          "alias": "divider-21",
+          "background": "p:divider_teal_sysinfo",
+          "min_width": 130,
+          "style": "diamond",
+          "template": "<p:divider_teal_sysinfo></>",
+          "type": "text"
+        },
+        {
+          "alias": "sysinfo-rprompt",
+          "background": "p:teal_sysinfo",
+          "cache": {
+            "duration": "3m",
+            "strategy": "session"
+          },
+          "foreground": "p:black",
+          "foreground_templates": [
+            "{{ if gt .Load1 75 }}p:red_alert{{ end }}",
+            "{{ if and (lt .Load1 75) (gt .Load1 50) }}p:orange{{ end }}",
+            "{{ if and (lt .Load1 50) (gt .Load1 25) }}p:yellow_bright{{ end }}"
+          ],
+          "invert_powerline": true,
+          "leading_diamond": "",
+          "min_width": 100,
+          "options": {
+            "precision": 1
+          },
+          "powerline_symbol": "",
+          "style": "diamond",
+          "template": "<b> 󰇅 {{ round .Load1 .Precision  }}%  {{ round .PhysicalPercentUsed .Precision  }}%  {{ round .Disks .Precision  }}% </b>",
+          "templates_logic": "first_match",
+          "trailing_diamond": "",
+          "type": "sysinfo"
+        },
+        {
+          "alias": "divider-22",
+          "min_width": 130,
+          "style": "diamond",
+          "template": "<p:divider_tailwind_cyan,p:divider_teal_sysinfo></>",
+          "type": "text"
+        },
+        {
+          "alias": "divider-23",
+          "background": "p:divider_purple_exec",
+          "min_width": 130,
+          "style": "diamond",
+          "template": "<p:divider_purple_exec,p:divider_tailwind_cyan></>",
+          "type": "text"
+        },
+        {
+          "alias": "os-rprompt",
+          "background": "p:gray_os",
+          "cache": {
+            "duration": "10m",
+            "strategy": "session"
+          },
+          "foreground": "p:gray_os_fg",
+          "invert_powerline": false,
+          "leading_diamond": "",
+          "min_width": 100,
+          "options": {
+            "linux": "",
+            "macos": "",
+            "ubuntu": "",
+            "windows": ""
+          },
+          "powerline_symbol": "",
+          "style": "diamond",
+          "template": "<b> {{ if .WSL }}WSL at {{ end }}{{ .Icon }} </b>",
+          "trailing_diamond": "",
+          "type": "os"
+        },
+        {
+          "alias": "divider-24",
+          "min_width": 130,
+          "style": "diamond",
+          "template": "<p:divider_blue_tooltip,p:divider_gray_os></>",
+          "type": "text"
+        },
+        {
+          "alias": "divider-25",
+          "background": "p:divider_gray_prompt_count_bg",
+          "min_width": 130,
+          "style": "diamond",
+          "template": "<p:divider_gray_prompt_count_bg,p:divider_blue_tooltip></>",
+          "type": "text"
+        },
+        {
+          "alias": "time-rprompt",
+          "background": "p:blue_time",
+          "cache": {
+            "duration": "15s",
+            "strategy": "session"
+          },
+          "foreground": "p:black",
+          "invert_powerline": false,
+          "leading_diamond": "",
+          "min_width": 100,
+          "options": {
+            "time_format": "3:04 PM"
+          },
+          "powerline_symbol": "",
+          "style": "diamond",
+          "template": "<b>  {{ .CurrentDate | date .Format }} </b>",
+          "trailing_diamond": "",
+          "type": "time"
+        },
+        {
+          "alias": "battery-rprompt",
+          "background": "p:orange_battery",
+          "background_templates": [
+            "{{if eq \"Charging\" .State.String}}p:green_charging{{end}}",
+            "{{if eq \"Discharging\" .State.String}}p:yellow_discharging{{end}}",
+            "{{if eq \"Full\" .State.String}}p:green_full{{end}}"
+          ],
+          "cache": {
+            "duration": "60m",
+            "strategy": "session"
+          },
+          "foreground": "p:black",
+          "invert_powerline": false,
+          "leading_diamond": "",
+          "min_width": 100,
+          "options": {
+            "charged_icon": "󱊣",
+            "charging_icon": "󰂄",
+            "discharging_icon": "󰂃",
+            "display_error": true,
+            "not_charging_icon": "󰂂"
+          },
+          "powerline_symbol": "",
+          "style": "diamond",
+          "template": " {{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }} ",
+          "templates_logic": "first_match",
+          "trailing_diamond": "",
+          "type": "battery"
+        },
+        {
+          "alias": "divider-26",
+          "min_width": 130,
+          "style": "diamond",
+          "template": "<p:divider_purple_ahead,p:divider_blue_time></>",
+          "type": "text"
+        },
+        {
+          "alias": "divider-27",
+          "background": "p:divider_violet_project",
+          "min_width": 130,
+          "style": "diamond",
+          "template": "<p:divider_violet_project,p:divider_purple_ahead></>",
+          "type": "text"
+        },
+        {
+          "alias": "owm-rprompt",
+          "background": "p:pink_weather",
+          "cache": {
+            "duration": "10m",
+            "strategy": "session"
+          },
+          "foreground": "p:black",
+          "invert_powerline": false,
+          "leading_diamond": "",
+          "min_width": 100,
+          "options": {
+            "http_timeout": 1000,
+            "units": "imperial"
+          },
+          "powerline_symbol": "",
+          "style": "diamond",
+          "template": "<b> {{.Temperature}}{{.UnitIcon}}</b>",
+          "timeout": 1000,
+          "trailing_diamond": "",
+          "type": "owm"
+        }
+      ],
+      "trailing_diamond": "",
+      "type": "prompt"
+    },
+    {
       "alignment": "right",
       "segments": [
         {
@@ -616,7 +841,7 @@
     ],
     "template": "</><p:purple_session,transparent></><p:black,p:purple_session>  DEBUG </><p:purple_session,transparent></>"
   },
-  "enable_cursor_positioning": false,
+  "enable_cursor_positioning": true,
   "error_line": {
     "background": "transparent",
     "background_templates": [
@@ -631,7 +856,6 @@
   "extends": "",
   "final_space": true,
   "iterm_features": [
-    "prompt_mark",
     "current_dir",
     "remote_host"
   ],

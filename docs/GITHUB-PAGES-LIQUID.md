@@ -17,14 +17,14 @@ Unfortunately, Liquid also treats `{{ ... }}` as templates, which can break the 
 For any Markdown file that contains Oh My Posh template snippets (`{{ ... }}`), we wrap the file in Liquid “raw” guards so Jekyll renders the text _literally_:
 
 ```html
-<!-- {% raw %} -->
+<!-- &#123;% raw %&#125; -->
 ...markdown that contains {{ ... }}...
-<!-- {% endraw %} -->
+<!-- &#123;% endraw %&#125; -->
 ```
 
 ### Why the HTML comments?
 
-- GitHub Pages/Jekyll still sees `{% raw %}` / `{% endraw %}` even inside HTML comments.
+- GitHub Pages/Jekyll still sees `&#123;% raw %&#125;` / `&#123;% endraw %&#125;` even inside HTML comments.
 - GitHub’s normal README renderer won’t show those lines.
 
 ## 🧾 Which files need this?
