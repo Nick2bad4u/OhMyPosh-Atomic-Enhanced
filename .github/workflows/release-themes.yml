@@ -26,6 +26,7 @@ on:
             # Palette sources / extra theme types
             - "color-palette-alternatives.json"
             - "starship-atomic-enhanced.toml"
+            - ".github/workflows/release-themes.yml"
     workflow_dispatch:
         inputs:
             version:
