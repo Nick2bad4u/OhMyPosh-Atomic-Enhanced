@@ -191,7 +191,7 @@ jobs:
                   fi
 
             - name: Run git-cliff
-              uses: orhun/git-cliff-action@14bb67385aaac969efa2f146d137a42bb3b3b1ba # v4.4.1
+              uses: orhun/git-cliff-action@v4.7.0
               with:
                   config: cliff.toml
                   args: ${{ env.PREV_TAG != '' && format('{0}..HEAD', env.PREV_TAG) || '' }} --strip all
