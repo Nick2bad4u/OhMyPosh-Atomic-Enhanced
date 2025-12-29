@@ -45,6 +45,6 @@ If you create a new changelog template/config, keep the raw guards.
 
 ---
 
-If Pages fails again with a Liquid error, search for `{{` in `.md` files and add the wrapper.
+If Pages fails again with a Liquid error, search for `&#123;&#123;` in `.md` files and add the wrapper.
 
 <!-- {% endraw %} -->
