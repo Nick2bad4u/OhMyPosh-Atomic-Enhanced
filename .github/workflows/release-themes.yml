@@ -172,14 +172,6 @@ jobs:
                   name: release-assets
                   path: release-assets
 
-            - name: Set up Node.js
-              uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
-              with:
-                  node-version: "20"
-
-            - name: Install git-cliff
-              run: npm install -g git-cliff
-
             - name: Generate changelog
               id: changelog
               run: |
@@ -191,17 +183,25 @@ jobs:
 
                   if [ -n "$PREV_TAG" ]; then
                     echo "Previous tag found: $PREV_TAG"
-                    CHANGELOG=$(npx git-cliff $PREV_TAG..HEAD --strip all)
+                    # Use git-cliff-action to generate changelog
+                    echo "PREV_TAG=$PREV_TAG" >> $GITHUB_ENV
                   else
                     echo "No previous tag found, generating full changelog"
-                    CHANGELOG=$(npx git-cliff --strip all)
+                    echo "PREV_TAG=" >> $GITHUB_ENV
                   fi
 
-                  # Save changelog to file and output
-                  echo "$CHANGELOG" > /tmp/changelog.md
+            - name: Run git-cliff
+              uses: orhun/git-cliff-action@14bb67385aaac969efa2f146d137a42bb3b3b1ba # v4.4.1
+              with:
+                  config: cliff.toml
+                  args: ${{ env.PREV_TAG != '' && format('{0}..HEAD', env.PREV_TAG) || '' }} --strip all
+              env:
+                  OUTPUT: /tmp/changelog.md
 
-                  # Also save a short version (last 10 commits) for the summary
-                  echo "$CHANGELOG" | head -n 50 > /tmp/changelog-short.md
+            - name: Process changelog
+              run: |
+                  # Also save a short version (last 50 lines) for the summary
+                  cat /tmp/changelog.md | head -n 50 > /tmp/changelog-short.md
 
                   echo "Changelog generated successfully"
                   cat /tmp/changelog-short.md
