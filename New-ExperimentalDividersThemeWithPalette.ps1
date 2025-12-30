@@ -1,4 +1,4 @@
-#
+﻿#
 # Creates a palette-converted version of the **Atomic-Custom-ExperimentalDividers** theme.
 # This script works like New-ThemeWithPalette.ps1 but automatically generates all of the
 # extra divider blend colors and carries forward the extended palette keys (cycle colors,
@@ -58,10 +58,10 @@ param(
     [Parameter()]
     [string]$SourceTheme = 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json',
 
-    [Parameter(ParameterSetName = 'ByPaletteName', Mandatory = $true)]
+    [Parameter(ParameterSetName = 'ByPaletteName',Mandatory = $true)]
     [string]$PaletteName,
 
-    [Parameter(ParameterSetName = 'ByPaletteObject', Mandatory = $true)]
+    [Parameter(ParameterSetName = 'ByPaletteObject',Mandatory = $true)]
     [object]$PaletteObject,
 
     [Parameter()]
@@ -80,7 +80,7 @@ param(
     [switch]$RecomputeDividers,
 
     [Parameter()]
-    [ValidateRange(0.0, 1.0)]
+    [ValidateRange(0.0,1.0)]
     [double]$BlendPercentage = 0.5
 )
 
@@ -96,7 +96,7 @@ function ConvertTo-Hashtable {
         return $InputObject
     }
 
-    if ($InputObject -is [PSCustomObject]) {
+    if ($InputObject -is [pscustomobject]) {
         $hash = @{}
         foreach ($prop in $InputObject.PSObject.Properties) {
             $hash[$prop.Name] = $prop.Value
@@ -113,7 +113,7 @@ function ConvertTo-FileNameFormat {
     $words = $Text -split '[\s_-]+'
     $pascalCase = ($words | ForEach-Object {
             if ($_.Length -gt 0) {
-                $_.Substring(0, 1).ToUpper() + $_.Substring(1).ToLower()
+                $_.Substring(0,1).ToUpper() + $_.Substring(1).ToLower()
             }
         }) -join ''
 
@@ -143,22 +143,22 @@ function Convert-HexToRgb {
         throw "Invalid hex color '$Hex'. Use #RRGGBB format."
     }
 
-    return [PSCustomObject]@{
-        R = [Convert]::ToInt32($clean.Substring(0, 2), 16)
-        G = [Convert]::ToInt32($clean.Substring(2, 2), 16)
-        B = [Convert]::ToInt32($clean.Substring(4, 2), 16)
+    return [pscustomobject]@{
+        R = [Convert]::ToInt32($clean.Substring(0,2),16)
+        G = [Convert]::ToInt32($clean.Substring(2,2),16)
+        B = [Convert]::ToInt32($clean.Substring(4,2),16)
     }
 }
 
 function Convert-RgbToHsl {
-    param([PSCustomObject]$Rgb)
+    param([pscustomobject]$Rgb)
 
     $r = $Rgb.R / 255.0
     $g = $Rgb.G / 255.0
     $b = $Rgb.B / 255.0
 
-    $max = [Math]::Max($r, [Math]::Max($g, $b))
-    $min = [Math]::Min($r, [Math]::Min($g, $b))
+    $max = [math]::Max($r,[math]::Max($g,$b))
+    $min = [math]::Min($r,[math]::Min($g,$b))
     $delta = $max - $min
 
     $l = ($max + $min) / 2.0
@@ -167,7 +167,7 @@ function Convert-RgbToHsl {
         $s = 0
     }
     else {
-        $s = $delta / (1 - [Math]::Abs(2 * $l - 1))
+        $s = $delta / (1 - [math]::Abs(2 * $l - 1))
 
         switch ($max) {
             { $_ -eq $r } { $h = 60 * ((($g - $b) / $delta) % 6); break }
@@ -178,7 +178,7 @@ function Convert-RgbToHsl {
         if ($h -lt 0) { $h += 360 }
     }
 
-    return [PSCustomObject]@{
+    return [pscustomobject]@{
         H = $h
         S = $s
         L = $l
@@ -192,9 +192,9 @@ function Convert-HslToRgb {
         [double]$L
     )
 
-    $c = (1 - [Math]::Abs(2 * $L - 1)) * $S
+    $c = (1 - [math]::Abs(2 * $L - 1)) * $S
     $hPrime = $H / 60.0
-    $x = $c * (1 - [Math]::Abs(($hPrime % 2) - 1))
+    $x = $c * (1 - [math]::Abs(($hPrime % 2) - 1))
     $m = $L - ($c / 2)
 
     switch ($hPrime) {
@@ -206,11 +206,11 @@ function Convert-HslToRgb {
         default { $r1 = $c; $g1 = 0; $b1 = $x; break }
     }
 
-    $r = [Math]::Round(($r1 + $m) * 255)
-    $g = [Math]::Round(($g1 + $m) * 255)
-    $b = [Math]::Round(($b1 + $m) * 255)
+    $r = [math]::Round(($r1 + $m) * 255)
+    $g = [math]::Round(($g1 + $m) * 255)
+    $b = [math]::Round(($b1 + $m) * 255)
 
-    return [PSCustomObject]@{ R = [int]$r; G = [int]$g; B = [int]$b }
+    return [pscustomobject]@{ R = [int]$r; G = [int]$g; B = [int]$b }
 }
 
 function Get-InterpolatedColor {
@@ -225,7 +225,7 @@ function Get-InterpolatedColor {
 
     # Hue wrap handling (shortest path around the color wheel)
     $hueDelta = $toHsl.H - $fromHsl.H
-    if ([Math]::Abs($hueDelta) -gt 180) {
+    if ([math]::Abs($hueDelta) -gt 180) {
         if ($hueDelta -gt 0) { $hueDelta -= 360 }
         else { $hueDelta += 360 }
     }
@@ -237,13 +237,13 @@ function Get-InterpolatedColor {
     $l = $fromHsl.L + ($toHsl.L - $fromHsl.L) * $Blend
 
     $rgb = Convert-HslToRgb -H $h -S $s -L $l
-    return '#{0:X2}{1:X2}{2:X2}' -f $rgb.R, $rgb.G, $rgb.B
+    return '#{0:X2}{1:X2}{2:X2}' -f $rgb.R,$rgb.G,$rgb.B
 }
 
 # endregion Helper functions
 
-Write-Host '🎨 Experimental Dividers Palette Converter' -ForegroundColor Cyan
-Write-Host ('=' * 60) -ForegroundColor DarkGray
+Write-Output '🎨 Experimental Dividers Palette Converter' -ForegroundColor Cyan
+Write-Output ('=' * 60) -ForegroundColor DarkGray
 
 # Validate source theme
 if (-not (Test-Path $SourceTheme)) {
@@ -251,19 +251,19 @@ if (-not (Test-Path $SourceTheme)) {
     exit 1
 }
 
-Write-Host '📖 Reading source theme: ' -NoNewline
-Write-Host $SourceTheme -ForegroundColor Yellow
+Write-Output '📖 Reading source theme: ' -NoNewline
+Write-Output $SourceTheme -ForegroundColor Yellow
 
 try {
     $themeContent = Get-Content $SourceTheme -Raw
-    $theme = $themeContent | ConvertFrom-Json -AsHashtable
+    $theme = $themeContent | ConvertFrom-Json -AsHashTable
 }
 catch {
     Write-Error "Failed to parse source theme JSON: $_"
     exit 1
 }
 
-$sourcePalette = ConvertTo-Hashtable $theme.palette
+$sourcePalette = ConvertTo-Hashtable $theme.Palette
 
 # Load palette
 $palette = $null
@@ -275,8 +275,8 @@ if ($PSCmdlet.ParameterSetName -eq 'ByPaletteName') {
         exit 1
     }
 
-    Write-Host '📚 Loading palettes from: ' -NoNewline
-    Write-Host $PalettesFile -ForegroundColor Yellow
+    Write-Output '📚 Loading palettes from: ' -NoNewline
+    Write-Output $PalettesFile -ForegroundColor Yellow
 
     try {
         $palettesContent = Get-Content $PalettesFile -Raw
@@ -288,25 +288,25 @@ if ($PSCmdlet.ParameterSetName -eq 'ByPaletteName') {
     }
 
     if (-not $palettes.PSObject.Properties.Name.Contains($PaletteName)) {
-        Write-Host "`n❌ Palette '$PaletteName' not found." -ForegroundColor Red
-        Write-Host 'Available palettes:' -ForegroundColor Cyan
+        Write-Output "`n❌ Palette '$PaletteName' not found." -ForegroundColor Red
+        Write-Output 'Available palettes:' -ForegroundColor Cyan
         $palettes.PSObject.Properties | ForEach-Object {
-            Write-Host '  • ' -NoNewline -ForegroundColor DarkGray
-            Write-Host $_.Name -NoNewline -ForegroundColor Green
-            Write-Host " - $($_.Value.description)" -ForegroundColor Gray
+            Write-Output '  • ' -NoNewline -ForegroundColor DarkGray
+            Write-Output $_.Name -NoNewline -ForegroundColor Green
+            Write-Output " - $($_.Value.description)" -ForegroundColor Gray
         }
         exit 1
     }
 
     $paletteInfo = $palettes.$PaletteName
-    $palette = ConvertTo-Hashtable $paletteInfo.palette
-    $paletteFriendlyName = $paletteInfo.name
+    $palette = ConvertTo-Hashtable $paletteInfo.Palette
+    $paletteFriendlyName = $paletteInfo.Name
 
-    Write-Host '✓ Using palette: ' -NoNewline -ForegroundColor Green
-    Write-Host $paletteFriendlyName -ForegroundColor Magenta
+    Write-Output '✓ Using palette: ' -NoNewline -ForegroundColor Green
+    Write-Output $paletteFriendlyName -ForegroundColor Magenta
 }
 else {
-    Write-Host '✓ Using custom palette object' -ForegroundColor Green
+    Write-Output '✓ Using custom palette object' -ForegroundColor Green
     $palette = ConvertTo-Hashtable $PaletteObject
     $paletteFriendlyName = 'Custom Palette'
 }
@@ -319,14 +319,14 @@ foreach ($entry in $palette.GetEnumerator()) {
 
 # Carry forward extended keys (cycle colors, copilot colors, zod_blue) when missing
 $carryKeys = @(
-    'copilot_bg', 'copilot_fg', 'zod_blue',
-    'cycle_apricot', 'cycle_aqua', 'cycle_black_forest', 'cycle_blush', 'cycle_charcoal', 'cycle_coral', 'cycle_creme',
-    'cycle_deep_jungle', 'cycle_deep_mocha', 'cycle_deep_navy', 'cycle_deep_plum', 'cycle_deep_teal', 'cycle_eggplant',
-    'cycle_electric_cyan', 'cycle_espresso', 'cycle_forest', 'cycle_hot_pink', 'cycle_ice_blue', 'cycle_inky', 'cycle_lilac',
-    'cycle_magenta', 'cycle_mahogany', 'cycle_marmalade', 'cycle_midnight_blue', 'cycle_mint', 'cycle_neon_green',
-    'cycle_nightshade', 'cycle_onyx', 'cycle_oxblood', 'cycle_periwinkle', 'cycle_rust', 'cycle_seaweed', 'cycle_sky_blue',
-    'cycle_soft_lavender', 'cycle_spring_green', 'cycle_spring_mint', 'cycle_stormy_night', 'cycle_sunburst',
-    'cycle_sunshine', 'cycle_swamp', 'cycle_violet', 'cycle_watermelon'
+    'copilot_bg','copilot_fg','zod_blue',
+    'cycle_apricot','cycle_aqua','cycle_black_forest','cycle_blush','cycle_charcoal','cycle_coral','cycle_creme',
+    'cycle_deep_jungle','cycle_deep_mocha','cycle_deep_navy','cycle_deep_plum','cycle_deep_teal','cycle_eggplant',
+    'cycle_electric_cyan','cycle_espresso','cycle_forest','cycle_hot_pink','cycle_ice_blue','cycle_inky','cycle_lilac',
+    'cycle_magenta','cycle_mahogany','cycle_marmalade','cycle_midnight_blue','cycle_mint','cycle_neon_green',
+    'cycle_nightshade','cycle_onyx','cycle_oxblood','cycle_periwinkle','cycle_rust','cycle_seaweed','cycle_sky_blue',
+    'cycle_soft_lavender','cycle_spring_green','cycle_spring_mint','cycle_stormy_night','cycle_sunburst',
+    'cycle_sunshine','cycle_swamp','cycle_violet','cycle_watermelon'
 )
 
 foreach ($key in $carryKeys) {
@@ -344,30 +344,30 @@ foreach ($key in $sourcePalette.Keys) {
 
 # Divider blend definitions (fromKey -> toKey)
 $dividerPairs = [ordered]@{
-    'divider_blue_primary_to_ipify_purple'           = @('blue_primary', 'ipify_purple')
-    'divider_blue_primary_to_red_alert'              = @('blue_primary', 'red_alert')
-    'divider_ipify_purple_to_typescript_eslint_pink' = @('ipify_purple', 'typescript_eslint_pink')
-    'divider_typescript_eslint_pink_to_orange'       = @('typescript_eslint_pink', 'orange')
-    'divider_orange_to_green_added'                  = @('orange', 'green_added')
-    'divider_green_added_to_yellow_bright'           = @('green_added', 'yellow_bright')
-    'divider_yellow_bright_to_navy_text'             = @('yellow_bright', 'navy_text')
-    'divider_navy_text_to_purple_exec'               = @('navy_text', 'purple_exec')
-    'divider_purple_exec_to_electron_red'            = @('purple_exec', 'electron_red')
-    'divider_red_alert_to_orange'                    = @('red_alert', 'orange')
-    'divider_blue_time_to_electron_red'              = @('blue_time', 'electron_red')
-    'divider_blue_time_to_violet_project'            = @('blue_time', 'violet_project')
-    'divider_electron_red_to_maroon_error'           = @('electron_red', 'maroon_error')
-    'divider_gray_os_to_electron_red'                = @('gray_os', 'electron_red')
-    'divider_gray_os_to_gray_prompt_count_bg'        = @('gray_os', 'gray_prompt_count_bg')
-    'divider_maroon_error_to_pink_weather'           = @('maroon_error', 'pink_weather')
-    'divider_teal_sysinfo_to_electron_red'           = @('teal_sysinfo', 'electron_red')
+    'divider_blue_primary_to_ipify_purple' = @('blue_primary','ipify_purple')
+    'divider_blue_primary_to_red_alert' = @('blue_primary','red_alert')
+    'divider_ipify_purple_to_typescript_eslint_pink' = @('ipify_purple','typescript_eslint_pink')
+    'divider_typescript_eslint_pink_to_orange' = @('typescript_eslint_pink','orange')
+    'divider_orange_to_green_added' = @('orange','green_added')
+    'divider_green_added_to_yellow_bright' = @('green_added','yellow_bright')
+    'divider_yellow_bright_to_navy_text' = @('yellow_bright','navy_text')
+    'divider_navy_text_to_purple_exec' = @('navy_text','purple_exec')
+    'divider_purple_exec_to_electron_red' = @('purple_exec','electron_red')
+    'divider_red_alert_to_orange' = @('red_alert','orange')
+    'divider_blue_time_to_electron_red' = @('blue_time','electron_red')
+    'divider_blue_time_to_violet_project' = @('blue_time','violet_project')
+    'divider_electron_red_to_maroon_error' = @('electron_red','maroon_error')
+    'divider_gray_os_to_electron_red' = @('gray_os','electron_red')
+    'divider_gray_os_to_gray_prompt_count_bg' = @('gray_os','gray_prompt_count_bg')
+    'divider_maroon_error_to_pink_weather' = @('maroon_error','pink_weather')
+    'divider_teal_sysinfo_to_electron_red' = @('teal_sysinfo','electron_red')
 }
 
-Write-Host "🔧 Generating divider blend colors (blend=$BlendPercentage)..." -ForegroundColor Cyan
+Write-Output "🔧 Generating divider blend colors (blend=$BlendPercentage)..." -ForegroundColor Cyan
 
 foreach ($pair in $dividerPairs.GetEnumerator()) {
     $targetKey = $pair.Key
-    $fromKey, $toKey = $pair.Value
+    $fromKey,$toKey = $pair.Value
 
     $fromColor = Get-PaletteColor -Palette $workingPalette -FallbackPalette $sourcePalette -Key $fromKey
     $toColor = Get-PaletteColor -Palette $workingPalette -FallbackPalette $sourcePalette -Key $toKey
@@ -378,12 +378,12 @@ foreach ($pair in $dividerPairs.GetEnumerator()) {
 }
 
 # Re-apply to theme
-$theme.palette = $workingPalette
+$theme.Palette = $workingPalette
 
 if ($UpdateAccentColor -and $workingPalette.ContainsKey('accent')) {
     $oldAccent = $theme.accent_color
     $theme.accent_color = $workingPalette['accent']
-    Write-Host "  • Updated accent_color: $oldAccent → $($workingPalette['accent'])" -ForegroundColor DarkGray
+    Write-Output "  • Updated accent_color: $oldAccent → $($workingPalette['accent'])" -ForegroundColor DarkGray
 }
 
 # Determine output path
@@ -402,20 +402,20 @@ else {
     $outputFile = Join-Path $sourceDir "$sourceBaseName.$OutputName.json"
 }
 
-Write-Host '💾 Saving new theme...' -ForegroundColor Cyan
+Write-Output '💾 Saving new theme...' -ForegroundColor Cyan
 
 try {
     $jsonOutput = $theme | ConvertTo-Json -Depth 100
     $jsonOutput | Set-Content -Path $outputFile -Encoding UTF8
 
-    Write-Host "✅ Created: $outputFile" -ForegroundColor Green
-    Write-Host "🎨 Palette applied: $paletteFriendlyName" -ForegroundColor Magenta
-    Write-Host "📊 Palette size: $($workingPalette.Keys.Count) entries" -ForegroundColor Gray
+    Write-Output "✅ Created: $outputFile" -ForegroundColor Green
+    Write-Output "🎨 Palette applied: $paletteFriendlyName" -ForegroundColor Magenta
+    Write-Output "📊 Palette size: $($workingPalette.Keys.Count) entries" -ForegroundColor Gray
 }
 catch {
     Write-Error "Failed to save theme file: $_"
     exit 1
 }
 
-Write-Host ('=' * 60) -ForegroundColor DarkGray
-Write-Host '✨ Done!' -ForegroundColor Green
+Write-Output ('=' * 60) -ForegroundColor DarkGray
+Write-Output '✨ Done!' -ForegroundColor Green

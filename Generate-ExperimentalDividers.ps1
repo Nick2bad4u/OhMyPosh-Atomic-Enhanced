@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Generates Experimental Dividers themes for all palettes into a dedicated folder.
 
@@ -40,7 +40,7 @@ $ErrorActionPreference = 'Stop'
 function ConvertTo-PascalCase {
     param([string]$Text)
     $words = $Text -split '[\s_-]+'
-    ($words | Where-Object { $_ } | ForEach-Object { $_.Substring(0, 1).ToUpper() + $_.Substring(1).ToLower() }) -join ''
+    ($words | Where-Object { $_ } | ForEach-Object { $_.Substring(0,1).ToUpper() + $_.Substring(1).ToLower() }) -join ''
 }
 
 if (-not (Test-Path $SourceTheme)) { throw "Source theme not found: $SourceTheme" }
@@ -60,18 +60,18 @@ foreach ($name in $paletteNames) {
     $outFile = Join-Path $OutputDirectory "$baseName.$pascal.json"
 
     if ((Test-Path $outFile) -and -not $Force) {
-        Write-Host "⚠️  Skipping (exists): $outFile" -ForegroundColor Yellow
+        Write-Output "⚠️  Skipping (exists): $outFile" -ForegroundColor Yellow
         continue
     }
 
-    Write-Host "🎨 Generating $outFile" -ForegroundColor Cyan
+    Write-Output "🎨 Generating $outFile" -ForegroundColor Cyan
 
     $params = @{
-        PaletteName       = $name
-        OutputPath        = $outFile
+        PaletteName = $name
+        OutputPath = $outFile
         UpdateAccentColor = $UpdateAccentColor
-        SourceTheme       = $SourceTheme
-        PalettesFile      = $PalettesFile
+        SourceTheme = $SourceTheme
+        PalettesFile = $PalettesFile
         RecomputeDividers = $RecomputeDividers
     }
 
@@ -79,4 +79,4 @@ foreach ($name in $paletteNames) {
     & $scriptPath @params
 }
 
-Write-Host '✅ Generation complete' -ForegroundColor Green
+Write-Output '✅ Generation complete' -ForegroundColor Green

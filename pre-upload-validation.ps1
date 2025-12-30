@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Pre-upload validation script for Oh My Posh theme.
 
@@ -29,8 +29,8 @@ $warnings = @()
 
 function Get-OMPProperty {
     param(
-        [Parameter(Mandatory = $true)]$Object,
-        [Parameter(Mandatory = $true)][string]$Name
+        [Parameter(Mandatory = $true)] $Object,
+        [Parameter(Mandatory = $true)] [string]$Name
     )
 
     if ($null -eq $Object) { return $null }
@@ -48,10 +48,10 @@ function Get-OMPProperty {
     return $Object.$resolvedName
 }
 
-function Get-OMPPaletteReferences {
+function Get-OMPPaletteReference {
     param(
-        [Parameter(Mandatory = $true)][string]$RawJson,
-        [Parameter(Mandatory = $true)]$ThemeObject
+        [Parameter(Mandatory = $true)] [string]$RawJson,
+        [Parameter(Mandatory = $true)] $ThemeObject
     )
 
     # Collect palette references like p:<key> in a robust way.
@@ -64,7 +64,7 @@ function Get-OMPPaletteReferences {
         [void]$set.Add($m.Groups[1].Value.ToLowerInvariant())
     }
 
-    function Visit($node) {
+    function Visit ($node) {
         if ($null -eq $node) { return }
 
         # Arrays
@@ -93,7 +93,7 @@ function Get-OMPPaletteReferences {
     return $set
 }
 
-Write-Host 'Starting pre-upload validation for Oh My Posh theme...' -ForegroundColor Cyan
+Write-Output 'Starting pre-upload validation for Oh My Posh theme...' -ForegroundColor Cyan
 
 # 1. Check if files exist
 if (-not (Test-Path $ThemePath)) {
@@ -103,16 +103,16 @@ if (-not (Test-Path $TestPath)) {
     $errors += "Test file not found: $TestPath"
 }
 if ($errors.Count -gt 0) {
-    foreach ($err in $errors) { Write-Host "ERROR: $err" -ForegroundColor Red }
+    foreach ($err in $errors) { Write-Output "ERROR: $err" -ForegroundColor Red }
     exit 1
 }
 
 # 2. Validate JSON syntax
-Write-Host 'Validating JSON syntax...' -ForegroundColor Yellow
+Write-Output 'Validating JSON syntax...' -ForegroundColor Yellow
 try {
     $themeContent = Get-Content $ThemePath -Raw
     $themeJson = $themeContent | ConvertFrom-Json
-    Write-Host '✓ JSON syntax is valid' -ForegroundColor Green
+    Write-Output '✓ JSON syntax is valid' -ForegroundColor Green
 }
 catch {
     $errors += "JSON syntax error in $ThemePath`: $($_.Exception.Message)"
@@ -121,20 +121,20 @@ catch {
 try {
     $testContent = Get-Content $TestPath -Raw
     $testJson = $testContent | ConvertFrom-Json
-    Write-Host '✓ Test file JSON syntax is valid' -ForegroundColor Green
+    Write-Output '✓ Test file JSON syntax is valid' -ForegroundColor Green
 }
 catch {
     $errors += "JSON syntax error in $TestPath`: $($_.Exception.Message)"
 }
 
 if ($errors.Count -gt 0) {
-    foreach ($err in $errors) { Write-Host "ERROR: $err" -ForegroundColor Red }
+    foreach ($err in $errors) { Write-Output "ERROR: $err" -ForegroundColor Red }
     exit 1
 }
 
 # 3. Validate palette
-Write-Host 'Validating palette keys...' -ForegroundColor Yellow
-$palette = $themeJson.palette.PSObject.Properties.Name
+Write-Output 'Validating palette keys...' -ForegroundColor Yellow
+$palette = $themeJson.Palette.PSObject.Properties.Name
 $refs = @(Get-OMPPaletteReferences -RawJson $themeContent -ThemeObject $themeJson) | Sort-Object -Unique
 $missing = $refs | Where-Object { $_ -notin $palette }
 $unused = $palette | Where-Object { $_ -notin $refs }
@@ -147,15 +147,15 @@ if ($unused.Count -gt 0) {
 }
 
 if ($missing.Count -eq 0) {
-    Write-Host '✓ All palette references are defined' -ForegroundColor Green
+    Write-Output '✓ All palette references are defined' -ForegroundColor Green
 }
 if ($unused.Count -gt 0) {
-    foreach ($warning in $warnings) { Write-Host "WARNING: $warning" -ForegroundColor Yellow }
+    foreach ($warning in $warnings) { Write-Output "WARNING: $warning" -ForegroundColor Yellow }
 }
 
 # 3.5 Validate mapped_locations
-Write-Host 'Validating mapped_locations configuration...' -ForegroundColor Yellow
-$pathSegment = @($themeJson.blocks[0].segments | Where-Object { $_.type -eq 'path' })[0]
+Write-Output 'Validating mapped_locations configuration...' -ForegroundColor Yellow
+$pathSegment = @($themeJson.blocks[0].segments | Where-Object { $_.Type -eq 'path' })[0]
 $pathProps = if ($pathSegment) { (Get-OMPProperty -Object $pathSegment -Name 'properties') } else { $null }
 
 if ($pathSegment -and $pathProps -and $pathProps.mapped_locations) {
@@ -168,7 +168,7 @@ if ($pathSegment -and $pathProps -and $pathProps.mapped_locations) {
         $errors += "Duplicate mapped_locations keys found: $($duplicates.Name -join ', ')"
     }
     else {
-        Write-Host '✓ No duplicate mapped_locations keys' -ForegroundColor Green
+        Write-Output '✓ No duplicate mapped_locations keys' -ForegroundColor Green
     }
 
     # Validate regex patterns
@@ -176,11 +176,11 @@ if ($pathSegment -and $pathProps -and $pathProps.mapped_locations) {
     foreach ($key in $keys) {
         if ($key.StartsWith('re:')) {
             try {
-                $pattern = $key -replace '^re:', ''
+                $pattern = $key -replace '^re:',''
                 [regex]::new($pattern) | Out-Null
             }
             catch {
-                $invalidPatterns += @{ pattern = $key; error = $_.Exception.Message }
+                $invalidPatterns += @{ pattern = $key; Error = $_.Exception.Message }
             }
         }
     }
@@ -191,7 +191,7 @@ if ($pathSegment -and $pathProps -and $pathProps.mapped_locations) {
         }
     }
     else {
-        Write-Host '✓ All regex patterns are valid' -ForegroundColor Green
+        Write-Output '✓ All regex patterns are valid' -ForegroundColor Green
     }
 
     # Check for GitHub project mappings
@@ -212,7 +212,7 @@ if ($pathSegment -and $pathProps -and $pathProps.mapped_locations) {
         $warnings += "Missing GitHub project mappings: $($missingProjectMaps -join ', ')"
     }
     else {
-        Write-Host '✓ GitHub project mappings are configured' -ForegroundColor Green
+        Write-Output '✓ GitHub project mappings are configured' -ForegroundColor Green
     }
 
     # Check for extra parentheses in patterns (common formatting error)
@@ -223,16 +223,16 @@ if ($pathSegment -and $pathProps -and $pathProps.mapped_locations) {
 }
 
 # 3.6 Validate async configuration
-Write-Host 'Validating async configuration...' -ForegroundColor Yellow
+Write-Output 'Validating async configuration...' -ForegroundColor Yellow
 if ($themeJson.async -eq $true) {
-    Write-Host '✓ Async loading is enabled for better performance' -ForegroundColor Green
+    Write-Output '✓ Async loading is enabled for better performance' -ForegroundColor Green
 }
 else {
     $warnings += 'Async loading is disabled - consider enabling for better prompt responsiveness'
 }
 
 # 4. Run test assertions
-Write-Host 'Running test assertions...' -ForegroundColor Yellow
+Write-Output 'Running test assertions...' -ForegroundColor Yellow
 $failedTests = @()
 
 foreach ($test in $testJson.tests) {
@@ -253,7 +253,7 @@ foreach ($test in $testJson.tests) {
                     $index = [int]$matches[3]
                     $actual = $actual[$index]
                 }
-                $path = $path -replace '^[^.\[]+(\[\d+\])?', ''
+                $path = $path -replace '^[^.\[]+(\[\d+\])?',''
                 if ($path.StartsWith('.')) { $path = $path.Substring(1) }
             }
             else {
@@ -280,7 +280,7 @@ foreach ($test in $testJson.tests) {
                 if ($array -is [System.Array]) {
                     $found = $false
                     foreach ($item in $array) {
-                        if ($item -and $item.type -eq $expected) { $found = $true; break }
+                        if ($item -and $item.Type -eq $expected) { $found = $true; break }
                     }
                     $passed = $found
                 }
@@ -295,12 +295,12 @@ foreach ($test in $testJson.tests) {
                 }
                 catch { $exp = $expected }
 
-                if ($null -eq $exp.type -or $null -eq $exp.property) { $passed = $false }
+                if ($null -eq $exp.Type -or $null -eq $exp.property) { $passed = $false }
                 else {
                     $segments = $actual
                     if ($segments -is [System.Array]) {
                         $segFound = $null
-                        foreach ($seg in $segments) { if ($seg.type -eq $exp.type) { $segFound = $seg; break } }
+                        foreach ($seg in $segments) { if ($seg.Type -eq $exp.Type) { $segFound = $seg; break } }
                         if ($null -eq $segFound) { $passed = $false }
                         else {
                             # Traverse segFound property path
@@ -331,11 +331,11 @@ foreach ($test in $testJson.tests) {
     }
 
     if ($testPassed) {
-        Write-Host "✓ $($test.testName)" -ForegroundColor Green
+        Write-Output "✓ $($test.testName)" -ForegroundColor Green
     }
     else {
         $failedTests += $test.testName
-        Write-Host "✗ $($test.testName)" -ForegroundColor Red
+        Write-Output "✗ $($test.testName)" -ForegroundColor Red
     }
 }
 
@@ -344,12 +344,12 @@ if ($failedTests.Count -gt 0) {
 }
 
 # 5. Test theme loading with Oh My Posh
-# Write-Host "Testing theme loading with Oh My Posh..." -ForegroundColor Yellow
+# Write-Output "Testing theme loading with Oh My Posh..." -ForegroundColor Yellow
 # try {
 #     $initCommand = "oh-my-posh init pwsh --config '$ThemePath' 2>&1"
 #     $output = Invoke-Expression $initCommand
 #     if ($LASTEXITCODE -eq 0) {
-#         Write-Host "✓ Theme loads successfully with Oh My Posh" -ForegroundColor Green
+#         Write-Output "✓ Theme loads successfully with Oh My Posh" -ForegroundColor Green
 #     }
 #     else {
 #         $errors += "Oh My Posh failed to load theme: $output"
@@ -360,13 +360,13 @@ if ($failedTests.Count -gt 0) {
 # }
 
 # Summary
-Write-Host "`nValidation Summary:" -ForegroundColor Cyan
+Write-Output "`nValidation Summary:" -ForegroundColor Cyan
 if ($errors.Count -eq 0) {
-    Write-Host '✓ All checks passed! Theme is ready for upload.' -ForegroundColor Green
+    Write-Output '✓ All checks passed! Theme is ready for upload.' -ForegroundColor Green
     exit 0
 }
 else {
-    foreach ($err in $errors) { Write-Host "ERROR: $err" -ForegroundColor Red }
-    Write-Host '✗ Validation failed. Please fix the errors before uploading.' -ForegroundColor Red
+    foreach ($err in $errors) { Write-Output "ERROR: $err" -ForegroundColor Red }
+    Write-Output '✗ Validation failed. Please fix the errors before uploading.' -ForegroundColor Red
     exit 1
 }

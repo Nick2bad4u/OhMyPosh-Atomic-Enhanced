@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Copy the regular ExperimentalDividers theme to a Fish variant,
 disable shell integration, and remove the "prompt_mark" entry from iterm_features.
@@ -35,8 +35,8 @@ param(
     [switch]$Backup
 )
 
-function Write-Info([string]$Message) { Write-Host "[INFO] $Message" -ForegroundColor Cyan }
-function Write-Err([string]$Message) { Write-Host "[ERROR] $Message" -ForegroundColor Red }
+function Write-Info ([string]$Message) { Write-Output "[INFO] $Message" -ForegroundColor Cyan }
+function Write-Err ([string]$Message) { Write-Output "[ERROR] $Message" -ForegroundColor Red }
 
 try {
     # Resolve script-root defaults (when run interactively from another dir)

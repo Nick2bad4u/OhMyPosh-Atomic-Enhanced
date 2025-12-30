@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Generates preview images for all custom Oh My Posh themes and updates README.
 
@@ -81,39 +81,39 @@ $ErrorActionPreference = 'Stop'
 
 # Color scheme for output
 $colors = @{
-    Header  = 'Cyan'
+    Header = 'Cyan'
     Success = 'Green'
     Warning = 'Yellow'
-    Error   = 'Red'
-    Info    = 'White'
-    Accent  = 'Magenta'
+    Error = 'Red'
+    Info = 'White'
+    Accent = 'Magenta'
 }
 
 function Write-Header {
     param([string]$Text)
-    Write-Host "`n$('=' * 70)" -ForegroundColor $colors.Header
-    Write-Host "  $Text" -ForegroundColor $colors.Header
-    Write-Host "$('=' * 70)`n" -ForegroundColor $colors.Header
+    Write-Output "`n$('=' * 70)" -ForegroundColor $colors.Header
+    Write-Output "  $Text" -ForegroundColor $colors.Header
+    Write-Output "$('=' * 70)`n" -ForegroundColor $colors.Header
 }
 
 function Write-Step {
     param([string]$Text)
-    Write-Host "▶ $Text" -ForegroundColor $colors.Info
+    Write-Output "▶ $Text" -ForegroundColor $colors.Info
 }
 
 function Write-Success {
     param([string]$Text)
-    Write-Host "  ✓ $Text" -ForegroundColor $colors.Success
+    Write-Output "  ✓ $Text" -ForegroundColor $colors.Success
 }
 
-function Write-Warning {
+function Write-WarningOutput {
     param([string]$Text)
-    Write-Host "  ⚠ $Text" -ForegroundColor $colors.Warning
+    Write-Output "  ⚠ $Text" -ForegroundColor $colors.Warning
 }
 
 function Write-ErrorMessage {
     param([string]$Text)
-    Write-Host "  ✗ $Text" -ForegroundColor $colors.Error
+    Write-Output "  ✗ $Text" -ForegroundColor $colors.Error
 }
 
 Write-Header '🎨 Oh My Posh Theme Preview Generator'
@@ -126,19 +126,19 @@ try {
 }
 catch {
     Write-ErrorMessage 'oh-my-posh not found in PATH!'
-    Write-Host "`nPlease install oh-my-posh: https://ohmyposh.dev/docs/installation" -ForegroundColor $colors.Warning
+    Write-Output "`nPlease install oh-my-posh: https://ohmyposh.dev/docs/installation" -ForegroundColor $colors.Warning
     exit 1
 }
 
 # Verify image settings file exists
 if (-not (Test-Path $ImageSettings)) {
-    Write-Warning "Image settings file not found: $ImageSettings"
-    Write-Host '  Using default oh-my-posh image settings' -ForegroundColor $colors.Info
+    Write-WarningOutput "Image settings file not found: $ImageSettings"
+    Write-Output '  Using default oh-my-posh image settings' -ForegroundColor $colors.Info
     $imageSettingsParam = @()
 }
 else {
     Write-Success "Found image settings: $ImageSettings"
-    $imageSettingsParam = @('--settings', (Resolve-Path $ImageSettings).Path)
+    $imageSettingsParam = @('--settings',(Resolve-Path $ImageSettings).Path)
 }
 
 # Create output directory
@@ -164,8 +164,8 @@ foreach ($pattern in $ThemePattern) {
 }
 
 if ($themeFiles.Count -eq 0) {
-    Write-Warning 'No custom theme files found!'
-    Write-Host "  Patterns searched: $($ThemePattern -join ', ')" -ForegroundColor $colors.Info
+    Write-WarningOutput 'No custom theme files found!'
+    Write-Output "  Patterns searched: $($ThemePattern -join ', ')" -ForegroundColor $colors.Info
     exit 0
 }
 
@@ -183,18 +183,18 @@ foreach ($theme in $themeFiles) {
     $themeName = [System.IO.Path]::GetFileNameWithoutExtension($theme.Name)
     $outputImage = Join-Path $OutputDirectory "$themeName.png"
 
-    Write-Host "`n[$($results.Count + 1)/$($themeFiles.Count)] " -NoNewline -ForegroundColor $colors.Accent
-    Write-Host $theme.Name -ForegroundColor $colors.Info
+    Write-Output "`n[$($results.Count + 1)/$($themeFiles.Count)] " -NoNewline -ForegroundColor $colors.Accent
+    Write-Output $theme.Name -ForegroundColor $colors.Info
 
     # Check if image already exists
     if ((Test-Path $outputImage) -and -not $Force) {
-        Write-Warning 'Image already exists, skipping (use -Force to regenerate)'
+        Write-WarningOutput 'Image already exists, skipping (use -Force to regenerate)'
         $skipCount++
-        $results += [PSCustomObject]@{
-            Theme        = $theme.Name
-            ThemeName    = $themeName
-            Status       = 'Skipped'
-            ImagePath    = $outputImage
+        $results += [pscustomobject]@{
+            Theme = $theme.Name
+            ThemeName = $themeName
+            Status = 'Skipped'
+            ImagePath = $outputImage
             RelativePath = "assets/theme-previews/$themeName.png"
         }
         continue
@@ -206,9 +206,9 @@ foreach ($theme in $themeFiles) {
 
         # Build command arguments (avoid PowerShell automatic variable 'args')
         $exportArgs = @(
-            'config', 'export', 'image',
-            '--config', $configPath,
-            '--output', $outputImage
+            'config','export','image',
+            '--config',$configPath,
+            '--output',$outputImage
         ) + $imageSettingsParam
 
         # Run oh-my-posh export and capture result for diagnostics
@@ -217,16 +217,16 @@ foreach ($theme in $themeFiles) {
         if ($LASTEXITCODE -eq 0 -and (Test-Path $outputImage)) {
             Write-Success "Generated: $themeName.png"
             $successCount++
-            $results += [PSCustomObject]@{
-                Theme        = $theme.Name
-                ThemeName    = $themeName
-                Status       = 'Success'
-                ImagePath    = $outputImage
+            $results += [pscustomobject]@{
+                Theme = $theme.Name
+                ThemeName = $themeName
+                Status = 'Success'
+                ImagePath = $outputImage
                 RelativePath = "assets/theme-previews/$themeName.png"
             }
         }
         else {
-            Write-Warning "oh-my-posh returned exit code $LASTEXITCODE"
+            Write-WarningOutput "oh-my-posh returned exit code $LASTEXITCODE"
             Write-ErrorMessage "Export output: $exportResult"
             throw "oh-my-posh returned exit code $LASTEXITCODE"
         }
@@ -234,11 +234,11 @@ foreach ($theme in $themeFiles) {
     catch {
         Write-ErrorMessage "Failed: $_"
         $errorCount++
-        $results += [PSCustomObject]@{
-            Theme        = $theme.Name
-            ThemeName    = $themeName
-            Status       = 'Error'
-            ImagePath    = $null
+        $results += [pscustomobject]@{
+            Theme = $theme.Name
+            ThemeName = $themeName
+            Status = 'Error'
+            ImagePath = $null
             RelativePath = $null
         }
     }
@@ -246,17 +246,17 @@ foreach ($theme in $themeFiles) {
 
 # Summary
 Write-Header '📊 Generation Summary'
-Write-Host '✓ Successfully generated: ' -NoNewline -ForegroundColor $colors.Success
-Write-Host $successCount -ForegroundColor $colors.Info
+Write-Output '✓ Successfully generated: ' -NoNewline -ForegroundColor $colors.Success
+Write-Output $successCount -ForegroundColor $colors.Info
 
 if ($skipCount -gt 0) {
-    Write-Host '⚠ Skipped (existing): ' -NoNewline -ForegroundColor $colors.Warning
-    Write-Host $skipCount -ForegroundColor $colors.Info
+    Write-Output '⚠ Skipped (existing): ' -NoNewline -ForegroundColor $colors.Warning
+    Write-Output $skipCount -ForegroundColor $colors.Info
 }
 
 if ($errorCount -gt 0) {
-    Write-Host '✗ Errors: ' -NoNewline -ForegroundColor $colors.Error
-    Write-Host $errorCount -ForegroundColor $colors.Info
+    Write-Output '✗ Errors: ' -NoNewline -ForegroundColor $colors.Error
+    Write-Output $errorCount -ForegroundColor $colors.Info
 }
 
 # Update README if requested
@@ -272,7 +272,7 @@ if (-not $SkipReadmeUpdate) {
     $readmeContent = Get-Content $ReadmePath -Raw
 
     # Group themes by base theme (ensure they're arrays even if empty)
-    $includeStatuses = @('Success', 'Skipped')
+    $includeStatuses = @('Success','Skipped')
     $experimentalDividersThemes = @($results | Where-Object { $_.Theme -like 'OhMyPosh-Atomic-Custom-ExperimentalDividers.*' -and $_.Status -in $includeStatuses } | Sort-Object ThemeName)
     $atomicThemes = @($results | Where-Object { $_.Theme -like 'OhMyPosh-Atomic-Custom.*' -and $_.Status -in $includeStatuses -and $_.Theme -notlike 'OhMyPosh-Atomic-Custom-ExperimentalDividers.*' } | Sort-Object ThemeName)
     $shellThemes = @($results | Where-Object { $_.Theme -like '1_shell-Enhanced.omp.*' -and $_.Status -in $includeStatuses } | Sort-Object ThemeName)
@@ -281,7 +281,7 @@ if (-not $SkipReadmeUpdate) {
     $cleanDetailedThemes = @($results | Where-Object { $_.Theme -like 'clean-detailed-Enhanced.omp.*' -and $_.Status -in $includeStatuses } | Sort-Object ThemeName)
 
     # Function to generate table rows for a theme group
-    function Get-ThemeTableRows {
+    function Get-ThemeTableRow {
         param(
             [array]$Themes,
             [string]$StripPrefix
@@ -295,7 +295,7 @@ if (-not $SkipReadmeUpdate) {
                 $markdown += "`n<tr>"
             }
 
-            $displayName = $theme.ThemeName -replace "^$StripPrefix", ''
+            $displayName = $theme.ThemeName -replace "^$StripPrefix",''
             $markdown += @"
 
 <td align="center" width="50%">
@@ -501,7 +501,7 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 
         # Find the end of the gallery section (next ## heading or end of file)
         if ($readmeContent -match "(?s)($([regex]::Escape($galleryMarker))).*?(?=^## |\z)") {
-            $readmeContent = $readmeContent -replace "(?s)($([regex]::Escape($galleryMarker))).*?(?=^## |\z)", $galleryMarkdown
+            $readmeContent = $readmeContent -replace "(?s)($([regex]::Escape($galleryMarker))).*?(?=^## |\z)",$galleryMarkdown
         }
     }
     else {
@@ -529,26 +529,26 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 Write-Header '✨ Complete!'
 
 if ($successCount -gt 0) {
-    Write-Host 'Generated preview images are in: ' -NoNewline -ForegroundColor $colors.Info
-    Write-Host $OutputDirectory -ForegroundColor $colors.Accent
+    Write-Output 'Generated preview images are in: ' -NoNewline -ForegroundColor $colors.Info
+    Write-Output $OutputDirectory -ForegroundColor $colors.Accent
 }
 
 if (-not $SkipReadmeUpdate) {
     $totalGalleryThemes = ($experimentalDividersThemes.Count + $atomicThemes.Count + $shellThemes.Count + $slimfatThemes.Count + $atomicBitThemes.Count + $cleanDetailedThemes.Count)
     if ($totalGalleryThemes -gt 0) {
-        Write-Host "`n💡 Don't forget to:" -ForegroundColor $colors.Warning
-        Write-Host '   1. Review the updated README.md' -ForegroundColor $colors.Info
-        Write-Host '   2. Commit and push the new preview images' -ForegroundColor $colors.Info
-        Write-Host '   3. Verify the gallery renders correctly on GitHub' -ForegroundColor $colors.Info
-        Write-Host "`n📊 Gallery Stats:" -ForegroundColor $colors.Accent
-        Write-Host "   • Experimental Dividers: $($experimentalDividersThemes.Count) themes" -ForegroundColor $colors.Info
-        Write-Host "   • Atomic Custom: $($atomicThemes.Count) themes" -ForegroundColor $colors.Info
-        Write-Host "   • 1_shell-Enhanced: $($shellThemes.Count) themes" -ForegroundColor $colors.Info
-        Write-Host "   • Slimfat-Enhanced: $($slimfatThemes.Count) themes" -ForegroundColor $colors.Info
-        Write-Host "   • AtomicBit-Enhanced: $($atomicBitThemes.Count) themes" -ForegroundColor $colors.Info
-        Write-Host "   • Clean-Detailed-Enhanced: $($cleanDetailedThemes.Count) themes" -ForegroundColor $colors.Info
-        Write-Host "   • Total: $totalGalleryThemes themes in gallery" -ForegroundColor $colors.Success
+        Write-Output "`n💡 Don't forget to:" -ForegroundColor $colors.Warning
+        Write-Output '   1. Review the updated README.md' -ForegroundColor $colors.Info
+        Write-Output '   2. Commit and push the new preview images' -ForegroundColor $colors.Info
+        Write-Output '   3. Verify the gallery renders correctly on GitHub' -ForegroundColor $colors.Info
+        Write-Output "`n📊 Gallery Stats:" -ForegroundColor $colors.Accent
+        Write-Output "   • Experimental Dividers: $($experimentalDividersThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-Output "   • Atomic Custom: $($atomicThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-Output "   • 1_shell-Enhanced: $($shellThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-Output "   • Slimfat-Enhanced: $($slimfatThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-Output "   • AtomicBit-Enhanced: $($atomicBitThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-Output "   • Clean-Detailed-Enhanced: $($cleanDetailedThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-Output "   • Total: $totalGalleryThemes themes in gallery" -ForegroundColor $colors.Success
     }
 }
 
-Write-Host ''
+Write-Output ''

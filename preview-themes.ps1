@@ -1,42 +1,42 @@
-#!/usr/bin/env pwsh
+﻿#!/usr/bin/env pwsh
 # Interactive theme viewer - press Enter to go to next theme
 
 param(
     [switch]$Official,
     [switch]$Custom,
     [Parameter()]
-    [ValidateSet('All', 'Atomic', 'ExperimentalDividers', '1Shell', 'Slimfat', 'AtomicBit', 'CleanDetailed')]
+    [ValidateSet('All','Atomic','ExperimentalDividers','1Shell','Slimfat','AtomicBit','CleanDetailed')]
     [string]$ThemeFamily = 'All'
 )
 
 # Define base themes
 $baseThemes = @(
-    @{Name = 'Experimental Dividers'; Prefix = 'OhMyPosh-Atomic-Custom-ExperimentalDividers'; VariantsFolder = 'experimentalDividers' },
-    @{Name = 'Atomic Custom'; Prefix = 'OhMyPosh-Atomic-Custom' },
-    @{Name = '1_shell Enhanced'; Prefix = '1_shell-Enhanced.omp' },
-    @{Name = 'Slimfat Enhanced'; Prefix = 'slimfat-Enhanced.omp' },
-    @{Name = 'AtomicBit Enhanced'; Prefix = 'atomicBit-Enhanced.omp' },
-    @{Name = 'Clean-Detailed Enhanced'; Prefix = 'clean-detailed-Enhanced.omp' }
+    @{ Name = 'Experimental Dividers'; Prefix = 'OhMyPosh-Atomic-Custom-ExperimentalDividers'; VariantsFolder = 'experimentalDividers' },
+    @{ Name = 'Atomic Custom'; Prefix = 'OhMyPosh-Atomic-Custom' },
+    @{ Name = '1_shell Enhanced'; Prefix = '1_shell-Enhanced.omp' },
+    @{ Name = 'Slimfat Enhanced'; Prefix = 'slimfat-Enhanced.omp' },
+    @{ Name = 'AtomicBit Enhanced'; Prefix = 'atomicBit-Enhanced.omp' },
+    @{ Name = 'Clean-Detailed Enhanced'; Prefix = 'clean-detailed-Enhanced.omp' }
 )
 
 # Map each theme family prefix to its variant folder
 $variantFolders = @{
-    'OhMyPosh-Atomic-Custom'                      = 'atomic'
-    '1_shell-Enhanced.omp'                        = '1_shell'
-    'slimfat-Enhanced.omp'                        = 'slimfat'
-    'atomicBit-Enhanced.omp'                      = 'atomicBit'
-    'clean-detailed-Enhanced.omp'                 = 'cleanDetailed'
+    'OhMyPosh-Atomic-Custom' = 'atomic'
+    '1_shell-Enhanced.omp' = '1_shell'
+    'slimfat-Enhanced.omp' = 'slimfat'
+    'atomicBit-Enhanced.omp' = 'atomicBit'
+    'clean-detailed-Enhanced.omp' = 'cleanDetailed'
     'OhMyPosh-Atomic-Custom-ExperimentalDividers' = 'experimentalDividers'
 }
 
 # Define all palette variants
 $paletteVariants = @(
-    'Original', 'NordFrost', 'GruvboxDark', 'DraculaNight', 'TokyoNight',
-    'MonokaiPro', 'SolarizedDark', 'CatppuccinMocha', 'ForestEmber',
-    'PinkParadise', 'PurpleReign', 'RedAlert', 'BlueOcean', 'GreenMatrix',
-    'AmberSunset', 'TealCyan', 'RainbowBright', 'ChristmasCheer',
-    'HalloweenSpooky', 'EasterPastel', 'FireIce', 'MidnightGold',
-    'CherryMint', 'LavenderPeach'
+    'Original','NordFrost','GruvboxDark','DraculaNight','TokyoNight',
+    'MonokaiPro','SolarizedDark','CatppuccinMocha','ForestEmber',
+    'PinkParadise','PurpleReign','RedAlert','BlueOcean','GreenMatrix',
+    'AmberSunset','TealCyan','RainbowBright','ChristmasCheer',
+    'HalloweenSpooky','EasterPastel','FireIce','MidnightGold',
+    'CherryMint','LavenderPeach'
 )
 
 # Build custom themes list
@@ -47,8 +47,8 @@ foreach ($base in $baseThemes) {
     $baseFile = "$($base.Prefix).json"
     if (Test-Path $baseFile) {
         $customThemes += @{
-            Name   = "$($base.Name) (Base)"
-            Path   = $baseFile
+            Name = "$($base.Name) (Base)"
+            Path = $baseFile
             Family = $base.Name
         }
     }
@@ -58,8 +58,8 @@ foreach ($base in $baseThemes) {
         $noShell = 'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json'
         if (Test-Path $noShell) {
             $customThemes += @{
-                Name   = "$($base.Name) (NoShellIntegration)"
-                Path   = $noShell
+                Name = "$($base.Name) (NoShellIntegration)"
+                Path = $noShell
                 Family = $base.Name
             }
         }
@@ -76,8 +76,8 @@ foreach ($base in $baseThemes) {
         }
         if (Test-Path $variantFile) {
             $customThemes += @{
-                Name   = "$($base.Name) - $palette"
-                Path   = $variantFile
+                Name = "$($base.Name) - $palette"
+                Path = $variantFile
                 Family = $base.Name
             }
         }
@@ -111,9 +111,9 @@ if ($Custom) {
 
         if (Test-Path $theme.Path) {
             $themes += @{
-                Type   = 'Enhanced'
-                Name   = $theme.Name
-                Path   = $theme.Path
+                Type = 'Enhanced'
+                Name = $theme.Name
+                Path = $theme.Path
                 Family = $theme.Family
             }
         }
@@ -134,7 +134,7 @@ if ($Official) {
 }
 
 if ($themes.Count -eq 0) {
-    Write-Host '❌ No themes found!' -ForegroundColor Red
+    Write-Output '❌ No themes found!' -ForegroundColor Red
     exit 1
 }
 
@@ -146,21 +146,21 @@ function Show-Theme {
     $theme = $themes[$Index]
 
     # Show preview using oh-my-posh print command
-    Write-Host ''
-    Write-Host '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
-    Write-Host "Theme $($Index + 1) of $($themes.Count): $($theme.Type) - $($theme.Name)" -ForegroundColor Yellow
-    Write-Host "Path: $($theme.Path)" -ForegroundColor Gray
-    Write-Host '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
-    Write-Host ''
+    Write-Output ''
+    Write-Output '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
+    Write-Output "Theme $($Index + 1) of $($themes.Count): $($theme.Type) - $($theme.Name)" -ForegroundColor Yellow
+    Write-Output "Path: $($theme.Path)" -ForegroundColor Gray
+    Write-Output '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
+    Write-Output ''
 
     # Print the preview
     oh-my-posh print preview --config $theme.Path --force 2>$null
 
-    Write-Host ''
-    Write-Host '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
-    Write-Host "Press ENTER for next, Q to quit, or type a number (1-$($themes.Count))" -ForegroundColor Green
-    Write-Host '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
-    Write-Host ''
+    Write-Output ''
+    Write-Output '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
+    Write-Output "Press ENTER for next, Q to quit, or type a number (1-$($themes.Count))" -ForegroundColor Green
+    Write-Output '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
+    Write-Output ''
 }
 
 # Show first theme
@@ -170,7 +170,7 @@ while ($true) {
     $userInput = Read-Host '❯'
 
     if ($userInput -eq 'q' -or $userInput -eq 'Q') {
-        Write-Host 'Goodbye!' -ForegroundColor Green
+        Write-Output 'Goodbye!' -ForegroundColor Green
         break
     }
 
@@ -181,7 +181,7 @@ while ($true) {
             $currentIndex = $num - 1
         }
         else {
-            Write-Host "Invalid theme number (1-$($themes.Count))" -ForegroundColor Red
+            Write-Output "Invalid theme number (1-$($themes.Count))" -ForegroundColor Red
             continue
         }
     }

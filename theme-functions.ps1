@@ -1,7 +1,7 @@
-# Add these functions to your PowerShell profile ($PROFILE)
+﻿# Add these functions to your PowerShell profile ($PROFILE)
 # This gives you quick commands to preview themes interactively
 
-function Show-AllThemes {
+function Show-AllTheme {
     <#
     .SYNOPSIS
     Shows ALL themes (custom + official) - press Enter to advance, Q to quit
@@ -18,7 +18,7 @@ function Show-AllThemes {
     & ".\preview-themes.ps1"
 }
 
-function Show-CustomThemes {
+function Show-CustomTheme {
     <#
     .SYNOPSIS
     Shows ONLY custom themes (your 4 advanced themes)
@@ -32,7 +32,7 @@ function Show-CustomThemes {
     & ".\preview-themes.ps1" -Custom
 }
 
-function Show-OfficialThemes {
+function Show-OfficialTheme {
     <#
     .SYNOPSIS
     Shows ONLY official Oh-My-Posh themes
@@ -52,4 +52,4 @@ Set-Alias -Name mythemes -Value Show-CustomThemes -Force -Scope Global
 Set-Alias -Name official-themes -Value Show-OfficialThemes -Force -Scope Global
 
 # Export for use in profile
-Export-ModuleMember -Function Show-AllThemes, Show-CustomThemes, Show-OfficialThemes -Alias themes, mythemes, official-themes
+Export-ModuleMember -Function Show-AllThemes,Show-CustomThemes,Show-OfficialThemes -Alias themes,mythemes,official-themes

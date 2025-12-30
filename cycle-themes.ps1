@@ -1,4 +1,4 @@
-#!/usr/bin/env pwsh
+﻿#!/usr/bin/env pwsh
 # Cycle through all available themes to preview them
 
 param(
@@ -27,24 +27,24 @@ function Show-ThemePreview {
     )
 
     Clear-Host
-    Write-Host '╔════════════════════════════════════════════════════════════╗' -ForegroundColor Cyan
-    Write-Host '║' -ForegroundColor Cyan -NoNewline
-    Write-Host " 🎨 $ThemeName" -ForegroundColor Yellow -NoNewline
+    Write-Output '╔════════════════════════════════════════════════════════════╗' -ForegroundColor Cyan
+    Write-Output '║' -ForegroundColor Cyan -NoNewline
+    Write-Output " 🎨 $ThemeName" -ForegroundColor Yellow -NoNewline
     $padding = 57 - $ThemeName.Length
-    Write-Host "$(' ' * $padding)║" -ForegroundColor Cyan
-    Write-Host '╚════════════════════════════════════════════════════════════╝' -ForegroundColor Cyan
-    Write-Host ''
-    Write-Host 'Loading theme preview... (Press Ctrl+C to stop cycling)' -ForegroundColor Gray
-    Write-Host ''
+    Write-Output "$(' ' * $padding)║" -ForegroundColor Cyan
+    Write-Output '╚════════════════════════════════════════════════════════════╝' -ForegroundColor Cyan
+    Write-Output ''
+    Write-Output 'Loading theme preview... (Press Ctrl+C to stop cycling)' -ForegroundColor Gray
+    Write-Output ''
 
     oh-my-posh init pwsh --config $ThemePath | Invoke-Expression
 
-    Write-Host ''
-    Write-Host '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
-    Write-Host "Theme: $ThemeName" -ForegroundColor Yellow
-    Write-Host "Path:  $ThemePath" -ForegroundColor Gray
-    Write-Host '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
-    Write-Host ''
+    Write-Output ''
+    Write-Output '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
+    Write-Output "Theme: $ThemeName" -ForegroundColor Yellow
+    Write-Output "Path:  $ThemePath" -ForegroundColor Gray
+    Write-Output '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
+    Write-Output ''
 }
 
 if (-not $Official -and -not $Custom) {
@@ -52,27 +52,27 @@ if (-not $Official -and -not $Custom) {
     $Custom = $true
 }
 
-Write-Host "`n🎭 Oh-My-Posh Theme Cycler" -ForegroundColor Green
-Write-Host "📍 This will cycle through all themes for $([int]$Delay)s each" -ForegroundColor Gray
-Write-Host "⏹️  Press Ctrl+C to stop`n" -ForegroundColor Yellow
+Write-Output "`n🎭 Oh-My-Posh Theme Cycler" -ForegroundColor Green
+Write-Output "📍 This will cycle through all themes for $([int]$Delay)s each" -ForegroundColor Gray
+Write-Output "⏹️  Press Ctrl+C to stop`n" -ForegroundColor Yellow
 Start-Sleep -Seconds 2
 
 $themes = @()
 
 if ($Custom) {
-    Write-Host '📦 Loading custom themes...' -ForegroundColor Cyan
+    Write-Output '📦 Loading custom themes...' -ForegroundColor Cyan
     foreach ($theme in $customThemes) {
         if (Test-Path $theme) {
             $themes += @{
                 Path = $theme
-                Name = $theme.Replace('.json', '').Replace('OhMyPosh-Atomic-', '')
+                Name = $theme.Replace('.json','').Replace('OhMyPosh-Atomic-','')
                 Type = 'Custom'
             }
         }
     }
 
     if ($Variants) {
-        Write-Host '🧩 Loading palette variants from theme-family folders...' -ForegroundColor Cyan
+        Write-Output '🧩 Loading palette variants from theme-family folders...' -ForegroundColor Cyan
         $variantGlobs = @(
             'atomic/OhMyPosh-Atomic-Custom.*.json',
             '1_shell/1_shell-Enhanced.omp.*.json',
@@ -93,7 +93,7 @@ if ($Custom) {
 }
 
 if ($Official) {
-    Write-Host '📦 Loading official themes...' -ForegroundColor Cyan
+    Write-Output '📦 Loading official themes...' -ForegroundColor Cyan
     if (Test-Path $officialThemesPath) {
         $officialFiles = Get-ChildItem "$officialThemesPath\*.json" | Sort-Object Name
         foreach ($file in $officialFiles) {
@@ -105,16 +105,16 @@ if ($Official) {
         }
     }
     else {
-        Write-Host '⚠️  Official themes folder not found. Run: git subtree pull --prefix=ohmyposh-official-themes ohmyposh-themes main --squash' -ForegroundColor Yellow
+        Write-Output '⚠️  Official themes folder not found. Run: git subtree pull --prefix=ohmyposh-official-themes ohmyposh-themes main --squash' -ForegroundColor Yellow
     }
 }
 
 if ($themes.Count -eq 0) {
-    Write-Host '❌ No themes found!' -ForegroundColor Red
+    Write-Output '❌ No themes found!' -ForegroundColor Red
     exit 1
 }
 
-Write-Host "✓ Found $($themes.Count) themes`n" -ForegroundColor Green
+Write-Output "✓ Found $($themes.Count) themes`n" -ForegroundColor Green
 Start-Sleep -Seconds 2
 
 $currentIndex = 0
@@ -123,7 +123,7 @@ while ($true) {
     $theme = $themes[$currentIndex]
     Show-ThemePreview -ThemePath $theme.Path -ThemeName "$($theme.Type): $($theme.Name)"
 
-    Write-Host "Next in $Delay seconds... (Showing $($currentIndex + 1) of $($themes.Count))" -ForegroundColor Gray
+    Write-Output "Next in $Delay seconds... (Showing $($currentIndex + 1) of $($themes.Count))" -ForegroundColor Gray
     Start-Sleep -Seconds $Delay
 
     $currentIndex = ($currentIndex + 1) % $themes.Count

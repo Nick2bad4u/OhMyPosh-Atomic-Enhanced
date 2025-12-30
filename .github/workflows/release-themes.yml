@@ -390,28 +390,7 @@ jobs:
                   oh-my-posh init pwsh --config "https://github.com/${REPO}/releases/download/${VERSION}/slimfat-Enhanced.omp.DraculaNight.json" | Invoke-Expression
                   ```
 
-                  **For permanent installation**, add the command to your PowerShell profile:
-                  ```powershell
-                  notepad $PROFILE
-                  ```
-
-                  ---
-
-                  ### 📥 All Theme Files
-
-                  $(cat /tmp/theme-lists/atomic.md)
-
-                  $(cat /tmp/theme-lists/shell.md)
-
-                  $(cat /tmp/theme-lists/slimfat.md)
-
-                  $(cat /tmp/theme-lists/atomicbit.md)
-
-                  $(cat /tmp/theme-lists/clean.md)
-
-                  $(cat /tmp/theme-lists/experimentaldividers.md)
-
-                  ---
+                  **For permanent installation**, add the command to your PowerShell profile: `notepad $PROFILE` and paste the desired `oh-my-posh init` command into the file.
 
                   ### 📖 Documentation
 

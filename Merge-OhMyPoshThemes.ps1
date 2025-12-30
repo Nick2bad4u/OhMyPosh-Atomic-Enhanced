@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Merges Oh My Posh theme styling from official themes into a custom theme structure.
 
@@ -86,7 +86,7 @@ function Get-ColorHue {
         return $null
     }
 
-    return [math]::Round($color.GetHue(), 2)
+    return [math]::Round($color.GetHue(),2)
 }
 
 function Get-ColorBrightness {
@@ -117,16 +117,16 @@ function Get-AdjustedColor {
     }
 
     $adjustComponent = {
-        param($component, $factor)
-        $value = [math]::Max([math]::Min($component + (255 * $factor), 255), 0)
+        param($component,$factor)
+        $value = [math]::Max([math]::Min($component + (255 * $factor),255),0)
         return [int][math]::Round($value)
     }
 
-    $r = &$adjustComponent $color.R $Factor
-    $g = &$adjustComponent $color.G $Factor
-    $b = &$adjustComponent $color.B $Factor
+    $r = & $adjustComponent $color.R $Factor
+    $g = & $adjustComponent $color.G $Factor
+    $b = & $adjustComponent $color.B $Factor
 
-    return "#{0:X2}{1:X2}{2:X2}" -f $r, $g, $b
+    return "#{0:X2}{1:X2}{2:X2}" -f $r,$g,$b
 }
 
 function Get-ContrastColor {
@@ -293,7 +293,7 @@ function Get-OfficialColorPool {
             if (-not $block.segments) { continue }
 
             foreach ($segment in $block.segments) {
-                foreach ($propName in @('background', 'foreground')) {
+                foreach ($propName in @('background','foreground')) {
                     if ($segment.PSObject.Properties.Name -contains $propName) {
                         $resolved = Get-ResolvedColorValue -Value $segment.$propName -Palette $Palette
                         if ($resolved -and -not $colors.Contains($resolved)) {
@@ -302,7 +302,7 @@ function Get-OfficialColorPool {
                     }
                 }
 
-                foreach ($templateProp in @('background_templates', 'foreground_templates', 'template')) {
+                foreach ($templateProp in @('background_templates','foreground_templates','template')) {
                     if (-not ($segment.PSObject.Properties.Name -contains $templateProp)) { continue }
                     $value = $segment.$templateProp
                     if ($null -eq $value) { continue }
@@ -317,14 +317,14 @@ function Get-OfficialColorPool {
 
                     foreach ($item in $strings) {
                         if (-not ($item -is [string])) { continue }
-                        foreach ($match in [regex]::Matches($item, '#[0-9a-fA-F]{6}')) {
+                        foreach ($match in [regex]::Matches($item,'#[0-9a-fA-F]{6}')) {
                             $hex = $match.Value.ToUpper()
                             if (-not $colors.Contains($hex)) {
                                 $null = $colors.Add($hex)
                             }
                         }
 
-                        foreach ($paletteMatch in [regex]::Matches($item, 'p:([A-Za-z0-9_\-]+)')) {
+                        foreach ($paletteMatch in [regex]::Matches($item,'p:([A-Za-z0-9_\-]+)')) {
                             $paletteKey = $paletteMatch.Groups[1].Value
                             if ($Palette -and $Palette.ContainsKey($paletteKey)) {
                                 $paletteColor = $Palette[$paletteKey]
@@ -353,18 +353,18 @@ function Get-ThemePaletteMap {
 
     $palette = @{}
 
-    if (-not $Theme.palette) {
+    if (-not $Theme.Palette) {
         return $palette
     }
 
-    $Theme.palette.PSObject.Properties | ForEach-Object {
+    $Theme.Palette.PSObject.Properties | ForEach-Object {
         $palette[$_.Name] = $_.Value
     }
 
     return $palette
 }
 
-function Get-PrimaryThemeColors {
+function Get-PrimaryThemeColor {
     param(
         [Parameter(Mandatory = $true)]
         [object]$Theme,
@@ -374,12 +374,12 @@ function Get-PrimaryThemeColors {
     )
 
     $colors = @{
-        primary_bg   = $null
-        primary_fg   = $null
+        primary_bg = $null
+        primary_fg = $null
         secondary_bg = $null
         secondary_fg = $null
-        accent_bg    = $null
-        accent_fg    = $null
+        accent_bg = $null
+        accent_fg = $null
     }
 
     $backgroundCandidates = New-Object System.Collections.Generic.List[string]
@@ -513,7 +513,7 @@ function Get-ThemedPalette {
         ($OfficialColors | ForEach-Object { $_.ToUpper() }) | Select-Object -Unique
     }
     else {
-        @('#6272A4', '#BD93F9', '#FF79C6', '#8BE9FD', '#FFB86C', '#F1FA8C')
+        @('#6272A4','#BD93F9','#FF79C6','#8BE9FD','#FFB86C','#F1FA8C')
     }
 
     $availableColors = New-Object System.Collections.Generic.List[string]
@@ -553,7 +553,7 @@ function Get-ThemedPalette {
     $neutralColorDark = if ($primaryBg) { Get-AdjustedColor -Hex $primaryBg -Factor -0.25 } else { '#2B2B2B' }
 
     $getColorByHue = {
-        param($minHue, $maxHue, $fallback)
+        param($minHue,$maxHue,$fallback)
         if ($availableColors.Count -eq 0) {
             return $fallback
         }
@@ -618,17 +618,17 @@ function Get-ThemedPalette {
             switch -Regex ($lower) {
                 'white' { $assigned = '#F8F8F2'; break }
                 'black' { $assigned = '#1C1C1C'; break }
-                'accent|purple|magenta|pink|violet' { $assigned = &$getColorByHue 280 360 $accentBg; break }
+                'accent|purple|magenta|pink|violet' { $assigned = & $getColorByHue 280 360 $accentBg; break }
                 'primary|shell|prompt' { $assigned = $primaryBg; break }
                 '_fg$' { $assigned = $primaryFg; break }
                 'text' { $assigned = $primaryFg; break }
                 'session|secondary' { $assigned = $secondaryBg; break }
-                'yellow|orange|warning|battery|update' { $assigned = &$getColorByHue 20 80 $warningColor; break }
-                'green|success|added|valid' { $assigned = &$getColorByHue 80 150 $successColor; break }
-                'teal|cyan|info|sysinfo|node|python|blue' { $assigned = &$getColorByHue 180 260 $infoColor; break }
-                'red|error|alert|deleted|debug' { $assigned = &$getColorByHue 330 30 $errorColor; break }
+                'yellow|orange|warning|battery|update' { $assigned = & $getColorByHue 20 80 $warningColor; break }
+                'green|success|added|valid' { $assigned = & $getColorByHue 80 150 $successColor; break }
+                'teal|cyan|info|sysinfo|node|python|blue' { $assigned = & $getColorByHue 180 260 $infoColor; break }
+                'red|error|alert|deleted|debug' { $assigned = & $getColorByHue 330 30 $errorColor; break }
                 'gray|grey|prompt_count|path|os' { $assigned = $neutralColorDark; break }
-                default { $assigned = &$getNextAvailable $primaryBg }
+                default { $assigned = & $getNextAvailable $primaryBg }
             }
         }
 
@@ -639,7 +639,7 @@ function Get-ThemedPalette {
 
     foreach ($key in @($converted.Keys)) {
         if ($key -match '_fg$') {
-            $baseKey = $key.Substring(0, $key.Length - 3)
+            $baseKey = $key.Substring(0,$key.Length - 3)
             if ($converted.ContainsKey($baseKey)) {
                 $converted[$key] = Get-ContrastColor -Hex $converted[$baseKey]
             }
@@ -695,7 +695,7 @@ function Write-ThemeFile {
         $json = $Theme | ConvertTo-Json -Depth 100
         # Format the JSON nicely
         $json | Set-Content -Path $Path -Encoding UTF8 -ErrorAction Stop
-        Write-Host "✓ Saved theme to: $Path" -ForegroundColor Green
+        Write-Output "? Saved theme to: $Path" -ForegroundColor Green
         return $true
     }
     catch {
@@ -739,8 +739,8 @@ function Get-SegmentsByType {
         foreach ($block in $Theme.blocks) {
             if ($block.segments) {
                 foreach ($segment in $block.segments) {
-                    if ($segment.type) {
-                        $type = $segment.type
+                    if ($segment.Type) {
+                        $type = $segment.Type
                         if (-not $segmentMap.ContainsKey($type)) {
                             $segmentMap[$type] = @()
                         }
@@ -754,8 +754,8 @@ function Get-SegmentsByType {
     # Also check tooltips
     if ($Theme.tooltips) {
         foreach ($tooltip in $Theme.tooltips) {
-            if ($tooltip.type) {
-                $type = $tooltip.type
+            if ($tooltip.Type) {
+                $type = $tooltip.Type
                 if (-not $segmentMap.ContainsKey($type)) {
                     $segmentMap[$type] = @()
                 }
@@ -839,7 +839,7 @@ function Convert-ColorsToPalette {
     return $Segment
 }
 
-function Add-MissingPromptTypes {
+function Add-MissingPromptType {
     <#
     .SYNOPSIS
         Adds missing prompt types (transient, secondary, debug, valid_line, error_line)
@@ -859,7 +859,7 @@ function Add-MissingPromptTypes {
         [hashtable]$ThemeColors
     )
 
-    $promptTypes = @('transient_prompt', 'secondary_prompt', 'debug_prompt', 'valid_line', 'error_line')
+    $promptTypes = @('transient_prompt','secondary_prompt','debug_prompt','valid_line','error_line')
 
     foreach ($promptType in $promptTypes) {
         if ((-not ($OfficialTheme.PSObject.Properties.Name -contains $promptType)) -and
@@ -879,7 +879,7 @@ function Add-MissingPromptTypes {
     return $MergedTheme
 }
 
-function Set-PromptThemeColors {
+function Set-PromptThemeColor {
     <#
     .SYNOPSIS
         Applies official theme color cues to prompt objects (transient, secondary, debug, etc.)
@@ -922,7 +922,7 @@ function Set-PromptThemeColors {
     return $Prompt
 }
 
-function Merge-Themes {
+function Merge-Theme {
     <#
     .SYNOPSIS
         Main function that merges styling from official theme into custom theme structure
@@ -938,9 +938,9 @@ function Merge-Themes {
         [string]$OfficialThemeName
     )
 
-    Write-Host "`n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Cyan
-    Write-Host "  Merging: $OfficialThemeName" -ForegroundColor Cyan
-    Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`n" -ForegroundColor Cyan
+    Write-Output "`n?????????????????????????????????????????" -ForegroundColor Cyan
+    Write-Output "  Merging: $OfficialThemeName" -ForegroundColor Cyan
+    Write-Output "?????????????????????????????????????????`n" -ForegroundColor Cyan
 
     # Start with a deep copy of the custom theme
     $merged = $CustomTheme | ConvertTo-Json -Depth 100 | ConvertFrom-Json
@@ -948,28 +948,28 @@ function Merge-Themes {
     # Extract palettes and derive themed palette
     $customPalette = Get-ThemePalette -Theme $CustomTheme
     $officialPalette = Get-ThemePalette -Theme $OfficialTheme
-    Write-Host "  • Custom palette entries: $($customPalette.Count)" -ForegroundColor Gray
-    Write-Host "  • Official palette entries: $($officialPalette.Count)" -ForegroundColor Gray
+    Write-Output "  ? Custom palette entries: $($customPalette.Count)" -ForegroundColor Gray
+    Write-Output "  ? Official palette entries: $($officialPalette.Count)" -ForegroundColor Gray
 
     $themeColors = Get-PrimaryThemeColors -Theme $OfficialTheme -Palette $officialPalette
     $officialColorPool = Get-OfficialColorPool -Theme $OfficialTheme -Palette $officialPalette
 
     $convertedPalette = Get-ThemedPalette -CustomPalette $customPalette -OfficialPalette $officialPalette -ThemeColors $themeColors -OfficialColors $officialColorPool
     if ($convertedPalette.Count -gt 0) {
-        $merged.palette = [PSCustomObject]$convertedPalette
-        Write-Host "  ✓ Generated themed palette with $($convertedPalette.Count) colors" -ForegroundColor Green
+        $merged.Palette = [pscustomobject]$convertedPalette
+        Write-Output "  ? Generated themed palette with $($convertedPalette.Count) colors" -ForegroundColor Green
     }
     elseif ($customPalette.Count -gt 0) {
-        $merged.palette = [PSCustomObject]$customPalette
-        Write-Host "  ✓ Preserved custom palette" -ForegroundColor Yellow
+        $merged.Palette = [pscustomobject]$customPalette
+        Write-Output "  ? Preserved custom palette" -ForegroundColor Yellow
     }
 
     # Get segment mappings
     $customSegments = Get-SegmentsByType -Theme $CustomTheme
     $officialSegments = Get-SegmentsByType -Theme $OfficialTheme
 
-    Write-Host "  • Custom theme segments: $($customSegments.Count) types" -ForegroundColor Gray
-    Write-Host "  • Official theme segments: $($officialSegments.Count) types" -ForegroundColor Gray
+    Write-Output "  ? Custom theme segments: $($customSegments.Count) types" -ForegroundColor Gray
+    Write-Output "  ? Official theme segments: $($officialSegments.Count) types" -ForegroundColor Gray
 
     # Process each block in the custom theme
     $blocksProcessed = 0
@@ -978,7 +978,7 @@ function Merge-Themes {
     foreach ($block in $merged.blocks) {
         if ($block.segments) {
             foreach ($segment in $block.segments) {
-                $segmentType = $segment.type
+                $segmentType = $segment.Type
 
                 if ($officialSegments.ContainsKey($segmentType)) {
                     # Found matching segment type in official theme
@@ -988,23 +988,23 @@ function Merge-Themes {
                     $segment = Merge-SegmentStyling -CustomSegment $segment -OfficialSegment $officialSegment -OfficialPalette $officialPalette
                     $segmentsProcessed++
 
-                    Write-Verbose "  • Merged styling for segment: $segmentType"
+                    Write-Verbose "  ? Merged styling for segment: $segmentType"
                 }
                 else {
-                    Write-Verbose "  ○ No official styling for segment: $segmentType (keeping custom)"
+                    Write-Verbose "  ? No official styling for segment: $segmentType (keeping custom)"
                 }
             }
             $blocksProcessed++
         }
     }
 
-    Write-Host "  ✓ Processed $blocksProcessed blocks, $segmentsProcessed segments" -ForegroundColor Green
+    Write-Output "  ? Processed $blocksProcessed blocks, $segmentsProcessed segments" -ForegroundColor Green
 
     # Process tooltips
     if ($merged.tooltips) {
         $tooltipsProcessed = 0
         foreach ($tooltip in $merged.tooltips) {
-            $tooltipType = $tooltip.type
+            $tooltipType = $tooltip.Type
 
             if ($officialSegments.ContainsKey($tooltipType)) {
                 $officialSegment = $officialSegments[$tooltipType][0]
@@ -1012,7 +1012,7 @@ function Merge-Themes {
                 $tooltipsProcessed++
             }
         }
-        Write-Host "  ✓ Processed $tooltipsProcessed tooltips" -ForegroundColor Green
+        Write-Output "  ? Processed $tooltipsProcessed tooltips" -ForegroundColor Green
     }
 
     # Add missing prompt types with themed styling
@@ -1041,7 +1041,7 @@ function Merge-Themes {
         }
     }
 
-    Write-Host "  ✓ Preserved custom settings and structure`n" -ForegroundColor Green
+    Write-Output "  ? Preserved custom settings and structure`n" -ForegroundColor Green
 
     return $merged
 }
@@ -1053,13 +1053,13 @@ function Merge-Themes {
 # Ensure output directory exists
 if (-not (Test-Path $OutputPath)) {
     New-Item -Path $OutputPath -ItemType Directory -Force | Out-Null
-    Write-Host "Created output directory: $OutputPath`n" -ForegroundColor Yellow
+    Write-Output "Created output directory: $OutputPath`n" -ForegroundColor Yellow
 }
 
 # Load custom theme
-Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Magenta
-Write-Host "  Loading Custom Theme" -ForegroundColor Magenta
-Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`n" -ForegroundColor Magenta
+Write-Output "?????????????????????????????????????????" -ForegroundColor Magenta
+Write-Output "  Loading Custom Theme" -ForegroundColor Magenta
+Write-Output "?????????????????????????????????????????`n" -ForegroundColor Magenta
 
 $customTheme = Read-ThemeFile -Path $CustomThemePath
 if ($null -eq $customTheme) {
@@ -1067,7 +1067,7 @@ if ($null -eq $customTheme) {
     exit 1
 }
 
-Write-Host "✓ Loaded custom theme from: $CustomThemePath`n" -ForegroundColor Green
+Write-Output "? Loaded custom theme from: $CustomThemePath`n" -ForegroundColor Green
 
 # Determine which official themes to process
 $officialThemes = @()
@@ -1075,7 +1075,7 @@ $officialThemes = @()
 if ($ProcessAll -and (Test-Path $OfficialThemePath -PathType Container)) {
     # Process all themes in directory
     $officialThemes = Get-ChildItem -Path $OfficialThemePath -Filter "*.omp.json" | Select-Object -ExpandProperty FullName
-    Write-Host "Found $($officialThemes.Count) official themes to process`n" -ForegroundColor Yellow
+    Write-Output "Found $($officialThemes.Count) official themes to process`n" -ForegroundColor Yellow
 }
 elseif (Test-Path $OfficialThemePath -PathType Leaf) {
     # Process single theme file
@@ -1106,7 +1106,7 @@ foreach ($themePath in $officialThemes) {
         $mergedTheme = Merge-Themes -CustomTheme $customTheme -OfficialTheme $officialTheme -OfficialThemeName $themeName
 
         # Generate output filename (remove .omp if it exists in theme name)
-        $cleanThemeName = $themeName -replace '\.omp$', ''
+        $cleanThemeName = $themeName -replace '\.omp$',''
         $outputFileName = "Custom-${cleanThemeName}.omp.json"
         $outputFilePath = Join-Path -Path $OutputPath -ChildPath $outputFileName
 
@@ -1125,14 +1125,14 @@ foreach ($themePath in $officialThemes) {
 }
 
 # Summary
-Write-Host "`n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Magenta
-Write-Host "  Merge Complete!" -ForegroundColor Magenta
-Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`n" -ForegroundColor Magenta
+Write-Output "`n?????????????????????????????????????????" -ForegroundColor Magenta
+Write-Output "  Merge Complete!" -ForegroundColor Magenta
+Write-Output "?????????????????????????????????????????`n" -ForegroundColor Magenta
 
-Write-Host "  ✓ Successfully merged: $successCount theme(s)" -ForegroundColor Green
+Write-Output "  ? Successfully merged: $successCount theme(s)" -ForegroundColor Green
 if ($failCount -gt 0) {
-    Write-Host "  ✗ Failed: $failCount theme(s)" -ForegroundColor Red
+    Write-Output "  ? Failed: $failCount theme(s)" -ForegroundColor Red
 }
-Write-Host "  → Output directory: $OutputPath`n" -ForegroundColor Cyan
+Write-Output "  ? Output directory: $OutputPath`n" -ForegroundColor Cyan
 
 #endregion

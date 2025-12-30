@@ -21,60 +21,60 @@ Path to the Oh My Posh config JSON file. If not provided, defaults to 'OhMyPosh-
 
 # Default value for $ConfigPath is 'OhMyPosh-Atomic-Custom.json'
 param(
-  [string]$ConfigPath = 'OhMyPosh-Atomic-Custom.json'
+    [string]$ConfigPath = 'OhMyPosh-Atomic-Custom.json'
 )
 
 if (-not (Test-Path $ConfigPath)) {
-  Write-Error "Config file not found: $ConfigPath"
-  exit 1
+    Write-Error "Config file not found: $ConfigPath"
+    exit 1
 }
 
 try {
-  $rawContent = Get-Content $ConfigPath -Raw
-  $json = $rawContent | ConvertFrom-Json
+    $rawContent = Get-Content $ConfigPath -Raw
+    $json = $rawContent | ConvertFrom-Json
 }
 catch {
-  Write-Error "Failed to parse JSON in config file: $ConfigPath.`nError details: $($_.Exception.Message)"
-  exit 1
+    Write-Error "Failed to parse JSON in config file: $ConfigPath.`nError details: $($_.Exception.Message)"
+    exit 1
 }
 # Extract all palette keys from the JSON object for comparison
-if ($null -eq $json.palette -or -not ($json.palette -is [PSObject]) -or -not $json.palette.PSObject.Properties) {
-  Write-Error "Palette property is missing or not an object in config file: $ConfigPath"
-  exit 1
+if ($null -eq $json.Palette -or -not ($json.Palette -is [psobject]) -or -not $json.Palette.PSObject.Properties) {
+    Write-Error "Palette property is missing or not an object in config file: $ConfigPath"
+    exit 1
 }
-$palette = $json.palette.PSObject.Properties.Name
+$palette = $json.Palette.PSObject.Properties.Name
 
 # Find all p:<key> references (including inside templates)
-$refs = [regex]::Matches($rawContent, 'p:([a-zA-Z0-9_\-\.]+)') | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique
+$refs = [regex]::Matches($rawContent,'p:([a-zA-Z0-9_\-\.]+)') | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique
 
 $missing = $refs | Where-Object { $_ -notin $palette }
 $unused = $palette | Where-Object { $_ -notin $refs }
 
-Write-Host "Palette keys ($($palette.Count)):" -ForegroundColor Cyan
+Write-Output "Palette keys ($($palette.Count)):" -ForegroundColor Cyan
 $paletteSorted = $palette | Sort-Object
-$paletteSorted | ForEach-Object { Write-Host "  - $_" }
+$paletteSorted | ForEach-Object { Write-Output "  - $_" }
 
-Write-Host "`nReferenced keys ($($refs.Count)):" -ForegroundColor Cyan
+Write-Output "`nReferenced keys ($($refs.Count)):" -ForegroundColor Cyan
 $refsSorted = $refs | Sort-Object
-$refsSorted | ForEach-Object { Write-Host "  - $_" }
+$refsSorted | ForEach-Object { Write-Output "  - $_" }
 
 if ($missing) {
-  Write-Host "`nMissing palette entries (referenced but not defined):" -ForegroundColor Red
-  Write-Host "The following referenced keys are missing from the palette:" -ForegroundColor Red
-  $missingSorted = $missing | Sort-Object
-  $missingSorted | ForEach-Object { Write-Host "  - $_" }
+    Write-Output "`nMissing palette entries (referenced but not defined):" -ForegroundColor Red
+    Write-Output "The following referenced keys are missing from the palette:" -ForegroundColor Red
+    $missingSorted = $missing | Sort-Object
+    $missingSorted | ForEach-Object { Write-Output "  - $_" }
 }
 else {
-  Write-Host "`nNo missing palette entries." -ForegroundColor Green
+    Write-Output "`nNo missing palette entries." -ForegroundColor Green
 }
 
 if ($unused) {
-  Write-Host "`nUnused palette entries (defined but never referenced):" -ForegroundColor Yellow
-  $unusedSorted = $unused | Sort-Object
-  $unusedSorted | ForEach-Object { Write-Host "  - $_" }
+    Write-Output "`nUnused palette entries (defined but never referenced):" -ForegroundColor Yellow
+    $unusedSorted = $unused | Sort-Object
+    $unusedSorted | ForEach-Object { Write-Output "  - $_" }
 }
 else {
-  Write-Host "`nNo unused palette entries." -ForegroundColor Green
+    Write-Output "`nNo unused palette entries." -ForegroundColor Green
 }
 
 # Exit code: 0 if clean, 1 if file not found or JSON parse error, 2 if missing, 3 if unused only
