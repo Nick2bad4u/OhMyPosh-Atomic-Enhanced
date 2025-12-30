@@ -244,7 +244,7 @@ jobs:
                     if [ -f "$file" ]; then
                       base=$(basename "$file")
                       palette=$(echo "$base" | sed 's/OhMyPosh-Atomic-Custom\.\(.*\)\.json/\1/')
-                      echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/atomic.md
+                      echo "- [`$base`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/atomic.md
                     fi
                   done
 
@@ -253,7 +253,7 @@ jobs:
                     if [ -f "$file" ]; then
                       base=$(basename "$file")
                       palette=$(echo "$base" | sed 's/1_shell-Enhanced\.omp\.\(.*\)\.json/\1/')
-                      echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/shell.md
+                      echo "- [`$base`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/shell.md
                     fi
                   done
 
@@ -262,7 +262,7 @@ jobs:
                     if [ -f "$file" ]; then
                       base=$(basename "$file")
                       palette=$(echo "$base" | sed 's/slimfat-Enhanced\.omp\.\(.*\)\.json/\1/')
-                      echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/slimfat.md
+                      echo "- [`$base`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/slimfat.md
                     fi
                   done
 
@@ -271,7 +271,7 @@ jobs:
                     if [ -f "$file" ]; then
                       base=$(basename "$file")
                       palette=$(echo "$base" | sed 's/atomicBit-Enhanced\.omp\.\(.*\)\.json/\1/')
-                      echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/atomicbit.md
+                      echo "- [`$base`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/atomicbit.md
                     fi
                   done
 
@@ -280,7 +280,7 @@ jobs:
                     if [ -f "$file" ]; then
                       base=$(basename "$file")
                       palette=$(echo "$base" | sed 's/clean-detailed-Enhanced\.omp\.\(.*\)\.json/\1/')
-                      echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/clean.md
+                      echo "- [`$base`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/clean.md
                     fi
                   done
 
@@ -292,141 +292,161 @@ jobs:
                         continue
                       fi
                       palette=$(echo "$base" | sed 's/OhMyPosh-Atomic-Custom-ExperimentalDividers\.\(.*\)\.json/\1/')
-                      echo "- [\`$base\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/experimentaldividers.md
+                      echo "- [`$base`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/experimentaldividers.md
                     fi
                   done
 
                   if [ -f "release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json" ]; then
                     echo "" >> /tmp/theme-lists/experimentaldividers.md
                     echo "**No Shell Integration Variant:**" >> /tmp/theme-lists/experimentaldividers.md
-                    echo "- [\`OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json\`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json)" >> /tmp/theme-lists/experimentaldividers.md
+                    echo "- [`OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json)" >> /tmp/theme-lists/experimentaldividers.md
                   fi
+
+            - name: Build release body
+              run: |
+                  set -euo pipefail
+
+                  cat <<EOF > /tmp/release-body.md
+                  ## 🎨 Oh My Posh Theme Collection Release
+
+                  **Release Date:** ${RELEASE_DATE}
+
+                  This release contains **${TOTAL_COUNT}** Oh My Posh theme files across **6 theme families** (24 palettes each), plus a small number of special variants (e.g. NoShellIntegration).
+
+                  ---
+
+                  ## 📝 What's Changed
+
+                  $(cat /tmp/changelog.md)
+
+                  ---
+
+                  ### 📊 Theme Statistics
+
+                  | Theme Family | Variants | Description |
+                  |--------------|----------|-------------|
+                  | 🚀 **Atomic Custom** | ${ATOMIC_COUNT} | Flagship comprehensive theme with all features |
+                  | ✨ **1_shell-Enhanced** | ${SHELL_COUNT} | Single-line sleek theme |
+                  | 🎯 **Slimfat-Enhanced** | ${SLIMFAT_COUNT} | Two-line compact theme |
+                  | 📦 **AtomicBit-Enhanced** | ${ATOMICBIT_COUNT} | Box-style technical theme |
+                  | 🧹 **Clean-Detailed-Enhanced** | ${CLEAN_COUNT} | Minimalist clean theme |
+                  | 🧪 **ExperimentalDividers** | ${EXPDIV_COUNT} | Experimental dividers + transitions variant |
+                  | 🧪 **ExperimentalDividers (NoShellIntegration)** | ${EXPDIV_NOSI_COUNT} | Same theme with shell integration disabled |
+                  | | |
+                  | **Total** | **${TOTAL_COUNT}** | All theme files included |
+
+                  ---
+
+                  ### 🎨 Available Color Palettes
+
+                  All themes are available in these color palettes:
+
+                  **Classic Themes:**
+                  - Original (Vibrant Tech) - Your current bright theme
+                  - Nord Frost - Arctic cool tones
+                  - Gruvbox Dark - Warm retro earth tones
+                  - Dracula Night - Bold purple/pink
+                  - Tokyo Night - Modern neon blues
+                  - Monokai Pro - Classic neon colors
+                  - Solarized Dark - Eye-friendly
+                  - Catppuccin Mocha - Soft pastels
+
+                  **Solid Colors:**
+                  - Forest Ember - Deep greens with amber
+                  - Pink Paradise - Vibrant pink/magenta 💗
+                  - Purple Reign - Royal purples 👑
+                  - Red Alert - Fiery reds/oranges 🔥
+                  - Blue Ocean - Deep ocean blues 🌊
+                  - Green Matrix - Matrix-inspired greens 💚
+                  - Amber Sunset - Warm sunset tones 🌅
+                  - Teal Cyan - Electric teals ⚡
+
+                  **Festive Themes:**
+                  - Rainbow Bright - ROYGBIV celebration 🌈
+                  - Christmas Cheer - Festive holiday colors 🎄
+                  - Halloween Spooky - Spooky theme 🎃
+                  - Easter Pastel - Soft pastel colors 🐰
+
+                  **Dual-Tone Themes:**
+                  - Fire & Ice - Red/orange and blue/cyan ❄️🔥
+                  - Midnight Gold - Navy blue and gold ⭐
+                  - Cherry Mint - Cherry red and mint green 🍒
+                  - Lavender Peach - Lavender and peach 🍑
+
+                  ---
+
+                  ### 🚀 Quick Install
+
+                  To use any theme, run one of these commands:
+
+                  ```powershell
+                  # Example: Atomic Custom with Nord Frost palette
+                  oh-my-posh init pwsh --config "https://github.com/${REPO}/releases/download/${VERSION}/OhMyPosh-Atomic-Custom.NordFrost.json" | Invoke-Expression
+
+                  # Example: 1_shell-Enhanced with Tokyo Night palette
+                  oh-my-posh init pwsh --config "https://github.com/${REPO}/releases/download/${VERSION}/1_shell-Enhanced.omp.TokyoNight.json" | Invoke-Expression
+
+                  # Example: Slimfat-Enhanced with Dracula Night palette
+                  oh-my-posh init pwsh --config "https://github.com/${REPO}/releases/download/${VERSION}/slimfat-Enhanced.omp.DraculaNight.json" | Invoke-Expression
+                  ```
+
+                  **For permanent installation**, add the command to your PowerShell profile:
+                  ```powershell
+                  notepad $PROFILE
+                  ```
+
+                  ---
+
+                  ### 📥 All Theme Files
+
+                  $(cat /tmp/theme-lists/atomic.md)
+
+                  $(cat /tmp/theme-lists/shell.md)
+
+                  $(cat /tmp/theme-lists/slimfat.md)
+
+                  $(cat /tmp/theme-lists/atomicbit.md)
+
+                  $(cat /tmp/theme-lists/clean.md)
+
+                  $(cat /tmp/theme-lists/experimentaldividers.md)
+
+                  ---
+
+                  ### 📖 Documentation
+
+                  For detailed documentation, customization guides, and feature descriptions, visit the [main README](https://github.com/${REPO}/blob/main/README.md).
+
+                  ### 🎨 Preview Gallery
+
+                  Check out the [Theme Gallery](https://github.com/${REPO}#-theme-gallery) in the README to see preview images of all themes.
+
+                  ---
+
+                  **[⭐ Star this repo](https://github.com/${REPO})** if you find these themes useful!
+
+                  _Thank you for using **Oh My Posh Atomic Enhanced**!_
+                  EOF
+              env:
+                  VERSION: ${{ needs.prepare-release.outputs.version }}
+                  RELEASE_DATE: ${{ needs.prepare-release.outputs.release_date }}
+                  TOTAL_COUNT: ${{ steps.count_themes.outputs.total_count }}
+                  ATOMIC_COUNT: ${{ steps.count_themes.outputs.atomic_count }}
+                  SHELL_COUNT: ${{ steps.count_themes.outputs.shell_count }}
+                  SLIMFAT_COUNT: ${{ steps.count_themes.outputs.slimfat_count }}
+                  ATOMICBIT_COUNT: ${{ steps.count_themes.outputs.atomicbit_count }}
+                  CLEAN_COUNT: ${{ steps.count_themes.outputs.clean_count }}
+                  EXPDIV_COUNT: ${{ steps.count_themes.outputs.expdiv_count }}
+                  EXPDIV_NOSI_COUNT: ${{ steps.count_themes.outputs.expdiv_nosi_count }}
+                  STARSHIP_COUNT: ${{ steps.count_themes.outputs.starship_count }}
+                  REPO: ${{ github.repository }}
 
             - name: Create release with theme files
               uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
               with:
                   tag_name: ${{ needs.prepare-release.outputs.version }}
                   name: Oh My Posh Atomic Enhanced ${{ needs.prepare-release.outputs.version }}
-                  body: |
-                      ## 🎨 Oh My Posh Theme Collection Release
-
-                      **Release Date:** ${{ needs.prepare-release.outputs.release_date }}
-
-                      This release contains **${{ steps.count_themes.outputs.total_count }}** Oh My Posh theme files across **6 theme families** (24 palettes each), plus a small number of special variants (e.g. NoShellIntegration).
-
-                      ---
-
-                      ## 📝 What's Changed
-
-                      $(cat /tmp/changelog.md)
-
-                      ---
-
-                      ### 📊 Theme Statistics
-
-                      | Theme Family | Variants | Description |
-                      |--------------|----------|-------------|
-                      | 🚀 **Atomic Custom** | ${{ steps.count_themes.outputs.atomic_count }} | Flagship comprehensive theme with all features |
-                      | ✨ **1_shell-Enhanced** | ${{ steps.count_themes.outputs.shell_count }} | Single-line sleek theme |
-                      | 🎯 **Slimfat-Enhanced** | ${{ steps.count_themes.outputs.slimfat_count }} | Two-line compact theme |
-                      | 📦 **AtomicBit-Enhanced** | ${{ steps.count_themes.outputs.atomicbit_count }} | Box-style technical theme |
-                      | 🧹 **Clean-Detailed-Enhanced** | ${{ steps.count_themes.outputs.clean_count }} | Minimalist clean theme |
-                      | 🧪 **ExperimentalDividers** | ${{ steps.count_themes.outputs.expdiv_count }} | Experimental dividers + transitions variant |
-                      | 🧪 **ExperimentalDividers (NoShellIntegration)** | ${{ steps.count_themes.outputs.expdiv_nosi_count }} | Same theme with shell integration disabled |
-                      | | |
-                      | **Total** | **${{ steps.count_themes.outputs.total_count }}** | All theme files included |
-
-                      ---
-
-                      ### 🎨 Available Color Palettes
-
-                      All themes are available in these color palettes:
-
-                      **Classic Themes:**
-                      - Original (Vibrant Tech) - Your current bright theme
-                      - Nord Frost - Arctic cool tones
-                      - Gruvbox Dark - Warm retro earth tones
-                      - Dracula Night - Bold purple/pink
-                      - Tokyo Night - Modern neon blues
-                      - Monokai Pro - Classic neon colors
-                      - Solarized Dark - Eye-friendly
-                      - Catppuccin Mocha - Soft pastels
-
-                      **Solid Colors:**
-                      - Forest Ember - Deep greens with amber
-                      - Pink Paradise - Vibrant pink/magenta 💗
-                      - Purple Reign - Royal purples 👑
-                      - Red Alert - Fiery reds/oranges 🔥
-                      - Blue Ocean - Deep ocean blues 🌊
-                      - Green Matrix - Matrix-inspired greens 💚
-                      - Amber Sunset - Warm sunset tones 🌅
-                      - Teal Cyan - Electric teals ⚡
-
-                      **Festive Themes:**
-                      - Rainbow Bright - ROYGBIV celebration 🌈
-                      - Christmas Cheer - Festive holiday colors 🎄
-                      - Halloween Spooky - Spooky theme 🎃
-                      - Easter Pastel - Soft pastel colors 🐰
-
-                      **Dual-Tone Themes:**
-                      - Fire & Ice - Red/orange and blue/cyan ❄️🔥
-                      - Midnight Gold - Navy blue and gold ⭐
-                      - Cherry Mint - Cherry red and mint green 🍒
-                      - Lavender Peach - Lavender and peach 🍑
-
-                      ---
-
-                      ### 🚀 Quick Install
-
-                      To use any theme, run one of these commands:
-
-                      ```powershell
-                      # Example: Atomic Custom with Nord Frost palette
-                      oh-my-posh init pwsh --config "https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/OhMyPosh-Atomic-Custom.NordFrost.json" | Invoke-Expression
-
-                      # Example: 1_shell-Enhanced with Tokyo Night palette
-                      oh-my-posh init pwsh --config "https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/1_shell-Enhanced.omp.TokyoNight.json" | Invoke-Expression
-
-                      # Example: Slimfat-Enhanced with Dracula Night palette
-                      oh-my-posh init pwsh --config "https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/slimfat-Enhanced.omp.DraculaNight.json" | Invoke-Expression
-                      ```
-
-                      **For permanent installation**, add the command to your PowerShell profile:
-                      ```powershell
-                      notepad $PROFILE
-                      ```
-
-                      ---
-
-                      ### 📥 All Theme Files
-
-                      $(cat /tmp/theme-lists/atomic.md)
-
-                      $(cat /tmp/theme-lists/shell.md)
-
-                      $(cat /tmp/theme-lists/slimfat.md)
-
-                      $(cat /tmp/theme-lists/atomicbit.md)
-
-                      $(cat /tmp/theme-lists/clean.md)
-
-                      $(cat /tmp/theme-lists/experimentaldividers.md)
-
-                      ---
-
-                      ### 📖 Documentation
-
-                      For detailed documentation, customization guides, and feature descriptions, visit the [main README](https://github.com/${{ github.repository }}/blob/main/README.md).
-
-                      ### 🎨 Preview Gallery
-
-                      Check out the [Theme Gallery](https://github.com/${{ github.repository }}#-theme-gallery) in the README to see preview images of all themes.
-
-                      ---
-
-                      **[⭐ Star this repo](https://github.com/${{ github.repository }})** if you find these themes useful!
-
-                      _Thank you for using **Oh My Posh Atomic Enhanced**!_
+                  body_path: /tmp/release-body.md
                   files: |
                       release-assets/*
                   draft: false
