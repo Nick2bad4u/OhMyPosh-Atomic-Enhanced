@@ -1054,7 +1054,9 @@
         "yellow_root_alt": "#ffff66",
         "yellow_update": "#FFD664",
         "zod_blue": "#3068b7",
-        "zustand_purple": "#9b59d0"
+        "zustand_purple": "#9b59d0",
+        "spotify_green": "#1DB954",
+        "youtube_music_red": "#cc181e"
     },
     "palettes": {},
     "patch_pwsh_bleed": true,
@@ -1068,12 +1070,75 @@
     "terminal_background": "p:black",
     "tooltips": [
         {
+            "background": "p:youtube_music_red",
+            "foreground": "p:black",
+            "options": {
+                "playing_icon": " ",
+                "paused_icon": " ",
+                "stopped_icon": " ",
+                "ad_icon": " ",
+                "http_timeout": 1000
+            },
+            "style": "diamond",
+            "template": "<b> {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ .Artist }} - {{ .Track }}{{ end }}</b>",
+            "type": "ytm",
+            "cache": {
+                "duration": "2m",
+                "strategy": "session"
+            },
+            "alias": "ytm-tooltip",
+            "leading_diamond": "",
+            "trailing_diamond": "",
+            "tips": [
+                "youtube music",
+                "ytm",
+                "music",
+                "now playing",
+                "scrobbling",
+                "song",
+                "listening",
+                "track"
+            ]
+        },
+        {
+            "background": "p:spotify_green",
+            "foreground": "p:black",
+            "options": {
+                "playing_icon": " ",
+                "paused_icon": " ",
+                "stopped_icon": " "
+            },
+            "style": "diamond",
+            "template": "<b> {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ .Artist }} - {{ .Track }}{{ end }}</b>",
+            "type": "spotify",
+            "cache": {
+                "duration": "2m",
+                "strategy": "session"
+            },
+            "alias": "spotify-tooltip",
+            "leading_diamond": "",
+            "trailing_diamond": "",
+            "tips": [
+                "spotify",
+                "music",
+                "now playing",
+                "scrobbling",
+                "song",
+                "listening",
+                "track"
+            ]
+        },
+        {
             "background": "p:lastfm_red",
             "foreground": "p:black",
             "options": {
-                "api_key": "",
-                "username": "",
+                "api_key": "YOUR_LASTFM_API_KEY",
+                "username": "YOUR_LASTFM_USERNAME",
                 "http_timeout": 1500
+            },
+            "cache": {
+                "duration": "2m",
+                "strategy": "session"
             },
             "style": "diamond",
             "template": "<b> {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ substr 0 45 .Full }}{{ end }}</b>",
