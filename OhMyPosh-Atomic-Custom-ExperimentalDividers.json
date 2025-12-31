@@ -668,12 +668,32 @@
                     "type": "java"
                 },
                 {
+                    "alias": "winget-rprompt",
+                    "background": "p:winget_primary",
+                    "background_templates": [
+                        "{{ if eq .UpdateCount 0 }}p:winget_success{{ end }}",
+                        "{{ if and (gt .UpdateCount 0) (lt .UpdateCount 10) }}p:winget_warning{{ end }}",
+                        "{{ if ge .UpdateCount 10 }}p:winget_error{{ end }}"
+                    ],
+                    "foreground": "p:gray_os_fg",
+                    "cache": {
+                        "duration": "4h",
+                        "strategy": "session"
+                    },
+                    "templates_logic": "first_match",
+                    "invert_powerline": false,
+                    "leading_diamond": "",
+                    "min_width": 80,
+                    "style": "diamond",
+                    "template": "<b>  Winget Updates:  {{ .UpdateCount }} </b>",
+                    "timeout": 1000,
+                    "trailing_diamond": "",
+                    "type": "winget"
+                },
+                {
                     "alias": "upgrade-rprompt",
                     "background": "p:yellow_update",
                     "foreground": "p:gray_os_fg",
-                    "include_folders": [
-                        "C:\\Users\\Nick"
-                    ],
                     "invert_powerline": false,
                     "leading_diamond": "",
                     "min_width": 80,
@@ -681,7 +701,7 @@
                         "cache_duration": "24h"
                     },
                     "style": "diamond",
-                    "template": "<b> Current: {{ .Current }}  Latest: {{ .Latest }}</b>",
+                    "template": "<b>  OMP Upgrade:  Current: {{ .Current }}  Latest: {{ .Latest }}</b>",
                     "timeout": 1000,
                     "trailing_diamond": "",
                     "type": "upgrade"
@@ -994,6 +1014,7 @@
         "prettier_yellow": "#f3df49",
         "purple_ahead": "#C792EA",
         "purple_behind": "#82AAFF",
+        "lastfm_red": "#cf1e17",
         "purple_exec": "#83769c",
         "purple_session": "#7C4DFF",
         "python_blue": "#306998",
@@ -1022,6 +1043,10 @@
         "vitest_green": "#729b1b",
         "white": "#ffffff",
         "windows_blue": "#0078D4",
+        "winget_error": "#ff4444",
+        "winget_primary": "#0078D4",
+        "winget_success": "#00cc44",
+        "winget_warning": "#ffaa00",
         "yellow_bright": "#FFFB38",
         "yellow_discharging": "#fff34e",
         "yellow_git_changed": "#ffeb95",
@@ -1042,6 +1067,31 @@
     "shell_integration": true,
     "terminal_background": "p:black",
     "tooltips": [
+        {
+            "background": "p:lastfm_red",
+            "foreground": "p:black",
+            "options": {
+                "api_key": "",
+                "username": "",
+                "http_timeout": 1500
+            },
+            "style": "diamond",
+            "template": "<b> {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ substr 0 45 .Full }}{{ end }}</b>",
+            "type": "lastfm",
+            "alias": "lastfm-tooltip",
+            "leading_diamond": "",
+            "trailing_diamond": "",
+            "tips": [
+                "lastfm",
+                "music",
+                "now playing",
+                "scrobbling",
+                "last.fm",
+                "song",
+                "listening",
+                "track"
+            ]
+        },
         {
             "alias": "react-tooltip",
             "background": "p:react_cyan",

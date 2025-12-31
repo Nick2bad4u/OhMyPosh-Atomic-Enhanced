@@ -7,8 +7,17 @@
             "invalidColor": "blue"
         },
         "testDurations": {
-            "valid": ["1h", "5m", "30s", "24h"],
-            "invalid": ["1hour", "5mins", "forever"]
+            "valid": [
+                "1h",
+                "5m",
+                "30s",
+                "24h"
+            ],
+            "invalid": [
+                "1hour",
+                "5mins",
+                "forever"
+            ]
         }
     },
     "testHelpers": {
@@ -41,18 +50,21 @@
             "assertions": [
                 {
                     "property": "version",
-                    "expectedValue": [3, 4],
+                    "expectedValue": [
+                        3,
+                        4
+                    ],
                     "assertionType": "equals"
                 }
             ]
         },
         {
             "testName": "Accent Color Validation",
-            "description": "Verify accent color is a valid hex color",
+            "description": "Verify accent color is a valid hex color or palette reference",
             "assertions": [
                 {
                     "property": "accent_color",
-                    "expectedValue": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+                    "expectedValue": "^(#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})|p:[a-z0-9_]+)$",
                     "assertionType": "regex"
                 }
             ]
@@ -285,12 +297,18 @@
                 },
                 {
                     "property": "upgrade.interval",
-                    "expectedValue": ["24h", "4h"],
+                    "expectedValue": [
+                        "24h",
+                        "4h"
+                    ],
                     "assertionType": "equals"
                 },
                 {
                     "property": "upgrade.source",
-                    "expectedValue": ["github", "cdn"],
+                    "expectedValue": [
+                        "github",
+                        "cdn"
+                    ],
                     "assertionType": "equals"
                 }
             ]
