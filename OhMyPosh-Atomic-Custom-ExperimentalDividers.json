@@ -1056,7 +1056,11 @@
         "zod_blue": "#3068b7",
         "zustand_purple": "#9b59d0",
         "spotify_green": "#1DB954",
-        "youtube_music_red": "#cc181e"
+        "youtube_music_red": "#cc181e",
+        "strava_orange": "#fc4c02",
+        "strava_activity_green": "#28a745",
+        "strava_activity_red": "#dc3545",
+        "strava_activity_orange": "#fc4c02"
     },
     "palettes": {},
     "patch_pwsh_bleed": true,
@@ -1069,6 +1073,48 @@
     "shell_integration": true,
     "terminal_background": "p:black",
     "tooltips": [
+        {
+            "background": "p:strava_orange",
+            "foreground": "p:black",
+            "options": {
+                "access_token": "YOUR_STRAVA_ACCESS_TOKEN",
+                "refresh_token": "YOUR_STRAVA_REFRESH_TOKEN",
+                "expires_in": 21600,
+                "http_timeout": 1500,
+                "ride_icon": "",
+                "run_icon": "",
+                "skiing_icon": "",
+                "unknown_activity_icon": "",
+                "workout_icon": ""
+            },
+            "background_templates": [
+                "{{ if gt .Hours 100 }}p:strava_activity_red{{ end }}",
+                "{{ if and (lt .Hours 100) (gt .Hours 50) }}p:strava_activity_orange{{ end }}",
+                "{{ if lt .Hours 50 }}p:strava_activity_green{{ end }}"
+            ],
+            "style": "diamond",
+            "template": "<b> {{ if .Error }}{{ .Error }}{{ else }}{{ .Ago }}{{ end }} </b>",
+            "type": "strava",
+            "cache": {
+                "duration": "30m",
+                "strategy": "session"
+            },
+            "alias": "strava-tooltip",
+            "leading_diamond": "",
+            "trailing_diamond": "",
+            "tips": [
+                "strava",
+                "activity",
+                "workout",
+                "ride",
+                "run",
+                "skiing",
+                "unknown activity",
+                "cycling",
+                "hiking",
+                "cycle"
+            ]
+        },
         {
             "background": "p:youtube_music_red",
             "foreground": "p:black",
