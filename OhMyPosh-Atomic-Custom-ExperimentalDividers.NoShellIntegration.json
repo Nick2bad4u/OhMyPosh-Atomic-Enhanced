@@ -675,17 +675,17 @@
             "{{ if and (gt .UpdateCount 0) (lt .UpdateCount 10) }}p:winget_warning{{ end }}",
             "{{ if ge .UpdateCount 10 }}p:winget_error{{ end }}"
           ],
-          "foreground": "p:gray_os_fg",
           "cache": {
             "duration": "4h",
             "strategy": "session"
           },
-          "templates_logic": "first_match",
+          "foreground": "p:gray_os_fg",
           "invert_powerline": false,
           "leading_diamond": "",
           "min_width": 80,
           "style": "diamond",
-          "template": "<b>  Winget Updates:  {{ .UpdateCount }} </b>",
+          "template": "<b>  Winget  {{ .UpdateCount }} </b>",
+          "templates_logic": "first_match",
           "timeout": 1000,
           "trailing_diamond": "",
           "type": "winget"
@@ -701,7 +701,7 @@
             "cache_duration": "24h"
           },
           "style": "diamond",
-          "template": "<b>  OMP Upgrade:  Current: {{ .Current }}  Latest: {{ .Latest }}</b>",
+          "template": "<b>  OMP  {{ .Current }} 󰁔 {{ .Latest }} </b>",
           "timeout": 1000,
           "trailing_diamond": "",
           "type": "upgrade"
@@ -859,7 +859,7 @@
     "foreground_templates": [
       "{{ if eq .LogLevel \"DEBUG\" }}p:black{{ end }}"
     ],
-    "template": "</><p:purple_session,transparent></><p:black,p:purple_session>  DEBUG </><p:purple_session,transparent></>"
+    "template": "</><b><p:purple_session,transparent></><p:black,p:purple_session>  DEBUG </><p:purple_session,transparent></b></>"
   },
   "enable_cursor_positioning": true,
   "error_line": {
@@ -905,11 +905,19 @@
   },
   "palette": {
     "accent": "#21c7c7",
+    "aws_tooltip_bg": "#FF9900",
+    "aws_tooltip_fg": "#000000",
+    "az_tooltip_bg": "#0078D4",
+    "az_tooltip_fg": "#ffffff",
     "black": "#000000",
     "blue_primary": "#0077c2",
     "blue_time": "#40c4ff",
     "blue_tooltip": "#81a1c1",
+    "bun_tooltip_bg": "#111827",
+    "bun_tooltip_fg": "#FBBF24",
     "chart_teal": "#47a1ad",
+    "claude_tooltip_bg": "#FF6B35",
+    "claude_tooltip_fg": "#ffffff",
     "copilot_bg": "#501DAF",
     "cyan_renamed": "#00ffff",
     "cycle_apricot": "#F8B195",
@@ -953,6 +961,8 @@
     "cycle_swamp": "#04201F",
     "cycle_violet": "#110011",
     "cycle_watermelon": "#F67280",
+    "deno_tooltip_bg": "#3C82F6",
+    "deno_tooltip_fg": "#ffffff",
     "divider_accent": "#21c7c7",
     "divider_blue_primary_to_red_alert": "#786589",
     "divider_blue_primary_to_tooling_purple": "#617ed9",
@@ -979,7 +989,11 @@
     "divider_typescript_eslint_pink_to_orange": "#f26379",
     "divider_violet_project": "#8A2BE2",
     "divider_yellow_bright_to_navy_text": "#808830",
+    "docker_tooltip_bg": "#0B59E7",
+    "docker_tooltip_fg": "#ffffff",
     "electron_red": "#f56040",
+    "gcp_tooltip_bg": "#4285F4",
+    "gcp_tooltip_fg": "#ffffff",
     "gray_os": "#b2bec3",
     "gray_os_fg": "#222222",
     "gray_path_fg": "#2d3436",
@@ -996,9 +1010,12 @@
     "ipify_purple_v6": "#e486f1",
     "java_blue": "#4063D8",
     "java_orange": "#F89820",
+    "lastfm_red": "#cf1e17",
     "magenta": "#FF00FF",
     "maroon_error": "#890000",
     "navy_text": "#011627",
+    "nba_det_pistons_blue": "#1D428A",
+    "nba_det_pistons_red": "#C8102E",
     "node_green": "#6CA35E",
     "npm_dark": "#193549",
     "npm_yellow": "#ffeb3b",
@@ -1010,10 +1027,11 @@
     "pink_storybook": "#ff4785",
     "pink_weather": "#e797e7",
     "playwright_teal": "#47848f",
+    "pnpm_tooltip_bg": "#F9AD00",
+    "pnpm_tooltip_fg": "#000000",
     "prettier_yellow": "#f3df49",
     "purple_ahead": "#C792EA",
     "purple_behind": "#82AAFF",
-    "lastfm_red": "#cf1e17",
     "purple_exec": "#83769c",
     "purple_session": "#7C4DFF",
     "python_blue": "#306998",
@@ -1032,7 +1050,14 @@
     "shell_ubuntu_orange": "#E95420",
     "shell_xonsh_yellow": "#ceaa34",
     "shell_zsh_orange": "#F15A24",
+    "spotify_green": "#1DB954",
+    "strava_activity_green": "#28a745",
+    "strava_activity_orange": "#fc4c02",
+    "strava_activity_red": "#dc3545",
+    "strava_orange": "#fc4c02",
     "tailwind_cyan": "#06b6d4",
+    "tauri_tooltip_bg": "#1976D2",
+    "tauri_tooltip_fg": "#ffffff",
     "teal_sysinfo": "#437683",
     "tooling_purple": "#c386f1",
     "tooling_yellow": "#f7b93e",
@@ -1046,20 +1071,17 @@
     "winget_primary": "#0078D4",
     "winget_success": "#00cc44",
     "winget_warning": "#ffaa00",
+    "yarn_tooltip_bg": "#2E2A65",
+    "yarn_tooltip_fg": "#ffffff",
     "yellow_bright": "#FFFB38",
     "yellow_discharging": "#fff34e",
     "yellow_git_changed": "#ffeb95",
     "yellow_modified": "#ffff00",
     "yellow_root_alt": "#ffff66",
     "yellow_update": "#FFD664",
-    "zod_blue": "#3068b7",
-    "zustand_purple": "#9b59d0",
-    "spotify_green": "#1DB954",
     "youtube_music_red": "#cc181e",
-    "strava_orange": "#fc4c02",
-    "strava_activity_green": "#28a745",
-    "strava_activity_red": "#dc3545",
-    "strava_activity_orange": "#fc4c02"
+    "zod_blue": "#3068b7",
+    "zustand_purple": "#9b59d0"
   },
   "palettes": {},
   "patch_pwsh_bleed": true,
@@ -1073,34 +1095,65 @@
   "terminal_background": "p:black",
   "tooltips": [
     {
+      "alias": "nba-tooltip",
+      "background": "p:nba_det_pistons_blue",
+      "cache": {
+        "duration": "10m",
+        "strategy": "session"
+      },
+      "foreground": "p:nba_det_pistons_red",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "http_timeout": 1500,
+        "team": "DET"
+      },
+      "style": "diamond",
+      "template": "<b> {{ .HomeTeam}}{{ if .HasStats }} ({{.HomeTeamWins}}-{{.HomeTeamLosses}}){{ end }}{{ if .Started }}:{{.HomeScore}}{{ end }} vs {{ .AwayTeam}}{{ if .HasStats }} ({{.AwayTeamWins}}-{{.AwayTeamLosses}}){{ end }}{{ if .Started }}:{{.AwayScore}}{{ end }} | {{ if not .Started }}{{.GameDate}} | {{ end }}{{.Time}}</b>",
+      "tips": [
+        "nba",
+        "game",
+        "score",
+        "team",
+        "home team",
+        "away team",
+        "home score",
+        "away score",
+        "game date",
+        "DET",
+        "Pistons"
+      ],
+      "trailing_diamond": "",
+      "type": "nba"
+    },
+    {
+      "alias": "strava-tooltip",
       "background": "p:strava_orange",
+      "background_templates": [
+        "{{ if gt .Hours 100 }}p:strava_activity_red{{ end }}",
+        "{{ if and (lt .Hours 100) (gt .Hours 50) }}p:strava_activity_orange{{ end }}",
+        "{{ if lt .Hours 50 }}p:strava_activity_green{{ end }}"
+      ],
+      "cache": {
+        "duration": "30m",
+        "strategy": "session"
+      },
       "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
       "options": {
         "access_token": "YOUR_STRAVA_ACCESS_TOKEN",
-        "refresh_token": "YOUR_STRAVA_REFRESH_TOKEN",
         "expires_in": 21600,
         "http_timeout": 1500,
+        "refresh_token": "YOUR_STRAVA_REFRESH_TOKEN",
         "ride_icon": "",
         "run_icon": "",
         "skiing_icon": "",
         "unknown_activity_icon": "",
         "workout_icon": ""
       },
-      "background_templates": [
-        "{{ if gt .Hours 100 }}p:strava_activity_red{{ end }}",
-        "{{ if and (lt .Hours 100) (gt .Hours 50) }}p:strava_activity_orange{{ end }}",
-        "{{ if lt .Hours 50 }}p:strava_activity_green{{ end }}"
-      ],
       "style": "diamond",
       "template": "<b> {{ if .Error }}{{ .Error }}{{ else }}{{ .Ago }}{{ end }} </b>",
-      "type": "strava",
-      "cache": {
-        "duration": "30m",
-        "strategy": "session"
-      },
-      "alias": "strava-tooltip",
-      "leading_diamond": "",
-      "trailing_diamond": "",
       "tips": [
         "strava",
         "activity",
@@ -1112,28 +1165,29 @@
         "cycling",
         "hiking",
         "cycle"
-      ]
+      ],
+      "trailing_diamond": "",
+      "type": "strava"
     },
     {
+      "alias": "ytm-tooltip",
       "background": "p:youtube_music_red",
-      "foreground": "p:black",
-      "options": {
-        "playing_icon": " ",
-        "paused_icon": " ",
-        "stopped_icon": " ",
-        "ad_icon": " ",
-        "http_timeout": 1000
-      },
-      "style": "diamond",
-      "template": "<b> {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ .Artist }} - {{ .Track }}{{ end }}</b>",
-      "type": "ytm",
       "cache": {
         "duration": "2m",
         "strategy": "session"
       },
-      "alias": "ytm-tooltip",
+      "foreground": "p:black",
       "leading_diamond": "",
-      "trailing_diamond": "",
+      "min_width": 80,
+      "options": {
+        "ad_icon": " ",
+        "http_timeout": 1000,
+        "paused_icon": " ",
+        "playing_icon": " ",
+        "stopped_icon": " "
+      },
+      "style": "diamond",
+      "template": "<b> {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ .Artist }} - {{ .Track }}{{ end }}</b>",
       "tips": [
         "youtube music",
         "ytm",
@@ -1143,26 +1197,27 @@
         "song",
         "listening",
         "track"
-      ]
+      ],
+      "trailing_diamond": "",
+      "type": "ytm"
     },
     {
+      "alias": "spotify-tooltip",
       "background": "p:spotify_green",
-      "foreground": "p:black",
-      "options": {
-        "playing_icon": " ",
-        "paused_icon": " ",
-        "stopped_icon": " "
-      },
-      "style": "diamond",
-      "template": "<b> {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ .Artist }} - {{ .Track }}{{ end }}</b>",
-      "type": "spotify",
       "cache": {
         "duration": "2m",
         "strategy": "session"
       },
-      "alias": "spotify-tooltip",
+      "foreground": "p:black",
       "leading_diamond": "",
-      "trailing_diamond": "",
+      "min_width": 80,
+      "options": {
+        "paused_icon": " ",
+        "playing_icon": " ",
+        "stopped_icon": " "
+      },
+      "style": "diamond",
+      "template": "<b> {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ .Artist }} - {{ .Track }}{{ end }}</b>",
       "tips": [
         "spotify",
         "music",
@@ -1171,26 +1226,27 @@
         "song",
         "listening",
         "track"
-      ]
+      ],
+      "trailing_diamond": "",
+      "type": "spotify"
     },
     {
+      "alias": "lastfm-tooltip",
       "background": "p:lastfm_red",
-      "foreground": "p:black",
-      "options": {
-        "api_key": "YOUR_LASTFM_API_KEY",
-        "username": "YOUR_LASTFM_USERNAME",
-        "http_timeout": 1500
-      },
       "cache": {
         "duration": "2m",
         "strategy": "session"
       },
+      "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "api_key": "YOUR_LASTFM_API_KEY",
+        "http_timeout": 1500,
+        "username": "YOUR_LASTFM_USERNAME"
+      },
       "style": "diamond",
       "template": "<b> {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ substr 0 45 .Full }}{{ end }}</b>",
-      "type": "lastfm",
-      "alias": "lastfm-tooltip",
-      "leading_diamond": "",
-      "trailing_diamond": "",
       "tips": [
         "lastfm",
         "music",
@@ -1200,7 +1256,9 @@
         "song",
         "listening",
         "track"
-      ]
+      ],
+      "trailing_diamond": "",
+      "type": "lastfm"
     },
     {
       "alias": "react-tooltip",
@@ -1760,7 +1818,7 @@
       "min_width": 80,
       "options": {
         "cache_duration": "24h",
-        "display_mode": "context",
+        "display_mode": "always",
         "extensions": [
           "ts",
           "tsx",
@@ -1883,18 +1941,28 @@
       "alias": "python-folder-tooltip",
       "background": "p:python_blue",
       "cache": {
-        "duration": "1h",
+        "duration": "24h",
         "strategy": "folder"
       },
       "foreground": "p:python_yellow",
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "display_mode": "files",
-        "fetch_version": true
+        "cache_duration": "24h",
+        "default_venv_names": [
+          ".venv",
+          "venv"
+        ],
+        "display_default": true,
+        "display_mode": "always",
+        "fetch_version": true,
+        "fetch_virtual_env": true,
+        "folder_name_fallback": true,
+        "home_enabled": true,
+        "missing_command_text": ""
       },
       "style": "diamond",
-      "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }} {{ .Venv }} {{ end }}{{ .Full }}{{ end }} ",
+      "template": "  Python {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }} {{ .Venv }} {{ end }}{{ .Full }}{{ end }} ",
       "timeout": 1000,
       "tips": [
         "python",
@@ -1918,11 +1986,15 @@
       "min_width": 80,
       "options": {
         "cache": {
-          "duration": "1h",
+          "duration": "24h",
           "strategy": "folder"
         },
+        "cache_duration": "24h",
+        "display_mode": "always",
         "fetch_package_manager": true,
-        "fetch_version": true
+        "fetch_version": true,
+        "home_enabled": true,
+        "missing_command_text": ""
       },
       "style": "diamond",
       "template": " {{ if .Segments.npm-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}</b>{{ end }} ",
@@ -1951,7 +2023,11 @@
           "duration": "24h",
           "strategy": "folder"
         },
-        "fetch_version": true
+        "cache_duration": "24h",
+        "display_mode": "always",
+        "fetch_version": true,
+        "home_enabled": true,
+        "missing_command_text": ""
       },
       "style": "diamond",
       "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
@@ -1971,7 +2047,7 @@
       "alias": "folder-tooltip",
       "background": "p:cycle_deep_navy",
       "cache": {
-        "duration": "1h",
+        "duration": "infinite",
         "strategy": "folder"
       },
       "foreground": "p:cycle_aqua",
@@ -2321,6 +2397,9 @@
       "foreground": "p:white",
       "leading_diamond": "",
       "min_width": 80,
+      "options": {
+        "ssh_icon": ""
+      },
       "style": "diamond",
       "template": " {{ if .SSHSession }} SSH: {{ end }}{{ .UserName }}@{{ .HostName }} ",
       "timeout": 1000,
@@ -2371,6 +2450,9 @@
       },
       "foreground": "p:black",
       "leading_diamond": "",
+      "options": {
+        "unit": "Mbps"
+      },
       "min_width": 80,
       "style": "diamond",
       "template": "<b>  {{ .Name }} </b>",
@@ -2500,6 +2582,342 @@
       ],
       "trailing_diamond": "",
       "type": "text"
+    },
+    {
+      "alias": "az-tooltip",
+      "background": "p:az_tooltip_bg",
+      "cache": {
+        "duration": "30m",
+        "strategy": "session"
+      },
+      "foreground": "p:az_tooltip_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "source": "pwsh"
+      },
+      "style": "diamond",
+      "template": " <b> Azure: {{ if .Name }}{{ .Name }}{{ else }}{{ .EnvironmentName }}{{ end }}{{ if .TenantDisplayName }} | {{ .TenantDisplayName }}{{ end }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "az",
+        "azure",
+        "azure cli",
+        "az login",
+        "az logout",
+        "az account",
+        "az subscription",
+        "az group",
+        "az keyvault",
+        "tenant",
+        "subscription"
+      ],
+      "trailing_diamond": "",
+      "type": "az"
+    },
+    {
+      "alias": "aws-tooltip",
+      "background": "p:aws_tooltip_bg",
+      "cache": {
+        "duration": "10m",
+        "strategy": "session"
+      },
+      "foreground": "p:aws_tooltip_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "display_default": true
+      },
+      "style": "diamond",
+      "template": " <b> AWS: {{ .Profile }}{{ if .RegionAlias }}@{{ .RegionAlias }}{{ else if .Region }}@{{ .Region }}{{ end }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "aws",
+        "awscli",
+        "aws sso",
+        "aws configure",
+        "aws sts",
+        "aws s3",
+        "aws iam",
+        "aws ec2",
+        "aws eks",
+        "aws ecr",
+        "profile",
+        "region"
+      ],
+      "trailing_diamond": "",
+      "type": "aws"
+    },
+    {
+      "alias": "gcp-tooltip",
+      "background": "p:gcp_tooltip_bg",
+      "cache": {
+        "duration": "10m",
+        "strategy": "session"
+      },
+      "foreground": "p:gcp_tooltip_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "style": "diamond",
+      "template": " <b> GCP: {{ if .Error }}{{ .Error }}{{ else }}{{ .Project }}{{ if .Region }}@{{ .Region }}{{ end }} | {{ .Account }}{{ end }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "gcp",
+        "gcloud",
+        "google cloud",
+        "gsutil",
+        "gcloud auth",
+        "gcloud config",
+        "gcloud projects",
+        "gcloud compute",
+        "gcloud run",
+        "gcloud container",
+        "project",
+        "account",
+        "region"
+      ],
+      "trailing_diamond": "",
+      "type": "gcp"
+    },
+    {
+      "alias": "claude-tooltip",
+      "background": "p:claude_tooltip_bg",
+      "cache": {
+        "duration": "5s",
+        "strategy": "session"
+      },
+      "foreground": "p:claude_tooltip_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "style": "diamond",
+      "template": " <b>󰯉 {{ .Model.DisplayName }} {{ .TokenUsagePercent.Gauge }} • {{ .FormattedTokens }} • {{ .FormattedCost }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "claude",
+        "claude code",
+        "oh-my-posh claude",
+        "ai",
+        "llm",
+        "sonnet",
+        "opus",
+        "haiku"
+      ],
+      "trailing_diamond": "",
+      "type": "claude"
+    },
+    {
+      "alias": "deno-tooltip",
+      "background": "p:deno_tooltip_bg",
+      "cache": {
+        "duration": "24h",
+        "strategy": "folder"
+      },
+      "foreground": "p:deno_tooltip_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "cache_duration": "24h",
+        "display_mode": "always",
+        "extensions": [
+          "*.ts",
+          "*.js",
+          "deno.json"
+        ],
+        "fetch_version": true,
+        "home_enabled": false,
+        "missing_command_text": ""
+      },
+      "style": "diamond",
+      "template": " <b> Deno {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "deno",
+        "deno run",
+        "deno task",
+        "deno fmt",
+        "deno lint",
+        "deno test",
+        "deno.json",
+        "deno.lock"
+      ],
+      "trailing_diamond": "",
+      "type": "deno"
+    },
+    {
+      "alias": "docker-tooltip",
+      "background": "p:docker_tooltip_bg",
+      "cache": {
+        "duration": "10m",
+        "strategy": "session"
+      },
+      "foreground": "p:docker_tooltip_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "display_mode": "always",
+        "fetch_context": true
+      },
+      "style": "diamond",
+      "template": " <b> Docker: {{ title .Context }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "docker",
+        "docker compose",
+        "docker-compose",
+        "compose",
+        "docker build",
+        "docker run",
+        "docker ps",
+        "docker context",
+        "Dockerfile"
+      ],
+      "trailing_diamond": "",
+      "type": "docker"
+    },
+    {
+      "alias": "tauri-tooltip",
+      "background": "p:tauri_tooltip_bg",
+      "cache": {
+        "duration": "24h",
+        "strategy": "folder"
+      },
+      "foreground": "p:tauri_tooltip_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "cache_duration": "24h",
+        "display_mode": "always",
+        "extensions": [
+          "tauri.conf.json"
+        ],
+        "fetch_version": true,
+        "folders": [
+          "src-tauri"
+        ],
+        "home_enabled": false,
+        "missing_command_text": ""
+      },
+      "style": "diamond",
+      "template": " <b> Tauri {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "tauri",
+        "cargo tauri",
+        "src-tauri",
+        "tauri.conf.json",
+        "tauri dev",
+        "tauri build"
+      ],
+      "trailing_diamond": "",
+      "type": "tauri"
+    },
+    {
+      "alias": "yarn-tooltip",
+      "background": "p:yarn_tooltip_bg",
+      "cache": {
+        "duration": "24h",
+        "strategy": "folder"
+      },
+      "foreground": "p:yarn_tooltip_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "cache_duration": "24h",
+        "display_mode": "always",
+        "extensions": [
+          "package.json",
+          "yarn.lock"
+        ],
+        "fetch_version": true,
+        "home_enabled": false,
+        "missing_command_text": ""
+      },
+      "style": "diamond",
+      "template": " <b> Yarn {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "yarn",
+        "yarn add",
+        "yarn install",
+        "yarn dev",
+        "yarn build",
+        "yarn test",
+        "yarn.lock"
+      ],
+      "trailing_diamond": "",
+      "type": "yarn"
+    },
+    {
+      "alias": "pnpm-tooltip",
+      "background": "p:pnpm_tooltip_bg",
+      "cache": {
+        "duration": "24h",
+        "strategy": "folder"
+      },
+      "foreground": "p:pnpm_tooltip_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "cache_duration": "24h",
+        "display_mode": "always",
+        "extensions": [
+          "package.json",
+          "pnpm-lock.yaml"
+        ],
+        "fetch_version": true,
+        "home_enabled": false,
+        "missing_command_text": ""
+      },
+      "style": "diamond",
+      "template": " <b> PNPM {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "pnpm",
+        "pnpm add",
+        "pnpm install",
+        "pnpm dev",
+        "pnpm build",
+        "pnpm test",
+        "pnpm-lock.yaml"
+      ],
+      "trailing_diamond": "",
+      "type": "pnpm"
+    },
+    {
+      "alias": "bun-tooltip",
+      "background": "p:bun_tooltip_bg",
+      "cache": {
+        "duration": "24h",
+        "strategy": "folder"
+      },
+      "foreground": "p:bun_tooltip_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "cache_duration": "24h",
+        "display_mode": "always",
+        "extensions": [
+          "bun.lockb",
+          "bun.lock"
+        ],
+        "fetch_version": true,
+        "home_enabled": false,
+        "missing_command_text": ""
+      },
+      "style": "diamond",
+      "template": " <b> Bun {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "bun",
+        "bun run",
+        "bun dev",
+        "bun build",
+        "bun test",
+        "bun.lockb",
+        "bun.lock"
+      ],
+      "trailing_diamond": "",
+      "type": "bun"
     }
   ],
   "tooltips_action": "prepend",
