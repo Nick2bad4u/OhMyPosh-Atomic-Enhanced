@@ -167,6 +167,34 @@ if ($unused.Count -gt 0) {
     foreach ($warning in $warnings) { Write-Host "WARNING: $warning" -ForegroundColor Yellow }
 }
 
+# 3.2 Validate debug prompt palette integration
+Write-Host 'Validating debug_prompt palette integration...' -ForegroundColor Yellow
+if ($null -eq $themeJson.debug_prompt) {
+    $warnings += 'debug_prompt is missing (DEBUG styling will not be theme-aware).'
+}
+else {
+    $debugTemplate = $themeJson.debug_prompt.template
+    if (-not $debugTemplate -or -not ($debugTemplate -is [string])) {
+        $warnings += 'debug_prompt.template is missing or not a string.'
+    }
+    else {
+        if ($debugTemplate -notmatch 'p:debug_bg') {
+            $warnings += 'debug_prompt.template does not reference p:debug_bg (DEBUG background may not match palette).'
+        }
+        if ($debugTemplate -notmatch 'p:debug_fg') {
+            $warnings += 'debug_prompt.template does not reference p:debug_fg (DEBUG foreground may not match palette).'
+        }
+    }
+
+    # Ensure keys exist if referenced
+    if ($refs -contains 'debug_bg' -and $palette -notcontains 'debug_bg') {
+        $errors += 'Palette key debug_bg is referenced but not defined.'
+    }
+    if ($refs -contains 'debug_fg' -and $palette -notcontains 'debug_fg') {
+        $errors += 'Palette key debug_fg is referenced but not defined.'
+    }
+}
+
 # 3.5 Validate mapped_locations
 Write-Host 'Validating mapped_locations configuration...' -ForegroundColor Yellow
 $pathSegment = @($themeJson.blocks[0].segments | Where-Object { $_.Type -eq 'path' })[0]

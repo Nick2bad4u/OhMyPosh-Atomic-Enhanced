@@ -10,10 +10,10 @@ It outputs lists of defined and referenced keys, missing entries (referenced but
 Path to the Oh My Posh config JSON file. If not provided, defaults to 'OhMyPosh-Atomic-Custom.json'.
 
 .EXITCODES
-0 - No missing or unused palette entries.
+0 - No missing palette entries (unused entries are allowed by default).
 1 - Config file not found or JSON parse error.
-2 - Missing palette entries (referenced but not defined). Takes precedence if both missing and unused entries exist.
-3 - Unused palette entries (defined but never referenced), only if there are no missing entries.
+2 - Missing palette entries (referenced but not defined).
+3 - Unused palette entries (defined but never referenced) when -FailOnUnused is set.
 
 .EXAMPLE
 .\scripts\validate-palette.ps1 -ConfigPath '.\OhMyPosh-Atomic-Custom.json'
@@ -21,7 +21,9 @@ Path to the Oh My Posh config JSON file. If not provided, defaults to 'OhMyPosh-
 
 # Default value for $ConfigPath is 'OhMyPosh-Atomic-Custom.json'
 param(
-    [string]$ConfigPath = (Join-Path -Path (Split-Path -Path $PSScriptRoot -Parent) -ChildPath 'OhMyPosh-Atomic-Custom.json')
+    [string]$ConfigPath = (Join-Path -Path (Split-Path -Path $PSScriptRoot -Parent) -ChildPath 'OhMyPosh-Atomic-Custom.json'),
+    [switch]$FailOnUnused,
+    [switch]$ShowAll
 )
 
 $RepoRoot = Split-Path -Path $PSScriptRoot -Parent
@@ -43,53 +45,69 @@ if (-not (Test-Path -LiteralPath $ConfigPath)) {
 
 try {
     $rawContent = Get-Content -LiteralPath $ConfigPath -Raw
-    $json = $rawContent | ConvertFrom-Json
+    # NOTE: ConvertFrom-Json will throw if the JSON contains duplicate keys.
+    # We keep this strict on purpose so generator issues are caught early.
+    $json = $rawContent | ConvertFrom-Json -Depth 100
 }
 catch {
     Write-Error "Failed to parse JSON in config file: $ConfigPath.`nError details: $($_.Exception.Message)"
     exit 1
 }
 # Extract all palette keys from the JSON object for comparison
-if ($null -eq $json.Palette -or -not ($json.Palette -is [psobject]) -or -not $json.Palette.PSObject.Properties) {
+if ($null -eq $json.palette -or -not ($json.palette -is [psobject]) -or -not $json.palette.PSObject.Properties) {
     Write-Error "Palette property is missing or not an object in config file: $ConfigPath"
     exit 1
 }
-$palette = $json.Palette.PSObject.Properties.Name
+$palette = @($json.palette.PSObject.Properties.Name)
 
 # Find all p:<key> references (including inside templates)
 $refs = [regex]::Matches($rawContent, 'p:([a-zA-Z0-9_\-\.]+)') | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique
 
-$missing = $refs | Where-Object { $_ -notin $palette }
-$unused = $palette | Where-Object { $_ -notin $refs }
+$missing = @($refs | Where-Object { $_ -notin $palette })
+$unused = @($palette | Where-Object { $_ -notin $refs })
 
-Write-Output "Palette keys ($($palette.Count)):" -ForegroundColor Cyan
-$paletteSorted = $palette | Sort-Object
-$paletteSorted | ForEach-Object { Write-Output "  - $_" }
+Write-Host "Palette keys: $($palette.Count)" -ForegroundColor Cyan
+Write-Host "Referenced keys: $($refs.Count)" -ForegroundColor Cyan
 
-Write-Output "`nReferenced keys ($($refs.Count)):" -ForegroundColor Cyan
-$refsSorted = $refs | Sort-Object
-$refsSorted | ForEach-Object { Write-Output "  - $_" }
+if ($ShowAll) {
+    Write-Host "`nPalette keys:" -ForegroundColor Cyan
+    ($palette | Sort-Object) | ForEach-Object { Write-Host "  - $_" }
+
+    Write-Host "`nReferenced keys:" -ForegroundColor Cyan
+    ($refs | Sort-Object) | ForEach-Object { Write-Host "  - $_" }
+}
 
 if ($missing) {
-    Write-Output "`nMissing palette entries (referenced but not defined):" -ForegroundColor Red
-    Write-Output 'The following referenced keys are missing from the palette:' -ForegroundColor Red
+    Write-Host "`nMissing palette entries (referenced but not defined):" -ForegroundColor Red
+    Write-Host 'The following referenced keys are missing from the palette:' -ForegroundColor Red
     $missingSorted = $missing | Sort-Object
-    $missingSorted | ForEach-Object { Write-Output "  - $_" }
+    $missingSorted | ForEach-Object { Write-Host "  - $_" }
 }
 else {
-    Write-Output "`nNo missing palette entries." -ForegroundColor Green
+    Write-Host "`nNo missing palette entries." -ForegroundColor Green
 }
 
 if ($unused) {
-    Write-Output "`nUnused palette entries (defined but never referenced):" -ForegroundColor Yellow
-    $unusedSorted = $unused | Sort-Object
-    $unusedSorted | ForEach-Object { Write-Output "  - $_" }
+    Write-Host "`nUnused palette entries: $($unused.Count)" -ForegroundColor Yellow
+    if ($ShowAll -or $FailOnUnused) {
+        Write-Host 'Unused palette entries (defined but never referenced):' -ForegroundColor Yellow
+        ($unused | Sort-Object) | ForEach-Object { Write-Host "  - $_" }
+    }
+    else {
+        $sample = ($unused | Sort-Object | Select-Object -First 25)
+        Write-Host "Sample (first $($sample.Count)):" -ForegroundColor Yellow
+        $sample | ForEach-Object { Write-Host "  - $_" }
+        Write-Host '(Use -ShowAll to list everything.)' -ForegroundColor DarkGray
+    }
 }
 else {
-    Write-Output "`nNo unused palette entries." -ForegroundColor Green
+    Write-Host "`nNo unused palette entries." -ForegroundColor Green
 }
 
-# Exit code: 0 if clean, 1 if file not found or JSON parse error, 2 if missing, 3 if unused only
-if ($missing) { exit 2 }
-elseif ($unused) { exit 3 }
-else { exit 0 }
+# Exit code:
+# - 2 if missing entries
+# - 3 if unused entries and -FailOnUnused
+# - 0 otherwise
+if ($missing.Count -gt 0) { exit 2 }
+if ($FailOnUnused -and $unused.Count -gt 0) { exit 3 }
+exit 0

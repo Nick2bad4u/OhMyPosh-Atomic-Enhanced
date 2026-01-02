@@ -111,6 +111,36 @@ $ErrorActionPreference = 'Stop'
 # This script lives in .\scripts\, but operates on files in the repository root.
 $RepoRoot = Split-Path -Path $PSScriptRoot -Parent
 
+# Write-Output does not support -ForegroundColor / -NoNewline, but this script historically used it that way.
+# Provide a local wrapper so output is colorful and clean without rewriting every callsite.
+function Write-Output {
+    [CmdletBinding()]
+    param(
+        [Parameter(Position = 0, ValueFromRemainingArguments = $true)]
+        [object[]]$InputObject,
+
+        [ConsoleColor]$ForegroundColor,
+        [switch]$NoNewline
+    )
+
+    $text = ($InputObject | ForEach-Object { "$_" }) -join ''
+
+    if ($PSBoundParameters.ContainsKey('ForegroundColor') -or $NoNewline) {
+        $hasColor = $PSBoundParameters.ContainsKey('ForegroundColor')
+        if ($NoNewline) {
+            if ($hasColor) { Write-Host -NoNewline -ForegroundColor $ForegroundColor $text }
+            else { Write-Host -NoNewline $text }
+        }
+        else {
+            if ($hasColor) { Write-Host -ForegroundColor $ForegroundColor $text }
+            else { Write-Host $text }
+        }
+        return
+    }
+
+    Microsoft.PowerShell.Utility\Write-Output $text
+}
+
 function Resolve-RepoPath {
     [CmdletBinding()]
     param(

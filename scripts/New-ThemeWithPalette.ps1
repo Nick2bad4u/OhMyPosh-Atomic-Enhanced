@@ -53,12 +53,12 @@
 [CmdletBinding(DefaultParameterSetName = 'ByPaletteName')]
 param(
     [Parameter()]
-    [string]$SourceTheme = "OhMyPosh-Atomic-Custom.json",
+    [string]$SourceTheme = 'OhMyPosh-Atomic-Custom.json',
 
-    [Parameter(ParameterSetName = 'ByPaletteName',Mandatory = $true)]
+    [Parameter(ParameterSetName = 'ByPaletteName', Mandatory = $true)]
     [string]$PaletteName,
 
-    [Parameter(ParameterSetName = 'ByPaletteObject',Mandatory = $true)]
+    [Parameter(ParameterSetName = 'ByPaletteObject', Mandatory = $true)]
     [object]$PaletteObject,
 
     [Parameter()]
@@ -68,7 +68,7 @@ param(
     [string]$OutputPath,
 
     [Parameter()]
-    [string]$PalettesFile = "color-palette-alternatives.json",
+    [string]$PalettesFile = 'color-palette-alternatives.json',
 
     [Parameter()]
     [switch]$UpdateAccentColor
@@ -103,10 +103,10 @@ function ConvertTo-TitleCase {
     param([string]$Text)
 
     # Convert snake_case to space separated
-    $Text = $Text -replace '_',' '
+    $Text = $Text -replace '_', ' '
 
     # Convert PascalCase to space separated
-    $Text = $Text -creplace '([a-z])([A-Z])','$1 $2'
+    $Text = $Text -creplace '([a-z])([A-Z])', '$1 $2'
 
     # Title case
     $textInfo = (Get-Culture).TextInfo
@@ -120,14 +120,14 @@ function ConvertTo-FileNameFormat {
     # Remove spaces and special characters, convert to PascalCase
     $words = $Text -split '[\s_-]+'
     $pascalCase = ($words | ForEach-Object {
-            $_.Substring(0,1).ToUpper() + $_.Substring(1).ToLower()
+            $_.Substring(0, 1).ToUpper() + $_.Substring(1).ToLower()
         }) -join ''
 
     return $pascalCase
 }
 
-Write-Output "🎨 Oh My Posh Theme Palette Generator" -ForegroundColor Cyan
-Write-Output "=" * 50 -ForegroundColor DarkGray
+Write-Output '🎨 Oh My Posh Theme Palette Generator' -ForegroundColor Cyan
+Write-Output '=' * 50 -ForegroundColor DarkGray
 
 # Verify source theme exists
 if (-not (Test-Path -LiteralPath $SourceTheme)) {
@@ -135,13 +135,13 @@ if (-not (Test-Path -LiteralPath $SourceTheme)) {
     exit 1
 }
 
-Write-Output "📖 Reading source theme: " -NoNewline
+Write-Output '📖 Reading source theme: ' -NoNewline
 Write-Output $SourceTheme -ForegroundColor Yellow
 
 # Read source theme
 try {
     $themeContent = Get-Content -LiteralPath $SourceTheme -Raw
-    $theme = $themeContent | ConvertFrom-Json -AsHashTable
+    $theme = $themeContent | ConvertFrom-Json -AsHashtable
 }
 catch {
     Write-Error "Failed to parse source theme JSON: $_"
@@ -150,7 +150,7 @@ catch {
 
 # Get the palette
 $palette = $null
-$paletteFriendlyName = ""
+$paletteFriendlyName = ''
 
 if ($PSCmdlet.ParameterSetName -eq 'ByPaletteName') {
     # Load palettes file
@@ -159,7 +159,7 @@ if ($PSCmdlet.ParameterSetName -eq 'ByPaletteName') {
         exit 1
     }
 
-    Write-Output "📚 Loading palettes from: " -NoNewline
+    Write-Output '📚 Loading palettes from: ' -NoNewline
     Write-Output $PalettesFile -ForegroundColor Yellow
 
     try {
@@ -178,7 +178,7 @@ if ($PSCmdlet.ParameterSetName -eq 'ByPaletteName') {
         $palettes.PSObject.Properties | ForEach-Object {
             $name = $_.Name
             $description = $_.Value.description
-            Write-Output "  • " -NoNewline -ForegroundColor DarkGray
+            Write-Output '  • ' -NoNewline -ForegroundColor DarkGray
             Write-Output $name -NoNewline -ForegroundColor Green
             Write-Output " - $description" -ForegroundColor Gray
         }
@@ -189,17 +189,17 @@ if ($PSCmdlet.ParameterSetName -eq 'ByPaletteName') {
     $palette = $paletteInfo.Palette
     $paletteFriendlyName = $paletteInfo.Name
 
-    Write-Output "✓ Found palette: " -NoNewline -ForegroundColor Green
+    Write-Output '✓ Found palette: ' -NoNewline -ForegroundColor Green
     Write-Output $paletteFriendlyName -ForegroundColor Magenta
-    Write-Output "  Description: " -NoNewline -ForegroundColor DarkGray
+    Write-Output '  Description: ' -NoNewline -ForegroundColor DarkGray
     Write-Output $paletteInfo.description -ForegroundColor Gray
 }
 else {
     # Use provided palette object
     $palette = $PaletteObject
-    $paletteFriendlyName = "Custom Palette"
+    $paletteFriendlyName = 'Custom Palette'
 
-    Write-Output "✓ Using custom palette object" -ForegroundColor Green
+    Write-Output '✓ Using custom palette object' -ForegroundColor Green
 }
 
 # Convert palette to hashtable if it's a PSCustomObject
@@ -212,16 +212,16 @@ if ($palette -is [pscustomobject]) {
 }
 
 # Update the theme palette
-Write-Output "🔄 Applying new palette..." -ForegroundColor Cyan
-$theme.Palette = $palette
+Write-Output '🔄 Applying new palette...' -ForegroundColor Cyan
+$theme['palette'] = $palette
 
 # Update accent_color if requested
 if ($UpdateAccentColor -and $palette.ContainsKey('accent')) {
-    $oldAccent = $theme.accent_color
-    $theme.accent_color = $palette.Accent
-    Write-Output "  • Updated accent_color: " -NoNewline -ForegroundColor DarkGray
+    $oldAccent = $theme['accent_color']
+    $theme['accent_color'] = $palette['accent']
+    Write-Output '  • Updated accent_color: ' -NoNewline -ForegroundColor DarkGray
     Write-Output "$oldAccent" -NoNewline -ForegroundColor DarkRed
-    Write-Output " → " -NoNewline
+    Write-Output ' → ' -NoNewline
     Write-Output "$($palette.accent)" -ForegroundColor Green
 }
 
@@ -243,13 +243,13 @@ else {
     # Build output path
     $sourceBaseName = [System.IO.Path]::GetFileNameWithoutExtension($SourceTheme)
     $sourceDir = Split-Path $SourceTheme -Parent
-    if (-not $sourceDir) { $sourceDir = "." }
+    if (-not $sourceDir) { $sourceDir = '.' }
 
     $outputFile = Join-Path $sourceDir "$sourceBaseName.$OutputName.json"
 }
 
 # Convert back to JSON and save
-Write-Output "💾 Saving new theme..." -ForegroundColor Cyan
+Write-Output '💾 Saving new theme...' -ForegroundColor Cyan
 try {
     # Convert hashtable back to JSON with proper formatting
     $jsonOutput = $theme | ConvertTo-Json -Depth 100
@@ -257,7 +257,7 @@ try {
     # Write to file
     $jsonOutput | Set-Content -LiteralPath $outputFile -Encoding UTF8
 
-    Write-Output "✅ SUCCESS!" -ForegroundColor Green
+    Write-Output '✅ SUCCESS!' -ForegroundColor Green
     Write-Output "`n📄 New theme created:" -ForegroundColor Cyan
     Write-Output "   $outputFile" -ForegroundColor Yellow
     Write-Output "`n🎨 Palette applied:" -ForegroundColor Cyan
@@ -268,13 +268,13 @@ try {
 
     # Get file size
     $fileSize = (Get-Item $outputFile).Length
-    $fileSizeKB = [math]::Round($fileSize / 1KB,2)
+    $fileSizeKB = [math]::Round($fileSize / 1KB, 2)
     Write-Output "`n📊 File size: " -NoNewline -ForegroundColor DarkGray
     Write-Output "$fileSizeKB KB" -ForegroundColor Gray
 
     # Count palette colors
     $colorCount = ($palette.Keys | Measure-Object).Count
-    Write-Output "🎨 Palette colors: " -NoNewline -ForegroundColor DarkGray
+    Write-Output '🎨 Palette colors: ' -NoNewline -ForegroundColor DarkGray
     Write-Output $colorCount -ForegroundColor Gray
 }
 catch {
@@ -282,5 +282,5 @@ catch {
     exit 1
 }
 
-Write-Output "`n" + ("=" * 50) -ForegroundColor DarkGray
-Write-Output "✨ Done!" -ForegroundColor Green
+Write-Output "`n" + ('=' * 50) -ForegroundColor DarkGray
+Write-Output '✨ Done!' -ForegroundColor Green

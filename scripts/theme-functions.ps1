@@ -47,5 +47,5 @@ Set-Alias -Name official-themes -Value Show-OfficialThemes -Force -Scope Global
 
 # Only export when imported as a module (Export-ModuleMember errors when dot-sourced)
 if ($ExecutionContext.SessionState.Module) {
-    Export-ModuleMember -Function Show-AllThemes,Show-CustomThemes,Show-OfficialThemes -Alias themes,mythemes,official-themes
+    Export-ModuleMember -Function Show-AllThemes, Show-CustomThemes, Show-OfficialThemes -Alias themes, mythemes, official-themes
 }

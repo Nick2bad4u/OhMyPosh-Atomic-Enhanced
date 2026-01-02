@@ -96,14 +96,44 @@ $ImageSettings = Resolve-RepoPath $ImageSettings
 $OutputDirectory = Resolve-RepoPath $OutputDirectory
 $ReadmePath = Resolve-RepoPath $ReadmePath
 
+# Write-Output does not support -ForegroundColor / -NoNewline, but this script uses it for colored console output.
+# Provide a local wrapper so output stays clean without rewriting every callsite.
+function Write-Output {
+    [CmdletBinding()]
+    param(
+        [Parameter(Position = 0, ValueFromRemainingArguments = $true)]
+        [object[]]$InputObject,
+
+        [ConsoleColor]$ForegroundColor,
+        [switch]$NoNewline
+    )
+
+    $text = ($InputObject | ForEach-Object { "$_" }) -join ''
+
+    if ($PSBoundParameters.ContainsKey('ForegroundColor') -or $NoNewline) {
+        $hasColor = $PSBoundParameters.ContainsKey('ForegroundColor')
+        if ($NoNewline) {
+            if ($hasColor) { Write-Host -NoNewline -ForegroundColor $ForegroundColor $text }
+            else { Write-Host -NoNewline $text }
+        }
+        else {
+            if ($hasColor) { Write-Host -ForegroundColor $ForegroundColor $text }
+            else { Write-Host $text }
+        }
+        return
+    }
+
+    Microsoft.PowerShell.Utility\Write-Output $text
+}
+
 # Color scheme for output
 $colors = @{
-    Header = 'Cyan'
+    Header  = 'Cyan'
     Success = 'Green'
     Warning = 'Yellow'
-    Error = 'Red'
-    Info = 'White'
-    Accent = 'Magenta'
+    Error   = 'Red'
+    Info    = 'White'
+    Accent  = 'Magenta'
 }
 
 function Write-Header {
@@ -155,7 +185,7 @@ if (-not (Test-Path -LiteralPath $ImageSettings)) {
 }
 else {
     Write-Success "Found image settings: $ImageSettings"
-    $imageSettingsParam = @('--settings',(Resolve-Path $ImageSettings).Path)
+    $imageSettingsParam = @('--settings', (Resolve-Path $ImageSettings).Path)
 }
 
 # Create output directory
@@ -208,10 +238,10 @@ foreach ($theme in $themeFiles) {
         Write-WarningOutput 'Image already exists, skipping (use -Force to regenerate)'
         $skipCount++
         $results += [pscustomobject]@{
-            Theme = $theme.Name
-            ThemeName = $themeName
-            Status = 'Skipped'
-            ImagePath = $outputImage
+            Theme        = $theme.Name
+            ThemeName    = $themeName
+            Status       = 'Skipped'
+            ImagePath    = $outputImage
             RelativePath = "assets/theme-previews/$themeName.png"
         }
         continue
@@ -223,9 +253,9 @@ foreach ($theme in $themeFiles) {
 
         # Build command arguments (avoid PowerShell automatic variable 'args')
         $exportArgs = @(
-            'config','export','image',
-            '--config',$configPath,
-            '--output',$outputImage
+            'config', 'export', 'image',
+            '--config', $configPath,
+            '--output', $outputImage
         ) + $imageSettingsParam
 
         # Run oh-my-posh export and capture result for diagnostics
@@ -235,10 +265,10 @@ foreach ($theme in $themeFiles) {
             Write-Success "Generated: $themeName.png"
             $successCount++
             $results += [pscustomobject]@{
-                Theme = $theme.Name
-                ThemeName = $themeName
-                Status = 'Success'
-                ImagePath = $outputImage
+                Theme        = $theme.Name
+                ThemeName    = $themeName
+                Status       = 'Success'
+                ImagePath    = $outputImage
                 RelativePath = "assets/theme-previews/$themeName.png"
             }
         }
@@ -252,10 +282,10 @@ foreach ($theme in $themeFiles) {
         Write-ErrorMessage "Failed: $_"
         $errorCount++
         $results += [pscustomobject]@{
-            Theme = $theme.Name
-            ThemeName = $themeName
-            Status = 'Error'
-            ImagePath = $null
+            Theme        = $theme.Name
+            ThemeName    = $themeName
+            Status       = 'Error'
+            ImagePath    = $null
             RelativePath = $null
         }
     }
@@ -289,7 +319,7 @@ if (-not $SkipReadmeUpdate) {
     $readmeContent = Get-Content -LiteralPath $ReadmePath -Raw
 
     # Group themes by base theme (ensure they're arrays even if empty)
-    $includeStatuses = @('Success','Skipped')
+    $includeStatuses = @('Success', 'Skipped')
     $experimentalDividersThemes = @($results | Where-Object { $_.Theme -like 'OhMyPosh-Atomic-Custom-ExperimentalDividers.*' -and $_.Status -in $includeStatuses } | Sort-Object ThemeName)
     $atomicThemes = @($results | Where-Object { $_.Theme -like 'OhMyPosh-Atomic-Custom.*' -and $_.Status -in $includeStatuses -and $_.Theme -notlike 'OhMyPosh-Atomic-Custom-ExperimentalDividers.*' } | Sort-Object ThemeName)
     $shellThemes = @($results | Where-Object { $_.Theme -like '1_shell-Enhanced.omp.*' -and $_.Status -in $includeStatuses } | Sort-Object ThemeName)
@@ -312,7 +342,7 @@ if (-not $SkipReadmeUpdate) {
                 $markdown += "`n<tr>"
             }
 
-            $displayName = $theme.ThemeName -replace "^$StripPrefix",''
+            $displayName = $theme.ThemeName -replace "^$StripPrefix", ''
             $markdown += @"
 
 <td align="center" width="50%">
@@ -518,7 +548,7 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 
         # Find the end of the gallery section (next ## heading or end of file)
         if ($readmeContent -match "(?s)($([regex]::Escape($galleryMarker))).*?(?=^## |\z)") {
-            $readmeContent = $readmeContent -replace "(?s)($([regex]::Escape($galleryMarker))).*?(?=^## |\z)",$galleryMarkdown
+            $readmeContent = $readmeContent -replace "(?s)($([regex]::Escape($galleryMarker))).*?(?=^## |\z)", $galleryMarkdown
         }
     }
     else {
