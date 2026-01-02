@@ -490,9 +490,9 @@ pwsh ./scripts/validate-palette.ps1
 
 Exit codes:
 
-- `0` clean (no missing/unused)
+- `0` clean (no missing; unused keys are allowed)
 - `2` missing references
-- `3` only unused keys
+- `3` unused keys (only when `-FailOnUnused` is used)
 
 After making changes to the palette or theme configuration, run this script to ensure all palette references are valid and unused keys are reported--helping keep your configuration clean and error-free.
 
@@ -500,7 +500,7 @@ After making changes to the palette or theme configuration, run this script to e
 
 ## 🎨 Theme Styles
 
-This repository includes **5 unique theme styles**, each available in **28 color palettes** (140 total themes):
+This repository includes **6 theme families**, each available in **38 color palettes** (228 total palette variants), plus a small number of special variants:
 
 ### 🚀 OhMyPosh Atomic Custom
 
@@ -587,11 +587,7 @@ Minimalist clean theme with essential info:
 ## 🎨 Theme Gallery
 
 All themes are available in multiple color palettes. Choose the one that fits your style!
-
 ### 🌈 Experimental Dividers Variants (NEW)
-
-<a id="copilot"></a>
-**Copilot gauge (experimental):** The Experimental Dividers family includes an optional Copilot segment that displays the Copilot premium gauge and percent remaining on the right prompt. This segment requires Copilot integration and is intentionally only included in the experimental family as a demo of more advanced, context-aware telemetry.
 
 <table>
 <tr>
@@ -600,8 +596,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.AmberSunset.png" alt="AmberSunset theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>AyuMirage</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.AyuMirage.png" alt="AyuMirage theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>BlueOcean</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.BlueOcean.png" alt="BlueOcean theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>CatppuccinFrappe</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.CatppuccinFrappe.png" alt="CatppuccinFrappe theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -620,8 +626,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.ChristmasCheer.png" alt="ChristmasCheer theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>Cobalt2</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Cobalt2.png" alt="Cobalt2 theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>DraculaNight</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.DraculaNight.png" alt="DraculaNight theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Duskfox</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Duskfox.png" alt="Duskfox theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -630,14 +646,24 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.EasterPastel.png" alt="EasterPastel theme preview" width="100%">
 </td>
 <td align="center" width="50%">
-<h4>FireIce</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.FireIce.png" alt="FireIce theme preview" width="100%">
+<h4>Everforest</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Everforest.png" alt="Everforest theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>FireIce</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.FireIce.png" alt="FireIce theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>ForestEmber</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.ForestEmber.png" alt="ForestEmber theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>GithubDark</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.GithubDark.png" alt="GithubDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>GreenMatrix</h4>
@@ -656,8 +682,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>KanagawaWave</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.KanagawaWave.png" alt="KanagawaWave theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>LavenderPeach</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.LavenderPeach.png" alt="LavenderPeach theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>MaterialPalenight</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.MaterialPalenight.png" alt="MaterialPalenight theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>MidnightGold</h4>
@@ -670,18 +706,38 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.MonokaiPro.png" alt="MonokaiPro theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>Nightfox</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Nightfox.png" alt="Nightfox theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>NightOwl</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.NightOwl.png" alt="NightOwl theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>NordFrost</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.NordFrost.png" alt="NordFrost theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>OneDark</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.OneDark.png" alt="OneDark theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>Original</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Original.png" alt="Original theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>PinkParadise</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.PinkParadise.png" alt="PinkParadise theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Poimandres</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Poimandres.png" alt="Poimandres theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -700,8 +756,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.RedAlert.png" alt="RedAlert theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>RosePine</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.RosePine.png" alt="RosePine theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>SolarizedDark</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.SolarizedDark.png" alt="SolarizedDark theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Synthwave84</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Synthwave84.png" alt="Synthwave84 theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -724,8 +790,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom.AmberSunset.png" alt="AmberSunset theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>AyuMirage</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.AyuMirage.png" alt="AyuMirage theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>BlueOcean</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom.BlueOcean.png" alt="BlueOcean theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>CatppuccinFrappe</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.CatppuccinFrappe.png" alt="CatppuccinFrappe theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -744,8 +820,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom.ChristmasCheer.png" alt="ChristmasCheer theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>Cobalt2</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Cobalt2.png" alt="Cobalt2 theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>DraculaNight</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom.DraculaNight.png" alt="DraculaNight theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Duskfox</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Duskfox.png" alt="Duskfox theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -754,14 +840,24 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom.EasterPastel.png" alt="EasterPastel theme preview" width="100%">
 </td>
 <td align="center" width="50%">
-<h4>FireIce</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.FireIce.png" alt="FireIce theme preview" width="100%">
+<h4>Everforest</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Everforest.png" alt="Everforest theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>FireIce</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.FireIce.png" alt="FireIce theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>ForestEmber</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom.ForestEmber.png" alt="ForestEmber theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>GithubDark</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.GithubDark.png" alt="GithubDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>GreenMatrix</h4>
@@ -780,8 +876,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>KanagawaWave</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.KanagawaWave.png" alt="KanagawaWave theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>LavenderPeach</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom.LavenderPeach.png" alt="LavenderPeach theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>MaterialPalenight</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.MaterialPalenight.png" alt="MaterialPalenight theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>MidnightGold</h4>
@@ -794,14 +900,24 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom.MonokaiPro.png" alt="MonokaiPro theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>Nightfox</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Nightfox.png" alt="Nightfox theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>NightOwl</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.NightOwl.png" alt="NightOwl theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>NordFrost</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom.NordFrost.png" alt="NordFrost theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
-<h4>Original</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Original.png" alt="Original theme preview" width="100%">
+<h4>OneDark</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.OneDark.png" alt="OneDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Original</h4>
@@ -814,18 +930,28 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom.PinkParadise.png" alt="PinkParadise theme preview" width="100%">
 </td>
 <td align="center" width="50%">
-<h4>PurpleReign</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.PurpleReign.png" alt="PurpleReign theme preview" width="100%">
+<h4>Poimandres</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Poimandres.png" alt="Poimandres theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>PurpleReign</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.PurpleReign.png" alt="PurpleReign theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>RainbowBright</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom.RainbowBright.png" alt="RainbowBright theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>RedAlert</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom.RedAlert.png" alt="RedAlert theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>RosePine</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.RosePine.png" alt="RosePine theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -834,11 +960,15 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom.SolarizedDark.png" alt="SolarizedDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
-<h4>TealCyan</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.TealCyan.png" alt="TealCyan theme preview" width="100%">
+<h4>Synthwave84</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Synthwave84.png" alt="Synthwave84 theme preview" width="100%">
 </td>
 </tr>
 <tr>
+<td align="center" width="50%">
+<h4>TealCyan</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.TealCyan.png" alt="TealCyan theme preview" width="100%">
+</td>
 <td align="center" width="50%">
 <h4>TokyoNight</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom.TokyoNight.png" alt="TokyoNight theme preview" width="100%">
@@ -855,8 +985,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/1_shell-Enhanced.omp.AmberSunset.png" alt="AmberSunset theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>AyuMirage</h4>
+<img src="assets/theme-previews/1_shell-Enhanced.omp.AyuMirage.png" alt="AyuMirage theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>BlueOcean</h4>
 <img src="assets/theme-previews/1_shell-Enhanced.omp.BlueOcean.png" alt="BlueOcean theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>CatppuccinFrappe</h4>
+<img src="assets/theme-previews/1_shell-Enhanced.omp.CatppuccinFrappe.png" alt="CatppuccinFrappe theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -875,8 +1015,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/1_shell-Enhanced.omp.ChristmasCheer.png" alt="ChristmasCheer theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>Cobalt2</h4>
+<img src="assets/theme-previews/1_shell-Enhanced.omp.Cobalt2.png" alt="Cobalt2 theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>DraculaNight</h4>
 <img src="assets/theme-previews/1_shell-Enhanced.omp.DraculaNight.png" alt="DraculaNight theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Duskfox</h4>
+<img src="assets/theme-previews/1_shell-Enhanced.omp.Duskfox.png" alt="Duskfox theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -885,14 +1035,24 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/1_shell-Enhanced.omp.EasterPastel.png" alt="EasterPastel theme preview" width="100%">
 </td>
 <td align="center" width="50%">
-<h4>FireIce</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.FireIce.png" alt="FireIce theme preview" width="100%">
+<h4>Everforest</h4>
+<img src="assets/theme-previews/1_shell-Enhanced.omp.Everforest.png" alt="Everforest theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>FireIce</h4>
+<img src="assets/theme-previews/1_shell-Enhanced.omp.FireIce.png" alt="FireIce theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>ForestEmber</h4>
 <img src="assets/theme-previews/1_shell-Enhanced.omp.ForestEmber.png" alt="ForestEmber theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>GithubDark</h4>
+<img src="assets/theme-previews/1_shell-Enhanced.omp.GithubDark.png" alt="GithubDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>GreenMatrix</h4>
@@ -911,8 +1071,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>KanagawaWave</h4>
+<img src="assets/theme-previews/1_shell-Enhanced.omp.KanagawaWave.png" alt="KanagawaWave theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>LavenderPeach</h4>
 <img src="assets/theme-previews/1_shell-Enhanced.omp.LavenderPeach.png" alt="LavenderPeach theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>MaterialPalenight</h4>
+<img src="assets/theme-previews/1_shell-Enhanced.omp.MaterialPalenight.png" alt="MaterialPalenight theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>MidnightGold</h4>
@@ -925,18 +1095,38 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/1_shell-Enhanced.omp.MonokaiPro.png" alt="MonokaiPro theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>Nightfox</h4>
+<img src="assets/theme-previews/1_shell-Enhanced.omp.Nightfox.png" alt="Nightfox theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>NightOwl</h4>
+<img src="assets/theme-previews/1_shell-Enhanced.omp.NightOwl.png" alt="NightOwl theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>NordFrost</h4>
 <img src="assets/theme-previews/1_shell-Enhanced.omp.NordFrost.png" alt="NordFrost theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>OneDark</h4>
+<img src="assets/theme-previews/1_shell-Enhanced.omp.OneDark.png" alt="OneDark theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>Original</h4>
 <img src="assets/theme-previews/1_shell-Enhanced.omp.Original.png" alt="Original theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>PinkParadise</h4>
 <img src="assets/theme-previews/1_shell-Enhanced.omp.PinkParadise.png" alt="PinkParadise theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Poimandres</h4>
+<img src="assets/theme-previews/1_shell-Enhanced.omp.Poimandres.png" alt="Poimandres theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -955,8 +1145,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/1_shell-Enhanced.omp.RedAlert.png" alt="RedAlert theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>RosePine</h4>
+<img src="assets/theme-previews/1_shell-Enhanced.omp.RosePine.png" alt="RosePine theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>SolarizedDark</h4>
 <img src="assets/theme-previews/1_shell-Enhanced.omp.SolarizedDark.png" alt="SolarizedDark theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Synthwave84</h4>
+<img src="assets/theme-previews/1_shell-Enhanced.omp.Synthwave84.png" alt="Synthwave84 theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -980,8 +1180,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/slimfat-Enhanced.omp.AmberSunset.png" alt="AmberSunset theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>AyuMirage</h4>
+<img src="assets/theme-previews/slimfat-Enhanced.omp.AyuMirage.png" alt="AyuMirage theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>BlueOcean</h4>
 <img src="assets/theme-previews/slimfat-Enhanced.omp.BlueOcean.png" alt="BlueOcean theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>CatppuccinFrappe</h4>
+<img src="assets/theme-previews/slimfat-Enhanced.omp.CatppuccinFrappe.png" alt="CatppuccinFrappe theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -1000,8 +1210,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/slimfat-Enhanced.omp.ChristmasCheer.png" alt="ChristmasCheer theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>Cobalt2</h4>
+<img src="assets/theme-previews/slimfat-Enhanced.omp.Cobalt2.png" alt="Cobalt2 theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>DraculaNight</h4>
 <img src="assets/theme-previews/slimfat-Enhanced.omp.DraculaNight.png" alt="DraculaNight theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Duskfox</h4>
+<img src="assets/theme-previews/slimfat-Enhanced.omp.Duskfox.png" alt="Duskfox theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -1010,14 +1230,24 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/slimfat-Enhanced.omp.EasterPastel.png" alt="EasterPastel theme preview" width="100%">
 </td>
 <td align="center" width="50%">
-<h4>FireIce</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.FireIce.png" alt="FireIce theme preview" width="100%">
+<h4>Everforest</h4>
+<img src="assets/theme-previews/slimfat-Enhanced.omp.Everforest.png" alt="Everforest theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>FireIce</h4>
+<img src="assets/theme-previews/slimfat-Enhanced.omp.FireIce.png" alt="FireIce theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>ForestEmber</h4>
 <img src="assets/theme-previews/slimfat-Enhanced.omp.ForestEmber.png" alt="ForestEmber theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>GithubDark</h4>
+<img src="assets/theme-previews/slimfat-Enhanced.omp.GithubDark.png" alt="GithubDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>GreenMatrix</h4>
@@ -1036,8 +1266,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>KanagawaWave</h4>
+<img src="assets/theme-previews/slimfat-Enhanced.omp.KanagawaWave.png" alt="KanagawaWave theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>LavenderPeach</h4>
 <img src="assets/theme-previews/slimfat-Enhanced.omp.LavenderPeach.png" alt="LavenderPeach theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>MaterialPalenight</h4>
+<img src="assets/theme-previews/slimfat-Enhanced.omp.MaterialPalenight.png" alt="MaterialPalenight theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>MidnightGold</h4>
@@ -1050,18 +1290,38 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/slimfat-Enhanced.omp.MonokaiPro.png" alt="MonokaiPro theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>Nightfox</h4>
+<img src="assets/theme-previews/slimfat-Enhanced.omp.Nightfox.png" alt="Nightfox theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>NightOwl</h4>
+<img src="assets/theme-previews/slimfat-Enhanced.omp.NightOwl.png" alt="NightOwl theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>NordFrost</h4>
 <img src="assets/theme-previews/slimfat-Enhanced.omp.NordFrost.png" alt="NordFrost theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>OneDark</h4>
+<img src="assets/theme-previews/slimfat-Enhanced.omp.OneDark.png" alt="OneDark theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>Original</h4>
 <img src="assets/theme-previews/slimfat-Enhanced.omp.Original.png" alt="Original theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>PinkParadise</h4>
 <img src="assets/theme-previews/slimfat-Enhanced.omp.PinkParadise.png" alt="PinkParadise theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Poimandres</h4>
+<img src="assets/theme-previews/slimfat-Enhanced.omp.Poimandres.png" alt="Poimandres theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -1080,8 +1340,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/slimfat-Enhanced.omp.RedAlert.png" alt="RedAlert theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>RosePine</h4>
+<img src="assets/theme-previews/slimfat-Enhanced.omp.RosePine.png" alt="RosePine theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>SolarizedDark</h4>
 <img src="assets/theme-previews/slimfat-Enhanced.omp.SolarizedDark.png" alt="SolarizedDark theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Synthwave84</h4>
+<img src="assets/theme-previews/slimfat-Enhanced.omp.Synthwave84.png" alt="Synthwave84 theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -1105,8 +1375,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/atomicBit-Enhanced.omp.AmberSunset.png" alt="AmberSunset theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>AyuMirage</h4>
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.AyuMirage.png" alt="AyuMirage theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>BlueOcean</h4>
 <img src="assets/theme-previews/atomicBit-Enhanced.omp.BlueOcean.png" alt="BlueOcean theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>CatppuccinFrappe</h4>
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.CatppuccinFrappe.png" alt="CatppuccinFrappe theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -1125,8 +1405,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/atomicBit-Enhanced.omp.ChristmasCheer.png" alt="ChristmasCheer theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>Cobalt2</h4>
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.Cobalt2.png" alt="Cobalt2 theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>DraculaNight</h4>
 <img src="assets/theme-previews/atomicBit-Enhanced.omp.DraculaNight.png" alt="DraculaNight theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Duskfox</h4>
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.Duskfox.png" alt="Duskfox theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -1135,14 +1425,24 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/atomicBit-Enhanced.omp.EasterPastel.png" alt="EasterPastel theme preview" width="100%">
 </td>
 <td align="center" width="50%">
-<h4>FireIce</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.FireIce.png" alt="FireIce theme preview" width="100%">
+<h4>Everforest</h4>
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.Everforest.png" alt="Everforest theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>FireIce</h4>
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.FireIce.png" alt="FireIce theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>ForestEmber</h4>
 <img src="assets/theme-previews/atomicBit-Enhanced.omp.ForestEmber.png" alt="ForestEmber theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>GithubDark</h4>
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.GithubDark.png" alt="GithubDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>GreenMatrix</h4>
@@ -1161,8 +1461,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>KanagawaWave</h4>
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.KanagawaWave.png" alt="KanagawaWave theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>LavenderPeach</h4>
 <img src="assets/theme-previews/atomicBit-Enhanced.omp.LavenderPeach.png" alt="LavenderPeach theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>MaterialPalenight</h4>
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.MaterialPalenight.png" alt="MaterialPalenight theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>MidnightGold</h4>
@@ -1175,18 +1485,38 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/atomicBit-Enhanced.omp.MonokaiPro.png" alt="MonokaiPro theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>Nightfox</h4>
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.Nightfox.png" alt="Nightfox theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>NightOwl</h4>
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.NightOwl.png" alt="NightOwl theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>NordFrost</h4>
 <img src="assets/theme-previews/atomicBit-Enhanced.omp.NordFrost.png" alt="NordFrost theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>OneDark</h4>
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.OneDark.png" alt="OneDark theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>Original</h4>
 <img src="assets/theme-previews/atomicBit-Enhanced.omp.Original.png" alt="Original theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>PinkParadise</h4>
 <img src="assets/theme-previews/atomicBit-Enhanced.omp.PinkParadise.png" alt="PinkParadise theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Poimandres</h4>
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.Poimandres.png" alt="Poimandres theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -1205,8 +1535,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/atomicBit-Enhanced.omp.RedAlert.png" alt="RedAlert theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>RosePine</h4>
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.RosePine.png" alt="RosePine theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>SolarizedDark</h4>
 <img src="assets/theme-previews/atomicBit-Enhanced.omp.SolarizedDark.png" alt="SolarizedDark theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Synthwave84</h4>
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.Synthwave84.png" alt="Synthwave84 theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -1230,8 +1570,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/clean-detailed-Enhanced.omp.AmberSunset.png" alt="AmberSunset theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>AyuMirage</h4>
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.AyuMirage.png" alt="AyuMirage theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>BlueOcean</h4>
 <img src="assets/theme-previews/clean-detailed-Enhanced.omp.BlueOcean.png" alt="BlueOcean theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>CatppuccinFrappe</h4>
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.CatppuccinFrappe.png" alt="CatppuccinFrappe theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -1250,8 +1600,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/clean-detailed-Enhanced.omp.ChristmasCheer.png" alt="ChristmasCheer theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>Cobalt2</h4>
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Cobalt2.png" alt="Cobalt2 theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>DraculaNight</h4>
 <img src="assets/theme-previews/clean-detailed-Enhanced.omp.DraculaNight.png" alt="DraculaNight theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Duskfox</h4>
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Duskfox.png" alt="Duskfox theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -1260,14 +1620,24 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/clean-detailed-Enhanced.omp.EasterPastel.png" alt="EasterPastel theme preview" width="100%">
 </td>
 <td align="center" width="50%">
-<h4>FireIce</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.FireIce.png" alt="FireIce theme preview" width="100%">
+<h4>Everforest</h4>
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Everforest.png" alt="Everforest theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>FireIce</h4>
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.FireIce.png" alt="FireIce theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>ForestEmber</h4>
 <img src="assets/theme-previews/clean-detailed-Enhanced.omp.ForestEmber.png" alt="ForestEmber theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>GithubDark</h4>
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.GithubDark.png" alt="GithubDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>GreenMatrix</h4>
@@ -1286,8 +1656,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>KanagawaWave</h4>
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.KanagawaWave.png" alt="KanagawaWave theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>LavenderPeach</h4>
 <img src="assets/theme-previews/clean-detailed-Enhanced.omp.LavenderPeach.png" alt="LavenderPeach theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>MaterialPalenight</h4>
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.MaterialPalenight.png" alt="MaterialPalenight theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>MidnightGold</h4>
@@ -1300,18 +1680,38 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/clean-detailed-Enhanced.omp.MonokaiPro.png" alt="MonokaiPro theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>Nightfox</h4>
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Nightfox.png" alt="Nightfox theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<h4>NightOwl</h4>
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.NightOwl.png" alt="NightOwl theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>NordFrost</h4>
 <img src="assets/theme-previews/clean-detailed-Enhanced.omp.NordFrost.png" alt="NordFrost theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>OneDark</h4>
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.OneDark.png" alt="OneDark theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>Original</h4>
 <img src="assets/theme-previews/clean-detailed-Enhanced.omp.Original.png" alt="Original theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>PinkParadise</h4>
 <img src="assets/theme-previews/clean-detailed-Enhanced.omp.PinkParadise.png" alt="PinkParadise theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Poimandres</h4>
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Poimandres.png" alt="Poimandres theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -1330,8 +1730,18 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <img src="assets/theme-previews/clean-detailed-Enhanced.omp.RedAlert.png" alt="RedAlert theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>RosePine</h4>
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.RosePine.png" alt="RosePine theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>SolarizedDark</h4>
 <img src="assets/theme-previews/clean-detailed-Enhanced.omp.SolarizedDark.png" alt="SolarizedDark theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Synthwave84</h4>
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Synthwave84.png" alt="Synthwave84 theme preview" width="100%">
 </td>
 </tr>
 <tr>
@@ -1363,12 +1773,11 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 
 - slimfat-Enhanced.omp.<Palette>.json - Two-line compact theme
 
-- \atomicBit-Enhanced.omp.<Palette>.json - Box-style technical theme
+- tomicBit-Enhanced.omp.<Palette>.json - Box-style technical theme
 
 - clean-detailed-Enhanced.omp.<Palette>.json - Minimalist clean theme
 
 **Examples:**
-
 ```pwsh
 # Atomic Custom with Nord Frost palette
 oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/atomic/OhMyPosh-Atomic-Custom.NordFrost.json" | Invoke-Expression
@@ -1387,7 +1796,6 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 ```
 
 **Available Palettes:**
-
 - **Original** - Your current vibrant tech theme
 
 - **Nord Frost** - Arctic cool tones
@@ -1437,5 +1845,3 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 - **Lavender Peach** - Soft lavender and warm peach 🍑
 
 ---
-
-<!-- {% endraw %} -->

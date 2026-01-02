@@ -20,3 +20,8 @@ repos:
             entry: pwsh -File ./scripts/validate-palette.ps1
             language: system
             files: OhMyPosh-Atomic-Custom\.json$
+          - id: normalize-palettes
+            name: Ensure palettes are normalized
+            entry: pwsh -File ./scripts/Normalize-Palettes.ps1 -Check
+            language: system
+            files: (color-palette-alternatives\.json|OhMyPosh-Atomic-Custom\.json)$

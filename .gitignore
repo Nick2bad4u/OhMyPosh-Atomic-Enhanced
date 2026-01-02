@@ -6,6 +6,9 @@
 # Exclude packaged modules
 *.zip
 
+# Backups created by maintenance scripts
+*.bak
+
 # Exclude .NET assemblies from source
 *.dll
 

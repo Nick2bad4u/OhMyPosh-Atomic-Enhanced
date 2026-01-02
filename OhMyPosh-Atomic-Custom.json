@@ -459,13 +459,13 @@
   "debug_prompt": {
     "background": "transparent",
     "background_templates": [
-      "{{ if eq .LogLevel \"DEBUG\" }}p:purple_session{{ end }}"
+      "{{ if eq .LogLevel \"DEBUG\" }}p:debug_bg{{ end }}"
     ],
-    "foreground": "p:black",
+    "foreground": "p:debug_fg",
     "foreground_templates": [
-      "{{ if eq .LogLevel \"DEBUG\" }}p:black{{ end }}"
+      "{{ if eq .LogLevel \"DEBUG\" }}p:debug_fg{{ end }}"
     ],
-    "template": "</><b><p:purple_session,transparent></><p:black,p:purple_session>  DEBUG </><p:purple_session,transparent></b></>"
+    "template": "</><b><p:debug_bg,transparent></><p:debug_fg,p:debug_bg>  DEBUG </><p:debug_bg,transparent></b></>"
   },
   "enable_cursor_positioning": true,
   "error_line": {
@@ -512,6 +512,8 @@
   },
   "palette": {
     "accent": "#21c7c7",
+    "debug_bg": "#21c7c7",
+    "debug_fg": "#000000",
     "axios_yellow": "#f7b93e",
     "black": "#000000",
     "blue_primary": "#0077c2",
