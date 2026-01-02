@@ -71,7 +71,7 @@ $myPalette = @{
 
 ## 🎨 Available Palettes
 
-The `color-palette-alternatives.json` file currently includes **28 palettes**:
+The `color-palette-alternatives.json` file currently includes **38 palettes**:
 
 - **original**
 - **nord_frost**
@@ -101,6 +101,16 @@ The `color-palette-alternatives.json` file currently includes **28 palettes**:
 - **one_dark**
 - **ayu_mirage**
 - **synthwave_84**
+- **kanagawa_wave**
+- **everforest**
+- **night_owl**
+- **cobalt2**
+- **poimandres**
+- **nightfox**
+- **duskfox**
+- **github_dark**
+- **material_palenight**
+- **catppuccin_frappe**
 
 See `COLOR-PALETTES-GUIDE.md` for visual previews and detailed descriptions.
 

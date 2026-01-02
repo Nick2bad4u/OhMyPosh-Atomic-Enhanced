@@ -58,6 +58,7 @@ All PowerShell helper scripts live in the **`scripts/`** directory of the reposi
 | **scripts/Generate-ThemePreviews.ps1** | Create preview images | Theme files | PNG preview images |
 | **scripts/sync-official-themes.ps1** | Sync official themes | Official repo | Updated themes |
 | **scripts/validate-palette.ps1** | Validate palette file | Palette JSON | Validation report |
+| **scripts/Normalize-Palettes.ps1** | Expand/normalize all palettes to include the full keyset (tooltips/shell/dividers/debug/etc) | `OhMyPosh-Atomic-Custom.json` + `color-palette-alternatives.json` | Updated `color-palette-alternatives.json` |
 
 > Note: `scripts/Generate-AllThemes.ps1` now runs the two sync scripts above by default, so updates you make to
 > `OhMyPosh-Atomic-Custom-ExperimentalDividers.json` (tooltips/shared settings) flow into all generated theme variants.
