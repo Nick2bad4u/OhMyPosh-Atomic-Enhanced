@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Generates preview images for all custom Oh My Posh themes and updates README.
 
@@ -29,15 +29,15 @@
     Generate images but don't update the README.
 
 .EXAMPLE
-    .\Generate-ThemePreviews.ps1
+    .\scripts\Generate-ThemePreviews.ps1
     Generates previews for all custom themes and updates README
 
 .EXAMPLE
-    .\Generate-ThemePreviews.ps1 -Force
+    .\scripts\Generate-ThemePreviews.ps1 -Force
     Regenerates all preview images
 
 .EXAMPLE
-    .\Generate-ThemePreviews.ps1 -SkipReadmeUpdate
+    .\scripts\Generate-ThemePreviews.ps1 -SkipReadmeUpdate
     Only generates images without updating README
 
 .NOTES
@@ -78,6 +78,23 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+
+# This script lives in .\scripts\, but operates on files in the repository root.
+$RepoRoot = Split-Path -Path $PSScriptRoot -Parent
+
+function Resolve-RepoPath {
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$Path)
+
+    if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
+    return (Join-Path -Path $RepoRoot -ChildPath $Path)
+}
+
+# Resolve repo-relative inputs (so the script works from any current directory)
+$ThemePattern = @($ThemePattern | ForEach-Object { Resolve-RepoPath $_ })
+$ImageSettings = Resolve-RepoPath $ImageSettings
+$OutputDirectory = Resolve-RepoPath $OutputDirectory
+$ReadmePath = Resolve-RepoPath $ReadmePath
 
 # Color scheme for output
 $colors = @{
@@ -131,7 +148,7 @@ catch {
 }
 
 # Verify image settings file exists
-if (-not (Test-Path $ImageSettings)) {
+if (-not (Test-Path -LiteralPath $ImageSettings)) {
     Write-WarningOutput "Image settings file not found: $ImageSettings"
     Write-Output '  Using default oh-my-posh image settings' -ForegroundColor $colors.Info
     $imageSettingsParam = @()
@@ -143,7 +160,7 @@ else {
 
 # Create output directory
 Write-Step 'Setting up output directory...'
-if (-not (Test-Path $OutputDirectory)) {
+if (-not (Test-Path -LiteralPath $OutputDirectory)) {
     New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
     Write-Success "Created: $OutputDirectory"
 }
@@ -269,7 +286,7 @@ if (-not $SkipReadmeUpdate) {
     }
 
     Write-Step 'Reading README.md...'
-    $readmeContent = Get-Content $ReadmePath -Raw
+    $readmeContent = Get-Content -LiteralPath $ReadmePath -Raw
 
     # Group themes by base theme (ensure they're arrays even if empty)
     $includeStatuses = @('Success','Skipped')
@@ -281,7 +298,7 @@ if (-not $SkipReadmeUpdate) {
     $cleanDetailedThemes = @($results | Where-Object { $_.Theme -like 'clean-detailed-Enhanced.omp.*' -and $_.Status -in $includeStatuses } | Sort-Object ThemeName)
 
     # Function to generate table rows for a theme group
-    function Get-ThemeTableRow {
+    function Get-ThemeTableRows {
         param(
             [array]$Themes,
             [string]$StripPrefix
@@ -519,7 +536,7 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
     }
 
     # Write updated README
-    $readmeContent | Set-Content $ReadmePath -Encoding UTF8 -NoNewline
+    $readmeContent | Set-Content -LiteralPath $ReadmePath -Encoding UTF8 -NoNewline
 
     $totalThemes = $experimentalDividersThemes.Count + $atomicThemes.Count + $shellThemes.Count + $slimfatThemes.Count + $atomicBitThemes.Count + $cleanDetailedThemes.Count
     Write-Success "README.md updated with $totalThemes theme previews across 6 families"

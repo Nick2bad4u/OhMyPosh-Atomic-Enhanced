@@ -91,7 +91,7 @@ See [ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.md).
 **A:** Use the included `New-ThemeWithPalette.ps1` script:
 
 ```powershell
-.\New-ThemeWithPalette.ps1 -PaletteName "my_custom" -BaseTheme "original"
+.\scripts\New-ThemeWithPalette.ps1 -PaletteName "my_custom" -BaseTheme "original"
 ```
 
 Or manually create a JSON file following the Oh My Posh schema.
@@ -718,3 +718,4 @@ Found a great customization? Share it!
 We're here to help! 🎉
 
 <!-- {% endraw %} -->
+

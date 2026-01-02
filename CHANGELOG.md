@@ -288,7 +288,7 @@ Signed-off-by: Nick2bad4u <20943337+Nick2bad4u@users.noreply.github.com> [`(f41b
 - _(website)_ Remove Docusaurus website and all related assets [`(443c4bd)`](https://github.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/commit/443c4bd011c4bbea4979e56c8bcc192cc15df755)
 
 - 🧹 [chore] Add sync-official-themes.ps1 to update official Oh-My-Posh themes
-- Add PowerShell script ./sync-official-themes.ps1 that pulls the official themes subtree (ohmyposh-themes -> ohmyposh-official-themes) using `git subtree pull --prefix=ohmyposh-official-themes ... --squash`
+- Add PowerShell script ./scripts/sync-official-themes.ps1 that pulls the official themes subtree (ohmyposh-themes -> ohmyposh-official-themes) using `git subtree pull --prefix=ohmyposh-official-themes ... --squash`
 - Print progress and outcome messages, show themes folder location and count JSON themes on successful update
 - Print failure message with guidance to commit local changes when the subtree pull fails
 

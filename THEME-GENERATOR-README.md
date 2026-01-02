@@ -4,8 +4,8 @@ Powerful PowerShell scripts to quickly generate Oh My Posh theme variants with d
 
 ## 📁 Files
 
-- **`New-ThemeWithPalette.ps1`** - Generate a single theme with a specific palette
-- **`Generate-AllThemes.ps1`** - Batch generate themes for all available palettes
+- **`scripts/New-ThemeWithPalette.ps1`** - Generate a single theme with a specific palette
+- **`scripts/Generate-AllThemes.ps1`** - Batch generate themes for all available palettes
 - **`color-palette-alternatives.json`** - Collection of themed color palettes
 - **`COLOR-PALETTES-GUIDE.md`** - Visual guide to all available palettes
 
@@ -15,10 +15,10 @@ Powerful PowerShell scripts to quickly generate Oh My Posh theme variants with d
 
 ```powershell
 # Generate Tokyo Night theme
-.\New-ThemeWithPalette.ps1 -PaletteName "tokyo_night" -OutputName "TokyoNight" -UpdateAccentColor
+.\scripts\New-ThemeWithPalette.ps1 -PaletteName "tokyo_night" -OutputName "TokyoNight" -UpdateAccentColor
 
 # Generate Nord Frost theme
-.\New-ThemeWithPalette.ps1 -PaletteName "nord_frost" -UpdateAccentColor
+.\scripts\New-ThemeWithPalette.ps1 -PaletteName "nord_frost" -UpdateAccentColor
 
 # Generate with custom palette object
 $myPalette = @{
@@ -26,20 +26,20 @@ $myPalette = @{
     blue_primary = "#0000ff"
     # ... more colors
 }
-.\New-ThemeWithPalette.ps1 -PaletteObject $myPalette -OutputName "CustomTheme"
+.\scripts\New-ThemeWithPalette.ps1 -PaletteObject $myPalette -OutputName "CustomTheme"
 ```
 
 ### Generate ALL Themes at Once
 
 ```powershell
 # Generate all themes with updated accent colors
-.\Generate-AllThemes.ps1 -UpdateAccentColor
+.\scripts\Generate-AllThemes.ps1 -UpdateAccentColor
 
 # Force overwrite existing files
-.\Generate-AllThemes.ps1 -UpdateAccentColor -Force
+.\scripts\Generate-AllThemes.ps1 -UpdateAccentColor -Force
 
 # Exclude specific palettes
-.\Generate-AllThemes.ps1 -ExcludePalettes @("original", "test_palette")
+.\scripts\Generate-AllThemes.ps1 -ExcludePalettes @("original", "test_palette")
 ```
 
 ## 📋 Script Parameters
@@ -89,7 +89,7 @@ See `COLOR-PALETTES-GUIDE.md` for visual previews and detailed descriptions.
 
 ```powershell
 # Generate a Dracula-themed variant
-.\New-ThemeWithPalette.ps1 -PaletteName "dracula_night" -UpdateAccentColor
+.\scripts\New-ThemeWithPalette.ps1 -PaletteName "dracula_night" -UpdateAccentColor
 
 # Output: OhMyPosh-Atomic-Custom.DraculaNight.json
 ```
@@ -98,7 +98,7 @@ See `COLOR-PALETTES-GUIDE.md` for visual previews and detailed descriptions.
 
 ```powershell
 # Generate complete collection
-.\Generate-AllThemes.ps1 -UpdateAccentColor -Force
+.\scripts\Generate-AllThemes.ps1 -UpdateAccentColor -Force
 
 # Creates:
 # - OhMyPosh-Atomic-Custom.Original.json
@@ -116,7 +116,7 @@ See `COLOR-PALETTES-GUIDE.md` for visual previews and detailed descriptions.
 
 ```powershell
 # Use different source theme
-.\New-ThemeWithPalette.ps1 `
+.\scripts\New-ThemeWithPalette.ps1 `
     -SourceTheme "MyCustomTheme.json" `
     -PaletteName "tokyo_night" `
     -OutputPath "C:\Themes\Tokyo.json" `
@@ -137,7 +137,7 @@ $oceanPalette = @{
 }
 
 # Generate theme with custom palette
-.\New-ThemeWithPalette.ps1 `
+.\scripts\New-ThemeWithPalette.ps1 `
     -PaletteObject $oceanPalette `
     -OutputName "Ocean" `
     -UpdateAccentColor
@@ -215,7 +215,7 @@ To add your own palette to the collection:
 3. Generate the theme:
 
 ```powershell
-.\New-ThemeWithPalette.ps1 -PaletteName "my_custom" -UpdateAccentColor
+.\scripts\New-ThemeWithPalette.ps1 -PaletteName "my_custom" -UpdateAccentColor
 ```
 
 ## 📊 Palette Color Keys
@@ -284,7 +284,7 @@ To add new palettes to the collection:
 
 1. Design your palette with all 67 colors
 2. Add to `color-palette-alternatives.json`
-3. Run `.\Generate-AllThemes.ps1 -Force` to regenerate all themes
+3. Run `.\scripts\Generate-AllThemes.ps1 -Force` to regenerate all themes
 4. Share your palette with the community!
 
 ## 📄 License

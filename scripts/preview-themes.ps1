@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env pwsh
+#!/usr/bin/env pwsh
 # Interactive theme viewer - press Enter to go to next theme
 
 param(
@@ -8,6 +8,17 @@ param(
     [ValidateSet('All','Atomic','ExperimentalDividers','1Shell','Slimfat','AtomicBit','CleanDetailed')]
     [string]$ThemeFamily = 'All'
 )
+
+# This script lives in .\scripts\, but operates on files in the repository root.
+$RepoRoot = Split-Path -Path $PSScriptRoot -Parent
+
+function Resolve-RepoPath {
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$Path)
+
+    if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
+    return (Join-Path -Path $RepoRoot -ChildPath $Path)
+}
 
 # Define base themes
 $baseThemes = @(
@@ -45,10 +56,11 @@ $customThemes = @()
 foreach ($base in $baseThemes) {
     # Add base theme file if it exists
     $baseFile = "$($base.Prefix).json"
-    if (Test-Path $baseFile) {
+    $baseFilePath = Resolve-RepoPath $baseFile
+    if (Test-Path -LiteralPath $baseFilePath) {
         $customThemes += @{
             Name = "$($base.Name) (Base)"
-            Path = $baseFile
+            Path = $baseFilePath
             Family = $base.Name
         }
     }
@@ -56,10 +68,11 @@ foreach ($base in $baseThemes) {
     # Special-case: NoShellIntegration variant lives in repo root
     if ($base.Prefix -eq 'OhMyPosh-Atomic-Custom-ExperimentalDividers') {
         $noShell = 'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json'
-        if (Test-Path $noShell) {
+        $noShellPath = Resolve-RepoPath $noShell
+        if (Test-Path -LiteralPath $noShellPath) {
             $customThemes += @{
                 Name = "$($base.Name) (NoShellIntegration)"
-                Path = $noShell
+                Path = $noShellPath
                 Family = $base.Name
             }
         }
@@ -69,12 +82,13 @@ foreach ($base in $baseThemes) {
     foreach ($palette in $paletteVariants) {
         $folder = $variantFolders[$base.Prefix]
         $variantFile = if ($folder) {
-            Join-Path -Path $folder -ChildPath "$($base.Prefix).$palette.json"
+            $folderPath = Join-Path -Path $RepoRoot -ChildPath $folder
+            Join-Path -Path $folderPath -ChildPath "$($base.Prefix).$palette.json"
         }
         else {
-            "$($base.Prefix).$palette.json"
+            Resolve-RepoPath "$($base.Prefix).$palette.json"
         }
-        if (Test-Path $variantFile) {
+        if (Test-Path -LiteralPath $variantFile) {
             $customThemes += @{
                 Name = "$($base.Name) - $palette"
                 Path = $variantFile
@@ -84,7 +98,7 @@ foreach ($base in $baseThemes) {
     }
 }
 
-$officialThemesPath = 'ohmyposh-official-themes\themes'
+$officialThemesPath = Resolve-RepoPath 'ohmyposh-official-themes\themes'
 
 if (-not $Official -and -not $Custom) {
     $Official = $true
@@ -121,8 +135,8 @@ if ($Custom) {
 }
 
 if ($Official) {
-    if (Test-Path $officialThemesPath) {
-        $officialFiles = Get-ChildItem "$officialThemesPath\*.json" | Sort-Object Name
+    if (Test-Path -LiteralPath $officialThemesPath) {
+        $officialFiles = Get-ChildItem (Join-Path $officialThemesPath '*.json') | Sort-Object Name
         foreach ($file in $officialFiles) {
             $themes += @{
                 Type = 'Official'

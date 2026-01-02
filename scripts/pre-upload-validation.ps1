@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
 Pre-upload validation script for Oh My Posh theme.
 
@@ -16,13 +16,27 @@ Path to the theme JSON file. Defaults to 'OhMyPosh-Atomic-Custom.json'.
 Path to the test JSON file. Defaults to 'test_OhMyPosh-Atomic-Custom.json'.
 
 .EXAMPLE
-.\pre-upload-validation.ps1
+.\scripts\pre-upload-validation.ps1
 #>
 
 param(
-    [string]$ThemePath = 'OhMyPosh-Atomic-Custom.json',
-    [string]$TestPath = 'test_OhMyPosh-Atomic-Custom.json'
+    [string]$ThemePath = (Join-Path -Path (Split-Path -Path $PSScriptRoot -Parent) -ChildPath 'OhMyPosh-Atomic-Custom.json'),
+    [string]$TestPath = (Join-Path -Path (Split-Path -Path $PSScriptRoot -Parent) -ChildPath 'test_OhMyPosh-Atomic-Custom.json')
 )
+
+$RepoRoot = Split-Path -Path $PSScriptRoot -Parent
+
+function Resolve-RepoPath {
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$Path)
+
+    if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
+    return (Join-Path -Path $RepoRoot -ChildPath $Path)
+}
+
+# If callers pass relative paths, interpret them relative to the repo root.
+$ThemePath = Resolve-RepoPath $ThemePath
+$TestPath = Resolve-RepoPath $TestPath
 
 $errors = @()
 $warnings = @()

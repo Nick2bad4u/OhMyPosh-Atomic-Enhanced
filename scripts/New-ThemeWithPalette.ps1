@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Creates a new Oh My Posh theme file with a different color palette.
 
@@ -34,16 +34,16 @@
     If specified, also updates the root "accent_color" property to match the palette accent.
 
 .EXAMPLE
-    .\New-ThemeWithPalette.ps1 -PaletteName "tokyo_night" -OutputName "TokyoNight"
+    .\scripts\New-ThemeWithPalette.ps1 -PaletteName "tokyo_night" -OutputName "TokyoNight"
     Creates OhMyPosh-Atomic-Custom.TokyoNight.json with Tokyo Night palette
 
 .EXAMPLE
-    .\New-ThemeWithPalette.ps1 -PaletteName "nord_frost" -UpdateAccentColor
+    .\scripts\New-ThemeWithPalette.ps1 -PaletteName "nord_frost" -UpdateAccentColor
     Creates OhMyPosh-Atomic-Custom.NordFrost.json and updates accent_color
 
 .EXAMPLE
     $customPalette = @{ accent = "#ff0000"; blue_primary = "#0000ff"; ... }
-    .\New-ThemeWithPalette.ps1 -PaletteObject $customPalette -OutputName "CustomRed"
+    .\scripts\New-ThemeWithPalette.ps1 -PaletteObject $customPalette -OutputName "CustomRed"
 
 .NOTES
     Author: GitHub Copilot
@@ -77,6 +77,27 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# This script lives in .\scripts\, but operates on files in the repository root.
+$RepoRoot = Split-Path -Path $PSScriptRoot -Parent
+
+function Resolve-RepoPath {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [string]$Path
+    )
+
+    if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
+    return (Join-Path -Path $RepoRoot -ChildPath $Path)
+}
+
+# Resolve repo-relative inputs
+$SourceTheme = Resolve-RepoPath $SourceTheme
+$PalettesFile = Resolve-RepoPath $PalettesFile
+if ($OutputPath -and -not [System.IO.Path]::IsPathRooted($OutputPath)) {
+    $OutputPath = Resolve-RepoPath $OutputPath
+}
+
 # Helper function to convert PascalCase/snake_case to Title Case
 function ConvertTo-TitleCase {
     param([string]$Text)
@@ -109,7 +130,7 @@ Write-Output "🎨 Oh My Posh Theme Palette Generator" -ForegroundColor Cyan
 Write-Output "=" * 50 -ForegroundColor DarkGray
 
 # Verify source theme exists
-if (-not (Test-Path $SourceTheme)) {
+if (-not (Test-Path -LiteralPath $SourceTheme)) {
     Write-Error "Source theme file not found: $SourceTheme"
     exit 1
 }
@@ -119,7 +140,7 @@ Write-Output $SourceTheme -ForegroundColor Yellow
 
 # Read source theme
 try {
-    $themeContent = Get-Content $SourceTheme -Raw
+    $themeContent = Get-Content -LiteralPath $SourceTheme -Raw
     $theme = $themeContent | ConvertFrom-Json -AsHashTable
 }
 catch {
@@ -133,7 +154,7 @@ $paletteFriendlyName = ""
 
 if ($PSCmdlet.ParameterSetName -eq 'ByPaletteName') {
     # Load palettes file
-    if (-not (Test-Path $PalettesFile)) {
+    if (-not (Test-Path -LiteralPath $PalettesFile)) {
         Write-Error "Palettes file not found: $PalettesFile"
         exit 1
     }
@@ -142,7 +163,7 @@ if ($PSCmdlet.ParameterSetName -eq 'ByPaletteName') {
     Write-Output $PalettesFile -ForegroundColor Yellow
 
     try {
-        $palettesContent = Get-Content $PalettesFile -Raw
+        $palettesContent = Get-Content -LiteralPath $PalettesFile -Raw
         $palettes = ($palettesContent | ConvertFrom-Json).palettes
     }
     catch {
@@ -234,7 +255,7 @@ try {
     $jsonOutput = $theme | ConvertTo-Json -Depth 100
 
     # Write to file
-    $jsonOutput | Set-Content -Path $outputFile -Encoding UTF8
+    $jsonOutput | Set-Content -LiteralPath $outputFile -Encoding UTF8
 
     Write-Output "✅ SUCCESS!" -ForegroundColor Green
     Write-Output "`n📄 New theme created:" -ForegroundColor Cyan

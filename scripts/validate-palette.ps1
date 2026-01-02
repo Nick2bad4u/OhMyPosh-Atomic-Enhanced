@@ -16,21 +16,33 @@ Path to the Oh My Posh config JSON file. If not provided, defaults to 'OhMyPosh-
 3 - Unused palette entries (defined but never referenced), only if there are no missing entries.
 
 .EXAMPLE
-.\validate-palette.ps1 -ConfigPath '.\OhMyPosh-Atomic-Custom.json'
+.\scripts\validate-palette.ps1 -ConfigPath '.\OhMyPosh-Atomic-Custom.json'
 #>
 
 # Default value for $ConfigPath is 'OhMyPosh-Atomic-Custom.json'
 param(
-    [string]$ConfigPath = 'OhMyPosh-Atomic-Custom.json'
+    [string]$ConfigPath = (Join-Path -Path (Split-Path -Path $PSScriptRoot -Parent) -ChildPath 'OhMyPosh-Atomic-Custom.json')
 )
 
-if (-not (Test-Path $ConfigPath)) {
+$RepoRoot = Split-Path -Path $PSScriptRoot -Parent
+
+function Resolve-RepoPath {
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$Path)
+
+    if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
+    return (Join-Path -Path $RepoRoot -ChildPath $Path)
+}
+
+$ConfigPath = Resolve-RepoPath $ConfigPath
+
+if (-not (Test-Path -LiteralPath $ConfigPath)) {
     Write-Error "Config file not found: $ConfigPath"
     exit 1
 }
 
 try {
-    $rawContent = Get-Content $ConfigPath -Raw
+    $rawContent = Get-Content -LiteralPath $ConfigPath -Raw
     $json = $rawContent | ConvertFrom-Json
 }
 catch {

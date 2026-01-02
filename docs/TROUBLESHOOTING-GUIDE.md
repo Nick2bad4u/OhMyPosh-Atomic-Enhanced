@@ -134,8 +134,8 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
 
    ```powershell
    # Test different palettes to find best match
-   .\New-ThemeWithPalette.ps1 -PaletteName "nord_frost"
-   .\New-ThemeWithPalette.ps1 -PaletteName "dracula_night"
+   .\scripts\New-ThemeWithPalette.ps1 -PaletteName "nord_frost"
+   .\scripts\New-ThemeWithPalette.ps1 -PaletteName "dracula_night"
    ```
 
 3. **Manually Adjust Palette Colors**
@@ -637,7 +637,7 @@ try {
 
 ```powershell
 # Run validation script
-.\validate-palette.ps1
+.\scripts\validate-palette.ps1
 
 # Check for typos
 $theme = Get-Content "theme.json" | ConvertFrom-Json

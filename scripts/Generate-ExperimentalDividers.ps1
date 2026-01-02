@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Generates Experimental Dividers themes for all palettes into a dedicated folder.
 
@@ -37,19 +37,35 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# This script lives in .\scripts\, but operates on files in the repository root.
+$RepoRoot = Split-Path -Path $PSScriptRoot -Parent
+
+function Resolve-RepoPath {
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$Path)
+
+    if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
+    return (Join-Path -Path $RepoRoot -ChildPath $Path)
+}
+
 function ConvertTo-PascalCase {
     param([string]$Text)
     $words = $Text -split '[\s_-]+'
     ($words | Where-Object { $_ } | ForEach-Object { $_.Substring(0,1).ToUpper() + $_.Substring(1).ToLower() }) -join ''
 }
 
-if (-not (Test-Path $SourceTheme)) { throw "Source theme not found: $SourceTheme" }
-if (-not (Test-Path $PalettesFile)) { throw "Palettes file not found: $PalettesFile" }
+# Resolve repo-relative inputs
+$SourceTheme = Resolve-RepoPath $SourceTheme
+$PalettesFile = Resolve-RepoPath $PalettesFile
+$OutputDirectory = Resolve-RepoPath $OutputDirectory
 
-$palettes = (Get-Content $PalettesFile -Raw | ConvertFrom-Json).palettes
+if (-not (Test-Path -LiteralPath $SourceTheme)) { throw "Source theme not found: $SourceTheme" }
+if (-not (Test-Path -LiteralPath $PalettesFile)) { throw "Palettes file not found: $PalettesFile" }
+
+$palettes = (Get-Content -LiteralPath $PalettesFile -Raw | ConvertFrom-Json).palettes
 $paletteNames = $palettes.PSObject.Properties.Name
 
-if (-not (Test-Path $OutputDirectory)) {
+if (-not (Test-Path -LiteralPath $OutputDirectory)) {
     New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
 }
 
@@ -59,7 +75,7 @@ foreach ($name in $paletteNames) {
     $pascal = ConvertTo-PascalCase $name
     $outFile = Join-Path $OutputDirectory "$baseName.$pascal.json"
 
-    if ((Test-Path $outFile) -and -not $Force) {
+    if ((Test-Path -LiteralPath $outFile) -and -not $Force) {
         Write-Output "⚠️  Skipping (exists): $outFile" -ForegroundColor Yellow
         continue
     }

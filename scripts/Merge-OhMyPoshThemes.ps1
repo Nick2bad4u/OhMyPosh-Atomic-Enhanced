@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Merges Oh My Posh theme styling from official themes into a custom theme structure.
 
@@ -20,10 +20,10 @@
     If specified, processes all .omp.json files in the OfficialThemePath directory
 
 .EXAMPLE
-    .\Merge-OhMyPoshThemes.ps1 -CustomThemePath .\OhMyPosh-Atomic-Custom.json -OfficialThemePath .\ohmyposh-official-themes\themes\dracula.omp.json -OutputPath .\output
+    .\scripts\Merge-OhMyPoshThemes.ps1 -CustomThemePath .\OhMyPosh-Atomic-Custom.json -OfficialThemePath .\ohmyposh-official-themes\themes\dracula.omp.json -OutputPath .\output
 
 .EXAMPLE
-    .\Merge-OhMyPoshThemes.ps1 -CustomThemePath .\OhMyPosh-Atomic-Custom.json -OfficialThemePath .\ohmyposh-official-themes\themes -OutputPath .\output -ProcessAll
+    .\scripts\Merge-OhMyPoshThemes.ps1 -CustomThemePath .\OhMyPosh-Atomic-Custom.json -OfficialThemePath .\ohmyposh-official-themes\themes -OutputPath .\output -ProcessAll
 
 .NOTES
     Author: GitHub Copilot

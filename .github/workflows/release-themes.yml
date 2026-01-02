@@ -82,10 +82,10 @@ jobs:
                   $ErrorActionPreference = 'Stop'
 
                   # Generate the 5 primary theme families into the repo root
-                  pwsh -NoProfile -File .\Generate-AllThemes.ps1 -Force
+                  pwsh -NoProfile -File .\scripts\Generate-AllThemes.ps1 -Force
 
                   # Generate ExperimentalDividers palette variants into .\experimentalDividers
-                  pwsh -NoProfile -File .\Generate-ExperimentalDividers.ps1 -Force
+                  pwsh -NoProfile -File .\scripts\Generate-ExperimentalDividers.ps1 -Force
 
                   # Ensure the NoShellIntegration variant is in sync
                   pwsh -NoProfile -File .\scripts\Make-NoShellIntegration.ps1

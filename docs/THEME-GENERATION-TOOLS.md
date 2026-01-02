@@ -42,20 +42,20 @@ Instead of manually editing JSON, use these tools to:
 
 ### Location
 
-All scripts are in the **root directory** of the repository.
+All PowerShell helper scripts live in the **`scripts/`** directory of the repository.
 
 ### Quick Reference Table
 
 | Script | Purpose | Input | Output |
 | --- | --- | --- | --- |
-| **Generate-AllThemes.ps1** | Generate all theme variants | Color palettes | Theme-family folders (default) or one output folder |
-| **New-ThemeWithPalette.ps1** | Create theme from palette | Palette file | Single .json file |
-| **cycle-themes.ps1** | Cycle through themes | Theme folder | Activates one at a time |
-| **Merge-OhMyPoshThemes.ps1** | Merge multiple themes | Theme files | Merged theme |
-| **pre-upload-validation.ps1** | Validate before upload | Theme path | Pass/fail report |
-| **Generate-ThemePreviews.ps1** | Create preview images | Theme files | PNG preview images |
-| **sync-official-themes.ps1** | Sync official themes | Official repo | Updated themes |
-| **validate-palette.ps1** | Validate palette file | Palette JSON | Validation report |
+| **scripts/Generate-AllThemes.ps1** | Generate all theme variants | Color palettes | Theme-family folders (default) or one output folder |
+| **scripts/New-ThemeWithPalette.ps1** | Create theme from palette | Palette file | Single .json file |
+| **scripts/cycle-themes.ps1** | Cycle through themes | Theme folder | Activates one at a time |
+| **scripts/Merge-OhMyPoshThemes.ps1** | Merge multiple themes | Theme files | Merged theme |
+| **scripts/pre-upload-validation.ps1** | Validate before upload | Theme path | Pass/fail report |
+| **scripts/Generate-ThemePreviews.ps1** | Create preview images | Theme files | PNG preview images |
+| **scripts/sync-official-themes.ps1** | Sync official themes | Official repo | Updated themes |
+| **scripts/validate-palette.ps1** | Validate palette file | Palette JSON | Validation report |
 
 ---
 
@@ -70,7 +70,7 @@ Generates all theme variants from available color palettes.
 #### Basic Usage
 
 ```powershell
-.\Generate-AllThemes.ps1
+.\scripts\Generate-AllThemes.ps1
 ```
 
 **What it does:**
@@ -88,19 +88,19 @@ Generates all theme variants from available color palettes.
 
 ```powershell
 # Use a custom palettes file
-.\Generate-AllThemes.ps1 -PalettesFile ".\color-palette-alternatives.json" -Force
+.\scripts\Generate-AllThemes.ps1 -PalettesFile ".\color-palette-alternatives.json" -Force
 
 # Exclude specific palettes
-.\Generate-AllThemes.ps1 -ExcludePalettes @('original') -Force
+.\scripts\Generate-AllThemes.ps1 -ExcludePalettes @('original') -Force
 
 # Only generate for some source themes
-.\Generate-AllThemes.ps1 -SourceThemes @(
+.\scripts\Generate-AllThemes.ps1 -SourceThemes @(
   'OhMyPosh-Atomic-Custom.json',
   '1_shell-Enhanced.omp.json'
 ) -Force
 
 # Override output: put ALL generated variants into one directory
-.\Generate-AllThemes.ps1 -OutputDirectory "C:\my-themes" -Force
+.\scripts\Generate-AllThemes.ps1 -OutputDirectory "C:\my-themes" -Force
 ```
 
 ### Parameters
@@ -122,13 +122,13 @@ Generates all theme variants from available color palettes.
 Copy-Item "color-palette-alternatives.json" "my-palette.json"
 
 # 2. Generate all themes from palette
-.\Generate-AllThemes.ps1 -PalettesFile "my-palette.json" -Force
+.\scripts\Generate-AllThemes.ps1 -PalettesFile "my-palette.json" -Force
 
 # 3. Check generated files
 Get-ChildItem -Path ".\atomic" -Filter "OhMyPosh-Atomic-Custom.*.json"
 
 # 4. Validate generated themes
-.\pre-upload-validation.ps1 -ThemePath ".\atomic\OhMyPosh-Atomic-Custom.TokyoNight.json"
+.\scripts\pre-upload-validation.ps1 -ThemePath ".\atomic\OhMyPosh-Atomic-Custom.TokyoNight.json"
 
 # 5. Test the theme
 oh-my-posh init pwsh --config ".\atomic\OhMyPosh-Atomic-Custom.TokyoNight.json" | Invoke-Expression
@@ -147,13 +147,13 @@ Creates a **single theme** from a specific color palette.
 #### Basic Usage
 
 ```powershell
-.\New-ThemeWithPalette.ps1 -PaletteName "tokyo_night" -OutputName "TokyoNight"
+.\scripts\New-ThemeWithPalette.ps1 -PaletteName "tokyo_night" -OutputName "TokyoNight"
 ```
 
 #### With Template
 
 ```powershell
-.\New-ThemeWithPalette.ps1 `
+.\scripts\New-ThemeWithPalette.ps1 `
   -SourceTheme "OhMyPosh-Atomic-Custom.json" `
   -PaletteName "nord_frost" `
   -OutputPath ".\atomic\OhMyPosh-Atomic-Custom.NordFrost.json" `
@@ -187,7 +187,7 @@ $palette = @{
 $palette | Out-File "my-palette.json"
 
 # 2. Create theme from palette
-.\New-ThemeWithPalette.ps1 `
+.\scripts\New-ThemeWithPalette.ps1 `
   -PalettePath "my-palette.json" `
   -OutputPath "my-atomic-theme.json" `
   -ThemeName "My Custom Theme"
@@ -213,25 +213,25 @@ Cycles through available themes, activating each one so you can preview them.
 #### Basic Usage (cycles official + custom)
 
 ```powershell
-.\cycle-themes.ps1
+.\scripts\cycle-themes.ps1
 ```
 
 #### Only custom themes
 
 ```powershell
-.\cycle-themes.ps1 -Custom -Official:$false
+.\scripts\cycle-themes.ps1 -Custom -Official:$false
 ```
 
 #### Include palette variants from theme-family folders
 
 ```powershell
-.\cycle-themes.ps1 -Custom -Variants
+.\scripts\cycle-themes.ps1 -Custom -Variants
 ```
 
 #### Control the delay (seconds)
 
 ```powershell
-.\cycle-themes.ps1 -Delay 3
+.\scripts\cycle-themes.ps1 -Delay 3
 ```
 
 ### Parameters
@@ -268,7 +268,7 @@ Combines multiple theme configurations into a single theme file.
 #### Merge Two Themes
 
 ```powershell
-.\Merge-OhMyPoshThemes.ps1 `
+.\scripts\Merge-OhMyPoshThemes.ps1 `
   -PrimaryTheme "base-theme.json" `
   -SecondaryTheme "accent-theme.json" `
   -OutputPath "merged-theme.json"
@@ -283,7 +283,7 @@ $themes = @(
   "theme3.json"
 )
 
-.\Merge-OhMyPoshThemes.ps1 -ThemeFiles $themes -OutputPath "combined.json"
+.\scripts\Merge-OhMyPoshThemes.ps1 -ThemeFiles $themes -OutputPath "combined.json"
 ```
 
 ### Parameters
@@ -309,7 +309,7 @@ $base = "OhMyPosh-Atomic-Custom.json"
 $colorTheme = "OhMyPosh-Atomic-Custom.NordFrost.json"
 
 # 3. Merge them
-.\Merge-OhMyPoshThemes.ps1 `
+.\scripts\Merge-OhMyPoshThemes.ps1 `
   -PrimaryTheme $base `
   -SecondaryTheme $colorTheme `
   -OutputPath "my-combined-theme.json"
@@ -329,7 +329,7 @@ Validates a theme before uploading to ensure it's correct.
 #### Usage
 
 ```powershell
-.\pre-upload-validation.ps1 -ThemePath "OhMyPosh-Atomic-Custom-ExperimentalDividers.json"
+.\scripts\pre-upload-validation.ps1 -ThemePath "OhMyPosh-Atomic-Custom-ExperimentalDividers.json"
 ```
 
 #### What It Checks
@@ -358,7 +358,7 @@ Validates a color palette file.
 #### Usage
 
 ```powershell
-.\validate-palette.ps1 -PalettePath "color-palette-alternatives.json"
+.\scripts\validate-palette.ps1 -PalettePath "color-palette-alternatives.json"
 ```
 
 #### What It Checks
@@ -380,7 +380,7 @@ Creates preview images of themes.
 #### Usage
 
 ```powershell
-.\Generate-ThemePreviews.ps1 -ThemeFolder ".\atomic"
+.\scripts\Generate-ThemePreviews.ps1 -ThemeFolder ".\atomic"
 ```
 
 **Creates:** PNG image previews of each theme
@@ -388,7 +388,7 @@ Creates preview images of themes.
 #### Advanced Usage
 
 ```powershell
-.\Generate-ThemePreviews.ps1 `
+.\scripts\Generate-ThemePreviews.ps1 `
   -ThemeFolder ".\atomic" `
   -OutputPath ".\assets\theme-previews" `
   -ImageWidth 1920 `
@@ -441,7 +441,7 @@ $customPalette = @{
 }
 
 # 2. Generate theme from it
-.\New-ThemeWithPalette.ps1 `
+.\scripts\New-ThemeWithPalette.ps1 `
   -PaletteName "MyPalette" `
   -OutputPath "my-palette-theme.json"
 ```
@@ -497,7 +497,7 @@ $palettes = @(
 
 foreach ($p in $palettes) {
   Write-Host "Generating: $($p.id)"
-  .\New-ThemeWithPalette.ps1 -PaletteName $p.id -OutputPath ".\output\OhMyPosh-Atomic-Custom.$($p.out).json"
+  .\scripts\New-ThemeWithPalette.ps1 -PaletteName $p.id -OutputPath ".\output\OhMyPosh-Atomic-Custom.$($p.out).json"
 }
 
 Write-Host "✓ Generated $($palettes.Count) themes"
@@ -543,16 +543,16 @@ $myPalette = @{
 $myPalette | Out-File "my-palette.json"
 
 # Step 2: Generate theme from palette
-.\New-ThemeWithPalette.ps1 `
+.\scripts\New-ThemeWithPalette.ps1 `
   -PalettePath "my-palette.json" `
   -OutputPath "my-theme.json" `
   -ThemeName "My Awesome Theme"
 
 # Step 3: Validate the theme
-.\pre-upload-validation.ps1 -ThemePath "my-theme.json"
+.\scripts\pre-upload-validation.ps1 -ThemePath "my-theme.json"
 
 # Step 4: Generate preview
-.\Generate-ThemePreviews.ps1 -ThemeFile "my-theme.json"
+.\scripts\Generate-ThemePreviews.ps1 -ThemeFile "my-theme.json"
 
 # Step 5: Test the theme
 $env:OHMYPOSH_DEBUG = "false"
@@ -562,7 +562,7 @@ oh-my-posh init pwsh --config "my-theme.json" | Invoke-Expression
 Copy-Item "my-theme.json" ".\atomic\OhMyPosh-Atomic-Custom.MyAwesome.json"
 
 # Step 7: Add to cycling tests
-.\cycle-themes.ps1 -ThemeFolder ".\atomic"
+.\scripts\cycle-themes.ps1 -ThemeFolder ".\atomic"
 ```
 
 ### Batch Workflow: Generate Multiple Variants

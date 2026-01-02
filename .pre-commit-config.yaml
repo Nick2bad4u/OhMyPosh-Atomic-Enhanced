@@ -12,11 +12,11 @@ repos:
       hooks:
           - id: validate-theme
             name: Validate Oh My Posh theme
-            entry: pwsh -File ./pre-upload-validation.ps1
+            entry: pwsh -File ./scripts/pre-upload-validation.ps1
             language: system
             files: OhMyPosh-Atomic-Custom\.json$
           - id: validate-palette
             name: Validate palette references
-            entry: pwsh -File ./validate-palette.ps1
+            entry: pwsh -File ./scripts/validate-palette.ps1
             language: system
             files: OhMyPosh-Atomic-Custom\.json$

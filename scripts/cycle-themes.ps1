@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env pwsh
+#!/usr/bin/env pwsh
 # Cycle through all available themes to preview them
 
 param(
@@ -7,6 +7,17 @@ param(
     [switch]$Variants,
     [string]$Delay = '2'
 )
+
+# This script lives in .\scripts\, but operates on files in the repository root.
+$RepoRoot = Split-Path -Path $PSScriptRoot -Parent
+
+function Resolve-RepoPath {
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$Path)
+
+    if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
+    return (Join-Path -Path $RepoRoot -ChildPath $Path)
+}
 
 $customThemes = @(
     # Base themes
@@ -18,7 +29,8 @@ $customThemes = @(
     'clean-detailed-Enhanced.omp.json'
 )
 
-$officialThemesPath = 'ohmyposh-official-themes\themes'
+$customThemes = @($customThemes | ForEach-Object { Resolve-RepoPath $_ })
+$officialThemesPath = Resolve-RepoPath 'ohmyposh-official-themes\themes'
 
 function Show-ThemePreview {
     param(
@@ -62,7 +74,7 @@ $themes = @()
 if ($Custom) {
     Write-Output '📦 Loading custom themes...' -ForegroundColor Cyan
     foreach ($theme in $customThemes) {
-        if (Test-Path $theme) {
+        if (Test-Path -LiteralPath $theme) {
             $themes += @{
                 Path = $theme
                 Name = $theme.Replace('.json','').Replace('OhMyPosh-Atomic-','')
@@ -82,7 +94,8 @@ if ($Custom) {
             'experimentalDividers/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json'
         )
         foreach ($glob in $variantGlobs) {
-            Get-ChildItem -File -Path $glob -ErrorAction SilentlyContinue | ForEach-Object {
+            $resolvedGlob = Resolve-RepoPath $glob
+            Get-ChildItem -File -Path $resolvedGlob -ErrorAction SilentlyContinue | ForEach-Object {
                 $themes += @{
                     Path = $_.FullName
                     Name = $_.Name
@@ -94,7 +107,7 @@ if ($Custom) {
 
 if ($Official) {
     Write-Output '📦 Loading official themes...' -ForegroundColor Cyan
-    if (Test-Path $officialThemesPath) {
+    if (Test-Path -LiteralPath $officialThemesPath) {
         $officialFiles = Get-ChildItem "$officialThemesPath\*.json" | Sort-Object Name
         foreach ($file in $officialFiles) {
             $themes += @{

@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Batch generates Oh My Posh theme files for all available palettes.
 
@@ -37,15 +37,15 @@
     Overwrite existing theme files without prompting.
 
 .EXAMPLE
-    .\Generate-AllThemes.ps1
+    .\scripts\Generate-AllThemes.ps1
     Generates theme files for all palettes
 
 .EXAMPLE
-    .\Generate-AllThemes.ps1 -UpdateAccentColor -Force
+    .\scripts\Generate-AllThemes.ps1 -UpdateAccentColor -Force
     Generates all themes with updated accent colors, overwriting existing files
 
 .EXAMPLE
-    .\Generate-AllThemes.ps1 -ExcludePalettes @("original", "test_palette")
+    .\scripts\Generate-AllThemes.ps1 -ExcludePalettes @("original", "test_palette")
     Generates all themes except "original" and "test_palette"
 
 .NOTES
@@ -83,6 +83,20 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# This script lives in .\scripts\, but operates on files in the repository root.
+$RepoRoot = Split-Path -Path $PSScriptRoot -Parent
+
+function Resolve-RepoPath {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [string]$Path
+    )
+
+    if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
+    return (Join-Path -Path $RepoRoot -ChildPath $Path)
+}
+
 function Get-DefaultThemeOutputDirectory {
     [CmdletBinding()]
     param(
@@ -92,12 +106,12 @@ function Get-DefaultThemeOutputDirectory {
 
     $leaf = Split-Path -Path $SourceTheme -Leaf
     switch -Wildcard ($leaf) {
-        'OhMyPosh-Atomic-Custom.json' { return 'atomic' }
-        '1_shell-Enhanced.omp.json' { return '1_shell' }
-        'slimfat-Enhanced.omp.json' { return 'slimfat' }
-        'atomicBit-Enhanced.omp.json' { return 'atomicBit' }
-        'clean-detailed-Enhanced.omp.json' { return 'cleanDetailed' }
-        default { return '.' }
+        'OhMyPosh-Atomic-Custom.json' { return (Join-Path $RepoRoot 'atomic') }
+        '1_shell-Enhanced.omp.json' { return (Join-Path $RepoRoot '1_shell') }
+        'slimfat-Enhanced.omp.json' { return (Join-Path $RepoRoot 'slimfat') }
+        'atomicBit-Enhanced.omp.json' { return (Join-Path $RepoRoot 'atomicBit') }
+        'clean-detailed-Enhanced.omp.json' { return (Join-Path $RepoRoot 'cleanDetailed') }
+        default { return $RepoRoot }
     }
 }
 
@@ -107,7 +121,7 @@ function ConvertTo-PascalCase {
 
     $words = $Text -split '[\s_-]+'
     $pascalCase = ($words | ForEach-Object {
-            $_.Substring(0,1).ToUpper() + $_.Substring(1).ToLower()
+            $_.Substring(0, 1).ToUpper() + $_.Substring(1).ToLower()
         }) -join ''
 
     return $pascalCase
@@ -117,14 +131,18 @@ Write-Output "`n" + ('=' * 70) -ForegroundColor Cyan
 Write-Output '  🎨 Oh My Posh BATCH Theme Generator 🎨' -ForegroundColor Cyan
 Write-Output ('=' * 70) -ForegroundColor Cyan
 
+# Resolve repo-relative paths
+$SourceThemes = @($SourceThemes | ForEach-Object { Resolve-RepoPath $_ })
+$PalettesFile = Resolve-RepoPath $PalettesFile
+
 # Verify files exist
-$missingThemes = @($SourceThemes | Where-Object { -not (Test-Path $_) })
+$missingThemes = @($SourceThemes | Where-Object { -not (Test-Path -LiteralPath $_) })
 if ($missingThemes.Count -gt 0) {
     Write-Error "Source theme file(s) not found: $($missingThemes -join ', ')"
     exit 1
 }
 
-if (-not (Test-Path $PalettesFile)) {
+if (-not (Test-Path -LiteralPath $PalettesFile)) {
     Write-Error "Palettes file not found: $PalettesFile"
     exit 1
 }
@@ -167,8 +185,11 @@ if ($usePerThemeOutput) {
     Write-Output '(per-theme default folders)' -ForegroundColor Yellow
 }
 else {
+    # If a relative path is provided, interpret it relative to the repo root.
+    $OutputDirectory = Resolve-RepoPath $OutputDirectory
+
     # Create output directory if it doesn't exist
-    if (-not (Test-Path $OutputDirectory)) {
+    if (-not (Test-Path -LiteralPath $OutputDirectory)) {
         New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
     }
     Write-Output "`n📁 Output directory: " -NoNewline
@@ -197,7 +218,7 @@ foreach ($SourceTheme in $SourceThemes) {
         $OutputDirectory
     }
 
-    if (-not (Test-Path $themeOutputDirectory)) {
+    if (-not (Test-Path -LiteralPath $themeOutputDirectory)) {
         New-Item -ItemType Directory -Path $themeOutputDirectory -Force | Out-Null
     }
 
@@ -230,9 +251,9 @@ foreach ($SourceTheme in $SourceThemes) {
             $skipCount++
             $allResults += [pscustomobject]@{
                 SourceTheme = $SourceTheme
-                Palette = $friendlyName
-                Status = 'Skipped'
-                File = $outputFile
+                Palette     = $friendlyName
+                Status      = 'Skipped'
+                File        = $outputFile
             }
             continue
         }
@@ -240,9 +261,9 @@ foreach ($SourceTheme in $SourceThemes) {
         # Call the New-ThemeWithPalette script
         try {
             $params = @{
-                SourceTheme = $SourceTheme
-                PaletteName = $paletteName
-                OutputPath = $outputFile
+                SourceTheme  = $SourceTheme
+                PaletteName  = $paletteName
+                OutputPath   = $outputFile
                 PalettesFile = $PalettesFile
             }
 
@@ -260,9 +281,9 @@ foreach ($SourceTheme in $SourceThemes) {
             $successCount++
             $allResults += [pscustomobject]@{
                 SourceTheme = $SourceTheme
-                Palette = $friendlyName
-                Status = 'Created'
-                File = $outputFile
+                Palette     = $friendlyName
+                Status      = 'Created'
+                File        = $outputFile
             }
         }
         catch {
@@ -270,9 +291,9 @@ foreach ($SourceTheme in $SourceThemes) {
             $errorCount++
             $allResults += [pscustomobject]@{
                 SourceTheme = $SourceTheme
-                Palette = $friendlyName
-                Status = 'Error'
-                File = $outputFile
+                Palette     = $friendlyName
+                Status      = 'Error'
+                File        = $outputFile
             }
         }
     }

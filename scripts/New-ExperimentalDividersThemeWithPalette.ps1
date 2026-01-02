@@ -1,4 +1,4 @@
-﻿#
+#
 # Creates a palette-converted version of the **Atomic-Custom-ExperimentalDividers** theme.
 # This script works like New-ThemeWithPalette.ps1 but automatically generates all of the
 # extra divider blend colors and carries forward the extended palette keys (cycle colors,
@@ -43,11 +43,11 @@
     Blend factor (0-1) used when generating divider colors. 0.5 = midpoint (default).
 
 .EXAMPLE
-    .\New-ExperimentalDividersThemeWithPalette.ps1 -PaletteName "nord_frost" -OutputName "NordFrost" -UpdateAccentColor
+    .\scripts\New-ExperimentalDividersThemeWithPalette.ps1 -PaletteName "nord_frost" -OutputName "NordFrost" -UpdateAccentColor
 
 .EXAMPLE
     $custom = @{ accent = '#ff00ff'; blue_primary = '#112233'; red_alert = '#aa0000'; ... }
-    .\New-ExperimentalDividersThemeWithPalette.ps1 -PaletteObject $custom -OutputName "MyPalette"
+    .\scripts\New-ExperimentalDividersThemeWithPalette.ps1 -PaletteObject $custom -OutputName "MyPalette"
 
 .NOTES
     This script is intentionally separate so the original New-ThemeWithPalette.ps1 remains unchanged.
@@ -86,6 +86,24 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+
+# This script lives in .\scripts\, but operates on files in the repository root.
+$RepoRoot = Split-Path -Path $PSScriptRoot -Parent
+
+function Resolve-RepoPath {
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$Path)
+
+    if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
+    return (Join-Path -Path $RepoRoot -ChildPath $Path)
+}
+
+# Resolve repo-relative inputs
+$SourceTheme = Resolve-RepoPath $SourceTheme
+$PalettesFile = Resolve-RepoPath $PalettesFile
+if ($OutputPath -and -not [System.IO.Path]::IsPathRooted($OutputPath)) {
+    $OutputPath = Resolve-RepoPath $OutputPath
+}
 
 # region Helper functions
 
@@ -246,7 +264,7 @@ Write-Output '🎨 Experimental Dividers Palette Converter' -ForegroundColor Cya
 Write-Output ('=' * 60) -ForegroundColor DarkGray
 
 # Validate source theme
-if (-not (Test-Path $SourceTheme)) {
+if (-not (Test-Path -LiteralPath $SourceTheme)) {
     Write-Error "Source theme not found: $SourceTheme"
     exit 1
 }
@@ -255,7 +273,7 @@ Write-Output '📖 Reading source theme: ' -NoNewline
 Write-Output $SourceTheme -ForegroundColor Yellow
 
 try {
-    $themeContent = Get-Content $SourceTheme -Raw
+    $themeContent = Get-Content -LiteralPath $SourceTheme -Raw
     $theme = $themeContent | ConvertFrom-Json -AsHashTable
 }
 catch {
@@ -270,7 +288,7 @@ $palette = $null
 $paletteFriendlyName = ''
 
 if ($PSCmdlet.ParameterSetName -eq 'ByPaletteName') {
-    if (-not (Test-Path $PalettesFile)) {
+    if (-not (Test-Path -LiteralPath $PalettesFile)) {
         Write-Error "Palettes file not found: $PalettesFile"
         exit 1
     }
@@ -279,7 +297,7 @@ if ($PSCmdlet.ParameterSetName -eq 'ByPaletteName') {
     Write-Output $PalettesFile -ForegroundColor Yellow
 
     try {
-        $palettesContent = Get-Content $PalettesFile -Raw
+        $palettesContent = Get-Content -LiteralPath $PalettesFile -Raw
         $palettes = ($palettesContent | ConvertFrom-Json).palettes
     }
     catch {
@@ -406,7 +424,7 @@ Write-Output '💾 Saving new theme...' -ForegroundColor Cyan
 
 try {
     $jsonOutput = $theme | ConvertTo-Json -Depth 100
-    $jsonOutput | Set-Content -Path $outputFile -Encoding UTF8
+    $jsonOutput | Set-Content -LiteralPath $outputFile -Encoding UTF8
 
     Write-Output "✅ Created: $outputFile" -ForegroundColor Green
     Write-Output "🎨 Palette applied: $paletteFriendlyName" -ForegroundColor Magenta

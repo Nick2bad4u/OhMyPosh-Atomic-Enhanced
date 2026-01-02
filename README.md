@@ -473,7 +473,7 @@ Examples:
 
 This structure lets you retheme quickly: adjust a palette value once and every segment using it updates automatically.
 
-The included [`validate-palette.ps1`](./validate-palette.ps1) script (located in the root of this repository) checks that every `p:<key>` reference in the config matches a palette entry. It also reports any unused palette keys.
+The included [`validate-palette.ps1`](./scripts/validate-palette.ps1) script checks that every `p:<key>` reference in the config matches a palette entry. It also reports any unused palette keys.
 
 > [!WARNING] Always run the validation script after changes to avoid palette mismatches! ⚠️
 
@@ -484,7 +484,8 @@ The included [`validate-palette.ps1`](./validate-palette.ps1) script (located in
 Run it (from repo root):
 
 ```pwsh
-pwsh ./validate-palette.ps1
+pwsh ./scripts/validate-palette.ps1
+```
 ```
 
 Exit codes:
