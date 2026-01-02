@@ -4,12 +4,31 @@ Powerful PowerShell scripts to quickly generate Oh My Posh theme variants with d
 
 ## 📁 Files
 
+- **`scripts/Generate-AtomicCustomFromExperimentalDividers.ps1`** - Sync non-divider `OhMyPosh-Atomic-Custom.json` from the ExperimentalDividers theme (pulls tooltips/shared settings)
+- **`scripts/Sync-ThemeTemplatesFromAtomicCustom.ps1`** - Sync other base templates (1_shell/slimfat/atomicBit/clean-detailed) from `OhMyPosh-Atomic-Custom.json`
 - **`scripts/New-ThemeWithPalette.ps1`** - Generate a single theme with a specific palette
 - **`scripts/Generate-AllThemes.ps1`** - Batch generate themes for all available palettes
 - **`color-palette-alternatives.json`** - Collection of themed color palettes
 - **`COLOR-PALETTES-GUIDE.md`** - Visual guide to all available palettes
 
 ## 🚀 Quick Start
+
+## 🔁 Recommended workflow (new)
+
+The **ExperimentalDividers** theme is treated as the source-of-truth for shared configuration (tooltips, maps, prompts, etc.).
+
+When you run `scripts/Generate-AllThemes.ps1`, it will now (by default):
+
+1. Sync `OhMyPosh-Atomic-Custom.json` from `OhMyPosh-Atomic-Custom-ExperimentalDividers.json` **without** switching the non-divider layout
+2. Sync the other base templates (`1_shell-Enhanced.omp.json`, `slimfat-Enhanced.omp.json`, `atomicBit-Enhanced.omp.json`, `clean-detailed-Enhanced.omp.json`) from `OhMyPosh-Atomic-Custom.json`
+3. Generate all palette variants as usual
+
+If you ever need to run the sync steps manually:
+
+```powershell
+pwsh .\scripts\Generate-AtomicCustomFromExperimentalDividers.ps1
+pwsh .\scripts\Sync-ThemeTemplatesFromAtomicCustom.ps1
+```
 
 ### Generate a Single Theme
 
@@ -60,26 +79,47 @@ $myPalette = @{
 
 | Parameter | Type | Description | Default |
 | --- | --- | --- | --- |
-| `-SourceTheme` | String | Source theme JSON file | `OhMyPosh-Atomic-Custom.json` |
+| `-SourceThemes` | String[] | Source theme JSON file(s) | `OhMyPosh-Atomic-Custom.json` + other base templates |
 | `-PalettesFile` | String | JSON file with palettes | `color-palette-alternatives.json` |
 | `-OutputDirectory` | String | Output directory for themes | Same as source |
 | `-UpdateAccentColor` | Switch | Update root accent_color | `$false` |
 | `-ExcludePalettes` | String[] | Palettes to skip | `@()` |
 | `-Force` | Switch | Overwrite existing files | `$false` |
+| `-SkipExperimentalDividersSync` | Switch | Skip syncing Atomic Custom from ExperimentalDividers | `$false` |
+| `-SkipBaseThemeSync` | Switch | Skip syncing other base templates from Atomic Custom | `$false` |
 
 ## 🎨 Available Palettes
 
-The `color-palette-alternatives.json` file includes these beautiful palettes:
+The `color-palette-alternatives.json` file currently includes **28 palettes**:
 
-1. **original** - Your current vibrant tech theme
-2. **nord_frost** - Arctic-inspired cool tones
-3. **gruvbox_dark** - Warm retro earth tones
-4. **dracula_night** - Dark with vibrant purple/pink
-5. **tokyo_night** - Modern neon blues and purples
-6. **monokai_pro** - Classic Monokai neon colors
-7. **solarized_dark** - Scientific eye-strain reduction
-8. **catppuccin_mocha** - Soothing pastel colors
-9. **forest_ember** - Deep greens with amber accents
+- **original**
+- **nord_frost**
+- **gruvbox_dark**
+- **dracula_night**
+- **tokyo_night**
+- **monokai_pro**
+- **solarized_dark**
+- **catppuccin_mocha**
+- **forest_ember**
+- **pink_paradise**
+- **purple_reign**
+- **red_alert**
+- **blue_ocean**
+- **green_matrix**
+- **amber_sunset**
+- **teal_cyan**
+- **rainbow_bright**
+- **christmas_cheer**
+- **halloween_spooky**
+- **easter_pastel**
+- **fire_ice**
+- **midnight_gold**
+- **cherry_mint**
+- **lavender_peach**
+- **rose_pine**
+- **one_dark**
+- **ayu_mirage**
+- **synthwave_84**
 
 See `COLOR-PALETTES-GUIDE.md` for visual previews and detailed descriptions.
 

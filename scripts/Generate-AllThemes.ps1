@@ -78,6 +78,31 @@ param(
 
     [Parameter()]
     [switch]$Force
+
+    ,
+
+    # --- Base theme sync pipeline ---
+    # By default, we keep OhMyPosh-Atomic-Custom.json and the other base templates
+    # (1_shell/slimfat/atomicBit/clean-detailed) in sync with the ExperimentalDividers theme,
+    # so new tooltips and shared config flow into every generated variant.
+
+    [Parameter()]
+    [switch]$SkipExperimentalDividersSync,
+
+    [Parameter()]
+    [switch]$SkipBaseThemeSync,
+
+    [Parameter()]
+    [string]$ExperimentalDividersTheme = 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json',
+
+    [Parameter()]
+    [string]$AtomicCustomTheme = 'OhMyPosh-Atomic-Custom.json'
+
+    ,
+
+    # When generating ExperimentalDividers palette variants, optionally force recomputing divider blends.
+    [Parameter()]
+    [switch]$RecomputeDividers
 )
 
 Set-StrictMode -Version Latest
@@ -97,6 +122,40 @@ function Resolve-RepoPath {
     return (Join-Path -Path $RepoRoot -ChildPath $Path)
 }
 
+# --- Optional base theme sync pipeline (runs before palette generation) ---
+$ExperimentalDividersThemePath = Resolve-RepoPath $ExperimentalDividersTheme
+$AtomicCustomThemePath = Resolve-RepoPath $AtomicCustomTheme
+
+if (-not $SkipExperimentalDividersSync) {
+    $syncAtomicScript = Join-Path -Path $PSScriptRoot -ChildPath 'Generate-AtomicCustomFromExperimentalDividers.ps1'
+    if (Test-Path -LiteralPath $syncAtomicScript) {
+        if (Test-Path -LiteralPath $ExperimentalDividersThemePath) {
+            & $syncAtomicScript -ExperimentalDividersPath $ExperimentalDividersThemePath -AtomicCustomTemplatePath $AtomicCustomThemePath -OutputPath $AtomicCustomThemePath
+        }
+        else {
+            Write-Output "⚠️  ExperimentalDividers theme not found (skipping sync): $ExperimentalDividersThemePath" -ForegroundColor Yellow
+        }
+    }
+    else {
+        Write-Output "⚠️  Missing sync script (skipping): $syncAtomicScript" -ForegroundColor Yellow
+    }
+}
+
+if (-not $SkipBaseThemeSync) {
+    $syncTemplatesScript = Join-Path -Path $PSScriptRoot -ChildPath 'Sync-ThemeTemplatesFromAtomicCustom.ps1'
+    if (Test-Path -LiteralPath $syncTemplatesScript) {
+        if (Test-Path -LiteralPath $AtomicCustomThemePath) {
+            & $syncTemplatesScript -AtomicCustomPath $AtomicCustomThemePath
+        }
+        else {
+            Write-Output "⚠️  Atomic Custom theme not found (skipping template sync): $AtomicCustomThemePath" -ForegroundColor Yellow
+        }
+    }
+    else {
+        Write-Output "⚠️  Missing template sync script (skipping): $syncTemplatesScript" -ForegroundColor Yellow
+    }
+}
+
 function Get-DefaultThemeOutputDirectory {
     [CmdletBinding()]
     param(
@@ -107,6 +166,7 @@ function Get-DefaultThemeOutputDirectory {
     $leaf = Split-Path -Path $SourceTheme -Leaf
     switch -Wildcard ($leaf) {
         'OhMyPosh-Atomic-Custom.json' { return (Join-Path $RepoRoot 'atomic') }
+        'OhMyPosh-Atomic-Custom-ExperimentalDividers.json' { return (Join-Path $RepoRoot 'experimentalDividers') }
         '1_shell-Enhanced.omp.json' { return (Join-Path $RepoRoot '1_shell') }
         'slimfat-Enhanced.omp.json' { return (Join-Path $RepoRoot 'slimfat') }
         'atomicBit-Enhanced.omp.json' { return (Join-Path $RepoRoot 'atomicBit') }
@@ -163,9 +223,11 @@ catch {
 
 # Get all palette names
 $ExcludePalettes = @($ExcludePalettes) # Ensure it's an array
-$allPaletteNames = $palettes.PSObject.Properties.Name | Where-Object {
-    $_ -notin $ExcludePalettes
-}
+$allPaletteNames = @(
+    $palettes.PSObject.Properties.Name | Where-Object {
+        $_ -notin $ExcludePalettes
+    }
+)
 
 Write-Output '✓ Found ' -NoNewline -ForegroundColor Green
 Write-Output $allPaletteNames.Count -NoNewline -ForegroundColor White
@@ -258,7 +320,8 @@ foreach ($SourceTheme in $SourceThemes) {
             continue
         }
 
-        # Call the New-ThemeWithPalette script
+        # Call the theme conversion script.
+        # ExperimentalDividers needs special handling for divider blend colors and extended palette keys.
         try {
             $params = @{
                 SourceTheme  = $SourceTheme
@@ -271,8 +334,20 @@ foreach ($SourceTheme in $SourceThemes) {
                 $params.UpdateAccentColor = $true
             }
 
-            # Run the script silently (use Join-Path for cross-platform compatibility)
-            $scriptPath = Join-Path -Path $PSScriptRoot -ChildPath 'New-ThemeWithPalette.ps1'
+            $sourceLeaf = [System.IO.Path]::GetFileName($SourceTheme)
+            $isExperimentalDividers = $sourceLeaf -ieq 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
+
+            $scriptPath = if ($isExperimentalDividers) {
+                Join-Path -Path $PSScriptRoot -ChildPath 'New-ExperimentalDividersThemeWithPalette.ps1'
+            }
+            else {
+                Join-Path -Path $PSScriptRoot -ChildPath 'New-ThemeWithPalette.ps1'
+            }
+
+            if ($isExperimentalDividers -and $RecomputeDividers) {
+                $params.RecomputeDividers = $true
+            }
+
             $null = & $scriptPath @params 2>&1
 
             Write-Output '    ✅ Success: ' -NoNewline -ForegroundColor Green

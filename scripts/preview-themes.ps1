@@ -20,6 +20,14 @@ function Resolve-RepoPath {
     return (Join-Path -Path $RepoRoot -ChildPath $Path)
 }
 
+function ConvertTo-PascalCase {
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$Text)
+
+    $words = $Text -split '[\s_-]+'
+    ($words | Where-Object { $_ } | ForEach-Object { $_.Substring(0, 1).ToUpper() + $_.Substring(1).ToLower() }) -join ''
+}
+
 # Define base themes
 $baseThemes = @(
     @{ Name = 'Experimental Dividers'; Prefix = 'OhMyPosh-Atomic-Custom-ExperimentalDividers'; VariantsFolder = 'experimentalDividers' },
@@ -40,15 +48,34 @@ $variantFolders = @{
     'OhMyPosh-Atomic-Custom-ExperimentalDividers' = 'experimentalDividers'
 }
 
-# Define all palette variants
-$paletteVariants = @(
-    'Original','NordFrost','GruvboxDark','DraculaNight','TokyoNight',
-    'MonokaiPro','SolarizedDark','CatppuccinMocha','ForestEmber',
-    'PinkParadise','PurpleReign','RedAlert','BlueOcean','GreenMatrix',
-    'AmberSunset','TealCyan','RainbowBright','ChristmasCheer',
-    'HalloweenSpooky','EasterPastel','FireIce','MidnightGold',
-    'CherryMint','LavenderPeach'
-)
+# Define all palette variants (from palette JSON)
+$paletteVariants = @()
+$palettesFile = Resolve-RepoPath 'color-palette-alternatives.json'
+if (Test-Path -LiteralPath $palettesFile) {
+    try {
+        $palettesData = Get-Content -LiteralPath $palettesFile -Raw | ConvertFrom-Json
+        $paletteVariants = @(
+            $palettesData.palettes.PSObject.Properties.Name |
+                Sort-Object |
+                ForEach-Object { ConvertTo-PascalCase $_ }
+        )
+    }
+    catch {
+        Write-Output "⚠️  Failed to parse palettes JSON, using fallback palette list: $_" -ForegroundColor Yellow
+    }
+}
+
+if ($paletteVariants.Count -eq 0) {
+    # Fallback list (kept for resilience)
+    $paletteVariants = @(
+        'Original','NordFrost','GruvboxDark','DraculaNight','TokyoNight',
+        'MonokaiPro','SolarizedDark','CatppuccinMocha','ForestEmber',
+        'PinkParadise','PurpleReign','RedAlert','BlueOcean','GreenMatrix',
+        'AmberSunset','TealCyan','RainbowBright','ChristmasCheer',
+        'HalloweenSpooky','EasterPastel','FireIce','MidnightGold',
+        'CherryMint','LavenderPeach'
+    )
+}
 
 # Build custom themes list
 $customThemes = @()

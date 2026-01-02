@@ -847,7 +847,7 @@
                     ],
                     "foreground": "p:gray_prompt_count_fg",
                     "foreground_templates": [
-                        "{{ if gt .PromptCount 200 }}p:white{{ else }}p:gray_prompt_count_fg{{ end }}"
+                        "{{ if gt .PromptCount 50 }}p:white{{ else }}p:gray_prompt_count_fg{{ end }}"
                     ],
                     "invert_powerline": false,
                     "leading_diamond": "",

@@ -48,6 +48,8 @@ All PowerShell helper scripts live in the **`scripts/`** directory of the reposi
 
 | Script | Purpose | Input | Output |
 | --- | --- | --- | --- |
+| **scripts/Generate-AtomicCustomFromExperimentalDividers.ps1** | Sync non-divider Atomic Custom from ExperimentalDividers (tooltips/shared config) | ExperimentalDividers theme + Atomic Custom template | Updated `OhMyPosh-Atomic-Custom.json` |
+| **scripts/Sync-ThemeTemplatesFromAtomicCustom.ps1** | Sync other base templates from Atomic Custom | `OhMyPosh-Atomic-Custom.json` | Updated base templates (`1_shell`, `slimfat`, etc.) |
 | **scripts/Generate-AllThemes.ps1** | Generate all theme variants | Color palettes | Theme-family folders (default) or one output folder |
 | **scripts/New-ThemeWithPalette.ps1** | Create theme from palette | Palette file | Single .json file |
 | **scripts/cycle-themes.ps1** | Cycle through themes | Theme folder | Activates one at a time |
@@ -56,6 +58,9 @@ All PowerShell helper scripts live in the **`scripts/`** directory of the reposi
 | **scripts/Generate-ThemePreviews.ps1** | Create preview images | Theme files | PNG preview images |
 | **scripts/sync-official-themes.ps1** | Sync official themes | Official repo | Updated themes |
 | **scripts/validate-palette.ps1** | Validate palette file | Palette JSON | Validation report |
+
+> Note: `scripts/Generate-AllThemes.ps1` now runs the two sync scripts above by default, so updates you make to
+> `OhMyPosh-Atomic-Custom-ExperimentalDividers.json` (tooltips/shared settings) flow into all generated theme variants.
 
 ---
 
@@ -251,7 +256,7 @@ Cycles through available themes, activating each one so you can preview them.
 
 # Like this one? Press S to save
 
-# [Saved: C:\...\OhMyPosh-Atomic-Custom.CatppuccinMocha.json]
+# \[Saved: C:\...\OhMyPosh-Atomic-Custom.CatppuccinMocha.json\]
 
 ````
 
@@ -694,4 +699,4 @@ The PowerShell tools provide:
 
 - See [ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.md)
 - See [JSON-CONFIGURATION-GUIDE.md](./JSON-CONFIGURATION-GUIDE.md)
-- See [THEME-GENERATOR-README.md](../THEME-GENERATOR-README.md)
+- See [THEME-GENERATOR-README.md](./THEME-GENERATOR-README.md)

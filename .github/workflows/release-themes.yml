@@ -311,7 +311,7 @@ jobs:
 
                   **Release Date:** ${RELEASE_DATE}
 
-                  This release contains **${TOTAL_COUNT}** Oh My Posh theme files across **6 theme families** (24 palettes each), plus a small number of special variants (e.g. NoShellIntegration).
+                  This release contains **${TOTAL_COUNT}** Oh My Posh theme files across **6 theme families** (28 palettes each), plus a small number of special variants (e.g. NoShellIntegration).
 
                   ---
 

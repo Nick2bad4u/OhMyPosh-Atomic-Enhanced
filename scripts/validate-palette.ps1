@@ -57,7 +57,7 @@ if ($null -eq $json.Palette -or -not ($json.Palette -is [psobject]) -or -not $js
 $palette = $json.Palette.PSObject.Properties.Name
 
 # Find all p:<key> references (including inside templates)
-$refs = [regex]::Matches($rawContent,'p:([a-zA-Z0-9_\-\.]+)') | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique
+$refs = [regex]::Matches($rawContent, 'p:([a-zA-Z0-9_\-\.]+)') | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique
 
 $missing = $refs | Where-Object { $_ -notin $palette }
 $unused = $palette | Where-Object { $_ -notin $refs }
@@ -72,7 +72,7 @@ $refsSorted | ForEach-Object { Write-Output "  - $_" }
 
 if ($missing) {
     Write-Output "`nMissing palette entries (referenced but not defined):" -ForegroundColor Red
-    Write-Output "The following referenced keys are missing from the palette:" -ForegroundColor Red
+    Write-Output 'The following referenced keys are missing from the palette:' -ForegroundColor Red
     $missingSorted = $missing | Sort-Object
     $missingSorted | ForEach-Object { Write-Output "  - $_" }
 }

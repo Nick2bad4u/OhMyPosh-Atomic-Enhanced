@@ -500,7 +500,7 @@ After making changes to the palette or theme configuration, run this script to e
 
 ## 🎨 Theme Styles
 
-This repository includes **5 unique theme styles**, each available in **24 color palettes** (120 total themes):
+This repository includes **5 unique theme styles**, each available in **28 color palettes** (140 total themes):
 
 ### 🚀 OhMyPosh Atomic Custom
 
