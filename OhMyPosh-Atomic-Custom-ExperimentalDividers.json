@@ -589,6 +589,13 @@
                     "type": "time"
                 },
                 {
+                    "alias": "divider-battery-in",
+                    "min_width": 130,
+                    "style": "diamond",
+                    "template": "{{ if .Segments.battery-rprompt }}{{ if eq \"Charging\" .Segments.battery-rprompt.State.String }}<p:green_charging,p:divider_blue_time></>{{ else if eq \"Discharging\" .Segments.battery-rprompt.State.String }}<p:yellow_discharging,p:divider_blue_time></>{{ else if eq \"Full\" .Segments.battery-rprompt.State.String }}<p:green_full,p:divider_blue_time></>{{ else }}<p:orange_battery,p:divider_blue_time></>{{ end }}{{ end }}",
+                    "type": "text"
+                },
+                {
                     "alias": "battery-rprompt",
                     "background": "p:orange_battery",
                     "background_templates": [
@@ -602,7 +609,7 @@
                     },
                     "foreground": "p:black",
                     "invert_powerline": false,
-                    "leading_diamond": "",
+                    "leading_diamond": "",
                     "min_width": 100,
                     "options": {
                         "charged_icon": "󱊣",
@@ -622,7 +629,7 @@
                     "alias": "divider-26",
                     "min_width": 130,
                     "style": "diamond",
-                    "template": "<p:divider_purple_ahead,p:divider_blue_time></>",
+                    "template": "{{ if .Segments.battery-rprompt }}{{ if eq \"Charging\" .Segments.battery-rprompt.State.String }}<p:divider_purple_ahead,p:green_charging></>{{ else if eq \"Discharging\" .Segments.battery-rprompt.State.String }}<p:divider_purple_ahead,p:yellow_discharging></>{{ else if eq \"Full\" .Segments.battery-rprompt.State.String }}<p:divider_purple_ahead,p:green_full></>{{ else }}<p:divider_purple_ahead,p:orange_battery></>{{ end }}{{ else }}<p:divider_purple_ahead,p:divider_blue_time></>{{ end }}",
                     "type": "text"
                 },
                 {
