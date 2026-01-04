@@ -3056,7 +3056,7 @@
     "tooltips_action": "prepend",
     "transient_prompt": {
         "background": "transparent",
-        "filler": "<p:purple_session></><p:accent></><p:blue_primary></><p:divider_blue_primary_to_tooling_purple></><p:tooling_purple></><p:divider_tooling_purple_to_typescript_eslint_pink></><p:typescript_eslint_pink></><p:divider_typescript_eslint_pink_to_orange></><p:orange></><p:divider_orange_to_green_added></><p:green_added></><p:divider_green_added_to_yellow_bright></><p:yellow_bright></><p:divider_yellow_bright_to_navy_text></><p:navy_text></><p:divider_navy_text_to_purple_exec></><p:purple_exec></>",
+        "filler": "<p:purple_session></><p:accent></><p:blue_primary></><p:divider_blue_primary_to_tooling_purple></><p:tooling_purple></><p:divider_tooling_purple_to_typescript_eslint_pink></><p:typescript_eslint_pink></><p:divider_typescript_eslint_pink_to_orange></><p:orange></><p:divider_orange_to_green_added></><p:green_added></><p:divider_green_added_to_yellow_bright></><p:yellow_bright></><p:divider_yellow_bright_to_navy_text></><p:nba_det_pistons_blue></><p:accent></><p:purple_exec></>",
         "foreground": "p:blue_primary",
         "newline": false,
         "template": "<p:accent>╰─<p:purple_session,transparent>{{ .Segments.shell-lprompt.Name }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
