@@ -486,7 +486,6 @@ Run it (from repo root):
 ```pwsh
 pwsh ./scripts/validate-palette.ps1
 ```
-```
 
 Exit codes:
 
