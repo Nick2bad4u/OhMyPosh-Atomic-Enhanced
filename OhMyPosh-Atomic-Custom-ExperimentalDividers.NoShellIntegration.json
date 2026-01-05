@@ -249,7 +249,7 @@
           ],
           "foreground": "p:navy_text",
           "foreground_templates": [
-            "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:navy_text{{ else if or (gt .Ahead 0) (gt .Behind 0) }}p:white{{ else }}p:navy_text{{ end }}"
+            "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:navy_text{{ else if or (gt .Ahead 0) (gt .Behind 0) }}p:navy_text{{ else }}p:navy_text{{ end }}"
           ],
           "interactive": true,
           "leading_diamond": "",
@@ -289,7 +289,7 @@
             }
           },
           "style": "diamond",
-          "template": "<parentBackground></> {{ if and (gt .Ahead 0) (gt .Behind 0) }} {{ else }}{{ .UpstreamIcon }}{{ end }}<b>{{ .HEAD }}{{if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }}{{ if gt (add .Working.Added .Working.Modified .Working.Deleted .Working.Untracked) 10 }} 🔥</b>{{ end }} ",
+          "template": "<parentBackground></> {{ if and (gt .Ahead 0) (gt .Behind 0) }} 🔀 {{ else if gt .Ahead 0 }}{{ .UpstreamIcon }} 🔼 {{ else if gt .Behind 0 }}{{ .UpstreamIcon }} ⏬ {{ else }}{{ .UpstreamIcon }} 🟢 {{ end }}<b>{{ .HEAD }}{{ if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }}</b> ",
           "templates_logic": "first_match",
           "trailing_diamond": "",
           "type": "git"
@@ -589,6 +589,13 @@
           "type": "time"
         },
         {
+          "alias": "divider-battery-in",
+          "min_width": 130,
+          "style": "diamond",
+          "template": "{{ if .Segments.battery-rprompt }}{{ if eq \"Charging\" .Segments.battery-rprompt.State.String }}<p:green_charging,p:divider_blue_time></>{{ else if eq \"Discharging\" .Segments.battery-rprompt.State.String }}<p:yellow_discharging,p:divider_blue_time></>{{ else if eq \"Full\" .Segments.battery-rprompt.State.String }}<p:green_full,p:divider_blue_time></>{{ else }}<p:orange_battery,p:divider_blue_time></>{{ end }}{{ end }}",
+          "type": "text"
+        },
+        {
           "alias": "battery-rprompt",
           "background": "p:orange_battery",
           "background_templates": [
@@ -597,12 +604,12 @@
             "{{if eq \"Full\" .State.String}}p:green_full{{end}}"
           ],
           "cache": {
-            "duration": "60m",
+            "duration": "10m",
             "strategy": "session"
           },
           "foreground": "p:black",
           "invert_powerline": false,
-          "leading_diamond": "",
+          "leading_diamond": "",
           "min_width": 100,
           "options": {
             "charged_icon": "󱊣",
@@ -622,7 +629,7 @@
           "alias": "divider-26",
           "min_width": 130,
           "style": "diamond",
-          "template": "<p:divider_purple_ahead,p:divider_blue_time></>",
+          "template": "{{ if .Segments.battery-rprompt }}{{ if eq \"Charging\" .Segments.battery-rprompt.State.String }}<p:divider_purple_ahead,p:green_charging></>{{ else if eq \"Discharging\" .Segments.battery-rprompt.State.String }}<p:divider_purple_ahead,p:yellow_discharging></>{{ else if eq \"Full\" .Segments.battery-rprompt.State.String }}<p:divider_purple_ahead,p:green_full></>{{ else }}<p:divider_purple_ahead,p:orange_battery></>{{ end }}{{ else }}<p:divider_purple_ahead,p:divider_blue_time></>{{ end }}",
           "type": "text"
         },
         {
@@ -847,7 +854,7 @@
           ],
           "foreground": "p:gray_prompt_count_fg",
           "foreground_templates": [
-            "{{ if gt .PromptCount 200 }}p:white{{ else }}p:gray_prompt_count_fg{{ end }}"
+            "{{ if gt .PromptCount 50 }}p:white{{ else }}p:gray_prompt_count_fg{{ end }}"
           ],
           "invert_powerline": false,
           "leading_diamond": "",
@@ -956,13 +963,13 @@
   "debug_prompt": {
     "background": "transparent",
     "background_templates": [
-      "{{ if eq .LogLevel \"DEBUG\" }}p:purple_session{{ end }}"
+      "{{ if eq .LogLevel \"DEBUG\" }}p:debug_bg{{ end }}"
     ],
-    "foreground": "p:black",
+    "foreground": "p:debug_fg",
     "foreground_templates": [
-      "{{ if eq .LogLevel \"DEBUG\" }}p:black{{ end }}"
+      "{{ if eq .LogLevel \"DEBUG\" }}p:debug_fg{{ end }}"
     ],
-    "template": "</><b><p:purple_session,transparent></><p:black,p:purple_session>  DEBUG </><p:purple_session,transparent></b></>"
+    "template": "</><b><p:debug_bg,transparent></><p:debug_fg,p:debug_bg>  DEBUG </><p:debug_bg,transparent></b></>"
   },
   "enable_cursor_positioning": true,
   "error_line": {
@@ -1008,6 +1015,8 @@
   },
   "palette": {
     "accent": "#21c7c7",
+    "debug_bg": "#21c7c7",
+    "debug_fg": "#000000",
     "aws_tooltip_bg": "#FF9900",
     "aws_tooltip_fg": "#000000",
     "az_tooltip_bg": "#0078D4",
@@ -2006,7 +2015,7 @@
       "min_width": 80,
       "options": {
         "branch_icon": "  ",
-        "branch_template": "<b>{{ if .Mapped }}{{ title .Mapped }}{{ else }}{{ .Icon }}{{ end }}{{ title .Branch }}</b>",
+        "branch_template": "<b>{{ if .Mapped }}{{ $m := title .Mapped }}{{ if gt (len $m) 24 }}{{ trunc 24 $m }}…{{ else }}{{ $m }}{{ end }}{{ else }}{{ .Icon }}{{ $b := title .Branch }}{{ if gt (len $b) 24 }}{{ trunc 24 $b }}…{{ else }}{{ $b }}{{ end }}{{ end }}</b>",
         "disable_with_jj": false,
         "fetch_bare_info": true,
         "fetch_status": true,
@@ -3046,7 +3055,7 @@
   "tooltips_action": "prepend",
   "transient_prompt": {
     "background": "transparent",
-    "filler": "<p:purple_session></>",
+    "filler": "<p:purple_session></><p:accent></><p:blue_primary></><p:divider_blue_primary_to_tooling_purple></><p:tooling_purple></><p:divider_tooling_purple_to_typescript_eslint_pink></><p:typescript_eslint_pink></><p:divider_typescript_eslint_pink_to_orange></><p:orange></><p:divider_orange_to_green_added></><p:green_added></><p:divider_green_added_to_yellow_bright></><p:yellow_bright></><p:divider_yellow_bright_to_navy_text></><p:nba_det_pistons_blue></><p:accent></><p:purple_exec></>",
     "foreground": "p:blue_primary",
     "newline": false,
     "template": "<p:accent>╰─<p:purple_session,transparent>{{ .Segments.shell-lprompt.Name }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "

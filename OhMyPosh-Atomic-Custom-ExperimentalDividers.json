@@ -249,7 +249,7 @@
                     ],
                     "foreground": "p:navy_text",
                     "foreground_templates": [
-                        "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:navy_text{{ else if or (gt .Ahead 0) (gt .Behind 0) }}p:white{{ else }}p:navy_text{{ end }}"
+                        "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:navy_text{{ else if or (gt .Ahead 0) (gt .Behind 0) }}p:navy_text{{ else }}p:navy_text{{ end }}"
                     ],
                     "interactive": true,
                     "leading_diamond": "",
@@ -289,7 +289,7 @@
                         }
                     },
                     "style": "diamond",
-                    "template": "<parentBackground></> {{ if and (gt .Ahead 0) (gt .Behind 0) }} {{ else }}{{ .UpstreamIcon }}{{ end }}<b>{{ .HEAD }}{{if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }}{{ if gt (add .Working.Added .Working.Modified .Working.Deleted .Working.Untracked) 10 }} 🔥</b>{{ end }} ",
+                    "template": "<parentBackground></> {{ if and (gt .Ahead 0) (gt .Behind 0) }} 🔀 {{ else if gt .Ahead 0 }}{{ .UpstreamIcon }} 🔼 {{ else if gt .Behind 0 }}{{ .UpstreamIcon }} ⏬ {{ else }}{{ .UpstreamIcon }} 🟢 {{ end }}<b>{{ .HEAD }}{{ if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }}</b> ",
                     "templates_logic": "first_match",
                     "trailing_diamond": "",
                     "type": "git"
@@ -604,7 +604,7 @@
                         "{{if eq \"Full\" .State.String}}p:green_full{{end}}"
                     ],
                     "cache": {
-                        "duration": "60m",
+                        "duration": "10m",
                         "strategy": "session"
                     },
                     "foreground": "p:black",
@@ -2016,7 +2016,7 @@
             "min_width": 80,
             "options": {
                 "branch_icon": "  ",
-                "branch_template": "<b>{{ if .Mapped }}{{ title .Mapped }}{{ else }}{{ .Icon }}{{ end }}{{ title .Branch }}</b>",
+                "branch_template": "<b>{{ if .Mapped }}{{ $m := title .Mapped }}{{ if gt (len $m) 24 }}{{ trunc 24 $m }}…{{ else }}{{ $m }}{{ end }}{{ else }}{{ .Icon }}{{ $b := title .Branch }}{{ if gt (len $b) 24 }}{{ trunc 24 $b }}…{{ else }}{{ $b }}{{ end }}{{ end }}</b>",
                 "disable_with_jj": false,
                 "fetch_bare_info": true,
                 "fetch_status": true,
