@@ -410,7 +410,8 @@
     "debug_bg": "#21c7c7",
     "debug_fg": "#000000",
     "yellow_dark": "#ad8e04",
-    "purple_modified": "#a200ff"
+    "purple_modified": "#a200ff",
+    "red": "#FF4444"
   },
   "patch_pwsh_bleed": true,
   "pwd": "osc7",
@@ -433,9 +434,9 @@
       "leading_diamond": "",
       "min_width": 80,
       "options": {
+        "days_offset": 8,
         "http_timeout": 1500,
-        "team": "DET",
-        "days_offset": 8
+        "team": "DET"
       },
       "style": "diamond",
       "template": "<b> {{ .HomeTeam}}{{ if .HasStats }} ({{.HomeTeamWins}}-{{.HomeTeamLosses}}){{ end }}{{ if .Started }}:{{.HomeScore}}{{ end }} vs {{ .AwayTeam}}{{ if .HasStats }} ({{.AwayTeamWins}}-{{.AwayTeamLosses}}){{ end }}{{ if .Started }}:{{.AwayScore}}{{ end }} | {{ if not .Started }}{{.GameDate}} | {{ end }}{{.Time}}</b>",
@@ -481,7 +482,7 @@
         "refresh_token": "{{ .Env.STRAVA_REFRESH_TOKEN }}",
         "ride_icon": "",
         "run_icon": "",
-        "skiing_icon": "",
+        "skiing_icon": "⛷️",
         "unknown_activity_icon": "",
         "workout_icon": ""
       },
@@ -1084,19 +1085,18 @@
       "alias": "kubectl-tooltip",
       "background": "p:blue_tooltip",
       "cache": {
-        "duration": "1m",
-        "strategy": "device"
+        "duration": "24h",
+        "strategy": "folder"
       },
       "foreground": "p:white",
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "display_mode": "always",
-        "fetch_config": true
+        "display_error": true,
+        "parse_kubeconfig": true
       },
       "style": "diamond",
       "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}⎈ {{ .Context }}{{ if .Namespace }} :: {{ .Namespace }}{{ end }}{{ end }}</b> ",
-      "timeout": 1000,
       "tips": [
         "kubectl",
         "kube",
@@ -1114,14 +1114,16 @@
       "background": "p:tailwind_cyan",
       "cache": {
         "duration": "24h",
-        "strategy": "device"
+        "strategy": "folder"
       },
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
+      "options": {
+        "display_mode": "always"
+      },
       "style": "diamond",
       "template": " <b>⎈ Helm {{ .Version }}</b> ",
-      "timeout": 1000,
       "tips": [
         "helm",
         "helmfile"
@@ -1134,42 +1136,43 @@
       "background": "p:tooling_purple",
       "cache": {
         "duration": "24h",
-        "strategy": "device"
+        "strategy": "folder"
       },
       "foreground": "p:white",
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "method": "GET",
-        "url": "https://checkpoint-api.hashicorp.com/v1/check/terraform"
+        "command": "terraform",
+        "fetch_version": true
       },
       "style": "diamond",
-      "template": " <b>󱁢 Terraform: v{{ .Body.current_version }}</b> ",
-      "timeout": 1000,
+      "template": " <b>{{ .WorkspaceName }} 󱁢 Terraform: {{ if .Version }} {{ .Version }}{{ end }}</b> ",
       "tips": [
         "terraform",
         "terragrunt"
       ],
       "trailing_diamond": "",
-      "type": "http"
+      "type": "terraform"
     },
     {
       "alias": "rust-tooltip",
       "background": "p:orange",
       "cache": {
         "duration": "24h",
-        "strategy": "device"
+        "strategy": "folder"
       },
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "method": "GET",
-        "url": "https://api.github.com/repos/rust-lang/rust/releases/latest"
+        "cache_duration": "24h",
+        "display_mode": "always",
+        "fetch_version": true,
+        "home_enabled": true,
+        "missing_command_text": " Rust: not installed"
       },
       "style": "diamond",
-      "template": " <b> Rust: {{ index .Body \"tag_name\" }}</b> ",
-      "timeout": 1000,
+      "template": " <b> Rust: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
       "tips": [
         "rust",
         "cargo",
@@ -1179,25 +1182,24 @@
         "cargo run"
       ],
       "trailing_diamond": "",
-      "type": "http"
+      "type": "rust"
     },
     {
       "alias": "pulumi-tooltip",
       "background": "p:tooling_purple",
       "cache": {
         "duration": "24h",
-        "strategy": "device"
+        "strategy": "folder"
       },
       "foreground": "p:white",
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "method": "GET",
-        "url": "https://api.github.com/repos/pulumi/pulumi/releases/latest"
+        "fetch_about": true,
+        "fetch_stack": true
       },
       "style": "diamond",
-      "template": " <b>󰆧 Pulumi: {{ index .Body \"tag_name\" }}</b> ",
-      "timeout": 1000,
+      "template": " <b>󰆧 Pulumi: {{ .Stack }}{{if .User }} :: {{ .User }}@{{ end }}{{ if .URL }}{{ .URL }}{{ end }}</b> ",
       "tips": [
         "pulumi",
         "pulumictl",
@@ -1206,7 +1208,7 @@
         "pulumi stack"
       ],
       "trailing_diamond": "",
-      "type": "http"
+      "type": "pulumi"
     },
     {
       "alias": "go-tooltip",
@@ -1218,8 +1220,16 @@
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
+      "options": {
+        "cache_duration": "24h",
+        "display_mode": "always",
+        "fetch_version": true,
+        "home_enabled": true,
+        "missing_command_text": " Go: not installed",
+        "parse_go_work_file": true,
+        "parse_mod_file": true
+      },
       "style": "diamond",
-      "timeout": 1000,
       "tips": [
         "go",
         "golang",
@@ -1235,18 +1245,20 @@
       "background": "p:red_alert",
       "cache": {
         "duration": "24h",
-        "strategy": "device"
+        "strategy": "folder"
       },
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/@angular%2Fcli/latest"
+        "cache_duration": "24h",
+        "display_mode": "always",
+        "fetch_version": true,
+        "home_enabled": true,
+        "missing_command_text": " Angular CLI: not installed"
       },
       "style": "diamond",
-      "template": " <b> Angular CLI: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
+      "template": " <b> Angular CLI: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
       "tips": [
         "angular",
         "ng",
@@ -1255,25 +1267,27 @@
         "ng test"
       ],
       "trailing_diamond": "",
-      "type": "http"
+      "type": "angular"
     },
     {
       "alias": "nx-tooltip",
       "background": "p:divider_navy_text",
       "cache": {
         "duration": "24h",
-        "strategy": "device"
+        "strategy": "folder"
       },
       "foreground": "p:white",
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/nx/latest"
+        "cache_duration": "24h",
+        "display_mode": "always",
+        "fetch_version": true,
+        "home_enabled": true,
+        "missing_command_text": "󰝴 Nx: not installed"
       },
       "style": "diamond",
-      "template": " <b>󰝴 Nx: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
+      "template": " <b>󰝴 Nx: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
       "tips": [
         "nx",
         "npx nx",
@@ -1283,7 +1297,7 @@
         "nx test"
       ],
       "trailing_diamond": "",
-      "type": "http"
+      "type": "nx"
     },
     {
       "alias": "svelte-tooltip",
@@ -1296,25 +1310,27 @@
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "method": "GET",
-        "url": "https://registry.npmjs.org/svelte/latest"
+        "cache_duration": "24h",
+        "display_mode": "always",
+        "fetch_version": true,
+        "home_enabled": true,
+        "missing_command_text": " Svelte: not installed"
       },
       "style": "diamond",
-      "template": " <b> Svelte: v{{ .Body.version }}</b> ",
-      "timeout": 1000,
+      "template": " <b> Svelte: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
       "tips": [
         "svelte",
         "sveltekit"
       ],
       "trailing_diamond": "",
-      "type": "http"
+      "type": "svelte"
     },
     {
       "alias": "ipify-tooltip",
       "background": "p:tooling_purple",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -1359,7 +1375,7 @@
       "background": "p:ipify_purple_v6",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -1462,7 +1478,8 @@
         "git version",
         "git --version",
         "git show",
-        "git log"
+        "git log",
+        "git"
       ],
       "trailing_diamond": "",
       "type": "gitversion"
@@ -1861,7 +1878,7 @@
       "background": "p:orange_battery",
       "cache": {
         "duration": "10m",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:gray_path_fg",
       "leading_diamond": "",
@@ -2041,14 +2058,14 @@
       "background": "p:blue_time",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
+      "min_width": 80,
       "options": {
         "unit": "Mbps"
       },
-      "min_width": 80,
       "style": "diamond",
       "template": "<b>  {{ .Name }} </b>",
       "timeout": 1000,
@@ -2076,8 +2093,11 @@
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
+      "options": {
+        "always_enabled": true
+      },
       "style": "diamond",
-      "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }} {{.Version}}{{ end }} {{ if .Name }}{{ .Name }}{{ end }}{{ end }}</b> ",
+      "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }} {{.Version}}{{ end }} {{ if .Name }}{{ title .Name }}{{ end }}{{ end }}</b> ",
       "timeout": 1000,
       "tips": [
         "project",
@@ -2571,6 +2591,64 @@
       ],
       "trailing_diamond": "",
       "type": "bun"
+    },
+    {
+      "alias": "argocd-tooltip",
+      "background": "p:red",
+      "cache": {
+        "duration": "24h",
+        "strategy": "folder"
+      },
+      "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
+      "style": "diamond",
+      "template": " <b> {{ .Name }}:{{ .User }}@{{ .Server }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "argocd",
+        "argocd run",
+        "argocd dev",
+        "argocd build",
+        "argocd test",
+        "argocd.lockb",
+        "argocd.lock"
+      ],
+      "trailing_diamond": "",
+      "type": "argocd"
+    },
+    {
+      "alias": "dotnet-tooltip",
+      "background": "p:red",
+      "cache": {
+        "duration": "24h",
+        "strategy": "folder"
+      },
+      "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "cache_duration": "24h",
+        "display_mode": "always",
+        "fetch_sdk_version": true,
+        "fetch_version": true,
+        "home_enabled": true,
+        "missing_command_text": ""
+      },
+      "style": "diamond",
+      "template": " <b> {{ .Full }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "dotnet",
+        "dotnet build",
+        "dotnet run",
+        "dotnet test",
+        "dotnet publish",
+        "dotnet restore",
+        "dotnet new"
+      ],
+      "trailing_diamond": "",
+      "type": "dotnet"
     }
   ],
   "tooltips_action": "prepend",

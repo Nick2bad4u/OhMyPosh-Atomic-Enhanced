@@ -604,7 +604,7 @@
                     ],
                     "cache": {
                         "duration": "10m",
-                        "strategy": "session"
+                        "strategy": "device"
                     },
                     "foreground": "p:black",
                     "invert_powerline": false,
@@ -833,7 +833,7 @@
                     ],
                     "cache": {
                         "duration": "30m",
-                        "strategy": "session"
+                        "strategy": "device"
                     },
                     "foreground": "p:white",
                     "foreground_templates": [
@@ -1167,6 +1167,7 @@
         "python_blue": "#306998",
         "python_yellow": "#FFE873",
         "react_cyan": "#61dafb",
+        "red": "#FF4444",
         "red_alert": "#ef5350",
         "red_deleted": "#ff0000",
         "shell_bash_green": "#4EAA25",
@@ -2136,7 +2137,7 @@
             "background": "p:tooling_purple",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:white",
             "leading_diamond": "",
@@ -2181,7 +2182,7 @@
             "background": "p:ipify_purple_v6",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:white",
             "leading_diamond": "",
@@ -2284,7 +2285,8 @@
                 "git version",
                 "git --version",
                 "git show",
-                "git log"
+                "git log",
+                "git"
             ],
             "trailing_diamond": "",
             "type": "gitversion"
@@ -2683,7 +2685,7 @@
             "background": "p:orange_battery",
             "cache": {
                 "duration": "10m",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:gray_path_fg",
             "leading_diamond": "",
@@ -2863,7 +2865,7 @@
             "background": "p:blue_time",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:black",
             "leading_diamond": "",
@@ -2898,8 +2900,11 @@
             "foreground": "p:black",
             "leading_diamond": "",
             "min_width": 80,
+            "options": {
+                "always_enabled": true
+            },
             "style": "diamond",
-            "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }} {{.Version}}{{ end }} {{ if .Name }}{{ .Name }}{{ end }}{{ end }}</b> ",
+            "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }} {{.Version}}{{ end }} {{ if .Name }}{{ title .Name }}{{ end }}{{ end }}</b> ",
             "timeout": 1000,
             "tips": [
                 "project",
@@ -3420,39 +3425,37 @@
             "type": "argocd"
         },
         {
-            "alias": "yarn-tooltip",
+            "alias": "dotnet-tooltip",
             "background": "p:red",
             "cache": {
                 "duration": "24h",
                 "strategy": "folder"
             },
-            "options": {
-                "cache_duration": "24h",
-                "display_mode": "always",
-                "extensions": [
-                    "package.json",
-                    "yarn.lock"
-                ],
-                "fetch_version": true,
-                "home_enabled": true,
-                "missing_command_text": " Yarn not found"
-            },
             "foreground": "p:black",
             "leading_diamond": "",
             "min_width": 80,
+            "options": {
+                "cache_duration": "24h",
+                "display_mode": "always",
+                "fetch_sdk_version": true,
+                "fetch_version": true,
+                "home_enabled": true,
+                "missing_command_text": ""
+            },
             "style": "diamond",
-            "template": " <b> {{ .Full }}</b> ",
+            "template": " <b> {{ .Full }}</b> ",
             "timeout": 1000,
             "tips": [
-                "yarn",
-                "yarn run",
-                "yarn dev",
-                "yarn build",
-                "yarn test",
-                "yarn.lock"
+                "dotnet",
+                "dotnet build",
+                "dotnet run",
+                "dotnet test",
+                "dotnet publish",
+                "dotnet restore",
+                "dotnet new"
             ],
             "trailing_diamond": "",
-            "type": "yarn"
+            "type": "dotnet"
         }
     ],
     "tooltips_action": "prepend",
