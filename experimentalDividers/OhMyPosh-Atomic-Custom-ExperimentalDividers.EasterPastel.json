@@ -262,7 +262,6 @@
             "fetch_status": true,
             "fetch_upstream_icon": true,
             "fetch_user": true,
-            "fetch_worktree_count": true,
             "ignore_status": [],
             "ignore_submodules": {},
             "mapped_branches": {
@@ -279,7 +278,7 @@
               "Added": "<b><p:green_added>+%d</></b>",
               "Copied": "<b><p:magenta>c%d</></b>",
               "Deleted": "<b><p:red_deleted>-%d</></b>",
-              "Modified": "<b><p:yellow_modified>~%d</></b>",
+              "Modified": "<b><p:purple_modified>~%d</></b>",
               "Renamed": "<b><p:cyan_renamed>r%d</></b>",
               "Unmerged": "<b><p:orange_unmerged>x%d</></b>",
               "Untracked": "<b><p:gray_untracked>?%d</></b>"
@@ -490,7 +489,7 @@
           ],
           "cache": {
             "duration": "3m",
-            "strategy": "session"
+            "strategy": "device"
           },
           "foreground": "p:black",
           "foreground_templates": [
@@ -528,7 +527,7 @@
           "background": "p:gray_os",
           "cache": {
             "duration": "10m",
-            "strategy": "session"
+            "strategy": "device"
           },
           "foreground": "p:gray_os_fg",
           "foreground_templates": [
@@ -645,7 +644,7 @@
           "background": "p:pink_weather",
           "cache": {
             "duration": "10m",
-            "strategy": "session"
+            "strategy": "device"
           },
           "foreground": "p:black",
           "foreground_templates": [
@@ -656,7 +655,9 @@
           "min_width": 100,
           "options": {
             "http_timeout": 1000,
-            "units": "imperial"
+            "units": "imperial",
+            "api_key": "{{ .Env.POSH_OWM_API_KEY }}",
+            "location": "{{ .Env.POSH_OWM_LOCATION }}"
           },
           "powerline_symbol": "",
           "style": "diamond",
@@ -769,7 +770,7 @@
           ],
           "cache": {
             "duration": "4h",
-            "strategy": "session"
+            "strategy": "device"
           },
           "foreground": "p:gray_os_fg",
           "invert_powerline": false,
@@ -788,6 +789,10 @@
           "background_templates": [
             "{{ if eq .Current .Latest }}p:green_success{{ else }}p:yellow_update{{ end }}"
           ],
+          "cache": {
+            "duration": "4h",
+            "strategy": "device"
+          },
           "foreground": "p:gray_os_fg",
           "foreground_templates": [
             "{{ if eq .Current .Latest }}p:black{{ else }}p:gray_os_fg{{ end }}"
@@ -796,7 +801,7 @@
           "leading_diamond": "",
           "min_width": 80,
           "options": {
-            "cache_duration": "24h"
+            "cache_duration": "4h"
           },
           "style": "diamond",
           "template": "<b>  OMP  {{ .Current }} 󰁔 {{ .Latest }} </b>",
@@ -1015,218 +1020,220 @@
     }
   },
   "palette": {
-    "divider_navy_text_to_purple_exec": "#69577B",
-    "vitest_green": "#b4eeb4",
-    "green_full": "#b4eeb4",
-    "exec_warn10": "#FFCA28",
-    "cycle_inky": "#0E0E1A",
-    "cycle_stormy_night": "#091A2A",
-    "navy_text": "#1a1a1f",
-    "divider_blue_primary_to_tooling_purple": "#9AA2EB",
-    "divider_tooling_yellow": "#f7b93e",
-    "divider_teal_sysinfo": "#98d8c8",
-    "shell_powershell_blue": "#0077c2",
-    "purple_ahead": "#dda0dd",
-    "prettier_yellow": "#fff4a3",
-    "divider_orange_to_green_added": "#E3F6AB",
-    "winget_success": "#00cc44",
-    "yellow_modified": "#fff4a3",
-    "cycle_watermelon": "#F67280",
-    "lastfm_red": "#cf1e17",
-    "divider_navy_text": "#1a1a1f",
-    "divider_ipify_purple_to_typescript_eslint_pink": "#F1A6DF",
-    "divider_npm_dark": "#1a1a1f",
-    "divider_root_in_2": "#FAB2EC",
-    "purple_session": "#dda0dd",
-    "cycle_forest": "#0B3D2E",
-    "cycle_aqua": "#3DFFDB",
-    "divider_green_ahead": "#c1ffc1",
-    "tailwind_cyan": "#98d8c8",
-    "cycle_violet": "#110011",
-    "typescript_blue": "#add8e6",
-    "gray_os_fg": "#2a2a2f",
-    "black": "#1a1a1f",
-    "orange": "#ffd4a3",
-    "divider_blue_primary_to_red_alert": "#D5B0F4",
-    "divider_purple_exec": "#c8a2c8",
-    "cycle_mint": "#A0E7E5",
-    "vite_yellow": "#fff4a3",
-    "tooling_purple": "#c386f1",
-    "debug_bg": "#ffb3d9",
-    "tooling_yellow": "#f7b93e",
-    "youtube_music_red": "#cc181e",
-    "pink_error_line": "#ffb6c1",
-    "gray_os": "#d3d3d3",
-    "shell_cmd_black": "#444444",
-    "green_valid_line": "#6b8e6b",
-    "playwright_teal": "#98d8c8",
-    "cycle_oxblood": "#2A1212",
-    "debug_fg": "#000000",
-    "cycle_ice_blue": "#C4FCEF",
-    "strava_activity_red": "#dc3545",
-    "windows_blue": "#add8e6",
-    "divider_purple_ahead": "#dda0dd",
-    "green_added": "#b4eeb4",
-    "pink_weather": "#ffccff",
-    "accent": "#ffb3d9",
-    "divider_electron_red_to_maroon_error": "#EE8189",
-    "shell_cygwin_green": "#00A95C",
-    "magenta": "#FF00FF",
-    "exec_warn5": "#FFE082",
-    "az_tooltip_fg": "#ffffff",
-    "bun_tooltip_fg": "#FBBF24",
-    "eslint_purple": "#dda0dd",
-    "cycle_periwinkle": "#BDB2FF",
-    "cycle_deep_mocha": "#211A08",
-    "divider_tailwind_cyan": "#98d8c8",
-    "cycle_seaweed": "#023535",
-    "cycle_sunshine": "#FFD93D",
-    "electron_red": "#ffb6c1",
-    "shell_bash_green": "#4EAA25",
-    "cycle_soft_lavender": "#D5D5FE",
-    "strava_orange": "#fc4c02",
-    "zod_blue": "#3068b7",
-    "winget_error": "#ff4444",
-    "copilot_bg": "#dda0dd",
-    "gray_prompt_count_fg": "#fffaff",
-    "zustand_purple": "#dda0dd",
-    "bun_tooltip_bg": "#111827",
-    "yellow_update": "#ffffe0",
-    "spotify_green": "#1DB954",
-    "orange_unmerged": "#ffb6c1",
-    "cycle_espresso": "#2D1E0B",
-    "react_cyan": "#98d8c8",
+    "divider_gray_prompt_count_bg": "#2f2f34",
     "divider_violet_project": "#dda0dd",
-    "npm_yellow": "#fff4a3",
-    "shell_fish_cyan": "#8fcffa",
-    "maroon_error": "#cd5c5c",
-    "docker_tooltip_bg": "#0B59E7",
-    "divider_blue_time_to_electron_red": "#D1B1F4",
-    "teal_sysinfo": "#98d8c8",
-    "ipify_purple_v6": "#ee82ee",
-    "prettier_black": "#1a1a1f",
-    "gray_untracked": "#a9a9a9",
-    "blue_primary": "#add8e6",
+    "cycle_creme": "#F6F6C9",
+    "cycle_ice_blue": "#C4FCEF",
+    "bun_tooltip_fg": "#FBBF24",
+    "strava_activity_red": "#dc3545",
+    "cycle_hot_pink": "#FF7AB6",
+    "divider_red_alert_to_orange": "#FFBCAC",
+    "shell_powershell_blue": "#0077c2",
+    "divider_typescript_eslint_pink_to_orange": "#FFACAB",
+    "red_alert": "#ffb6c1",
+    "cycle_blush": "#FFADAD",
+    "pnpm_tooltip_bg": "#F9AD00",
+    "docker_tooltip_fg": "#ffffff",
+    "orange_battery": "#ffe4b5",
     "gray_prompt_count_bg": "#2f2f34",
     "green_ahead": "#c1ffc1",
-    "divider_tooling_purple_to_typescript_eslint_pink": "#FA9BF6",
-    "java_blue": "#add8e6",
-    "divider_gray_os": "#d3d3d3",
-    "chart_teal": "#98d8c8",
-    "ver_alpha": "#ffee58",
-    "cycle_deep_jungle": "#0B2A14",
-    "divider_chart_teal": "#98d8c8",
-    "winget_warning": "#ffaa00",
-    "cycle_rust": "#2B0D0D",
-    "yellow_discharging": "#ffffe0",
-    "divider_blue_primary_to_ipify_purple": "#AEA6E2",
-    "az_tooltip_bg": "#0078D4",
-    "cycle_coral": "#FF6B6B",
-    "claude_tooltip_bg": "#FF6B35",
-    "red_deleted": "#ff99cc",
-    "divider_maroon_error_to_pink_weather": "#F08ABD",
-    "ipify_purple": "#dda0dd",
-    "cycle_spring_green": "#6BCB77",
-    "cycle_mahogany": "#291813",
-    "python_blue": "#add8e6",
-    "aws_tooltip_bg": "#FF9900",
-    "shell_ubuntu_orange": "#E95420",
-    "tauri_tooltip_bg": "#1976D2",
-    "tauri_tooltip_fg": "#ffffff",
-    "exec_warn60": "#FF7043",
-    "cycle_deep_teal": "#002025",
-    "shell_elvish_teal": "#00BFA5",
-    "divider_red_alert_to_orange": "#FFBCAC",
-    "divider_blue_tooltip": "#87ceeb",
-    "nba_det_pistons_blue": "#1D428A",
-    "java_orange": "#ffe4b5",
-    "cycle_apricot": "#F8B195",
-    "shell_nushell_purple": "#8E44AD",
-    "cycle_lilac": "#C77DFF",
-    "cycle_spring_mint": "#9AE6B4",
-    "green_help": "#98d8c8",
-    "winget_primary": "#0078D4",
-    "gcp_tooltip_bg": "#4285F4",
-    "cycle_nightshade": "#151026",
-    "cycle_black_forest": "#07100A",
     "cyan_renamed": "#bffff0",
-    "white": "#fffaff",
-    "gray_path_fg": "#3a3a3f",
-    "divider_gray_prompt_count_bg": "#2f2f34",
-    "divider_root_out_2": "#FA9BF6",
-    "yellow_bright": "#fff4a3",
-    "purple_exec": "#c8a2c8",
-    "gcp_tooltip_fg": "#ffffff",
-    "yellow_root_alt": "#ffffe0",
-    "exec_critical": "#FF5252",
-    "cycle_eggplant": "#21122A",
-    "exec_warning": "#FFF59D",
-    "ver_rc": "#26c6da",
-    "cycle_onyx": "#191910",
-    "cycle_creme": "#F6F6C9",
-    "shell_zsh_orange": "#F15A24",
-    "purple_behind": "#82AAFF",
-    "divider_blue_time_to_violet_project": "#ABA8E2",
-    "nba_det_pistons_red": "#C8102E",
-    "violet_project": "#dda0dd",
-    "divider_purple_exec_to_electron_red": "#EAA5CD",
-    "mem_critical": "#ff8a80",
-    "ver_stable": "#66bb6a",
-    "pink_storybook": "#ffb3d9",
-    "divider_gray_os_to_electron_red": "#EBC3C6",
-    "divider_root_out_1": "#FA9CE6",
-    "red_alert": "#ffb6c1",
-    "yellow_git_changed": "#ffffcc",
-    "yarn_tooltip_fg": "#ffffff",
-    "cycle_marmalade": "#FFA14B",
-    "cycle_electric_cyan": "#00E5FF",
-    "deno_tooltip_fg": "#ffffff",
-    "strava_activity_green": "#28a745",
-    "shell_xonsh_yellow": "#ceaa34",
-    "cycle_hot_pink": "#FF7AB6",
-    "divider_green_added": "#b4eeb4",
-    "cycle_charcoal": "#2B2B20",
     "blue_tooltip": "#87ceeb",
-    "divider_blue_time": "#b0e0e6",
-    "pink_status_fail": "#ff99cc",
-    "shell_tcsh_blue": "#1E90FF",
-    "cycle_deep_navy": "#003147",
-    "green_charging": "#c1ffc1",
-    "deno_tooltip_bg": "#3C82F6",
-    "docker_tooltip_fg": "#ffffff",
-    "divider_typescript_eslint_pink_to_orange": "#FFACAB",
-    "cycle_neon_green": "#39FF14",
-    "cycle_sunburst": "#FFB86B",
-    "typescript_eslint_pink": "#ffb3d9",
-    "node_green": "#b4eeb4",
-    "cycle_midnight_blue": "#1E1E2E",
-    "cycle_deep_plum": "#2A1120",
-    "aws_tooltip_fg": "#000000",
-    "yarn_tooltip_bg": "#2E2A65",
-    "axios_yellow": "#fff4a3",
-    "magenta_copied": "#ffb3d9",
-    "cycle_sky_blue": "#4D96FF",
+    "divider_ipify_purple_to_typescript_eslint_pink": "#F1A6DF",
+    "yellow_modified": "#fff4a3",
     "python_yellow": "#fff4a3",
-    "divider_green_valid_line": "#6b8e6b",
-    "cycle_swamp": "#04201F",
-    "divider_accent": "#ffb3d9",
-    "divider_yellow_bright_to_navy_text": "#B7367E",
-    "orange_battery": "#ffe4b5",
-    "npm_dark": "#1a1a1f",
-    "claude_tooltip_fg": "#ffffff",
-    "pnpm_tooltip_fg": "#000000",
-    "pnpm_tooltip_bg": "#F9AD00",
-    "exec_extreme": "#FF4081",
-    "green_success": "#b4eeb4",
-    "divider_teal_sysinfo_to_electron_red": "#D9F0A2",
-    "divider_gray_os_to_gray_prompt_count_bg": "#857F85",
     "ver_deprecated": "#9e9e9e",
+    "mem_critical": "#ff8a80",
+    "green_added": "#b4eeb4",
+    "pnpm_tooltip_fg": "#000000",
+    "yellow_update": "#ffffe0",
+    "divider_electron_red_to_maroon_error": "#EE8189",
+    "winget_error": "#ff4444",
+    "gcp_tooltip_bg": "#4285F4",
+    "pink_weather": "#ffccff",
+    "yarn_tooltip_bg": "#2E2A65",
+    "tooling_yellow": "#f7b93e",
+    "divider_navy_text_to_purple_exec": "#69577B",
+    "shell_xonsh_yellow": "#ceaa34",
+    "navy_text": "#1a1a1f",
+    "cycle_violet": "#110011",
+    "divider_teal_sysinfo_to_electron_red": "#D9F0A2",
+    "cycle_periwinkle": "#BDB2FF",
+    "yellow_git_changed": "#ffffcc",
+    "eslint_purple": "#dda0dd",
+    "purple_behind": "#82AAFF",
+    "cycle_forest": "#0B3D2E",
+    "white": "#fffaff",
+    "black": "#1a1a1f",
+    "spotify_green": "#1DB954",
+    "purple_session": "#dda0dd",
+    "java_blue": "#add8e6",
+    "cycle_deep_plum": "#2A1120",
+    "tauri_tooltip_bg": "#1976D2",
+    "divider_blue_primary_to_ipify_purple": "#AEA6E2",
+    "cycle_aqua": "#3DFFDB",
+    "lastfm_red": "#cf1e17",
+    "vite_yellow": "#fff4a3",
+    "az_tooltip_fg": "#ffffff",
+    "cycle_deep_jungle": "#0B2A14",
+    "strava_orange": "#fc4c02",
+    "tailwind_cyan": "#98d8c8",
+    "cycle_coral": "#FF6B6B",
+    "chart_teal": "#98d8c8",
+    "debug_bg": "#ffb3d9",
+    "debug_fg": "#000000",
+    "divider_navy_text": "#1a1a1f",
+    "accent": "#ffb3d9",
+    "divider_blue_time_to_violet_project": "#ABA8E2",
+    "exec_warn60": "#FF7043",
+    "strava_activity_green": "#28a745",
+    "green_help": "#98d8c8",
+    "green_success": "#b4eeb4",
+    "shell_ubuntu_orange": "#E95420",
+    "cycle_sky_blue": "#4D96FF",
+    "exec_warning": "#FFF59D",
+    "shell_fish_cyan": "#8fcffa",
+    "divider_green_ahead": "#c1ffc1",
+    "pink_status_fail": "#ff99cc",
+    "vitest_green": "#b4eeb4",
+    "aws_tooltip_fg": "#000000",
+    "orange_unmerged": "#ffb6c1",
+    "blue_time": "#b0e0e6",
+    "exec_warn10": "#FFCA28",
+    "divider_yellow_bright_to_navy_text": "#B7367E",
+    "divider_tailwind_cyan": "#98d8c8",
+    "divider_teal_sysinfo": "#98d8c8",
+    "purple_ahead": "#dda0dd",
+    "nba_det_pistons_red": "#C8102E",
+    "maroon_error": "#cd5c5c",
+    "shell_bash_green": "#4EAA25",
+    "cycle_oxblood": "#2A1212",
+    "green_charging": "#c1ffc1",
+    "gray_os_fg": "#2a2a2f",
+    "ver_stable": "#66bb6a",
+    "winget_success": "#00cc44",
+    "npm_dark": "#1a1a1f",
+    "tooling_purple": "#c386f1",
+    "az_tooltip_bg": "#0078D4",
+    "divider_green_added": "#b4eeb4",
+    "python_blue": "#add8e6",
+    "ipify_purple": "#dda0dd",
+    "gray_untracked": "#a9a9a9",
+    "gray_path_fg": "#3a3a3f",
+    "cycle_eggplant": "#21122A",
+    "violet_project": "#dda0dd",
+    "divider_blue_time": "#b0e0e6",
+    "aws_tooltip_bg": "#FF9900",
+    "pink_storybook": "#ffb3d9",
+    "divider_chart_teal": "#98d8c8",
+    "cycle_swamp": "#04201F",
+    "cycle_midnight_blue": "#1E1E2E",
+    "cycle_nightshade": "#151026",
+    "magenta": "#FF00FF",
+    "claude_tooltip_fg": "#ffffff",
+    "cycle_deep_mocha": "#211A08",
+    "divider_blue_time_to_electron_red": "#D1B1F4",
+    "gray_os": "#d3d3d3",
+    "blue_primary": "#add8e6",
+    "pink_error_line": "#ffb6c1",
+    "cycle_espresso": "#2D1E0B",
+    "zustand_purple": "#dda0dd",
+    "divider_purple_exec_to_electron_red": "#EAA5CD",
+    "cycle_black_forest": "#07100A",
+    "exec_extreme": "#FF4081",
+    "divider_purple_ahead": "#dda0dd",
+    "cycle_sunshine": "#FFD93D",
+    "divider_tooling_purple_to_typescript_eslint_pink": "#FA9BF6",
+    "cycle_stormy_night": "#091A2A",
+    "prettier_yellow": "#fff4a3",
+    "docker_tooltip_bg": "#0B59E7",
+    "divider_gray_os": "#d3d3d3",
+    "nba_det_pistons_blue": "#1D428A",
+    "yellow_dark": "#ad8e04",
     "divider_green_added_to_yellow_bright": "#D5F6AB",
-    "cycle_blush": "#FFADAD",
-    "exec_warn30": "#FFB300",
-    "ver_beta": "#ffa726",
+    "node_green": "#b4eeb4",
+    "divider_green_valid_line": "#6b8e6b",
+    "yellow_discharging": "#ffffe0",
+    "purple_exec": "#c8a2c8",
     "strava_activity_orange": "#fc4c02",
-    "blue_time": "#b0e0e6"
+    "deno_tooltip_fg": "#ffffff",
+    "java_orange": "#ffe4b5",
+    "prettier_black": "#1a1a1f",
+    "exec_warn30": "#FFB300",
+    "cycle_neon_green": "#39FF14",
+    "electron_red": "#ffb6c1",
+    "shell_nushell_purple": "#8E44AD",
+    "ver_beta": "#ffa726",
+    "claude_tooltip_bg": "#FF6B35",
+    "winget_warning": "#ffaa00",
+    "divider_orange_to_green_added": "#E3F6AB",
+    "cycle_inky": "#0E0E1A",
+    "divider_blue_primary_to_red_alert": "#D5B0F4",
+    "cycle_soft_lavender": "#D5D5FE",
+    "gray_prompt_count_fg": "#fffaff",
+    "exec_critical": "#FF5252",
+    "shell_tcsh_blue": "#1E90FF",
+    "cycle_charcoal": "#2B2B20",
+    "cycle_electric_cyan": "#00E5FF",
+    "cycle_lilac": "#C77DFF",
+    "shell_cmd_black": "#444444",
+    "cycle_seaweed": "#023535",
+    "yellow_bright": "#fff4a3",
+    "orange": "#ffd4a3",
+    "windows_blue": "#add8e6",
+    "exec_warn5": "#FFE082",
+    "cycle_sunburst": "#FFB86B",
+    "cycle_mint": "#A0E7E5",
+    "divider_gray_os_to_gray_prompt_count_bg": "#857F85",
+    "copilot_bg": "#dda0dd",
+    "bun_tooltip_bg": "#111827",
+    "cycle_deep_teal": "#002025",
+    "yellow_root_alt": "#ffffe0",
+    "divider_root_out_2": "#FA9BF6",
+    "divider_root_in_2": "#FAB2EC",
+    "green_full": "#b4eeb4",
+    "shell_elvish_teal": "#00BFA5",
+    "ver_rc": "#26c6da",
+    "playwright_teal": "#98d8c8",
+    "divider_accent": "#ffb3d9",
+    "typescript_eslint_pink": "#ffb3d9",
+    "cycle_spring_mint": "#9AE6B4",
+    "ipify_purple_v6": "#ee82ee",
+    "cycle_spring_green": "#6BCB77",
+    "divider_blue_primary_to_tooling_purple": "#9AA2EB",
+    "divider_npm_dark": "#1a1a1f",
+    "cycle_deep_navy": "#003147",
+    "yarn_tooltip_fg": "#ffffff",
+    "cycle_apricot": "#F8B195",
+    "typescript_blue": "#add8e6",
+    "cycle_watermelon": "#F67280",
+    "zod_blue": "#3068b7",
+    "divider_blue_tooltip": "#87ceeb",
+    "divider_purple_exec": "#c8a2c8",
+    "shell_zsh_orange": "#F15A24",
+    "deno_tooltip_bg": "#3C82F6",
+    "react_cyan": "#98d8c8",
+    "cycle_onyx": "#191910",
+    "magenta_copied": "#ffb3d9",
+    "divider_gray_os_to_electron_red": "#EBC3C6",
+    "npm_yellow": "#fff4a3",
+    "cycle_rust": "#2B0D0D",
+    "axios_yellow": "#fff4a3",
+    "cycle_marmalade": "#FFA14B",
+    "ver_alpha": "#ffee58",
+    "cycle_mahogany": "#291813",
+    "divider_maroon_error_to_pink_weather": "#F08ABD",
+    "green_valid_line": "#6b8e6b",
+    "winget_primary": "#0078D4",
+    "divider_root_out_1": "#FA9CE6",
+    "divider_tooling_yellow": "#f7b93e",
+    "youtube_music_red": "#cc181e",
+    "red_deleted": "#ff99cc",
+    "teal_sysinfo": "#98d8c8",
+    "purple_modified": "#a200ff",
+    "shell_cygwin_green": "#00A95C",
+    "tauri_tooltip_fg": "#ffffff",
+    "gcp_tooltip_fg": "#ffffff"
   },
   "palettes": {},
   "patch_pwsh_bleed": true,
@@ -1244,7 +1251,7 @@
       "background": "p:nba_det_pistons_blue",
       "cache": {
         "duration": "10m",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:nba_det_pistons_red",
       "leading_diamond": "",
@@ -1276,22 +1283,26 @@
       "alias": "strava-tooltip",
       "background": "p:strava_orange",
       "background_templates": [
-        "{{ if gt .Hours 100 }}p:strava_activity_red{{ end }}",
-        "{{ if and (lt .Hours 100) (gt .Hours 50) }}p:strava_activity_orange{{ end }}",
-        "{{ if lt .Hours 50 }}p:strava_activity_green{{ end }}"
+        "{{ if .Error }}p:maroon_error{{ end }}",
+        "{{ if gt .Hours 72 }}p:strava_activity_red{{ end }}",
+        "{{ if and (le .Hours 72) (gt .Hours 24) }}p:strava_activity_orange{{ end }}",
+        "{{ if le .Hours 24 }}p:strava_activity_green{{ end }}"
       ],
       "cache": {
         "duration": "30m",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
+      "foreground_templates": [
+        "{{ if .Error }}p:white{{ end }}"
+      ],
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "access_token": "YOUR_STRAVA_ACCESS_TOKEN",
+        "access_token": "{{ .Env.STRAVA_ACCESS_TOKEN }}",
         "expires_in": 21600,
         "http_timeout": 1500,
-        "refresh_token": "YOUR_STRAVA_REFRESH_TOKEN",
+        "refresh_token": "{{ .Env.STRAVA_REFRESH_TOKEN }}",
         "ride_icon": "",
         "run_icon": "",
         "skiing_icon": "",
@@ -1299,7 +1310,8 @@
         "workout_icon": ""
       },
       "style": "diamond",
-      "template": "<b> {{ if .Error }}{{ .Error }}{{ else }}{{ .Ago }}{{ end }} </b>",
+      "template": "<b>{{ if .Error }}{{ .Error }}{{ else }}{{ .Icon }} {{ $name := default \"(no activity)\" .Name }}{{ if gt (len $name) 38 }}{{ trunc 38 $name }}…{{ else }}{{ $name }}{{ end }}{{ $t := default \"\" .Type }}{{ if $t }} • {{ $t }}{{ end }}{{ $dist := default 0.0 .Distance }}{{ if gt $dist 0.0 }} • {{ printf \"%.1f\" (divf $dist 1609.34) }}mi{{ end }}{{ $dur := default 0.0 .Duration }}{{ if gt $dur 0.0 }} • {{ $s := int $dur }}{{ $h := div $s 3600 }}{{ $m := div (mod $s 3600) 60 }}{{ if gt $h 0 }}{{ printf \"%dh%02dm\" $h $m }}{{ else }}{{ printf \"%dm\" $m }}{{ end }}{{ end }}{{ $ahr := default 0.0 .AverageHeartRate }}{{ if gt $ahr 0.0 }} • ❤ {{ printf \"%.0f\" $ahr }}{{ $mhr := default 0.0 .MaxHeartRate }}{{ if gt $mhr 0.0 }}/{{ printf \"%.0f\" $mhr }}{{ end }}bpm{{ end }}{{ $aw := default 0.0 .AverageWatts }}{{ if or .DeviceWatts (gt $aw 0.0) }} • ⚡ {{ printf \"%.0f\" $aw }}W{{ $waw := default 0.0 .WeightedAverageWatts }}{{ if gt $waw 0.0 }} ({{ printf \"%.0f\" $waw }}W){{ end }}{{ end }}{{ $k := default 0 .KudosCount }}{{ if gt $k 0 }} • 👍 {{ $k }}{{ end }} • {{ .Ago }}{{ end }}</b>",
+      "templates_logic": "first_match",
       "tips": [
         "strava",
         "activity",
@@ -1310,7 +1322,12 @@
         "unknown activity",
         "cycling",
         "hiking",
-        "cycle"
+        "cycle",
+        "distance",
+        "duration",
+        "kudos",
+        "heart rate",
+        "watts"
       ],
       "trailing_diamond": "",
       "type": "strava"
@@ -1320,7 +1337,7 @@
       "background": "p:youtube_music_red",
       "cache": {
         "duration": "2m",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -1381,15 +1398,15 @@
       "background": "p:lastfm_red",
       "cache": {
         "duration": "2m",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "api_key": "YOUR_LASTFM_API_KEY",
+        "api_key": "{{ .Env.LASTFM_API_KEY }}",
         "http_timeout": 1500,
-        "username": "YOUR_LASTFM_USERNAME"
+        "username": "{{ .Env.LASTFM_API_USERNAME }}"
       },
       "style": "diamond",
       "template": "<b> {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ substr 0 45 .Full }}{{ end }}</b>",
@@ -1411,7 +1428,7 @@
       "background": "p:react_cyan",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -1435,7 +1452,7 @@
       "background": "p:typescript_blue",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -1465,7 +1482,7 @@
       "background": "p:tooling_yellow",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -1498,7 +1515,7 @@
       "background": "p:vitest_green",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -1528,7 +1545,7 @@
       "background": "p:playwright_teal",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -1561,7 +1578,7 @@
       "background": "p:tailwind_cyan",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -1590,7 +1607,7 @@
       "background": "p:zustand_purple",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -1617,7 +1634,7 @@
       "background": "p:chart_teal",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -1646,7 +1663,7 @@
       "background": "p:electron_red",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -1679,7 +1696,7 @@
       "background": "p:pink_storybook",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -1709,7 +1726,7 @@
       "background": "p:tooling_yellow",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -1740,7 +1757,7 @@
       "background": "p:zod_blue",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -1773,7 +1790,7 @@
       "background": "p:prettier_yellow",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -1807,7 +1824,7 @@
       "background": "p:typescript_eslint_pink",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -1836,7 +1853,7 @@
       "background": "p:tooling_purple",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -1858,6 +1875,260 @@
         "npx eslint",
         "npx eslint .",
         "npx eslint --fix"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "alias": "kubectl-latest-tooltip",
+      "background": "p:blue_tooltip",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:white",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/kubernetes/kubernetes/releases/latest"
+      },
+      "style": "diamond",
+      "template": " <b>⎈ kubectl: {{ index .Body \"tag_name\" }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "kubectl version",
+        "kubectl --version",
+        "kubectl version --client"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "alias": "kubectl-tooltip",
+      "background": "p:blue_tooltip",
+      "cache": {
+        "duration": "1m",
+        "strategy": "device"
+      },
+      "foreground": "p:white",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "display_mode": "always",
+        "fetch_config": true
+      },
+      "style": "diamond",
+      "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}⎈ {{ .Context }}{{ if .Namespace }} :: {{ .Namespace }}{{ end }}{{ end }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "kubectl",
+        "kube",
+        "k8s",
+        "kubectl get",
+        "kubectl describe",
+        "kubectl logs",
+        "kubectl exec"
+      ],
+      "trailing_diamond": "",
+      "type": "kubectl"
+    },
+    {
+      "alias": "helm-tooltip",
+      "background": "p:tailwind_cyan",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
+      "style": "diamond",
+      "template": " <b>⎈ Helm {{ .Version }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "helm",
+        "helmfile"
+      ],
+      "trailing_diamond": "",
+      "type": "helm"
+    },
+    {
+      "alias": "terraform-tooltip",
+      "background": "p:tooling_purple",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:white",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://checkpoint-api.hashicorp.com/v1/check/terraform"
+      },
+      "style": "diamond",
+      "template": " <b>󱁢 Terraform: v{{ .Body.current_version }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "terraform",
+        "terragrunt"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "alias": "rust-tooltip",
+      "background": "p:orange",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/rust-lang/rust/releases/latest"
+      },
+      "style": "diamond",
+      "template": " <b> Rust: {{ index .Body \"tag_name\" }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "rust",
+        "cargo",
+        "rustc",
+        "cargo build",
+        "cargo test",
+        "cargo run"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "alias": "pulumi-tooltip",
+      "background": "p:tooling_purple",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:white",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/pulumi/pulumi/releases/latest"
+      },
+      "style": "diamond",
+      "template": " <b>󰆧 Pulumi: {{ index .Body \"tag_name\" }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "pulumi",
+        "pulumictl",
+        "pulumi up",
+        "pulumi preview",
+        "pulumi stack"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "alias": "go-tooltip",
+      "background": "p:chart_teal",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
+      "style": "diamond",
+      "timeout": 1000,
+      "tips": [
+        "go",
+        "golang",
+        "go test",
+        "go run",
+        "go build"
+      ],
+      "trailing_diamond": "",
+      "type": "go"
+    },
+    {
+      "alias": "angular-cli-tooltip",
+      "background": "p:red_alert",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/@angular%2Fcli/latest"
+      },
+      "style": "diamond",
+      "template": " <b> Angular CLI: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "angular",
+        "ng",
+        "ng serve",
+        "ng build",
+        "ng test"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "alias": "nx-tooltip",
+      "background": "p:divider_navy_text",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:white",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/nx/latest"
+      },
+      "style": "diamond",
+      "template": " <b>󰝴 Nx: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "nx",
+        "npx nx",
+        "nx run",
+        "nx serve",
+        "nx build",
+        "nx test"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "alias": "svelte-tooltip",
+      "background": "p:orange",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/svelte/latest"
+      },
+      "style": "diamond",
+      "template": " <b> Svelte: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "svelte",
+        "sveltekit"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1999,7 +2270,7 @@
       "background": "p:blue_tooltip",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -2022,7 +2293,7 @@
     },
     {
       "alias": "git-tooltip",
-      "background": "p:yellow_bright",
+      "background": "p:yellow_dark",
       "cache": {
         "duration": "20m",
         "strategy": "folder"
@@ -2038,7 +2309,6 @@
         "fetch_status": true,
         "fetch_upstream_icon": true,
         "fetch_user": true,
-        "fetch_worktree_count": true,
         "ignore_status": [],
         "ignore_submodules": {},
         "mapped_branches": {
@@ -2055,7 +2325,7 @@
           "Added": "<b><p:green_added>+%d</></b>",
           "Copied": "<b><p:magenta>c%d</></b>",
           "Deleted": "<b><p:red_deleted>-%d</></b>",
-          "Modified": "<b><p:yellow_modified>~%d</></b>",
+          "Modified": "<b><p:purple_modified>~%d</></b>",
           "Renamed": "<b><p:cyan_renamed>r%d</></b>",
           "Unmerged": "<b><p:orange_unmerged>x%d</></b>",
           "Untracked": "<b><p:gray_untracked>?%d</></b>"
@@ -2327,7 +2597,7 @@
       "background": "p:teal_sysinfo",
       "cache": {
         "duration": "1m",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -2360,7 +2630,7 @@
       "background": "p:gray_os",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:gray_os_fg",
       "leading_diamond": "",
@@ -2572,7 +2842,7 @@
         "duration": "24h",
         "strategy": "session"
       },
-      "foreground": "p:yellow_bright",
+      "foreground": "p:yellow_dark",
       "leading_diamond": "",
       "min_width": 80,
       "style": "diamond",
@@ -2652,7 +2922,7 @@
       "background": "p:windows_blue",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -2677,6 +2947,64 @@
       ],
       "trailing_diamond": "",
       "type": "winreg"
+    },
+    {
+      "alias": "winget-tooltip",
+      "background": "p:winget_primary",
+      "background_templates": [
+        "{{ if eq .UpdateCount 0 }}p:winget_success{{ end }}",
+        "{{ if and (gt .UpdateCount 0) (lt .UpdateCount 10) }}p:winget_warning{{ end }}",
+        "{{ if ge .UpdateCount 10 }}p:winget_error{{ end }}"
+      ],
+      "cache": {
+        "duration": "4h",
+        "strategy": "device"
+      },
+      "foreground": "p:gray_os_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "style": "diamond",
+      "template": "<b>  Winget  {{ .UpdateCount }} </b>",
+      "timeout": 5000,
+      "tips": [
+        "winget",
+        "winget upgrade",
+        "winget list",
+        "winget search"
+      ],
+      "trailing_diamond": "",
+      "type": "winget"
+    },
+    {
+      "alias": "omp-upgrade-tooltip",
+      "background": "p:yellow_update",
+      "background_templates": [
+        "{{ if eq .Current .Latest }}p:green_success{{ else }}p:yellow_update{{ end }}"
+      ],
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:gray_os_fg",
+      "foreground_templates": [
+        "{{ if eq .Current .Latest }}p:black{{ else }}p:gray_os_fg{{ end }}"
+      ],
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "cache_duration": "24h"
+      },
+      "style": "diamond",
+      "template": "<b>  OMP  {{ .Current }} 󰁔 {{ .Latest }} </b>",
+      "timeout": 5000,
+      "tips": [
+        "oh-my-posh",
+        "ohmyposh",
+        "omp",
+        "posh"
+      ],
+      "trailing_diamond": "",
+      "type": "upgrade"
     },
     {
       "alias": "script-tooltip",

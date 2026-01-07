@@ -262,7 +262,6 @@
                         "fetch_status": true,
                         "fetch_upstream_icon": true,
                         "fetch_user": true,
-                        "fetch_worktree_count": true,
                         "ignore_status": [],
                         "ignore_submodules": {},
                         "mapped_branches": {
@@ -279,7 +278,7 @@
                             "Added": "<b><p:green_added>+%d</></b>",
                             "Copied": "<b><p:magenta>c%d</></b>",
                             "Deleted": "<b><p:red_deleted>-%d</></b>",
-                            "Modified": "<b><p:yellow_modified>~%d</></b>",
+                            "Modified": "<b><p:purple_modified>~%d</></b>",
                             "Renamed": "<b><p:cyan_renamed>r%d</></b>",
                             "Unmerged": "<b><p:orange_unmerged>x%d</></b>",
                             "Untracked": "<b><p:gray_untracked>?%d</></b>"
@@ -490,7 +489,7 @@
                     ],
                     "cache": {
                         "duration": "3m",
-                        "strategy": "session"
+                        "strategy": "device"
                     },
                     "foreground": "p:black",
                     "foreground_templates": [
@@ -528,7 +527,7 @@
                     "background": "p:gray_os",
                     "cache": {
                         "duration": "10m",
-                        "strategy": "session"
+                        "strategy": "device"
                     },
                     "foreground": "p:gray_os_fg",
                     "foreground_templates": [
@@ -645,7 +644,7 @@
                     "background": "p:pink_weather",
                     "cache": {
                         "duration": "10m",
-                        "strategy": "session"
+                        "strategy": "device"
                     },
                     "foreground": "p:black",
                     "foreground_templates": [
@@ -655,7 +654,9 @@
                     "leading_diamond": "",
                     "min_width": 100,
                     "options": {
+                        "api_key": "{{ .Env.POSH_OWM_API_KEY }}",
                         "http_timeout": 1000,
+                        "location": "{{ .Env.POSH_OWM_LOCATION }}",
                         "units": "imperial"
                     },
                     "powerline_symbol": "",
@@ -769,7 +770,7 @@
                     ],
                     "cache": {
                         "duration": "4h",
-                        "strategy": "session"
+                        "strategy": "device"
                     },
                     "foreground": "p:gray_os_fg",
                     "invert_powerline": false,
@@ -788,6 +789,10 @@
                     "background_templates": [
                         "{{ if eq .Current .Latest }}p:green_success{{ else }}p:yellow_update{{ end }}"
                     ],
+                    "cache": {
+                        "duration": "4h",
+                        "strategy": "device"
+                    },
                     "foreground": "p:gray_os_fg",
                     "foreground_templates": [
                         "{{ if eq .Current .Latest }}p:black{{ else }}p:gray_os_fg{{ end }}"
@@ -796,7 +801,7 @@
                     "leading_diamond": "",
                     "min_width": 80,
                     "options": {
-                        "cache_duration": "24h"
+                        "cache_duration": "4h"
                     },
                     "style": "diamond",
                     "template": "<b>  OMP  {{ .Current }} 󰁔 {{ .Latest }} </b>",
@@ -1016,8 +1021,6 @@
     },
     "palette": {
         "accent": "#21c7c7",
-        "debug_bg": "#21c7c7",
-        "debug_fg": "#000000",
         "aws_tooltip_bg": "#FF9900",
         "aws_tooltip_fg": "#000000",
         "az_tooltip_bg": "#0078D4",
@@ -1074,13 +1077,12 @@
         "cycle_swamp": "#04201F",
         "cycle_violet": "#110011",
         "cycle_watermelon": "#F67280",
+        "debug_bg": "#21c7c7",
+        "debug_fg": "#000000",
         "deno_tooltip_bg": "#3C82F6",
         "deno_tooltip_fg": "#ffffff",
         "divider_accent": "#21c7c7",
         "divider_blue_primary_to_red_alert": "#786589",
-        "divider_root_in_2": "#b35c6c",
-        "divider_root_out_1": "#a86895",
-        "divider_root_out_2": "#8473b7",
         "divider_blue_primary_to_tooling_purple": "#617ed9",
         "divider_blue_time": "#40c4ff",
         "divider_blue_tooltip": "#81a1c1",
@@ -1098,6 +1100,9 @@
         "divider_purple_ahead": "#C792EA",
         "divider_purple_exec": "#83769c",
         "divider_purple_exec_to_electron_red": "#bc6b6e",
+        "divider_root_in_2": "#b35c6c",
+        "divider_root_out_1": "#a86895",
+        "divider_root_out_2": "#8473b7",
         "divider_tailwind_cyan": "#06b6d4",
         "divider_teal_sysinfo": "#437683",
         "divider_tooling_purple_to_typescript_eslint_pink": "#d45dce",
@@ -1110,18 +1115,12 @@
         "electron_red": "#f56040",
         "exec_critical": "#FF5252",
         "exec_extreme": "#FF4081",
-        "exec_warning": "#FFF59D",
-        "exec_warn5": "#FFE082",
         "exec_warn10": "#FFCA28",
         "exec_warn30": "#FFB300",
+        "exec_warn5": "#FFE082",
         "exec_warn60": "#FF7043",
+        "exec_warning": "#FFF59D",
         "gcp_tooltip_bg": "#4285F4",
-        "mem_critical": "#ff8a80",
-        "ver_alpha": "#ffee58",
-        "ver_beta": "#ffa726",
-        "ver_deprecated": "#9e9e9e",
-        "ver_rc": "#26c6da",
-        "ver_stable": "#66bb6a",
         "gcp_tooltip_fg": "#ffffff",
         "gray_os": "#b2bec3",
         "gray_os_fg": "#222222",
@@ -1142,6 +1141,7 @@
         "lastfm_red": "#cf1e17",
         "magenta": "#FF00FF",
         "maroon_error": "#890000",
+        "mem_critical": "#ff8a80",
         "navy_text": "#011627",
         "nba_det_pistons_blue": "#1D428A",
         "nba_det_pistons_red": "#C8102E",
@@ -1162,6 +1162,7 @@
         "purple_ahead": "#ba7ce4",
         "purple_behind": "#82AAFF",
         "purple_exec": "#83769c",
+        "purple_modified": "#a200ff",
         "purple_session": "#7C4DFF",
         "python_blue": "#306998",
         "python_yellow": "#FFE873",
@@ -1192,6 +1193,11 @@
         "tooling_yellow": "#f7b93e",
         "typescript_blue": "#3178c6",
         "typescript_eslint_pink": "#e535ab",
+        "ver_alpha": "#ffee58",
+        "ver_beta": "#ffa726",
+        "ver_deprecated": "#9e9e9e",
+        "ver_rc": "#26c6da",
+        "ver_stable": "#66bb6a",
         "violet_project": "#8A2BE2",
         "vitest_green": "#729b1b",
         "white": "#ffffff",
@@ -1203,9 +1209,9 @@
         "yarn_tooltip_bg": "#2E2A65",
         "yarn_tooltip_fg": "#ffffff",
         "yellow_bright": "#FFFB38",
+        "yellow_dark": "#ad8e04",
         "yellow_discharging": "#fff34e",
         "yellow_git_changed": "#ffeb95",
-        "yellow_modified": "#ffff00",
         "yellow_root_alt": "#ffff66",
         "yellow_update": "#FFD664",
         "youtube_music_red": "#cc181e",
@@ -1228,15 +1234,15 @@
             "background": "p:nba_det_pistons_blue",
             "cache": {
                 "duration": "10m",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:nba_det_pistons_red",
             "leading_diamond": "",
             "min_width": 80,
             "options": {
+                "days_offset": 8,
                 "http_timeout": 1500,
-                "team": "DET",
-                "days_offset": 8
+                "team": "DET"
             },
             "style": "diamond",
             "template": "<b> {{ .HomeTeam}}{{ if .HasStats }} ({{.HomeTeamWins}}-{{.HomeTeamLosses}}){{ end }}{{ if .Started }}:{{.HomeScore}}{{ end }} vs {{ .AwayTeam}}{{ if .HasStats }} ({{.AwayTeamWins}}-{{.AwayTeamLosses}}){{ end }}{{ if .Started }}:{{.AwayScore}}{{ end }} | {{ if not .Started }}{{.GameDate}} | {{ end }}{{.Time}}</b>",
@@ -1260,30 +1266,35 @@
             "alias": "strava-tooltip",
             "background": "p:strava_orange",
             "background_templates": [
-                "{{ if gt .Hours 100 }}p:strava_activity_red{{ end }}",
-                "{{ if and (lt .Hours 100) (gt .Hours 50) }}p:strava_activity_orange{{ end }}",
-                "{{ if lt .Hours 50 }}p:strava_activity_green{{ end }}"
+                "{{ if .Error }}p:maroon_error{{ end }}",
+                "{{ if gt .Hours 72 }}p:strava_activity_red{{ end }}",
+                "{{ if and (le .Hours 72) (gt .Hours 24) }}p:strava_activity_orange{{ end }}",
+                "{{ if le .Hours 24 }}p:strava_activity_green{{ end }}"
             ],
             "cache": {
                 "duration": "30m",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:black",
+            "foreground_templates": [
+                "{{ if .Error }}p:white{{ end }}"
+            ],
             "leading_diamond": "",
             "min_width": 80,
             "options": {
-                "access_token": "YOUR_STRAVA_ACCESS_TOKEN",
+                "access_token": "{{ .Env.STRAVA_ACCESS_TOKEN }}",
                 "expires_in": 21600,
                 "http_timeout": 1500,
-                "refresh_token": "YOUR_STRAVA_REFRESH_TOKEN",
+                "refresh_token": "{{ .Env.STRAVA_REFRESH_TOKEN }}",
                 "ride_icon": "",
                 "run_icon": "",
-                "skiing_icon": "",
+                "skiing_icon": "⛷️",
                 "unknown_activity_icon": "",
                 "workout_icon": ""
             },
             "style": "diamond",
-            "template": "<b> {{ if .Error }}{{ .Error }}{{ else }}{{ .Ago }}{{ end }} </b>",
+            "template": "<b>{{ if .Error }}{{ .Error }}{{ else }}{{ .Icon }} {{ $name := default \"(no activity)\" .Name }}{{ if gt (len $name) 38 }}{{ trunc 38 $name }}…{{ else }}{{ $name }}{{ end }}{{ $t := default \"\" .Type }}{{ if $t }} • {{ $t }}{{ end }}{{ $dist := default 0.0 .Distance }}{{ if gt $dist 0.0 }} • {{ printf \"%.1f\" (divf $dist 1609.34) }}mi{{ end }}{{ $dur := default 0.0 .Duration }}{{ if gt $dur 0.0 }} • {{ $s := int $dur }}{{ $h := div $s 3600 }}{{ $m := div (mod $s 3600) 60 }}{{ if gt $h 0 }}{{ printf \"%dh%02dm\" $h $m }}{{ else }}{{ printf \"%dm\" $m }}{{ end }}{{ end }}{{ $ahr := default 0.0 .AverageHeartRate }}{{ if gt $ahr 0.0 }} • ❤ {{ printf \"%.0f\" $ahr }}{{ $mhr := default 0.0 .MaxHeartRate }}{{ if gt $mhr 0.0 }}/{{ printf \"%.0f\" $mhr }}{{ end }}bpm{{ end }}{{ $aw := default 0.0 .AverageWatts }}{{ if or .DeviceWatts (gt $aw 0.0) }} • ⚡ {{ printf \"%.0f\" $aw }}W{{ $waw := default 0.0 .WeightedAverageWatts }}{{ if gt $waw 0.0 }} ({{ printf \"%.0f\" $waw }}W){{ end }}{{ end }}{{ $k := default 0 .KudosCount }}{{ if gt $k 0 }} • 👍 {{ $k }}{{ end }} • {{ .Ago }}{{ end }}</b>",
+            "templates_logic": "first_match",
             "tips": [
                 "strava",
                 "activity",
@@ -1294,7 +1305,12 @@
                 "unknown activity",
                 "cycling",
                 "hiking",
-                "cycle"
+                "cycle",
+                "distance",
+                "duration",
+                "kudos",
+                "heart rate",
+                "watts"
             ],
             "trailing_diamond": "",
             "type": "strava"
@@ -1304,7 +1320,7 @@
             "background": "p:youtube_music_red",
             "cache": {
                 "duration": "2m",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:black",
             "leading_diamond": "",
@@ -1365,15 +1381,15 @@
             "background": "p:lastfm_red",
             "cache": {
                 "duration": "2m",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:black",
             "leading_diamond": "",
             "min_width": 80,
             "options": {
-                "api_key": "YOUR_LASTFM_API_KEY",
+                "api_key": "{{ .Env.LASTFM_API_KEY }}",
                 "http_timeout": 1500,
-                "username": "YOUR_LASTFM_USERNAME"
+                "username": "{{ .Env.LASTFM_API_USERNAME }}"
             },
             "style": "diamond",
             "template": "<b> {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ substr 0 45 .Full }}{{ end }}</b>",
@@ -1395,7 +1411,7 @@
             "background": "p:react_cyan",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:white",
             "leading_diamond": "",
@@ -1419,7 +1435,7 @@
             "background": "p:typescript_blue",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:white",
             "leading_diamond": "",
@@ -1449,7 +1465,7 @@
             "background": "p:tooling_yellow",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:black",
             "leading_diamond": "",
@@ -1482,7 +1498,7 @@
             "background": "p:vitest_green",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:white",
             "leading_diamond": "",
@@ -1512,7 +1528,7 @@
             "background": "p:playwright_teal",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:white",
             "leading_diamond": "",
@@ -1545,7 +1561,7 @@
             "background": "p:tailwind_cyan",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:white",
             "leading_diamond": "",
@@ -1574,7 +1590,7 @@
             "background": "p:zustand_purple",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:black",
             "leading_diamond": "",
@@ -1601,7 +1617,7 @@
             "background": "p:chart_teal",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:white",
             "leading_diamond": "",
@@ -1630,7 +1646,7 @@
             "background": "p:electron_red",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:black",
             "leading_diamond": "",
@@ -1663,7 +1679,7 @@
             "background": "p:pink_storybook",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:white",
             "leading_diamond": "",
@@ -1693,7 +1709,7 @@
             "background": "p:tooling_yellow",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:black",
             "leading_diamond": "",
@@ -1724,7 +1740,7 @@
             "background": "p:zod_blue",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:white",
             "leading_diamond": "",
@@ -1757,7 +1773,7 @@
             "background": "p:prettier_yellow",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:black",
             "leading_diamond": "",
@@ -1791,7 +1807,7 @@
             "background": "p:typescript_eslint_pink",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:white",
             "leading_diamond": "",
@@ -1820,7 +1836,7 @@
             "background": "p:tooling_purple",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:white",
             "leading_diamond": "",
@@ -1845,6 +1861,275 @@
             ],
             "trailing_diamond": "",
             "type": "http"
+        },
+        {
+            "alias": "kubectl-latest-tooltip",
+            "background": "p:blue_tooltip",
+            "cache": {
+                "duration": "24h",
+                "strategy": "device"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/kubernetes/kubernetes/releases/latest"
+            },
+            "style": "diamond",
+            "template": " <b>⎈ kubectl: {{ index .Body \"tag_name\" }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "kubectl version",
+                "kubectl --version",
+                "kubectl version --client"
+            ],
+            "trailing_diamond": "",
+            "type": "http"
+        },
+        {
+            "alias": "kubectl-tooltip",
+            "background": "p:blue_tooltip",
+            "cache": {
+                "duration": "24h",
+                "strategy": "folder"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "display_error": true,
+                "parse_kubeconfig": true
+            },
+            "style": "diamond",
+            "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}⎈ {{ .Context }}{{ if .Namespace }} :: {{ .Namespace }}{{ end }}{{ end }}</b> ",
+            "tips": [
+                "kubectl",
+                "kube",
+                "k8s",
+                "kubectl get",
+                "kubectl describe",
+                "kubectl logs",
+                "kubectl exec"
+            ],
+            "trailing_diamond": "",
+            "type": "kubectl"
+        },
+        {
+            "alias": "helm-tooltip",
+            "background": "p:tailwind_cyan",
+            "cache": {
+                "duration": "24h",
+                "strategy": "folder"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "display_mode": "always"
+            },
+            "style": "diamond",
+            "template": " <b>⎈ Helm {{ .Version }}</b> ",
+            "tips": [
+                "helm",
+                "helmfile"
+            ],
+            "trailing_diamond": "",
+            "type": "helm"
+        },
+        {
+            "alias": "terraform-tooltip",
+            "background": "p:tooling_purple",
+            "cache": {
+                "duration": "24h",
+                "strategy": "folder"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "command": "terraform",
+                "fetch_version": true
+            },
+            "style": "diamond",
+            "template": " <b>{{ .WorkspaceName }} 󱁢 Terraform: {{ if .Version }} {{ .Version }}{{ end }}</b> ",
+            "tips": [
+                "terraform",
+                "terragrunt"
+            ],
+            "trailing_diamond": "",
+            "type": "terraform"
+        },
+        {
+            "alias": "rust-tooltip",
+            "background": "p:orange",
+            "cache": {
+                "duration": "24h",
+                "strategy": "folder"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "cache_duration": "24h",
+                "display_mode": "always",
+                "fetch_version": true,
+                "home_enabled": true,
+                "missing_command_text": " Rust: not installed"
+            },
+            "style": "diamond",
+            "template": " <b> Rust: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+            "tips": [
+                "rust",
+                "cargo",
+                "rustc",
+                "cargo build",
+                "cargo test",
+                "cargo run"
+            ],
+            "trailing_diamond": "",
+            "type": "rust"
+        },
+        {
+            "alias": "pulumi-tooltip",
+            "background": "p:tooling_purple",
+            "cache": {
+                "duration": "24h",
+                "strategy": "folder"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "fetch_about": true,
+                "fetch_stack": true
+            },
+            "style": "diamond",
+            "template": " <b>󰆧 Pulumi: {{ .Stack }}{{if .User }} :: {{ .User }}@{{ end }}{{ if .URL }}{{ .URL }}{{ end }}</b> ",
+            "tips": [
+                "pulumi",
+                "pulumictl",
+                "pulumi up",
+                "pulumi preview",
+                "pulumi stack"
+            ],
+            "trailing_diamond": "",
+            "type": "pulumi"
+        },
+        {
+            "alias": "go-tooltip",
+            "background": "p:chart_teal",
+            "cache": {
+                "duration": "24h",
+                "strategy": "device"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "cache_duration": "24h",
+                "display_mode": "always",
+                "fetch_version": true,
+                "home_enabled": true,
+                "missing_command_text": " Go: not installed",
+                "parse_go_work_file": true,
+                "parse_mod_file": true
+            },
+            "style": "diamond",
+            "tips": [
+                "go",
+                "golang",
+                "go test",
+                "go run",
+                "go build"
+            ],
+            "trailing_diamond": "",
+            "type": "go"
+        },
+        {
+            "alias": "angular-cli-tooltip",
+            "background": "p:red_alert",
+            "cache": {
+                "duration": "24h",
+                "strategy": "folder"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "cache_duration": "24h",
+                "display_mode": "always",
+                "fetch_version": true,
+                "home_enabled": true,
+                "missing_command_text": " Angular CLI: not installed"
+            },
+            "style": "diamond",
+            "template": " <b> Angular CLI: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+            "tips": [
+                "angular",
+                "ng",
+                "ng serve",
+                "ng build",
+                "ng test"
+            ],
+            "trailing_diamond": "",
+            "type": "angular"
+        },
+        {
+            "alias": "nx-tooltip",
+            "background": "p:divider_navy_text",
+            "cache": {
+                "duration": "24h",
+                "strategy": "folder"
+            },
+            "foreground": "p:white",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "cache_duration": "24h",
+                "display_mode": "always",
+                "fetch_version": true,
+                "home_enabled": true,
+                "missing_command_text": "󰝴 Nx: not installed"
+            },
+            "style": "diamond",
+            "template": " <b>󰝴 Nx: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+            "tips": [
+                "nx",
+                "npx nx",
+                "nx run",
+                "nx serve",
+                "nx build",
+                "nx test"
+            ],
+            "trailing_diamond": "",
+            "type": "nx"
+        },
+        {
+            "alias": "svelte-tooltip",
+            "background": "p:orange",
+            "cache": {
+                "duration": "24h",
+                "strategy": "device"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "cache_duration": "24h",
+                "display_mode": "always",
+                "fetch_version": true,
+                "home_enabled": true,
+                "missing_command_text": " Svelte: not installed"
+            },
+            "style": "diamond",
+            "template": " <b> Svelte: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+            "tips": [
+                "svelte",
+                "sveltekit"
+            ],
+            "trailing_diamond": "",
+            "type": "svelte"
         },
         {
             "alias": "ipify-tooltip",
@@ -1983,7 +2268,7 @@
             "background": "p:blue_tooltip",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:white",
             "leading_diamond": "",
@@ -2006,7 +2291,7 @@
         },
         {
             "alias": "git-tooltip",
-            "background": "p:yellow_bright",
+            "background": "p:yellow_dark",
             "cache": {
                 "duration": "20m",
                 "strategy": "folder"
@@ -2022,7 +2307,6 @@
                 "fetch_status": true,
                 "fetch_upstream_icon": true,
                 "fetch_user": true,
-                "fetch_worktree_count": true,
                 "ignore_status": [],
                 "ignore_submodules": {},
                 "mapped_branches": {
@@ -2039,7 +2323,7 @@
                     "Added": "<b><p:green_added>+%d</></b>",
                     "Copied": "<b><p:magenta>c%d</></b>",
                     "Deleted": "<b><p:red_deleted>-%d</></b>",
-                    "Modified": "<b><p:yellow_modified>~%d</></b>",
+                    "Modified": "<b><p:purple_modified>~%d</></b>",
                     "Renamed": "<b><p:cyan_renamed>r%d</></b>",
                     "Unmerged": "<b><p:orange_unmerged>x%d</></b>",
                     "Untracked": "<b><p:gray_untracked>?%d</></b>"
@@ -2311,7 +2595,7 @@
             "background": "p:teal_sysinfo",
             "cache": {
                 "duration": "1m",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:black",
             "leading_diamond": "",
@@ -2344,7 +2628,7 @@
             "background": "p:gray_os",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:gray_os_fg",
             "leading_diamond": "",
@@ -2556,7 +2840,7 @@
                 "duration": "24h",
                 "strategy": "session"
             },
-            "foreground": "p:yellow_bright",
+            "foreground": "p:yellow_dark",
             "leading_diamond": "",
             "min_width": 80,
             "style": "diamond",
@@ -2583,10 +2867,10 @@
             },
             "foreground": "p:black",
             "leading_diamond": "",
+            "min_width": 80,
             "options": {
                 "unit": "Mbps"
             },
-            "min_width": 80,
             "style": "diamond",
             "template": "<b>  {{ .Name }} </b>",
             "timeout": 1000,
@@ -2636,7 +2920,7 @@
             "background": "p:windows_blue",
             "cache": {
                 "duration": "24h",
-                "strategy": "session"
+                "strategy": "device"
             },
             "foreground": "p:black",
             "leading_diamond": "",
@@ -2661,6 +2945,64 @@
             ],
             "trailing_diamond": "",
             "type": "winreg"
+        },
+        {
+            "alias": "winget-tooltip",
+            "background": "p:winget_primary",
+            "background_templates": [
+                "{{ if eq .UpdateCount 0 }}p:winget_success{{ end }}",
+                "{{ if and (gt .UpdateCount 0) (lt .UpdateCount 10) }}p:winget_warning{{ end }}",
+                "{{ if ge .UpdateCount 10 }}p:winget_error{{ end }}"
+            ],
+            "cache": {
+                "duration": "4h",
+                "strategy": "device"
+            },
+            "foreground": "p:gray_os_fg",
+            "leading_diamond": "",
+            "min_width": 80,
+            "style": "diamond",
+            "template": "<b>  Winget  {{ .UpdateCount }} </b>",
+            "timeout": 5000,
+            "tips": [
+                "winget",
+                "winget upgrade",
+                "winget list",
+                "winget search"
+            ],
+            "trailing_diamond": "",
+            "type": "winget"
+        },
+        {
+            "alias": "omp-upgrade-tooltip",
+            "background": "p:yellow_update",
+            "background_templates": [
+                "{{ if eq .Current .Latest }}p:green_success{{ else }}p:yellow_update{{ end }}"
+            ],
+            "cache": {
+                "duration": "24h",
+                "strategy": "device"
+            },
+            "foreground": "p:gray_os_fg",
+            "foreground_templates": [
+                "{{ if eq .Current .Latest }}p:black{{ else }}p:gray_os_fg{{ end }}"
+            ],
+            "leading_diamond": "",
+            "min_width": 80,
+            "options": {
+                "cache_duration": "24h"
+            },
+            "style": "diamond",
+            "template": "<b>  OMP  {{ .Current }} 󰁔 {{ .Latest }} </b>",
+            "timeout": 5000,
+            "tips": [
+                "oh-my-posh",
+                "ohmyposh",
+                "omp",
+                "posh"
+            ],
+            "trailing_diamond": "",
+            "type": "upgrade"
         },
         {
             "alias": "script-tooltip",
@@ -3051,6 +3393,66 @@
             ],
             "trailing_diamond": "",
             "type": "bun"
+        },
+        {
+            "alias": "argocd-tooltip",
+            "background": "p:red",
+            "cache": {
+                "duration": "24h",
+                "strategy": "folder"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "style": "diamond",
+            "template": " <b> {{ .Name }}:{{ .User }}@{{ .Server }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "argocd",
+                "argocd run",
+                "argocd dev",
+                "argocd build",
+                "argocd test",
+                "argocd.lockb",
+                "argocd.lock"
+            ],
+            "trailing_diamond": "",
+            "type": "argocd"
+        },
+        {
+            "alias": "yarn-tooltip",
+            "background": "p:red",
+            "cache": {
+                "duration": "24h",
+                "strategy": "folder"
+            },
+            "options": {
+                "cache_duration": "24h",
+                "display_mode": "always",
+                "extensions": [
+                    "package.json",
+                    "yarn.lock"
+                ],
+                "fetch_version": true,
+                "home_enabled": true,
+                "missing_command_text": " Yarn not found"
+            },
+            "foreground": "p:black",
+            "leading_diamond": "",
+            "min_width": 80,
+            "style": "diamond",
+            "template": " <b> {{ .Full }}</b> ",
+            "timeout": 1000,
+            "tips": [
+                "yarn",
+                "yarn run",
+                "yarn dev",
+                "yarn build",
+                "yarn test",
+                "yarn.lock"
+            ],
+            "trailing_diamond": "",
+            "type": "yarn"
         }
     ],
     "tooltips_action": "prepend",

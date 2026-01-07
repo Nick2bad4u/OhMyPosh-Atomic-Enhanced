@@ -408,7 +408,9 @@
     "youtube_music_red": "#cc181e",
     "zod_blue": "#3068b7",
     "debug_bg": "#21c7c7",
-    "debug_fg": "#000000"
+    "debug_fg": "#000000",
+    "yellow_dark": "#ad8e04",
+    "purple_modified": "#a200ff"
   },
   "patch_pwsh_bleed": true,
   "pwd": "osc7",
@@ -425,7 +427,7 @@
       "background": "p:nba_det_pistons_blue",
       "cache": {
         "duration": "10m",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:nba_det_pistons_red",
       "leading_diamond": "",
@@ -457,22 +459,26 @@
       "alias": "strava-tooltip",
       "background": "p:strava_orange",
       "background_templates": [
-        "{{ if gt .Hours 100 }}p:strava_activity_red{{ end }}",
-        "{{ if and (lt .Hours 100) (gt .Hours 50) }}p:strava_activity_orange{{ end }}",
-        "{{ if lt .Hours 50 }}p:strava_activity_green{{ end }}"
+        "{{ if .Error }}p:maroon_error{{ end }}",
+        "{{ if gt .Hours 72 }}p:strava_activity_red{{ end }}",
+        "{{ if and (le .Hours 72) (gt .Hours 24) }}p:strava_activity_orange{{ end }}",
+        "{{ if le .Hours 24 }}p:strava_activity_green{{ end }}"
       ],
       "cache": {
         "duration": "30m",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
+      "foreground_templates": [
+        "{{ if .Error }}p:white{{ end }}"
+      ],
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "access_token": "YOUR_STRAVA_ACCESS_TOKEN",
+        "access_token": "{{ .Env.STRAVA_ACCESS_TOKEN }}",
         "expires_in": 21600,
         "http_timeout": 1500,
-        "refresh_token": "YOUR_STRAVA_REFRESH_TOKEN",
+        "refresh_token": "{{ .Env.STRAVA_REFRESH_TOKEN }}",
         "ride_icon": "",
         "run_icon": "",
         "skiing_icon": "",
@@ -480,7 +486,8 @@
         "workout_icon": ""
       },
       "style": "diamond",
-      "template": "<b> {{ if .Error }}{{ .Error }}{{ else }}{{ .Ago }}{{ end }} </b>",
+      "template": "<b>{{ if .Error }}{{ .Error }}{{ else }}{{ .Icon }} {{ $name := default \"(no activity)\" .Name }}{{ if gt (len $name) 38 }}{{ trunc 38 $name }}…{{ else }}{{ $name }}{{ end }}{{ $t := default \"\" .Type }}{{ if $t }} • {{ $t }}{{ end }}{{ $dist := default 0.0 .Distance }}{{ if gt $dist 0.0 }} • {{ printf \"%.1f\" (divf $dist 1609.34) }}mi{{ end }}{{ $dur := default 0.0 .Duration }}{{ if gt $dur 0.0 }} • {{ $s := int $dur }}{{ $h := div $s 3600 }}{{ $m := div (mod $s 3600) 60 }}{{ if gt $h 0 }}{{ printf \"%dh%02dm\" $h $m }}{{ else }}{{ printf \"%dm\" $m }}{{ end }}{{ end }}{{ $ahr := default 0.0 .AverageHeartRate }}{{ if gt $ahr 0.0 }} • ❤ {{ printf \"%.0f\" $ahr }}{{ $mhr := default 0.0 .MaxHeartRate }}{{ if gt $mhr 0.0 }}/{{ printf \"%.0f\" $mhr }}{{ end }}bpm{{ end }}{{ $aw := default 0.0 .AverageWatts }}{{ if or .DeviceWatts (gt $aw 0.0) }} • ⚡ {{ printf \"%.0f\" $aw }}W{{ $waw := default 0.0 .WeightedAverageWatts }}{{ if gt $waw 0.0 }} ({{ printf \"%.0f\" $waw }}W){{ end }}{{ end }}{{ $k := default 0 .KudosCount }}{{ if gt $k 0 }} • 👍 {{ $k }}{{ end }} • {{ .Ago }}{{ end }}</b>",
+      "templates_logic": "first_match",
       "tips": [
         "strava",
         "activity",
@@ -491,7 +498,12 @@
         "unknown activity",
         "cycling",
         "hiking",
-        "cycle"
+        "cycle",
+        "distance",
+        "duration",
+        "kudos",
+        "heart rate",
+        "watts"
       ],
       "trailing_diamond": "",
       "type": "strava"
@@ -501,7 +513,7 @@
       "background": "p:youtube_music_red",
       "cache": {
         "duration": "2m",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -562,15 +574,15 @@
       "background": "p:lastfm_red",
       "cache": {
         "duration": "2m",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "api_key": "YOUR_LASTFM_API_KEY",
+        "api_key": "{{ .Env.LASTFM_API_KEY }}",
         "http_timeout": 1500,
-        "username": "YOUR_LASTFM_USERNAME"
+        "username": "{{ .Env.LASTFM_API_USERNAME }}"
       },
       "style": "diamond",
       "template": "<b> {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ substr 0 45 .Full }}{{ end }}</b>",
@@ -592,7 +604,7 @@
       "background": "p:react_cyan",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -616,7 +628,7 @@
       "background": "p:typescript_blue",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -646,7 +658,7 @@
       "background": "p:tooling_yellow",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -679,7 +691,7 @@
       "background": "p:vitest_green",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -709,7 +721,7 @@
       "background": "p:playwright_teal",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -742,7 +754,7 @@
       "background": "p:tailwind_cyan",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -771,7 +783,7 @@
       "background": "p:zustand_purple",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -798,7 +810,7 @@
       "background": "p:chart_teal",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -827,7 +839,7 @@
       "background": "p:electron_red",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -860,7 +872,7 @@
       "background": "p:pink_storybook",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -890,7 +902,7 @@
       "background": "p:tooling_yellow",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -921,7 +933,7 @@
       "background": "p:zod_blue",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -954,7 +966,7 @@
       "background": "p:prettier_yellow",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -988,7 +1000,7 @@
       "background": "p:typescript_eslint_pink",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -1017,7 +1029,7 @@
       "background": "p:tooling_purple",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -1039,6 +1051,260 @@
         "npx eslint",
         "npx eslint .",
         "npx eslint --fix"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "alias": "kubectl-latest-tooltip",
+      "background": "p:blue_tooltip",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:white",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/kubernetes/kubernetes/releases/latest"
+      },
+      "style": "diamond",
+      "template": " <b>⎈ kubectl: {{ index .Body \"tag_name\" }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "kubectl version",
+        "kubectl --version",
+        "kubectl version --client"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "alias": "kubectl-tooltip",
+      "background": "p:blue_tooltip",
+      "cache": {
+        "duration": "1m",
+        "strategy": "device"
+      },
+      "foreground": "p:white",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "display_mode": "always",
+        "fetch_config": true
+      },
+      "style": "diamond",
+      "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}⎈ {{ .Context }}{{ if .Namespace }} :: {{ .Namespace }}{{ end }}{{ end }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "kubectl",
+        "kube",
+        "k8s",
+        "kubectl get",
+        "kubectl describe",
+        "kubectl logs",
+        "kubectl exec"
+      ],
+      "trailing_diamond": "",
+      "type": "kubectl"
+    },
+    {
+      "alias": "helm-tooltip",
+      "background": "p:tailwind_cyan",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
+      "style": "diamond",
+      "template": " <b>⎈ Helm {{ .Version }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "helm",
+        "helmfile"
+      ],
+      "trailing_diamond": "",
+      "type": "helm"
+    },
+    {
+      "alias": "terraform-tooltip",
+      "background": "p:tooling_purple",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:white",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://checkpoint-api.hashicorp.com/v1/check/terraform"
+      },
+      "style": "diamond",
+      "template": " <b>󱁢 Terraform: v{{ .Body.current_version }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "terraform",
+        "terragrunt"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "alias": "rust-tooltip",
+      "background": "p:orange",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/rust-lang/rust/releases/latest"
+      },
+      "style": "diamond",
+      "template": " <b> Rust: {{ index .Body \"tag_name\" }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "rust",
+        "cargo",
+        "rustc",
+        "cargo build",
+        "cargo test",
+        "cargo run"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "alias": "pulumi-tooltip",
+      "background": "p:tooling_purple",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:white",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/pulumi/pulumi/releases/latest"
+      },
+      "style": "diamond",
+      "template": " <b>󰆧 Pulumi: {{ index .Body \"tag_name\" }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "pulumi",
+        "pulumictl",
+        "pulumi up",
+        "pulumi preview",
+        "pulumi stack"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "alias": "go-tooltip",
+      "background": "p:chart_teal",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
+      "style": "diamond",
+      "timeout": 1000,
+      "tips": [
+        "go",
+        "golang",
+        "go test",
+        "go run",
+        "go build"
+      ],
+      "trailing_diamond": "",
+      "type": "go"
+    },
+    {
+      "alias": "angular-cli-tooltip",
+      "background": "p:red_alert",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/@angular%2Fcli/latest"
+      },
+      "style": "diamond",
+      "template": " <b> Angular CLI: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "angular",
+        "ng",
+        "ng serve",
+        "ng build",
+        "ng test"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "alias": "nx-tooltip",
+      "background": "p:divider_navy_text",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:white",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/nx/latest"
+      },
+      "style": "diamond",
+      "template": " <b>󰝴 Nx: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "nx",
+        "npx nx",
+        "nx run",
+        "nx serve",
+        "nx build",
+        "nx test"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
+    },
+    {
+      "alias": "svelte-tooltip",
+      "background": "p:orange",
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://registry.npmjs.org/svelte/latest"
+      },
+      "style": "diamond",
+      "template": " <b> Svelte: v{{ .Body.version }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "svelte",
+        "sveltekit"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1180,7 +1446,7 @@
       "background": "p:blue_tooltip",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:white",
       "leading_diamond": "",
@@ -1203,7 +1469,7 @@
     },
     {
       "alias": "git-tooltip",
-      "background": "p:yellow_bright",
+      "background": "p:yellow_dark",
       "cache": {
         "duration": "20m",
         "strategy": "folder"
@@ -1213,13 +1479,12 @@
       "min_width": 80,
       "options": {
         "branch_icon": "  ",
-        "branch_template": "<b>{{ if .Mapped }}{{ title .Mapped }}{{ else }}{{ .Icon }}{{ end }}{{ title .Branch }}</b>",
+        "branch_template": "<b>{{ if .Mapped }}{{ $m := title .Mapped }}{{ if gt (len $m) 24 }}{{ trunc 24 $m }}…{{ else }}{{ $m }}{{ end }}{{ else }}{{ .Icon }}{{ $b := title .Branch }}{{ if gt (len $b) 24 }}{{ trunc 24 $b }}…{{ else }}{{ $b }}{{ end }}{{ end }}</b>",
         "disable_with_jj": false,
         "fetch_bare_info": true,
         "fetch_status": true,
         "fetch_upstream_icon": true,
         "fetch_user": true,
-        "fetch_worktree_count": true,
         "ignore_status": [],
         "ignore_submodules": {},
         "mapped_branches": {
@@ -1236,7 +1501,7 @@
           "Added": "<b><p:green_added>+%d</></b>",
           "Copied": "<b><p:magenta>c%d</></b>",
           "Deleted": "<b><p:red_deleted>-%d</></b>",
-          "Modified": "<b><p:yellow_modified>~%d</></b>",
+          "Modified": "<b><p:purple_modified>~%d</></b>",
           "Renamed": "<b><p:cyan_renamed>r%d</></b>",
           "Unmerged": "<b><p:orange_unmerged>x%d</></b>",
           "Untracked": "<b><p:gray_untracked>?%d</></b>"
@@ -1508,7 +1773,7 @@
       "background": "p:teal_sysinfo",
       "cache": {
         "duration": "1m",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -1541,7 +1806,7 @@
       "background": "p:gray_os",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:gray_os_fg",
       "leading_diamond": "",
@@ -1753,7 +2018,7 @@
         "duration": "24h",
         "strategy": "session"
       },
-      "foreground": "p:yellow_bright",
+      "foreground": "p:yellow_dark",
       "leading_diamond": "",
       "min_width": 80,
       "style": "diamond",
@@ -1833,7 +2098,7 @@
       "background": "p:windows_blue",
       "cache": {
         "duration": "24h",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -1858,6 +2123,64 @@
       ],
       "trailing_diamond": "",
       "type": "winreg"
+    },
+    {
+      "alias": "winget-tooltip",
+      "background": "p:winget_primary",
+      "background_templates": [
+        "{{ if eq .UpdateCount 0 }}p:winget_success{{ end }}",
+        "{{ if and (gt .UpdateCount 0) (lt .UpdateCount 10) }}p:winget_warning{{ end }}",
+        "{{ if ge .UpdateCount 10 }}p:winget_error{{ end }}"
+      ],
+      "cache": {
+        "duration": "4h",
+        "strategy": "device"
+      },
+      "foreground": "p:gray_os_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "style": "diamond",
+      "template": "<b>  Winget  {{ .UpdateCount }} </b>",
+      "timeout": 5000,
+      "tips": [
+        "winget",
+        "winget upgrade",
+        "winget list",
+        "winget search"
+      ],
+      "trailing_diamond": "",
+      "type": "winget"
+    },
+    {
+      "alias": "omp-upgrade-tooltip",
+      "background": "p:yellow_update",
+      "background_templates": [
+        "{{ if eq .Current .Latest }}p:green_success{{ else }}p:yellow_update{{ end }}"
+      ],
+      "cache": {
+        "duration": "24h",
+        "strategy": "device"
+      },
+      "foreground": "p:gray_os_fg",
+      "foreground_templates": [
+        "{{ if eq .Current .Latest }}p:black{{ else }}p:gray_os_fg{{ end }}"
+      ],
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "cache_duration": "24h"
+      },
+      "style": "diamond",
+      "template": "<b>  OMP  {{ .Current }} 󰁔 {{ .Latest }} </b>",
+      "timeout": 5000,
+      "tips": [
+        "oh-my-posh",
+        "ohmyposh",
+        "omp",
+        "posh"
+      ],
+      "trailing_diamond": "",
+      "type": "upgrade"
     },
     {
       "alias": "script-tooltip",
@@ -2253,7 +2576,7 @@
   "tooltips_action": "prepend",
   "transient_prompt": {
     "background": "transparent",
-    "filler": "<p:purple_session></>",
+    "filler": "<p:purple_session></><p:accent></><p:blue_primary></><p:divider_blue_primary_to_tooling_purple></><p:tooling_purple></><p:divider_tooling_purple_to_typescript_eslint_pink></><p:typescript_eslint_pink></><p:divider_typescript_eslint_pink_to_orange></><p:orange></><p:divider_orange_to_green_added></><p:green_added></><p:divider_green_added_to_yellow_bright></><p:yellow_bright></><p:divider_yellow_bright_to_navy_text></><p:nba_det_pistons_blue></><p:accent></><p:purple_exec></>",
     "foreground": "p:blue_primary",
     "newline": false,
     "template": "<p:accent>╰─<p:purple_session,transparent>{{ .Segments.shell-lprompt.Name }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
