@@ -2082,9 +2082,6 @@
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
-      "options": {
-        "unit": "Mbps"
-      },
       "style": "diamond",
       "template": "<b>  {{ .Name }} </b>",
       "timeout": 1000,
