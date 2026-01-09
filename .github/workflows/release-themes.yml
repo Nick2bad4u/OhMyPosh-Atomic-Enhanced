@@ -26,6 +26,7 @@ on:
             # Palette sources / extra theme types
             - "color-palette-alternatives.json"
             - "starship-atomic-enhanced.toml"
+            - "scripts/Make-NoNetwork.ps1"
             - ".github/workflows/release-themes.yml"
     workflow_dispatch:
         inputs:
@@ -92,6 +93,12 @@ jobs:
 
                   # Ensure the Fish variant is in sync
                   pwsh -NoProfile -File .\scripts\Make-FishVariant.ps1
+
+                  # Generate "NoNetwork" offline variants (no outbound HTTP calls)
+                  pwsh -NoProfile -File .\scripts\Make-NoNetwork.ps1 -SourceTheme .\OhMyPosh-Atomic-Custom.json
+                  pwsh -NoProfile -File .\scripts\Make-NoNetwork.ps1 -SourceTheme .\OhMyPosh-Atomic-Custom-ExperimentalDividers.json
+                  pwsh -NoProfile -File .\scripts\Make-NoNetwork.ps1 -SourceTheme .\OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json
+                  pwsh -NoProfile -File .\scripts\Make-NoNetwork.ps1 -SourceTheme .\OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json
 
             - name: Stage release assets (flattened)
               shell: pwsh

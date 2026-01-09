@@ -1,0 +1,25 @@
+# Normalize line endings across platforms
+# (Does not rewrite existing commits unless you renormalize.)
+* text=auto eol=lf
+
+# Explicit text types
+*.ps1 text eol=lf
+*.psm1 text eol=lf
+*.psd1 text eol=lf
+*.json text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.md   text eol=lf
+*.toml text eol=lf
+*.txt  text eol=lf
+*.sh   text eol=lf
+
+# Binary assets
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.zip  binary
+*.ttf  binary
+*.otf  binary

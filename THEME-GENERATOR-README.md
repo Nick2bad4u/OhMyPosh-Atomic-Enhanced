@@ -8,6 +8,8 @@ Powerful PowerShell scripts to quickly generate Oh My Posh theme variants with d
 - **`scripts/Sync-ThemeTemplatesFromAtomicCustom.ps1`** - Sync other base templates (1_shell/slimfat/atomicBit/clean-detailed) from `OhMyPosh-Atomic-Custom.json`
 - **`scripts/New-ThemeWithPalette.ps1`** - Generate a single theme with a specific palette
 - **`scripts/Generate-AllThemes.ps1`** - Batch generate themes for all available palettes
+- **`scripts/Make-NoNetwork.ps1`** - Create an offline (no outbound network calls) variant of a theme
+- **`scripts/Test-Themes.ps1`** - Run repo theme validation tests (JSON/palette/network hygiene)
 - **`color-palette-alternatives.json`** - Collection of themed color palettes
 - **`COLOR-PALETTES-GUIDE.md`** - Visual guide to all available palettes
 
@@ -339,7 +341,7 @@ To add new palettes to the collection:
 
 ## 📄 License
 
-MIT License - Feel free to use, modify, and share!
+This project is released under the **Unlicense** (public domain). See [`LICENSE`](./LICENSE).
 
 ---
 

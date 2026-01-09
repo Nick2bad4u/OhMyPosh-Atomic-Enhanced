@@ -25,3 +25,9 @@ repos:
             entry: pwsh -File ./scripts/Normalize-Palettes.ps1 -Check
             language: system
             files: (color-palette-alternatives\.json|OhMyPosh-Atomic-Custom\.json)$
+
+          - id: test-themes
+            name: Run theme tests
+            entry: pwsh -File ./scripts/Test-Themes.ps1
+            language: system
+            files: (OhMyPosh-Atomic-.*\.json$|.*-Enhanced\.omp\.json$|scripts/Test-Themes\.ps1$)

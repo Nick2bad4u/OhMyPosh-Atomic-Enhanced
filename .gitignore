@@ -67,5 +67,8 @@ $RECYCLE.BIN/
 # FreeFileSync DB
 sync.ffs_db
 
-# OhMyPosh Atomic Custom Secrets
-OhMyPosh-Atomic-Custom.secrets.json
+# Local env/secret files (Oh My Posh reads env vars directly; these are user-local)
+.env
+.env.*
+secrets*.json
+*.secrets.json

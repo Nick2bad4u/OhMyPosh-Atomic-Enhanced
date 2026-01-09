@@ -401,6 +401,20 @@ Project docs:
 - [Documentation Index](./docs/DOCUMENTATION-INDEX.md)
 - [GitHub Pages + Liquid (template collisions)](./docs/GITHUB-PAGES-LIQUID.md)
 
+## 🔐 Security & Privacy (Network Calls)
+
+Some segments/tooltips in this repo can make **outbound HTTP requests** (weather, public IP lookup, package registry lookups, etc.). This repo **does not store secrets**; integrations are configured to read credentials from **environment variables**.
+
+To disable all network calls, generate an offline variant:
+
+```pwsh
+pwsh ./scripts/Make-NoNetwork.ps1 -SourceTheme ./OhMyPosh-Atomic-Custom-ExperimentalDividers.json
+```
+
+Then use the generated `*.NoNetwork.json` config.
+
+See [SECURITY.md](./SECURITY.md) for details.
+
 <details>
 <a id="palette-color-groups"></a>
 <summary>🎨 Palette & Color Groups</summary>
