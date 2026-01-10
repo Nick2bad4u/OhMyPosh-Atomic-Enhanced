@@ -73,7 +73,7 @@
             "branch_icon": " ",
             "fetch_status": true,
             "fetch_upstream_icon": true,
-            "fetch_worktree_count": true
+            "disable_with_jj": false
           },
           "style": "diamond",
           "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
@@ -2150,8 +2150,8 @@
         "{{ if ge .UpdateCount 10 }}p:winget_error{{ end }}"
       ],
       "cache": {
-        "duration": "4h",
-        "strategy": "device"
+        "duration": "5m",
+        "strategy": "session"
       },
       "foreground": "p:gray_os_fg",
       "leading_diamond": "",
@@ -2175,8 +2175,8 @@
         "{{ if eq .Current .Latest }}p:green_success{{ else }}p:yellow_update{{ end }}"
       ],
       "cache": {
-        "duration": "24h",
-        "strategy": "device"
+        "duration": "5m",
+        "strategy": "session"
       },
       "foreground": "p:gray_os_fg",
       "foreground_templates": [
@@ -2185,7 +2185,7 @@
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "cache_duration": "24h"
+        "cache_duration": "5m"
       },
       "style": "diamond",
       "template": "<b>  OMP  {{ .Current }} 󰁔 {{ .Latest }} </b>",
@@ -2658,7 +2658,7 @@
   },
   "upgrade": {
     "auto": true,
-    "interval": "4h",
+    "interval": "1h",
     "notice": true,
     "source": "cdn"
   },

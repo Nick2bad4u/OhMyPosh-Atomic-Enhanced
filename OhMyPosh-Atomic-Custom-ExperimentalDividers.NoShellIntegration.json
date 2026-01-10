@@ -769,8 +769,8 @@
             "{{ if ge .UpdateCount 10 }}p:winget_error{{ end }}"
           ],
           "cache": {
-            "duration": "4h",
-            "strategy": "device"
+            "duration": "5m",
+            "strategy": "session"
           },
           "foreground": "p:gray_os_fg",
           "invert_powerline": false,
@@ -790,8 +790,8 @@
             "{{ if eq .Current .Latest }}p:green_success{{ else }}p:yellow_update{{ end }}"
           ],
           "cache": {
-            "duration": "4h",
-            "strategy": "device"
+            "duration": "5m",
+            "strategy": "session"
           },
           "foreground": "p:gray_os_fg",
           "foreground_templates": [
@@ -801,7 +801,7 @@
           "leading_diamond": "",
           "min_width": 80,
           "options": {
-            "cache_duration": "4h"
+            "cache_duration": "5m"
           },
           "style": "diamond",
           "template": "<b>  OMP  {{ .Current }} 󰁔 {{ .Latest }} </b>",
@@ -2869,9 +2869,6 @@
       "foreground": "p:black",
       "leading_diamond": "",
       "min_width": 80,
-      "options": {
-        "unit": "Mbps"
-      },
       "style": "diamond",
       "template": "<b>  {{ .Name }} </b>",
       "timeout": 1000,
@@ -2959,8 +2956,8 @@
         "{{ if ge .UpdateCount 10 }}p:winget_error{{ end }}"
       ],
       "cache": {
-        "duration": "4h",
-        "strategy": "device"
+        "duration": "5m",
+        "strategy": "session"
       },
       "foreground": "p:gray_os_fg",
       "leading_diamond": "",
@@ -2984,8 +2981,8 @@
         "{{ if eq .Current .Latest }}p:green_success{{ else }}p:yellow_update{{ end }}"
       ],
       "cache": {
-        "duration": "24h",
-        "strategy": "device"
+        "duration": "5m",
+        "strategy": "session"
       },
       "foreground": "p:gray_os_fg",
       "foreground_templates": [
@@ -2994,7 +2991,7 @@
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "cache_duration": "24h"
+        "cache_duration": "5m"
       },
       "style": "diamond",
       "template": "<b>  OMP  {{ .Current }} 󰁔 {{ .Latest }} </b>",
@@ -3467,7 +3464,7 @@
   },
   "upgrade": {
     "auto": true,
-    "interval": "4h",
+    "interval": "1h",
     "notice": true,
     "source": "cdn"
   },
