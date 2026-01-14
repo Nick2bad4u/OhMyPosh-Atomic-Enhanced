@@ -399,7 +399,7 @@
             "type": "prompt"
         }
     ],
-    "console_title_template": "{{ if .Segments.git }}{{ if .Segments.git.RepoName }}{{ .Segments.git.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ .Segments.git.HEAD }}{{ if .Segments.git.BranchStatus }} {{ .Segments.git.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} : root{{ end }} : {{ .Shell }}",
+    "console_title_template": "{{ if .Segments.git }}{{ if .Segments.git.RepoName }}{{ .Segments.git.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ trim .Segments.git.HEAD }}{{ if .Segments.git.BranchStatus }} {{ trim .Segments.git.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} (root){{ end }} - {{ .Shell }}",
     "cycle": [
         {
             "background": "p:cycle_bg_02",

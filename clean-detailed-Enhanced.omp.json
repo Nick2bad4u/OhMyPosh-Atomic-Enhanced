@@ -151,7 +151,7 @@
       "type": "prompt"
     }
   ],
-  "console_title_template": "{{ if .Segments.git-lprompt }}{{ if .Segments.git-lprompt.RepoName }}{{ .Segments.git-lprompt.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ .Segments.git-lprompt.HEAD }}{{ if .Segments.git-lprompt.BranchStatus }} {{ .Segments.git-lprompt.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} : root{{ end }} : {{ .Shell }}",
+  "console_title_template": "{{ if .Segments.git-lprompt }}{{ if .Segments.git-lprompt.RepoName }}{{ .Segments.git-lprompt.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ trim .Segments.git-lprompt.HEAD }}{{ if .Segments.git-lprompt.BranchStatus }} {{ trim .Segments.git-lprompt.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} (root){{ end }} - {{ .Shell }}",
   "cycle": [],
   "debug_prompt": {
     "background": "transparent",
