@@ -2811,7 +2811,7 @@
       "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\")) }}p:shell_nushell_purple{{ end }}",
       "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
     ],
-    "template": "<p:accent>╠═<p:purple_session,transparent>{{ .Segments.shell-lprompt.Name }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
+    "template": "╠═<p:purple_session,transparent>{{ upper .Segments.shell-lprompt.Name }}</>{{ .Var.prompt_symbol }}</>─</> "
   },
   "upgrade": {
     "auto": true,

@@ -657,7 +657,7 @@
                     ],
                     "invert_powerline": false,
                     "leading_diamond": "",
-                    "min_width": 100,
+                    "min_width": 1,
                     "options": {
                         "api_key": "{{ .Env.POSH_OWM_API_KEY }}",
                         "http_timeout": 1000,
@@ -3486,7 +3486,7 @@
             "leading_diamond": "",
             "min_width": 80,
             "options": {
-                "http_timeout": 500,
+                "http_timeout": 1500,
                 "url": "https://wakatime.com/api/v1/users/current/summaries?start=today&end=today&api_key={{ .Env.WAKATIME_API_KEY }}"
             },
             "style": "diamond",
@@ -3527,7 +3527,7 @@
             "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\")) }}p:shell_nushell_purple{{ end }}",
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
         ],
-        "template": "<p:accent>╠═<p:purple_session,transparent>{{ .Segments.shell-lprompt.Name }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
+        "template": "╠═<p:purple_session,transparent>{{ upper .Segments.shell-lprompt.Name }}</>{{ .Var.prompt_symbol }}</>─</> "
     },
     "upgrade": {
         "auto": true,
