@@ -489,7 +489,7 @@
         "workout_icon": ""
       },
       "style": "diamond",
-      "template": "<b>{{ if .Error }}{{ .Error }}{{ else }}{{ .Icon }} {{ $name := default \"(no activity)\" .Name }}{{ if gt (len $name) 38 }}{{ trunc 38 $name }}…{{ else }}{{ $name }}{{ end }}{{ $t := default \"\" .Type }}{{ if $t }} • {{ $t }}{{ end }}{{ $dist := default 0.0 .Distance }}{{ if gt $dist 0.0 }} • {{ printf \"%.1f\" (divf $dist 1609.34) }}mi{{ end }}{{ $dur := default 0.0 .Duration }}{{ if gt $dur 0.0 }} • {{ $s := int $dur }}{{ $h := div $s 3600 }}{{ $m := div (mod $s 3600) 60 }}{{ if gt $h 0 }}{{ printf \"%dh%02dm\" $h $m }}{{ else }}{{ printf \"%dm\" $m }}{{ end }}{{ end }}{{ $ahr := default 0.0 .AverageHeartRate }}{{ if gt $ahr 0.0 }} • ❤ {{ printf \"%.0f\" $ahr }}{{ $mhr := default 0.0 .MaxHeartRate }}{{ if gt $mhr 0.0 }}/{{ printf \"%.0f\" $mhr }}{{ end }}bpm{{ end }}{{ $aw := default 0.0 .AverageWatts }}{{ if or .DeviceWatts (gt $aw 0.0) }} • ⚡ {{ printf \"%.0f\" $aw }}W{{ $waw := default 0.0 .WeightedAverageWatts }}{{ if gt $waw 0.0 }} ({{ printf \"%.0f\" $waw }}W){{ end }}{{ end }}{{ $k := default 0 .KudosCount }}{{ if gt $k 0 }} • 👍 {{ $k }}{{ end }} • {{ .Ago }}{{ end }}</b>",
+      "template": "<b>{{ if .Error }}{{ .Error }}{{ else }}{{ .Icon }} {{ $name := default \"(no activity)\" .Name }}{{ if gt (len $name) 38 }}{{ trunc 38 $name }}…{{ else }}{{ $name }}{{ end }}{{ $t := default \"\" .Type }}{{ if $t }} • {{ $t }}{{ end }}{{ $dist := default 0.0 .Distance }}{{ if gt $dist 0.0 }} • {{ printf \"%.1f\" (divf $dist 1609.34) }}mi{{ end }}{{ $dur := default 0.0 .Duration }}{{ if gt $dur 0.0 }} • {{ $s := int $dur }}{{ $h := div $s 3600 }}{{ $m := div (mod $s 3600) 60 }}{{ if gt $h 0 }}{{ printf \"%dh%02dm\" $h $m }}{{ else }}{{ printf \"%dm\" $m }}{{ end }}{{ end }}{{ $ahr := default 0.0 .AverageHeartRate }}{{ if gt $ahr 0.0 }} •  {{ printf \"%.0f\" $ahr }}{{ $mhr := default 0.0 .MaxHeartRate }}{{ if gt $mhr 0.0 }}/{{ printf \"%.0f\" $mhr }}{{ end }}bpm{{ end }}{{ $aw := default 0.0 .AverageWatts }}{{ if or .DeviceWatts (gt $aw 0.0) }} •  {{ printf \"%.0f\" $aw }}W{{ $waw := default 0.0 .WeightedAverageWatts }}{{ if gt $waw 0.0 }} ({{ printf \"%.0f\" $waw }}W){{ end }}{{ end }}{{ $k := default 0 .KudosCount }}{{ if gt $k 0 }} •  {{ $k }}{{ end }} • {{ .Ago }}{{ end }}</b>",
       "templates_logic": "first_match",
       "tips": [
         "strava",
@@ -2692,19 +2692,19 @@
     "foreground": "p:blue_primary",
     "newline": false,
     "foreground_templates": [
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cmd\") }}p:shell_cmd_black{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"powershell\") (eq .Segments.shell-lprompt.Name \"pwsh\")) }}p:shell_powershell_blue{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") }}p:shell_bash_green{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"zsh\") (eq .Segments.shell-lprompt.Name \"zshell\")) }}p:shell_zsh_orange{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"fish\") }}p:shell_fish_cyan{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cygwin\") }}p:shell_cygwin_green{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"ELV\") }}p:shell_elvish_teal{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\")) }}p:shell_nushell_purple{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
+      "{{ if eq .Shell \"cmd\" }}p:shell_cmd_black{{ end }}",
+      "{{ if or (eq .Shell \"powershell\") (eq .Shell \"pwsh\") }}p:shell_powershell_blue{{ end }}",
+      "{{ if (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
+      "{{ if or (eq .Shell \"bash\") (and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\")) }}p:shell_bash_green{{ end }}",
+      "{{ if or (eq .Shell \"zsh\") (eq .Shell \"zshell\") }}p:shell_zsh_orange{{ end }}",
+      "{{ if eq .Shell \"fish\" }}p:shell_fish_cyan{{ end }}",
+      "{{ if or (eq .Shell \"cygwin\") (and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cygwin\")) }}p:shell_cygwin_green{{ end }}",
+      "{{ if eq .Shell \"tcsh\" }}p:shell_tcsh_blue{{ end }}",
+      "{{ if eq .Shell \"elvish\" }}p:shell_elvish_teal{{ end }}",
+      "{{ if or (eq .Shell \"nu\") (eq .Shell \"nushell\") }}p:shell_nushell_purple{{ end }}",
+      "{{ if eq .Shell \"xonsh\" }}p:shell_xonsh_yellow{{ end }}"
     ],
-    "template": "╠═<p:purple_session,transparent>{{ upper .Segments.shell-lprompt.Name }}</>{{ .Var.prompt_symbol }}</>─</> "
+    "template": "<p:accent>╠═<p:purple_session,transparent>{{ upper .Shell }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
   },
   "upgrade": {
     "auto": true,

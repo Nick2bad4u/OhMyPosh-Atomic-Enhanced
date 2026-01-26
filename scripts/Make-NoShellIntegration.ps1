@@ -95,6 +95,9 @@ try {
         exit 1
     }
 
+    # Ensure $Source is an absolute path so Split-Path -Parent works correctly
+    $Source = Convert-Path -LiteralPath $Source
+
     if (-not $Destination) {
         $Destination = Join-Path -Path (Split-Path -Path $Source -Parent) -ChildPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json'
         Write-Info "Using destination: $Destination"

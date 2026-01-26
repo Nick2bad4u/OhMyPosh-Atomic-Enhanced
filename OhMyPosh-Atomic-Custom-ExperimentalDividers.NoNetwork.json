@@ -15,7 +15,7 @@
           "background_templates": [
             "{{ if or (eq .Name \"cmd\") (eq .Shell \"cmd\") }}p:shell_cmd_black{{ end }}",
             "{{ if or (eq .Name \"powershell\") (eq .Shell \"PS\") (eq .Name \"pwsh\") (eq .Shell \"pwsh\") }}p:shell_powershell_blue{{ end }}",
-            "{{ if and (or (eq .Name \"bash\") (eq .Shell \"bash\")) (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
+            "{{ if  (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
             "{{ if or (eq .Name \"bash\") (eq .Shell \"bash\") }}p:shell_bash_green{{ end }}",
             "{{ if or (eq .Name \"zsh\") (eq .Shell \"zsh\") (eq .Name \"zshell\") (eq .Shell \"zshell\") }}p:shell_zsh_orange{{ end }}",
             "{{ if or (eq .Name \"fish\") (eq .Shell \"fish\") }}p:shell_fish_cyan{{ end }}",
@@ -289,7 +289,7 @@
             }
           },
           "style": "diamond",
-          "template": "<parentBackground></> {{ if and (gt .Ahead 0) (gt .Behind 0) }} 🔀 {{ else if gt .Ahead 0 }}{{ .UpstreamIcon }} 🔼 {{ else if gt .Behind 0 }}{{ .UpstreamIcon }} ⏬ {{ else }}{{ .UpstreamIcon }} 🟢 {{ end }}<b>{{ .HEAD }}{{ if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }}</b> ",
+          "template": "<parentBackground></> {{ if and (gt .Ahead 0) (gt .Behind 0) }}  {{ else if gt .Ahead 0 }}{{ .UpstreamIcon }}  {{ else if gt .Behind 0 }}{{ .UpstreamIcon }}  {{ else }}{{ .UpstreamIcon }}  {{ end }}<b>{{ .HEAD }}{{ if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }}</b> ",
           "templates_logic": "first_match",
           "trailing_diamond": "",
           "type": "git"
@@ -496,9 +496,6 @@
             "strategy": "device"
           },
           "foreground": "p:black",
-          "foreground_templates": [
-            "{{ if gt .Load1 75 }}p:red_alert{{ else if gt .PhysicalPercentUsed 90 }}p:mem_critical{{ else if and (lt .Load1 75) (gt .Load1 50) }}p:orange{{ else if and (lt .Load1 50) (gt .Load1 25) }}p:yellow_bright{{ else }}p:black{{ end }}"
-          ],
           "invert_powerline": true,
           "leading_diamond": "",
           "min_width": 100,
@@ -506,7 +503,7 @@
             "precision": 1
           },
           "style": "diamond",
-          "template": "<b> {{ if gt .Load1 80 }}🔥{{ else if lt .Load1 50 }}{{ else }}󰇅{{ end }} {{ round .Load1 .Precision  }}%  {{ round .PhysicalPercentUsed .Precision  }}%  {{ round .Disks .Precision  }}% </b>",
+          "template": "<b> {{ if gt .Load1 80 }}{{ else if lt .Load1 50 }}{{ else }}󰇅{{ end }} {{ round .Load1 .Precision  }}%  {{ round .PhysicalPercentUsed .Precision  }}%  {{ round .Disks .Precision  }}% </b>",
           "templates_logic": "first_match",
           "trailing_diamond": "",
           "type": "sysinfo"
@@ -588,7 +585,7 @@
           },
           "powerline_symbol": "",
           "style": "diamond",
-          "template": "<b> {{ if and (ge .CurrentDate.Hour 12) (lt .CurrentDate.Hour 13) }}🍔 {{ end }}{{ if and (ge .CurrentDate.Hour 1) (lt .CurrentDate.Hour 4) }}🧟 {{ end }} {{ .CurrentDate | date .Format }} </b>",
+          "template": "<b> {{ if and (ge .CurrentDate.Hour 12) (lt .CurrentDate.Hour 13) }} {{ end }}{{ if and (ge .CurrentDate.Hour 1) (lt .CurrentDate.Hour 4) }} {{ end }} {{ .CurrentDate | date .Format }} </b>",
           "trailing_diamond": "",
           "type": "time"
         },
@@ -869,7 +866,7 @@
           "foreground_templates": [
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cmd\") }}p:shell_cmd_black{{ end }}",
             "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"powershell\") (eq .Segments.shell-lprompt.Name \"pwsh\")) }}p:shell_powershell_blue{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
+            "{{ if (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") }}p:shell_bash_green{{ end }}",
             "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"zsh\") (eq .Segments.shell-lprompt.Name \"zshell\")) }}p:shell_zsh_orange{{ end }}",
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"fish\") }}p:shell_fish_cyan{{ end }}",
@@ -900,7 +897,7 @@
           "foreground_templates": [
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cmd\") }}p:shell_cmd_black{{ end }}",
             "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"powershell\") (eq .Segments.shell-lprompt.Name \"pwsh\")) }}p:shell_powershell_blue{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
+            "{{ if (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") }}p:shell_bash_green{{ end }}",
             "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"zsh\") (eq .Segments.shell-lprompt.Name \"zshell\")) }}p:shell_zsh_orange{{ end }}",
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"fish\") }}p:shell_fish_cyan{{ end }}",
@@ -925,17 +922,17 @@
           "foreground": "p:accent",
           "foreground_templates": [
             "{{ if gt .Code 0 }}p:red_alert{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cmd\") }}p:shell_cmd_black{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"powershell\") (eq .Segments.shell-lprompt.Name \"pwsh\")) }}p:shell_powershell_blue{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") }}p:shell_bash_green{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"zsh\") (eq .Segments.shell-lprompt.Name \"zshell\")) }}p:shell_zsh_orange{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"fish\") }}p:shell_fish_cyan{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cygwin\") }}p:shell_cygwin_green{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"ELV\") }}p:shell_elvish_teal{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\")) }}p:shell_nushell_purple{{ end }}",
-            "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
+            "{{ if eq .Shell \"cmd\" }}p:shell_cmd_black{{ end }}",
+            "{{ if or (eq .Shell \"powershell\") (eq .Shell \"pwsh\") }}p:shell_powershell_blue{{ end }}",
+            "{{ if (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
+            "{{ if or (eq .Shell \"bash\") (and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\")) }}p:shell_bash_green{{ end }}",
+            "{{ if or (eq .Shell \"zsh\") (eq .Shell \"zshell\") }}p:shell_zsh_orange{{ end }}",
+            "{{ if eq .Shell \"fish\" }}p:shell_fish_cyan{{ end }}",
+            "{{ if or (eq .Shell \"cygwin\") (and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cygwin\")) }}p:shell_cygwin_green{{ end }}",
+            "{{ if eq .Shell \"tcsh\" }}p:shell_tcsh_blue{{ end }}",
+            "{{ if eq .Shell \"elvish\" }}p:shell_elvish_teal{{ end }}",
+            "{{ if or (eq .Shell \"nu\") (eq .Shell \"nushell\") }}p:shell_nushell_purple{{ end }}",
+            "{{ if eq .Shell \"xonsh\" }}p:shell_xonsh_yellow{{ end }}"
           ],
           "min_width": 0,
           "options": {
@@ -2799,19 +2796,19 @@
     "foreground": "p:blue_primary",
     "newline": false,
     "foreground_templates": [
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cmd\") }}p:shell_cmd_black{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"powershell\") (eq .Segments.shell-lprompt.Name \"pwsh\")) }}p:shell_powershell_blue{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") }}p:shell_bash_green{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"zsh\") (eq .Segments.shell-lprompt.Name \"zshell\")) }}p:shell_zsh_orange{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"fish\") }}p:shell_fish_cyan{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cygwin\") }}p:shell_cygwin_green{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"ELV\") }}p:shell_elvish_teal{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\")) }}p:shell_nushell_purple{{ end }}",
-      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
+      "{{ if eq .Shell \"cmd\" }}p:shell_cmd_black{{ end }}",
+      "{{ if or (eq .Shell \"powershell\") (eq .Shell \"pwsh\") }}p:shell_powershell_blue{{ end }}",
+      "{{ if (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
+      "{{ if or (eq .Shell \"bash\") (and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\")) }}p:shell_bash_green{{ end }}",
+      "{{ if or (eq .Shell \"zsh\") (eq .Shell \"zshell\") }}p:shell_zsh_orange{{ end }}",
+      "{{ if eq .Shell \"fish\" }}p:shell_fish_cyan{{ end }}",
+      "{{ if or (eq .Shell \"cygwin\") (and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cygwin\")) }}p:shell_cygwin_green{{ end }}",
+      "{{ if eq .Shell \"tcsh\" }}p:shell_tcsh_blue{{ end }}",
+      "{{ if eq .Shell \"elvish\" }}p:shell_elvish_teal{{ end }}",
+      "{{ if or (eq .Shell \"nu\") (eq .Shell \"nushell\") }}p:shell_nushell_purple{{ end }}",
+      "{{ if eq .Shell \"xonsh\" }}p:shell_xonsh_yellow{{ end }}"
     ],
-    "template": "╠═<p:purple_session,transparent>{{ upper .Segments.shell-lprompt.Name }}</>{{ .Var.prompt_symbol }}</>─</> "
+    "template": "<p:accent>╠═<p:purple_session,transparent>{{ upper .Shell }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
   },
   "upgrade": {
     "auto": true,
