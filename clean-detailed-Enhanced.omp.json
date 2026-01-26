@@ -411,7 +411,9 @@
     "debug_fg": "#000000",
     "yellow_dark": "#ad8e04",
     "purple_modified": "#a200ff",
-    "red": "#FF4444"
+    "red": "#FF4444",
+    "wakatime_tooltip_bg": "#3B82F6",
+    "wakatime_tooltip_fg": "#ffffff"
   },
   "patch_pwsh_bleed": true,
   "pwd": "osc7",
@@ -546,7 +548,7 @@
       "background": "p:spotify_green",
       "cache": {
         "duration": "2m",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -1789,7 +1791,7 @@
       "alias": "sysinfo-tooltip",
       "background": "p:teal_sysinfo",
       "cache": {
-        "duration": "1m",
+        "duration": "2m",
         "strategy": "device"
       },
       "foreground": "p:black",
@@ -1850,7 +1852,7 @@
       "background": "p:blue_time",
       "cache": {
         "duration": "1m",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:black",
       "leading_diamond": "",
@@ -2150,8 +2152,8 @@
         "{{ if ge .UpdateCount 10 }}p:winget_error{{ end }}"
       ],
       "cache": {
-        "duration": "5m",
-        "strategy": "session"
+        "duration": "10m",
+        "strategy": "device"
       },
       "foreground": "p:gray_os_fg",
       "leading_diamond": "",
@@ -2176,7 +2178,7 @@
       ],
       "cache": {
         "duration": "5m",
-        "strategy": "session"
+        "strategy": "device"
       },
       "foreground": "p:gray_os_fg",
       "foreground_templates": [
@@ -2353,7 +2355,7 @@
       "alias": "claude-tooltip",
       "background": "p:claude_tooltip_bg",
       "cache": {
-        "duration": "5s",
+        "duration": "1m",
         "strategy": "session"
       },
       "foreground": "p:claude_tooltip_fg",
@@ -2646,15 +2648,63 @@
       ],
       "trailing_diamond": "",
       "type": "dotnet"
+    },
+    {
+      "alias": "wakatime-tooltip",
+      "background": "p:wakatime_tooltip_bg",
+      "background_templates": [
+        "{{ if gt .CumulativeTotal.Seconds 14400 }}p:green_success{{ else if and (gt .CumulativeTotal.Seconds 7200) (le .CumulativeTotal.Seconds 14400) }}p:yellow_bright{{ else }}p:red_alert{{ end }}"
+      ],
+      "cache": {
+        "duration": "15m",
+        "strategy": "device"
+      },
+      "foreground": "p:wakatime_tooltip_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "http_timeout": 500,
+        "url": "https://wakatime.com/api/v1/users/current/summaries?start=today&end=today&api_key={{ .Env.WAKATIME_API_KEY }}"
+      },
+      "style": "diamond",
+      "template": " <b> Wakatime {{ secondsRound .CumulativeTotal.Seconds }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "wakatime",
+        "wakatime-cli",
+        "waka",
+        "wakatime api",
+        "coding time",
+        "time tracking",
+        "productivity",
+        "focus time",
+        "wakatime today",
+        "wakatime stats"
+      ],
+      "trailing_diamond": "",
+      "type": "wakatime"
     }
   ],
   "tooltips_action": "prepend",
   "transient_prompt": {
     "background": "transparent",
-    "filler": "<p:purple_session></><p:accent></><p:blue_primary></><p:divider_blue_primary_to_tooling_purple></><p:tooling_purple></><p:divider_tooling_purple_to_typescript_eslint_pink></><p:typescript_eslint_pink></><p:divider_typescript_eslint_pink_to_orange></><p:orange></><p:divider_orange_to_green_added></><p:green_added></><p:divider_green_added_to_yellow_bright></><p:yellow_bright></><p:divider_yellow_bright_to_navy_text></><p:nba_det_pistons_blue></><p:accent></><p:purple_exec></>",
+    "filler": "<p:purple_session>󱀝</><p:accent>󱀝</><p:blue_primary>󱀝</><p:divider_blue_primary_to_tooling_purple>󱀝</><p:tooling_purple>󱀝</><p:divider_tooling_purple_to_typescript_eslint_pink>󱀝</><p:typescript_eslint_pink>󱀝</><p:divider_typescript_eslint_pink_to_orange>󱀝</><p:orange>󱀝</><p:divider_orange_to_green_added>󱀝</><p:green_added>󱀝</><p:divider_green_added_to_yellow_bright>󱀝</><p:yellow_bright>󱀝</><p:divider_yellow_bright_to_navy_text>󱀝</><p:nba_det_pistons_blue>󱀝</><p:accent>󱀝</><p:purple_exec>󱀝</>",
     "foreground": "p:blue_primary",
     "newline": false,
-    "template": "<p:accent>╰─<p:purple_session,transparent>{{ .Segments.shell-lprompt.Name }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
+    "foreground_templates": [
+      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cmd\") }}p:shell_cmd_black{{ end }}",
+      "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"powershell\") (eq .Segments.shell-lprompt.Name \"pwsh\")) }}p:shell_powershell_blue{{ end }}",
+      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
+      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\") }}p:shell_bash_green{{ end }}",
+      "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"zsh\") (eq .Segments.shell-lprompt.Name \"zshell\")) }}p:shell_zsh_orange{{ end }}",
+      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"fish\") }}p:shell_fish_cyan{{ end }}",
+      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cygwin\") }}p:shell_cygwin_green{{ end }}",
+      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"tcsh\") }}p:shell_tcsh_blue{{ end }}",
+      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"ELV\") }}p:shell_elvish_teal{{ end }}",
+      "{{ if and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\")) }}p:shell_nushell_purple{{ end }}",
+      "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
+    ],
+    "template": "<p:accent>╠═<p:purple_session,transparent>{{ .Segments.shell-lprompt.Name }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
   },
   "upgrade": {
     "auto": true,

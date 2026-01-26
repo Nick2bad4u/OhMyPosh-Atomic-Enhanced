@@ -1,5 +1,7 @@
 name: Release Oh My Posh Themes
 
+run-name: Release Oh My Posh Themes - ${{ github.ref }}
+
 concurrency:
     group: release-themes-${{ github.ref }}
     cancel-in-progress: true
@@ -37,6 +39,9 @@ on:
 
 permissions:
     contents: write
+
+env:
+    PREV_TAG: ""
 
 jobs:
     prepare-release:

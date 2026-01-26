@@ -242,9 +242,10 @@
             "options": {
                 "jsonRecursiveSort": false,
                 "jsonSortOrder": "{\"*\": \"numeric\"}",
+                "multilineArraysWrapThreshold": 1,
                 "plugins": [
-                    "prettier-plugin-multiline-arrays",
-                    "prettier-plugin-sort-json"
+                    "prettier-plugin-sort-json",
+                    "prettier-plugin-multiline-arrays"
                 ]
             }
         },
