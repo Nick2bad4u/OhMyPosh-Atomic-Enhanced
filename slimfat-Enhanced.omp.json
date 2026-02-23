@@ -408,7 +408,7 @@
     "ver_alpha": "#ffee58",
     "ver_beta": "#ffa726",
     "ver_deprecated": "#9e9e9e",
-    "ver_rc": "#26c6da",
+    "ver_rc": "#8fe3ee",
     "ver_stable": "#66bb6a",
     "gcp_tooltip_fg": "#ffffff",
     "lastfm_red": "#cf1e17",
@@ -451,7 +451,17 @@
     "purple_modified": "#a200ff",
     "red": "#FF4444",
     "wakatime_tooltip_bg": "#3B82F6",
-    "wakatime_tooltip_fg": "#ffffff"
+    "wakatime_tooltip_fg": "#ffffff",
+    "battery_crit_fg": "#fff5f5",
+    "blue_bright": "#3bb2ff",
+    "orange_warning": "#ffb347",
+    "sysinfo_bg_crit": "#d9534f",
+    "sysinfo_bg_ok": "#437683",
+    "sysinfo_bg_warn": "#c68a3d",
+    "sysinfo_crit": "#ff5252",
+    "sysinfo_warn": "#f6c344",
+    "time_fg_day": "#111827",
+    "time_fg_night": "#f8fafc"
   },
   "palettes": {},
   "patch_pwsh_bleed": true,
@@ -476,7 +486,7 @@
       "min_width": 80,
       "options": {
         "days_offset": 8,
-        "http_timeout": 1500,
+        "http_timeout": 15000,
         "team": "DET"
       },
       "style": "diamond",
@@ -1569,7 +1579,7 @@
         }
       },
       "style": "diamond",
-      "template": "  {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} ",
+      "template": "  {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }} | {{ .UpstreamIcon }} ↑{{ .Ahead }} ↓{{ .Behind }}{{ if .Staging.Changed }} |  {{ .Staging.String }}{{ end }}{{ if .Working.Changed }} |  {{ .Working.String }}{{ else }} |  clean{{ end }} ",
       "timeout": 1000,
       "tips": [
         "git",
@@ -1586,6 +1596,42 @@
       ],
       "trailing_diamond": "",
       "type": "git"
+    },
+    {
+      "alias": "npm-tooltip",
+      "background": "p:npm_yellow",
+      "background_templates": [
+        "{{ if .Error }}p:maroon_error{{ end }}"
+      ],
+      "cache": {
+        "duration": "24h",
+        "strategy": "folder"
+      },
+      "foreground": "p:npm_dark",
+      "foreground_templates": [
+        "{{ if .Error }}p:white{{ else }}p:npm_dark{{ end }}"
+      ],
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "display_mode": "context",
+        "fetch_version": true,
+        "home_enabled": false,
+        "missing_command_text": "",
+        "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
+      },
+      "style": "diamond",
+      "template": " <b> {{ .Full }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "npm",
+        "npm i",
+        "npm run",
+        "npx",
+        "npm --version"
+      ],
+      "trailing_diamond": "",
+      "type": "npm"
     },
     {
       "alias": "python-folder-tooltip",
@@ -1647,7 +1693,7 @@
         "missing_command_text": ""
       },
       "style": "diamond",
-      "template": " {{ if .Segments.npm-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}</b>{{ end }} ",
+      "template": " {{ if .Segments.npm-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}{{ if .Mismatch }} ⚠ mismatch{{ end }}</b>{{ end }} ",
       "timeout": 1000,
       "tips": [
         "node",
@@ -1680,7 +1726,7 @@
         "missing_command_text": ""
       },
       "style": "diamond",
-      "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
+      "template": "  Java {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
       "timeout": 1000,
       "tips": [
         "java",
@@ -1828,7 +1874,10 @@
     },
     {
       "alias": "sysinfo-tooltip",
-      "background": "p:teal_sysinfo",
+      "background": "p:sysinfo_bg_ok",
+      "background_templates": [
+        "{{ if or (ge .PhysicalPercentUsed 90) (ge .Disks 90) (ge .Load1 90) }}p:sysinfo_bg_crit{{ else if or (ge .PhysicalPercentUsed 80) (ge .Disks 80) (ge .Load1 80) }}p:sysinfo_bg_warn{{ else }}p:sysinfo_bg_ok{{ end }}"
+      ],
       "cache": {
         "duration": "2m",
         "strategy": "device"
@@ -1840,7 +1889,7 @@
         "precision": 2
       },
       "style": "diamond",
-      "template": "  Memory: {{ round .PhysicalPercentUsed .Precision }}%  Disk: {{ round .Disks .Precision }}%  CPU: {{ round .Load1 .Precision }}% ",
+      "template": "  CPU {{ round .Load1 .Precision }}%   MEM {{ round .PhysicalPercentUsed .Precision }}%   DSK {{ round .Disks .Precision }}% ",
       "timeout": 1000,
       "tips": [
         "htop",
@@ -1873,7 +1922,7 @@
         "windows": "<b> Win 11</b>"
       },
       "style": "diamond",
-      "template": " {{ if .WSL }}WSL at {{ end }}{{.Icon}} ",
+      "template": " {{ .Icon }} {{ upper .OS }}{{ if .WSL }} • WSL{{ end }} ",
       "timeout": 1000,
       "tips": [
         "uname",
@@ -1893,7 +1942,10 @@
         "duration": "1m",
         "strategy": "device"
       },
-      "foreground": "p:black",
+      "foreground": "p:time_fg_day",
+      "foreground_templates": [
+        "{{ if or (lt .CurrentDate.Hour 7) (ge .CurrentDate.Hour 19) }}p:time_fg_night{{ else }}p:time_fg_day{{ end }}"
+      ],
       "leading_diamond": "",
       "min_width": 80,
       "options": {
@@ -1921,14 +1973,17 @@
         "duration": "10m",
         "strategy": "device"
       },
-      "foreground": "p:gray_path_fg",
+      "foreground": "p:black",
+      "foreground_templates": [
+        "{{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }}p:battery_crit_fg{{ else }}p:black{{ end }}"
+      ],
       "leading_diamond": "",
       "min_width": 80,
       "options": {
         "display_error": true
       },
       "style": "diamond",
-      "template": " {{ .Icon }}{{ .Percentage }}% {{ .State.String }} ",
+      "template": " {{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }} {{ end }}{{ .Icon }} {{ .Percentage }}% • {{ .State.String }} ",
       "timeout": 1000,
       "tips": [
         "powercfg",
@@ -1939,6 +1994,35 @@
       ],
       "trailing_diamond": "",
       "type": "battery"
+    },
+    {
+      "alias": "owm-tooltip",
+      "background": "p:pink_weather",
+      "cache": {
+        "duration": "10m",
+        "strategy": "device"
+      },
+      "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "api_key": "{{ .Env.POSH_OWM_API_KEY }}",
+        "http_timeout": 1000,
+        "location": "{{ .Env.POSH_OWM_LOCATION }}",
+        "units": "imperial"
+      },
+      "style": "diamond",
+      "template": "  {{ .Temperature }}{{ .UnitIcon }}{{ if .Env.POSH_OWM_LOCATION }} • {{ .Env.POSH_OWM_LOCATION }}{{ end }} ",
+      "timeout": 1000,
+      "tips": [
+        "weather",
+        "forecast",
+        "owm",
+        "temp",
+        "temperature"
+      ],
+      "trailing_diamond": "",
+      "type": "owm"
     },
     {
       "alias": "shell-tooltip",
@@ -1979,6 +2063,37 @@
       "type": "shell"
     },
     {
+      "alias": "copilot-tooltip",
+      "background": "p:copilot_bg",
+      "background_templates": [
+        "{{ if .Premium.Unlimited }}p:copilot_bg{{ else if ge .Premium.Percent 90 }}p:maroon_error{{ else if ge .Premium.Percent 85 }}p:red_alert{{ else if ge .Premium.Percent 50 }}p:orange_warning{{ else }}p:green_success{{ end }}"
+      ],
+      "cache": {
+        "duration": "30m",
+        "strategy": "device"
+      },
+      "foreground": "p:white",
+      "foreground_templates": [
+        "{{ if .Premium.Unlimited }}p:white{{ else if ge .Premium.Percent 75 }}p:white{{ else }}p:black{{ end }}"
+      ],
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "http_timeout": 1000
+      },
+      "style": "diamond",
+      "template": " 󰦈 {{ .Premium.Remaining.Gauge }} • {{ .Premium.Percent }}% ",
+      "timeout": 1000,
+      "tips": [
+        "copilot",
+        "github copilot",
+        "gh copilot",
+        "copilot status"
+      ],
+      "trailing_diamond": "",
+      "type": "copilot"
+    },
+    {
       "alias": "executiontime-tooltip",
       "background": "p:purple_exec",
       "cache": {
@@ -1993,7 +2108,7 @@
         "threshold": 0
       },
       "style": "diamond",
-      "template": " 󱑅 Execution time: {{ .FormattedMs }} ",
+      "template": " 󱑅 {{ .FormattedMs }} ({{ .Ms }}ms) ",
       "timeout": 1000,
       "tips": [
         "measure",
@@ -2039,6 +2154,35 @@
       ],
       "trailing_diamond": "",
       "type": "status"
+    },
+    {
+      "alias": "promptcount-tooltip",
+      "background": "p:gray_prompt_count_bg",
+      "background_templates": [
+        "{{ if gt .PromptCount 500 }}p:maroon_error{{ else if gt .PromptCount 200 }}p:red_alert{{ else if gt .PromptCount 100 }}p:orange_warning{{ else if gt .PromptCount 50 }}p:tooling_yellow{{ else }}p:gray_prompt_count_bg{{ end }}"
+      ],
+      "cache": {
+        "duration": "10s",
+        "strategy": "session"
+      },
+      "foreground": "p:gray_prompt_count_fg",
+      "foreground_templates": [
+        "{{ if gt .PromptCount 50 }}p:white{{ else }}p:gray_prompt_count_fg{{ end }}"
+      ],
+      "leading_diamond": "",
+      "min_width": 80,
+      "style": "diamond",
+      "template": " 󰘳 Session prompts: {{ .PromptCount }} ",
+      "timeout": 1000,
+      "tips": [
+        "history",
+        "Get-History",
+        "h",
+        "fc",
+        "promptcount"
+      ],
+      "trailing_diamond": "",
+      "type": "text"
     },
     {
       "alias": "session-tooltip",
@@ -2191,7 +2335,7 @@
         "{{ if ge .UpdateCount 10 }}p:winget_error{{ end }}"
       ],
       "cache": {
-        "duration": "10m",
+        "duration": "24h",
         "strategy": "device"
       },
       "foreground": "p:gray_os_fg",
@@ -2199,12 +2343,12 @@
       "min_width": 80,
       "style": "diamond",
       "template": "<b>  Winget  {{ .UpdateCount }} </b>",
-      "timeout": 5000,
+      "timeout": 10000,
       "tips": [
         "winget",
-        "winget upgrade",
-        "winget list",
-        "winget search"
+        "wgu",
+        "wgua",
+        "windows package manager"
       ],
       "trailing_diamond": "",
       "type": "winget"
@@ -2229,7 +2373,7 @@
         "cache_duration": "5m"
       },
       "style": "diamond",
-      "template": "<b>  OMP  {{ .Current }} 󰁔 {{ .Latest }} </b>",
+      "template": "<b>  {{ if eq .Current .Latest }}Up-to-date{{ else }}Update available{{ end }} • {{ .Current }} → {{ .Latest }} </b>",
       "timeout": 5000,
       "tips": [
         "oh-my-posh",
@@ -2703,7 +2847,7 @@
       "min_width": 80,
       "options": {
         "http_timeout": 1500,
-        "url": "https://wakatime.com/api/v1/users/current/summaries?start=today&end=today&api_key={{ .Env.WAKATIME_API_KEY }}"
+        "url": "https://wakatime.com/api/v1/users/current/summaries?range=last_7_days&api_key={{ .Env.WAKATIME_API_KEY }}"
       },
       "style": "diamond",
       "template": " <b> Wakatime {{ secondsRound .CumulativeTotal.Seconds }}</b> ",
@@ -2722,6 +2866,65 @@
       ],
       "trailing_diamond": "",
       "type": "wakatime"
+    },
+    {
+      "alias": "wakatime-tooltip-month",
+      "background": "p:wakatime_tooltip_bg",
+      "background_templates": [
+        "{{ $s := .CumulativeTotal.Seconds }}{{ if lt $s 36000 }}p:red_alert{{ else if lt $s 90000 }}p:orange_warning{{ else if lt $s 180000 }}p:yellow_bright{{ else if lt $s 288000 }}p:green_success{{ else }}p:blue_bright{{ end }}"
+      ],
+      "cache": {
+        "duration": "15m",
+        "strategy": "device"
+      },
+      "foreground": "p:wakatime_tooltip_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "http_timeout": 1500,
+        "url": "https://wakatime.com/api/v1/users/current/summaries?range=last_30_days&api_key={{ .Env.WAKATIME_API_KEY }}"
+      },
+      "style": "diamond",
+      "template": " <b> Wakatime {{ secondsRound .CumulativeTotal.Seconds }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "wakatime:month",
+        "waka:month",
+        "wakamonth"
+      ],
+      "trailing_diamond": "",
+      "type": "wakatime"
+    },
+    {
+      "alias": "wakatime-tooltip-month",
+      "background": "p:wakatime_tooltip_bg",
+      "background_templates": [
+        "{{ $s := .Body.data.total_seconds_including_other_language }}{{ if lt $s 180000 }}p:red_alert{{ else if lt $s 540000 }}p:orange_warning{{ else if lt $s 1080000 }}p:yellow_bright{{ else if lt $s 2160000 }}p:green_success{{ else }}p:blue_bright{{ end }}"
+      ],
+      "cache": {
+        "duration": "15m",
+        "strategy": "device"
+      },
+      "foreground": "p:wakatime_tooltip_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://wakatime.com/api/v1/users/typpi/stats"
+      },
+      "style": "diamond",
+      "template": " Wakatime <b>{{ .Body.data.human_readable_total_including_other_language }}</b>",
+      "timeout": 1000,
+      "tips": [
+        "wakatime:all",
+        "waka:all",
+        "wakaall",
+        "wakatime:alltime",
+        "waka:alltime",
+        "wakaalltime"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
     }
   ],
   "tooltips_action": "prepend",
@@ -2729,7 +2932,6 @@
     "background": "transparent",
     "filler": "<p:purple_session>󱀝</><p:accent>󱀝</><p:blue_primary>󱀝</><p:divider_blue_primary_to_tooling_purple>󱀝</><p:tooling_purple>󱀝</><p:divider_tooling_purple_to_typescript_eslint_pink>󱀝</><p:typescript_eslint_pink>󱀝</><p:divider_typescript_eslint_pink_to_orange>󱀝</><p:orange>󱀝</><p:divider_orange_to_green_added>󱀝</><p:green_added>󱀝</><p:divider_green_added_to_yellow_bright>󱀝</><p:yellow_bright>󱀝</><p:divider_yellow_bright_to_navy_text>󱀝</><p:nba_det_pistons_blue>󱀝</><p:accent>󱀝</><p:purple_exec>󱀝</>",
     "foreground": "p:blue_primary",
-    "newline": false,
     "foreground_templates": [
       "{{ if eq .Shell \"cmd\" }}p:shell_cmd_black{{ end }}",
       "{{ if or (eq .Shell \"powershell\") (eq .Shell \"pwsh\") }}p:shell_powershell_blue{{ end }}",
@@ -2743,11 +2945,12 @@
       "{{ if or (eq .Shell \"nu\") (eq .Shell \"nushell\") }}p:shell_nushell_purple{{ end }}",
       "{{ if eq .Shell \"xonsh\" }}p:shell_xonsh_yellow{{ end }}"
     ],
-    "template": "<p:accent>╠═<p:purple_session,transparent>{{ upper .Shell }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
+    "newline": false,
+    "template": "{{ if .Segments.executiontime-lprompt }}<p:purple_exec>󱑅 {{ .Segments.executiontime-lprompt.FormattedMs }}</> <p:accent>│</>{{ end }}<p:accent>╠═<p:purple_session,transparent>{{ upper .Shell }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
   },
   "upgrade": {
     "auto": true,
-    "interval": "1h",
+    "interval": "10m",
     "notice": true,
     "source": "cdn"
   },
