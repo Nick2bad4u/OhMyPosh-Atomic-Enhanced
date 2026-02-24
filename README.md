@@ -1781,9 +1781,13 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 **Theme File Naming Convention:**
 
 - OhMyPosh-Atomic-Custom.<Palette>.json - Flagship comprehensive theme
+
 - 1_shell-Enhanced.omp.<Palette>.json - Single-line sleek theme
+
 - slimfat-Enhanced.omp.<Palette>.json - Two-line compact theme
-- atomicBit-Enhanced.omp.<Palette>.json - Box-style technical theme
+
+- tomicBit-Enhanced.omp.<Palette>.json - Box-style technical theme
+
 - clean-detailed-Enhanced.omp.<Palette>.json - Minimalist clean theme
 
 **Examples:**
@@ -1852,33 +1856,5 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 - **Cherry Mint** - Cherry red and mint green 🍒
 
 - **Lavender Peach** - Soft lavender and warm peach 🍑
-
-- **Rosé Pine** - Warm muted rose + pine greens 🌲
-
-- **One Dark** - Atom One Dark-inspired dev classic 🛠️
-
-- **Ayu Mirage** - Warm yellows on deep blue-gray 🌅🌌
-
-- **SynthWave '84** - Neon synthwave hot pinks & electric cyans 🕶️
-
-- **Kanagawa Wave** - Indigo ocean blues with warm sand accents 🌊🏖️
-
-- **Everforest** - Calm evergreen forest neutrals 🌳
-
-- **Night Owl** - Cool night blues 🦉
-
-- **Cobalt2** - Bright cobalt and yellow hacker vibes 💾
-
-- **Poimandres** - Soft teal/cyan with purple haze ✨
-
-- **Nightfox** - Balanced blue/gray night theme 🦊
-
-- **Duskfox** - Warm dusk-tinted Nightfox variant 🌇🦊
-
-- **GitHub Dark** - GitHub Dark-inspired classic 🐙
-
-- **Material Palenight** - Material Palenight lilac/indigo glow 🟣
-
-- **Catppuccin Frappé** - Cooler Catppuccin pastel variant 🍨
 
 ---

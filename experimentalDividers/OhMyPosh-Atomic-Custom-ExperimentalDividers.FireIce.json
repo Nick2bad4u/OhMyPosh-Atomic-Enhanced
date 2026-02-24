@@ -1,13 +1,15 @@
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
-  "accent_color": "p:accent",
+  "accent_color": "#ff613d",
   "async": true,
   "blocks": [
     {
       "alignment": "left",
+      "filler": "{{ if .Overflow }}<p:purple_exec>󰗉</>{{ end }}",
       "force": false,
       "leading_diamond": "",
       "newline": false,
+      "overflow": "break",
       "segments": [
         {
           "alias": "shell-lprompt",
@@ -48,6 +50,7 @@
               "xonsh": "XSH"
             }
           },
+          "placeholder": "",
           "style": "diamond",
           "template": "<b> {{ upper .Name }} {{ if or (eq .Name \"nu\") (eq .Name \"NU\") (eq .Name \"nushell\") (eq .Shell \"nu\") (eq .Shell \"nushell\") (eq .Name \"xonsh\") (eq .Name \"XSH\") (eq .Shell \"xonsh\") (eq .Name \"elv\") (eq .Name \"ELV\") (eq .Shell \"elv\") (eq .Name \"zsh\") (eq .Name \"ZSH\") (eq .Name \"zshell\") (eq .Shell \"zsh\") (eq .Shell \"zshell\") }}{{ substr 0 5 (.Version | replace \"0.\" \"\") }}{{ else }}{{ substr 0 5 .Version }}{{ end }} </b>",
           "templates_logic": "first_match",
@@ -57,6 +60,7 @@
           "alias": "divider-root-lprompt-in",
           "background": "p:divider_blue_primary_to_red_alert",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "{{ if .Root }}<parentBackground></>{{ end }}",
           "type": "text"
@@ -65,6 +69,7 @@
           "alias": "divider-root-lprompt-in-2",
           "background": "p:divider_root_in_2",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "{{ if .Root }}<parentBackground></>{{ end }}",
           "type": "text"
@@ -78,6 +83,7 @@
           },
           "foreground": "p:black",
           "min_width": 0,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></><b>  </b>",
           "type": "root"
@@ -86,6 +92,7 @@
           "alias": "divider-01",
           "background": "p:divider_blue_primary_to_tooling_purple",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -94,6 +101,7 @@
           "alias": "divider-02",
           "background": "p:divider_blue_primary_to_red_alert",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -102,6 +110,7 @@
           "alias": "divider-03",
           "background": "p:divider_tooling_purple_to_typescript_eslint_pink",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -110,6 +119,7 @@
           "alias": "divider-04",
           "background": "p:divider_typescript_eslint_pink_to_orange",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -128,12 +138,16 @@
           "min_width": 80,
           "options": {
             "cycle_folder_separator": true,
+            "dir_length": 1,
             "display_cygpath": false,
+            "display_root": true,
             "edge_format": "<b>%s</b>",
             "folder_format": "<b>%s</b>",
             "folder_icon": "  ",
             "folder_separator_icon": "/",
+            "full_length_dirs": 1,
             "gitdir_format": "<d>%s</d>",
+            "hide_root_location": false,
             "home_icon": "",
             "mapped_locations": {
               "C:\\": "C:",
@@ -169,6 +183,7 @@
               "re:.*(dnsValidator).*": "🌐 DNS",
               "re:.*(eslint-config-Typescript-Extreme).*": "⚡ TSExtm",
               "re:.*(eslint-plugin-chunkyLint).*": "📏 ChunkyL",
+              "re:.*(eslint-plugin-typefest).*": "📐 Typefest",
               "re:.*(generate-repo-file-list).*": "🗂️ GenList",
               "re:.*(git-backup).*": "💾 GitBkup",
               "re:.*(github-drama).*": "🎭 Drama",
@@ -199,8 +214,10 @@
             "max_depth": 1,
             "max_width": 40,
             "mixed_threshold": 4,
-            "style": "folder"
+            "style": "folder",
+            "windows_registry_icon": ""
           },
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></> {{ if not .Writable }}🔒 {{ end }} {{ path .Path .Location }} ",
           "trailing_diamond": "",
@@ -210,6 +227,7 @@
           "alias": "divider-05",
           "background": "p:divider_orange_to_green_added",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -218,6 +236,7 @@
           "alias": "divider-06",
           "background": "p:divider_green_added",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -226,6 +245,7 @@
           "alias": "divider-07",
           "background": "p:divider_green_added_to_yellow_bright",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -288,6 +308,7 @@
               "*": "normal"
             }
           },
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></> {{ if and (gt .Ahead 0) (gt .Behind 0) }}  {{ else if gt .Ahead 0 }}{{ .UpstreamIcon }}  {{ else if gt .Behind 0 }}{{ .UpstreamIcon }}  {{ else }}{{ .UpstreamIcon }}  {{ end }}<b>{{ .HEAD }}{{ if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }}</b> ",
           "templates_logic": "first_match",
@@ -298,6 +319,7 @@
           "alias": "divider-08",
           "background": "p:divider_navy_text",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -306,6 +328,7 @@
           "alias": "divider-09",
           "background": "p:divider_yellow_bright_to_navy_text",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -314,6 +337,7 @@
           "alias": "divider-10",
           "background": "p:divider_npm_dark",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -322,6 +346,7 @@
           "alias": "divider-11",
           "background": "p:divider_navy_text_to_purple_exec",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -350,6 +375,7 @@
             "style": "roundrock",
             "threshold": 0
           },
+          "placeholder": "󱑅",
           "style": "diamond",
           "template": "<parentBackground></><b> 󱑅 {{ .FormattedMs }}⠀</b>",
           "trailing_diamond": "",
@@ -359,6 +385,7 @@
           "alias": "divider-12",
           "background": "p:divider_purple_exec",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -367,6 +394,7 @@
           "alias": "divider-13",
           "background": "p:purple_ahead",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -375,6 +403,7 @@
           "alias": "divider-14",
           "background": "p:divider_violet_project",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -383,6 +412,7 @@
           "alias": "divider-14a",
           "background": "p:purple_session",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -391,6 +421,7 @@
           "alias": "divider-14b",
           "background": "p:purple_behind",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -399,6 +430,7 @@
           "alias": "divider-15",
           "background": "transparent",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -417,6 +449,7 @@
             "status_separator": "|",
             "status_template": "|"
           },
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></><b> {{ if eq .Code 127 }}CMD NOT FOUND{{ else if eq .Code 130 }}CANCELLED{{ else }}{{ end }} </b>",
           "templates_logic": "first_match",
@@ -425,8 +458,6 @@
         }
       ],
       "trailing_diamond": "",
-      "overflow": "break",
-      "filler": "{{ if .Overflow }}<p:purple_exec>󰗉</>{{ end }}",
       "type": "prompt"
     },
     {
@@ -441,6 +472,7 @@
           "alias": "divider-16",
           "background": "transparent",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_green_ahead></>",
           "type": "text"
@@ -449,6 +481,7 @@
           "alias": "divider-17",
           "background": "p:divider_green_ahead",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_green_valid_line></>",
           "type": "text"
@@ -457,6 +490,7 @@
           "alias": "divider-18",
           "background": "p:divider_green_valid_line",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_accent></>",
           "type": "text"
@@ -465,6 +499,7 @@
           "alias": "divider-19",
           "background": "p:divider_accent",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_chart_teal></>",
           "type": "text"
@@ -473,6 +508,7 @@
           "alias": "divider-20",
           "background": "p:divider_chart_teal",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_teal_sysinfo></>",
           "type": "text"
@@ -481,15 +517,16 @@
           "alias": "divider-21",
           "background": "p:divider_teal_sysinfo",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_teal_sysinfo></>",
           "type": "text"
         },
         {
           "alias": "sysinfo-rprompt",
-          "background": "p:teal_sysinfo",
+          "background": "p:sysinfo_bg_ok",
           "background_templates": [
-            "{{ if or (gt .PhysicalPercentUsed 92) (gt .Disks 92) }}p:mem_critical{{ else if gt .Load1 80 }}p:red_alert{{ else if gt .Load1 60 }}p:orange{{ else if gt .Load1 40 }}p:yellow_bright{{ else }}p:teal_sysinfo{{ end }}"
+            "{{ if or (ge .PhysicalPercentUsed 90) (ge .Disks 90) (ge .Load1 90) }}p:sysinfo_bg_crit{{ else if or (ge .PhysicalPercentUsed 80) (ge .Disks 80) (ge .Load1 80) }}p:sysinfo_bg_warn{{ else }}p:sysinfo_bg_ok{{ end }}"
           ],
           "cache": {
             "duration": "3m",
@@ -502,8 +539,9 @@
           "options": {
             "precision": 1
           },
+          "placeholder": "󰒋",
           "style": "diamond",
-          "template": "<b> {{ if gt .Load1 80 }}{{ else if lt .Load1 50 }}{{ else }}󰇅{{ end }} {{ round .Load1 .Precision  }}%  {{ round .PhysicalPercentUsed .Precision  }}%  {{ round .Disks .Precision  }}% </b>",
+          "template": "<b> {{ if gt .Load1 80 }}{{ else if lt .Load1 50 }}{{ else }}󰇅{{ end }} {{ $load := round .Load1 .Precision }}{{ $mem := round .PhysicalPercentUsed .Precision }}{{ $disk := round .Disks .Precision }}{{ if lt $load 80 }}{{$load}}%{{ else if lt $load 90 }}<p:sysinfo_warn>{{$load}}%</>{{ else }}<p:sysinfo_crit>{{$load}}%</>{{ end }}  {{ if lt $mem 80 }}{{$mem}}%{{ else if lt $mem 90 }}<p:sysinfo_warn>{{$mem}}%</>{{ else }}<p:sysinfo_crit>{{$mem}}%</>{{ end }}  {{ if lt $disk 80 }}{{$disk}}%{{ else if lt $disk 90 }}<p:sysinfo_warn>{{$disk}}%</>{{ else }}<p:sysinfo_crit>{{$disk}}%</>{{ end }} </b>",
           "templates_logic": "first_match",
           "trailing_diamond": "",
           "type": "sysinfo"
@@ -511,6 +549,7 @@
         {
           "alias": "divider-22",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_tailwind_cyan,p:divider_teal_sysinfo></>",
           "type": "text"
@@ -519,6 +558,7 @@
           "alias": "divider-23",
           "background": "p:divider_purple_exec",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_purple_exec,p:divider_tailwind_cyan></>",
           "type": "text"
@@ -545,6 +585,7 @@
             "ubuntu": "",
             "windows": ""
           },
+          "placeholder": "",
           "powerline_symbol": "",
           "style": "diamond",
           "template": "<b> {{ if .WSL }}WSL at {{ end }}{{ .Icon }} </b>",
@@ -554,6 +595,7 @@
         {
           "alias": "divider-24",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_blue_tooltip,p:divider_gray_os></>",
           "type": "text"
@@ -562,6 +604,7 @@
           "alias": "divider-25",
           "background": "p:divider_gray_prompt_count_bg",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_gray_prompt_count_bg,p:divider_blue_tooltip></>",
           "type": "text"
@@ -573,9 +616,9 @@
             "duration": "1m",
             "strategy": "device"
           },
-          "foreground": "p:black",
+          "foreground": "p:time_fg_day",
           "foreground_templates": [
-            "{{ if gt .Code 0 }}p:white{{ else if lt .CurrentDate.Hour 6 }}p:white{{ else if lt .CurrentDate.Hour 12 }}p:black{{ else if lt .CurrentDate.Hour 18 }}p:black{{ else }}p:black{{ end }}"
+            "{{ if gt .Code 0 }}p:time_fg_night{{ else if or (lt .CurrentDate.Hour 7) (ge .CurrentDate.Hour 19) }}p:time_fg_night{{ else }}p:time_fg_day{{ end }}"
           ],
           "invert_powerline": false,
           "leading_diamond": "",
@@ -583,6 +626,7 @@
           "options": {
             "time_format": "3:04 PM"
           },
+          "placeholder": "",
           "powerline_symbol": "",
           "style": "diamond",
           "template": "<b> {{ if and (ge .CurrentDate.Hour 12) (lt .CurrentDate.Hour 13) }} {{ end }}{{ if and (ge .CurrentDate.Hour 1) (lt .CurrentDate.Hour 4) }} {{ end }} {{ .CurrentDate | date .Format }} </b>",
@@ -592,6 +636,7 @@
         {
           "alias": "divider-battery-in",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "{{ if .Segments.battery-rprompt }}{{ if eq \"Charging\" .Segments.battery-rprompt.State.String }}<p:green_charging,p:divider_blue_time></>{{ else if eq \"Discharging\" .Segments.battery-rprompt.State.String }}<p:yellow_discharging,p:divider_blue_time></>{{ else if eq \"Full\" .Segments.battery-rprompt.State.String }}<p:green_full,p:divider_blue_time></>{{ else }}<p:orange_battery,p:divider_blue_time></>{{ end }}{{ end }}",
           "type": "text"
@@ -609,6 +654,9 @@
             "strategy": "device"
           },
           "foreground": "p:black",
+          "foreground_templates": [
+            "{{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }}p:battery_crit_fg{{ else }}p:black{{ end }}"
+          ],
           "invert_powerline": false,
           "leading_diamond": "",
           "min_width": 100,
@@ -619,6 +667,7 @@
             "display_error": true,
             "not_charging_icon": "󰂂"
           },
+          "placeholder": "󰁹",
           "powerline_symbol": "",
           "style": "diamond",
           "template": " {{ if and (lt .Percentage 20) (eq .State.String \"Discharging\") }} {{ end }}{{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }} ",
@@ -629,6 +678,7 @@
         {
           "alias": "divider-26",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "{{ if .Segments.battery-rprompt }}{{ if eq \"Charging\" .Segments.battery-rprompt.State.String }}<p:divider_purple_ahead,p:green_charging></>{{ else if eq \"Discharging\" .Segments.battery-rprompt.State.String }}<p:divider_purple_ahead,p:yellow_discharging></>{{ else if eq \"Full\" .Segments.battery-rprompt.State.String }}<p:divider_purple_ahead,p:green_full></>{{ else }}<p:divider_purple_ahead,p:orange_battery></>{{ end }}{{ else }}<p:divider_purple_ahead,p:divider_blue_time></>{{ end }}",
           "type": "text"
@@ -637,6 +687,7 @@
           "alias": "divider-27",
           "background": "p:divider_violet_project",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_violet_project,p:divider_purple_ahead></>",
           "type": "text"
@@ -661,6 +712,7 @@
             "location": "{{ .Env.POSH_OWM_LOCATION }}",
             "units": "imperial"
           },
+          "placeholder": "",
           "powerline_symbol": "",
           "style": "diamond",
           "template": "<b> {{.Temperature}}{{.UnitIcon}}</b>",
@@ -698,6 +750,7 @@
             "missing_command_text": "",
             "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
           },
+          "placeholder": " XX.XX.X",
           "style": "diamond",
           "template": " <b> {{ .Full }}</b> ",
           "trailing_diamond": "",
@@ -720,7 +773,6 @@
           "leading_diamond": "",
           "min_width": 80,
           "options": {
-            "pnpm_icon": "",
             "bun_icon": "",
             "display_mode": "context",
             "fetch_package_manager": true,
@@ -728,9 +780,11 @@
             "home_enabled": false,
             "missing_command_text": "",
             "npm_icon": "",
+            "pnpm_icon": "",
             "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest",
             "yarn_icon": ""
           },
+          "placeholder": " XX.XX.X",
           "style": "diamond",
           "template": " <b> {{ .Full }}</b> ",
           "trailing_diamond": "",
@@ -759,33 +813,11 @@
             "missing_command_text": "",
             "version_url_template": "https://api.adoptium.net/v3/info/release_names?version={{ .Major }}&os={{ .OS }}&arch={{ .Arch }}&image_type=jdk&jvm_impl=hotspot&vendor=eclipse"
           },
+          "placeholder": "",
           "style": "diamond",
           "template": "  {{ .Full }}",
           "trailing_diamond": "",
           "type": "java"
-        },
-        {
-          "alias": "winget-rprompt",
-          "background": "p:winget_primary",
-          "background_templates": [
-            "{{ if eq .UpdateCount 0 }}p:winget_success{{ end }}",
-            "{{ if and (gt .UpdateCount 0) (lt .UpdateCount 10) }}p:winget_warning{{ end }}",
-            "{{ if ge .UpdateCount 10 }}p:winget_error{{ end }}"
-          ],
-          "cache": {
-            "duration": "1h",
-            "strategy": "device"
-          },
-          "foreground": "p:gray_os_fg",
-          "invert_powerline": false,
-          "leading_diamond": "",
-          "min_width": 80,
-          "style": "diamond",
-          "template": "<b>  Winget  {{ .UpdateCount }} </b>",
-          "templates_logic": "first_match",
-          "timeout": 1000,
-          "trailing_diamond": "",
-          "type": "winget"
         },
         {
           "alias": "upgrade-rprompt",
@@ -807,6 +839,7 @@
           "options": {
             "cache_duration": "10m"
           },
+          "placeholder": "",
           "style": "diamond",
           "template": "<b>  OMP  {{ .Current }} 󰁔 {{ .Latest }} </b>",
           "timeout": 1000,
@@ -824,6 +857,7 @@
           "invert_powerline": false,
           "leading_diamond": "",
           "min_width": 80,
+          "placeholder": "",
           "style": "diamond",
           "template": "<b></b>",
           "trailing_diamond": "",
@@ -833,7 +867,7 @@
           "alias": "copilot",
           "background": "p:copilot_bg",
           "background_templates": [
-            "{{ if .Premium.Unlimited }}p:copilot_bg{{ else if ge .Premium.Percent 90 }}p:maroon_error{{ else if ge .Premium.Percent 75 }}p:red_alert{{ else if ge .Premium.Percent 50 }}p:orange{{ else }}p:green_success{{ end }}"
+            "{{ if .Premium.Unlimited }}p:copilot_bg{{ else if ge .Premium.Percent 90 }}p:maroon_error{{ else if ge .Premium.Percent 85 }}p:red_alert{{ else if ge .Premium.Percent 50 }}p:orange_warning{{ else }}p:green_success{{ end }}"
           ],
           "cache": {
             "duration": "30m",
@@ -849,6 +883,7 @@
           "options": {
             "http_timeout": 1000
           },
+          "placeholder": "󰦈 ▰▰▰▱▱ 󱋊 ??%",
           "style": "diamond",
           "template": "{{ if .Segments.git-lprompt }}<b> 󰦈 {{ .Premium.Remaining.Gauge }} 󱋊 {{ .Premium.Percent }}% </b>{{ end }}",
           "timeout": 1000,
@@ -859,7 +894,7 @@
           "alias": "promptcount-rprompt",
           "background": "p:gray_prompt_count_bg",
           "background_templates": [
-            "{{ if gt .PromptCount 500 }}p:maroon_error{{ else if gt .PromptCount 200 }}p:red_alert{{ else if gt .PromptCount 100 }}p:orange{{ else if gt .PromptCount 50 }}p:tooling_yellow{{ else }}p:gray_prompt_count_bg{{ end }}"
+            "{{ if gt .PromptCount 500 }}p:maroon_error{{ else if gt .PromptCount 200 }}p:red_alert{{ else if gt .PromptCount 100 }}p:orange_warning{{ else if gt .PromptCount 50 }}p:tooling_yellow{{ else }}p:gray_prompt_count_bg{{ end }}"
           ],
           "foreground": "p:gray_prompt_count_fg",
           "foreground_templates": [
@@ -871,6 +906,7 @@
           "options": {
             "always_enabled": true
           },
+          "placeholder": "󰘳",
           "style": "diamond",
           "template": "<b> 󰘳 {{ .PromptCount }} </b>",
           "trailing_diamond": "",
@@ -889,6 +925,10 @@
       "segments": [
         {
           "alias": "shell-lprompt-end",
+          "cache": {
+            "duration": "24h",
+            "strategy": "session"
+          },
           "foreground": "p:blue_primary",
           "foreground_templates": [
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cmd\") }}p:shell_cmd_black{{ end }}",
@@ -904,12 +944,9 @@
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
           ],
           "min_width": 0,
+          "placeholder": "╰─",
           "style": "plain",
           "template": "╰─",
-          "cache": {
-            "duration": "24h",
-            "strategy": "session"
-          },
           "templates_logic": "first_match",
           "type": "text"
         },
@@ -935,6 +972,7 @@
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
           ],
           "min_width": 0,
+          "placeholder": "",
           "style": "diamond",
           "template": "{{ if .SSHSession }} {{ end }}{{ if .Root }}─<parentForeground,transparent>{{ if eq .OS \"windows\" }}{{ else }}{{ end }}</>─{{ .UserName }}─{{ end }}",
           "templates_logic": "first_match",
@@ -966,6 +1004,7 @@
             "always_enabled": true,
             "status_separator": "|"
           },
+          "placeholder": "",
           "style": "plain",
           "template": "",
           "templates_logic": "first_match",
@@ -1033,223 +1072,233 @@
     }
   },
   "palette": {
-    "cycle_spring_mint": "#9AE6B4",
-    "divider_gray_os_to_electron_red": "#D963E4",
-    "orange": "#ff6347",
-    "shell_nushell_purple": "#8E44AD",
-    "cycle_rust": "#2B0D0D",
-    "gcp_tooltip_fg": "#ffffff",
-    "yellow_discharging": "#ffb380",
-    "az_tooltip_fg": "#ffffff",
-    "divider_purple_exec_to_electron_red": "#C50048",
-    "bun_tooltip_bg": "#111827",
-    "pnpm_tooltip_fg": "#000000",
-    "cycle_black_forest": "#07100A",
-    "gray_os": "#b0c4de",
-    "cycle_swamp": "#04201F",
-    "cycle_marmalade": "#FFA14B",
-    "ipify_purple_v6": "#ba55d3",
-    "purple_ahead": "#9370db",
-    "react_cyan": "#00ffff",
-    "divider_blue_time": "#87ceeb",
-    "gray_untracked": "#708090",
-    "cycle_creme": "#F6F6C9",
-    "divider_root_in_2": "#FBFF00",
-    "gcp_tooltip_bg": "#4285F4",
-    "strava_activity_orange": "#fc4c02",
-    "ver_beta": "#ffa726",
-    "cycle_eggplant": "#21122A",
-    "aws_tooltip_fg": "#000000",
-    "cycle_neon_green": "#39FF14",
-    "yarn_tooltip_bg": "#2E2A65",
-    "wakatime_tooltip_bg": "#3B82F6",
-    "divider_typescript_eslint_pink_to_orange": "#FF5875",
-    "divider_teal_sysinfo": "#20b2aa",
-    "shell_powershell_blue": "#0077c2",
-    "docker_tooltip_fg": "#ffffff",
-    "debug_fg": "#ffffff",
-    "teal_sysinfo": "#20b2aa",
-    "orange_unmerged": "#ff4500",
-    "purple_session": "#9932cc",
-    "divider_maroon_error_to_pink_weather": "#8AEA2A",
-    "yellow_root_alt": "#ffb380",
-    "green_ahead": "#40e0d0",
-    "cycle_spring_green": "#6BCB77",
-    "cycle_nightshade": "#151026",
-    "cycle_oxblood": "#2A1212",
-    "cycle_deep_mocha": "#211A08",
-    "claude_tooltip_fg": "#ffffff",
-    "cycle_deep_plum": "#2A1120",
-    "electron_red": "#ff4500",
-    "exec_warn60": "#FF7043",
-    "prettier_yellow": "#ffa07a",
-    "cycle_watermelon": "#F67280",
-    "shell_cmd_black": "#444444",
-    "ver_alpha": "#ffee58",
-    "divider_yellow_bright_to_navy_text": "#AA2296",
-    "pnpm_tooltip_bg": "#F9AD00",
-    "accent": "#ff4500",
-    "cycle_blush": "#FFADAD",
-    "cycle_deep_jungle": "#0B2A14",
-    "cycle_sunburst": "#FFB86B",
-    "divider_gray_os_to_gray_prompt_count_bg": "#52629C",
-    "tooling_purple": "#c386f1",
-    "shell_elvish_teal": "#00BFA5",
-    "green_charging": "#5fdfef",
-    "divider_electron_red_to_maroon_error": "#C51B00",
-    "maroon_error": "#8b0000",
-    "gray_prompt_count_fg": "#e0f7ff",
-    "cycle_deep_navy": "#003147",
-    "typescript_eslint_pink": "#ff69b4",
-    "divider_root_out_2": "#F878F3",
-    "cyan_renamed": "#00ffff",
-    "typescript_blue": "#00bfff",
-    "divider_violet_project": "#9370db",
-    "cycle_electric_cyan": "#00E5FF",
-    "cycle_violet": "#110011",
-    "cycle_charcoal": "#2B2B20",
-    "divider_blue_tooltip": "#b0e0e6",
-    "strava_orange": "#fc4c02",
-    "cycle_espresso": "#2D1E0B",
-    "vite_yellow": "#ffa07a",
-    "shell_ubuntu_orange": "#E95420",
-    "copilot_bg": "#9370db",
-    "exec_critical": "#FF5252",
-    "claude_tooltip_bg": "#FF6B35",
-    "ver_stable": "#66bb6a",
-    "chart_teal": "#00ced1",
-    "aws_tooltip_bg": "#FF9900",
-    "axios_yellow": "#ffa07a",
-    "cycle_lilac": "#C77DFF",
-    "gray_os_fg": "#1a1a24",
-    "node_green": "#00ced1",
-    "orange_battery": "#ff7f50",
-    "lastfm_red": "#cf1e17",
-    "divider_orange_to_green_added": "#81FF23",
-    "green_full": "#00ced1",
-    "purple_behind": "#82AAFF",
-    "cycle_stormy_night": "#091A2A",
-    "cycle_sunshine": "#FFD93D",
-    "deno_tooltip_fg": "#ffffff",
-    "blue_tooltip": "#b0e0e6",
-    "red_alert": "#ff4500",
-    "shell_zsh_orange": "#F15A24",
-    "tauri_tooltip_fg": "#ffffff",
-    "mem_critical": "#ff8a80",
-    "shell_fish_cyan": "#8fcffa",
-    "java_blue": "#00bfff",
-    "purple_exec": "#8b008b",
-    "zod_blue": "#3068b7",
-    "java_orange": "#ff8c00",
-    "eslint_purple": "#9370db",
-    "divider_npm_dark": "#0a0a14",
-    "navy_text": "#0a0a14",
-    "pink_error_line": "#ff0000",
-    "green_added": "#00ffff",
-    "winget_primary": "#0078D4",
-    "yellow_bright": "#ffa07a",
-    "cycle_deep_teal": "#002025",
-    "divider_blue_primary_to_tooling_purple": "#4656F5",
-    "cycle_forest": "#0B3D2E",
-    "cycle_midnight_blue": "#1E1E2E",
-    "divider_green_added_to_yellow_bright": "#82FF3D",
-    "divider_green_valid_line": "#006f7f",
-    "vitest_green": "#00ced1",
-    "yellow_dark": "#ad8e04",
-    "purple_modified": "#a200ff",
-    "bun_tooltip_fg": "#FBBF24",
-    "white": "#f0ffff",
-    "cycle_periwinkle": "#BDB2FF",
-    "winget_success": "#00cc44",
-    "nba_det_pistons_red": "#C8102E",
-    "divider_green_added": "#00ffff",
-    "cycle_seaweed": "#023535",
-    "ipify_purple": "#9370db",
-    "zustand_purple": "#9370db",
-    "cycle_aqua": "#3DFFDB",
-    "exec_warning": "#FFF59D",
-    "divider_blue_time_to_violet_project": "#7B8FE4",
-    "divider_blue_primary_to_red_alert": "#3DFF00",
-    "cycle_onyx": "#191910",
-    "cycle_sky_blue": "#4D96FF",
-    "shell_cygwin_green": "#00A95C",
-    "magenta": "#FF00FF",
-    "divider_navy_text_to_purple_exec": "#2A0E46",
-    "blue_time": "#87ceeb",
-    "divider_chart_teal": "#00ced1",
-    "deno_tooltip_bg": "#3C82F6",
-    "divider_ipify_purple_to_typescript_eslint_pink": "#E36BEE",
-    "az_tooltip_bg": "#0078D4",
-    "windows_blue": "#00bfff",
-    "divider_purple_ahead": "#9370db",
-    "tailwind_cyan": "#00ced1",
-    "winget_warning": "#ffaa00",
-    "divider_blue_time_to_electron_red": "#CC48F1",
+    "divider_red_alert_to_orange": "#E57881",
     "docker_tooltip_bg": "#0B59E7",
-    "python_yellow": "#ffa07a",
-    "cycle_coral": "#FF6B6B",
-    "yarn_tooltip_fg": "#ffffff",
-    "divider_gray_prompt_count_bg": "#1f1f2f",
-    "green_help": "#20b2aa",
-    "wakatime_tooltip_fg": "#ffffff",
-    "divider_red_alert_to_orange": "#FF5223",
-    "pink_status_fail": "#dc143c",
-    "pink_weather": "#afeeee",
-    "divider_gray_os": "#b0c4de",
-    "youtube_music_red": "#cc181e",
-    "spotify_green": "#1DB954",
-    "magenta_copied": "#ff69b4",
-    "blue_primary": "#00bfff",
-    "divider_root_out_1": "#F546AB",
-    "divider_blue_primary_to_ipify_purple": "#3C60E9",
-    "cycle_apricot": "#F8B195",
-    "cycle_mint": "#A0E7E5",
-    "debug_bg": "#ff4500",
-    "playwright_teal": "#00ced1",
-    "gray_path_fg": "#2a2a34",
-    "cycle_mahogany": "#291813",
-    "ver_rc": "#26c6da",
-    "strava_activity_green": "#28a745",
-    "exec_extreme": "#FF4081",
-    "pink_storybook": "#ff69b4",
-    "divider_tooling_purple_to_typescript_eslint_pink": "#F878F3",
-    "shell_bash_green": "#4EAA25",
-    "divider_accent": "#ff4500",
-    "shell_tcsh_blue": "#1E90FF",
-    "python_blue": "#00bfff",
-    "green_success": "#00ced1",
-    "cycle_inky": "#0E0E1A",
-    "winget_error": "#ff4444",
-    "divider_teal_sysinfo_to_electron_red": "#5FD712",
-    "tauri_tooltip_bg": "#1976D2",
-    "ver_deprecated": "#9e9e9e",
-    "red": "#FF4444",
-    "divider_navy_text": "#0a0a14",
-    "violet_project": "#9370db",
-    "green_valid_line": "#006f7f",
-    "shell_xonsh_yellow": "#ceaa34",
-    "nba_det_pistons_blue": "#1D428A",
-    "cycle_ice_blue": "#C4FCEF",
-    "divider_tailwind_cyan": "#00ced1",
-    "npm_yellow": "#ffa07a",
-    "yellow_git_changed": "#ffd9b3",
-    "exec_warn10": "#FFCA28",
-    "prettier_black": "#0a0a14",
-    "exec_warn5": "#FFE082",
-    "black": "#0a0a14",
-    "tooling_yellow": "#f7b93e",
-    "divider_purple_exec": "#8b008b",
+    "shell_fish_cyan": "#8fcffa",
+    "cycle_onyx": "#191910",
+    "orange_warning": "#ffa55f",
+    "divider_accent": "#ff613d",
     "cycle_soft_lavender": "#D5D5FE",
-    "divider_green_ahead": "#40e0d0",
-    "exec_warn30": "#FFB300",
-    "cycle_hot_pink": "#FF7AB6",
+    "yellow_discharging": "#ffb380",
+    "gray_prompt_count_bg": "#162e3d",
+    "purple_behind": "#4cc9f0",
+    "shell_cmd_black": "#444444",
+    "yellow_modified": "#ffa07a",
+    "divider_gray_os_to_gray_prompt_count_bg": "#4F728E",
+    "divider_npm_dark": "#1a3749",
+    "green_valid_line": "#3c9c8d",
+    "wakatime_tooltip_fg": "#ffffff",
+    "cycle_sky_blue": "#4D96FF",
+    "eslint_purple": "#9370db",
+    "cycle_deep_jungle": "#0B2A14",
+    "divider_blue_time": "#8ef0ff",
+    "python_blue": "#00bfff",
+    "prettier_black": "#0a0a14",
+    "magenta": "#FF00FF",
+    "yellow_git_changed": "#fcdf8e",
+    "black": "#0c111b",
+    "divider_green_valid_line": "#3c9c8d",
+    "divider_teal_sysinfo_to_electron_red": "#83F33D",
+    "typescript_blue": "#52cfff",
+    "node_green": "#56e7cb",
+    "sysinfo_bg_warn": "#aa7147",
+    "az_tooltip_fg": "#ffffff",
+    "python_yellow": "#ffa07a",
+    "cycle_deep_mocha": "#211A08",
+    "pink_weather": "#a7efff",
+    "green_added": "#56e7cb",
+    "cycle_watermelon": "#F67280",
+    "blue_bright": "#89deff",
+    "tauri_tooltip_fg": "#ffffff",
+    "spotify_green": "#1DB954",
+    "prettier_yellow": "#ffa07a",
+    "divider_electron_red_to_maroon_error": "#BD344D",
     "strava_activity_red": "#dc3545",
-    "divider_tooling_yellow": "#f7b93e",
-    "npm_dark": "#0a0a14",
+    "vitest_green": "#00ced1",
+    "react_cyan": "#00ffff",
+    "gcp_tooltip_bg": "#4285F4",
+    "accent": "#ff613d",
+    "green_success": "#56e7cb",
+    "white": "#eff9ff",
+    "divider_blue_primary_to_ipify_purple": "#617CED",
+    "cycle_periwinkle": "#BDB2FF",
+    "orange": "#ff8352",
+    "purple_session": "#a384ff",
+    "exec_warn10": "#FFCA28",
+    "exec_warn60": "#FF7043",
+    "cycle_sunshine": "#FFD93D",
+    "nba_det_pistons_blue": "#1D428A",
+    "cycle_charcoal": "#2B2B20",
+    "vite_yellow": "#ffa07a",
+    "divider_tooling_yellow": "#ffd972",
+    "divider_gray_os": "#abb3bb",
+    "divider_blue_primary_to_tooling_purple": "#7aaaff",
+    "shell_bash_green": "#4EAA25",
+    "gray_os": "#abb3bb",
+    "divider_teal_sysinfo": "#75ece8",
+    "typescript_eslint_pink": "#a7efff",
+    "exec_warn30": "#FFB300",
+    "cycle_mint": "#A0E7E5",
+    "strava_activity_green": "#28a745",
+    "divider_purple_exec_to_electron_red": "#be5663",
+    "blue_tooltip": "#a6f2ff",
+    "java_orange": "#ff8c00",
+    "shell_zsh_orange": "#F15A24",
+    "cycle_lilac": "#C77DFF",
+    "divider_yellow_bright_to_navy_text": "#867546",
+    "yellow_bright": "#ffd972",
+    "cycle_swamp": "#04201F",
+    "purple_modified": "#a200ff",
+    "cycle_spring_green": "#6BCB77",
+    "shell_powershell_blue": "#0077c2",
+    "axios_yellow": "#ffa07a",
+    "chart_teal": "#8ef0ff",
+    "cycle_oxblood": "#2A1212",
+    "divider_purple_ahead": "#a384ff",
+    "yarn_tooltip_bg": "#2E2A65",
+    "cycle_neon_green": "#39FF14",
+    "claude_tooltip_fg": "#ffffff",
+    "exec_warn5": "#FFE082",
+    "strava_orange": "#fc4c02",
+    "windows_blue": "#00bfff",
+    "pnpm_tooltip_bg": "#F9AD00",
+    "electron_red": "#ff4500",
+    "sysinfo_bg_ok": "#46898c",
+    "yarn_tooltip_fg": "#ffffff",
+    "divider_tailwind_cyan": "#00ced1",
+    "cycle_inky": "#0E0E1A",
+    "pink_status_fail": "#dc143c",
+    "youtube_music_red": "#cc181e",
+    "divider_navy_text": "#0c111b",
+    "blue_time": "#8ef0ff",
+    "strava_activity_orange": "#fc4c02",
+    "navy_text": "#0c111b",
+    "tauri_tooltip_bg": "#1976D2",
+    "sysinfo_bg_crit": "#947185",
+    "cycle_mahogany": "#291813",
+    "cycle_stormy_night": "#091A2A",
+    "gcp_tooltip_fg": "#ffffff",
+    "docker_tooltip_fg": "#ffffff",
+    "cycle_violet": "#110011",
+    "winget_warning": "#ffaa00",
+    "pink_storybook": "#a7efff",
+    "orange_battery": "#ff8352",
+    "divider_chart_teal": "#8ef0ff",
+    "battery_crit_fg": "#fff5f5",
+    "shell_nushell_purple": "#8E44AD",
+    "pnpm_tooltip_fg": "#000000",
+    "green_ahead": "#56e7cb",
+    "cycle_ice_blue": "#C4FCEF",
+    "winget_success": "#00cc44",
+    "deno_tooltip_bg": "#3C82F6",
+    "divider_green_added_to_yellow_bright": "#aae09e",
+    "magenta_copied": "#ff69b4",
+    "divider_green_added": "#56e7cb",
+    "green_full": "#00ced1",
+    "ver_rc": "#26c6da",
+    "tooling_purple": "#a384ff",
+    "blue_primary": "#52cfff",
+    "yellow_dark": "#927b44",
+    "divider_green_ahead": "#56e7cb",
+    "time_fg_night": "#eff9ff",
+    "debug_fg": "#ffffff",
+    "orange_unmerged": "#ff4500",
+    "tooling_yellow": "#ffd972",
+    "shell_xonsh_yellow": "#ceaa34",
+    "cycle_hot_pink": "#FF7AB6",
+    "red": "#cf9ab2",
+    "cycle_spring_mint": "#9AE6B4",
+    "divider_maroon_error_to_pink_weather": "#8B6ED7",
+    "divider_navy_text_to_purple_exec": "#584a8d",
+    "cycle_forest": "#0B3D2E",
+    "pink_error_line": "#ff0000",
+    "yellow_update": "#ffd972",
+    "divider_blue_tooltip": "#a6f2ff",
+    "exec_extreme": "#FF4081",
+    "playwright_teal": "#00ced1",
+    "shell_cygwin_green": "#00A95C",
+    "zod_blue": "#3068b7",
+    "purple_ahead": "#a384ff",
+    "divider_blue_time_to_electron_red": "#7EFF47",
+    "gray_prompt_count_fg": "#f1eaec",
+    "aws_tooltip_fg": "#000000",
+    "divider_root_in_2": "#a5baff",
+    "divider_gray_os_to_electron_red": "#C561D1",
+    "npm_yellow": "#ffa07a",
+    "red_alert": "#cf9ab2",
+    "cycle_rust": "#2B0D0D",
+    "ver_beta": "#ffa726",
+    "cycle_midnight_blue": "#1E1E2E",
+    "divider_violet_project": "#a384ff",
+    "sysinfo_warn": "#ffa55f",
+    "divider_root_out_2": "#a6caff",
+    "ver_alpha": "#ffee58",
+    "divider_ipify_purple_to_typescript_eslint_pink": "#87A1F2",
+    "bun_tooltip_bg": "#111827",
+    "npm_dark": "#1a3749",
+    "cycle_black_forest": "#07100A",
+    "cycle_seaweed": "#023535",
+    "cycle_nightshade": "#151026",
+    "shell_elvish_teal": "#00BFA5",
+    "gray_os_fg": "#0c111b",
+    "zustand_purple": "#9370db",
+    "cycle_deep_plum": "#2A1120",
+    "debug_bg": "#ff613d",
+    "cycle_sunburst": "#FFB86B",
+    "shell_tcsh_blue": "#1E90FF",
+    "divider_blue_time_to_violet_project": "#89ADFF",
+    "cycle_blush": "#FFADAD",
+    "ipify_purple": "#9370db",
+    "cycle_coral": "#FF6B6B",
+    "cycle_deep_teal": "#002025",
+    "teal_sysinfo": "#75ece8",
+    "divider_root_out_1": "#98baff",
+    "nba_det_pistons_red": "#C8102E",
+    "purple_exec": "#7d67c6",
+    "cyan_renamed": "#00ffff",
+    "exec_warning": "#FFF59D",
+    "cycle_deep_navy": "#003147",
+    "winget_error": "#ff4444",
+    "divider_gray_prompt_count_bg": "#162e3d",
+    "green_help": "#20b2aa",
+    "lastfm_red": "#cf1e17",
+    "gray_path_fg": "#2a2a34",
+    "winget_primary": "#0078D4",
+    "yellow_root_alt": "#ffb380",
+    "aws_tooltip_bg": "#FF9900",
+    "wakatime_tooltip_bg": "#3B82F6",
+    "cycle_creme": "#F6F6C9",
+    "az_tooltip_bg": "#0078D4",
+    "cycle_electric_cyan": "#00E5FF",
+    "cycle_marmalade": "#FFA14B",
+    "divider_typescript_eslint_pink_to_orange": "#d3b9a8",
+    "gray_untracked": "#708090",
+    "tailwind_cyan": "#00ced1",
+    "time_fg_day": "#0c111b",
+    "ver_stable": "#66bb6a",
+    "shell_ubuntu_orange": "#E95420",
+    "maroon_error": "#816376",
+    "ipify_purple_v6": "#ba55d3",
+    "java_blue": "#00bfff",
+    "cycle_apricot": "#F8B195",
+    "mem_critical": "#ff8a80",
+    "copilot_bg": "#a384ff",
+    "exec_critical": "#FF5252",
+    "divider_tooling_purple_to_typescript_eslint_pink": "#a5baff",
+    "divider_orange_to_green_added": "#aab58e",
+    "claude_tooltip_bg": "#FF6B35",
+    "bun_tooltip_fg": "#FBBF24",
+    "violet_project": "#a384ff",
+    "sysinfo_crit": "#cf9ab2",
+    "divider_blue_primary_to_red_alert": "#90b4d8",
+    "divider_purple_exec": "#7d67c6",
+    "ver_deprecated": "#9e9e9e",
+    "cycle_eggplant": "#21122A",
+    "cycle_espresso": "#2D1E0B",
+    "green_charging": "#5fdfef",
+    "deno_tooltip_fg": "#ffffff",
     "red_deleted": "#dc143c",
-    "gray_prompt_count_bg": "#1f1f2f",
-    "yellow_update": "#ffb380",
-    "yellow_modified": "#ffa07a"
+    "cycle_aqua": "#3DFFDB"
   },
   "palettes": {},
   "patch_pwsh_bleed": true,
@@ -1260,6 +1309,7 @@
     "template": "╰─ "
   },
   "shell_integration": true,
+  "streaming": 200,
   "terminal_background": "p:black",
   "tooltips": [
     {
@@ -1274,7 +1324,7 @@
       "min_width": 80,
       "options": {
         "days_offset": 8,
-        "http_timeout": 1500,
+        "http_timeout": 15000,
         "team": "DET"
       },
       "style": "diamond",
@@ -2367,7 +2417,7 @@
         }
       },
       "style": "diamond",
-      "template": "  {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} ",
+      "template": "  {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }} | {{ .UpstreamIcon }} ↑{{ .Ahead }} ↓{{ .Behind }}{{ if .Staging.Changed }} |  {{ .Staging.String }}{{ end }}{{ if .Working.Changed }} |  {{ .Working.String }}{{ else }} |  clean{{ end }} ",
       "timeout": 1000,
       "tips": [
         "git",
@@ -2384,6 +2434,42 @@
       ],
       "trailing_diamond": "",
       "type": "git"
+    },
+    {
+      "alias": "npm-tooltip",
+      "background": "p:npm_yellow",
+      "background_templates": [
+        "{{ if .Error }}p:maroon_error{{ end }}"
+      ],
+      "cache": {
+        "duration": "24h",
+        "strategy": "folder"
+      },
+      "foreground": "p:npm_dark",
+      "foreground_templates": [
+        "{{ if .Error }}p:white{{ else }}p:npm_dark{{ end }}"
+      ],
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "display_mode": "context",
+        "fetch_version": true,
+        "home_enabled": false,
+        "missing_command_text": "",
+        "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
+      },
+      "style": "diamond",
+      "template": " <b> {{ .Full }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "npm",
+        "npm i",
+        "npm run",
+        "npx",
+        "npm --version"
+      ],
+      "trailing_diamond": "",
+      "type": "npm"
     },
     {
       "alias": "python-folder-tooltip",
@@ -2445,7 +2531,7 @@
         "missing_command_text": ""
       },
       "style": "diamond",
-      "template": " {{ if .Segments.npm-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}</b>{{ end }} ",
+      "template": " {{ if .Segments.npm-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}{{ if .Mismatch }} ⚠ mismatch{{ end }}</b>{{ end }} ",
       "timeout": 1000,
       "tips": [
         "node",
@@ -2478,7 +2564,7 @@
         "missing_command_text": ""
       },
       "style": "diamond",
-      "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
+      "template": "  Java {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
       "timeout": 1000,
       "tips": [
         "java",
@@ -2626,7 +2712,10 @@
     },
     {
       "alias": "sysinfo-tooltip",
-      "background": "p:teal_sysinfo",
+      "background": "p:sysinfo_bg_ok",
+      "background_templates": [
+        "{{ if or (ge .PhysicalPercentUsed 90) (ge .Disks 90) (ge .Load1 90) }}p:sysinfo_bg_crit{{ else if or (ge .PhysicalPercentUsed 80) (ge .Disks 80) (ge .Load1 80) }}p:sysinfo_bg_warn{{ else }}p:sysinfo_bg_ok{{ end }}"
+      ],
       "cache": {
         "duration": "2m",
         "strategy": "device"
@@ -2638,7 +2727,7 @@
         "precision": 2
       },
       "style": "diamond",
-      "template": "  Memory: {{ round .PhysicalPercentUsed .Precision }}%  Disk: {{ round .Disks .Precision }}%  CPU: {{ round .Load1 .Precision }}% ",
+      "template": "  CPU {{ round .Load1 .Precision }}%   MEM {{ round .PhysicalPercentUsed .Precision }}%   DSK {{ round .Disks .Precision }}% ",
       "timeout": 1000,
       "tips": [
         "htop",
@@ -2671,7 +2760,7 @@
         "windows": "<b> Win 11</b>"
       },
       "style": "diamond",
-      "template": " {{ if .WSL }}WSL at {{ end }}{{.Icon}} ",
+      "template": " {{ .Icon }} {{ upper .OS }}{{ if .WSL }} • WSL{{ end }} ",
       "timeout": 1000,
       "tips": [
         "uname",
@@ -2691,7 +2780,10 @@
         "duration": "1m",
         "strategy": "device"
       },
-      "foreground": "p:black",
+      "foreground": "p:time_fg_day",
+      "foreground_templates": [
+        "{{ if or (lt .CurrentDate.Hour 7) (ge .CurrentDate.Hour 19) }}p:time_fg_night{{ else }}p:time_fg_day{{ end }}"
+      ],
       "leading_diamond": "",
       "min_width": 80,
       "options": {
@@ -2719,14 +2811,17 @@
         "duration": "10m",
         "strategy": "device"
       },
-      "foreground": "p:gray_path_fg",
+      "foreground": "p:black",
+      "foreground_templates": [
+        "{{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }}p:battery_crit_fg{{ else }}p:black{{ end }}"
+      ],
       "leading_diamond": "",
       "min_width": 80,
       "options": {
         "display_error": true
       },
       "style": "diamond",
-      "template": " {{ .Icon }}{{ .Percentage }}% {{ .State.String }} ",
+      "template": " {{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }} {{ end }}{{ .Icon }} {{ .Percentage }}% • {{ .State.String }} ",
       "timeout": 1000,
       "tips": [
         "powercfg",
@@ -2737,6 +2832,35 @@
       ],
       "trailing_diamond": "",
       "type": "battery"
+    },
+    {
+      "alias": "owm-tooltip",
+      "background": "p:pink_weather",
+      "cache": {
+        "duration": "10m",
+        "strategy": "device"
+      },
+      "foreground": "p:black",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "api_key": "{{ .Env.POSH_OWM_API_KEY }}",
+        "http_timeout": 1000,
+        "location": "{{ .Env.POSH_OWM_LOCATION }}",
+        "units": "imperial"
+      },
+      "style": "diamond",
+      "template": "  {{ .Temperature }}{{ .UnitIcon }}{{ if .Env.POSH_OWM_LOCATION }} • {{ .Env.POSH_OWM_LOCATION }}{{ end }} ",
+      "timeout": 1000,
+      "tips": [
+        "weather",
+        "forecast",
+        "owm",
+        "temp",
+        "temperature"
+      ],
+      "trailing_diamond": "",
+      "type": "owm"
     },
     {
       "alias": "shell-tooltip",
@@ -2777,6 +2901,37 @@
       "type": "shell"
     },
     {
+      "alias": "copilot-tooltip",
+      "background": "p:copilot_bg",
+      "background_templates": [
+        "{{ if .Premium.Unlimited }}p:copilot_bg{{ else if ge .Premium.Percent 90 }}p:maroon_error{{ else if ge .Premium.Percent 85 }}p:red_alert{{ else if ge .Premium.Percent 50 }}p:orange_warning{{ else }}p:green_success{{ end }}"
+      ],
+      "cache": {
+        "duration": "30m",
+        "strategy": "device"
+      },
+      "foreground": "p:white",
+      "foreground_templates": [
+        "{{ if .Premium.Unlimited }}p:white{{ else if ge .Premium.Percent 75 }}p:white{{ else }}p:black{{ end }}"
+      ],
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "http_timeout": 1000
+      },
+      "style": "diamond",
+      "template": " 󰦈 {{ .Premium.Remaining.Gauge }} • {{ .Premium.Percent }}% ",
+      "timeout": 1000,
+      "tips": [
+        "copilot",
+        "github copilot",
+        "gh copilot",
+        "copilot status"
+      ],
+      "trailing_diamond": "",
+      "type": "copilot"
+    },
+    {
       "alias": "executiontime-tooltip",
       "background": "p:purple_exec",
       "cache": {
@@ -2791,7 +2946,7 @@
         "threshold": 0
       },
       "style": "diamond",
-      "template": " 󱑅 Execution time: {{ .FormattedMs }} ",
+      "template": " 󱑅 {{ .FormattedMs }} ({{ .Ms }}ms) ",
       "timeout": 1000,
       "tips": [
         "measure",
@@ -2837,6 +2992,35 @@
       ],
       "trailing_diamond": "",
       "type": "status"
+    },
+    {
+      "alias": "promptcount-tooltip",
+      "background": "p:gray_prompt_count_bg",
+      "background_templates": [
+        "{{ if gt .PromptCount 500 }}p:maroon_error{{ else if gt .PromptCount 200 }}p:red_alert{{ else if gt .PromptCount 100 }}p:orange_warning{{ else if gt .PromptCount 50 }}p:tooling_yellow{{ else }}p:gray_prompt_count_bg{{ end }}"
+      ],
+      "cache": {
+        "duration": "10s",
+        "strategy": "session"
+      },
+      "foreground": "p:gray_prompt_count_fg",
+      "foreground_templates": [
+        "{{ if gt .PromptCount 50 }}p:white{{ else }}p:gray_prompt_count_fg{{ end }}"
+      ],
+      "leading_diamond": "",
+      "min_width": 80,
+      "style": "diamond",
+      "template": " 󰘳 Session prompts: {{ .PromptCount }} ",
+      "timeout": 1000,
+      "tips": [
+        "history",
+        "Get-History",
+        "h",
+        "fc",
+        "promptcount"
+      ],
+      "trailing_diamond": "",
+      "type": "text"
     },
     {
       "alias": "session-tooltip",
@@ -2989,7 +3173,7 @@
         "{{ if ge .UpdateCount 10 }}p:winget_error{{ end }}"
       ],
       "cache": {
-        "duration": "10m",
+        "duration": "24h",
         "strategy": "device"
       },
       "foreground": "p:gray_os_fg",
@@ -2997,12 +3181,12 @@
       "min_width": 80,
       "style": "diamond",
       "template": "<b>  Winget  {{ .UpdateCount }} </b>",
-      "timeout": 5000,
+      "timeout": 10000,
       "tips": [
         "winget",
-        "winget upgrade",
-        "winget list",
-        "winget search"
+        "wgu",
+        "wgua",
+        "windows package manager"
       ],
       "trailing_diamond": "",
       "type": "winget"
@@ -3027,7 +3211,7 @@
         "cache_duration": "5m"
       },
       "style": "diamond",
-      "template": "<b>  OMP  {{ .Current }} 󰁔 {{ .Latest }} </b>",
+      "template": "<b>  {{ if eq .Current .Latest }}Up-to-date{{ else }}Update available{{ end }} • {{ .Current }} → {{ .Latest }} </b>",
       "timeout": 5000,
       "tips": [
         "oh-my-posh",
@@ -3501,7 +3685,7 @@
       "min_width": 80,
       "options": {
         "http_timeout": 1500,
-        "url": "https://wakatime.com/api/v1/users/current/summaries?start=today&end=today&api_key={{ .Env.WAKATIME_API_KEY }}"
+        "url": "https://wakatime.com/api/v1/users/current/summaries?range=last_7_days&api_key={{ .Env.WAKATIME_API_KEY }}"
       },
       "style": "diamond",
       "template": " <b> Wakatime {{ secondsRound .CumulativeTotal.Seconds }}</b> ",
@@ -3520,6 +3704,65 @@
       ],
       "trailing_diamond": "",
       "type": "wakatime"
+    },
+    {
+      "alias": "wakatime-tooltip-month",
+      "background": "p:wakatime_tooltip_bg",
+      "background_templates": [
+        "{{ $s := .CumulativeTotal.Seconds }}{{ if lt $s 36000 }}p:red_alert{{ else if lt $s 90000 }}p:orange_warning{{ else if lt $s 180000 }}p:yellow_bright{{ else if lt $s 288000 }}p:green_success{{ else }}p:blue_bright{{ end }}"
+      ],
+      "cache": {
+        "duration": "15m",
+        "strategy": "device"
+      },
+      "foreground": "p:wakatime_tooltip_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "http_timeout": 1500,
+        "url": "https://wakatime.com/api/v1/users/current/summaries?range=last_30_days&api_key={{ .Env.WAKATIME_API_KEY }}"
+      },
+      "style": "diamond",
+      "template": " <b> Wakatime {{ secondsRound .CumulativeTotal.Seconds }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "wakatime:month",
+        "waka:month",
+        "wakamonth"
+      ],
+      "trailing_diamond": "",
+      "type": "wakatime"
+    },
+    {
+      "alias": "wakatime-tooltip-month",
+      "background": "p:wakatime_tooltip_bg",
+      "background_templates": [
+        "{{ $s := .Body.data.total_seconds_including_other_language }}{{ if lt $s 180000 }}p:red_alert{{ else if lt $s 540000 }}p:orange_warning{{ else if lt $s 1080000 }}p:yellow_bright{{ else if lt $s 2160000 }}p:green_success{{ else }}p:blue_bright{{ end }}"
+      ],
+      "cache": {
+        "duration": "15m",
+        "strategy": "device"
+      },
+      "foreground": "p:wakatime_tooltip_fg",
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "method": "GET",
+        "url": "https://wakatime.com/api/v1/users/typpi/stats"
+      },
+      "style": "diamond",
+      "template": " Wakatime <b>{{ .Body.data.human_readable_total_including_other_language }}</b>",
+      "timeout": 1000,
+      "tips": [
+        "wakatime:all",
+        "waka:all",
+        "wakaall",
+        "wakatime:alltime",
+        "waka:alltime",
+        "wakaalltime"
+      ],
+      "trailing_diamond": "",
+      "type": "http"
     }
   ],
   "tooltips_action": "prepend",
@@ -3527,7 +3770,6 @@
     "background": "transparent",
     "filler": "<p:purple_session>󱀝</><p:accent>󱀝</><p:blue_primary>󱀝</><p:divider_blue_primary_to_tooling_purple>󱀝</><p:tooling_purple>󱀝</><p:divider_tooling_purple_to_typescript_eslint_pink>󱀝</><p:typescript_eslint_pink>󱀝</><p:divider_typescript_eslint_pink_to_orange>󱀝</><p:orange>󱀝</><p:divider_orange_to_green_added>󱀝</><p:green_added>󱀝</><p:divider_green_added_to_yellow_bright>󱀝</><p:yellow_bright>󱀝</><p:divider_yellow_bright_to_navy_text>󱀝</><p:nba_det_pistons_blue>󱀝</><p:accent>󱀝</><p:purple_exec>󱀝</>",
     "foreground": "p:blue_primary",
-    "newline": false,
     "foreground_templates": [
       "{{ if eq .Shell \"cmd\" }}p:shell_cmd_black{{ end }}",
       "{{ if or (eq .Shell \"powershell\") (eq .Shell \"pwsh\") }}p:shell_powershell_blue{{ end }}",
@@ -3541,11 +3783,12 @@
       "{{ if or (eq .Shell \"nu\") (eq .Shell \"nushell\") }}p:shell_nushell_purple{{ end }}",
       "{{ if eq .Shell \"xonsh\" }}p:shell_xonsh_yellow{{ end }}"
     ],
-    "template": "<p:accent>╠═<p:purple_session,transparent>{{ upper .Shell }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
+    "newline": false,
+    "template": "{{ if .Segments.executiontime-lprompt }}<p:purple_exec>󱑅 {{ .Segments.executiontime-lprompt.FormattedMs }}</> <p:accent>│</>{{ end }}<p:accent>╠═<p:purple_session,transparent>{{ upper .Shell }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
   },
   "upgrade": {
     "auto": true,
-    "interval": "1h",
+    "interval": "10m",
     "notice": true,
     "source": "cdn"
   },

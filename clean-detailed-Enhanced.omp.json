@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
-  "accent_color": "p:accent",
+  "accent_color": "#21c7c7",
   "async": true,
   "blocks": [
     {
