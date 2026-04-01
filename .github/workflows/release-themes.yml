@@ -56,7 +56,7 @@ jobs:
                   egress-policy: audit
 
             - name: Checkout repository
-              uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
               with:
                   fetch-depth: 0
 
@@ -78,7 +78,7 @@ jobs:
         runs-on: windows-latest
         steps:
             - name: Checkout repository
-              uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
               with:
                   fetch-depth: 0
 
@@ -156,7 +156,7 @@ jobs:
                   Get-ChildItem -Path $dist -File | Sort-Object Name | Select-Object -First 25 | Format-Table Name,Length
 
             - name: Upload release asset bundle
-              uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+              uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
               with:
                   name: release-assets
                   path: release-assets/
@@ -175,12 +175,12 @@ jobs:
                   egress-policy: audit
 
             - name: Checkout repository
-              uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
               with:
                   fetch-depth: 0
 
             - name: Download release asset bundle
-              uses: actions/download-artifact@v7
+              uses: actions/download-artifact@v8
               with:
                   name: release-assets
                   path: release-assets
@@ -204,7 +204,7 @@ jobs:
                   fi
 
             - name: Run git-cliff
-              uses: orhun/git-cliff-action@v4.7.0
+              uses: orhun/git-cliff-action@v4.7.1
               with:
                   config: cliff.toml
                   args: ${{ env.PREV_TAG != '' && format('{0}..HEAD', env.PREV_TAG) || '' }} --strip all
@@ -433,7 +433,7 @@ jobs:
                   REPO: ${{ github.repository }}
 
             - name: Create release with theme files
-              uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
+              uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
               with:
                   tag_name: ${{ needs.prepare-release.outputs.version }}
                   name: Oh My Posh Atomic Enhanced ${{ needs.prepare-release.outputs.version }}
