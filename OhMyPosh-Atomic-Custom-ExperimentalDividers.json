@@ -1015,7 +1015,7 @@
             "type": "prompt"
         }
     ],
-    "console_title_template": "{{ if .Segments.git-lprompt }}{{ if .Segments.git-lprompt.RepoName }}{{ .Segments.git-lprompt.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ trim .Segments.git-lprompt.HEAD }}{{ if .Segments.git-lprompt.BranchStatus }} {{ trim .Segments.git-lprompt.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} (root){{ end }} - {{ .Shell }}",
+    "console_title_template": "{{ if .Segments.git-lprompt }}{{ if .Segments.git-lprompt.UpstreamIcon }}{{ .Segments.git-lprompt.UpstreamIcon }} {{ else }} {{ end }}{{ if .Segments.git-lprompt.RepoName }}{{ .Segments.git-lprompt.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ trim .Segments.git-lprompt.HEAD }}{{ if .Segments.git-lprompt.BranchStatus }} {{ trim .Segments.git-lprompt.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} (root){{ end }} - {{ .Shell }}",
     "cycle": [],
     "debug_prompt": {
         "background": "transparent",
@@ -1292,7 +1292,6 @@
         "template": "╰─ "
     },
     "shell_integration": true,
-    "streaming": 200,
     "terminal_background": "p:black",
     "tooltips": [
         {
@@ -1491,7 +1490,13 @@
             "timeout": 1000,
             "tips": [
                 "react",
-                "npm run dev"
+                "reactjs",
+                "jsx",
+                "tsx",
+                "create-react-app",
+                "react-scripts",
+                "npm run react",
+                "npx react"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -1515,13 +1520,21 @@
             "timeout": 1000,
             "tips": [
                 "typescript",
-                "npm run type-check",
-                "tsx",
                 "tsc",
+                "tsx",
                 "ts-node",
-                "tslint",
                 "tsserver",
-                "tsconfig.json"
+                "tsconfig.json",
+                "tsdown",
+                "npm run type-check",
+                "npm run typecheck",
+                "npm run lint:ts",
+                "npm run lint:types",
+                "npm run typescript",
+                "npx tsc",
+                "npx tsx",
+                "npx ts-node",
+                "npx tsdown"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -1545,16 +1558,13 @@
             "timeout": 1000,
             "tips": [
                 "vite",
-                "npm run build",
-                "npm run dev",
                 "vite dev",
                 "vite build",
                 "vite preview",
+                "npm run dev",
+                "npm run build",
                 "npm run preview",
-                "npx vite",
-                "npx vite dev",
-                "npx vite build",
-                "npx vite preview"
+                "npx vite"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -1578,13 +1588,14 @@
             "timeout": 1000,
             "tips": [
                 "vitest",
+                "npm test",
                 "npm run test",
+                "npm run test:coverage",
+                "npm run vitest",
                 "npx vitest",
                 "npx vitest run",
                 "npx vitest watch",
-                "npx vitest --coverage",
-                "npm test",
-                "npm run test:coverage"
+                "npx vitest --coverage"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -1608,16 +1619,17 @@
             "timeout": 1000,
             "tips": [
                 "playwright",
+                "npm run playwright",
                 "npm run test:e2e",
+                "npm run test:playwright",
+                "npx playwright",
                 "npx playwright test",
                 "npx playwright test --headed",
                 "npx playwright test --project=chromium",
                 "npx playwright test --project=firefox",
                 "npx playwright test --project=webkit",
-                "npx playwright",
                 "npx playwright open",
-                "npm run playwright",
-                "npm run test:playwright"
+                "npx playwright show-report"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -1641,12 +1653,14 @@
             "timeout": 1000,
             "tips": [
                 "tailwindcss",
+                "tailwind",
                 "npm run lint:css",
-                "npx tailwindcss",
-                "npx tailwindcss build",
-                "npx tailwindcss watch",
+                "npm run tailwind",
+                "npm run build:tailwind",
+                "npm run watch:tailwind",
                 "npm run build:css",
-                "npm run watch:css"
+                "npm run watch:css",
+                "npx tailwindcss"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -1669,11 +1683,11 @@
             "template": " <b>🐻 Zustand: v{{ .Body.version }}</b> ",
             "timeout": 1000,
             "tips": [
-                "zustand",
-                "state management",
                 "npm install zustand",
+                "npm run zustand",
                 "npx zustand",
-                "npm run zustand"
+                "state management",
+                "zustand"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -1699,10 +1713,10 @@
                 "chart.js",
                 "data visualization",
                 "npm install chart.js",
-                "npx chart.js",
-                "npm run chart.js",
                 "npm run build:chart.js",
-                "npm run watch:chart.js"
+                "npm run chart.js",
+                "npm run watch:chart.js",
+                "npx chart.js"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -1725,17 +1739,17 @@
             "template": " <b>󱀤 Electron: v{{ .Body.version }}</b> ",
             "timeout": 1000,
             "tips": [
-                "electron",
-                "npm run start:electron",
-                "npm run build:electron",
-                "npm run watch:electron",
-                "npm run lint:electron",
-                "npm run test:electron",
                 "electron .",
+                "electron",
+                "npm run build:electron",
+                "npm run lint:electron",
+                "npm run start:electron",
+                "npm run test:electron",
+                "npm run watch:electron",
                 "npx electron .",
-                "npx electron",
                 "npx electron build",
-                "npx electron watch"
+                "npx electron watch",
+                "npx electron"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -1761,10 +1775,9 @@
                 "storybook",
                 "npm run storybook",
                 "npm run build:storybook",
-                "npm run watch:storybook",
                 "npm run lint:storybook",
                 "npm run test:storybook",
-                "npm run test:storybook",
+                "npm run watch:storybook",
                 "vitest storybook"
             ],
             "trailing_diamond": "",
@@ -1791,12 +1804,12 @@
                 "axios",
                 "http client",
                 "npm install axios",
-                "npx axios",
                 "npm run axios",
                 "npm run build:axios",
-                "npm run watch:axios",
                 "npm run lint:axios",
-                "npm run test:axios"
+                "npm run test:axios",
+                "npm run watch:axios",
+                "npx axios"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -1819,17 +1832,17 @@
             "template": " <b>🛡️ Zod: v{{ .Body.version }}</b> ",
             "timeout": 1000,
             "tips": [
-                "zod",
-                "schema validation",
                 "npm install zod",
-                "npx zod",
-                "npm run zod",
                 "npm run build:zod",
-                "npm run watch:zod",
                 "npm run lint:zod",
                 "npm run test:zod",
+                "npm run watch:zod",
+                "npm run zod",
+                "npx zod",
+                "schema validation",
+                "vitest watch zod",
                 "vitest zod",
-                "vitest watch zod"
+                "zod"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -1853,17 +1866,17 @@
             "timeout": 1000,
             "tips": [
                 "prettier",
-                "npm run lint:prettier-fix",
-                "prettynow",
-                "npm install prettier",
-                "npx prettier",
-                "npm run prettier",
-                "npm run lint:prettier",
                 "pretty",
                 "prettiernow",
-                "npm run pretty",
+                "prettynow",
                 "npm run format",
-                "npm run format:prettier"
+                "npm run format:prettier",
+                "npm run lint:prettier",
+                "npm run lint:prettier-fix",
+                "npm run lint:pretty",
+                "npm run prettier",
+                "npm run pretty",
+                "npx prettier"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -1887,12 +1900,10 @@
             "timeout": 1000,
             "tips": [
                 "typescript-eslint",
-                "npm run lint:ts",
+                "npm run lint:typescript-eslint",
                 "vitest typescript-eslint",
-                "vitest watch typescript-eslint",
                 "vitest run typescript-eslint",
-                "npm run lint",
-                "npm run lint:typescript-eslint"
+                "vitest watch typescript-eslint"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -1917,13 +1928,15 @@
             "tips": [
                 "eslint",
                 "npm run lint",
-                "vitest eslint",
-                "vitest watch eslint",
-                "vitest run eslint",
+                "npm run lint:all:fix",
                 "npm run lint:eslint",
-                "npx eslint",
+                "npm run lint:fix",
+                "npx eslint --fix",
                 "npx eslint .",
-                "npx eslint --fix"
+                "npx eslint",
+                "vitest eslint",
+                "vitest run eslint",
+                "vitest watch eslint"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -1946,9 +1959,11 @@
             "template": " <b>⎈ kubectl: {{ index .Body \"tag_name\" }}</b> ",
             "timeout": 1000,
             "tips": [
-                "kubectl version",
+                "k8s version",
+                "kube version",
                 "kubectl --version",
-                "kubectl version --client"
+                "kubectl version --client",
+                "kubectl version"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -1998,7 +2013,12 @@
             "template": " <b>⎈ Helm {{ .Version }}</b> ",
             "tips": [
                 "helm",
-                "helmfile"
+                "helmfile",
+                "helm install",
+                "helm list",
+                "helm status",
+                "helm uninstall",
+                "helm upgrade"
             ],
             "trailing_diamond": "",
             "type": "helm"
@@ -2021,7 +2041,13 @@
             "template": " <b>{{ .WorkspaceName }} 󱁢 Terraform: {{ if .Version }} {{ .Version }}{{ end }}</b> ",
             "tips": [
                 "terraform",
-                "terragrunt"
+                "terragrunt",
+                "tofu",
+                "opentofu",
+                "terraform apply",
+                "terraform destroy",
+                "terraform plan",
+                "terraform workspace"
             ],
             "trailing_diamond": "",
             "type": "terraform"
@@ -2047,11 +2073,16 @@
             "template": " <b> Rust: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
             "tips": [
                 "rust",
-                "cargo",
                 "rustc",
+                "rustlang",
+                "rustup",
+                "cargo",
                 "cargo build",
-                "cargo test",
-                "cargo run"
+                "cargo check",
+                "cargo clippy",
+                "cargo fmt",
+                "cargo run",
+                "cargo test"
             ],
             "trailing_diamond": "",
             "type": "rust"
@@ -2075,9 +2106,10 @@
             "tips": [
                 "pulumi",
                 "pulumictl",
-                "pulumi up",
+                "pulumi about",
                 "pulumi preview",
-                "pulumi stack"
+                "pulumi stack",
+                "pulumi up"
             ],
             "trailing_diamond": "",
             "type": "pulumi"
@@ -2105,9 +2137,11 @@
             "tips": [
                 "go",
                 "golang",
-                "go test",
+                "go build",
+                "go mod",
                 "go run",
-                "go build"
+                "go test",
+                "go work"
             ],
             "trailing_diamond": "",
             "type": "go"
@@ -2133,10 +2167,13 @@
             "template": " <b> Angular CLI: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
             "tips": [
                 "angular",
+                "angular cli",
                 "ng",
-                "ng serve",
                 "ng build",
-                "ng test"
+                "ng serve",
+                "ng test",
+                "ng generate",
+                "npx ng"
             ],
             "trailing_diamond": "",
             "type": "angular"
@@ -2163,10 +2200,13 @@
             "tips": [
                 "nx",
                 "npx nx",
+                "nx build",
+                "nx dep-graph",
+                "nx graph",
                 "nx run",
                 "nx serve",
-                "nx build",
-                "nx test"
+                "nx test",
+                "nx workspace"
             ],
             "trailing_diamond": "",
             "type": "nx"
@@ -2192,7 +2232,15 @@
             "template": " <b> Svelte: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
             "tips": [
                 "svelte",
-                "sveltekit"
+                "sveltekit",
+                "npm run svelte",
+                "npm run sveltekit",
+                "npm run dev:svelte",
+                "npm run dev:sveltekit",
+                "npm run build:svelte",
+                "npm run build:sveltekit",
+                "npx svelte",
+                "npx sveltekit"
             ],
             "trailing_diamond": "",
             "type": "svelte"
@@ -2215,29 +2263,14 @@
             "template": " <b>  IP: {{ .IP }}</b>",
             "timeout": 5000,
             "tips": [
-                "ipconfig",
-                "ip",
-                "ifconfig",
-                "ping",
-                "tracert",
-                "traceroute",
-                "curl",
-                "wget",
-                "network",
-                "internet",
-                "connection",
-                "dns",
-                "gateway",
-                "nslookup",
-                "dig",
-                "whois",
                 "ipify",
                 "what is my ip",
                 "what's my ip",
                 "my ip",
                 "public ip",
                 "external ip",
-                "check ip"
+                "check ip",
+                "ipv4"
             ],
             "trailing_diamond": "",
             "type": "ipify"
@@ -2260,29 +2293,14 @@
             "template": " <b>  IPv6: {{ .Body.ip }}</b>",
             "timeout": 1000,
             "tips": [
-                "ipconfig",
-                "ip",
-                "ifconfig",
-                "ping",
-                "tracert",
-                "traceroute",
-                "curl",
-                "wget",
-                "network",
-                "internet",
-                "connection",
-                "dns",
-                "gateway",
-                "nslookup",
-                "dig",
-                "whois",
-                "ipify",
-                "what is my ip",
-                "what's my ip",
-                "my ip",
-                "public ip",
-                "external ip",
-                "check ip"
+                "ipify6",
+                "ipv6",
+                "what is my ipv6",
+                "what's my ipv6",
+                "my ipv6",
+                "public ipv6",
+                "external ipv6",
+                "check ipv6"
             ],
             "trailing_diamond": "",
             "type": "http"
@@ -2317,15 +2335,11 @@
             "template": "  React {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
             "timeout": 1000,
             "tips": [
-                "react",
-                "tsx",
-                "jsx",
-                "npm run dev",
                 "react-local",
                 "react folder",
                 "vitest react",
-                "vitest watch react",
-                "vitest run react"
+                "vitest run react",
+                "vitest watch react"
             ],
             "type": "react"
         },
@@ -2346,12 +2360,7 @@
             "tips": [
                 "gitversion",
                 "gitv",
-                "git v",
-                "git version",
-                "git --version",
-                "git show",
-                "git log",
-                "git"
+                "git v"
             ],
             "trailing_diamond": "",
             "type": "gitversion"
@@ -2400,12 +2409,15 @@
                 }
             },
             "style": "diamond",
-            "template": "  {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }} | {{ .UpstreamIcon }} ↑{{ .Ahead }} ↓{{ .Behind }}{{ if .Staging.Changed }} |  {{ .Staging.String }}{{ end }}{{ if .Working.Changed }} |  {{ .Working.String }}{{ else }} |  clean{{ end }} ",
+            "template": "{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }} | {{ .UpstreamIcon }} ↑{{ .Ahead }} ↓{{ .Behind }}{{ if .Staging.Changed }} |  {{ .Staging.String }}{{ end }}{{ if .Working.Changed }} |  {{ .Working.String }}{{ else }} |  Clean{{ end }} ",
             "timeout": 1000,
             "tips": [
                 "git",
                 "g",
-                "git --version",
+                "gh",
+                "gh pr",
+                "gh repo",
+                "gh issue",
                 "git show",
                 "git log",
                 "git status",
@@ -2447,9 +2459,11 @@
             "tips": [
                 "npm",
                 "npm i",
+                "npm install",
+                "npm ci",
                 "npm run",
-                "npx",
-                "npm --version"
+                "npm exec",
+                "npx"
             ],
             "trailing_diamond": "",
             "type": "npm"
@@ -2486,11 +2500,12 @@
                 "python3",
                 "py",
                 "pip",
+                "pipx",
+                "uv",
                 "conda",
                 "poetry",
                 "pipenv",
-                "python --version",
-                "python3 --version"
+                "venv"
             ],
             "trailing_diamond": "",
             "type": "python"
@@ -2518,13 +2533,10 @@
             "timeout": 1000,
             "tips": [
                 "node",
-                "npm",
-                "yarn",
-                "pnpm",
-                "nx",
-                "bun",
-                "npx",
-                "node --version"
+                "corepack",
+                "fnm",
+                "nvm",
+                "volta"
             ],
             "trailing_diamond": "",
             "type": "node"
@@ -2552,10 +2564,12 @@
             "tips": [
                 "java",
                 "javac",
+                "jshell",
                 "mvn",
+                "mvnw",
                 "gradle",
-                "ant",
-                "java --version"
+                "gradlew",
+                "ant"
             ],
             "trailing_diamond": "",
             "type": "java"
@@ -2680,15 +2694,21 @@
             "tips": [
                 "cd",
                 "z",
+                "zi",
                 "zo",
                 "zoxide",
                 "ls",
                 "dir",
                 "pwd",
+                "pushd",
+                "popd",
+                "tree",
                 "find",
+                "fd",
                 "locate",
                 "which",
-                "where"
+                "where",
+                "rg"
             ],
             "trailing_diamond": "",
             "type": "path"
@@ -2715,16 +2735,19 @@
             "tips": [
                 "htop",
                 "top",
+                "btop",
+                "glances",
                 "ps",
                 "df",
+                "du",
                 "free",
                 "iostat",
                 "cpu",
                 "memory",
                 "disk",
                 "vmstat",
-                "free",
-                "uptime"
+                "uptime",
+                "Get-Process"
             ],
             "trailing_diamond": "",
             "type": "sysinfo"
@@ -2748,10 +2771,14 @@
             "tips": [
                 "uname",
                 "ver",
+                "winver",
                 "systeminfo",
-                "lsb_release",
                 "hostname",
-                "cat /etc/os-release"
+                "lsb_release",
+                "fastfetch",
+                "neofetch",
+                "cat /etc/os-release",
+                "Get-ComputerInfo"
             ],
             "trailing_diamond": "",
             "type": "os"
@@ -2780,9 +2807,7 @@
                 "time",
                 "cal",
                 "timedatectl",
-                "date +%T",
-                "date +%F %T",
-                "date +%Y-%m-%d %H:%M:%S"
+                "Get-Date"
             ],
             "trailing_diamond": "",
             "type": "time"
@@ -2877,8 +2902,7 @@
                 "xonsh",
                 "elvish",
                 "nu",
-                "nushell",
-                "elvish"
+                "nushell"
             ],
             "trailing_diamond": "",
             "type": "shell"
@@ -2936,8 +2960,6 @@
                 "cputime",
                 "elapsed",
                 "benchmark",
-                "time",
-                "date",
                 "howlong",
                 "stopwatch"
             ],
@@ -2967,11 +2989,13 @@
             "template": " <b>{{ if eq .Code 0 }} Success{{ else if eq .Code 127 }}CMD NOT FOUND{{ else if eq .Code 130 }}CANCELLED{{ else }} Error: {{ .Code }}{{ end }}</b> ",
             "timeout": 1000,
             "tips": [
+                "$?",
                 "$LASTEXITCODE",
+                "%ERRORLEVEL%",
                 "echo $?",
                 "echo %ERRORLEVEL%",
-                "echo $?",
-                "echo $LASTEXITCODE"
+                "echo $LASTEXITCODE",
+                "Get-Error"
             ],
             "trailing_diamond": "",
             "type": "status"
@@ -3024,12 +3048,7 @@
             "tips": [
                 "whoami",
                 "id",
-                "ssh",
-                "su",
-                "sudo",
-                "admin",
-                "root",
-                "administrator"
+                "ssh"
             ],
             "trailing_diamond": "",
             "type": "session"
@@ -3167,6 +3186,10 @@
             "timeout": 10000,
             "tips": [
                 "winget",
+                "winget status",
+                "winget upgrade",
+                "winget list",
+                "winget search",
                 "wgu",
                 "wgua",
                 "windows package manager"
@@ -3222,13 +3245,7 @@
                 "echo",
                 "printf",
                 "script",
-                "shell",
-                "bash",
-                "zsh",
-                "fish",
-                "powershell",
-                "pwsh",
-                "cmd"
+                "shell"
             ],
             "trailing_diamond": "",
             "type": "text"
@@ -3244,7 +3261,7 @@
             "leading_diamond": "",
             "min_width": 80,
             "style": "diamond",
-            "template": "  {{ .Shell }} ",
+            "template": " <b> {{ .Shell }}</b>",
             "timeout": 1000,
             "tips": [
                 "help",
@@ -3440,12 +3457,13 @@
                 "docker",
                 "docker compose",
                 "docker-compose",
-                "compose",
                 "docker build",
                 "docker run",
                 "docker ps",
                 "docker context",
-                "Dockerfile"
+                "docker logs",
+                "Dockerfile",
+                "podman"
             ],
             "trailing_diamond": "",
             "type": "docker"
@@ -3482,7 +3500,10 @@
                 "src-tauri",
                 "tauri.conf.json",
                 "tauri dev",
-                "tauri build"
+                "tauri build",
+                "npm run tauri",
+                "pnpm tauri",
+                "yarn tauri"
             ],
             "trailing_diamond": "",
             "type": "tauri"
@@ -3518,6 +3539,7 @@
                 "yarn dev",
                 "yarn build",
                 "yarn test",
+                "yarn dlx",
                 "yarn.lock"
             ],
             "trailing_diamond": "",
@@ -3554,6 +3576,7 @@
                 "pnpm dev",
                 "pnpm build",
                 "pnpm test",
+                "pnpm dlx",
                 "pnpm-lock.yaml"
             ],
             "trailing_diamond": "",
@@ -3589,6 +3612,7 @@
                 "bun dev",
                 "bun build",
                 "bun test",
+                "bunx",
                 "bun.lockb",
                 "bun.lock"
             ],
@@ -3610,12 +3634,12 @@
             "timeout": 1000,
             "tips": [
                 "argocd",
-                "argocd run",
-                "argocd dev",
-                "argocd build",
-                "argocd test",
-                "argocd.lockb",
-                "argocd.lock"
+                "argocd login",
+                "argocd app",
+                "argocd app list",
+                "argocd app sync",
+                "argocd app get",
+                "argocd cluster"
             ],
             "trailing_diamond": "",
             "type": "argocd"
@@ -3639,7 +3663,7 @@
                 "missing_command_text": ""
             },
             "style": "diamond",
-            "template": " <b> {{ .Full }}</b> ",
+            "template": " <b>󰪮 .NET {{ if .Error }}{{ .Error }}{{ else }}v{{ .Full }}{{ end }} </b> ",
             "timeout": 1000,
             "tips": [
                 "dotnet",
@@ -3648,7 +3672,10 @@
                 "dotnet test",
                 "dotnet publish",
                 "dotnet restore",
-                "dotnet new"
+                "dotnet new",
+                "dotnet tool",
+                "msbuild",
+                "nuget"
             ],
             "trailing_diamond": "",
             "type": "dotnet"
@@ -3671,7 +3698,7 @@
                 "url": "https://wakatime.com/api/v1/users/current/summaries?range=last_7_days&api_key={{ .Env.WAKATIME_API_KEY }}"
             },
             "style": "diamond",
-            "template": " <b> Wakatime {{ secondsRound .CumulativeTotal.Seconds }}</b> ",
+            "template": " <b> Wakatime  Last 7 Days: {{ secondsRound .CumulativeTotal.Seconds }}</b> ",
             "timeout": 1000,
             "tips": [
                 "wakatime",
@@ -3706,7 +3733,7 @@
                 "url": "https://wakatime.com/api/v1/users/current/summaries?range=last_30_days&api_key={{ .Env.WAKATIME_API_KEY }}"
             },
             "style": "diamond",
-            "template": " <b> Wakatime {{ secondsRound .CumulativeTotal.Seconds }}</b> ",
+            "template": " <b> Wakatime  Last 30 Days: {{ secondsRound .CumulativeTotal.Seconds }}</b> ",
             "timeout": 1000,
             "tips": [
                 "wakatime:month",
@@ -3734,7 +3761,7 @@
                 "url": "https://wakatime.com/api/v1/users/typpi/stats"
             },
             "style": "diamond",
-            "template": " Wakatime <b>{{ .Body.data.human_readable_total_including_other_language }}</b>",
+            "template": " Wakatime  Total Time: <b>{{ .Body.data.human_readable_total_including_other_language }}</b>",
             "timeout": 1000,
             "tips": [
                 "wakatime:all",

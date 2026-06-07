@@ -5,9 +5,11 @@
   "blocks": [
     {
       "alignment": "left",
+      "filler": "{{ if .Overflow }}<p:purple_exec>󰗉</>{{ end }}",
       "force": false,
       "leading_diamond": "",
       "newline": false,
+      "overflow": "break",
       "segments": [
         {
           "alias": "shell-lprompt",
@@ -48,6 +50,7 @@
               "xonsh": "XSH"
             }
           },
+          "placeholder": "",
           "style": "diamond",
           "template": "<b> {{ upper .Name }} {{ if or (eq .Name \"nu\") (eq .Name \"NU\") (eq .Name \"nushell\") (eq .Shell \"nu\") (eq .Shell \"nushell\") (eq .Name \"xonsh\") (eq .Name \"XSH\") (eq .Shell \"xonsh\") (eq .Name \"elv\") (eq .Name \"ELV\") (eq .Shell \"elv\") (eq .Name \"zsh\") (eq .Name \"ZSH\") (eq .Name \"zshell\") (eq .Shell \"zsh\") (eq .Shell \"zshell\") }}{{ substr 0 5 (.Version | replace \"0.\" \"\") }}{{ else }}{{ substr 0 5 .Version }}{{ end }} </b>",
           "templates_logic": "first_match",
@@ -57,6 +60,7 @@
           "alias": "divider-root-lprompt-in",
           "background": "p:divider_blue_primary_to_red_alert",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "{{ if .Root }}<parentBackground></>{{ end }}",
           "type": "text"
@@ -65,6 +69,7 @@
           "alias": "divider-root-lprompt-in-2",
           "background": "p:divider_root_in_2",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "{{ if .Root }}<parentBackground></>{{ end }}",
           "type": "text"
@@ -78,6 +83,7 @@
           },
           "foreground": "p:black",
           "min_width": 0,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></><b>  </b>",
           "type": "root"
@@ -86,6 +92,7 @@
           "alias": "divider-01",
           "background": "p:divider_blue_primary_to_tooling_purple",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -94,6 +101,7 @@
           "alias": "divider-02",
           "background": "p:divider_blue_primary_to_red_alert",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -102,6 +110,7 @@
           "alias": "divider-03",
           "background": "p:divider_tooling_purple_to_typescript_eslint_pink",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -110,6 +119,7 @@
           "alias": "divider-04",
           "background": "p:divider_typescript_eslint_pink_to_orange",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -128,12 +138,16 @@
           "min_width": 80,
           "options": {
             "cycle_folder_separator": true,
+            "dir_length": 1,
             "display_cygpath": false,
+            "display_root": true,
             "edge_format": "<b>%s</b>",
             "folder_format": "<b>%s</b>",
             "folder_icon": "  ",
             "folder_separator_icon": "/",
+            "full_length_dirs": 1,
             "gitdir_format": "<d>%s</d>",
+            "hide_root_location": false,
             "home_icon": "",
             "mapped_locations": {
               "C:\\": "C:",
@@ -169,6 +183,7 @@
               "re:.*(dnsValidator).*": "🌐 DNS",
               "re:.*(eslint-config-Typescript-Extreme).*": "⚡ TSExtm",
               "re:.*(eslint-plugin-chunkyLint).*": "📏 ChunkyL",
+              "re:.*(eslint-plugin-typefest).*": "📐 Typefest",
               "re:.*(generate-repo-file-list).*": "🗂️ GenList",
               "re:.*(git-backup).*": "💾 GitBkup",
               "re:.*(github-drama).*": "🎭 Drama",
@@ -199,8 +214,10 @@
             "max_depth": 1,
             "max_width": 40,
             "mixed_threshold": 4,
-            "style": "folder"
+            "style": "folder",
+            "windows_registry_icon": ""
           },
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></> {{ if not .Writable }}🔒 {{ end }} {{ path .Path .Location }} ",
           "trailing_diamond": "",
@@ -210,6 +227,7 @@
           "alias": "divider-05",
           "background": "p:divider_orange_to_green_added",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -218,6 +236,7 @@
           "alias": "divider-06",
           "background": "p:divider_green_added",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -226,6 +245,7 @@
           "alias": "divider-07",
           "background": "p:divider_green_added_to_yellow_bright",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -288,6 +308,7 @@
               "*": "normal"
             }
           },
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></> {{ if and (gt .Ahead 0) (gt .Behind 0) }}  {{ else if gt .Ahead 0 }}{{ .UpstreamIcon }}  {{ else if gt .Behind 0 }}{{ .UpstreamIcon }}  {{ else }}{{ .UpstreamIcon }}  {{ end }}<b>{{ .HEAD }}{{ if .BranchStatus }} <d>{{ .BranchStatus }}</d>{{ end }}</b> ",
           "templates_logic": "first_match",
@@ -298,6 +319,7 @@
           "alias": "divider-08",
           "background": "p:divider_navy_text",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -306,6 +328,7 @@
           "alias": "divider-09",
           "background": "p:divider_yellow_bright_to_navy_text",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -314,6 +337,7 @@
           "alias": "divider-10",
           "background": "p:divider_npm_dark",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -322,6 +346,7 @@
           "alias": "divider-11",
           "background": "p:divider_navy_text_to_purple_exec",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -350,6 +375,7 @@
             "style": "roundrock",
             "threshold": 0
           },
+          "placeholder": "󱑅",
           "style": "diamond",
           "template": "<parentBackground></><b> 󱑅 {{ .FormattedMs }}⠀</b>",
           "trailing_diamond": "",
@@ -359,6 +385,7 @@
           "alias": "divider-12",
           "background": "p:divider_purple_exec",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -367,6 +394,7 @@
           "alias": "divider-13",
           "background": "p:purple_ahead",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -375,6 +403,7 @@
           "alias": "divider-14",
           "background": "p:divider_violet_project",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -383,6 +412,7 @@
           "alias": "divider-14a",
           "background": "p:purple_session",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -391,6 +421,7 @@
           "alias": "divider-14b",
           "background": "p:purple_behind",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -399,6 +430,7 @@
           "alias": "divider-15",
           "background": "transparent",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></>",
           "type": "text"
@@ -417,6 +449,7 @@
             "status_separator": "|",
             "status_template": "|"
           },
+          "placeholder": "",
           "style": "diamond",
           "template": "<parentBackground></><b> {{ if eq .Code 127 }}CMD NOT FOUND{{ else if eq .Code 130 }}CANCELLED{{ else }}{{ end }} </b>",
           "templates_logic": "first_match",
@@ -425,8 +458,6 @@
         }
       ],
       "trailing_diamond": "",
-      "overflow": "break",
-      "filler": "{{ if .Overflow }}<p:purple_exec>󰗉</>{{ end }}",
       "type": "prompt"
     },
     {
@@ -441,6 +472,7 @@
           "alias": "divider-16",
           "background": "transparent",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_green_ahead></>",
           "type": "text"
@@ -449,6 +481,7 @@
           "alias": "divider-17",
           "background": "p:divider_green_ahead",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_green_valid_line></>",
           "type": "text"
@@ -457,6 +490,7 @@
           "alias": "divider-18",
           "background": "p:divider_green_valid_line",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_accent></>",
           "type": "text"
@@ -465,6 +499,7 @@
           "alias": "divider-19",
           "background": "p:divider_accent",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_chart_teal></>",
           "type": "text"
@@ -473,6 +508,7 @@
           "alias": "divider-20",
           "background": "p:divider_chart_teal",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_teal_sysinfo></>",
           "type": "text"
@@ -481,15 +517,16 @@
           "alias": "divider-21",
           "background": "p:divider_teal_sysinfo",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_teal_sysinfo></>",
           "type": "text"
         },
         {
           "alias": "sysinfo-rprompt",
-          "background": "p:teal_sysinfo",
+          "background": "p:sysinfo_bg_ok",
           "background_templates": [
-            "{{ if or (gt .PhysicalPercentUsed 92) (gt .Disks 92) }}p:mem_critical{{ else if gt .Load1 80 }}p:red_alert{{ else if gt .Load1 60 }}p:orange{{ else if gt .Load1 40 }}p:yellow_bright{{ else }}p:teal_sysinfo{{ end }}"
+            "{{ if or (ge .PhysicalPercentUsed 90) (ge .Disks 90) (ge .Load1 90) }}p:sysinfo_bg_crit{{ else if or (ge .PhysicalPercentUsed 80) (ge .Disks 80) (ge .Load1 80) }}p:sysinfo_bg_warn{{ else }}p:sysinfo_bg_ok{{ end }}"
           ],
           "cache": {
             "duration": "3m",
@@ -502,8 +539,9 @@
           "options": {
             "precision": 1
           },
+          "placeholder": "󰒋",
           "style": "diamond",
-          "template": "<b> {{ if gt .Load1 80 }}{{ else if lt .Load1 50 }}{{ else }}󰇅{{ end }} {{ round .Load1 .Precision  }}%  {{ round .PhysicalPercentUsed .Precision  }}%  {{ round .Disks .Precision  }}% </b>",
+          "template": "<b> {{ if gt .Load1 80 }}{{ else if lt .Load1 50 }}{{ else }}󰇅{{ end }} {{ $load := round .Load1 .Precision }}{{ $mem := round .PhysicalPercentUsed .Precision }}{{ $disk := round .Disks .Precision }}{{ if lt $load 80 }}{{$load}}%{{ else if lt $load 90 }}<p:sysinfo_warn>{{$load}}%</>{{ else }}<p:sysinfo_crit>{{$load}}%</>{{ end }}  {{ if lt $mem 80 }}{{$mem}}%{{ else if lt $mem 90 }}<p:sysinfo_warn>{{$mem}}%</>{{ else }}<p:sysinfo_crit>{{$mem}}%</>{{ end }}  {{ if lt $disk 80 }}{{$disk}}%{{ else if lt $disk 90 }}<p:sysinfo_warn>{{$disk}}%</>{{ else }}<p:sysinfo_crit>{{$disk}}%</>{{ end }} </b>",
           "templates_logic": "first_match",
           "trailing_diamond": "",
           "type": "sysinfo"
@@ -511,6 +549,7 @@
         {
           "alias": "divider-22",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_tailwind_cyan,p:divider_teal_sysinfo></>",
           "type": "text"
@@ -519,6 +558,7 @@
           "alias": "divider-23",
           "background": "p:divider_purple_exec",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_purple_exec,p:divider_tailwind_cyan></>",
           "type": "text"
@@ -545,6 +585,7 @@
             "ubuntu": "",
             "windows": ""
           },
+          "placeholder": "",
           "powerline_symbol": "",
           "style": "diamond",
           "template": "<b> {{ if .WSL }}WSL at {{ end }}{{ .Icon }} </b>",
@@ -554,6 +595,7 @@
         {
           "alias": "divider-24",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_blue_tooltip,p:divider_gray_os></>",
           "type": "text"
@@ -562,6 +604,7 @@
           "alias": "divider-25",
           "background": "p:divider_gray_prompt_count_bg",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_gray_prompt_count_bg,p:divider_blue_tooltip></>",
           "type": "text"
@@ -573,9 +616,9 @@
             "duration": "1m",
             "strategy": "device"
           },
-          "foreground": "p:black",
+          "foreground": "p:time_fg_day",
           "foreground_templates": [
-            "{{ if gt .Code 0 }}p:white{{ else if lt .CurrentDate.Hour 6 }}p:white{{ else if lt .CurrentDate.Hour 12 }}p:black{{ else if lt .CurrentDate.Hour 18 }}p:black{{ else }}p:black{{ end }}"
+            "{{ if gt .Code 0 }}p:time_fg_night{{ else if or (lt .CurrentDate.Hour 7) (ge .CurrentDate.Hour 19) }}p:time_fg_night{{ else }}p:time_fg_day{{ end }}"
           ],
           "invert_powerline": false,
           "leading_diamond": "",
@@ -583,6 +626,7 @@
           "options": {
             "time_format": "3:04 PM"
           },
+          "placeholder": "",
           "powerline_symbol": "",
           "style": "diamond",
           "template": "<b> {{ if and (ge .CurrentDate.Hour 12) (lt .CurrentDate.Hour 13) }} {{ end }}{{ if and (ge .CurrentDate.Hour 1) (lt .CurrentDate.Hour 4) }} {{ end }} {{ .CurrentDate | date .Format }} </b>",
@@ -592,6 +636,7 @@
         {
           "alias": "divider-battery-in",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "{{ if .Segments.battery-rprompt }}{{ if eq \"Charging\" .Segments.battery-rprompt.State.String }}<p:green_charging,p:divider_blue_time></>{{ else if eq \"Discharging\" .Segments.battery-rprompt.State.String }}<p:yellow_discharging,p:divider_blue_time></>{{ else if eq \"Full\" .Segments.battery-rprompt.State.String }}<p:green_full,p:divider_blue_time></>{{ else }}<p:orange_battery,p:divider_blue_time></>{{ end }}{{ end }}",
           "type": "text"
@@ -609,6 +654,9 @@
             "strategy": "device"
           },
           "foreground": "p:black",
+          "foreground_templates": [
+            "{{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }}p:battery_crit_fg{{ else }}p:black{{ end }}"
+          ],
           "invert_powerline": false,
           "leading_diamond": "",
           "min_width": 100,
@@ -619,6 +667,7 @@
             "display_error": true,
             "not_charging_icon": "󰂂"
           },
+          "placeholder": "󰁹",
           "powerline_symbol": "",
           "style": "diamond",
           "template": " {{ if and (lt .Percentage 20) (eq .State.String \"Discharging\") }} {{ end }}{{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }} ",
@@ -629,6 +678,7 @@
         {
           "alias": "divider-26",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "{{ if .Segments.battery-rprompt }}{{ if eq \"Charging\" .Segments.battery-rprompt.State.String }}<p:divider_purple_ahead,p:green_charging></>{{ else if eq \"Discharging\" .Segments.battery-rprompt.State.String }}<p:divider_purple_ahead,p:yellow_discharging></>{{ else if eq \"Full\" .Segments.battery-rprompt.State.String }}<p:divider_purple_ahead,p:green_full></>{{ else }}<p:divider_purple_ahead,p:orange_battery></>{{ end }}{{ else }}<p:divider_purple_ahead,p:divider_blue_time></>{{ end }}",
           "type": "text"
@@ -637,6 +687,7 @@
           "alias": "divider-27",
           "background": "p:divider_violet_project",
           "min_width": 130,
+          "placeholder": "",
           "style": "diamond",
           "template": "<p:divider_violet_project,p:divider_purple_ahead></>",
           "type": "text"
@@ -671,6 +722,7 @@
             "missing_command_text": "",
             "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
           },
+          "placeholder": " XX.XX.X",
           "style": "diamond",
           "template": " <b> {{ .Full }}</b> ",
           "trailing_diamond": "",
@@ -693,7 +745,6 @@
           "leading_diamond": "",
           "min_width": 80,
           "options": {
-            "pnpm_icon": "",
             "bun_icon": "",
             "display_mode": "context",
             "fetch_package_manager": true,
@@ -701,9 +752,11 @@
             "home_enabled": false,
             "missing_command_text": "",
             "npm_icon": "",
+            "pnpm_icon": "",
             "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest",
             "yarn_icon": ""
           },
+          "placeholder": " XX.XX.X",
           "style": "diamond",
           "template": " <b> {{ .Full }}</b> ",
           "trailing_diamond": "",
@@ -732,33 +785,11 @@
             "missing_command_text": "",
             "version_url_template": "https://api.adoptium.net/v3/info/release_names?version={{ .Major }}&os={{ .OS }}&arch={{ .Arch }}&image_type=jdk&jvm_impl=hotspot&vendor=eclipse"
           },
+          "placeholder": "",
           "style": "diamond",
           "template": "  {{ .Full }}",
           "trailing_diamond": "",
           "type": "java"
-        },
-        {
-          "alias": "winget-rprompt",
-          "background": "p:winget_primary",
-          "background_templates": [
-            "{{ if eq .UpdateCount 0 }}p:winget_success{{ end }}",
-            "{{ if and (gt .UpdateCount 0) (lt .UpdateCount 10) }}p:winget_warning{{ end }}",
-            "{{ if ge .UpdateCount 10 }}p:winget_error{{ end }}"
-          ],
-          "cache": {
-            "duration": "1h",
-            "strategy": "device"
-          },
-          "foreground": "p:gray_os_fg",
-          "invert_powerline": false,
-          "leading_diamond": "",
-          "min_width": 80,
-          "style": "diamond",
-          "template": "<b>  Winget  {{ .UpdateCount }} </b>",
-          "templates_logic": "first_match",
-          "timeout": 1000,
-          "trailing_diamond": "",
-          "type": "winget"
         },
         {
           "alias": "upgrade-rprompt",
@@ -780,6 +811,7 @@
           "options": {
             "cache_duration": "10m"
           },
+          "placeholder": "",
           "style": "diamond",
           "template": "<b>  OMP  {{ .Current }} 󰁔 {{ .Latest }} </b>",
           "timeout": 1000,
@@ -797,6 +829,7 @@
           "invert_powerline": false,
           "leading_diamond": "",
           "min_width": 80,
+          "placeholder": "",
           "style": "diamond",
           "template": "<b></b>",
           "trailing_diamond": "",
@@ -806,7 +839,7 @@
           "alias": "copilot",
           "background": "p:copilot_bg",
           "background_templates": [
-            "{{ if .Premium.Unlimited }}p:copilot_bg{{ else if ge .Premium.Percent 90 }}p:maroon_error{{ else if ge .Premium.Percent 75 }}p:red_alert{{ else if ge .Premium.Percent 50 }}p:orange{{ else }}p:green_success{{ end }}"
+            "{{ if .Premium.Unlimited }}p:copilot_bg{{ else if ge .Premium.Percent 90 }}p:maroon_error{{ else if ge .Premium.Percent 85 }}p:red_alert{{ else if ge .Premium.Percent 50 }}p:orange_warning{{ else }}p:green_success{{ end }}"
           ],
           "cache": {
             "duration": "30m",
@@ -822,6 +855,7 @@
           "options": {
             "http_timeout": 1000
           },
+          "placeholder": "󰦈 ▰▰▰▱▱ 󱋊 ??%",
           "style": "diamond",
           "template": "{{ if .Segments.git-lprompt }}<b> 󰦈 {{ .Premium.Remaining.Gauge }} 󱋊 {{ .Premium.Percent }}% </b>{{ end }}",
           "timeout": 1000,
@@ -832,7 +866,7 @@
           "alias": "promptcount-rprompt",
           "background": "p:gray_prompt_count_bg",
           "background_templates": [
-            "{{ if gt .PromptCount 500 }}p:maroon_error{{ else if gt .PromptCount 200 }}p:red_alert{{ else if gt .PromptCount 100 }}p:orange{{ else if gt .PromptCount 50 }}p:tooling_yellow{{ else }}p:gray_prompt_count_bg{{ end }}"
+            "{{ if gt .PromptCount 500 }}p:maroon_error{{ else if gt .PromptCount 200 }}p:red_alert{{ else if gt .PromptCount 100 }}p:orange_warning{{ else if gt .PromptCount 50 }}p:tooling_yellow{{ else }}p:gray_prompt_count_bg{{ end }}"
           ],
           "foreground": "p:gray_prompt_count_fg",
           "foreground_templates": [
@@ -844,6 +878,7 @@
           "options": {
             "always_enabled": true
           },
+          "placeholder": "󰘳",
           "style": "diamond",
           "template": "<b> 󰘳 {{ .PromptCount }} </b>",
           "trailing_diamond": "",
@@ -862,6 +897,10 @@
       "segments": [
         {
           "alias": "shell-lprompt-end",
+          "cache": {
+            "duration": "24h",
+            "strategy": "session"
+          },
           "foreground": "p:blue_primary",
           "foreground_templates": [
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cmd\") }}p:shell_cmd_black{{ end }}",
@@ -877,12 +916,9 @@
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
           ],
           "min_width": 0,
+          "placeholder": "╰─",
           "style": "plain",
           "template": "╰─",
-          "cache": {
-            "duration": "24h",
-            "strategy": "session"
-          },
           "templates_logic": "first_match",
           "type": "text"
         },
@@ -908,6 +944,7 @@
             "{{ if and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\") }}p:shell_xonsh_yellow{{ end }}"
           ],
           "min_width": 0,
+          "placeholder": "",
           "style": "diamond",
           "template": "{{ if .SSHSession }} {{ end }}{{ if .Root }}─<parentForeground,transparent>{{ if eq .OS \"windows\" }}{{ else }}{{ end }}</>─{{ .UserName }}─{{ end }}",
           "templates_logic": "first_match",
@@ -939,6 +976,7 @@
             "always_enabled": true,
             "status_separator": "|"
           },
+          "placeholder": "",
           "style": "plain",
           "template": "",
           "templates_logic": "first_match",
@@ -949,7 +987,7 @@
       "type": "prompt"
     }
   ],
-  "console_title_template": "{{ if .Segments.git-lprompt }}{{ if .Segments.git-lprompt.RepoName }}{{ .Segments.git-lprompt.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ trim .Segments.git-lprompt.HEAD }}{{ if .Segments.git-lprompt.BranchStatus }} {{ trim .Segments.git-lprompt.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} (root){{ end }} - {{ .Shell }}",
+  "console_title_template": "{{ if .Segments.git-lprompt }}{{ if .Segments.git-lprompt.UpstreamIcon }}{{ .Segments.git-lprompt.UpstreamIcon }} {{ else }} {{ end }}{{ if .Segments.git-lprompt.RepoName }}{{ .Segments.git-lprompt.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ trim .Segments.git-lprompt.HEAD }}{{ if .Segments.git-lprompt.BranchStatus }} {{ trim .Segments.git-lprompt.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} (root){{ end }} - {{ .Shell }}",
   "cycle": [],
   "debug_prompt": {
     "background": "transparent",
@@ -1011,7 +1049,9 @@
     "aws_tooltip_fg": "#000000",
     "az_tooltip_bg": "#0078D4",
     "az_tooltip_fg": "#ffffff",
+    "battery_crit_fg": "#fff5f5",
     "black": "#000000",
+    "blue_bright": "#3bb2ff",
     "blue_primary": "#0077c2",
     "blue_time": "#40c4ff",
     "blue_tooltip": "#81a1c1",
@@ -1137,6 +1177,7 @@
     "orange": "#FF9248",
     "orange_battery": "#f36943",
     "orange_unmerged": "#ff8000",
+    "orange_warning": "#ffb347",
     "pink_error_line": "#eb6f92",
     "pink_status_fail": "#e91e63",
     "pink_storybook": "#ff4785",
@@ -1172,10 +1213,17 @@
     "strava_activity_orange": "#fc4c02",
     "strava_activity_red": "#dc3545",
     "strava_orange": "#fc4c02",
+    "sysinfo_bg_crit": "#d9534f",
+    "sysinfo_bg_ok": "#437683",
+    "sysinfo_bg_warn": "#c68a3d",
+    "sysinfo_crit": "#ff5252",
+    "sysinfo_warn": "#f6c344",
     "tailwind_cyan": "#06b6d4",
     "tauri_tooltip_bg": "#1976D2",
     "tauri_tooltip_fg": "#ffffff",
     "teal_sysinfo": "#437683",
+    "time_fg_day": "#111827",
+    "time_fg_night": "#f8fafc",
     "tooling_purple": "#c386f1",
     "tooling_yellow": "#f7b93e",
     "typescript_blue": "#3178c6",
@@ -1183,7 +1231,7 @@
     "ver_alpha": "#ffee58",
     "ver_beta": "#ffa726",
     "ver_deprecated": "#9e9e9e",
-    "ver_rc": "#26c6da",
+    "ver_rc": "#8fe3ee",
     "ver_stable": "#66bb6a",
     "violet_project": "#8A2BE2",
     "vitest_green": "#729b1b",
@@ -1230,7 +1278,7 @@
       "min_width": 80,
       "options": {
         "days_offset": 8,
-        "http_timeout": 1500,
+        "http_timeout": 15000,
         "team": "DET"
       },
       "style": "diamond",
@@ -1357,7 +1405,12 @@
       "template": " <b>⎈ Helm {{ .Version }}</b> ",
       "tips": [
         "helm",
-        "helmfile"
+        "helmfile",
+        "helm install",
+        "helm list",
+        "helm status",
+        "helm uninstall",
+        "helm upgrade"
       ],
       "trailing_diamond": "",
       "type": "helm"
@@ -1380,7 +1433,13 @@
       "template": " <b>{{ .WorkspaceName }} 󱁢 Terraform: {{ if .Version }} {{ .Version }}{{ end }}</b> ",
       "tips": [
         "terraform",
-        "terragrunt"
+        "terragrunt",
+        "tofu",
+        "opentofu",
+        "terraform apply",
+        "terraform destroy",
+        "terraform plan",
+        "terraform workspace"
       ],
       "trailing_diamond": "",
       "type": "terraform"
@@ -1406,11 +1465,16 @@
       "template": " <b> Rust: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
       "tips": [
         "rust",
-        "cargo",
         "rustc",
+        "rustlang",
+        "rustup",
+        "cargo",
         "cargo build",
-        "cargo test",
-        "cargo run"
+        "cargo check",
+        "cargo clippy",
+        "cargo fmt",
+        "cargo run",
+        "cargo test"
       ],
       "trailing_diamond": "",
       "type": "rust"
@@ -1434,9 +1498,10 @@
       "tips": [
         "pulumi",
         "pulumictl",
-        "pulumi up",
+        "pulumi about",
         "pulumi preview",
-        "pulumi stack"
+        "pulumi stack",
+        "pulumi up"
       ],
       "trailing_diamond": "",
       "type": "pulumi"
@@ -1464,9 +1529,11 @@
       "tips": [
         "go",
         "golang",
-        "go test",
+        "go build",
+        "go mod",
         "go run",
-        "go build"
+        "go test",
+        "go work"
       ],
       "trailing_diamond": "",
       "type": "go"
@@ -1492,10 +1559,13 @@
       "template": " <b> Angular CLI: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
       "tips": [
         "angular",
+        "angular cli",
         "ng",
-        "ng serve",
         "ng build",
-        "ng test"
+        "ng serve",
+        "ng test",
+        "ng generate",
+        "npx ng"
       ],
       "trailing_diamond": "",
       "type": "angular"
@@ -1522,10 +1592,13 @@
       "tips": [
         "nx",
         "npx nx",
+        "nx build",
+        "nx dep-graph",
+        "nx graph",
         "nx run",
         "nx serve",
-        "nx build",
-        "nx test"
+        "nx test",
+        "nx workspace"
       ],
       "trailing_diamond": "",
       "type": "nx"
@@ -1551,7 +1624,15 @@
       "template": " <b> Svelte: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
       "tips": [
         "svelte",
-        "sveltekit"
+        "sveltekit",
+        "npm run svelte",
+        "npm run sveltekit",
+        "npm run dev:svelte",
+        "npm run dev:sveltekit",
+        "npm run build:svelte",
+        "npm run build:sveltekit",
+        "npx svelte",
+        "npx sveltekit"
       ],
       "trailing_diamond": "",
       "type": "svelte"
@@ -1586,15 +1667,11 @@
       "template": "  React {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
       "timeout": 1000,
       "tips": [
-        "react",
-        "tsx",
-        "jsx",
-        "npm run dev",
         "react-local",
         "react folder",
         "vitest react",
-        "vitest watch react",
-        "vitest run react"
+        "vitest run react",
+        "vitest watch react"
       ],
       "type": "react"
     },
@@ -1615,12 +1692,7 @@
       "tips": [
         "gitversion",
         "gitv",
-        "git v",
-        "git version",
-        "git --version",
-        "git show",
-        "git log",
-        "git"
+        "git v"
       ],
       "trailing_diamond": "",
       "type": "gitversion"
@@ -1669,12 +1741,15 @@
         }
       },
       "style": "diamond",
-      "template": "  {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} ",
+      "template": "{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }} | {{ .UpstreamIcon }} ↑{{ .Ahead }} ↓{{ .Behind }}{{ if .Staging.Changed }} |  {{ .Staging.String }}{{ end }}{{ if .Working.Changed }} |  {{ .Working.String }}{{ else }} |  Clean{{ end }} ",
       "timeout": 1000,
       "tips": [
         "git",
         "g",
-        "git --version",
+        "gh",
+        "gh pr",
+        "gh repo",
+        "gh issue",
         "git show",
         "git log",
         "git status",
@@ -1686,6 +1761,44 @@
       ],
       "trailing_diamond": "",
       "type": "git"
+    },
+    {
+      "alias": "npm-tooltip",
+      "background": "p:npm_yellow",
+      "background_templates": [
+        "{{ if .Error }}p:maroon_error{{ end }}"
+      ],
+      "cache": {
+        "duration": "24h",
+        "strategy": "folder"
+      },
+      "foreground": "p:npm_dark",
+      "foreground_templates": [
+        "{{ if .Error }}p:white{{ else }}p:npm_dark{{ end }}"
+      ],
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "display_mode": "context",
+        "fetch_version": true,
+        "home_enabled": false,
+        "missing_command_text": "",
+        "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
+      },
+      "style": "diamond",
+      "template": " <b> {{ .Full }}</b> ",
+      "timeout": 1000,
+      "tips": [
+        "npm",
+        "npm i",
+        "npm install",
+        "npm ci",
+        "npm run",
+        "npm exec",
+        "npx"
+      ],
+      "trailing_diamond": "",
+      "type": "npm"
     },
     {
       "alias": "python-folder-tooltip",
@@ -1719,11 +1832,12 @@
         "python3",
         "py",
         "pip",
+        "pipx",
+        "uv",
         "conda",
         "poetry",
         "pipenv",
-        "python --version",
-        "python3 --version"
+        "venv"
       ],
       "trailing_diamond": "",
       "type": "python"
@@ -1747,17 +1861,14 @@
         "missing_command_text": ""
       },
       "style": "diamond",
-      "template": " {{ if .Segments.npm-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}</b>{{ end }} ",
+      "template": " {{ if .Segments.npm-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}{{ if .Mismatch }} ⚠ mismatch{{ end }}</b>{{ end }} ",
       "timeout": 1000,
       "tips": [
         "node",
-        "npm",
-        "yarn",
-        "pnpm",
-        "nx",
-        "bun",
-        "npx",
-        "node --version"
+        "corepack",
+        "fnm",
+        "nvm",
+        "volta"
       ],
       "trailing_diamond": "",
       "type": "node"
@@ -1780,15 +1891,17 @@
         "missing_command_text": ""
       },
       "style": "diamond",
-      "template": "  {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
+      "template": "  Java {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
       "timeout": 1000,
       "tips": [
         "java",
         "javac",
+        "jshell",
         "mvn",
+        "mvnw",
         "gradle",
-        "ant",
-        "java --version"
+        "gradlew",
+        "ant"
       ],
       "trailing_diamond": "",
       "type": "java"
@@ -1913,22 +2026,31 @@
       "tips": [
         "cd",
         "z",
+        "zi",
         "zo",
         "zoxide",
         "ls",
         "dir",
         "pwd",
+        "pushd",
+        "popd",
+        "tree",
         "find",
+        "fd",
         "locate",
         "which",
-        "where"
+        "where",
+        "rg"
       ],
       "trailing_diamond": "",
       "type": "path"
     },
     {
       "alias": "sysinfo-tooltip",
-      "background": "p:teal_sysinfo",
+      "background": "p:sysinfo_bg_ok",
+      "background_templates": [
+        "{{ if or (ge .PhysicalPercentUsed 90) (ge .Disks 90) (ge .Load1 90) }}p:sysinfo_bg_crit{{ else if or (ge .PhysicalPercentUsed 80) (ge .Disks 80) (ge .Load1 80) }}p:sysinfo_bg_warn{{ else }}p:sysinfo_bg_ok{{ end }}"
+      ],
       "cache": {
         "duration": "2m",
         "strategy": "device"
@@ -1940,21 +2062,24 @@
         "precision": 2
       },
       "style": "diamond",
-      "template": "  Memory: {{ round .PhysicalPercentUsed .Precision }}%  Disk: {{ round .Disks .Precision }}%  CPU: {{ round .Load1 .Precision }}% ",
+      "template": "  CPU {{ round .Load1 .Precision }}%   MEM {{ round .PhysicalPercentUsed .Precision }}%   DSK {{ round .Disks .Precision }}% ",
       "timeout": 1000,
       "tips": [
         "htop",
         "top",
+        "btop",
+        "glances",
         "ps",
         "df",
+        "du",
         "free",
         "iostat",
         "cpu",
         "memory",
         "disk",
         "vmstat",
-        "free",
-        "uptime"
+        "uptime",
+        "Get-Process"
       ],
       "trailing_diamond": "",
       "type": "sysinfo"
@@ -1973,15 +2098,19 @@
         "windows": "<b> Win 11</b>"
       },
       "style": "diamond",
-      "template": " {{ if .WSL }}WSL at {{ end }}{{.Icon}} ",
+      "template": " {{ .Icon }} {{ upper .OS }}{{ if .WSL }} • WSL{{ end }} ",
       "timeout": 1000,
       "tips": [
         "uname",
         "ver",
+        "winver",
         "systeminfo",
-        "lsb_release",
         "hostname",
-        "cat /etc/os-release"
+        "lsb_release",
+        "fastfetch",
+        "neofetch",
+        "cat /etc/os-release",
+        "Get-ComputerInfo"
       ],
       "trailing_diamond": "",
       "type": "os"
@@ -1993,7 +2122,10 @@
         "duration": "1m",
         "strategy": "device"
       },
-      "foreground": "p:black",
+      "foreground": "p:time_fg_day",
+      "foreground_templates": [
+        "{{ if or (lt .CurrentDate.Hour 7) (ge .CurrentDate.Hour 19) }}p:time_fg_night{{ else }}p:time_fg_day{{ end }}"
+      ],
       "leading_diamond": "",
       "min_width": 80,
       "options": {
@@ -2007,9 +2139,7 @@
         "time",
         "cal",
         "timedatectl",
-        "date +%T",
-        "date +%F %T",
-        "date +%Y-%m-%d %H:%M:%S"
+        "Get-Date"
       ],
       "trailing_diamond": "",
       "type": "time"
@@ -2021,14 +2151,17 @@
         "duration": "10m",
         "strategy": "device"
       },
-      "foreground": "p:gray_path_fg",
+      "foreground": "p:black",
+      "foreground_templates": [
+        "{{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }}p:battery_crit_fg{{ else }}p:black{{ end }}"
+      ],
       "leading_diamond": "",
       "min_width": 80,
       "options": {
         "display_error": true
       },
       "style": "diamond",
-      "template": " {{ .Icon }}{{ .Percentage }}% {{ .State.String }} ",
+      "template": " {{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }} {{ end }}{{ .Icon }} {{ .Percentage }}% • {{ .State.String }} ",
       "timeout": 1000,
       "tips": [
         "powercfg",
@@ -2072,11 +2205,41 @@
         "xonsh",
         "elvish",
         "nu",
-        "nushell",
-        "elvish"
+        "nushell"
       ],
       "trailing_diamond": "",
       "type": "shell"
+    },
+    {
+      "alias": "copilot-tooltip",
+      "background": "p:copilot_bg",
+      "background_templates": [
+        "{{ if .Premium.Unlimited }}p:copilot_bg{{ else if ge .Premium.Percent 90 }}p:maroon_error{{ else if ge .Premium.Percent 85 }}p:red_alert{{ else if ge .Premium.Percent 50 }}p:orange_warning{{ else }}p:green_success{{ end }}"
+      ],
+      "cache": {
+        "duration": "30m",
+        "strategy": "device"
+      },
+      "foreground": "p:white",
+      "foreground_templates": [
+        "{{ if .Premium.Unlimited }}p:white{{ else if ge .Premium.Percent 75 }}p:white{{ else }}p:black{{ end }}"
+      ],
+      "leading_diamond": "",
+      "min_width": 80,
+      "options": {
+        "http_timeout": 1000
+      },
+      "style": "diamond",
+      "template": " 󰦈 {{ .Premium.Remaining.Gauge }} • {{ .Premium.Percent }}% ",
+      "timeout": 1000,
+      "tips": [
+        "copilot",
+        "github copilot",
+        "gh copilot",
+        "copilot status"
+      ],
+      "trailing_diamond": "",
+      "type": "copilot"
     },
     {
       "alias": "executiontime-tooltip",
@@ -2093,15 +2256,13 @@
         "threshold": 0
       },
       "style": "diamond",
-      "template": " 󱑅 Execution time: {{ .FormattedMs }} ",
+      "template": " 󱑅 {{ .FormattedMs }} ({{ .Ms }}ms) ",
       "timeout": 1000,
       "tips": [
         "measure",
         "cputime",
         "elapsed",
         "benchmark",
-        "time",
-        "date",
         "howlong",
         "stopwatch"
       ],
@@ -2131,14 +2292,45 @@
       "template": " <b>{{ if eq .Code 0 }} Success{{ else if eq .Code 127 }}CMD NOT FOUND{{ else if eq .Code 130 }}CANCELLED{{ else }} Error: {{ .Code }}{{ end }}</b> ",
       "timeout": 1000,
       "tips": [
+        "$?",
         "$LASTEXITCODE",
+        "%ERRORLEVEL%",
         "echo $?",
         "echo %ERRORLEVEL%",
-        "echo $?",
-        "echo $LASTEXITCODE"
+        "echo $LASTEXITCODE",
+        "Get-Error"
       ],
       "trailing_diamond": "",
       "type": "status"
+    },
+    {
+      "alias": "promptcount-tooltip",
+      "background": "p:gray_prompt_count_bg",
+      "background_templates": [
+        "{{ if gt .PromptCount 500 }}p:maroon_error{{ else if gt .PromptCount 200 }}p:red_alert{{ else if gt .PromptCount 100 }}p:orange_warning{{ else if gt .PromptCount 50 }}p:tooling_yellow{{ else }}p:gray_prompt_count_bg{{ end }}"
+      ],
+      "cache": {
+        "duration": "10s",
+        "strategy": "session"
+      },
+      "foreground": "p:gray_prompt_count_fg",
+      "foreground_templates": [
+        "{{ if gt .PromptCount 50 }}p:white{{ else }}p:gray_prompt_count_fg{{ end }}"
+      ],
+      "leading_diamond": "",
+      "min_width": 80,
+      "style": "diamond",
+      "template": " 󰘳 Session prompts: {{ .PromptCount }} ",
+      "timeout": 1000,
+      "tips": [
+        "history",
+        "Get-History",
+        "h",
+        "fc",
+        "promptcount"
+      ],
+      "trailing_diamond": "",
+      "type": "text"
     },
     {
       "alias": "session-tooltip",
@@ -2159,12 +2351,7 @@
       "tips": [
         "whoami",
         "id",
-        "ssh",
-        "su",
-        "sudo",
-        "admin",
-        "root",
-        "administrator"
+        "ssh"
       ],
       "trailing_diamond": "",
       "type": "session"
@@ -2291,7 +2478,7 @@
         "{{ if ge .UpdateCount 10 }}p:winget_error{{ end }}"
       ],
       "cache": {
-        "duration": "10m",
+        "duration": "24h",
         "strategy": "device"
       },
       "foreground": "p:gray_os_fg",
@@ -2299,12 +2486,16 @@
       "min_width": 80,
       "style": "diamond",
       "template": "<b>  Winget  {{ .UpdateCount }} </b>",
-      "timeout": 5000,
+      "timeout": 10000,
       "tips": [
         "winget",
+        "winget status",
         "winget upgrade",
         "winget list",
-        "winget search"
+        "winget search",
+        "wgu",
+        "wgua",
+        "windows package manager"
       ],
       "trailing_diamond": "",
       "type": "winget"
@@ -2329,7 +2520,7 @@
         "cache_duration": "5m"
       },
       "style": "diamond",
-      "template": "<b>  OMP  {{ .Current }} 󰁔 {{ .Latest }} </b>",
+      "template": "<b>  {{ if eq .Current .Latest }}Up-to-date{{ else }}Update available{{ end }} • {{ .Current }} → {{ .Latest }} </b>",
       "timeout": 5000,
       "tips": [
         "oh-my-posh",
@@ -2357,13 +2548,7 @@
         "echo",
         "printf",
         "script",
-        "shell",
-        "bash",
-        "zsh",
-        "fish",
-        "powershell",
-        "pwsh",
-        "cmd"
+        "shell"
       ],
       "trailing_diamond": "",
       "type": "text"
@@ -2379,7 +2564,7 @@
       "leading_diamond": "",
       "min_width": 80,
       "style": "diamond",
-      "template": "  {{ .Shell }} ",
+      "template": " <b> {{ .Shell }}</b>",
       "timeout": 1000,
       "tips": [
         "help",
@@ -2575,12 +2760,13 @@
         "docker",
         "docker compose",
         "docker-compose",
-        "compose",
         "docker build",
         "docker run",
         "docker ps",
         "docker context",
-        "Dockerfile"
+        "docker logs",
+        "Dockerfile",
+        "podman"
       ],
       "trailing_diamond": "",
       "type": "docker"
@@ -2617,7 +2803,10 @@
         "src-tauri",
         "tauri.conf.json",
         "tauri dev",
-        "tauri build"
+        "tauri build",
+        "npm run tauri",
+        "pnpm tauri",
+        "yarn tauri"
       ],
       "trailing_diamond": "",
       "type": "tauri"
@@ -2653,6 +2842,7 @@
         "yarn dev",
         "yarn build",
         "yarn test",
+        "yarn dlx",
         "yarn.lock"
       ],
       "trailing_diamond": "",
@@ -2689,6 +2879,7 @@
         "pnpm dev",
         "pnpm build",
         "pnpm test",
+        "pnpm dlx",
         "pnpm-lock.yaml"
       ],
       "trailing_diamond": "",
@@ -2724,6 +2915,7 @@
         "bun dev",
         "bun build",
         "bun test",
+        "bunx",
         "bun.lockb",
         "bun.lock"
       ],
@@ -2745,12 +2937,12 @@
       "timeout": 1000,
       "tips": [
         "argocd",
-        "argocd run",
-        "argocd dev",
-        "argocd build",
-        "argocd test",
-        "argocd.lockb",
-        "argocd.lock"
+        "argocd login",
+        "argocd app",
+        "argocd app list",
+        "argocd app sync",
+        "argocd app get",
+        "argocd cluster"
       ],
       "trailing_diamond": "",
       "type": "argocd"
@@ -2774,7 +2966,7 @@
         "missing_command_text": ""
       },
       "style": "diamond",
-      "template": " <b> {{ .Full }}</b> ",
+      "template": " <b>󰪮 .NET {{ if .Error }}{{ .Error }}{{ else }}v{{ .Full }}{{ end }} </b> ",
       "timeout": 1000,
       "tips": [
         "dotnet",
@@ -2783,7 +2975,10 @@
         "dotnet test",
         "dotnet publish",
         "dotnet restore",
-        "dotnet new"
+        "dotnet new",
+        "dotnet tool",
+        "msbuild",
+        "nuget"
       ],
       "trailing_diamond": "",
       "type": "dotnet"
@@ -2794,7 +2989,6 @@
     "background": "transparent",
     "filler": "<p:purple_session>󱀝</><p:accent>󱀝</><p:blue_primary>󱀝</><p:divider_blue_primary_to_tooling_purple>󱀝</><p:tooling_purple>󱀝</><p:divider_tooling_purple_to_typescript_eslint_pink>󱀝</><p:typescript_eslint_pink>󱀝</><p:divider_typescript_eslint_pink_to_orange>󱀝</><p:orange>󱀝</><p:divider_orange_to_green_added>󱀝</><p:green_added>󱀝</><p:divider_green_added_to_yellow_bright>󱀝</><p:yellow_bright>󱀝</><p:divider_yellow_bright_to_navy_text>󱀝</><p:nba_det_pistons_blue>󱀝</><p:accent>󱀝</><p:purple_exec>󱀝</>",
     "foreground": "p:blue_primary",
-    "newline": false,
     "foreground_templates": [
       "{{ if eq .Shell \"cmd\" }}p:shell_cmd_black{{ end }}",
       "{{ if or (eq .Shell \"powershell\") (eq .Shell \"pwsh\") }}p:shell_powershell_blue{{ end }}",
@@ -2808,11 +3002,12 @@
       "{{ if or (eq .Shell \"nu\") (eq .Shell \"nushell\") }}p:shell_nushell_purple{{ end }}",
       "{{ if eq .Shell \"xonsh\" }}p:shell_xonsh_yellow{{ end }}"
     ],
-    "template": "<p:accent>╠═<p:purple_session,transparent>{{ upper .Shell }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
+    "newline": false,
+    "template": "{{ if .Segments.executiontime-lprompt }}<p:purple_exec>󱑅 {{ .Segments.executiontime-lprompt.FormattedMs }}</> <p:accent>│</>{{ end }}<p:accent>╠═<p:purple_session,transparent>{{ upper .Shell }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
   },
   "upgrade": {
     "auto": true,
-    "interval": "1h",
+    "interval": "10m",
     "notice": true,
     "source": "cdn"
   },
