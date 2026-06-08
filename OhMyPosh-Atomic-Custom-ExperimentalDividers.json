@@ -136,6 +136,10 @@
                     ],
                     "leading_diamond": "",
                     "min_width": 80,
+                    "cache": {
+                        "duration": "infinite",
+                        "strategy": "folder"
+                    },
                     "options": {
                         "cycle_folder_separator": true,
                         "dir_length": 1,
@@ -155,6 +159,8 @@
                             "re:.*(Code).*": "Code",
                             "re:.*(DemoMan-Fork|DemoMan).*": "🎥 DemoMan",
                             "re:.*(Desktop).*": "DT",
+                            "re:.*(eslint).*": "",
+                            "re:.*(config).*": "",
                             "re:.*(Documents).*": "Docs",
                             "re:.*(Downloads).*": "DLs",
                             "re:.*(Dropbox).*": "DB",
@@ -276,13 +282,27 @@
                     "leading_diamond": "",
                     "min_width": 80,
                     "options": {
+                        "azure_devops_icon": "",
+                        "bitbucket_icon": "",
+                        "branch_ahead_icon": "↑",
+                        "branch_behind_icon": "↓",
+                        "branch_gone_icon": "≢",
                         "branch_icon": "  ",
+                        "branch_identical_icon": "≡",
                         "branch_template": "<b>{{ if .Mapped }}{{ title .Mapped }}{{ else }}{{ .Icon }}{{ end }}{{ title .Branch }}</b>",
+                        "cherry_pick_icon": "",
+                        "codeberg_icon": "",
+                        "codecommit_icon": "",
+                        "commit_icon": "",
                         "disable_with_jj": false,
                         "fetch_bare_info": true,
+                        "fetch_push_status": true,
                         "fetch_status": true,
                         "fetch_upstream_icon": true,
                         "fetch_user": true,
+                        "git_icon": "",
+                        "github_icon": "",
+                        "gitlab_icon": "",
                         "ignore_status": [],
                         "ignore_submodules": {},
                         "mapped_branches": {
@@ -294,7 +314,11 @@
                             "production": "Prod",
                             "staging": "Stage"
                         },
+                        "merge_icon": "",
                         "native_fallback": true,
+                        "no_commits_icon": "",
+                        "rebase_icon": "",
+                        "revert_icon": "",
                         "status_formats": {
                             "Added": "<b><p:green_added>+%d</></b>",
                             "Copied": "<b><p:magenta>c%d</></b>",
@@ -304,6 +328,7 @@
                             "Unmerged": "<b><p:orange_unmerged>x%d</></b>",
                             "Untracked": "<b><p:gray_untracked>?%d</></b>"
                         },
+                        "tag_icon": "",
                         "untracked_modes": {
                             "*": "normal"
                         }
