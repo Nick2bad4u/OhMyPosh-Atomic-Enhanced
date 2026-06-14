@@ -2346,7 +2346,7 @@
                 "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
             },
             "style": "diamond",
-            "template": " <b> {{ .Full }}</b> ",
+            "template": "{{ if not .Segments.npm-rprompt }} <b> {{ .Full }}</b> {{ end }}",
             "timeout": 1000,
             "tips": [
                 "npm",
@@ -2423,7 +2423,7 @@
                 "missing_command_text": ""
             },
             "style": "diamond",
-            "template": " {{ if .Segments.npm-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}{{ if .Mismatch }} ⚠ mismatch{{ end }}</b>{{ end }} ",
+            "template": " {{ if or .Segments.npm-rprompt .Segments.node-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}{{ if .Mismatch }} ⚠ mismatch{{ end }}</b>{{ end }} ",
             "timeout": 1000,
             "tips": [
                 "node",
@@ -2455,7 +2455,7 @@
                 "missing_command_text": ""
             },
             "style": "diamond",
-            "template": "  Java {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
+            "template": "{{ if not .Segments.java-rprompt }}  Java {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} {{ end }}",
             "timeout": 1000,
             "tips": [
                 "java",
@@ -2636,7 +2636,7 @@
                 "precision": 2
             },
             "style": "diamond",
-            "template": "  CPU {{ round .Load1 .Precision }}%   MEM {{ round .PhysicalPercentUsed .Precision }}%   DSK {{ round .Disks .Precision }}% ",
+            "template": "{{ if not .Segments.sysinfo-rprompt }}  CPU {{ round .Load1 .Precision }}%   MEM {{ round .PhysicalPercentUsed .Precision }}%   DSK {{ round .Disks .Precision }}% {{ end }}",
             "timeout": 1000,
             "tips": [
                 "htop",
@@ -2672,7 +2672,7 @@
                 "windows": "<b> Win 11</b>"
             },
             "style": "diamond",
-            "template": " {{ .Icon }} {{ upper .OS }}{{ if .WSL }} • WSL{{ end }} ",
+            "template": "{{ if not .Segments.os-rprompt }} {{ .Icon }} {{ upper .OS }}{{ if .WSL }} • WSL{{ end }} {{ end }}",
             "timeout": 1000,
             "tips": [
                 "uname",
@@ -2705,7 +2705,7 @@
                 "time_format": "Monday, January 2, 2006 3:04:05 PM"
             },
             "style": "diamond",
-            "template": "  {{ .CurrentDate | date \"Monday, January 2, 2006 3:04:05 PM\" }} ",
+            "template": "{{ if not .Segments.time-rprompt }}  {{ .CurrentDate | date \"Monday, January 2, 2006 3:04:05 PM\" }} {{ end }}",
             "timeout": 1000,
             "tips": [
                 "date",
@@ -2736,7 +2736,7 @@
                 "display_error": true
             },
             "style": "diamond",
-            "template": " {{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }} {{ end }}{{ .Icon }} {{ .Percentage }}% • {{ .State.String }} ",
+            "template": "{{ if not .Segments.battery-rprompt }} {{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }} {{ end }}{{ .Icon }} {{ .Percentage }}% • {{ .State.String }} {{ end }}",
             "timeout": 1000,
             "tips": [
                 "powercfg",
@@ -2766,7 +2766,7 @@
                 "units": "imperial"
             },
             "style": "diamond",
-            "template": "  {{ .Temperature }}{{ .UnitIcon }}{{ if .Env.POSH_OWM_LOCATION }} • {{ .Env.POSH_OWM_LOCATION }}{{ end }} ",
+            "template": "{{ if not .Segments.owm-rprompt }}  {{ .Temperature }}{{ .UnitIcon }}{{ if .Env.POSH_OWM_LOCATION }} • {{ .Env.POSH_OWM_LOCATION }}{{ end }} {{ end }}",
             "timeout": 1000,
             "tips": [
                 "weather",
@@ -2810,7 +2810,7 @@
                 }
             },
             "style": "diamond",
-            "template": "<b>  {{ upper .Name }} {{ upper .Version }} </b>",
+            "template": "{{ if not .Segments.shell-lprompt }}<b>  {{ upper .Name }} {{ upper .Version }} </b>{{ end }}",
             "timeout": 1000,
             "tips": [
                 "pwsh",
@@ -2850,7 +2850,7 @@
                 "http_timeout": 1000
             },
             "style": "diamond",
-            "template": " 󰦈 {{ .Premium.Remaining.Gauge }} • {{ .Premium.Percent }}% ",
+            "template": "{{ if not .Segments.copilot }} 󰦈 {{ .Premium.Remaining.Gauge }} • {{ .Premium.Percent }}% {{ end }}",
             "timeout": 1000,
             "tips": [
                 "copilot",
@@ -2883,7 +2883,7 @@
                 "threshold": 0
             },
             "style": "diamond",
-            "template": " 󱑅 {{ .FormattedMs }} ({{ .Ms }}ms) ",
+            "template": "{{ if not .Segments.executiontime-lprompt }} 󱑅 {{ .FormattedMs }} ({{ .Ms }}ms) {{ end }}",
             "timeout": 1000,
             "tips": [
                 "measure",
@@ -2953,7 +2953,7 @@
             "leading_diamond": "",
             "min_width": 80,
             "style": "diamond",
-            "template": " 󰘳 Session prompts: {{ .PromptCount }} ",
+            "template": "{{ if not .Segments.promptcount-rprompt }} 󰘳 Session prompts: {{ .PromptCount }} {{ end }}",
             "timeout": 1000,
             "tips": [
                 "history",
@@ -2985,7 +2985,7 @@
                 "ssh_icon": ""
             },
             "style": "diamond",
-            "template": " {{ if .SSHSession }} SSH: {{ end }}{{ .UserName }}@{{ .HostName }} ",
+            "template": "{{ if not .Segments.session-lprompt-end }} {{ if .SSHSession }} SSH: {{ end }}{{ .UserName }}@{{ .HostName }} {{ end }}",
             "timeout": 1000,
             "tips": [
                 "whoami",
@@ -3013,7 +3013,7 @@
             "leading_diamond": "",
             "min_width": 80,
             "style": "diamond",
-            "template": "<b>  Administrator/Root </b>",
+            "template": "{{ if or .Segments.root-lprompt .Segments.root-rprompt }}{{ else }}<b>  Administrator/Root </b>{{ end }}",
             "timeout": 1000,
             "tips": [
                 "su",
@@ -3183,7 +3183,7 @@
                 "cache_duration": "5m"
             },
             "style": "diamond",
-            "template": "<b>  {{ if eq .Current .Latest }}Up-to-date{{ else }}Update available{{ end }} • {{ .Current }} → {{ .Latest }} </b>",
+            "template": "{{ if not .Segments.upgrade-rprompt }}<b>  {{ if eq .Current .Latest }}Up-to-date{{ else }}Update available{{ end }} • {{ .Current }} → {{ .Latest }} </b>{{ end }}",
             "timeout": 5000,
             "tips": [
                 "oh-my-posh",

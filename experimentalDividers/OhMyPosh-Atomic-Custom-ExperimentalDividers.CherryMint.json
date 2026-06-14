@@ -136,6 +136,10 @@
           ],
           "leading_diamond": "",
           "min_width": 80,
+          "cache": {
+            "duration": "infinite",
+            "strategy": "folder"
+          },
           "options": {
             "cycle_folder_separator": true,
             "dir_length": 1,
@@ -155,6 +159,8 @@
               "re:.*(Code).*": "Code",
               "re:.*(DemoMan-Fork|DemoMan).*": "🎥 DemoMan",
               "re:.*(Desktop).*": "DT",
+              "re:.*(eslint).*": "",
+              "re:.*(config).*": "",
               "re:.*(Documents).*": "Docs",
               "re:.*(Downloads).*": "DLs",
               "re:.*(Dropbox).*": "DB",
@@ -276,13 +282,27 @@
           "leading_diamond": "",
           "min_width": 80,
           "options": {
+            "azure_devops_icon": "",
+            "bitbucket_icon": "",
+            "branch_ahead_icon": "↑",
+            "branch_behind_icon": "↓",
+            "branch_gone_icon": "≢",
             "branch_icon": "  ",
+            "branch_identical_icon": "≡",
             "branch_template": "<b>{{ if .Mapped }}{{ title .Mapped }}{{ else }}{{ .Icon }}{{ end }}{{ title .Branch }}</b>",
+            "cherry_pick_icon": "",
+            "codeberg_icon": "",
+            "codecommit_icon": "",
+            "commit_icon": "",
             "disable_with_jj": false,
             "fetch_bare_info": true,
+            "fetch_push_status": true,
             "fetch_status": true,
             "fetch_upstream_icon": true,
             "fetch_user": true,
+            "git_icon": "",
+            "github_icon": "",
+            "gitlab_icon": "",
             "ignore_status": [],
             "ignore_submodules": {},
             "mapped_branches": {
@@ -294,7 +314,11 @@
               "production": "Prod",
               "staging": "Stage"
             },
+            "merge_icon": "",
             "native_fallback": true,
+            "no_commits_icon": "",
+            "rebase_icon": "",
+            "revert_icon": "",
             "status_formats": {
               "Added": "<b><p:green_added>+%d</></b>",
               "Copied": "<b><p:magenta>c%d</></b>",
@@ -304,6 +328,7 @@
               "Unmerged": "<b><p:orange_unmerged>x%d</></b>",
               "Untracked": "<b><p:gray_untracked>?%d</></b>"
             },
+            "tag_icon": "",
             "untracked_modes": {
               "*": "normal"
             }
@@ -1072,233 +1097,233 @@
     }
   },
   "palette": {
-    "divider_blue_primary_to_tooling_purple": "#4169E3",
-    "exec_critical": "#FF5252",
-    "purple_ahead": "#9370db",
-    "winget_warning": "#ffaa00",
-    "divider_root_in_2": "#D118C1",
-    "pink_error_line": "#dc143c",
-    "cycle_sunburst": "#FFB86B",
-    "divider_electron_red_to_maroon_error": "#B60819",
-    "red_alert": "#dc143c",
-    "prettier_black": "#0f1415",
-    "docker_tooltip_fg": "#ffffff",
-    "debug_fg": "#ffffff",
-    "ver_beta": "#ffa726",
-    "divider_gray_os_to_electron_red": "#CBC167",
-    "cycle_deep_jungle": "#0B2A14",
-    "cycle_rust": "#2B0D0D",
-    "cycle_deep_teal": "#002025",
-    "cycle_electric_cyan": "#00E5FF",
-    "green_full": "#3cb371",
-    "pink_storybook": "#ff69b4",
-    "shell_fish_cyan": "#8fcffa",
-    "sysinfo_bg_warn": "#c68a3d",
-    "cycle_deep_mocha": "#211A08",
-    "purple_exec": "#8b008b",
-    "exec_warn60": "#FF7043",
-    "purple_behind": "#82AAFF",
-    "divider_purple_exec": "#8b008b",
-    "divider_tailwind_cyan": "#3eb489",
-    "purple_session": "#9932cc",
-    "green_added": "#3eb489",
-    "strava_activity_green": "#28a745",
-    "zod_blue": "#3068b7",
-    "red": "#FF4444",
-    "cycle_lilac": "#C77DFF",
-    "nba_det_pistons_red": "#C8102E",
-    "accent": "#dc143c",
-    "cycle_charcoal": "#2B2B20",
-    "shell_bash_green": "#4EAA25",
-    "tauri_tooltip_bg": "#1976D2",
-    "cycle_midnight_blue": "#1E1E2E",
-    "blue_tooltip": "#7fffd4",
-    "yarn_tooltip_bg": "#2E2A65",
-    "vite_yellow": "#5fcda4",
-    "maroon_error": "#8b0000",
-    "shell_cygwin_green": "#00A95C",
-    "divider_maroon_error_to_pink_weather": "#FFFF3E",
-    "divider_teal_sysinfo_to_electron_red": "#A0B123",
-    "cycle_mahogany": "#291813",
-    "cycle_deep_plum": "#2A1120",
-    "vitest_green": "#3eb489",
-    "cycle_watermelon": "#F67280",
-    "magenta": "#FF00FF",
-    "cycle_neon_green": "#39FF14",
-    "typescript_blue": "#20b2aa",
-    "yellow_git_changed": "#c1ffc1",
-    "green_valid_line": "#2e7d5b",
-    "cycle_eggplant": "#21122A",
-    "cycle_ice_blue": "#C4FCEF",
-    "divider_purple_exec_to_electron_red": "#B60870",
-    "divider_blue_time_to_electron_red": "#6D29DC",
-    "cycle_hot_pink": "#FF7AB6",
-    "ver_stable": "#66bb6a",
-    "az_tooltip_fg": "#ffffff",
     "divider_blue_primary_to_red_alert": "#5B1BC6",
-    "divider_accent": "#dc143c",
-    "yellow_modified": "#5fcda4",
-    "orange_unmerged": "#ff6347",
-    "mem_critical": "#ff8a80",
-    "cycle_sunshine": "#FFD93D",
-    "divider_gray_os_to_gray_prompt_count_bg": "#5D8464",
-    "bun_tooltip_bg": "#111827",
-    "divider_chart_teal": "#3eb489",
-    "divider_blue_time": "#48d1cc",
-    "cyan_renamed": "#98ff98",
-    "tooling_yellow": "#f7b93e",
-    "exec_warn30": "#FFB300",
-    "tooling_purple": "#c386f1",
+    "divider_teal_sysinfo_to_electron_red": "#A0B123",
     "battery_crit_fg": "#fff5f5",
     "yellow_update": "#7fd7af",
-    "cycle_spring_mint": "#9AE6B4",
-    "npm_yellow": "#5fcda4",
-    "cycle_stormy_night": "#091A2A",
-    "divider_tooling_purple_to_typescript_eslint_pink": "#F878F3",
-    "spotify_green": "#1DB954",
-    "divider_gray_os": "#b0c4b0",
-    "gray_os": "#b0c4b0",
-    "debug_bg": "#dc143c",
-    "divider_root_out_2": "#F878F3",
-    "blue_bright": "#3bb2ff",
-    "python_yellow": "#5fcda4",
-    "shell_elvish_teal": "#00BFA5",
-    "divider_npm_dark": "#0f1415",
-    "eslint_purple": "#9370db",
-    "cycle_inky": "#0E0E1A",
-    "divider_teal_sysinfo": "#2e8b57",
-    "gray_prompt_count_bg": "#1f2f25",
-    "winget_success": "#00cc44",
-    "playwright_teal": "#3eb489",
-    "java_orange": "#ff7f7f",
-    "pnpm_tooltip_fg": "#000000",
-    "divider_green_added": "#3eb489",
-    "cycle_violet": "#110011",
-    "cycle_apricot": "#F8B195",
-    "wakatime_tooltip_fg": "#ffffff",
-    "time_fg_night": "#f8fafc",
-    "divider_navy_text_to_purple_exec": "#161245",
-    "divider_blue_time_to_violet_project": "#5C87D6",
-    "cycle_oxblood": "#2A1212",
-    "winget_error": "#ff4444",
-    "ver_deprecated": "#9e9e9e",
-    "divider_red_alert_to_orange": "#F6374A",
-    "divider_blue_primary_to_ipify_purple": "#3A72D5",
-    "tailwind_cyan": "#3eb489",
-    "green_charging": "#5fcda4",
-    "orange": "#ff6b6b",
-    "blue_time": "#48d1cc",
-    "divider_orange_to_green_added": "#B3E44A",
-    "winget_primary": "#0078D4",
-    "deno_tooltip_bg": "#3C82F6",
-    "yellow_root_alt": "#7fd7af",
-    "divider_blue_tooltip": "#7fffd4",
-    "orange_battery": "#ff7f7f",
-    "cycle_spring_green": "#6BCB77",
-    "exec_warning": "#FFF59D",
-    "cycle_seaweed": "#023535",
-    "bun_tooltip_fg": "#FBBF24",
-    "pnpm_tooltip_bg": "#F9AD00",
-    "sysinfo_crit": "#ff5252",
-    "gray_os_fg": "#1f2425",
-    "electron_red": "#dc143c",
-    "shell_nushell_purple": "#8E44AD",
-    "divider_ipify_purple_to_typescript_eslint_pink": "#E36BEE",
-    "time_fg_day": "#111827",
-    "yellow_bright": "#5fcda4",
-    "axios_yellow": "#3eb489",
-    "react_cyan": "#3eb489",
-    "red_deleted": "#b22222",
-    "copilot_bg": "#9370db",
-    "divider_gray_prompt_count_bg": "#1f2f25",
-    "ipify_purple": "#9370db",
-    "divider_typescript_eslint_pink_to_orange": "#FF6A8F",
-    "orange_warning": "#ffb347",
-    "strava_activity_orange": "#fc4c02",
-    "deno_tooltip_fg": "#ffffff",
-    "windows_blue": "#20b2aa",
-    "divider_green_ahead": "#5fcda4",
-    "node_green": "#3eb489",
-    "lastfm_red": "#cf1e17",
-    "yarn_tooltip_fg": "#ffffff",
-    "sysinfo_bg_ok": "#437683",
-    "shell_powershell_blue": "#0077c2",
-    "divider_navy_text": "#0f1415",
-    "shell_cmd_black": "#444444",
-    "cycle_espresso": "#2D1E0B",
-    "teal_sysinfo": "#2e8b57",
-    "cycle_mint": "#A0E7E5",
-    "gcp_tooltip_fg": "#ffffff",
-    "strava_orange": "#fc4c02",
-    "divider_green_added_to_yellow_bright": "#4BC497",
-    "divider_root_out_1": "#EC47CE",
-    "prettier_yellow": "#5fcda4",
-    "purple_modified": "#a200ff",
-    "exec_warn5": "#FFE082",
-    "cycle_coral": "#FF6B6B",
-    "gray_path_fg": "#2f3435",
-    "wakatime_tooltip_bg": "#3B82F6",
-    "cycle_swamp": "#04201F",
-    "shell_tcsh_blue": "#1E90FF",
-    "shell_zsh_orange": "#F15A24",
-    "sysinfo_bg_crit": "#d9534f",
-    "green_success": "#3eb489",
-    "shell_xonsh_yellow": "#ceaa34",
-    "cycle_periwinkle": "#BDB2FF",
-    "typescript_eslint_pink": "#ff69b4",
-    "youtube_music_red": "#cc181e",
-    "tauri_tooltip_fg": "#ffffff",
-    "yellow_discharging": "#7fd7af",
-    "sysinfo_warn": "#f6c344",
-    "violet_project": "#9370db",
-    "aws_tooltip_fg": "#000000",
-    "cycle_nightshade": "#151026",
-    "python_blue": "#20b2aa",
-    "cycle_soft_lavender": "#D5D5FE",
-    "exec_warn10": "#FFCA28",
-    "ipify_purple_v6": "#ba55d3",
-    "green_help": "#2e8b57",
-    "gray_prompt_count_fg": "#f0fff0",
-    "az_tooltip_bg": "#0078D4",
-    "cycle_deep_navy": "#003147",
-    "blue_primary": "#20b2aa",
-    "cycle_onyx": "#191910",
-    "yellow_dark": "#ad8e04",
-    "docker_tooltip_bg": "#0B59E7",
-    "cycle_aqua": "#3DFFDB",
-    "nba_det_pistons_blue": "#1D428A",
-    "exec_extreme": "#FF4081",
-    "strava_activity_red": "#dc3545",
-    "ver_alpha": "#ffee58",
-    "pink_weather": "#f0fff0",
-    "aws_tooltip_bg": "#FF9900",
-    "divider_purple_ahead": "#9370db",
-    "npm_dark": "#0f1415",
-    "cycle_black_forest": "#07100A",
-    "claude_tooltip_bg": "#FF6B35",
-    "cycle_sky_blue": "#4D96FF",
-    "divider_tooling_yellow": "#f7b93e",
-    "black": "#0f1415",
-    "navy_text": "#0f1415",
-    "claude_tooltip_fg": "#ffffff",
-    "cycle_creme": "#F6F6C9",
-    "cycle_forest": "#0B3D2E",
-    "divider_violet_project": "#9370db",
-    "pink_status_fail": "#b22222",
-    "zustand_purple": "#9370db",
-    "white": "#f0fff0",
-    "ver_rc": "#26c6da",
-    "green_ahead": "#5fcda4",
+    "debug_fg": "#ffffff",
+    "yellow_modified": "#5fcda4",
     "java_blue": "#20b2aa",
-    "cycle_blush": "#FFADAD",
-    "chart_teal": "#3eb489",
-    "gcp_tooltip_bg": "#4285F4",
-    "cycle_marmalade": "#FFA14B",
-    "divider_green_valid_line": "#2e7d5b",
+    "divider_teal_sysinfo": "#2e8b57",
+    "ver_rc": "#26c6da",
+    "divider_red_alert_to_orange": "#F6374A",
+    "cycle_apricot": "#F8B195",
+    "divider_typescript_eslint_pink_to_orange": "#FF6A8F",
+    "orange_unmerged": "#ff6347",
+    "gray_os_fg": "#1f2425",
+    "yellow_discharging": "#7fd7af",
+    "divider_chart_teal": "#3eb489",
+    "aws_tooltip_fg": "#000000",
+    "divider_green_added": "#3eb489",
+    "cycle_deep_jungle": "#0B2A14",
+    "tooling_yellow": "#f7b93e",
+    "pink_error_line": "#dc143c",
+    "winget_primary": "#0078D4",
+    "teal_sysinfo": "#2e8b57",
+    "divider_gray_os_to_gray_prompt_count_bg": "#5D8464",
+    "pnpm_tooltip_fg": "#000000",
+    "divider_yellow_bright_to_navy_text": "#37716B",
+    "divider_root_out_2": "#F878F3",
+    "sysinfo_bg_warn": "#c68a3d",
+    "bun_tooltip_fg": "#FBBF24",
+    "winget_success": "#00cc44",
+    "divider_gray_os_to_electron_red": "#CBC167",
+    "divider_electron_red_to_maroon_error": "#B60819",
+    "purple_modified": "#a200ff",
+    "gray_prompt_count_fg": "#f0fff0",
     "magenta_copied": "#ff69b4",
-    "shell_ubuntu_orange": "#E95420",
+    "cycle_spring_mint": "#9AE6B4",
+    "time_fg_day": "#111827",
+    "divider_root_in_2": "#D118C1",
+    "chart_teal": "#3eb489",
+    "pink_status_fail": "#b22222",
+    "green_ahead": "#5fcda4",
+    "python_blue": "#20b2aa",
+    "cycle_aqua": "#3DFFDB",
+    "vitest_green": "#3eb489",
+    "zustand_purple": "#9370db",
+    "cycle_electric_cyan": "#00E5FF",
+    "cycle_watermelon": "#F67280",
+    "cycle_charcoal": "#2B2B20",
+    "magenta": "#FF00FF",
+    "cycle_spring_green": "#6BCB77",
+    "cycle_neon_green": "#39FF14",
+    "green_added": "#3eb489",
+    "yarn_tooltip_bg": "#2E2A65",
+    "nba_det_pistons_red": "#C8102E",
+    "yellow_root_alt": "#7fd7af",
+    "divider_orange_to_green_added": "#B3E44A",
+    "exec_warn60": "#FF7043",
+    "divider_root_out_1": "#EC47CE",
+    "deno_tooltip_fg": "#ffffff",
+    "debug_bg": "#dc143c",
+    "spotify_green": "#1DB954",
     "gray_untracked": "#708070",
-    "divider_yellow_bright_to_navy_text": "#37716B"
+    "playwright_teal": "#3eb489",
+    "cycle_soft_lavender": "#D5D5FE",
+    "cycle_mint": "#A0E7E5",
+    "purple_behind": "#82AAFF",
+    "react_cyan": "#3eb489",
+    "cycle_lilac": "#C77DFF",
+    "yellow_git_changed": "#c1ffc1",
+    "shell_bash_green": "#4EAA25",
+    "aws_tooltip_bg": "#FF9900",
+    "ipify_purple": "#9370db",
+    "cyan_renamed": "#98ff98",
+    "strava_activity_orange": "#fc4c02",
+    "divider_gray_os": "#b0c4b0",
+    "orange_warning": "#ffb347",
+    "gcp_tooltip_bg": "#4285F4",
+    "divider_accent": "#dc143c",
+    "cycle_deep_plum": "#2A1120",
+    "lastfm_red": "#cf1e17",
+    "yellow_bright": "#5fcda4",
+    "yarn_tooltip_fg": "#ffffff",
+    "cycle_deep_teal": "#002025",
+    "tauri_tooltip_fg": "#ffffff",
+    "accent": "#dc143c",
+    "cycle_black_forest": "#07100A",
+    "exec_extreme": "#FF4081",
+    "shell_cmd_black": "#444444",
+    "exec_warning": "#FFF59D",
+    "green_help": "#2e8b57",
+    "prettier_black": "#0f1415",
+    "npm_yellow": "#5fcda4",
+    "red_alert": "#dc143c",
+    "shell_xonsh_yellow": "#ceaa34",
+    "cycle_rust": "#2B0D0D",
+    "nba_det_pistons_blue": "#1D428A",
+    "cycle_periwinkle": "#BDB2FF",
+    "axios_yellow": "#3eb489",
+    "divider_blue_primary_to_tooling_purple": "#4169E3",
+    "divider_maroon_error_to_pink_weather": "#FFFF3E",
+    "divider_violet_project": "#9370db",
+    "divider_purple_exec": "#8b008b",
+    "cycle_sunburst": "#FFB86B",
+    "purple_exec": "#8b008b",
+    "divider_navy_text": "#0f1415",
+    "divider_blue_primary_to_ipify_purple": "#3A72D5",
+    "az_tooltip_fg": "#ffffff",
+    "shell_cygwin_green": "#00A95C",
+    "eslint_purple": "#9370db",
+    "python_yellow": "#5fcda4",
+    "divider_purple_exec_to_electron_red": "#B60870",
+    "docker_tooltip_fg": "#ffffff",
+    "blue_primary": "#20b2aa",
+    "exec_warn5": "#FFE082",
+    "red_deleted": "#b22222",
+    "cycle_mahogany": "#291813",
+    "divider_blue_time": "#48d1cc",
+    "orange_battery": "#ff7f7f",
+    "sysinfo_crit": "#ff5252",
+    "red": "#FF4444",
+    "pnpm_tooltip_bg": "#F9AD00",
+    "cycle_forest": "#0B3D2E",
+    "cycle_marmalade": "#FFA14B",
+    "divider_green_ahead": "#5fcda4",
+    "cycle_inky": "#0E0E1A",
+    "cycle_ice_blue": "#C4FCEF",
+    "cycle_deep_navy": "#003147",
+    "cycle_espresso": "#2D1E0B",
+    "prettier_yellow": "#5fcda4",
+    "maroon_error": "#8b0000",
+    "cycle_midnight_blue": "#1E1E2E",
+    "divider_blue_time_to_electron_red": "#6D29DC",
+    "bun_tooltip_bg": "#111827",
+    "ver_alpha": "#ffee58",
+    "youtube_music_red": "#cc181e",
+    "green_success": "#3eb489",
+    "claude_tooltip_fg": "#ffffff",
+    "strava_activity_red": "#dc3545",
+    "windows_blue": "#20b2aa",
+    "zod_blue": "#3068b7",
+    "npm_dark": "#0f1415",
+    "divider_blue_tooltip": "#7fffd4",
+    "divider_npm_dark": "#0f1415",
+    "wakatime_tooltip_bg": "#3B82F6",
+    "exec_warn10": "#FFCA28",
+    "cycle_sky_blue": "#4D96FF",
+    "winget_warning": "#ffaa00",
+    "navy_text": "#0f1415",
+    "blue_bright": "#3bb2ff",
+    "shell_powershell_blue": "#0077c2",
+    "cycle_onyx": "#191910",
+    "shell_tcsh_blue": "#1E90FF",
+    "green_full": "#3cb371",
+    "docker_tooltip_bg": "#0B59E7",
+    "strava_orange": "#fc4c02",
+    "copilot_bg": "#9370db",
+    "pink_weather": "#f0fff0",
+    "java_orange": "#ff7f7f",
+    "tauri_tooltip_bg": "#1976D2",
+    "shell_nushell_purple": "#8E44AD",
+    "gray_prompt_count_bg": "#1f2f25",
+    "strava_activity_green": "#28a745",
+    "divider_ipify_purple_to_typescript_eslint_pink": "#E36BEE",
+    "node_green": "#3eb489",
+    "cycle_violet": "#110011",
+    "gcp_tooltip_fg": "#ffffff",
+    "orange": "#ff6b6b",
+    "claude_tooltip_bg": "#FF6B35",
+    "ver_stable": "#66bb6a",
+    "vite_yellow": "#5fcda4",
+    "az_tooltip_bg": "#0078D4",
+    "shell_elvish_teal": "#00BFA5",
+    "tailwind_cyan": "#3eb489",
+    "electron_red": "#dc143c",
+    "blue_tooltip": "#7fffd4",
+    "divider_purple_ahead": "#9370db",
+    "time_fg_night": "#f8fafc",
+    "purple_session": "#9932cc",
+    "ver_beta": "#ffa726",
+    "purple_ahead": "#9370db",
+    "pink_storybook": "#ff69b4",
+    "cycle_stormy_night": "#091A2A",
+    "cycle_swamp": "#04201F",
+    "divider_tooling_yellow": "#f7b93e",
+    "exec_critical": "#FF5252",
+    "cycle_blush": "#FFADAD",
+    "divider_green_added_to_yellow_bright": "#4BC497",
+    "tooling_purple": "#c386f1",
+    "gray_path_fg": "#2f3435",
+    "sysinfo_bg_ok": "#437683",
+    "divider_navy_text_to_purple_exec": "#161245",
+    "wakatime_tooltip_fg": "#ffffff",
+    "divider_tooling_purple_to_typescript_eslint_pink": "#F878F3",
+    "shell_zsh_orange": "#F15A24",
+    "divider_blue_time_to_violet_project": "#5C87D6",
+    "gray_os": "#b0c4b0",
+    "cycle_deep_mocha": "#211A08",
+    "cycle_sunshine": "#FFD93D",
+    "white": "#f0fff0",
+    "exec_warn30": "#FFB300",
+    "cycle_hot_pink": "#FF7AB6",
+    "ver_deprecated": "#9e9e9e",
+    "deno_tooltip_bg": "#3C82F6",
+    "cycle_creme": "#F6F6C9",
+    "divider_tailwind_cyan": "#3eb489",
+    "sysinfo_warn": "#f6c344",
+    "cycle_eggplant": "#21122A",
+    "violet_project": "#9370db",
+    "green_valid_line": "#2e7d5b",
+    "blue_time": "#48d1cc",
+    "black": "#0f1415",
+    "divider_gray_prompt_count_bg": "#1f2f25",
+    "shell_ubuntu_orange": "#E95420",
+    "cycle_seaweed": "#023535",
+    "cycle_coral": "#FF6B6B",
+    "typescript_eslint_pink": "#ff69b4",
+    "sysinfo_bg_crit": "#d9534f",
+    "cycle_oxblood": "#2A1212",
+    "shell_fish_cyan": "#8fcffa",
+    "ipify_purple_v6": "#ba55d3",
+    "green_charging": "#5fcda4",
+    "yellow_dark": "#ad8e04",
+    "typescript_blue": "#20b2aa",
+    "mem_critical": "#ff8a80",
+    "winget_error": "#ff4444",
+    "divider_green_valid_line": "#2e7d5b",
+    "cycle_nightshade": "#151026"
   },
   "palettes": {},
   "patch_pwsh_bleed": true,
@@ -1333,11 +1358,6 @@
         "game",
         "score",
         "team",
-        "home team",
-        "away team",
-        "home score",
-        "away score",
-        "game date",
         "DET",
         "Pistons"
       ],
@@ -1383,15 +1403,15 @@
         "workout",
         "ride",
         "run",
+        "hr",
+        "heartrate",
         "skiing",
-        "unknown activity",
         "cycling",
         "hiking",
         "cycle",
         "distance",
         "duration",
         "kudos",
-        "heart rate",
         "watts"
       ],
       "trailing_diamond": "",
@@ -1417,10 +1437,10 @@
       "style": "diamond",
       "template": "<b> {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ .Artist }} - {{ .Track }}{{ end }}</b>",
       "tips": [
-        "youtube music",
+        "youtubemusic",
         "ytm",
         "music",
-        "now playing",
+        "nowplaying",
         "scrobbling",
         "song",
         "listening",
@@ -1449,7 +1469,7 @@
       "tips": [
         "spotify",
         "music",
-        "now playing",
+        "nowplaying",
         "scrobbling",
         "song",
         "listening",
@@ -1478,7 +1498,7 @@
       "tips": [
         "lastfm",
         "music",
-        "now playing",
+        "nowplaying",
         "scrobbling",
         "last.fm",
         "song",
@@ -1512,8 +1532,11 @@
         "tsx",
         "create-react-app",
         "react-scripts",
-        "npm run react",
-        "npx react"
+        "react-refresh",
+        "react-devtools",
+        "react-router",
+        "react-query",
+        "react-testing-library"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1543,15 +1566,9 @@
         "tsserver",
         "tsconfig.json",
         "tsdown",
-        "npm run type-check",
-        "npm run typecheck",
-        "npm run lint:ts",
-        "npm run lint:types",
-        "npm run typescript",
-        "npx tsc",
-        "npx tsx",
-        "npx ts-node",
-        "npx tsdown"
+        "typescript-eslint",
+        "eslint-plugin-typescript",
+        "typescript-eslint-parser"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1574,14 +1591,7 @@
       "template": " <b>⚡ Vite: v{{ .Body.version }}</b> ",
       "timeout": 1000,
       "tips": [
-        "vite",
-        "vite dev",
-        "vite build",
-        "vite preview",
-        "npm run dev",
-        "npm run build",
-        "npm run preview",
-        "npx vite"
+        "vite"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1605,14 +1615,8 @@
       "timeout": 1000,
       "tips": [
         "vitest",
-        "npm test",
-        "npm run test",
-        "npm run test:coverage",
-        "npm run vitest",
-        "npx vitest",
-        "npx vitest run",
-        "npx vitest watch",
-        "npx vitest --coverage"
+        "test",
+        "testing"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1636,17 +1640,7 @@
       "timeout": 1000,
       "tips": [
         "playwright",
-        "npm run playwright",
-        "npm run test:e2e",
-        "npm run test:playwright",
-        "npx playwright",
-        "npx playwright test",
-        "npx playwright test --headed",
-        "npx playwright test --project=chromium",
-        "npx playwright test --project=firefox",
-        "npx playwright test --project=webkit",
-        "npx playwright open",
-        "npx playwright show-report"
+        "e2e"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1670,14 +1664,7 @@
       "timeout": 1000,
       "tips": [
         "tailwindcss",
-        "tailwind",
-        "npm run lint:css",
-        "npm run tailwind",
-        "npm run build:tailwind",
-        "npm run watch:tailwind",
-        "npm run build:css",
-        "npm run watch:css",
-        "npx tailwindcss"
+        "tailwind"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1700,10 +1687,6 @@
       "template": " <b>🐻 Zustand: v{{ .Body.version }}</b> ",
       "timeout": 1000,
       "tips": [
-        "npm install zustand",
-        "npm run zustand",
-        "npx zustand",
-        "state management",
         "zustand"
       ],
       "trailing_diamond": "",
@@ -1727,13 +1710,7 @@
       "template": " <b>📊 Chart.js: v{{ .Body.version }}</b> ",
       "timeout": 1000,
       "tips": [
-        "chart.js",
-        "data visualization",
-        "npm install chart.js",
-        "npm run build:chart.js",
-        "npm run chart.js",
-        "npm run watch:chart.js",
-        "npx chart.js"
+        "chart.js"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1756,17 +1733,7 @@
       "template": " <b>󱀤 Electron: v{{ .Body.version }}</b> ",
       "timeout": 1000,
       "tips": [
-        "electron .",
-        "electron",
-        "npm run build:electron",
-        "npm run lint:electron",
-        "npm run start:electron",
-        "npm run test:electron",
-        "npm run watch:electron",
-        "npx electron .",
-        "npx electron build",
-        "npx electron watch",
-        "npx electron"
+        "electron"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1789,13 +1756,7 @@
       "template": " 📚 {{ .Body.version }} ",
       "timeout": 1000,
       "tips": [
-        "storybook",
-        "npm run storybook",
-        "npm run build:storybook",
-        "npm run lint:storybook",
-        "npm run test:storybook",
-        "npm run watch:storybook",
-        "vitest storybook"
+        "storybook"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1818,15 +1779,7 @@
       "template": " <b>🎯 Axios: v{{ .Body.version }}</b> ",
       "timeout": 1000,
       "tips": [
-        "axios",
-        "http client",
-        "npm install axios",
-        "npm run axios",
-        "npm run build:axios",
-        "npm run lint:axios",
-        "npm run test:axios",
-        "npm run watch:axios",
-        "npx axios"
+        "axios"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1849,16 +1802,6 @@
       "template": " <b>🛡️ Zod: v{{ .Body.version }}</b> ",
       "timeout": 1000,
       "tips": [
-        "npm install zod",
-        "npm run build:zod",
-        "npm run lint:zod",
-        "npm run test:zod",
-        "npm run watch:zod",
-        "npm run zod",
-        "npx zod",
-        "schema validation",
-        "vitest watch zod",
-        "vitest zod",
         "zod"
       ],
       "trailing_diamond": "",
@@ -1886,14 +1829,7 @@
         "pretty",
         "prettiernow",
         "prettynow",
-        "npm run format",
-        "npm run format:prettier",
-        "npm run lint:prettier",
-        "npm run lint:prettier-fix",
-        "npm run lint:pretty",
-        "npm run prettier",
-        "npm run pretty",
-        "npx prettier"
+        "formatter"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1917,10 +1853,8 @@
       "timeout": 1000,
       "tips": [
         "typescript-eslint",
-        "npm run lint:typescript-eslint",
-        "vitest typescript-eslint",
-        "vitest run typescript-eslint",
-        "vitest watch typescript-eslint"
+        "eslint-plugin-typescript",
+        "typescript-eslint-parser"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1944,16 +1878,8 @@
       "timeout": 1000,
       "tips": [
         "eslint",
-        "npm run lint",
-        "npm run lint:all:fix",
-        "npm run lint:eslint",
-        "npm run lint:fix",
-        "npx eslint --fix",
-        "npx eslint .",
-        "npx eslint",
-        "vitest eslint",
-        "vitest run eslint",
-        "vitest watch eslint"
+        "linter",
+        "linting"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -1976,11 +1902,9 @@
       "template": " <b>⎈ kubectl: {{ index .Body \"tag_name\" }}</b> ",
       "timeout": 1000,
       "tips": [
-        "k8s version",
-        "kube version",
-        "kubectl --version",
-        "kubectl version --client",
-        "kubectl version"
+        "kubectl",
+        "kube",
+        "k8s"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -2004,11 +1928,7 @@
       "tips": [
         "kubectl",
         "kube",
-        "k8s",
-        "kubectl get",
-        "kubectl describe",
-        "kubectl logs",
-        "kubectl exec"
+        "k8s"
       ],
       "trailing_diamond": "",
       "type": "kubectl"
@@ -2031,11 +1951,8 @@
       "tips": [
         "helm",
         "helmfile",
-        "helm install",
-        "helm list",
-        "helm status",
-        "helm uninstall",
-        "helm upgrade"
+        "helmchart",
+        "helmcharts"
       ],
       "trailing_diamond": "",
       "type": "helm"
@@ -2060,11 +1977,7 @@
         "terraform",
         "terragrunt",
         "tofu",
-        "opentofu",
-        "terraform apply",
-        "terraform destroy",
-        "terraform plan",
-        "terraform workspace"
+        "opentofu"
       ],
       "trailing_diamond": "",
       "type": "terraform"
@@ -2094,12 +2007,9 @@
         "rustlang",
         "rustup",
         "cargo",
-        "cargo build",
-        "cargo check",
-        "cargo clippy",
-        "cargo fmt",
-        "cargo run",
-        "cargo test"
+        "black",
+        "clippy",
+        "rust-analyzer"
       ],
       "trailing_diamond": "",
       "type": "rust"
@@ -2123,10 +2033,7 @@
       "tips": [
         "pulumi",
         "pulumictl",
-        "pulumi about",
-        "pulumi preview",
-        "pulumi stack",
-        "pulumi up"
+        "pulumistack"
       ],
       "trailing_diamond": "",
       "type": "pulumi"
@@ -2154,11 +2061,9 @@
       "tips": [
         "go",
         "golang",
-        "go build",
-        "go mod",
-        "go run",
-        "go test",
-        "go work"
+        "goversion",
+        "go.mod",
+        "go.work"
       ],
       "trailing_diamond": "",
       "type": "go"
@@ -2184,13 +2089,8 @@
       "template": " <b> Angular CLI: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
       "tips": [
         "angular",
-        "angular cli",
-        "ng",
-        "ng build",
-        "ng serve",
-        "ng test",
-        "ng generate",
-        "npx ng"
+        "angularcli",
+        "ng"
       ],
       "trailing_diamond": "",
       "type": "angular"
@@ -2216,14 +2116,8 @@
       "template": " <b>󰝴 Nx: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
       "tips": [
         "nx",
-        "npx nx",
-        "nx build",
-        "nx dep-graph",
-        "nx graph",
-        "nx run",
-        "nx serve",
-        "nx test",
-        "nx workspace"
+        "nrwl",
+        "nxcli"
       ],
       "trailing_diamond": "",
       "type": "nx"
@@ -2249,15 +2143,7 @@
       "template": " <b> Svelte: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
       "tips": [
         "svelte",
-        "sveltekit",
-        "npm run svelte",
-        "npm run sveltekit",
-        "npm run dev:svelte",
-        "npm run dev:sveltekit",
-        "npm run build:svelte",
-        "npm run build:sveltekit",
-        "npx svelte",
-        "npx sveltekit"
+        "sveltekit"
       ],
       "trailing_diamond": "",
       "type": "svelte"
@@ -2281,13 +2167,13 @@
       "timeout": 5000,
       "tips": [
         "ipify",
-        "what is my ip",
-        "what's my ip",
-        "my ip",
-        "public ip",
-        "external ip",
-        "check ip",
-        "ipv4"
+        "ipv4",
+        "whatsmyip",
+        "whatismyip",
+        "myip",
+        "publicip",
+        "externalip",
+        "checkip"
       ],
       "trailing_diamond": "",
       "type": "ipify"
@@ -2312,12 +2198,12 @@
       "tips": [
         "ipify6",
         "ipv6",
-        "what is my ipv6",
-        "what's my ipv6",
-        "my ipv6",
-        "public ipv6",
-        "external ipv6",
-        "check ipv6"
+        "whatsmyipv6",
+        "whatismyipv6",
+        "myipv6",
+        "publicipv6",
+        "externalipv6",
+        "checkipv6"
       ],
       "trailing_diamond": "",
       "type": "http"
@@ -2353,10 +2239,19 @@
       "timeout": 1000,
       "tips": [
         "react-local",
-        "react folder",
-        "vitest react",
-        "vitest run react",
-        "vitest watch react"
+        "reactfolder",
+        "react-folder",
+        "react",
+        "reactjs",
+        "jsx",
+        "tsx",
+        "create-react-app",
+        "react-scripts",
+        "react-refresh",
+        "react-devtools",
+        "react-router",
+        "react-query",
+        "react-testing-library"
       ],
       "type": "react"
     },
@@ -2377,7 +2272,10 @@
       "tips": [
         "gitversion",
         "gitv",
-        "git v"
+        "semver",
+        "versioning",
+        "version",
+        "gitversioning"
       ],
       "trailing_diamond": "",
       "type": "gitversion"
@@ -2432,17 +2330,11 @@
         "git",
         "g",
         "gh",
-        "gh pr",
-        "gh repo",
-        "gh issue",
-        "git show",
-        "git log",
-        "git status",
-        "git diff",
-        "git add",
-        "git commit",
-        "git push",
-        "git pull"
+        "gitstatus",
+        "gitstatusprompt",
+        "github",
+        "gitlab",
+        "bitbucket"
       ],
       "trailing_diamond": "",
       "type": "git"
@@ -2471,16 +2363,16 @@
         "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
       },
       "style": "diamond",
-      "template": " <b> {{ .Full }}</b> ",
+      "template": "{{ if not .Segments.npm-rprompt }} <b> {{ .Full }}</b> {{ end }}",
       "timeout": 1000,
       "tips": [
         "npm",
-        "npm i",
-        "npm install",
-        "npm ci",
-        "npm run",
-        "npm exec",
-        "npx"
+        "npx",
+        "corepack",
+        "fnm",
+        "nvm",
+        "volta",
+        "package.json"
       ],
       "trailing_diamond": "",
       "type": "npm"
@@ -2522,7 +2414,9 @@
         "conda",
         "poetry",
         "pipenv",
-        "venv"
+        "venv",
+        "virtualenv",
+        "pyenv"
       ],
       "trailing_diamond": "",
       "type": "python"
@@ -2546,14 +2440,16 @@
         "missing_command_text": ""
       },
       "style": "diamond",
-      "template": " {{ if .Segments.npm-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}{{ if .Mismatch }} ⚠ mismatch{{ end }}</b>{{ end }} ",
+      "template": " {{ if or .Segments.npm-rprompt .Segments.node-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}{{ if .Mismatch }} ⚠ mismatch{{ end }}</b>{{ end }} ",
       "timeout": 1000,
       "tips": [
         "node",
         "corepack",
         "fnm",
         "nvm",
-        "volta"
+        "volta",
+        "package.json",
+        "node_modules"
       ],
       "trailing_diamond": "",
       "type": "node"
@@ -2576,7 +2472,7 @@
         "missing_command_text": ""
       },
       "style": "diamond",
-      "template": "  Java {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
+      "template": "{{ if not .Segments.java-rprompt }}  Java {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} {{ end }}",
       "timeout": 1000,
       "tips": [
         "java",
@@ -2586,7 +2482,9 @@
         "mvnw",
         "gradle",
         "gradlew",
-        "ant"
+        "ant",
+        "build.gradle",
+        "pom.xml"
       ],
       "trailing_diamond": "",
       "type": "java"
@@ -2715,7 +2613,10 @@
         "zo",
         "zoxide",
         "ls",
+        "l",
+        "exa",
         "dir",
+        "zxa",
         "pwd",
         "pushd",
         "popd",
@@ -2723,9 +2624,14 @@
         "find",
         "fd",
         "locate",
+        "explorer",
+        "whereami",
         "which",
         "where",
-        "rg"
+        "rg",
+        "ag",
+        "fd",
+        "fdfind"
       ],
       "trailing_diamond": "",
       "type": "path"
@@ -2747,7 +2653,7 @@
         "precision": 2
       },
       "style": "diamond",
-      "template": "  CPU {{ round .Load1 .Precision }}%   MEM {{ round .PhysicalPercentUsed .Precision }}%   DSK {{ round .Disks .Precision }}% ",
+      "template": "{{ if not .Segments.sysinfo-rprompt }}  CPU {{ round .Load1 .Precision }}%   MEM {{ round .PhysicalPercentUsed .Precision }}%   DSK {{ round .Disks .Precision }}% {{ end }}",
       "timeout": 1000,
       "tips": [
         "htop",
@@ -2783,7 +2689,7 @@
         "windows": "<b> Win 11</b>"
       },
       "style": "diamond",
-      "template": " {{ .Icon }} {{ upper .OS }}{{ if .WSL }} • WSL{{ end }} ",
+      "template": "{{ if not .Segments.os-rprompt }} {{ .Icon }} {{ upper .OS }}{{ if .WSL }} • WSL{{ end }} {{ end }}",
       "timeout": 1000,
       "tips": [
         "uname",
@@ -2794,7 +2700,6 @@
         "lsb_release",
         "fastfetch",
         "neofetch",
-        "cat /etc/os-release",
         "Get-ComputerInfo"
       ],
       "trailing_diamond": "",
@@ -2817,14 +2722,16 @@
         "time_format": "Monday, January 2, 2006 3:04:05 PM"
       },
       "style": "diamond",
-      "template": "  {{ .CurrentDate | date \"Monday, January 2, 2006 3:04:05 PM\" }} ",
+      "template": "{{ if not .Segments.time-rprompt }}  {{ .CurrentDate | date \"Monday, January 2, 2006 3:04:05 PM\" }} {{ end }}",
       "timeout": 1000,
       "tips": [
         "date",
         "time",
         "cal",
         "timedatectl",
-        "Get-Date"
+        "Get-Date",
+        "today",
+        "now"
       ],
       "trailing_diamond": "",
       "type": "time"
@@ -2846,14 +2753,15 @@
         "display_error": true
       },
       "style": "diamond",
-      "template": " {{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }} {{ end }}{{ .Icon }} {{ .Percentage }}% • {{ .State.String }} ",
+      "template": "{{ if not .Segments.battery-rprompt }} {{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }} {{ end }}{{ .Icon }} {{ .Percentage }}% • {{ .State.String }} {{ end }}",
       "timeout": 1000,
       "tips": [
         "powercfg",
         "battery",
         "acpi",
         "upower",
-        "pmset"
+        "pmset",
+        "Get-Battery"
       ],
       "trailing_diamond": "",
       "type": "battery"
@@ -2875,14 +2783,26 @@
         "units": "imperial"
       },
       "style": "diamond",
-      "template": "  {{ .Temperature }}{{ .UnitIcon }}{{ if .Env.POSH_OWM_LOCATION }} • {{ .Env.POSH_OWM_LOCATION }}{{ end }} ",
+      "template": "{{ if not .Segments.owm-rprompt }}  {{ .Temperature }}{{ .UnitIcon }}{{ if .Env.POSH_OWM_LOCATION }} • {{ .Env.POSH_OWM_LOCATION }}{{ end }} {{ end }}",
       "timeout": 1000,
       "tips": [
         "weather",
         "forecast",
         "owm",
         "temp",
-        "temperature"
+        "temperature",
+        "openweathermap",
+        "windy",
+        "accuweather",
+        "weather.com",
+        "meteo",
+        "clima",
+        "climacell",
+        "yr",
+        "ventusky",
+        "msnweather",
+        "wttr",
+        "weatherapi"
       ],
       "trailing_diamond": "",
       "type": "owm"
@@ -2907,7 +2827,7 @@
         }
       },
       "style": "diamond",
-      "template": "<b>  {{ upper .Name }} {{ upper .Version }} </b>",
+      "template": "{{ if not .Segments.shell-lprompt }}<b>  {{ upper .Name }} {{ upper .Version }} </b>{{ end }}",
       "timeout": 1000,
       "tips": [
         "pwsh",
@@ -2919,7 +2839,10 @@
         "xonsh",
         "elvish",
         "nu",
-        "nushell"
+        "nushell",
+        "Get-Host",
+        "Get-Shell",
+        "shell"
       ],
       "trailing_diamond": "",
       "type": "shell"
@@ -2944,13 +2867,20 @@
         "http_timeout": 1000
       },
       "style": "diamond",
-      "template": " 󰦈 {{ .Premium.Remaining.Gauge }} • {{ .Premium.Percent }}% ",
+      "template": "{{ if not .Segments.copilot }} 󰦈 {{ .Premium.Remaining.Gauge }} • {{ .Premium.Percent }}% {{ end }}",
       "timeout": 1000,
       "tips": [
         "copilot",
-        "github copilot",
-        "gh copilot",
-        "copilot status"
+        "githubcopilot",
+        "ghcopilot",
+        "copilotstatus",
+        "copilotstatusprompt",
+        "githubcopilotstatus",
+        "ghcopilotstatus",
+        "copilotcredits",
+        "copilotremaining",
+        "copilotpercent",
+        "copilotlimit"
       ],
       "trailing_diamond": "",
       "type": "copilot"
@@ -2970,7 +2900,7 @@
         "threshold": 0
       },
       "style": "diamond",
-      "template": " 󱑅 {{ .FormattedMs }} ({{ .Ms }}ms) ",
+      "template": "{{ if not .Segments.executiontime-lprompt }} 󱑅 {{ .FormattedMs }} ({{ .Ms }}ms) {{ end }}",
       "timeout": 1000,
       "tips": [
         "measure",
@@ -2978,7 +2908,9 @@
         "elapsed",
         "benchmark",
         "howlong",
-        "stopwatch"
+        "stopwatch",
+        "timeit",
+        "get-executiontime"
       ],
       "trailing_diamond": "",
       "type": "executiontime"
@@ -3009,10 +2941,14 @@
         "$?",
         "$LASTEXITCODE",
         "%ERRORLEVEL%",
-        "echo $?",
-        "echo %ERRORLEVEL%",
-        "echo $LASTEXITCODE",
-        "Get-Error"
+        "Get-Error",
+        "status",
+        "exitcode",
+        "returncode",
+        "errorlevel",
+        "error",
+        "warning",
+        "success"
       ],
       "trailing_diamond": "",
       "type": "status"
@@ -3034,14 +2970,20 @@
       "leading_diamond": "",
       "min_width": 80,
       "style": "diamond",
-      "template": " 󰘳 Session prompts: {{ .PromptCount }} ",
+      "template": "{{ if not .Segments.promptcount-rprompt }} 󰘳 Session prompts: {{ .PromptCount }} {{ end }}",
       "timeout": 1000,
       "tips": [
         "history",
         "Get-History",
         "h",
         "fc",
-        "promptcount"
+        "promptcount",
+        "sessionhistory",
+        "commandhistory",
+        "cmdhistory",
+        "sessioncount",
+        "sessionprompts",
+        "promptnumber"
       ],
       "trailing_diamond": "",
       "type": "text"
@@ -3060,12 +3002,19 @@
         "ssh_icon": ""
       },
       "style": "diamond",
-      "template": " {{ if .SSHSession }} SSH: {{ end }}{{ .UserName }}@{{ .HostName }} ",
+      "template": "{{ if not .Segments.session-lprompt-end }} {{ if .SSHSession }} SSH: {{ end }}{{ .UserName }}@{{ .HostName }} {{ end }}",
       "timeout": 1000,
       "tips": [
         "whoami",
         "id",
-        "ssh"
+        "ssh",
+        "remote",
+        "hostname",
+        "username",
+        "user",
+        "host",
+        "session",
+        "connection"
       ],
       "trailing_diamond": "",
       "type": "session"
@@ -3081,7 +3030,7 @@
       "leading_diamond": "",
       "min_width": 80,
       "style": "diamond",
-      "template": "<b>  Administrator/Root </b>",
+      "template": "{{ if or .Segments.root-lprompt .Segments.root-rprompt }}{{ else }}<b>  Administrator/Root </b>{{ end }}",
       "timeout": 1000,
       "tips": [
         "su",
@@ -3090,7 +3039,9 @@
         "root",
         "administrator",
         "superuser",
-        "wheel"
+        "wheel",
+        "elevated",
+        "privileged"
       ],
       "trailing_diamond": "",
       "type": "root"
@@ -3117,7 +3068,15 @@
         "ftp",
         "sftp",
         "http",
-        "https"
+        "https",
+        "network",
+        "connection",
+        "online",
+        "offline",
+        "wifi",
+        "ethernet",
+        "lan",
+        "wan"
       ],
       "trailing_diamond": "",
       "type": "connection"
@@ -3147,7 +3106,13 @@
         "package",
         "dependency",
         "module",
-        "library"
+        "library",
+        "framework",
+        "tool",
+        "build",
+        "ci",
+        "cd",
+        "pipeline"
       ],
       "trailing_diamond": "",
       "type": "project"
@@ -3178,7 +3143,8 @@
         "hklm",
         "currentversion",
         "buildlab",
-        "software"
+        "software",
+        "microsoft"
       ],
       "trailing_diamond": "",
       "type": "winreg"
@@ -3202,14 +3168,14 @@
       "template": "<b>  Winget  {{ .UpdateCount }} </b>",
       "timeout": 10000,
       "tips": [
-        "winget",
-        "winget status",
-        "winget upgrade",
-        "winget list",
-        "winget search",
+        "wingetstatus",
         "wgu",
         "wgua",
-        "windows package manager"
+        "wingetupgrade",
+        "wingetup",
+        "packageupdate",
+        "updates",
+        "upgrade"
       ],
       "trailing_diamond": "",
       "type": "winget"
@@ -3234,7 +3200,7 @@
         "cache_duration": "5m"
       },
       "style": "diamond",
-      "template": "<b>  {{ if eq .Current .Latest }}Up-to-date{{ else }}Update available{{ end }} • {{ .Current }} → {{ .Latest }} </b>",
+      "template": "{{ if not .Segments.upgrade-rprompt }}<b>  {{ if eq .Current .Latest }}Up-to-date{{ else }}Update available{{ end }} • {{ .Current }} → {{ .Latest }} </b>{{ end }}",
       "timeout": 5000,
       "tips": [
         "oh-my-posh",
@@ -3262,7 +3228,13 @@
         "echo",
         "printf",
         "script",
-        "shell"
+        "shell",
+        "write-host",
+        "write-output",
+        "write",
+        "format",
+        "format-table",
+        "format-list"
       ],
       "trailing_diamond": "",
       "type": "text"
@@ -3288,7 +3260,8 @@
         "manual",
         "guide",
         "tutorial",
-        "reference"
+        "reference",
+        "docs"
       ],
       "trailing_diamond": "",
       "type": "text"
@@ -3312,15 +3285,9 @@
       "tips": [
         "az",
         "azure",
-        "azure cli",
-        "az login",
-        "az logout",
-        "az account",
-        "az subscription",
-        "az group",
-        "az keyvault",
         "tenant",
-        "subscription"
+        "subscription",
+        "azcli"
       ],
       "trailing_diamond": "",
       "type": "az"
@@ -3344,16 +3311,10 @@
       "tips": [
         "aws",
         "awscli",
-        "aws sso",
-        "aws configure",
-        "aws sts",
-        "aws s3",
-        "aws iam",
-        "aws ec2",
-        "aws eks",
-        "aws ecr",
         "profile",
-        "region"
+        "region",
+        "awsprofile",
+        "awsregion"
       ],
       "trailing_diamond": "",
       "type": "aws"
@@ -3374,17 +3335,12 @@
       "tips": [
         "gcp",
         "gcloud",
-        "google cloud",
         "gsutil",
-        "gcloud auth",
-        "gcloud config",
-        "gcloud projects",
-        "gcloud compute",
-        "gcloud run",
-        "gcloud container",
         "project",
         "account",
-        "region"
+        "region",
+        "googlecloud",
+        "googlecloudplatform"
       ],
       "trailing_diamond": "",
       "type": "gcp"
@@ -3404,13 +3360,13 @@
       "timeout": 1000,
       "tips": [
         "claude",
-        "claude code",
         "oh-my-posh claude",
         "ai",
         "llm",
         "sonnet",
         "opus",
-        "haiku"
+        "haiku",
+        "anthropic"
       ],
       "trailing_diamond": "",
       "type": "claude"
@@ -3442,11 +3398,6 @@
       "timeout": 1000,
       "tips": [
         "deno",
-        "deno run",
-        "deno task",
-        "deno fmt",
-        "deno lint",
-        "deno test",
         "deno.json",
         "deno.lock"
       ],
@@ -3472,15 +3423,12 @@
       "timeout": 1000,
       "tips": [
         "docker",
-        "docker compose",
         "docker-compose",
-        "docker build",
-        "docker run",
-        "docker ps",
-        "docker context",
-        "docker logs",
         "Dockerfile",
-        "podman"
+        "podman",
+        "container",
+        "containers",
+        "context"
       ],
       "trailing_diamond": "",
       "type": "docker"
@@ -3516,11 +3464,7 @@
         "cargo tauri",
         "src-tauri",
         "tauri.conf.json",
-        "tauri dev",
-        "tauri build",
-        "npm run tauri",
-        "pnpm tauri",
-        "yarn tauri"
+        "tauri.config.json"
       ],
       "trailing_diamond": "",
       "type": "tauri"
@@ -3551,13 +3495,8 @@
       "timeout": 1000,
       "tips": [
         "yarn",
-        "yarn add",
-        "yarn install",
-        "yarn dev",
-        "yarn build",
-        "yarn test",
-        "yarn dlx",
-        "yarn.lock"
+        "yarn.lock",
+        "package.json"
       ],
       "trailing_diamond": "",
       "type": "yarn"
@@ -3588,13 +3527,8 @@
       "timeout": 1000,
       "tips": [
         "pnpm",
-        "pnpm add",
-        "pnpm install",
-        "pnpm dev",
-        "pnpm build",
-        "pnpm test",
-        "pnpm dlx",
-        "pnpm-lock.yaml"
+        "pnpm-lock.yaml",
+        "package.json"
       ],
       "trailing_diamond": "",
       "type": "pnpm"
@@ -3625,13 +3559,10 @@
       "timeout": 1000,
       "tips": [
         "bun",
-        "bun run",
-        "bun dev",
-        "bun build",
-        "bun test",
         "bunx",
         "bun.lockb",
-        "bun.lock"
+        "bun.lock",
+        "package.json"
       ],
       "trailing_diamond": "",
       "type": "bun"
@@ -3651,12 +3582,8 @@
       "timeout": 1000,
       "tips": [
         "argocd",
-        "argocd login",
-        "argocd app",
-        "argocd app list",
-        "argocd app sync",
-        "argocd app get",
-        "argocd cluster"
+        "argocd-cli",
+        "argo"
       ],
       "trailing_diamond": "",
       "type": "argocd"
@@ -3684,15 +3611,11 @@
       "timeout": 1000,
       "tips": [
         "dotnet",
-        "dotnet build",
-        "dotnet run",
-        "dotnet test",
-        "dotnet publish",
-        "dotnet restore",
-        "dotnet new",
-        "dotnet tool",
         "msbuild",
-        "nuget"
+        "nuget",
+        "csc",
+        "vbc",
+        "fsc"
       ],
       "trailing_diamond": "",
       "type": "dotnet"
@@ -3721,13 +3644,10 @@
         "wakatime",
         "wakatime-cli",
         "waka",
-        "wakatime api",
-        "coding time",
-        "time tracking",
         "productivity",
-        "focus time",
-        "wakatime today",
-        "wakatime stats"
+        "codingtime",
+        "programmingtime",
+        "developmenttime"
       ],
       "trailing_diamond": "",
       "type": "wakatime"
