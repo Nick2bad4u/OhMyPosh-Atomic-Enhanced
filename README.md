@@ -1858,3 +1858,4 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 - **Lavender Peach** - Soft lavender and warm peach 🍑
 
 ---
+<!-- {% endraw %} -->
