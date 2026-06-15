@@ -69,8 +69,8 @@ jobs:
                     # Generate version from date and commit
                     VERSION="v$(date +%Y.%m.%d)-${GITHUB_SHA::7}"
                   fi
-                  echo "version=$VERSION" >> $GITHUB_OUTPUT
-                  echo "release_date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+                  echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+                  echo "release_date=$(date +'%Y-%m-%d')" >> "$GITHUB_OUTPUT"
                   echo "📦 Release version: $VERSION"
 
     build-release-assets:
@@ -197,10 +197,10 @@ jobs:
                   if [ -n "$PREV_TAG" ]; then
                     echo "Previous tag found: $PREV_TAG"
                     # Use git-cliff-action to generate changelog
-                    echo "PREV_TAG=$PREV_TAG" >> $GITHUB_ENV
+                    echo "PREV_TAG=$PREV_TAG" >> "$GITHUB_ENV"
                   else
                     echo "No previous tag found, generating full changelog"
-                    echo "PREV_TAG=" >> $GITHUB_ENV
+                    echo "PREV_TAG=" >> "$GITHUB_ENV"
                   fi
 
             - name: Run git-cliff
@@ -214,7 +214,7 @@ jobs:
             - name: Process changelog
               run: |
                   # Also save a short version (last 50 lines) for the summary
-                  cat /tmp/changelog.md | head -n 50 > /tmp/changelog-short.md
+                  head -n 50 /tmp/changelog.md > /tmp/changelog-short.md
 
                   echo "Changelog generated successfully"
                   cat /tmp/changelog-short.md
@@ -222,28 +222,62 @@ jobs:
             - name: Count theme files
               id: count_themes
               run: |
-                  ATOMIC_COUNT=$(ls -1 release-assets/OhMyPosh-Atomic-Custom.*.json 2>/dev/null | wc -l)
-                  SHELL_COUNT=$(ls -1 release-assets/1_shell-Enhanced.omp.*.json 2>/dev/null | wc -l)
-                  SLIMFAT_COUNT=$(ls -1 release-assets/slimfat-Enhanced.omp.*.json 2>/dev/null | wc -l)
-                  ATOMICBIT_COUNT=$(ls -1 release-assets/atomicBit-Enhanced.omp.*.json 2>/dev/null | wc -l)
-                  CLEAN_COUNT=$(ls -1 release-assets/clean-detailed-Enhanced.omp.*.json 2>/dev/null | wc -l)
-                  EXPDIV_COUNT=$(ls -1 release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json 2>/dev/null | grep -v NoShellIntegration | wc -l)
-                  EXPDIV_NOSI_COUNT=$(ls -1 release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json 2>/dev/null | wc -l)
+                  count_matches() {
+                    local count=0
+                    local file
+
+                    for file in "$@"; do
+                      if [ -f "$file" ]; then
+                        count=$((count + 1))
+                      fi
+                    done
+
+                    printf '%s\n' "$count"
+                  }
+
+                  count_expdiv_variants() {
+                    local count=0
+                    local file
+
+                    for file in release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json; do
+                      if [ ! -f "$file" ]; then
+                        continue
+                      fi
+
+                      case "$(basename "$file")" in
+                        *NoShellIntegration*) continue ;;
+                      esac
+
+                      count=$((count + 1))
+                    done
+
+                    printf '%s\n' "$count"
+                  }
+
+                  ATOMIC_COUNT=$(count_matches release-assets/OhMyPosh-Atomic-Custom.*.json)
+                  SHELL_COUNT=$(count_matches release-assets/1_shell-Enhanced.omp.*.json)
+                  SLIMFAT_COUNT=$(count_matches release-assets/slimfat-Enhanced.omp.*.json)
+                  ATOMICBIT_COUNT=$(count_matches release-assets/atomicBit-Enhanced.omp.*.json)
+                  CLEAN_COUNT=$(count_matches release-assets/clean-detailed-Enhanced.omp.*.json)
+                  EXPDIV_COUNT=$(count_expdiv_variants)
+                  EXPDIV_NOSI_COUNT=$(count_matches release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json)
 
                   # Starship config isn't a theme family variant, but we ship it as an asset.
-                  STARSHIP_COUNT=$(ls -1 release-assets/starship-atomic-enhanced.toml 2>/dev/null | wc -l)
+                  STARSHIP_COUNT=$(count_matches release-assets/starship-atomic-enhanced.toml)
 
                   TOTAL=$((ATOMIC_COUNT + SHELL_COUNT + SLIMFAT_COUNT + ATOMICBIT_COUNT + CLEAN_COUNT + EXPDIV_COUNT + EXPDIV_NOSI_COUNT))
 
-                  echo "atomic_count=$ATOMIC_COUNT" >> $GITHUB_OUTPUT
-                  echo "shell_count=$SHELL_COUNT" >> $GITHUB_OUTPUT
-                  echo "slimfat_count=$SLIMFAT_COUNT" >> $GITHUB_OUTPUT
-                  echo "atomicbit_count=$ATOMICBIT_COUNT" >> $GITHUB_OUTPUT
-                  echo "clean_count=$CLEAN_COUNT" >> $GITHUB_OUTPUT
-                  echo "expdiv_count=$EXPDIV_COUNT" >> $GITHUB_OUTPUT
-                  echo "expdiv_nosi_count=$EXPDIV_NOSI_COUNT" >> $GITHUB_OUTPUT
-                  echo "starship_count=$STARSHIP_COUNT" >> $GITHUB_OUTPUT
-                  echo "total_count=$TOTAL" >> $GITHUB_OUTPUT
+                  {
+                    echo "atomic_count=$ATOMIC_COUNT"
+                    echo "shell_count=$SHELL_COUNT"
+                    echo "slimfat_count=$SLIMFAT_COUNT"
+                    echo "atomicbit_count=$ATOMICBIT_COUNT"
+                    echo "clean_count=$CLEAN_COUNT"
+                    echo "expdiv_count=$EXPDIV_COUNT"
+                    echo "expdiv_nosi_count=$EXPDIV_NOSI_COUNT"
+                    echo "starship_count=$STARSHIP_COUNT"
+                    echo "total_count=$TOTAL"
+                  } >> "$GITHUB_OUTPUT"
 
             - name: Generate theme lists
               id: theme_lists
@@ -251,68 +285,89 @@ jobs:
                   # Create markdown lists for each theme family
                   mkdir -p /tmp/theme-lists
 
-                  echo "### 🚀 Atomic Custom Themes (${{ steps.count_themes.outputs.atomic_count }} variants)" > /tmp/theme-lists/atomic.md
-                  for file in release-assets/OhMyPosh-Atomic-Custom.*.json; do
-                    if [ -f "$file" ]; then
-                      base=$(basename "$file")
-                      palette=$(echo "$base" | sed 's/OhMyPosh-Atomic-Custom\.\(.*\)\.json/\1/')
-                      echo "- [`$base`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/atomic.md
-                    fi
-                  done
-
-                  echo "### ✨ 1_shell-Enhanced Themes (${{ steps.count_themes.outputs.shell_count }} variants)" > /tmp/theme-lists/shell.md
-                  for file in release-assets/1_shell-Enhanced.omp.*.json; do
-                    if [ -f "$file" ]; then
-                      base=$(basename "$file")
-                      palette=$(echo "$base" | sed 's/1_shell-Enhanced\.omp\.\(.*\)\.json/\1/')
-                      echo "- [`$base`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/shell.md
-                    fi
-                  done
-
-                  echo "### 🎯 Slimfat-Enhanced Themes (${{ steps.count_themes.outputs.slimfat_count }} variants)" > /tmp/theme-lists/slimfat.md
-                  for file in release-assets/slimfat-Enhanced.omp.*.json; do
-                    if [ -f "$file" ]; then
-                      base=$(basename "$file")
-                      palette=$(echo "$base" | sed 's/slimfat-Enhanced\.omp\.\(.*\)\.json/\1/')
-                      echo "- [`$base`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/slimfat.md
-                    fi
-                  done
-
-                  echo "### 📦 AtomicBit-Enhanced Themes (${{ steps.count_themes.outputs.atomicbit_count }} variants)" > /tmp/theme-lists/atomicbit.md
-                  for file in release-assets/atomicBit-Enhanced.omp.*.json; do
-                    if [ -f "$file" ]; then
-                      base=$(basename "$file")
-                      palette=$(echo "$base" | sed 's/atomicBit-Enhanced\.omp\.\(.*\)\.json/\1/')
-                      echo "- [`$base`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/atomicbit.md
-                    fi
-                  done
-
-                  echo "### 🧹 Clean-Detailed-Enhanced Themes (${{ steps.count_themes.outputs.clean_count }} variants)" > /tmp/theme-lists/clean.md
-                  for file in release-assets/clean-detailed-Enhanced.omp.*.json; do
-                    if [ -f "$file" ]; then
-                      base=$(basename "$file")
-                      palette=$(echo "$base" | sed 's/clean-detailed-Enhanced\.omp\.\(.*\)\.json/\1/')
-                      echo "- [`$base`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/clean.md
-                    fi
-                  done
-
-                  echo "### 🧪 ExperimentalDividers Themes (${{ steps.count_themes.outputs.expdiv_count }} variants)" > /tmp/theme-lists/experimentaldividers.md
-                  for file in release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json; do
-                    if [ -f "$file" ]; then
-                      base=$(basename "$file")
-                      if [[ "$base" == *"NoShellIntegration"* ]]; then
-                        continue
+                  {
+                    echo "### 🚀 Atomic Custom Themes (${{ steps.count_themes.outputs.atomic_count }} variants)"
+                    for file in release-assets/OhMyPosh-Atomic-Custom.*.json; do
+                      if [ -f "$file" ]; then
+                        base=$(basename "$file")
+                        palette=${base#OhMyPosh-Atomic-Custom.}
+                        palette=${palette%.json}
+                        printf -- "- [\`%s\`](https://github.com/%s/releases/download/%s/%s) - %s palette\n" "$base" "$REPO" "$VERSION" "$base" "$palette"
                       fi
-                      palette=$(echo "$base" | sed 's/OhMyPosh-Atomic-Custom-ExperimentalDividers\.\(.*\)\.json/\1/')
-                      echo "- [`$base`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/$base) - $palette palette" >> /tmp/theme-lists/experimentaldividers.md
-                    fi
-                  done
+                    done
+                  } > /tmp/theme-lists/atomic.md
 
-                  if [ -f "release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json" ]; then
-                    echo "" >> /tmp/theme-lists/experimentaldividers.md
-                    echo "**No Shell Integration Variant:**" >> /tmp/theme-lists/experimentaldividers.md
-                    echo "- [`OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json`](https://github.com/${{ github.repository }}/releases/download/${{ needs.prepare-release.outputs.version }}/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json)" >> /tmp/theme-lists/experimentaldividers.md
-                  fi
+                  {
+                    echo "### ✨ 1_shell-Enhanced Themes (${{ steps.count_themes.outputs.shell_count }} variants)"
+                    for file in release-assets/1_shell-Enhanced.omp.*.json; do
+                      if [ -f "$file" ]; then
+                        base=$(basename "$file")
+                        palette=${base#1_shell-Enhanced.omp.}
+                        palette=${palette%.json}
+                        printf -- "- [\`%s\`](https://github.com/%s/releases/download/%s/%s) - %s palette\n" "$base" "$REPO" "$VERSION" "$base" "$palette"
+                      fi
+                    done
+                  } > /tmp/theme-lists/shell.md
+
+                  {
+                    echo "### 🎯 Slimfat-Enhanced Themes (${{ steps.count_themes.outputs.slimfat_count }} variants)"
+                    for file in release-assets/slimfat-Enhanced.omp.*.json; do
+                      if [ -f "$file" ]; then
+                        base=$(basename "$file")
+                        palette=${base#slimfat-Enhanced.omp.}
+                        palette=${palette%.json}
+                        printf -- "- [\`%s\`](https://github.com/%s/releases/download/%s/%s) - %s palette\n" "$base" "$REPO" "$VERSION" "$base" "$palette"
+                      fi
+                    done
+                  } > /tmp/theme-lists/slimfat.md
+
+                  {
+                    echo "### 📦 AtomicBit-Enhanced Themes (${{ steps.count_themes.outputs.atomicbit_count }} variants)"
+                    for file in release-assets/atomicBit-Enhanced.omp.*.json; do
+                      if [ -f "$file" ]; then
+                        base=$(basename "$file")
+                        palette=${base#atomicBit-Enhanced.omp.}
+                        palette=${palette%.json}
+                        printf -- "- [\`%s\`](https://github.com/%s/releases/download/%s/%s) - %s palette\n" "$base" "$REPO" "$VERSION" "$base" "$palette"
+                      fi
+                    done
+                  } > /tmp/theme-lists/atomicbit.md
+
+                  {
+                    echo "### 🧹 Clean-Detailed-Enhanced Themes (${{ steps.count_themes.outputs.clean_count }} variants)"
+                    for file in release-assets/clean-detailed-Enhanced.omp.*.json; do
+                      if [ -f "$file" ]; then
+                        base=$(basename "$file")
+                        palette=${base#clean-detailed-Enhanced.omp.}
+                        palette=${palette%.json}
+                        printf -- "- [\`%s\`](https://github.com/%s/releases/download/%s/%s) - %s palette\n" "$base" "$REPO" "$VERSION" "$base" "$palette"
+                      fi
+                    done
+                  } > /tmp/theme-lists/clean.md
+
+                  {
+                    echo "### 🧪 ExperimentalDividers Themes (${{ steps.count_themes.outputs.expdiv_count }} variants)"
+                    for file in release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json; do
+                      if [ -f "$file" ]; then
+                        base=$(basename "$file")
+                        if [[ "$base" == *"NoShellIntegration"* ]]; then
+                          continue
+                        fi
+                        palette=${base#OhMyPosh-Atomic-Custom-ExperimentalDividers.}
+                        palette=${palette%.json}
+                        printf -- "- [\`%s\`](https://github.com/%s/releases/download/%s/%s) - %s palette\n" "$base" "$REPO" "$VERSION" "$base" "$palette"
+                      fi
+                    done
+
+                    if [ -f "release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json" ]; then
+                      echo ""
+                      echo "**No Shell Integration Variant:**"
+                      printf -- "- [\`%s\`](https://github.com/%s/releases/download/%s/%s)\n" "OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json" "$REPO" "$VERSION" "OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json"
+                    fi
+                  } > /tmp/theme-lists/experimentaldividers.md
+              env:
+                  REPO: ${{ github.repository }}
+                  VERSION: ${{ needs.prepare-release.outputs.version }}
 
             - name: Build release body
               run: |
@@ -391,7 +446,7 @@ jobs:
 
                   To use any theme, run one of these commands:
 
-                  ```powershell
+                  \`\`\`powershell
                   # Example: Atomic Custom with Nord Frost palette
                   oh-my-posh init pwsh --config "https://github.com/${REPO}/releases/download/${VERSION}/OhMyPosh-Atomic-Custom.NordFrost.json" | Invoke-Expression
 
@@ -400,9 +455,9 @@ jobs:
 
                   # Example: Slimfat-Enhanced with Dracula Night palette
                   oh-my-posh init pwsh --config "https://github.com/${REPO}/releases/download/${VERSION}/slimfat-Enhanced.omp.DraculaNight.json" | Invoke-Expression
-                  ```
+                  \`\`\`
 
-                  **For permanent installation**, add the command to your PowerShell profile: `notepad $PROFILE` and paste the desired `oh-my-posh init` command into the file.
+                  **For permanent installation**, add the command to your PowerShell profile: \`notepad \$PROFILE\` and paste the desired \`oh-my-posh init\` command into the file.
 
                   ### 📖 Documentation
 
