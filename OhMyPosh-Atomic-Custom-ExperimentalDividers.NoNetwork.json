@@ -984,17 +984,17 @@
           "foreground": "p:accent",
           "foreground_templates": [
             "{{ if gt .Code 0 }}p:red_alert{{ end }}",
-            "{{ if eq .Shell \"cmd\" }}p:shell_cmd_black{{ end }}",
-            "{{ if or (eq .Shell \"powershell\") (eq .Shell \"pwsh\") }}p:shell_powershell_blue{{ end }}",
+            "{{ if or (eq .Shell \"cmd\") (and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cmd\")) }}p:shell_cmd_black{{ end }}",
+            "{{ if or (eq .Shell \"powershell\") (eq .Shell \"pwsh\") (and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"powershell\") (eq .Segments.shell-lprompt.Name \"pwsh\") (eq .Segments.shell-lprompt.Name \"PS\"))) }}p:shell_powershell_blue{{ end }}",
             "{{ if (eq .OS \"ubuntu\") }}p:shell_ubuntu_orange{{ end }}",
             "{{ if or (eq .Shell \"bash\") (and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"bash\")) }}p:shell_bash_green{{ end }}",
-            "{{ if or (eq .Shell \"zsh\") (eq .Shell \"zshell\") }}p:shell_zsh_orange{{ end }}",
-            "{{ if eq .Shell \"fish\" }}p:shell_fish_cyan{{ end }}",
+            "{{ if or (eq .Shell \"zsh\") (eq .Shell \"zshell\") (and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"zsh\") (eq .Segments.shell-lprompt.Name \"zshell\"))) }}p:shell_zsh_orange{{ end }}",
+            "{{ if or (eq .Shell \"fish\") (and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"fish\")) }}p:shell_fish_cyan{{ end }}",
             "{{ if or (eq .Shell \"cygwin\") (and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"cygwin\")) }}p:shell_cygwin_green{{ end }}",
-            "{{ if eq .Shell \"tcsh\" }}p:shell_tcsh_blue{{ end }}",
-            "{{ if eq .Shell \"elvish\" }}p:shell_elvish_teal{{ end }}",
-            "{{ if or (eq .Shell \"nu\") (eq .Shell \"nushell\") }}p:shell_nushell_purple{{ end }}",
-            "{{ if eq .Shell \"xonsh\" }}p:shell_xonsh_yellow{{ end }}"
+            "{{ if or (eq .Shell \"tcsh\") (and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"tcsh\")) }}p:shell_tcsh_blue{{ end }}",
+            "{{ if or (eq .Shell \"elvish\") (and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"ELV\")) }}p:shell_elvish_teal{{ end }}",
+            "{{ if or (eq .Shell \"nu\") (eq .Shell \"nushell\") (and (.Segments.shell-lprompt) (or (eq .Segments.shell-lprompt.Name \"nu\") (eq .Segments.shell-lprompt.Name \"nushell\") (eq .Segments.shell-lprompt.Name \"NU\"))) }}p:shell_nushell_purple{{ end }}",
+            "{{ if or (eq .Shell \"xonsh\") (and (.Segments.shell-lprompt) (eq .Segments.shell-lprompt.Name \"XSH\")) }}p:shell_xonsh_yellow{{ end }}"
           ],
           "min_width": 0,
           "options": {
