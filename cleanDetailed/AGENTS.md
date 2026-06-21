@@ -1,0 +1,26 @@
+# Generated Clean-Detailed Theme Variants
+
+## Scope
+
+These instructions apply to `cleanDetailed/`.
+
+## Rules
+
+- Files in this folder are generated palette variants for `clean-detailed-Enhanced.omp.json`.
+- Do not hand-edit these JSON files for shared behavior, segment layout, tooltip, or palette-key changes.
+- Make source changes in the root template or `color-palette-alternatives.json`, then regenerate.
+- If a task explicitly targets one generated variant, explain why the change should remain variant-specific.
+
+## Regeneration
+
+From the repo root:
+
+```pwsh
+pwsh ./scripts/Generate-AllThemes.ps1 -Force
+```
+
+## Validation
+
+```pwsh
+pwsh ./scripts/Test-Themes.ps1 -IncludeGenerated
+```
