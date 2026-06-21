@@ -19,12 +19,12 @@ on:
             - "atomicBit*.json"
             - "clean-detailed*.json"
             # Generated theme variants in folders
-            - "1_shell/**"
-            - "slimfat/**"
-            - "atomic/**"
-            - "atomicBit/**"
-            - "cleanDetailed/**"
-            - "experimentalDividers/**"
+            - "1_shell/**/*.json"
+            - "slimfat/**/*.json"
+            - "atomic/**/*.json"
+            - "atomicBit/**/*.json"
+            - "cleanDetailed/**/*.json"
+            - "experimentalDividers/**/*.json"
             # Palette sources / extra theme types
             - "color-palette-alternatives.json"
             - "starship-atomic-enhanced.toml"
