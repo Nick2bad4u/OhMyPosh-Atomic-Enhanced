@@ -495,6 +495,8 @@ jobs:
                   body_path: /tmp/release-body.md
                   files: |
                       release-assets/*
+                  preserve_order: true
+                  fail_on_unmatched_files: true
                   draft: false
                   prerelease: false
                   make_latest: true
