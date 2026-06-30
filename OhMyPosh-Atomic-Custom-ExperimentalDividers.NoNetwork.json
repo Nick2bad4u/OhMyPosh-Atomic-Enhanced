@@ -130,16 +130,17 @@
           "background_templates": [
             "{{ if not .Writable }}p:maroon_error{{ end }}"
           ],
-          "foreground": "p:black",
-          "foreground_templates": [
-            "{{ if not .Writable }}p:white{{ else }}p:black{{ end }}"
-          ],
-          "leading_diamond": "",
-          "min_width": 80,
           "cache": {
             "duration": "infinite",
             "strategy": "folder"
           },
+          "foreground": "p:black",
+          "foreground_templates": [
+            "{{ if not .Writable }}p:white{{ else }}p:black{{ end }}"
+          ],
+          "interactive": true,
+          "leading_diamond": "",
+          "min_width": 80,
           "options": {
             "cycle_folder_separator": true,
             "dir_length": 1,
@@ -159,8 +160,6 @@
               "re:.*(Code).*": "Code",
               "re:.*(DemoMan-Fork|DemoMan).*": "🎥 DemoMan",
               "re:.*(Desktop).*": "DT",
-              "re:.*(eslint).*": "",
-              "re:.*(config).*": "",
               "re:.*(Documents).*": "Docs",
               "re:.*(Downloads).*": "DLs",
               "re:.*(Dropbox).*": "DB",
@@ -186,7 +185,9 @@
               "re:.*(ZwiftScripts).*": "📜 ZScript",
               "re:.*(auth|security).*": "🔐 ",
               "re:.*(ci|cd|pipeline).*": "🔄 ",
+              "re:.*(config).*": "",
               "re:.*(dnsValidator).*": "🌐 DNS",
+              "re:.*(eslint).*": "",
               "re:.*(eslint-config-Typescript-Extreme).*": "⚡ TSExtm",
               "re:.*(eslint-plugin-chunkyLint).*": "📏 ChunkyL",
               "re:.*(eslint-plugin-typefest).*": "📐 Typefest",
@@ -788,6 +789,47 @@
           "type": "node"
         },
         {
+          "alias": "python-rprompt",
+          "background": "p:python_blue",
+          "background_templates": [
+            "{{ if .Error }}p:maroon_error{{ else }}p:python_blue{{ end }}"
+          ],
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:python_yellow",
+          "foreground_templates": [
+            "{{ if .Error }}p:white{{ else }}p:python_yellow{{ end }}"
+          ],
+          "leading_diamond": "",
+          "min_width": 80,
+          "options": {
+            "default_venv_names": [
+              ".venv",
+              "venv"
+            ],
+            "display_mode": "context",
+            "fetch_version": true,
+            "fetch_virtual_env": true,
+            "folder_name_fallback": true,
+            "home_enabled": false,
+            "missing_command_text": "",
+            "tooling": [
+              "pyenv",
+              "python",
+              "python3",
+              "py",
+              "uv"
+            ]
+          },
+          "placeholder": " XX.XX.X",
+          "style": "diamond",
+          "template": " <b> {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }} {{ .Venv }} {{ end }}{{ .Full }}{{ end }}</b> ",
+          "trailing_diamond": "",
+          "type": "python"
+        },
+        {
           "alias": "java-rprompt",
           "background": "p:java_blue",
           "background_templates": [
@@ -1339,14 +1381,14 @@
       "style": "diamond",
       "template": "<b> {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ .Artist }} - {{ .Track }}{{ end }}</b>",
       "tips": [
-        "youtubemusic",
-        "ytm",
+        "listening",
         "music",
         "nowplaying",
         "scrobbling",
         "song",
-        "listening",
-        "track"
+        "track",
+        "youtubemusic",
+        "ytm"
       ],
       "trailing_diamond": "",
       "type": "ytm"
@@ -1369,12 +1411,12 @@
       "style": "diamond",
       "template": "<b> {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ .Artist }} - {{ .Track }}{{ end }}</b>",
       "tips": [
-        "spotify",
+        "listening",
         "music",
         "nowplaying",
         "scrobbling",
         "song",
-        "listening",
+        "spotify",
         "track"
       ],
       "trailing_diamond": "",
@@ -1397,9 +1439,9 @@
       "style": "diamond",
       "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}⎈ {{ .Context }}{{ if .Namespace }} :: {{ .Namespace }}{{ end }}{{ end }}</b> ",
       "tips": [
-        "kubectl",
+        "k8s",
         "kube",
-        "k8s"
+        "kubectl"
       ],
       "trailing_diamond": "",
       "type": "kubectl"
@@ -1421,9 +1463,9 @@
       "template": " <b>⎈ Helm {{ .Version }}</b> ",
       "tips": [
         "helm",
-        "helmfile",
         "helmchart",
-        "helmcharts"
+        "helmcharts",
+        "helmfile"
       ],
       "trailing_diamond": "",
       "type": "helm"
@@ -1445,10 +1487,10 @@
       "style": "diamond",
       "template": " <b>{{ .WorkspaceName }} 󱁢 Terraform: {{ if .Version }} {{ .Version }}{{ end }}</b> ",
       "tips": [
+        "opentofu",
         "terraform",
         "terragrunt",
-        "tofu",
-        "opentofu"
+        "tofu"
       ],
       "trailing_diamond": "",
       "type": "terraform"
@@ -1473,14 +1515,14 @@
       "style": "diamond",
       "template": " <b> Rust: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
       "tips": [
+        "black",
+        "cargo",
+        "clippy",
         "rust",
+        "rust-analyzer",
         "rustc",
         "rustlang",
-        "rustup",
-        "cargo",
-        "black",
-        "clippy",
-        "rust-analyzer"
+        "rustup"
       ],
       "trailing_diamond": "",
       "type": "rust"
@@ -1531,10 +1573,10 @@
       "style": "diamond",
       "tips": [
         "go",
-        "golang",
-        "goversion",
         "go.mod",
-        "go.work"
+        "go.work",
+        "golang",
+        "goversion"
       ],
       "trailing_diamond": "",
       "type": "go"
@@ -1586,8 +1628,8 @@
       "style": "diamond",
       "template": " <b>󰝴 Nx: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
       "tips": [
-        "nx",
         "nrwl",
+        "nx",
         "nxcli"
       ],
       "trailing_diamond": "",
@@ -1633,14 +1675,14 @@
         "cache_duration": "24h",
         "display_mode": "always",
         "extensions": [
-          "ts",
-          "tsx",
+          "cjs",
+          "cts",
           "js",
           "jsx",
-          "mts",
           "mjs",
-          "cjs",
-          "cts"
+          "mts",
+          "ts",
+          "tsx"
         ],
         "fetch_version": true,
         "home_enabled": false
@@ -1649,20 +1691,20 @@
       "template": "  React {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
       "timeout": 1000,
       "tips": [
-        "react-local",
-        "reactfolder",
-        "react-folder",
-        "react",
-        "reactjs",
-        "jsx",
-        "tsx",
         "create-react-app",
-        "react-scripts",
-        "react-refresh",
+        "jsx",
+        "react",
         "react-devtools",
-        "react-router",
+        "react-folder",
+        "react-local",
         "react-query",
-        "react-testing-library"
+        "react-refresh",
+        "react-router",
+        "react-scripts",
+        "react-testing-library",
+        "reactfolder",
+        "reactjs",
+        "tsx"
       ],
       "type": "react"
     },
@@ -1681,12 +1723,12 @@
       "template": "  Git {{ .MajorMinorPatch }}  ",
       "timeout": 1000,
       "tips": [
-        "gitversion",
         "gitv",
+        "gitversion",
+        "gitversioning",
         "semver",
-        "versioning",
         "version",
-        "gitversioning"
+        "versioning"
       ],
       "trailing_diamond": "",
       "type": "gitversion"
@@ -1738,14 +1780,14 @@
       "template": "{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }} | {{ .UpstreamIcon }} ↑{{ .Ahead }} ↓{{ .Behind }}{{ if .Staging.Changed }} |  {{ .Staging.String }}{{ end }}{{ if .Working.Changed }} |  {{ .Working.String }}{{ else }} |  Clean{{ end }} ",
       "timeout": 1000,
       "tips": [
-        "git",
+        "bitbucket",
         "g",
         "gh",
-        "gitstatus",
-        "gitstatusprompt",
+        "git",
         "github",
         "gitlab",
-        "bitbucket"
+        "gitstatus",
+        "gitstatusprompt"
       ],
       "trailing_diamond": "",
       "type": "git"
@@ -1777,13 +1819,13 @@
       "template": "{{ if not .Segments.npm-rprompt }} <b> {{ .Full }}</b> {{ end }}",
       "timeout": 1000,
       "tips": [
-        "npm",
-        "npx",
         "corepack",
         "fnm",
+        "npm",
+        "npx",
         "nvm",
-        "volta",
-        "package.json"
+        "package.json",
+        "volta"
       ],
       "trailing_diamond": "",
       "type": "npm"
@@ -1810,24 +1852,37 @@
         "fetch_virtual_env": true,
         "folder_name_fallback": true,
         "home_enabled": true,
-        "missing_command_text": ""
+        "missing_command_text": " Python: OMP failed to lookup Python version (missing command)",
+        "tooling": [
+          "pyenv",
+          "python",
+          "python3",
+          "py",
+          "uv"
+        ]
       },
       "style": "diamond",
-      "template": "  Python {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }} {{ .Venv }} {{ end }}{{ .Full }}{{ end }} ",
+      "template": "{{ if not .Segments.python-rprompt }}  Python {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }} {{ .Venv }} {{ end }}{{ .Full }}{{ end }} {{ end }}",
       "timeout": 1000,
       "tips": [
+        "conda",
+        "mypy",
+        "pip",
+        "pipenv",
+        "pipx",
+        "poetry",
+        "py",
+        "pyenv",
+        "pylance",
+        "pyright",
         "python",
         "python3",
-        "py",
-        "pip",
-        "pipx",
+        "ruff",
+        "setuptools",
         "uv",
-        "conda",
-        "poetry",
-        "pipenv",
+        "uvx",
         "venv",
-        "virtualenv",
-        "pyenv"
+        "virtualenv"
       ],
       "trailing_diamond": "",
       "type": "python"
@@ -1854,13 +1909,13 @@
       "template": " {{ if or .Segments.npm-rprompt .Segments.node-rprompt }}{{ else }}<b> {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}{{ if .Mismatch }} ⚠ mismatch{{ end }}</b>{{ end }} ",
       "timeout": 1000,
       "tips": [
-        "node",
         "corepack",
         "fnm",
+        "node",
+        "node_modules",
         "nvm",
-        "volta",
         "package.json",
-        "node_modules"
+        "volta"
       ],
       "trailing_diamond": "",
       "type": "node"
@@ -1886,15 +1941,15 @@
       "template": "{{ if not .Segments.java-rprompt }}  Java {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} {{ end }}",
       "timeout": 1000,
       "tips": [
+        "ant",
+        "build.gradle",
+        "gradle",
+        "gradlew",
         "java",
         "javac",
         "jshell",
         "mvn",
         "mvnw",
-        "gradle",
-        "gradlew",
-        "ant",
-        "build.gradle",
         "pom.xml"
       ],
       "trailing_diamond": "",
@@ -2009,40 +2064,43 @@
         },
         "mapped_locations_enabled": true,
         "max_depth": 10,
+        "max_width": 40,
         "mixed_threshold": 4,
         "right_format": "%s ",
         "style": "agnoster_short",
         "windows_registry_icon": ""
       },
+      "placeholder": "",
       "style": "diamond",
       "template": "  {{ path .Path .AbsolutePWD }} ",
       "timeout": 1000,
       "tips": [
+        "ag",
         "cd",
+        "dir",
+        "exa",
+        "explorer",
+        "fd",
+        "fdfind",
+        "find",
+        "l",
+        "ll",
+        "locate",
+        "ls",
+        "lt",
+        "popd",
+        "pushd",
+        "pwd",
+        "rg",
+        "tree",
+        "where",
+        "whereami",
+        "which",
         "z",
         "zi",
         "zo",
         "zoxide",
-        "ls",
-        "l",
-        "exa",
-        "dir",
-        "zxa",
-        "pwd",
-        "pushd",
-        "popd",
-        "tree",
-        "find",
-        "fd",
-        "locate",
-        "explorer",
-        "whereami",
-        "which",
-        "where",
-        "rg",
-        "ag",
-        "fd",
-        "fdfind"
+        "zxa"
       ],
       "trailing_diamond": "",
       "type": "path"
@@ -2067,21 +2125,35 @@
       "template": "{{ if not .Segments.sysinfo-rprompt }}  CPU {{ round .Load1 .Precision }}%   MEM {{ round .PhysicalPercentUsed .Precision }}%   DSK {{ round .Disks .Precision }}% {{ end }}",
       "timeout": 1000,
       "tips": [
-        "htop",
-        "top",
+        "Get-Process",
+        "pstop",
+        "agtop",
+        "bottom",
         "btop",
-        "glances",
-        "ps",
+        "cpu",
         "df",
+        "disk",
+        "dstat",
         "du",
         "free",
+        "glances",
+        "htop",
+        "hvtop",
         "iostat",
-        "cpu",
+        "iotop",
+        "iotop-w",
         "memory",
-        "disk",
-        "vmstat",
+        "mprocs",
+        "mtop",
+        "nmon",
+        "ntop",
+        "procs",
+        "ps",
+        "top",
         "uptime",
-        "Get-Process"
+        "wtop",
+        "xtop",
+        "vmstat"
       ],
       "trailing_diamond": "",
       "type": "sysinfo"
@@ -2103,15 +2175,15 @@
       "template": "{{ if not .Segments.os-rprompt }} {{ .Icon }} {{ upper .OS }}{{ if .WSL }} • WSL{{ end }} {{ end }}",
       "timeout": 1000,
       "tips": [
-        "uname",
-        "ver",
-        "winver",
-        "systeminfo",
+        "Get-ComputerInfo",
+        "fastfetch",
         "hostname",
         "lsb_release",
-        "fastfetch",
         "neofetch",
-        "Get-ComputerInfo"
+        "systeminfo",
+        "uname",
+        "ver",
+        "winver"
       ],
       "trailing_diamond": "",
       "type": "os"
@@ -2136,13 +2208,13 @@
       "template": "{{ if not .Segments.time-rprompt }}  {{ .CurrentDate | date \"Monday, January 2, 2006 3:04:05 PM\" }} {{ end }}",
       "timeout": 1000,
       "tips": [
-        "date",
-        "time",
-        "cal",
-        "timedatectl",
         "Get-Date",
-        "today",
-        "now"
+        "cal",
+        "date",
+        "now",
+        "time",
+        "timedatectl",
+        "today"
       ],
       "trailing_diamond": "",
       "type": "time"
@@ -2167,12 +2239,12 @@
       "template": "{{ if not .Segments.battery-rprompt }} {{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }} {{ end }}{{ .Icon }} {{ .Percentage }}% • {{ .State.String }} {{ end }}",
       "timeout": 1000,
       "tips": [
-        "powercfg",
-        "battery",
+        "Get-Battery",
         "acpi",
-        "upower",
+        "battery",
         "pmset",
-        "Get-Battery"
+        "powercfg",
+        "upower"
       ],
       "trailing_diamond": "",
       "type": "battery"
@@ -2200,19 +2272,19 @@
       "template": "{{ if not .Segments.shell-lprompt }}<b>  {{ upper .Name }} {{ upper .Version }} </b>{{ end }}",
       "timeout": 1000,
       "tips": [
-        "pwsh",
-        "powershell",
-        "bash",
-        "cmd",
-        "zsh",
-        "fish",
-        "xonsh",
-        "elvish",
-        "nu",
-        "nushell",
         "Get-Host",
         "Get-Shell",
-        "shell"
+        "bash",
+        "cmd",
+        "elvish",
+        "fish",
+        "nu",
+        "nushell",
+        "powershell",
+        "pwsh",
+        "shell",
+        "xonsh",
+        "zsh"
       ],
       "trailing_diamond": "",
       "type": "shell"
@@ -2241,16 +2313,16 @@
       "timeout": 1000,
       "tips": [
         "copilot",
-        "githubcopilot",
-        "ghcopilot",
+        "copilotcredits",
+        "copilotlimit",
+        "copilotpercent",
+        "copilotremaining",
         "copilotstatus",
         "copilotstatusprompt",
-        "githubcopilotstatus",
+        "ghcopilot",
         "ghcopilotstatus",
-        "copilotcredits",
-        "copilotremaining",
-        "copilotpercent",
-        "copilotlimit"
+        "githubcopilot",
+        "githubcopilotstatus"
       ],
       "trailing_diamond": "",
       "type": "copilot"
@@ -2273,14 +2345,14 @@
       "template": "{{ if not .Segments.executiontime-lprompt }} 󱑅 {{ .FormattedMs }} ({{ .Ms }}ms) {{ end }}",
       "timeout": 1000,
       "tips": [
-        "measure",
+        "benchmark",
         "cputime",
         "elapsed",
-        "benchmark",
+        "get-executiontime",
         "howlong",
+        "measure",
         "stopwatch",
-        "timeit",
-        "get-executiontime"
+        "timeit"
       ],
       "trailing_diamond": "",
       "type": "executiontime"
@@ -2312,13 +2384,13 @@
         "$LASTEXITCODE",
         "%ERRORLEVEL%",
         "Get-Error",
-        "status",
+        "error",
+        "errorlevel",
         "exitcode",
         "returncode",
-        "errorlevel",
-        "error",
-        "warning",
-        "success"
+        "status",
+        "success",
+        "warning"
       ],
       "trailing_diamond": "",
       "type": "status"
@@ -2343,17 +2415,17 @@
       "template": "{{ if not .Segments.promptcount-rprompt }} 󰘳 Session prompts: {{ .PromptCount }} {{ end }}",
       "timeout": 1000,
       "tips": [
-        "history",
         "Get-History",
-        "h",
-        "fc",
-        "promptcount",
-        "sessionhistory",
-        "commandhistory",
         "cmdhistory",
+        "commandhistory",
+        "fc",
+        "h",
+        "history",
+        "promptcount",
+        "promptnumber",
         "sessioncount",
-        "sessionprompts",
-        "promptnumber"
+        "sessionhistory",
+        "sessionprompts"
       ],
       "trailing_diamond": "",
       "type": "text"
@@ -2375,16 +2447,16 @@
       "template": "{{ if not .Segments.session-lprompt-end }} {{ if .SSHSession }} SSH: {{ end }}{{ .UserName }}@{{ .HostName }} {{ end }}",
       "timeout": 1000,
       "tips": [
-        "whoami",
-        "id",
-        "ssh",
-        "remote",
-        "hostname",
-        "username",
-        "user",
+        "connection",
         "host",
+        "hostname",
+        "id",
+        "remote",
         "session",
-        "connection"
+        "ssh",
+        "user",
+        "username",
+        "whoami"
       ],
       "trailing_diamond": "",
       "type": "session"
@@ -2403,15 +2475,15 @@
       "template": "{{ if or .Segments.root-lprompt .Segments.root-rprompt }}{{ else }}<b>  Administrator/Root </b>{{ end }}",
       "timeout": 1000,
       "tips": [
+        "admin",
+        "administrator",
+        "elevated",
+        "privileged",
+        "root",
         "su",
         "sudo",
-        "admin",
-        "root",
-        "administrator",
         "superuser",
-        "wheel",
-        "elevated",
-        "privileged"
+        "wheel"
       ],
       "trailing_diamond": "",
       "type": "root"
@@ -2462,27 +2534,30 @@
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "always_enabled": true
+        "always_enabled": false
       },
       "style": "diamond",
       "template": " <b>{{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }} {{.Version}}{{ end }} {{ if .Name }}{{ title .Name }}{{ end }}{{ end }}</b> ",
       "timeout": 1000,
       "tips": [
-        "project",
-        "workspace",
-        "version",
-        "name",
-        "semver",
-        "package",
-        "dependency",
-        "module",
-        "library",
-        "framework",
-        "tool",
         "build",
-        "ci",
         "cd",
-        "pipeline"
+        "ci",
+        "dependency",
+        "framework",
+        "library",
+        "manifest",
+        "module",
+        "name",
+        "package",
+        "pipeline",
+        "project",
+        "semver",
+        "tool",
+        "version",
+        "version",
+        "versioning",
+        "workspace"
       ],
       "trailing_diamond": "",
       "type": "project"
@@ -2505,16 +2580,16 @@
       "template": "<b>  {{ .Value }} </b>",
       "timeout": 1000,
       "tips": [
+        "buildlab",
+        "currentversion",
+        "hklm",
+        "microsoft",
         "reg",
         "regedit",
         "registry",
-        "winreg",
-        "windows registry",
-        "hklm",
-        "currentversion",
-        "buildlab",
         "software",
-        "microsoft"
+        "windows registry",
+        "winreg"
       ],
       "trailing_diamond": "",
       "type": "winreg"
@@ -2538,14 +2613,14 @@
       "template": "<b>  Winget  {{ .UpdateCount }} </b>",
       "timeout": 10000,
       "tips": [
-        "wingetstatus",
-        "wgu",
-        "wgua",
-        "wingetupgrade",
-        "wingetup",
         "packageupdate",
         "updates",
-        "upgrade"
+        "upgrade",
+        "wgu",
+        "wgua",
+        "wingetstatus",
+        "wingetup",
+        "wingetupgrade"
       ],
       "trailing_diamond": "",
       "type": "winget"
@@ -2596,15 +2671,15 @@
       "timeout": 1000,
       "tips": [
         "echo",
+        "format",
+        "format-list",
+        "format-table",
         "printf",
         "script",
         "shell",
-        "write-host",
-        "write-output",
         "write",
-        "format",
-        "format-table",
-        "format-list"
+        "write-host",
+        "write-output"
       ],
       "trailing_diamond": "",
       "type": "text"
@@ -2623,15 +2698,15 @@
       "template": " <b> {{ .Shell }}</b>",
       "timeout": 1000,
       "tips": [
-        "help",
-        "man",
-        "info",
+        "docs",
         "documentation",
-        "manual",
         "guide",
-        "tutorial",
+        "help",
+        "info",
+        "man",
+        "manual",
         "reference",
-        "docs"
+        "tutorial"
       ],
       "trailing_diamond": "",
       "type": "text"
@@ -2654,10 +2729,10 @@
       "timeout": 1000,
       "tips": [
         "az",
+        "azcli",
         "azure",
-        "tenant",
         "subscription",
-        "azcli"
+        "tenant"
       ],
       "trailing_diamond": "",
       "type": "az"
@@ -2681,10 +2756,10 @@
       "tips": [
         "aws",
         "awscli",
-        "profile",
-        "region",
         "awsprofile",
-        "awsregion"
+        "awsregion",
+        "profile",
+        "region"
       ],
       "trailing_diamond": "",
       "type": "aws"
@@ -2703,14 +2778,14 @@
       "template": " <b> GCP: {{ if .Error }}{{ .Error }}{{ else }}{{ .Project }}{{ if .Region }}@{{ .Region }}{{ end }} | {{ .Account }}{{ end }}</b> ",
       "timeout": 1000,
       "tips": [
-        "gcp",
+        "account",
         "gcloud",
+        "gcp",
+        "googlecloud",
+        "googlecloudplatform",
         "gsutil",
         "project",
-        "account",
-        "region",
-        "googlecloud",
-        "googlecloudplatform"
+        "region"
       ],
       "trailing_diamond": "",
       "type": "gcp"
@@ -2729,14 +2804,14 @@
       "template": " <b>󰯉 {{ .Model.DisplayName }} {{ .TokenUsagePercent.Gauge }} • {{ .FormattedTokens }} • {{ .FormattedCost }}</b> ",
       "timeout": 1000,
       "tips": [
-        "claude",
-        "oh-my-posh claude",
         "ai",
-        "llm",
-        "sonnet",
-        "opus",
+        "anthropic",
+        "claude",
         "haiku",
-        "anthropic"
+        "llm",
+        "oh-my-posh claude",
+        "opus",
+        "sonnet"
       ],
       "trailing_diamond": "",
       "type": "claude"
@@ -2792,13 +2867,13 @@
       "template": " <b> Docker: {{ title .Context }}</b> ",
       "timeout": 1000,
       "tips": [
-        "docker",
-        "docker-compose",
         "Dockerfile",
-        "podman",
         "container",
         "containers",
-        "context"
+        "context",
+        "docker",
+        "docker-compose",
+        "podman"
       ],
       "trailing_diamond": "",
       "type": "docker"
@@ -2830,9 +2905,9 @@
       "template": " <b> Tauri {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
       "timeout": 1000,
       "tips": [
-        "tauri",
         "cargo tauri",
         "src-tauri",
+        "tauri",
         "tauri.conf.json",
         "tauri.config.json"
       ],
@@ -2864,9 +2939,9 @@
       "template": " <b> Yarn {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
       "timeout": 1000,
       "tips": [
+        "package.json",
         "yarn",
-        "yarn.lock",
-        "package.json"
+        "yarn.lock"
       ],
       "trailing_diamond": "",
       "type": "yarn"
@@ -2917,8 +2992,8 @@
         "cache_duration": "24h",
         "display_mode": "always",
         "extensions": [
-          "bun.lockb",
-          "bun.lock"
+          "bun.lock",
+          "bun.lockb"
         ],
         "fetch_version": true,
         "home_enabled": false,
@@ -2929,9 +3004,9 @@
       "timeout": 1000,
       "tips": [
         "bun",
-        "bunx",
-        "bun.lockb",
         "bun.lock",
+        "bun.lockb",
+        "bunx",
         "package.json"
       ],
       "trailing_diamond": "",
@@ -2951,9 +3026,9 @@
       "template": " <b> {{ .Name }}:{{ .User }}@{{ .Server }}</b> ",
       "timeout": 1000,
       "tips": [
+        "argo",
         "argocd",
-        "argocd-cli",
-        "argo"
+        "argocd-cli"
       ],
       "trailing_diamond": "",
       "type": "argocd"
@@ -2980,12 +3055,12 @@
       "template": " <b>󰪮 .NET {{ if .Error }}{{ .Error }}{{ else }}v{{ .Full }}{{ end }} </b> ",
       "timeout": 1000,
       "tips": [
+        "csc",
         "dotnet",
+        "fsc",
         "msbuild",
         "nuget",
-        "csc",
-        "vbc",
-        "fsc"
+        "vbc"
       ],
       "trailing_diamond": "",
       "type": "dotnet"
