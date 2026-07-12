@@ -1,17 +1,17 @@
 ﻿<#
 .SYNOPSIS
 Copy the regular ExperimentalDividers theme to a Fish variant,
-disable shell integration, and remove the "prompt_mark" entry from iterm_features.
+enable shell integration, and remove the "prompt_mark" entry from iterm_features.
 
 .DESCRIPTION
 This script copies OhMyPosh-Atomic-Custom-ExperimentalDividers.json to
 OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json (overwriting if present),
-sets shell_integration to false, and removes only the "prompt_mark" entry from
+sets shell_integration to true, and removes only the "prompt_mark" entry from
 iterm_features (if present). If iterm_features becomes empty it will be removed.
 
-It also converts any blocks with alignment "right" to "left" (Fish-friendly),
-and forces newline=true on the main right-aligned prompt block (the one with a
-"filler" property) so those segments start on a new line.
+Prompt block alignment and newline settings are preserved. Fish and Oh My Posh
+now render the right-aligned top block correctly; converting it to a left-aligned
+newline block would push the editable prompt onto an unnecessary third line.
 
 .PARAMETER Source
 Path to the source theme JSON (defaults to the theme in the script's directory).
@@ -127,35 +127,6 @@ try {
     else {
         $obj | Add-Member -NotePropertyName 'shell_integration' -NotePropertyValue $true
         Write-Info 'Added shell_integration=true'
-    }
-
-    # Fish: move the *main* right-aligned prompt block to the left and onto a new line.
-    # We specifically target the right-aligned block that has a "filler" property.
-    # (We intentionally do NOT change the rprompt block alignment.)
-    if ($obj.PSObject.Properties.Name -contains 'blocks' -and $null -ne $obj.blocks) {
-        for ($i = 0; $i -lt $obj.blocks.Count; $i++) {
-            $block = $obj.blocks[$i]
-            if ($null -eq $block) { continue }
-
-            $hasAlignment = $block.PSObject.Properties.Name -contains 'alignment'
-            if (-not $hasAlignment) { continue }
-
-            $hasFiller = $block.PSObject.Properties.Name -contains 'filler'
-
-            if ($block.alignment -eq 'right' -and $hasFiller) {
-                $block.alignment = 'left'
-                if ($block.PSObject.Properties.Name -contains 'newline') {
-                    $block.newline = $true
-                }
-                else {
-                    $block | Add-Member -NotePropertyName 'newline' -NotePropertyValue $true
-                }
-                Write-Info "Converted main prompt block[$i] right->left and set newline=true"
-            }
-        }
-    }
-    else {
-        Write-Info 'No blocks array found — cannot convert right->left'
     }
 
     # Remove only the 'prompt_mark' item from iterm_features if present

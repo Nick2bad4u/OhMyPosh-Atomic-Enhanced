@@ -131,7 +131,7 @@
             "{{ if not .Writable }}p:maroon_error{{ end }}"
           ],
           "cache": {
-            "duration": "infinite",
+            "duration": "144h",
             "strategy": "folder"
           },
           "foreground": "p:black",
@@ -290,7 +290,7 @@
             "branch_gone_icon": "≢",
             "branch_icon": "  ",
             "branch_identical_icon": "≡",
-            "branch_template": "<b>{{ if .Mapped }}{{ title .Mapped }}{{ else }}{{ .Icon }}{{ end }}{{ title .Branch }}</b>",
+            "branch_template": "<b>{{ title .Branch }}</b>",
             "cherry_pick_icon": "",
             "codeberg_icon": "",
             "codecommit_icon": "",
@@ -552,7 +552,7 @@
           "alias": "sysinfo-rprompt",
           "background": "p:sysinfo_bg_ok",
           "background_templates": [
-            "{{ if or (ge .PhysicalPercentUsed 90) (ge .Disks 90) (ge .Load1 90) }}p:sysinfo_bg_crit{{ else if or (ge .PhysicalPercentUsed 80) (ge .Disks 80) (ge .Load1 80) }}p:sysinfo_bg_warn{{ else }}p:sysinfo_bg_ok{{ end }}"
+            "{{ if or (ge .PhysicalPercentUsed .Var.sysinfo_critical_percent) (ge .Load1 .Var.sysinfo_critical_percent) }}p:sysinfo_bg_crit{{ else if or (ge .PhysicalPercentUsed .Var.sysinfo_warning_percent) (ge .Load1 .Var.sysinfo_warning_percent) }}p:sysinfo_bg_warn{{ else }}p:sysinfo_bg_ok{{ end }}"
           ],
           "cache": {
             "duration": "3m",
@@ -567,7 +567,7 @@
           },
           "placeholder": "󰒋",
           "style": "diamond",
-          "template": "<b> {{ if gt .Load1 80 }}{{ else if lt .Load1 50 }}{{ else }}󰇅{{ end }} {{ $load := round .Load1 .Precision }}{{ $mem := round .PhysicalPercentUsed .Precision }}{{ $disk := round .Disks .Precision }}{{ if lt $load 80 }}{{$load}}%{{ else if lt $load 90 }}<p:sysinfo_warn>{{$load}}%</>{{ else }}<p:sysinfo_crit>{{$load}}%</>{{ end }}  {{ if lt $mem 80 }}{{$mem}}%{{ else if lt $mem 90 }}<p:sysinfo_warn>{{$mem}}%</>{{ else }}<p:sysinfo_crit>{{$mem}}%</>{{ end }}  {{ if lt $disk 80 }}{{$disk}}%{{ else if lt $disk 90 }}<p:sysinfo_warn>{{$disk}}%</>{{ else }}<p:sysinfo_crit>{{$disk}}%</>{{ end }} </b>",
+          "template": "<b> {{ if gt .Load1 .Var.sysinfo_warning_percent }}{{ else if lt .Load1 50 }}{{ else }}󰇅{{ end }} {{ $load := round .Load1 .Precision }}{{ $mem := round .PhysicalPercentUsed .Precision }}{{ $disk := round .Disks .Precision }}{{ if lt $load .Var.sysinfo_warning_percent }}{{$load}}%{{ else if lt $load .Var.sysinfo_critical_percent }}<p:sysinfo_warn>{{$load}}%</>{{ else }}<p:sysinfo_crit>{{$load}}%</>{{ end }}  {{ if lt $mem .Var.sysinfo_warning_percent }}{{$mem}}%{{ else if lt $mem .Var.sysinfo_critical_percent }}<p:sysinfo_warn>{{$mem}}%</>{{ else }}<p:sysinfo_crit>{{$mem}}%</>{{ end }}  {{ if lt $disk .Var.sysinfo_warning_percent }}{{$disk}}%{{ else if lt $disk .Var.sysinfo_critical_percent }}<p:sysinfo_warn>{{$disk}}%</>{{ else }}<p:sysinfo_crit>{{$disk}}%</>{{ end }} </b>",
           "templates_logic": "first_match",
           "trailing_diamond": "",
           "type": "sysinfo"
@@ -644,7 +644,7 @@
           },
           "foreground": "p:time_fg_day",
           "foreground_templates": [
-            "{{ if gt .Code 0 }}p:time_fg_night{{ else if or (lt .CurrentDate.Hour 7) (ge .CurrentDate.Hour 19) }}p:time_fg_night{{ else }}p:time_fg_day{{ end }}"
+            "{{ if gt .Code 0 }}p:time_fg_night{{ else if or (lt .CurrentDate.Hour .Var.day_start_hour) (ge .CurrentDate.Hour .Var.night_start_hour) }}p:time_fg_night{{ else }}p:time_fg_day{{ end }}"
           ],
           "invert_powerline": false,
           "leading_diamond": "",
@@ -681,7 +681,7 @@
           },
           "foreground": "p:black",
           "foreground_templates": [
-            "{{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }}p:battery_crit_fg{{ else }}p:black{{ end }}"
+            "{{ if and (lt .Percentage .Var.battery_critical_percent) (eq .State.String \"Discharging\") }}p:battery_crit_fg{{ else }}p:black{{ end }}"
           ],
           "invert_powerline": false,
           "leading_diamond": "",
@@ -696,7 +696,7 @@
           "placeholder": "󰁹",
           "powerline_symbol": "",
           "style": "diamond",
-          "template": " {{ if and (lt .Percentage 20) (eq .State.String \"Discharging\") }} {{ end }}{{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }} ",
+          "template": " {{ if and (lt .Percentage .Var.battery_warning_percent) (eq .State.String \"Discharging\") }} {{ end }}{{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }} ",
           "templates_logic": "first_match",
           "trailing_diamond": "",
           "type": "battery"
@@ -952,7 +952,7 @@
           },
           "placeholder": "󰦈 ▰▰▰▱▱ 󱋊 ??%",
           "style": "diamond",
-          "template": "{{ if .Segments.git-lprompt }}<b> 󰦈 {{ .Premium.Remaining.Gauge }} 󱋊 {{ .Premium.Percent }}% </b>{{ end }}",
+          "template": "{{ if .Segments.Contains \"git-lprompt\" }}<b> 󰦈 {{ .Premium.Remaining.Gauge }} 󱋊 {{ .Premium.Percent }}% </b>{{ end }}",
           "timeout": 1000,
           "trailing_diamond": "",
           "type": "copilot"
@@ -961,11 +961,11 @@
           "alias": "promptcount-rprompt",
           "background": "p:gray_prompt_count_bg",
           "background_templates": [
-            "{{ if gt .PromptCount 500 }}p:maroon_error{{ else if gt .PromptCount 200 }}p:red_alert{{ else if gt .PromptCount 100 }}p:orange_warning{{ else if gt .PromptCount 50 }}p:tooling_yellow{{ else }}p:gray_prompt_count_bg{{ end }}"
+            "{{ if gt .PromptCount .Var.prompt_count_extreme }}p:maroon_error{{ else if gt .PromptCount .Var.prompt_count_critical }}p:red_alert{{ else if gt .PromptCount .Var.prompt_count_high }}p:orange_warning{{ else if gt .PromptCount .Var.prompt_count_warning }}p:tooling_yellow{{ else }}p:gray_prompt_count_bg{{ end }}"
           ],
           "foreground": "p:gray_prompt_count_fg",
           "foreground_templates": [
-            "{{ if gt .PromptCount 50 }}p:white{{ else }}p:gray_prompt_count_fg{{ end }}"
+            "{{ if gt .PromptCount .Var.prompt_count_warning }}p:white{{ else }}p:gray_prompt_count_fg{{ end }}"
           ],
           "invert_powerline": false,
           "leading_diamond": "",
@@ -1082,7 +1082,7 @@
       "type": "prompt"
     }
   ],
-  "console_title_template": "{{ if .Segments.git-lprompt }}{{ if .Segments.git-lprompt.UpstreamIcon }}{{ .Segments.git-lprompt.UpstreamIcon }} {{ else }} {{ end }}{{ if .Segments.git-lprompt.RepoName }}{{ .Segments.git-lprompt.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ trim .Segments.git-lprompt.HEAD }}{{ if .Segments.git-lprompt.BranchStatus }} {{ trim .Segments.git-lprompt.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} (root){{ end }} - {{ .Shell }}",
+  "console_title_template": "{{ if .Segments.Contains \"git-lprompt\" }}{{ if .Segments.git-lprompt.UpstreamIcon }}{{ .Segments.git-lprompt.UpstreamIcon }} {{ else }} {{ end }}{{ if .Segments.git-lprompt.RepoName }}{{ .Segments.git-lprompt.RepoName }}{{ else }}{{ .Folder }}{{ end }} [{{ trim .Segments.git-lprompt.HEAD }}{{ if .Segments.git-lprompt.BranchStatus }} {{ trim .Segments.git-lprompt.BranchStatus }}{{ end }}]{{ else }}{{ .Folder }}{{ end }}{{ if .Root }} (root){{ end }} - {{ .Shell }}",
   "cycle": [],
   "debug_prompt": {
     "background": "transparent",
@@ -1358,6 +1358,7 @@
     "template": "╰─ "
   },
   "shell_integration": false,
+  "streaming": 100,
   "terminal_background": "p:black",
   "tooltips": [
     {
@@ -1419,7 +1420,7 @@
         "workout_icon": ""
       },
       "style": "diamond",
-      "template": "<b>{{ if .Error }}{{ .Error }}{{ else }}{{ .Icon }} {{ $name := default \"(no activity)\" .Name }}{{ if gt (len $name) 38 }}{{ trunc 38 $name }}…{{ else }}{{ $name }}{{ end }}{{ $t := default \"\" .Type }}{{ if $t }} • {{ $t }}{{ end }}{{ $dist := default 0.0 .Distance }}{{ if gt $dist 0.0 }} • {{ printf \"%.1f\" (divf $dist 1609.34) }}mi{{ end }}{{ $dur := default 0.0 .Duration }}{{ if gt $dur 0.0 }} • {{ $s := int $dur }}{{ $h := div $s 3600 }}{{ $m := div (mod $s 3600) 60 }}{{ if gt $h 0 }}{{ printf \"%dh%02dm\" $h $m }}{{ else }}{{ printf \"%dm\" $m }}{{ end }}{{ end }}{{ $ahr := default 0.0 .AverageHeartRate }}{{ if gt $ahr 0.0 }} •  {{ printf \"%.0f\" $ahr }}{{ $mhr := default 0.0 .MaxHeartRate }}{{ if gt $mhr 0.0 }}/{{ printf \"%.0f\" $mhr }}{{ end }}bpm{{ end }}{{ $aw := default 0.0 .AverageWatts }}{{ if or .DeviceWatts (gt $aw 0.0) }} •  {{ printf \"%.0f\" $aw }}W{{ $waw := default 0.0 .WeightedAverageWatts }}{{ if gt $waw 0.0 }} ({{ printf \"%.0f\" $waw }}W){{ end }}{{ end }}{{ $k := default 0 .KudosCount }}{{ if gt $k 0 }} •  {{ $k }}{{ end }} • {{ .Ago }}{{ end }}</b>",
+      "template": "<b>{{ if .Error }}{{ .Error }}{{ else }}{{ .Icon }} {{ $name := default \"(no activity)\" .Name }}{{ $maxLength := int .Var.strava_activity_name_max_length }}{{ if gt (len $name) $maxLength }}{{ trunc $maxLength $name }}…{{ else }}{{ $name }}{{ end }}{{ $t := default \"\" .Type }}{{ if $t }} • {{ $t }}{{ end }}{{ $dist := default 0.0 .Distance }}{{ if gt $dist 0.0 }} • {{ printf \"%.1f\" (divf $dist 1609.34) }}mi{{ end }}{{ $dur := default 0.0 .Duration }}{{ if gt $dur 0.0 }} • {{ $s := int $dur }}{{ $h := div $s 3600 }}{{ $m := div (mod $s 3600) 60 }}{{ if gt $h 0 }}{{ printf \"%dh%02dm\" $h $m }}{{ else }}{{ printf \"%dm\" $m }}{{ end }}{{ end }}{{ $ahr := default 0.0 .AverageHeartRate }}{{ if gt $ahr 0.0 }} •  {{ printf \"%.0f\" $ahr }}{{ $mhr := default 0.0 .MaxHeartRate }}{{ if gt $mhr 0.0 }}/{{ printf \"%.0f\" $mhr }}{{ end }}bpm{{ end }}{{ $aw := default 0.0 .AverageWatts }}{{ if or .DeviceWatts (gt $aw 0.0) }} •  {{ printf \"%.0f\" $aw }}W{{ $waw := default 0.0 .WeightedAverageWatts }}{{ if gt $waw 0.0 }} ({{ printf \"%.0f\" $waw }}W){{ end }}{{ end }}{{ $k := default 0 .KudosCount }}{{ if gt $k 0 }} •  {{ $k }}{{ end }} • {{ .Ago }}{{ end }}</b>",
       "templates_logic": "first_match",
       "tips": [
         "activity",
@@ -2316,7 +2317,7 @@
       "min_width": 80,
       "options": {
         "branch_icon": "  ",
-        "branch_template": "<b>{{ if .Mapped }}{{ $m := title .Mapped }}{{ if gt (len $m) 24 }}{{ trunc 24 $m }}…{{ else }}{{ $m }}{{ end }}{{ else }}{{ .Icon }}{{ $b := title .Branch }}{{ if gt (len $b) 24 }}{{ trunc 24 $b }}…{{ else }}{{ $b }}{{ end }}{{ end }}</b>",
+        "branch_template": "<b>{{ $branch := title .Branch }}{{ if gt (len $branch) 24 }}{{ trunc 24 $branch }}…{{ else }}{{ $branch }}{{ end }}</b>",
         "disable_with_jj": false,
         "fetch_bare_info": true,
         "fetch_status": true,
@@ -2514,13 +2515,9 @@
       "tips": [
         "ant",
         "build.gradle",
-        "gradle",
-        "gradlew",
         "java",
         "javac",
         "jshell",
-        "mvn",
-        "mvnw",
         "pom.xml"
       ],
       "trailing_diamond": "",
@@ -2530,7 +2527,7 @@
       "alias": "folder-tooltip",
       "background": "p:cycle_deep_navy",
       "cache": {
-        "duration": "infinite",
+        "duration": "144h",
         "strategy": "folder"
       },
       "foreground": "p:cycle_aqua",
@@ -2680,7 +2677,7 @@
       "alias": "sysinfo-tooltip",
       "background": "p:sysinfo_bg_ok",
       "background_templates": [
-        "{{ if or (ge .PhysicalPercentUsed 90) (ge .Disks 90) (ge .Load1 90) }}p:sysinfo_bg_crit{{ else if or (ge .PhysicalPercentUsed 80) (ge .Disks 80) (ge .Load1 80) }}p:sysinfo_bg_warn{{ else }}p:sysinfo_bg_ok{{ end }}"
+        "{{ if or (ge .PhysicalPercentUsed .Var.sysinfo_critical_percent) (ge .Load1 .Var.sysinfo_critical_percent) }}p:sysinfo_bg_crit{{ else if or (ge .PhysicalPercentUsed .Var.sysinfo_warning_percent) (ge .Load1 .Var.sysinfo_warning_percent) }}p:sysinfo_bg_warn{{ else }}p:sysinfo_bg_ok{{ end }}"
       ],
       "cache": {
         "duration": "2m",
@@ -2768,7 +2765,7 @@
       },
       "foreground": "p:time_fg_day",
       "foreground_templates": [
-        "{{ if or (lt .CurrentDate.Hour 7) (ge .CurrentDate.Hour 19) }}p:time_fg_night{{ else }}p:time_fg_day{{ end }}"
+        "{{ if or (lt .CurrentDate.Hour .Var.day_start_hour) (ge .CurrentDate.Hour .Var.night_start_hour) }}p:time_fg_night{{ else }}p:time_fg_day{{ end }}"
       ],
       "leading_diamond": "",
       "min_width": 80,
@@ -2799,7 +2796,7 @@
       },
       "foreground": "p:black",
       "foreground_templates": [
-        "{{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }}p:battery_crit_fg{{ else }}p:black{{ end }}"
+        "{{ if and (lt .Percentage .Var.battery_critical_percent) (eq .State.String \"Discharging\") }}p:battery_crit_fg{{ else }}p:black{{ end }}"
       ],
       "leading_diamond": "",
       "min_width": 80,
@@ -2807,7 +2804,7 @@
         "display_error": true
       },
       "style": "diamond",
-      "template": "{{ if not .Segments.battery-rprompt }} {{ if and (lt .Percentage 10) (eq .State.String \"Discharging\") }} {{ end }}{{ .Icon }} {{ .Percentage }}% • {{ .State.String }} {{ end }}",
+      "template": "{{ if not .Segments.battery-rprompt }} {{ if and (lt .Percentage .Var.battery_critical_percent) (eq .State.String \"Discharging\") }} {{ end }}{{ .Icon }} {{ .Percentage }}% • {{ .State.String }} {{ end }}",
       "timeout": 1000,
       "tips": [
         "Get-Battery",
@@ -3011,7 +3008,7 @@
       "alias": "promptcount-tooltip",
       "background": "p:gray_prompt_count_bg",
       "background_templates": [
-        "{{ if gt .PromptCount 500 }}p:maroon_error{{ else if gt .PromptCount 200 }}p:red_alert{{ else if gt .PromptCount 100 }}p:orange_warning{{ else if gt .PromptCount 50 }}p:tooling_yellow{{ else }}p:gray_prompt_count_bg{{ end }}"
+        "{{ if gt .PromptCount .Var.prompt_count_extreme }}p:maroon_error{{ else if gt .PromptCount .Var.prompt_count_critical }}p:red_alert{{ else if gt .PromptCount .Var.prompt_count_high }}p:orange_warning{{ else if gt .PromptCount .Var.prompt_count_warning }}p:tooling_yellow{{ else }}p:gray_prompt_count_bg{{ end }}"
       ],
       "cache": {
         "duration": "10s",
@@ -3019,7 +3016,7 @@
       },
       "foreground": "p:gray_prompt_count_fg",
       "foreground_templates": [
-        "{{ if gt .PromptCount 50 }}p:white{{ else }}p:gray_prompt_count_fg{{ end }}"
+        "{{ if gt .PromptCount .Var.prompt_count_warning }}p:white{{ else }}p:gray_prompt_count_fg{{ end }}"
       ],
       "leading_diamond": "",
       "min_width": 80,
@@ -3788,7 +3785,7 @@
       "{{ if eq .Shell \"xonsh\" }}p:shell_xonsh_yellow{{ end }}"
     ],
     "newline": false,
-    "template": "{{ if .Segments.executiontime-lprompt }}<p:purple_exec>󱑅 {{ .Segments.executiontime-lprompt.FormattedMs }}</> <p:accent>│</>{{ end }}<p:accent>╠═<p:purple_session,transparent>{{ upper .Shell }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
+    "template": "{{ if and .Var.show_execution_time_in_transient (.Segments.Contains \"executiontime-lprompt\") }}<p:purple_exec>󱑅 {{ .Segments.executiontime-lprompt.FormattedMs }}</> <p:accent>│</>{{ end }}<p:accent>╠═<p:purple_session,transparent>{{ upper .Shell }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
   },
   "upgrade": {
     "auto": true,
@@ -3801,7 +3798,21 @@
     "foreground": "p:black",
     "template": "<p:green_valid_line,transparent></> "
   },
-  "var": {},
+  "var": {
+    "battery_critical_percent": 10,
+    "battery_warning_percent": 20,
+    "day_start_hour": 7,
+    "night_start_hour": 19,
+    "prompt_count_critical": 200,
+    "prompt_count_extreme": 500,
+    "prompt_count_high": 100,
+    "prompt_count_warning": 50,
+    "prompt_symbol": "❯",
+    "show_execution_time_in_transient": true,
+    "strava_activity_name_max_length": 38,
+    "sysinfo_critical_percent": 90,
+    "sysinfo_warning_percent": 80
+  },
   "version": 4,
   "yaml-language-server": {
     "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"
