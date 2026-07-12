@@ -1,16 +1,20 @@
 ﻿<#
 .SYNOPSIS
 Copy the regular ExperimentalDividers theme to a Fish variant,
-enable shell integration, and remove the "prompt_mark" entry from iterm_features.
+enable shell integration, disable streaming, and remove the "prompt_mark" entry
+from iterm_features.
 
 .DESCRIPTION
 This script copies OhMyPosh-Atomic-Custom-ExperimentalDividers.json to
 OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json (overwriting if present),
 sets shell_integration to true, and removes only the "prompt_mark" entry from
 iterm_features (if present). If iterm_features becomes empty it will be removed.
+Streaming is removed because asynchronous Fish repaints can interleave delayed
+segments with the editable line in multiline, right-aligned prompts.
 
-Prompt block alignment and newline settings are preserved. Fish and Oh My Posh
-now render the right-aligned top block correctly; converting it to a left-aligned
+Prompt block alignment and newline settings are preserved. The editable prompt's
+first segment is prefixed with CSI 1G so Fish returns to column one after Oh My
+Posh renders the right-aligned top block. Converting that block to a left-aligned
 newline block would push the editable prompt onto an unnecessary third line.
 
 .PARAMETER Source
@@ -127,6 +131,44 @@ try {
     else {
         $obj | Add-Member -NotePropertyName 'shell_integration' -NotePropertyValue $true
         Write-Info 'Added shell_integration=true'
+    }
+
+    # Fish redraws streamed segments asynchronously. With this multiline theme,
+    # those updates can be painted after the editable prompt and scramble the
+    # left, right, and input blocks. Keep streaming available in the source theme
+    # while disabling it in the Fish-specific variant.
+    if ($obj.PSObject.Properties.Name -contains 'streaming') {
+        $obj.PSObject.Properties.Remove('streaming')
+        Write-Info 'Disabled streaming for stable Fish prompt rendering'
+    }
+
+    # A right-aligned prompt block leaves the terminal cursor at the right edge.
+    # Fish preserves that column when the following newline is rendered, which
+    # can place the editable prompt at the far right. CSI 1G moves the cursor to
+    # column one without adding another line or changing the shared source theme.
+    $cursorColumnOne = "$([char]0x1b)[1G"
+    $inputSegment = $null
+
+    foreach ($block in @($obj.blocks)) {
+        foreach ($segment in @($block.segments)) {
+            if ($segment.alias -eq 'shell-lprompt-end') {
+                $inputSegment = $segment
+                break
+            }
+        }
+
+        if ($null -ne $inputSegment) { break }
+    }
+
+    if ($null -ne $inputSegment -and $inputSegment.PSObject.Properties.Name -contains 'template') {
+        if (-not $inputSegment.template.StartsWith($cursorColumnOne, [StringComparison]::Ordinal)) {
+            $inputSegment.template = "$cursorColumnOne$($inputSegment.template)"
+        }
+
+        Write-Info 'Reset editable prompt to column one after the right-aligned block'
+    }
+    else {
+        Write-Info 'No shell-lprompt-end template found - no cursor reset added'
     }
 
     # Remove only the 'prompt_mark' item from iterm_features if present

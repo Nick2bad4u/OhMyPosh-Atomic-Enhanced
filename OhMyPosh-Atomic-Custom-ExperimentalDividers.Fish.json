@@ -1013,7 +1013,7 @@
           "min_width": 0,
           "placeholder": "╰─",
           "style": "plain",
-          "template": "╰─",
+          "template": "\u001b[1G╰─",
           "templates_logic": "first_match",
           "type": "text"
         },
@@ -1358,7 +1358,6 @@
     "template": "╰─ "
   },
   "shell_integration": true,
-  "streaming": 100,
   "terminal_background": "p:black",
   "tooltips": [
     {
