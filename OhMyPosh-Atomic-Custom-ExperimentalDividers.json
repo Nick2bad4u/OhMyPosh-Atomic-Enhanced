@@ -3770,7 +3770,7 @@
     "tooltips_action": "prepend",
     "transient_prompt": {
         "background": "transparent",
-        "filler": "<p:purple_session>󱀝</><p:accent>󱀝</><p:blue_primary>󱀝</><p:divider_blue_primary_to_tooling_purple>󱀝</><p:tooling_purple>󱀝</><p:divider_tooling_purple_to_typescript_eslint_pink>󱀝</><p:typescript_eslint_pink>󱀝</><p:divider_typescript_eslint_pink_to_orange>󱀝</><p:orange>󱀝</><p:divider_orange_to_green_added>󱀝</><p:green_added>󱀝</><p:divider_green_added_to_yellow_bright>󱀝</><p:yellow_bright>󱀝</><p:divider_yellow_bright_to_navy_text>󱀝</><p:nba_det_pistons_blue>󱀝</><p:accent>󱀝</><p:purple_exec>󱀝</>",
+        "filler": "<p:purple_session>󱀝</><p:accent>󱀝</><p:blue_primary>󱀝</><p:divider_blue_primary_to_tooling_purple>󱀝</><p:tooling_purple>󱀝</><p:divider_tooling_purple_to_typescript_eslint_pink>󱀝</><p:typescript_eslint_pink>󱀝</><p:divider_typescript_eslint_pink_to_orange>󱀝</><p:orange>󱀝</><p:divider_orange_to_green_added>󱀝</><p:green_added>󱀝</><p:divider_green_added_to_yellow_bright>󱀝</><p:yellow_bright>󱀝</><p:divider_yellow_bright_to_navy_text>󱀝</><p:nba_det_pistons_blue>󱀝</><p:accent>󱀝</><p:purple_exec>󱀝</></>",
         "foreground": "p:blue_primary",
         "foreground_templates": [
             "{{ if eq .Shell \"cmd\" }}p:shell_cmd_black{{ end }}",
@@ -3786,7 +3786,7 @@
             "{{ if eq .Shell \"xonsh\" }}p:shell_xonsh_yellow{{ end }}"
         ],
         "newline": false,
-        "template": "{{ if and .Var.show_execution_time_in_transient (.Segments.Contains \"executiontime-lprompt\") }}<p:purple_exec>󱑅 {{ .Segments.executiontime-lprompt.FormattedMs }}</> <p:accent>│</>{{ end }}<p:accent>╠═<p:purple_session,transparent>{{ upper .Shell }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> "
+        "template": "<p:purple_session>󱀝</><p:accent>󱀝</><p:blue_primary>󱀝</><p:divider_blue_primary_to_tooling_purple>󱀝</><p:tooling_purple>󱀝</><p:divider_tooling_purple_to_typescript_eslint_pink>󱀝</><p:typescript_eslint_pink>󱀝</><p:divider_typescript_eslint_pink_to_orange>󱀝</><p:orange>󱀝</><p:divider_orange_to_green_added>󱀝</><p:green_added>󱀝</><p:divider_green_added_to_yellow_bright>󱀝</><p:yellow_bright>󱀝</><p:divider_yellow_bright_to_navy_text>󱀝</><p:nba_det_pistons_blue>󱀝</><p:accent>󱀝</><p:purple_exec>󱀝</></><p:accent>│ ╠═<p:purple_session,transparent>{{ upper .Shell }}</><p:accent>{{ .Var.prompt_symbol }}</><p:accent>─</> Above Command:{{ $showTime := and .Var.show_execution_time_in_transient (.Segments.Contains \"executiontime-lprompt\") }}{{ $showCount := .Var.show_prompt_count_in_transient }}{{ if or $showTime $showCount .Var.show_status_code_in_transient }}<p:purple_exec></>{{ if $showTime }} <p:purple_exec>󱑅 {{ .Segments.executiontime-lprompt.FormattedMs }}</>{{ end }}{{ if and $showTime (or $showCount .Var.show_status_code_in_transient) }} <p:accent>│</>{{ end }}{{ if $showCount }} {{ if gt .PromptCount .Var.prompt_count_extreme }}<p:maroon_error>󰘳 {{ .PromptCount }}</>{{ else if gt .PromptCount .Var.prompt_count_critical }}<p:red_alert>󰘳 {{ .PromptCount }}</>{{ else if gt .PromptCount .Var.prompt_count_high }}<p:orange_warning>󰘳 {{ .PromptCount }}</>{{ else if gt .PromptCount .Var.prompt_count_warning }}<p:tooling_yellow>󰘳 {{ .PromptCount }}</>{{ else }}<p:gray_prompt_count_bg>󰘳 {{ .PromptCount }}</>{{ end }}{{ end }}{{ if and $showCount .Var.show_status_code_in_transient }} <p:accent>│</>{{ end }}{{ if .Var.show_status_code_in_transient }} {{ if eq .Code 0 }}<p:green_valid_line>{{ printf \"%-*s\" (int .Var.transient_status_width) \" SUCCESS (0)\" }}</>{{ else if eq .Code 127 }}<p:red_alert>{{ printf \"%-*s\" (int .Var.transient_status_width) \" CMD NOT FOUND (127)\" }}</>{{ else if eq .Code 130 }}<p:red_alert>{{ printf \"%-*s\" (int .Var.transient_status_width) \" CANCELLED (130)\" }}</>{{ else }}<p:red_alert>{{ printf \"%-*s\" (int .Var.transient_status_width) (printf \" EXIT %d\" .Code) }}</>{{ end }}{{ end }} <p:accent>│</>{{ end }}"
     },
     "upgrade": {
         "auto": true,
@@ -3804,15 +3804,18 @@
         "battery_warning_percent": 20,
         "day_start_hour": 7,
         "night_start_hour": 19,
-        "prompt_count_critical": 200,
-        "prompt_count_extreme": 500,
-        "prompt_count_high": 100,
-        "prompt_count_warning": 50,
+        "prompt_count_critical": 1000,
+        "prompt_count_extreme": 2000,
+        "prompt_count_high": 500,
+        "prompt_count_warning": 200,
         "prompt_symbol": "❯",
         "show_execution_time_in_transient": true,
+        "show_prompt_count_in_transient": true,
+        "show_status_code_in_transient": true,
         "strava_activity_name_max_length": 38,
-        "sysinfo_critical_percent": 90,
-        "sysinfo_warning_percent": 80
+        "sysinfo_critical_percent": 92,
+        "sysinfo_warning_percent": 85,
+        "transient_status_width": 13
     },
     "version": 4,
     "yaml-language-server": {
