@@ -551,9 +551,7 @@
                 {
                     "alias": "sysinfo-rprompt",
                     "background": "p:sysinfo_bg_ok",
-                    "background_templates": [
-                        "{{ if or (ge .PhysicalPercentUsed .Var.sysinfo_critical_percent) (ge .Load1 .Var.sysinfo_critical_percent) }}p:sysinfo_bg_crit{{ else if or (ge .PhysicalPercentUsed .Var.sysinfo_warning_percent) (ge .Load1 .Var.sysinfo_warning_percent) }}p:sysinfo_bg_warn{{ else }}p:sysinfo_bg_ok{{ end }}"
-                    ],
+
                     "cache": {
                         "duration": "3m",
                         "strategy": "device"
