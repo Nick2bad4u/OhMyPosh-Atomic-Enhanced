@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
 Orchestrates the full generation pipeline for independent root themes:
-1. Generates Experimental Divider helper variants.
+1. Generates Atomic and ExperimentalDividers root helper variants.
 2. Stages those root helper changes.
 3. Generates palette-only extensions (unstaged).
 
@@ -38,6 +38,18 @@ Write-Host '   Generating NoShellIntegration variant...' -ForegroundColor Gray
 Write-Host '   Generating NoNetwork variant...' -ForegroundColor Gray
 & "$ScriptRoot/Make-NoNetwork.ps1" -SourceTheme 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
 
+# Extended
+Write-Host '   Generating Extended variant...' -ForegroundColor Gray
+& "$ScriptRoot/Make-ExtendedVariant.ps1" -Source 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
+
+# ExperimentalDividers ColorCycle
+Write-Host '   Generating ExperimentalDividers ColorCycle variant...' -ForegroundColor Gray
+& "$ScriptRoot/Make-ColorCycleVariant.ps1" -Source 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
+
+# Atomic ColorCycle
+Write-Host '   Generating Atomic ColorCycle variant...' -ForegroundColor Gray
+& "$ScriptRoot/Make-ColorCycleVariant.ps1" -Source 'OhMyPosh-Atomic-Custom.json'
+
 # --------------------------------------------------------------------------
 # 2. Stage changes
 # --------------------------------------------------------------------------
@@ -47,6 +59,9 @@ $filesToStage = @(
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json',
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json',
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoNetwork.json',
+    'OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json',
+    'OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json',
+    'OhMyPosh-Atomic-Custom-ColorCycle.json',
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
 )
 

@@ -22,7 +22,12 @@ function Resolve-RepoPath {
 $customThemes = @(
     # Base themes
     'OhMyPosh-Atomic-Custom.json',
+    'OhMyPosh-Atomic-Custom-ColorCycle.json',
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.json',
+    'OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json',
+    'OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json',
+    'OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json',
+    'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json',
     '1_shell-Enhanced.omp.json',
     'slimfat-Enhanced.omp.json',
     'atomicBit-Enhanced.omp.json',

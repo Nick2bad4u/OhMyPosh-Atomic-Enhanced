@@ -51,7 +51,10 @@ param(
     [string[]]$ThemePattern = @(
         # Non-extended Original themes live at the repository root.
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.json',
+        'OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json',
+        'OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json',
         'OhMyPosh-Atomic-Custom.json',
+        'OhMyPosh-Atomic-Custom-ColorCycle.json',
         '1_shell-Enhanced.omp.json',
         'slimfat-Enhanced.omp.json',
         'atomicBit-Enhanced.omp.json',
@@ -373,7 +376,11 @@ if (-not $SkipReadmeUpdate) {
     # Group themes by base theme (ensure they're arrays even if empty)
     $includeStatuses = @('Success', 'Skipped')
     $experimentalDividersThemes = @($results | Where-Object { $_.Theme -like 'OhMyPosh-Atomic-Custom-ExperimentalDividers.*' -and $_.Status -in $includeStatuses } | Sort-Object ThemeName)
-    $atomicThemes = @($results | Where-Object { $_.Theme -like 'OhMyPosh-Atomic-Custom.*' -and $_.Status -in $includeStatuses -and $_.Theme -notlike 'OhMyPosh-Atomic-Custom-ExperimentalDividers.*' } | Sort-Object ThemeName)
+    $atomicThemes = @($results | Where-Object {
+            ($_.Theme -like 'OhMyPosh-Atomic-Custom.*' -or $_.Theme -eq 'OhMyPosh-Atomic-Custom-ColorCycle') -and
+            $_.Status -in $includeStatuses -and
+            $_.Theme -notlike 'OhMyPosh-Atomic-Custom-ExperimentalDividers.*'
+        } | Sort-Object ThemeName)
     $shellThemes = @($results | Where-Object { $_.Theme -like '1_shell-Enhanced.omp.*' -and $_.Status -in $includeStatuses } | Sort-Object ThemeName)
     $slimfatThemes = @($results | Where-Object { $_.Theme -like 'slimfat-Enhanced.omp.*' -and $_.Status -in $includeStatuses } | Sort-Object ThemeName)
     $atomicBitThemes = @($results | Where-Object { $_.Theme -like 'atomicBit-Enhanced.omp.*' -and $_.Status -in $includeStatuses } | Sort-Object ThemeName)
@@ -447,7 +454,7 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 
 <table>
 '@
-    $galleryMarkdown += Get-ThemeTableRows -Themes $atomicThemes -StripPrefix 'OhMyPosh-Atomic-Custom\.'
+    $galleryMarkdown += Get-ThemeTableRows -Themes $atomicThemes -StripPrefix 'OhMyPosh-Atomic-Custom(?:\.|-)'
 
     $galleryMarkdown += @'
 

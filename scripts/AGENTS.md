@@ -20,7 +20,10 @@ These instructions apply to `scripts/`.
 - `Generate-AllThemes.ps1` writes palette-only `extends` overlays for the five main theme families; it never synchronizes their independent root bases.
 - `Generate-ExperimentalDividers.ps1` writes palette-only `experimentalDividers/*.json` overlays that extend `OhMyPosh-Atomic-Custom-ExperimentalDividers.json`.
 - The complete Original for each family is its root source file. Never generate `*.Original.json` into a family folder.
-- `Make-FishVariant.ps1`, `Make-NoShellIntegration.ps1`, and `Make-NoNetwork.ps1` write root helper variants.
+- `Make-FishVariant.ps1`, `Make-NoShellIntegration.ps1`, `Make-NoNetwork.ps1`, `Make-ExtendedVariant.ps1`, and `Make-ColorCycleVariant.ps1` write complete root helper variants.
+- Files under `scripts/variants/` are declarative inputs for root helper generators; generated root themes must not be used as their own source definitions.
+- `Make-ExtendedVariant.ps1` adds only the ordered segments and tooltips declared in `variants/ExperimentalDividers.Extended.variant.json`; all shared settings come from the canonical ExperimentalDividers source.
+- `Make-ColorCycleVariant.ps1` can target Atomic Custom or ExperimentalDividers and removes direct prompt-segment color fields so the top-level cycle is authoritative.
 - `Normalize-Palettes.ps1` can rewrite `color-palette-alternatives.json`; review the diff carefully after running it.
 - `Generate-ThemePreviews.ps1` writes images under `assets/theme-previews/` and may update README gallery content.
 

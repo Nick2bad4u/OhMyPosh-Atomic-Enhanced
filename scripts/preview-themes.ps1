@@ -92,14 +92,27 @@ foreach ($base in $baseThemes) {
         }
     }
 
-    # Special-case: NoShellIntegration variant lives in repo root
+    # Complete helper variants live in the repository root, not the palette folder.
     if ($base.Prefix -eq 'OhMyPosh-Atomic-Custom-ExperimentalDividers') {
-        $noShell = 'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json'
-        $noShellPath = Resolve-RepoPath $noShell
-        if (Test-Path -LiteralPath $noShellPath) {
+        foreach ($helperName in @('ColorCycle', 'Extended', 'Fish', 'NoShellIntegration', 'NoNetwork')) {
+            $helperFile = "OhMyPosh-Atomic-Custom-ExperimentalDividers.$helperName.json"
+            $helperPath = Resolve-RepoPath $helperFile
+            if (Test-Path -LiteralPath $helperPath) {
+                $customThemes += @{
+                    Name = "$($base.Name) ($helperName)"
+                    Path = $helperPath
+                    Family = $base.Name
+                }
+            }
+        }
+    }
+
+    if ($base.Prefix -eq 'OhMyPosh-Atomic-Custom') {
+        $colorCyclePath = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ColorCycle.json'
+        if (Test-Path -LiteralPath $colorCyclePath) {
             $customThemes += @{
-                Name = "$($base.Name) (NoShellIntegration)"
-                Path = $noShellPath
+                Name = "$($base.Name) (ColorCycle)"
+                Path = $colorCyclePath
                 Family = $base.Name
             }
         }

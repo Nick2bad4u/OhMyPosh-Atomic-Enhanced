@@ -50,6 +50,8 @@ All PowerShell helper scripts live in the **`scripts/`** directory of the reposi
 | --- | --- | --- | --- |
 | **scripts/Generate-AllThemes.ps1** | Generate palette extensions for five independent roots | Color palettes | Theme-family folders (default) or one output folder |
 | **scripts/Generate-ExperimentalDividers.ps1** | Generate ExperimentalDividers palette extensions | ExperimentalDividers root + palettes | `experimentalDividers/` |
+| **scripts/Make-ExtendedVariant.ps1** | Generate ordered Extended additions | ExperimentalDividers root + variant definition | Complete root helper |
+| **scripts/Make-ColorCycleVariant.ps1** | Generate a synchronized ColorCycle helper | Atomic Custom or ExperimentalDividers root + cycle definition | Complete root helper |
 | **scripts/New-ThemeWithPalette.ps1** | Create one palette extension | Root theme + palette | Small .json overlay |
 | **scripts/cycle-themes.ps1** | Cycle through themes | Theme folder | Activates one at a time |
 | **scripts/Merge-OhMyPoshThemes.ps1** | Merge multiple themes | Theme files | Merged theme |
@@ -658,7 +660,7 @@ oh-my-posh init pwsh --config $fullPath | Invoke-Expression
 
 ## Special Variant Generators
 
-These scripts generate “derived” theme files from the main **ExperimentalDividers** theme.
+These scripts generate complete root helper files from the current canonical source themes. They do not use the existing generated file as input.
 
 ### Make-NoShellIntegration.ps1
 
@@ -682,6 +684,26 @@ It also preserves your Fish-only tweaks (segment order/selection + per-segment o
 
 ```powershell
 .\scripts\Make-FishVariant.ps1
+```
+
+### Make-ExtendedVariant.ps1
+
+Generates `OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json` by cloning canonical ExperimentalDividers and inserting the ordered VCS segments and tooltips declared in `scripts/variants/ExperimentalDividers.Extended.variant.json`.
+
+```powershell
+.\scripts\Make-ExtendedVariant.ps1
+```
+
+### Make-ColorCycleVariant.ps1
+
+Clones a complete source theme, adds the shared 12-step color cycle, and removes direct prompt-segment color fields so the top-level cycle controls the rendered sequence.
+
+```powershell
+# Atomic Custom
+.\scripts\Make-ColorCycleVariant.ps1
+
+# ExperimentalDividers
+.\scripts\Make-ColorCycleVariant.ps1 -Source .\OhMyPosh-Atomic-Custom-ExperimentalDividers.json
 ```
 
 ## Summary

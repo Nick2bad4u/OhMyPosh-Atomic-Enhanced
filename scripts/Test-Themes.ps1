@@ -46,7 +46,10 @@ function Resolve-RepoPath {
 function Get-FileList {
     $base = @(
         'OhMyPosh-Atomic-Custom.json',
+        'OhMyPosh-Atomic-Custom-ColorCycle.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.json',
+        'OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json',
+        'OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json',
         '1_shell-Enhanced.omp.json',
@@ -383,8 +386,74 @@ if ($IncludeGenerated -and $extendsSmokeFiles.Count -gt 0 -and (Get-Command oh-m
     }
 }
 
+# Root helper themes are generated artifacts. Regenerate them into an isolated
+# temporary directory and compare normalized JSON so CI catches source/fixture
+# drift without rewriting the worktree.
+$generatorChecks = @(
+    @{
+        Name      = 'Atomic ColorCycle'
+        Script    = Resolve-RepoPath 'scripts/Make-ColorCycleVariant.ps1'
+        Expected  = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ColorCycle.json'
+        Parameters = @{ Source = Resolve-RepoPath 'OhMyPosh-Atomic-Custom.json' }
+    },
+    @{
+        Name      = 'ExperimentalDividers ColorCycle'
+        Script    = Resolve-RepoPath 'scripts/Make-ColorCycleVariant.ps1'
+        Expected  = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json'
+        Parameters = @{ Source = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json' }
+    },
+    @{
+        Name      = 'ExperimentalDividers Extended'
+        Script    = Resolve-RepoPath 'scripts/Make-ExtendedVariant.ps1'
+        Expected  = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json'
+        Parameters = @{ Source = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json' }
+    }
+)
+
+$generatorTempRoot = Join-Path -Path ([System.IO.Path]::GetTempPath()) -ChildPath ("omp-theme-generators-{0}" -f [guid]::NewGuid())
+New-Item -ItemType Directory -Path $generatorTempRoot -Force | Out-Null
+
+try {
+    foreach ($check in $generatorChecks) {
+        if (-not (Test-Path -LiteralPath $check.Script)) {
+            $allErrors.Add("$($check.Name): generator script not found: $($check.Script)") | Out-Null
+            continue
+        }
+        if (-not (Test-Path -LiteralPath $check.Expected)) {
+            $allErrors.Add("$($check.Name): generated theme not found: $($check.Expected)") | Out-Null
+            continue
+        }
+
+        $generatedPath = Join-Path -Path $generatorTempRoot -ChildPath (Split-Path -Path $check.Expected -Leaf)
+        $parameters = @{} + $check.Parameters
+        $parameters.Destination = $generatedPath
+
+        try {
+            $null = & $check.Script @parameters
+            $expectedJson = Get-Content -LiteralPath $check.Expected -Raw | ConvertFrom-Json -Depth 100 -AsHashtable | ConvertTo-Json -Depth 100 -Compress
+            $generatedJson = Get-Content -LiteralPath $generatedPath -Raw | ConvertFrom-Json -Depth 100 -AsHashtable | ConvertTo-Json -Depth 100 -Compress
+            if ($expectedJson -cne $generatedJson) {
+                $allErrors.Add("$($check.Name): generated output is stale; run $($check.Script).") | Out-Null
+            }
+        }
+        catch {
+            $allErrors.Add("$($check.Name): generator check failed: $($_.Exception.Message)") | Out-Null
+        }
+    }
+}
+finally {
+    $resolvedGeneratorTempRoot = [System.IO.Path]::GetFullPath($generatorTempRoot)
+    $systemTempRoot = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
+    if ($resolvedGeneratorTempRoot.StartsWith($systemTempRoot, [StringComparison]::OrdinalIgnoreCase)) {
+        Remove-Item -LiteralPath $resolvedGeneratorTempRoot -Recurse -Force
+    }
+}
+
 if ($allErrors.Count -gt 0) {
     Write-Host "\nTheme tests FAILED ($($allErrors.Count) issue(s))." -ForegroundColor Red
+    foreach ($errorMessage in $allErrors) {
+        Write-Host "  - $errorMessage" -ForegroundColor Red
+    }
     exit 1
 }
 

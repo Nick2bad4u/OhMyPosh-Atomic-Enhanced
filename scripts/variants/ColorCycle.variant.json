@@ -1,0 +1,78 @@
+{
+  "palette": {
+    "cycle_fg_02": "#F2E9FF",
+    "cycle_bg_02": "#201B37",
+    "cycle_fg_03": "#DFF5FF",
+    "cycle_bg_03": "#102E46",
+    "cycle_fg_04": "#D8FFE8",
+    "cycle_bg_04": "#123428",
+    "cycle_fg_05": "#FFD9EA",
+    "cycle_bg_05": "#3A1B28",
+    "cycle_fg_06": "#FFE9C7",
+    "cycle_bg_06": "#3C270E",
+    "cycle_fg_07": "#D9EEFF",
+    "cycle_bg_07": "#16293C",
+    "cycle_fg_08": "#E6E8FF",
+    "cycle_bg_08": "#1A1E33",
+    "cycle_fg_09": "#CFFFF6",
+    "cycle_bg_09": "#103230",
+    "cycle_fg_10": "#FFDFFF",
+    "cycle_bg_10": "#2F162F",
+    "cycle_fg_11": "#E7FFD5",
+    "cycle_bg_11": "#1F2B10",
+    "cycle_fg_12": "#FFD6DF",
+    "cycle_bg_12": "#341A1F",
+    "cycle_fg_13": "#D8F0FF",
+    "cycle_bg_13": "#14293A"
+  },
+  "cycle": [
+    {
+      "background": "p:cycle_bg_02",
+      "foreground": "p:cycle_fg_02"
+    },
+    {
+      "background": "p:cycle_bg_03",
+      "foreground": "p:cycle_fg_03"
+    },
+    {
+      "background": "p:cycle_bg_04",
+      "foreground": "p:cycle_fg_04"
+    },
+    {
+      "background": "p:cycle_bg_05",
+      "foreground": "p:cycle_fg_05"
+    },
+    {
+      "background": "p:cycle_bg_06",
+      "foreground": "p:cycle_fg_06"
+    },
+    {
+      "background": "p:cycle_bg_07",
+      "foreground": "p:cycle_fg_07"
+    },
+    {
+      "background": "p:cycle_bg_08",
+      "foreground": "p:cycle_fg_08"
+    },
+    {
+      "background": "p:cycle_bg_09",
+      "foreground": "p:cycle_fg_09"
+    },
+    {
+      "background": "p:cycle_bg_10",
+      "foreground": "p:cycle_fg_10"
+    },
+    {
+      "background": "p:cycle_bg_11",
+      "foreground": "p:cycle_fg_11"
+    },
+    {
+      "background": "p:cycle_bg_12",
+      "foreground": "p:cycle_fg_12"
+    },
+    {
+      "background": "p:cycle_bg_13",
+      "foreground": "p:cycle_fg_13"
+    }
+  ]
+}

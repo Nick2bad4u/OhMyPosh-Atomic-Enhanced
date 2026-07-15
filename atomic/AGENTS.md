@@ -11,6 +11,7 @@ These instructions apply to `atomic/`.
 - Do not hand-edit these JSON files for shared behavior, segment layout, tooltip, or palette-key changes.
 - Make source changes in the root template or `color-palette-alternatives.json`, then regenerate.
 - If a task explicitly targets one generated variant, explain why the change should remain variant-specific.
+- The complete root helper `OhMyPosh-Atomic-Custom-ColorCycle.json` is generated separately with `scripts/Make-ColorCycleVariant.ps1`; it is not a palette overlay in this folder.
 
 ## Regeneration
 

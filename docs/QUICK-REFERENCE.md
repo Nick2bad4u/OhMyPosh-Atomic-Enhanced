@@ -15,6 +15,16 @@
 
 The six root files are the complete Original themes. Generation writes 37 palette-only `extends` overlays per family folder and never creates `*.Original.json` there.
 
+## Generate Standalone Helper Variants
+
+```powershell
+.\scripts\Make-ExtendedVariant.ps1
+.\scripts\Make-ColorCycleVariant.ps1
+.\scripts\Make-ColorCycleVariant.ps1 -Source .\OhMyPosh-Atomic-Custom-ExperimentalDividers.json
+```
+
+Extended and ColorCycle are rebuilt from their canonical root source. Variant-specific data lives under `scripts/variants/`.
+
 ## Generate Preview Images & Update README
 
 ```powershell
@@ -51,6 +61,8 @@ oh-my-posh init pwsh --config '.\atomic\OhMyPosh-Atomic-Custom.TokyoNight.json' 
 
 - `scripts/New-ThemeWithPalette.ps1` - Single theme generator
 - `scripts/Generate-AllThemes.ps1` - Batch generator
+- `scripts/Make-ExtendedVariant.ps1` - ExperimentalDividers Extended generator
+- `scripts/Make-ColorCycleVariant.ps1` - Atomic/ExperimentalDividers ColorCycle generator
 - `scripts/Generate-ThemePreviews.ps1` - Preview image generator
 - `color-palette-alternatives.json` - Palette library
 - `THEME-GENERATOR-README.md` - Full documentation

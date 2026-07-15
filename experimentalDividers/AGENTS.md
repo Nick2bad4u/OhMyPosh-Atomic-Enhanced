@@ -14,6 +14,8 @@ These instructions apply to `experimentalDividers/`.
   - `OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json`
   - `OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json`
   - `OhMyPosh-Atomic-Custom-ExperimentalDividers.NoNetwork.json`
+  - `OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json`
+  - `OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json`
 
 ## Regeneration
 
@@ -30,6 +32,8 @@ pwsh ./scripts/Generate-ExperimentalDividers.ps1 -Force
 pwsh ./scripts/Make-FishVariant.ps1
 pwsh ./scripts/Make-NoShellIntegration.ps1
 pwsh ./scripts/Make-NoNetwork.ps1 -SourceTheme ./OhMyPosh-Atomic-Custom-ExperimentalDividers.json
+pwsh ./scripts/Make-ExtendedVariant.ps1
+pwsh ./scripts/Make-ColorCycleVariant.ps1 -Source ./OhMyPosh-Atomic-Custom-ExperimentalDividers.json
 ```
 
 ## Validation

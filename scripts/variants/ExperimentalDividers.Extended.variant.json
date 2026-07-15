@@ -1,0 +1,1122 @@
+{
+  "segment_insertions": [
+    {
+      "block": {
+        "type": "rprompt",
+        "alignment": "right"
+      },
+      "after_alias": "java-rprompt",
+      "before_alias": "upgrade-rprompt",
+      "segments": [
+        {
+          "leading_diamond": "",
+          "min_width": 80,
+          "placeholder": "",
+          "style": "diamond",
+          "timeout": 1500,
+          "trailing_diamond": "",
+          "alias": "svn-rprompt",
+          "background": "p:blue_tooltip",
+          "foreground": "p:navy_text",
+          "options": {
+            "fetch_status": true
+          },
+          "template": " <b> SVN {{ .Branch }} • r{{ .BaseRev }}{{ if .Working.Changed }} {{ .Working.String }}{{ end }}</b> ",
+          "type": "svn"
+        },
+        {
+          "leading_diamond": "",
+          "min_width": 80,
+          "placeholder": "",
+          "style": "diamond",
+          "timeout": 1500,
+          "trailing_diamond": "",
+          "alias": "sapling-rprompt",
+          "background": "p:green_valid_line",
+          "foreground": "p:white",
+          "options": {
+            "fetch_status": true
+          },
+          "template": " <b>{{ if .Bookmark }} {{ .Bookmark }}{{ else }} {{ .ShortHash }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}</b> ",
+          "type": "sapling"
+        },
+        {
+          "leading_diamond": "",
+          "min_width": 80,
+          "placeholder": "",
+          "style": "diamond",
+          "timeout": 1500,
+          "trailing_diamond": "",
+          "alias": "plastic-rprompt",
+          "background": "p:tooling_purple",
+          "background_templates": [
+            "{{ if and .Changed .Behind }}p:red_alert{{ else if .Changed }}p:orange_warning{{ else if .Behind }}p:purple_behind{{ else }}p:tooling_purple{{ end }}"
+          ],
+          "foreground": "p:white",
+          "options": {
+            "fetch_status": true
+          },
+          "template": " <b>󰘬 Plastic {{ .Selector }}{{ if .Status.Changed }}  {{ .Status.String }}{{ end }}{{ if .Behind }} ⇣{{ end }}</b> ",
+          "type": "plastic"
+        },
+        {
+          "leading_diamond": "",
+          "min_width": 80,
+          "placeholder": "",
+          "style": "diamond",
+          "timeout": 1500,
+          "trailing_diamond": "",
+          "alias": "mercurial-rprompt",
+          "background": "p:tooling_yellow",
+          "foreground": "p:navy_text",
+          "options": {
+            "fetch_status": true,
+            "native_fallback": false
+          },
+          "template": " <b> hg {{ .Branch }}{{ if .LocalCommitNumber }} ({{ .LocalCommitNumber }}:{{ .ChangeSetIDShort }}){{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}</b> ",
+          "type": "mercurial"
+        },
+        {
+          "leading_diamond": "",
+          "min_width": 80,
+          "placeholder": "",
+          "style": "diamond",
+          "timeout": 1500,
+          "trailing_diamond": "",
+          "alias": "jujutsu-rprompt",
+          "background": "p:purple_exec",
+          "foreground": "p:white",
+          "options": {
+            "fetch_status": true,
+            "ignore_working_copy": false,
+            "fetch_ahead_counter": true,
+            "ahead_icon": "⇡"
+          },
+          "template": " <b>󰘬 jj {{ .ChangeID }}{{ if .ClosestBookmarks }} • {{ .ClosestBookmarks }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}</b> ",
+          "type": "jujutsu"
+        },
+        {
+          "leading_diamond": "",
+          "min_width": 80,
+          "placeholder": "",
+          "style": "diamond",
+          "timeout": 1500,
+          "trailing_diamond": "",
+          "alias": "fossil-rprompt",
+          "background": "p:yellow_bright",
+          "foreground": "p:navy_text",
+          "template": " <b> Fossil {{ .Branch }}{{ if .Status.Changed }}  {{ .Status.String }}{{ end }}</b> ",
+          "type": "fossil"
+        },
+        {
+          "leading_diamond": "",
+          "min_width": 80,
+          "placeholder": "",
+          "style": "diamond",
+          "timeout": 1500,
+          "trailing_diamond": "",
+          "alias": "dvc-rprompt",
+          "background": "p:tooling_purple",
+          "foreground": "p:white",
+          "template": " <b> DVC{{ if .Status.Changed }}  {{ .Status.String }}{{ else }} {{ end }}</b> ",
+          "type": "dvc"
+        }
+      ]
+    }
+  ],
+  "tooltip_insertions": [
+    {
+      "after_alias": "argocd-tooltip",
+      "before_alias": "dotnet-tooltip",
+      "tooltips": [
+        {
+          "alias": "vimode-tooltip",
+          "background": "p:blue_primary",
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b>{{ if eq .Mode \"normal\" }} NORMAL{{ else if eq .Mode \"visual\" }} VISUAL{{ else if eq .Mode \"replace\" }}󰛔 REPLACE{{ else }} INSERT{{ end }}</b> ",
+          "tips": ["vi", "vim", "nvim"],
+          "trailing_diamond": "",
+          "type": "vimode"
+        },
+        {
+          "alias": "zig-tooltip",
+          "background": "p:orange",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Zig: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["zig", "zls", "zigmod"],
+          "trailing_diamond": "",
+          "type": "zig",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Zig: not installed"
+          }
+        },
+        {
+          "alias": "vala-tooltip",
+          "background": "p:tooling_purple",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Vala: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["vala", "valac"],
+          "trailing_diamond": "",
+          "type": "vala",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Vala: not installed"
+          }
+        },
+        {
+          "alias": "v-tooltip",
+          "background": "p:blue_primary",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> V: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["v", "vlang", "vpm"],
+          "trailing_diamond": "",
+          "type": "v",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " V: not installed"
+          }
+        },
+        {
+          "alias": "swift-tooltip",
+          "background": "p:electron_red",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Swift: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["swift", "swiftc", "swiftformat", "swiftlint"],
+          "trailing_diamond": "",
+          "type": "swift",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Swift: not installed"
+          }
+        },
+        {
+          "alias": "ruby-tooltip",
+          "background": "p:red_alert",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Ruby: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": [
+            "ruby",
+            "bundle",
+            "bundler",
+            "gem",
+            "irb",
+            "rake",
+            "rails",
+            "rspec"
+          ],
+          "trailing_diamond": "",
+          "type": "ruby",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Ruby: not installed"
+          }
+        },
+        {
+          "alias": "r-tooltip",
+          "background": "p:blue_tooltip",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> R: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["R", "Rscript", "renv"],
+          "trailing_diamond": "",
+          "type": "r",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " R: not installed"
+          }
+        },
+        {
+          "alias": "php-tooltip",
+          "background": "p:purple_session",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> PHP: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["php", "composer", "artisan", "laravel", "phpunit"],
+          "trailing_diamond": "",
+          "type": "php",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " PHP: not installed"
+          }
+        },
+        {
+          "alias": "perl-tooltip",
+          "background": "p:blue_primary",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Perl: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["perl", "cpan", "cpanm", "prove"],
+          "trailing_diamond": "",
+          "type": "perl",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Perl: not installed"
+          }
+        },
+        {
+          "alias": "ocaml-tooltip",
+          "background": "p:orange",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> OCaml: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["ocaml", "opam", "dune"],
+          "trailing_diamond": "",
+          "type": "ocaml",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " OCaml: not installed"
+          }
+        },
+        {
+          "alias": "nim-tooltip",
+          "background": "p:prettier_yellow",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Nim: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["nim", "nimble", "nimpretty"],
+          "trailing_diamond": "",
+          "type": "nim",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Nim: not installed"
+          }
+        },
+        {
+          "alias": "mojo-tooltip",
+          "background": "p:tooling_purple",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b>🔥 Mojo: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["mojo", "pixi"],
+          "trailing_diamond": "",
+          "type": "mojo",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": "🔥 Mojo: not installed"
+          }
+        },
+        {
+          "alias": "lua-tooltip",
+          "background": "p:blue_primary",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Lua: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["lua", "luajit", "luarocks"],
+          "trailing_diamond": "",
+          "type": "lua",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Lua: not installed"
+          }
+        },
+        {
+          "alias": "kotlin-tooltip",
+          "background": "p:purple_session",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Kotlin: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["kotlin", "kotlinc", "ktlint"],
+          "trailing_diamond": "",
+          "type": "kotlin",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Kotlin: not installed"
+          }
+        },
+        {
+          "alias": "julia-tooltip",
+          "background": "p:java_blue",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Julia: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["julia"],
+          "trailing_diamond": "",
+          "type": "julia",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Julia: not installed"
+          }
+        },
+        {
+          "alias": "haskell-tooltip",
+          "background": "p:divider_navy_text",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:tooling_purple",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Haskell: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["cabal", "ghc", "ghci", "haskell", "stack"],
+          "trailing_diamond": "",
+          "type": "haskell",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Haskell: not installed"
+          }
+        },
+        {
+          "alias": "elixir-tooltip",
+          "background": "p:purple_exec",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Elixir: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["elixir", "hex", "iex", "mix"],
+          "trailing_diamond": "",
+          "type": "elixir",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Elixir: not installed"
+          }
+        },
+        {
+          "alias": "dart-tooltip",
+          "background": "p:chart_teal",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Dart: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["dart"],
+          "trailing_diamond": "",
+          "type": "dart",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Dart: not installed"
+          }
+        },
+        {
+          "alias": "crystal-tooltip",
+          "background": "p:java_blue",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Crystal: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["crystal", "shards"],
+          "trailing_diamond": "",
+          "type": "crystal",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Crystal: not installed"
+          }
+        },
+        {
+          "alias": "clojure-tooltip",
+          "background": "p:tooling_purple",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Clojure: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["bb", "clj", "clojure", "lein"],
+          "trailing_diamond": "",
+          "type": "clojure",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Clojure: not installed"
+          }
+        },
+        {
+          "alias": "azd-tooltip",
+          "background": "p:blue_tooltip",
+          "cache": {
+            "duration": "5m",
+            "strategy": "folder"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Azure Developer CLI: {{ if .DefaultEnvironment }}{{ .DefaultEnvironment }}{{ else }}no active environment{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["azd"],
+          "trailing_diamond": "",
+          "type": "azd"
+        },
+        {
+          "alias": "azfunc-tooltip",
+          "background": "p:orange_warning",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Azure Functions: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["azfunc", "func"],
+          "trailing_diamond": "",
+          "type": "azfunc",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Azure Functions: not installed"
+          }
+        },
+        {
+          "alias": "cds-tooltip",
+          "background": "p:blue_tooltip",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> CAP CDS: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["cds"],
+          "trailing_diamond": "",
+          "type": "cds",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " CAP CDS: not installed"
+          }
+        },
+        {
+          "alias": "cf-tooltip",
+          "background": "p:blue_tooltip",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Cloud Foundry: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["cf"],
+          "trailing_diamond": "",
+          "type": "cf",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Cloud Foundry: not installed"
+          }
+        },
+        {
+          "alias": "cftarget-tooltip",
+          "background": "p:blue_tooltip",
+          "cache": {
+            "duration": "5m",
+            "strategy": "session"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Cloud Foundry: {{ if .Org }}{{ .Org }}/{{ .Space }}{{ else }}no active target{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["cf", "cftarget"],
+          "trailing_diamond": "",
+          "type": "cftarget"
+        },
+        {
+          "alias": "sitecore-tooltip",
+          "background": "p:red_alert",
+          "cache": {
+            "duration": "10m",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b>󰒋 Sitecore: {{ .EndpointName }}{{ if .CmHost }} • {{ .CmHost }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["sitecore"],
+          "trailing_diamond": "",
+          "type": "sitecore"
+        },
+        {
+          "alias": "zvm-tooltip",
+          "background": "p:divider_navy_text",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:orange",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> ZVM: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["zvm"],
+          "trailing_diamond": "",
+          "type": "zvm",
+          "options": {
+            "zigicon": ""
+          }
+        },
+        {
+          "alias": "xmake-tooltip",
+          "background": "p:green_valid_line",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b>󰆍 xmake: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["xmake"],
+          "trailing_diamond": "",
+          "type": "xmake",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": "󰆍 xmake: not installed"
+          }
+        },
+        {
+          "alias": "unity-tooltip",
+          "background": "p:white",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Unity {{ .UnityVersion }}{{ if .CSharpVersion }} • C# {{ .CSharpVersion }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["unity"],
+          "trailing_diamond": "",
+          "type": "unity"
+        },
+        {
+          "alias": "umbraco-tooltip",
+          "background": "p:purple_session",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b>󰕉 Umbraco {{ .Version }}{{ if .Modern }} • modern{{ else }} • legacy{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["umbraco"],
+          "trailing_diamond": "",
+          "type": "umbraco"
+        },
+        {
+          "alias": "ui5tooling-tooltip",
+          "background": "p:orange_warning",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> UI5 Tooling: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["ui5", "ui5tooling"],
+          "trailing_diamond": "",
+          "type": "ui5tooling",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " UI5 Tooling: not installed"
+          }
+        },
+        {
+          "alias": "taskwarrior-tooltip",
+          "background": "p:tooling_yellow",
+          "cache": {
+            "duration": "30s",
+            "strategy": "session"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> {{ range $key, $value := .Commands }}{{ $key }}: {{ $value }}  {{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["task", "taskwarrior"],
+          "trailing_diamond": "",
+          "type": "taskwarrior",
+          "options": {
+            "commands": {
+              "due": "+PENDING due.before:tomorrow count",
+              "scheduled": "+PENDING scheduled.before:tomorrow count",
+              "waiting": "+WAITING count",
+              "context": "_get rc.context"
+            }
+          }
+        },
+        {
+          "alias": "talosctl-tooltip",
+          "background": "p:orange",
+          "cache": {
+            "duration": "5m",
+            "strategy": "session"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b>󱃾 Talos: {{ if .Context }}{{ .Context }}{{ else }}no active context{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["talos", "talosctl"],
+          "trailing_diamond": "",
+          "type": "talosctl"
+        },
+        {
+          "alias": "quasar-tooltip",
+          "background": "p:blue_primary",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Quasar {{ .Full }}{{ if .HasVite }} • Vite {{ .Vite.Version }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["quasar"],
+          "trailing_diamond": "",
+          "type": "quasar",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Quasar: not installed"
+          }
+        },
+        {
+          "alias": "nix-shell-tooltip",
+          "background": "p:blue_primary",
+          "cache": {
+            "duration": "5m",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b>󱄅 Nix shell: {{ .Type }}</b> ",
+          "timeout": 1000,
+          "tips": ["nix", "nix-shell", "nix-shell-env"],
+          "trailing_diamond": "",
+          "type": "nix-shell"
+        },
+        {
+          "alias": "mvn-tooltip",
+          "background": "p:purple_session",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Maven: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["mvn", "mvnw"],
+          "trailing_diamond": "",
+          "type": "mvn",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Maven: not installed"
+          }
+        },
+        {
+          "alias": "gradle-tooltip",
+          "background": "p:divider_navy_text",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Gradle: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["gradle", "gradlew"],
+          "trailing_diamond": "",
+          "type": "gradle",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Gradle: not installed"
+          }
+        },
+        {
+          "alias": "flutter-tooltip",
+          "background": "p:chart_teal",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Flutter: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["flutter", "fvm"],
+          "trailing_diamond": "",
+          "type": "flutter",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Flutter: not installed"
+          }
+        },
+        {
+          "alias": "firebase-tooltip",
+          "background": "p:orange_warning",
+          "cache": {
+            "duration": "10m",
+            "strategy": "folder"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b>󰥧 Firebase: {{ if .Project }}{{ .Project }}{{ else }}no mapped project{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["firebase"],
+          "trailing_diamond": "",
+          "type": "firebase"
+        },
+        {
+          "alias": "cmake-tooltip",
+          "background": "p:green_valid_line",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> CMake: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["cmake", "ctest"],
+          "trailing_diamond": "",
+          "type": "cmake",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " CMake: not installed"
+          }
+        },
+        {
+          "alias": "buf-tooltip",
+          "background": "p:blue_primary",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b>🐃 Buf: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["buf"],
+          "trailing_diamond": "",
+          "type": "buf",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": "🐃 Buf: not installed"
+          }
+        },
+        {
+          "alias": "bazel-tooltip",
+          "background": "p:green_success",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Bazel: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["bazel", "bazelisk"],
+          "trailing_diamond": "",
+          "type": "bazel",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": " Bazel: not installed"
+          }
+        },
+        {
+          "alias": "aurelia-tooltip",
+          "background": "p:pink_storybook",
+          "cache": {
+            "duration": "24h",
+            "strategy": "folder"
+          },
+          "foreground": "p:white",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b>α Aurelia: {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["au", "aurelia"],
+          "trailing_diamond": "",
+          "type": "aurelia",
+          "options": {
+            "cache_duration": "24h",
+            "display_mode": "always",
+            "fetch_version": true,
+            "home_enabled": true,
+            "missing_command_text": "α Aurelia: not installed"
+          }
+        },
+        {
+          "alias": "aspire-tooltip",
+          "background": "p:tooling_yellow",
+          "cache": {
+            "duration": "30s",
+            "strategy": "folder"
+          },
+          "foreground": "p:navy_text",
+          "leading_diamond": "",
+          "min_width": 80,
+          "style": "diamond",
+          "template": " <b> Aspire: {{ .Name }}{{ if .Running }} • running {{ else }} • stopped{{ end }}</b> ",
+          "timeout": 1000,
+          "tips": ["aspire"],
+          "trailing_diamond": "",
+          "type": "aspire"
+        }
+      ]
+    }
+  ]
+}

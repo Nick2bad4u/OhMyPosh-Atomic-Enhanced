@@ -376,6 +376,16 @@ Use the Fish-specific variant (right-side content is rendered via `fish_right_pr
 oh-my-posh init fish --config https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json | source
 ```
 
+4. **Generated special variants:** Extended adds additional VCS segments and tooltips. ColorCycle applies the same ordered color cycle to the current Atomic Custom or ExperimentalDividers structure.
+
+```pwsh
+pwsh ./scripts/Make-ExtendedVariant.ps1
+pwsh ./scripts/Make-ColorCycleVariant.ps1
+pwsh ./scripts/Make-ColorCycleVariant.ps1 -Source ./OhMyPosh-Atomic-Custom-ExperimentalDividers.json
+```
+
+These commands generate complete standalone files at the repository root. They intentionally synchronize shared settings from their canonical source themes instead of preserving stale fields in an older generated file.
+
 Customize mapped locations, icons, and colors as needed in the JSON file.
 
 <a id="advanced-customization"></a>

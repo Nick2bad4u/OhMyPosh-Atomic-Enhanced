@@ -43,6 +43,8 @@ param(
     # Also regenerate the root-level helper variants:
     # - OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json
     # - OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json
+    # - OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json
+    # - OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json
     [switch]$SkipRootVariants
 )
 
@@ -153,7 +155,7 @@ foreach ($name in $paletteNames) {
 if (-not $SkipRootVariants) {
     $leaf = Split-Path -Path $SourceTheme -Leaf
     if ($leaf -eq 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json') {
-        Write-Output '\n🧩 Regenerating root variants (Fish / NoShellIntegration)...' -ForegroundColor Cyan
+        Write-Output '\n🧩 Regenerating root variants (Fish / NoShellIntegration / Extended / ColorCycle)...' -ForegroundColor Cyan
 
         $fishScript = Join-Path -Path $PSScriptRoot -ChildPath 'Make-FishVariant.ps1'
         if (Test-Path -LiteralPath $fishScript) {
@@ -170,9 +172,25 @@ if (-not $SkipRootVariants) {
         else {
             Write-Output "⚠️  Missing script (skipping): $noShellScript" -ForegroundColor Yellow
         }
+
+        $extendedScript = Join-Path -Path $PSScriptRoot -ChildPath 'Make-ExtendedVariant.ps1'
+        if (Test-Path -LiteralPath $extendedScript) {
+            & $extendedScript -Source $SourceTheme
+        }
+        else {
+            Write-Output "⚠️  Missing script (skipping): $extendedScript" -ForegroundColor Yellow
+        }
+
+        $colorCycleScript = Join-Path -Path $PSScriptRoot -ChildPath 'Make-ColorCycleVariant.ps1'
+        if (Test-Path -LiteralPath $colorCycleScript) {
+            & $colorCycleScript -Source $SourceTheme
+        }
+        else {
+            Write-Output "⚠️  Missing script (skipping): $colorCycleScript" -ForegroundColor Yellow
+        }
     }
     else {
-        Write-Output "\nℹ️  SkipRootVariants not set, but SourceTheme is '$leaf' (not the base ExperimentalDividers theme). Not generating Fish/NoShellIntegration variants." -ForegroundColor DarkGray
+        Write-Output "\nℹ️  SkipRootVariants not set, but SourceTheme is '$leaf' (not the base ExperimentalDividers theme). Not generating root helper variants." -ForegroundColor DarkGray
     }
 }
 

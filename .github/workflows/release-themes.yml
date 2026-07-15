@@ -28,7 +28,10 @@ on:
             # Palette sources / extra theme types
             - "color-palette-alternatives.json"
             - "starship-atomic-enhanced.toml"
+            - "scripts/Make-ColorCycleVariant.ps1"
+            - "scripts/Make-ExtendedVariant.ps1"
             - "scripts/Make-NoNetwork.ps1"
+            - "scripts/variants/*.json"
             - ".github/workflows/release-themes.yml"
     workflow_dispatch:
         inputs:
@@ -87,14 +90,11 @@ jobs:
                   # Generate the 5 primary theme families into the repo root
                   pwsh -NoProfile -File .\scripts\Generate-AllThemes.ps1 -Force
 
-                  # Generate ExperimentalDividers palette variants into .\experimentalDividers
+                  # Generate ExperimentalDividers palette variants and root helpers
                   pwsh -NoProfile -File .\scripts\Generate-ExperimentalDividers.ps1 -Force
 
-                  # Ensure the NoShellIntegration variant is in sync
-                  pwsh -NoProfile -File .\scripts\Make-NoShellIntegration.ps1
-
-                  # Ensure the Fish variant is in sync
-                  pwsh -NoProfile -File .\scripts\Make-FishVariant.ps1
+                  # Regenerate the standalone Atomic ColorCycle helper
+                  pwsh -NoProfile -File .\scripts\Make-ColorCycleVariant.ps1
 
                   # Generate "NoNetwork" offline variants (no outbound HTTP calls)
                   pwsh -NoProfile -File .\scripts\Make-NoNetwork.ps1 -SourceTheme .\OhMyPosh-Atomic-Custom.json
@@ -125,6 +125,7 @@ jobs:
 
                   # Back-compat: if variants also exist in repo root, copy them too (folder versions win if names collide)
                   Copy-Glob 'OhMyPosh-Atomic-Custom.*.json'
+                  Copy-Glob 'OhMyPosh-Atomic-Custom-ColorCycle.json'
                   Copy-Glob '1_shell-Enhanced.omp.*.json'
                   Copy-Glob 'slimfat-Enhanced.omp.*.json'
                   Copy-Glob 'atomicBit-Enhanced.omp.*.json'
@@ -139,8 +140,7 @@ jobs:
 
                   # ExperimentalDividers
                   Copy-Glob 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
-                  Copy-Glob 'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json'
-                  Copy-Glob 'OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json'
+                  Copy-Glob 'OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json'
 
                   Get-ChildItem -File -Path .\experimentalDividers -Filter 'OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json' -ErrorAction SilentlyContinue |
                     ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $dist -Force }
@@ -316,7 +316,7 @@ jobs:
                       fi
 
                       case "$(basename "$file")" in
-                        *NoNetwork*|*NoShellIntegration*|*Extended*|*Fish*) continue ;;
+                        *ColorCycle*|*NoNetwork*|*NoShellIntegration*|*Extended*|*Fish*) continue ;;
                       esac
 
                       if [ "$base_name" = "OhMyPosh-Atomic-Custom.json" ] &&
@@ -336,12 +336,22 @@ jobs:
                   ATOMICBIT_COUNT=$(count_palette_family release-assets/atomicBit-Enhanced.omp.json release-assets/atomicBit-Enhanced.omp.*.json)
                   CLEAN_COUNT=$(count_palette_family release-assets/clean-detailed-Enhanced.omp.json release-assets/clean-detailed-Enhanced.omp.*.json)
                   EXPDIV_COUNT=$(count_palette_family release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.json release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json)
-                  EXPDIV_NOSI_COUNT=$(count_matches release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json)
+                  ATOMIC_SPECIAL_COUNT=$(count_matches \
+                    release-assets/OhMyPosh-Atomic-Custom-ColorCycle.json \
+                    release-assets/OhMyPosh-Atomic-Custom.NoNetwork.json)
+                  EXPDIV_SPECIAL_COUNT=$(count_matches \
+                    release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json \
+                    release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json \
+                    release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json \
+                    release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.NoNetwork.json \
+                    release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoNetwork.json \
+                    release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json \
+                    release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.NoNetwork.json)
 
                   # Starship config isn't a theme family variant, but we ship it as an asset.
                   STARSHIP_COUNT=$(count_matches release-assets/starship-atomic-enhanced.toml)
 
-                  TOTAL=$((ATOMIC_COUNT + SHELL_COUNT + SLIMFAT_COUNT + ATOMICBIT_COUNT + CLEAN_COUNT + EXPDIV_COUNT + EXPDIV_NOSI_COUNT))
+                  TOTAL=$((ATOMIC_COUNT + SHELL_COUNT + SLIMFAT_COUNT + ATOMICBIT_COUNT + CLEAN_COUNT + EXPDIV_COUNT + ATOMIC_SPECIAL_COUNT + EXPDIV_SPECIAL_COUNT))
 
                   {
                     echo "atomic_count=$ATOMIC_COUNT"
@@ -350,7 +360,8 @@ jobs:
                     echo "atomicbit_count=$ATOMICBIT_COUNT"
                     echo "clean_count=$CLEAN_COUNT"
                     echo "expdiv_count=$EXPDIV_COUNT"
-                    echo "expdiv_nosi_count=$EXPDIV_NOSI_COUNT"
+                    echo "atomic_special_count=$ATOMIC_SPECIAL_COUNT"
+                    echo "expdiv_special_count=$EXPDIV_SPECIAL_COUNT"
                     echo "starship_count=$STARSHIP_COUNT"
                     echo "total_count=$TOTAL"
                   } >> "$GITHUB_OUTPUT"
@@ -367,12 +378,21 @@ jobs:
                     for file in release-assets/OhMyPosh-Atomic-Custom.*.json; do
                       if [ -f "$file" ]; then
                         base=$(basename "$file")
-                        case "$base" in *ExperimentalDividers*|*NoNetwork*|*NoShellIntegration*|*Extended*|*Fish*) continue ;; esac
+                        case "$base" in *ExperimentalDividers*|*ColorCycle*|*NoNetwork*|*NoShellIntegration*|*Extended*|*Fish*) continue ;; esac
                         palette=${base#OhMyPosh-Atomic-Custom.}
                         palette=${palette%.json}
                         printf -- "- [\`%s\`](https://github.com/%s/releases/download/%s/%s) - %s palette\n" "$base" "$REPO" "$VERSION" "$base" "$palette"
                       fi
                     done
+
+                    echo ""
+                    echo "**Special variants:**"
+                    if [ -f "release-assets/OhMyPosh-Atomic-Custom-ColorCycle.json" ]; then
+                      printf -- "- [\`%s\`](https://github.com/%s/releases/download/%s/%s) - ColorCycle\n" "OhMyPosh-Atomic-Custom-ColorCycle.json" "$REPO" "$VERSION" "OhMyPosh-Atomic-Custom-ColorCycle.json"
+                    fi
+                    if [ -f "release-assets/OhMyPosh-Atomic-Custom.NoNetwork.json" ]; then
+                      printf -- "- [\`%s\`](https://github.com/%s/releases/download/%s/%s) - NoNetwork\n" "OhMyPosh-Atomic-Custom.NoNetwork.json" "$REPO" "$VERSION" "OhMyPosh-Atomic-Custom.NoNetwork.json"
+                    fi
                   } > /tmp/theme-lists/atomic.md
 
                   {
@@ -433,18 +453,29 @@ jobs:
                     for file in release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json; do
                       if [ -f "$file" ]; then
                         base=$(basename "$file")
-                        case "$base" in *NoNetwork*|*NoShellIntegration*|*Extended*|*Fish*) continue ;; esac
+                        case "$base" in *ColorCycle*|*NoNetwork*|*NoShellIntegration*|*Extended*|*Fish*) continue ;; esac
                         palette=${base#OhMyPosh-Atomic-Custom-ExperimentalDividers.}
                         palette=${palette%.json}
                         printf -- "- [\`%s\`](https://github.com/%s/releases/download/%s/%s) - %s palette\n" "$base" "$REPO" "$VERSION" "$base" "$palette"
                       fi
                     done
 
-                    if [ -f "release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json" ]; then
-                      echo ""
-                      echo "**No Shell Integration Variant:**"
-                      printf -- "- [\`%s\`](https://github.com/%s/releases/download/%s/%s)\n" "OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json" "$REPO" "$VERSION" "OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json"
-                    fi
+                    echo ""
+                    echo "**Special variants:**"
+                    for special in \
+                      OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json \
+                      OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json \
+                      OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json \
+                      OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.NoNetwork.json \
+                      OhMyPosh-Atomic-Custom-ExperimentalDividers.NoNetwork.json \
+                      OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json \
+                      OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.NoNetwork.json; do
+                      if [ -f "release-assets/$special" ]; then
+                        variant=${special#OhMyPosh-Atomic-Custom-ExperimentalDividers.}
+                        variant=${variant%.json}
+                        printf -- "- [\`%s\`](https://github.com/%s/releases/download/%s/%s) - %s\n" "$special" "$REPO" "$VERSION" "$special" "$variant"
+                      fi
+                    done
                   } > /tmp/theme-lists/experimentaldividers.md
               env:
                   REPO: ${{ github.repository }}
@@ -459,7 +490,7 @@ jobs:
 
                   **Release Date:** ${RELEASE_DATE}
 
-                  This release contains **${TOTAL_COUNT}** Oh My Posh theme files across **6 theme families** (38 palettes each), plus a small number of special variants (e.g. NoShellIntegration).
+                  This release contains **${TOTAL_COUNT}** Oh My Posh theme files across **6 theme families** (38 palettes each), plus standalone Atomic and ExperimentalDividers special variants.
 
                   ---
 
@@ -479,7 +510,8 @@ jobs:
                   | 📦 **AtomicBit-Enhanced** | ${ATOMICBIT_COUNT} | Box-style technical theme |
                   | 🧹 **Clean-Detailed-Enhanced** | ${CLEAN_COUNT} | Minimalist clean theme |
                   | 🧪 **ExperimentalDividers** | ${EXPDIV_COUNT} | Experimental dividers + transitions variant |
-                  | 🧪 **ExperimentalDividers (NoShellIntegration)** | ${EXPDIV_NOSI_COUNT} | Same theme with shell integration disabled |
+                  | 🧩 **Atomic special variants** | ${ATOMIC_SPECIAL_COUNT} | ColorCycle and offline helpers |
+                  | 🧩 **ExperimentalDividers special variants** | ${EXPDIV_SPECIAL_COUNT} | ColorCycle, Extended, Fish, shell-integration, and offline helpers |
                   | | |
                   | **Total** | **${TOTAL_COUNT}** | All theme files included |
 
@@ -564,7 +596,8 @@ jobs:
                   ATOMICBIT_COUNT: ${{ steps.count_themes.outputs.atomicbit_count }}
                   CLEAN_COUNT: ${{ steps.count_themes.outputs.clean_count }}
                   EXPDIV_COUNT: ${{ steps.count_themes.outputs.expdiv_count }}
-                  EXPDIV_NOSI_COUNT: ${{ steps.count_themes.outputs.expdiv_nosi_count }}
+                  ATOMIC_SPECIAL_COUNT: ${{ steps.count_themes.outputs.atomic_special_count }}
+                  EXPDIV_SPECIAL_COUNT: ${{ steps.count_themes.outputs.expdiv_special_count }}
                   STARSHIP_COUNT: ${{ steps.count_themes.outputs.starship_count }}
                   REPO: ${{ github.repository }}
 
@@ -603,7 +636,8 @@ jobs:
                     echo "- 📦 AtomicBit-Enhanced: ${{ steps.count_themes.outputs.atomicbit_count }} themes"
                     echo "- 🧹 Clean-Detailed-Enhanced: ${{ steps.count_themes.outputs.clean_count }} themes"
                     echo "- 🧪 ExperimentalDividers: ${{ steps.count_themes.outputs.expdiv_count }} themes"
-                    echo "- 🧪 ExperimentalDividers (NoShellIntegration): ${{ steps.count_themes.outputs.expdiv_nosi_count }} theme"
+                    echo "- 🧩 Atomic special variants: ${{ steps.count_themes.outputs.atomic_special_count }} themes"
+                    echo "- 🧩 ExperimentalDividers special variants: ${{ steps.count_themes.outputs.expdiv_special_count }} themes"
                     if [ "${{ steps.count_themes.outputs.starship_count }}" != "0" ]; then
                       echo "- ⭐ Starship: ${{ steps.count_themes.outputs.starship_count }} config file"
                     fi
