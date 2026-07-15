@@ -86,7 +86,7 @@ foreach ($base in $baseThemes) {
     $baseFilePath = Resolve-RepoPath $baseFile
     if (Test-Path -LiteralPath $baseFilePath) {
         $customThemes += @{
-            Name = "$($base.Name) (Base)"
+            Name = "$($base.Name) - Original"
             Path = $baseFilePath
             Family = $base.Name
         }
@@ -107,6 +107,8 @@ foreach ($base in $baseThemes) {
 
     # Add all palette variants
     foreach ($palette in $paletteVariants) {
+        if ($palette -eq 'Original') { continue }
+
         $folder = $variantFolders[$base.Prefix]
         $variantFile = if ($folder) {
             $folderPath = Join-Path -Path $RepoRoot -ChildPath $folder

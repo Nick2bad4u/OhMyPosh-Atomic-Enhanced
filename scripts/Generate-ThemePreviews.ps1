@@ -49,6 +49,14 @@
 param(
     [Parameter()]
     [string[]]$ThemePattern = @(
+        # Non-extended Original themes live at the repository root.
+        'OhMyPosh-Atomic-Custom-ExperimentalDividers.json',
+        'OhMyPosh-Atomic-Custom.json',
+        '1_shell-Enhanced.omp.json',
+        'slimfat-Enhanced.omp.json',
+        'atomicBit-Enhanced.omp.json',
+        'clean-detailed-Enhanced.omp.json',
+
         # ExperimentalDividers variants
         'experimentalDividers/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json',
 
@@ -95,6 +103,24 @@ $ThemePattern = @($ThemePattern | ForEach-Object { Resolve-RepoPath $_ })
 $ImageSettings = Resolve-RepoPath $ImageSettings
 $OutputDirectory = Resolve-RepoPath $OutputDirectory
 $ReadmePath = Resolve-RepoPath $ReadmePath
+
+$OriginalThemeNames = @{
+    'OhMyPosh-Atomic-Custom-ExperimentalDividers.json' = 'OhMyPosh-Atomic-Custom-ExperimentalDividers.Original'
+    'OhMyPosh-Atomic-Custom.json'                      = 'OhMyPosh-Atomic-Custom.Original'
+    '1_shell-Enhanced.omp.json'                        = '1_shell-Enhanced.omp.Original'
+    'slimfat-Enhanced.omp.json'                        = 'slimfat-Enhanced.omp.Original'
+    'atomicBit-Enhanced.omp.json'                      = 'atomicBit-Enhanced.omp.Original'
+    'clean-detailed-Enhanced.omp.json'                 = 'clean-detailed-Enhanced.omp.Original'
+}
+
+$GeneratedFamilyBases = @{
+    atomic               = 'OhMyPosh-Atomic-Custom.json'
+    '1_shell'            = '1_shell-Enhanced.omp.json'
+    slimfat              = 'slimfat-Enhanced.omp.json'
+    atomicBit            = 'atomicBit-Enhanced.omp.json'
+    cleanDetailed        = 'clean-detailed-Enhanced.omp.json'
+    experimentalDividers = 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
+}
 
 # Write-Output does not support -ForegroundColor / -NoNewline, but this script uses it for colored console output.
 # Provide a local wrapper so output stays clean without rewriting every callsite.
@@ -227,7 +253,13 @@ $skipCount = 0
 $errorCount = 0
 
 foreach ($theme in $themeFiles) {
-    $themeName = [System.IO.Path]::GetFileNameWithoutExtension($theme.Name)
+    $themeName = if ($OriginalThemeNames.ContainsKey($theme.Name)) {
+        $OriginalThemeNames[$theme.Name]
+    }
+    else {
+        [System.IO.Path]::GetFileNameWithoutExtension($theme.Name)
+    }
+    $resultThemeName = "$themeName.json"
     $outputImage = Join-Path $OutputDirectory "$themeName.png"
 
     Write-Output "`n[$($results.Count + 1)/$($themeFiles.Count)] " -NoNewline -ForegroundColor $colors.Accent
@@ -238,7 +270,7 @@ foreach ($theme in $themeFiles) {
         Write-WarningOutput 'Image already exists, skipping (use -Force to regenerate)'
         $skipCount++
         $results += [pscustomobject]@{
-            Theme        = $theme.Name
+            Theme        = $resultThemeName
             ThemeName    = $themeName
             Status       = 'Skipped'
             ImagePath    = $outputImage
@@ -248,8 +280,23 @@ foreach ($theme in $themeFiles) {
     }
 
     # Generate image
+    $temporaryConfigPath = $null
     try {
         $configPath = $theme.FullName
+
+        # Tracked palette extensions use an absolute raw GitHub URL so they also
+        # work when loaded directly from GitHub or a release. Resolve against the
+        # current checkout for deterministic previews of uncommitted base changes.
+        $directoryName = Split-Path -Path $theme.DirectoryName -Leaf
+        if ($GeneratedFamilyBases.ContainsKey($directoryName)) {
+            $declaration = Get-Content -LiteralPath $theme.FullName -Raw | ConvertFrom-Json -Depth 200 -AsHashtable
+            if ($declaration.ContainsKey('extends')) {
+                $declaration.extends = Join-Path -Path $RepoRoot -ChildPath $GeneratedFamilyBases[$directoryName]
+                $temporaryConfigPath = Join-Path -Path ([System.IO.Path]::GetTempPath()) -ChildPath ("omp-preview-{0}.json" -f [guid]::NewGuid())
+                $declaration | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $temporaryConfigPath -Encoding utf8
+                $configPath = $temporaryConfigPath
+            }
+        }
 
         # Build command arguments (avoid PowerShell automatic variable 'args')
         $exportArgs = @(
@@ -265,7 +312,7 @@ foreach ($theme in $themeFiles) {
             Write-Success "Generated: $themeName.png"
             $successCount++
             $results += [pscustomobject]@{
-                Theme        = $theme.Name
+                Theme        = $resultThemeName
                 ThemeName    = $themeName
                 Status       = 'Success'
                 ImagePath    = $outputImage
@@ -282,11 +329,16 @@ foreach ($theme in $themeFiles) {
         Write-ErrorMessage "Failed: $_"
         $errorCount++
         $results += [pscustomobject]@{
-            Theme        = $theme.Name
+            Theme        = $resultThemeName
             ThemeName    = $themeName
             Status       = 'Error'
             ImagePath    = $null
             RelativePath = $null
+        }
+    }
+    finally {
+        if ($temporaryConfigPath -and (Test-Path -LiteralPath $temporaryConfigPath)) {
+            Remove-Item -LiteralPath $temporaryConfigPath -Force
         }
     }
 }

@@ -127,6 +127,10 @@ try {
     $themeContent = Get-Content $ThemePath -Raw
     $themeJson = $themeContent | ConvertFrom-Json
     Write-Host '✓ JSON syntax is valid' -ForegroundColor Green
+
+    if ($themeJson.extends) {
+        $errors += 'Pre-Upload-Validation.ps1 expects a complete root theme, not a palette extension. Use Test-Themes.ps1 -IncludeGenerated, or export the resolved config with oh-my-posh first.'
+    }
 }
 catch {
     $errors += "JSON syntax error in $ThemePath`: $($_.Exception.Message)"

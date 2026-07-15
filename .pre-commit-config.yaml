@@ -28,6 +28,6 @@ repos:
 
           - id: test-themes
             name: Run theme tests
-            entry: pwsh -File ./scripts/Test-Themes.ps1
+            entry: pwsh -File ./scripts/Test-Themes.ps1 -IncludeGenerated
             language: system
-            files: (OhMyPosh-Atomic-.*\.json$|.*-Enhanced\.omp\.json$|scripts/Test-Themes\.ps1$)
+            files: (^|/)(OhMyPosh-Atomic-.*\.json|(?:1_shell|slimfat|atomicBit|cleanDetailed)/.*\.json|experimentalDividers/.*\.json|.*-Enhanced\.omp(?:\..+)?\.json|scripts/Test-Themes\.ps1)$

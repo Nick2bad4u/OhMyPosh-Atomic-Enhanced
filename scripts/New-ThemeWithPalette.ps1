@@ -30,8 +30,12 @@
     Path to the JSON file containing palette definitions.
     Default: "color-palette-alternatives.json"
 
+.PARAMETER ExtendsPath
+    Value written to the generated theme's extends property. When omitted, a
+    relative path from the output file to SourceTheme is used.
+
 .PARAMETER UpdateAccentColor
-    If specified, also updates the root "accent_color" property to match the palette accent.
+    If specified, adds an "accent_color" override that matches the palette accent.
 
 .EXAMPLE
     .\scripts\New-ThemeWithPalette.ps1 -PaletteName "tokyo_night" -OutputName "TokyoNight"
@@ -69,6 +73,9 @@ param(
 
     [Parameter()]
     [string]$PalettesFile = 'color-palette-alternatives.json',
+
+    [Parameter()]
+    [string]$ExtendsPath,
 
     [Parameter()]
     [switch]$UpdateAccentColor
@@ -211,20 +218,6 @@ if ($palette -is [pscustomobject]) {
     $palette = $paletteHash
 }
 
-# Update the theme palette
-Write-Output '🔄 Applying new palette...' -ForegroundColor Cyan
-$theme['palette'] = $palette
-
-# Update accent_color if requested
-if ($UpdateAccentColor -and $palette.ContainsKey('accent')) {
-    $oldAccent = $theme['accent_color']
-    $theme['accent_color'] = $palette['accent']
-    Write-Output '  • Updated accent_color: ' -NoNewline -ForegroundColor DarkGray
-    Write-Output "$oldAccent" -NoNewline -ForegroundColor DarkRed
-    Write-Output ' → ' -NoNewline
-    Write-Output "$($palette.accent)" -ForegroundColor Green
-}
-
 # Determine output file path
 if ($OutputPath) {
     $outputFile = $OutputPath
@@ -248,11 +241,44 @@ else {
     $outputFile = Join-Path $sourceDir "$sourceBaseName.$OutputName.json"
 }
 
+$outputDirectory = Split-Path -Path $outputFile -Parent
+if (-not $outputDirectory) {
+    $outputDirectory = $RepoRoot
+}
+
+if (-not (Test-Path -LiteralPath $outputDirectory)) {
+    New-Item -ItemType Directory -Path $outputDirectory -Force | Out-Null
+}
+
+if ([System.IO.Path]::GetFullPath($outputFile) -eq [System.IO.Path]::GetFullPath($SourceTheme)) {
+    throw 'OutputPath must not overwrite the source theme that the generated config extends.'
+}
+
+if ([string]::IsNullOrWhiteSpace($ExtendsPath)) {
+    $ExtendsPath = [System.IO.Path]::GetRelativePath($outputDirectory, $SourceTheme) -replace '\\', '/'
+}
+
+Write-Output '🔄 Creating palette-only extension...' -ForegroundColor Cyan
+$orderedPalette = [ordered]@{}
+foreach ($key in @($palette.Keys | Sort-Object)) {
+    $orderedPalette[$key] = $palette[$key]
+}
+
+$overlay = [ordered]@{
+    '$schema' = if ($theme.ContainsKey('$schema')) { $theme['$schema'] } else { 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json' }
+    extends   = $ExtendsPath
+    palette   = $orderedPalette
+}
+
+if ($UpdateAccentColor -and $palette.ContainsKey('accent')) {
+    $overlay['accent_color'] = $palette['accent']
+    Write-Output "  • Set accent_color override to $($palette['accent'])" -ForegroundColor DarkGray
+}
+
 # Convert back to JSON and save
 Write-Output '💾 Saving new theme...' -ForegroundColor Cyan
 try {
-    # Convert hashtable back to JSON with proper formatting
-    $jsonOutput = $theme | ConvertTo-Json -Depth 100
+    $jsonOutput = $overlay | ConvertTo-Json -Depth 100
 
     # Write to file
     $jsonOutput | Set-Content -LiteralPath $outputFile -Encoding UTF8

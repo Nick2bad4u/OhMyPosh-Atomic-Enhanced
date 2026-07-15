@@ -3,8 +3,9 @@
     Generates Experimental Dividers themes for all palettes into a dedicated folder.
 
 .DESCRIPTION
-    Uses New-ExperimentalDividersThemeWithPalette.ps1 to create one themed file per palette
-    found in color-palette-alternatives.json. Output files are placed in an
+    Uses New-ExperimentalDividersThemeWithPalette.ps1 to create one palette-only
+    extension per non-original palette. The non-extended original remains at the
+    repository root. Output files are placed in an
     "experimentalDividers" directory (created if missing) and named:
         OhMyPosh-Atomic-Custom-ExperimentalDividers.<Palette>.json
 
@@ -22,6 +23,10 @@
 
 .PARAMETER Force
     Overwrite existing files.
+
+.PARAMETER BaseUrl
+    URL prefix used by generated extends values. Set this to an empty string to
+    generate relative local extends paths instead.
 #>
 
 [CmdletBinding()]
@@ -29,6 +34,8 @@ param(
     [string]$SourceTheme = 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json',
     [string]$PalettesFile = 'color-palette-alternatives.json',
     [string]$OutputDirectory = 'experimentalDividers',
+    [AllowEmptyString()]
+    [string]$BaseUrl = 'https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/refs/heads/main',
     [switch]$UpdateAccentColor,
     [switch]$RecomputeDividers,
     [switch]$Force,
@@ -98,13 +105,25 @@ if (-not (Test-Path -LiteralPath $SourceTheme)) { throw "Source theme not found:
 if (-not (Test-Path -LiteralPath $PalettesFile)) { throw "Palettes file not found: $PalettesFile" }
 
 $palettes = (Get-Content -LiteralPath $PalettesFile -Raw | ConvertFrom-Json).palettes
-$paletteNames = $palettes.PSObject.Properties.Name
+$paletteNames = @($palettes.PSObject.Properties.Name | Where-Object { $_ -ine 'original' })
 
 if (-not (Test-Path -LiteralPath $OutputDirectory)) {
     New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
 }
 
 $baseName = [IO.Path]::GetFileNameWithoutExtension($SourceTheme)
+$staleOriginal = Join-Path -Path $OutputDirectory -ChildPath "$baseName.Original.json"
+if (Test-Path -LiteralPath $staleOriginal) {
+    Remove-Item -LiteralPath $staleOriginal -Force
+    Write-Output "🧹 Removed generated Original duplicate: $staleOriginal" -ForegroundColor DarkGray
+}
+
+$extendsPath = if ([string]::IsNullOrWhiteSpace($BaseUrl)) {
+    [System.IO.Path]::GetRelativePath($OutputDirectory, $SourceTheme) -replace '\\', '/'
+}
+else {
+    "$($BaseUrl.TrimEnd('/'))/$([System.IO.Path]::GetFileName($SourceTheme))"
+}
 
 foreach ($name in $paletteNames) {
     $pascal = ConvertTo-PascalCase $name
@@ -124,6 +143,7 @@ foreach ($name in $paletteNames) {
         SourceTheme       = $SourceTheme
         PalettesFile      = $PalettesFile
         RecomputeDividers = $RecomputeDividers
+        ExtendsPath       = $extendsPath
     }
 
     $scriptPath = Join-Path -Path $PSScriptRoot -ChildPath 'New-ExperimentalDividersThemeWithPalette.ps1'

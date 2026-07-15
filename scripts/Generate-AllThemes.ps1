@@ -3,11 +3,12 @@
     Batch generates Oh My Posh theme files for all available palettes.
 
 .DESCRIPTION
-    Reads all palettes from color-palette-alternatives.json and generates
-    a themed variant for each one, creating a complete collection of themes.
+    Reads color palettes from color-palette-alternatives.json and generates
+    small Oh My Posh configs that extend each independent root theme. The
+    original, non-extended themes remain at the repository root.
 
-.PARAMETER SourceTheme
-    Path to the source Oh My Posh theme JSON file.
+.PARAMETER SourceThemes
+    Paths to the independent source Oh My Posh theme JSON files.
     Default: "OhMyPosh-Atomic-Custom.json"
 
 .PARAMETER PalettesFile
@@ -28,25 +29,30 @@
     Pass -OutputDirectory to override and put all generated variants in one location.
 
 .PARAMETER UpdateAccentColor
-    If specified, also updates the root "accent_color" property to match palette accent.
+    If specified, adds an "accent_color" override that matches the palette accent.
 
 .PARAMETER ExcludePalettes
-    Array of palette names to skip (e.g., if you don't want to generate certain themes).
+    Additional palette names to skip. The original palette is always represented
+    by the non-extended root theme and is never generated into a family folder.
+
+.PARAMETER BaseUrl
+    URL prefix used by generated extends values. Set this to an empty string to
+    generate relative local extends paths instead.
 
 .PARAMETER Force
     Overwrite existing theme files without prompting.
 
 .EXAMPLE
     .\scripts\Generate-AllThemes.ps1
-    Generates theme files for all palettes
+    Generates palette-only extension files for every non-original palette.
 
 .EXAMPLE
     .\scripts\Generate-AllThemes.ps1 -UpdateAccentColor -Force
     Generates all themes with updated accent colors, overwriting existing files
 
 .EXAMPLE
-    .\scripts\Generate-AllThemes.ps1 -ExcludePalettes @("original", "test_palette")
-    Generates all themes except "original" and "test_palette"
+    .\scripts\Generate-AllThemes.ps1 -ExcludePalettes @("test_palette")
+    Generates all non-original themes except "test_palette"
 
 .NOTES
     Author: GitHub Copilot
@@ -77,28 +83,11 @@ param(
     [string[]]$ExcludePalettes = @(),
 
     [Parameter()]
-    [switch]$Force
-
-    ,
-
-    # --- Base theme sync pipeline ---
-    # By default, we keep OhMyPosh-Atomic-Custom.json and the other base templates
-    # (1_shell/slimfat/atomicBit/clean-detailed) in sync with the ExperimentalDividers theme,
-    # so new tooltips and shared config flow into every generated variant.
+    [AllowEmptyString()]
+    [string]$BaseUrl = 'https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/refs/heads/main',
 
     [Parameter()]
-    [switch]$SkipExperimentalDividersSync,
-
-    [Parameter()]
-    [switch]$SkipBaseThemeSync,
-
-    [Parameter()]
-    [string]$ExperimentalDividersTheme = 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json',
-
-    [Parameter()]
-    [string]$AtomicCustomTheme = 'OhMyPosh-Atomic-Custom.json'
-
-    ,
+    [switch]$Force,
 
     # When generating ExperimentalDividers palette variants, optionally force recomputing divider blends.
     [Parameter()]
@@ -150,40 +139,6 @@ function Resolve-RepoPath {
 
     if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
     return (Join-Path -Path $RepoRoot -ChildPath $Path)
-}
-
-# --- Optional base theme sync pipeline (runs before palette generation) ---
-$ExperimentalDividersThemePath = Resolve-RepoPath $ExperimentalDividersTheme
-$AtomicCustomThemePath = Resolve-RepoPath $AtomicCustomTheme
-
-if (-not $SkipExperimentalDividersSync) {
-    $syncAtomicScript = Join-Path -Path $PSScriptRoot -ChildPath 'Generate-AtomicCustomFromExperimentalDividers.ps1'
-    if (Test-Path -LiteralPath $syncAtomicScript) {
-        if (Test-Path -LiteralPath $ExperimentalDividersThemePath) {
-            & $syncAtomicScript -ExperimentalDividersPath $ExperimentalDividersThemePath -AtomicCustomTemplatePath $AtomicCustomThemePath -OutputPath $AtomicCustomThemePath
-        }
-        else {
-            Write-Output "⚠️  ExperimentalDividers theme not found (skipping sync): $ExperimentalDividersThemePath" -ForegroundColor Yellow
-        }
-    }
-    else {
-        Write-Output "⚠️  Missing sync script (skipping): $syncAtomicScript" -ForegroundColor Yellow
-    }
-}
-
-if (-not $SkipBaseThemeSync) {
-    $syncTemplatesScript = Join-Path -Path $PSScriptRoot -ChildPath 'Sync-ThemeTemplatesFromAtomicCustom.ps1'
-    if (Test-Path -LiteralPath $syncTemplatesScript) {
-        if (Test-Path -LiteralPath $AtomicCustomThemePath) {
-            & $syncTemplatesScript -AtomicCustomPath $AtomicCustomThemePath
-        }
-        else {
-            Write-Output "⚠️  Atomic Custom theme not found (skipping template sync): $AtomicCustomThemePath" -ForegroundColor Yellow
-        }
-    }
-    else {
-        Write-Output "⚠️  Missing template sync script (skipping): $syncTemplatesScript" -ForegroundColor Yellow
-    }
 }
 
 function Get-DefaultThemeOutputDirectory {
@@ -251,11 +206,11 @@ catch {
     exit 1
 }
 
-# Get all palette names
+# Get all palette names. "original" is the root source file, not an extension.
 $ExcludePalettes = @($ExcludePalettes) # Ensure it's an array
 $allPaletteNames = @(
     $palettes.PSObject.Properties.Name | Where-Object {
-        $_ -notin $ExcludePalettes
+        $_ -ine 'original' -and $_ -notin $ExcludePalettes
     }
 )
 
@@ -319,6 +274,13 @@ foreach ($SourceTheme in $SourceThemes) {
         Write-Output $themeOutputDirectory -ForegroundColor Yellow
     }
 
+    $sourceBaseName = [System.IO.Path]::GetFileNameWithoutExtension($SourceTheme)
+    $staleOriginal = Join-Path -Path $themeOutputDirectory -ChildPath "$sourceBaseName.Original.json"
+    if (Test-Path -LiteralPath $staleOriginal) {
+        Remove-Item -LiteralPath $staleOriginal -Force
+        Write-Output "  🧹 Removed generated Original duplicate: $staleOriginal" -ForegroundColor DarkGray
+    }
+
     $successCount = 0
     $skipCount = 0
     $errorCount = 0
@@ -334,7 +296,6 @@ foreach ($SourceTheme in $SourceThemes) {
 
         # Generate output filename
         $outputName = ConvertTo-PascalCase $paletteName
-        $sourceBaseName = [System.IO.Path]::GetFileNameWithoutExtension($SourceTheme)
         $outputFile = Join-Path $themeOutputDirectory "$sourceBaseName.$outputName.json"
 
         # Check if file exists
@@ -358,6 +319,13 @@ foreach ($SourceTheme in $SourceThemes) {
                 PaletteName  = $paletteName
                 OutputPath   = $outputFile
                 PalettesFile = $PalettesFile
+            }
+
+            if ([string]::IsNullOrWhiteSpace($BaseUrl)) {
+                $params.ExtendsPath = [System.IO.Path]::GetRelativePath($themeOutputDirectory, $SourceTheme) -replace '\\', '/'
+            }
+            else {
+                $params.ExtendsPath = "$($BaseUrl.TrimEnd('/'))/$([System.IO.Path]::GetFileName($SourceTheme))"
             }
 
             if ($UpdateAccentColor) {

@@ -53,12 +53,41 @@ catch {
     Write-Error "Failed to parse JSON in config file: $ConfigPath.`nError details: $($_.Exception.Message)"
     exit 1
 }
-# Extract all palette keys from the JSON object for comparison
+# Extract all palette keys from the JSON object for comparison.
 if ($null -eq $json.palette -or -not ($json.palette -is [psobject]) -or -not $json.palette.PSObject.Properties) {
     Write-Error "Palette property is missing or not an object in config file: $ConfigPath"
     exit 1
 }
+
 $palette = @($json.palette.PSObject.Properties.Name)
+if ($json.extends) {
+    $basePath = if ([string]$json.extends -match '^https://') {
+        Join-Path -Path $RepoRoot -ChildPath ([System.IO.Path]::GetFileName(([uri]$json.extends).AbsolutePath))
+    }
+    elseif ([System.IO.Path]::IsPathRooted([string]$json.extends)) {
+        [string]$json.extends
+    }
+    else {
+        Join-Path -Path (Split-Path -Path $ConfigPath -Parent) -ChildPath ([string]$json.extends)
+    }
+
+    if (-not (Test-Path -LiteralPath $basePath)) {
+        Write-Error "Unable to resolve extended base locally: $basePath"
+        exit 1
+    }
+
+    try {
+        $baseRawContent = Get-Content -LiteralPath $basePath -Raw
+        $baseJson = $baseRawContent | ConvertFrom-Json -Depth 100
+    }
+    catch {
+        Write-Error "Failed to parse extended base config: $basePath.`nError details: $($_.Exception.Message)"
+        exit 1
+    }
+
+    $palette = @($palette + @($baseJson.palette.PSObject.Properties.Name) | Sort-Object -Unique)
+    $rawContent = $baseRawContent
+}
 
 # Find all p:<key> references (including inside templates)
 $refs = [regex]::Matches($rawContent, 'p:([a-zA-Z0-9_\-\.]+)') | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique
