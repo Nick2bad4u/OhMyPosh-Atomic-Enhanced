@@ -6,7 +6,8 @@ These instructions apply to `slimfat/`.
 
 ## Rules
 
-- Files in this folder are generated palette variants for `slimfat-Enhanced.omp.json`.
+- Files in this folder are generated palette-only overlays that extend `slimfat-Enhanced.omp.json`.
+- The root source is the complete Original theme; this folder must not contain `*.Original.json`.
 - Do not hand-edit these JSON files for shared behavior, segment layout, tooltip, or palette-key changes.
 - Make source changes in the root template or `color-palette-alternatives.json`, then regenerate.
 - If a task explicitly targets one generated variant, explain why the change should remain variant-specific.

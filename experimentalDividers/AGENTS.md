@@ -6,7 +6,8 @@ These instructions apply to `experimentalDividers/`.
 
 ## Rules
 
-- Files in this folder are generated from `OhMyPosh-Atomic-Custom-ExperimentalDividers.json`.
+- Files in this folder are generated palette-only overlays that extend `OhMyPosh-Atomic-Custom-ExperimentalDividers.json`, never `OhMyPosh-Atomic-Custom.json`.
+- The root ExperimentalDividers source is the complete Original theme; this folder must not contain `*.Original.json`.
 - Do not hand-edit these JSON files for shared behavior, segment layout, tooltip, or palette-key changes.
 - Make source changes in the root ExperimentalDividers theme or `color-palette-alternatives.json`, then regenerate.
 - Root helper variants are not in this folder; keep these root files synchronized separately when the canonical theme changes:

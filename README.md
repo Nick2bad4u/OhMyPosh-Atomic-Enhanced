@@ -513,7 +513,9 @@ After making changes to the palette or theme configuration, run this script to e
 
 ## 🎨 Theme Styles
 
-This repository includes **6 theme families**, each available in **38 color palettes** (228 total palette variants), plus a small number of special variants:
+This repository includes **6 independent theme families**, each with one complete Original theme at the repository root and 37 color-only `extends` overlays in its family folder (**228 selectable themes** total), plus a small number of special variants.
+
+Folder overlays contain only inheritance metadata and palette colors. Raw GitHub overlays load their matching root base from this repository; tagged release downloads are materialized as standalone full configs.
 
 ### 🚀 OhMyPosh Atomic Custom
 

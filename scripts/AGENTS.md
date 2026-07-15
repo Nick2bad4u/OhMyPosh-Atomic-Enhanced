@@ -17,8 +17,9 @@ These instructions apply to `scripts/`.
 
 ## Generation Contracts
 
-- `Generate-AllThemes.ps1` is the broad generator for the main theme families.
-- `Generate-ExperimentalDividers.ps1` writes `experimentalDividers/*.json` from `OhMyPosh-Atomic-Custom-ExperimentalDividers.json`.
+- `Generate-AllThemes.ps1` writes palette-only `extends` overlays for the five main theme families; it never synchronizes their independent root bases.
+- `Generate-ExperimentalDividers.ps1` writes palette-only `experimentalDividers/*.json` overlays that extend `OhMyPosh-Atomic-Custom-ExperimentalDividers.json`.
+- The complete Original for each family is its root source file. Never generate `*.Original.json` into a family folder.
 - `Make-FishVariant.ps1`, `Make-NoShellIntegration.ps1`, and `Make-NoNetwork.ps1` write root helper variants.
 - `Normalize-Palettes.ps1` can rewrite `color-palette-alternatives.json`; review the diff carefully after running it.
 - `Generate-ThemePreviews.ps1` writes images under `assets/theme-previews/` and may update README gallery content.

@@ -1,13 +1,14 @@
 # Oh My Posh Theme Palette Generator Scripts
 
-Powerful PowerShell scripts to quickly generate Oh My Posh theme variants with different color palettes.
+PowerShell tooling for generating small Oh My Posh palette extensions without copying each complete theme.
+
+Each of the six complete Original themes lives at the repository root. The family folders contain 37 color-only configs whose `extends` value targets that family's independent root base. Atomic Custom and ExperimentalDividers never inherit from or synchronize into one another.
 
 ## 📁 Files
 
-- **`scripts/Generate-AtomicCustomFromExperimentalDividers.ps1`** - Sync non-divider `OhMyPosh-Atomic-Custom.json` from the ExperimentalDividers theme (pulls tooltips/shared settings)
-- **`scripts/Sync-ThemeTemplatesFromAtomicCustom.ps1`** - Sync other base templates (1_shell/slimfat/atomicBit/clean-detailed) from `OhMyPosh-Atomic-Custom.json`
-- **`scripts/New-ThemeWithPalette.ps1`** - Generate a single theme with a specific palette
-- **`scripts/Generate-AllThemes.ps1`** - Batch generate themes for all available palettes
+- **`scripts/New-ThemeWithPalette.ps1`** - Generate one palette-only extension
+- **`scripts/Generate-AllThemes.ps1`** - Generate extensions for the five main families
+- **`scripts/Generate-ExperimentalDividers.ps1`** - Independently generate ExperimentalDividers extensions
 - **`scripts/Make-NoNetwork.ps1`** - Create an offline (no outbound network calls) variant of a theme
 - **`scripts/Test-Themes.ps1`** - Run repo theme validation tests (JSON/palette/network hygiene)
 - **`color-palette-alternatives.json`** - Collection of themed color palettes
@@ -15,22 +16,12 @@ Powerful PowerShell scripts to quickly generate Oh My Posh theme variants with d
 
 ## 🚀 Quick Start
 
-## 🔁 Recommended workflow (new)
+## 🔁 Inheritance model
 
-The **ExperimentalDividers** theme is treated as the source-of-truth for shared configuration (tooltips, maps, prompts, etc.).
-
-When you run `scripts/Generate-AllThemes.ps1`, it will now (by default):
-
-1. Sync `OhMyPosh-Atomic-Custom.json` from `OhMyPosh-Atomic-Custom-ExperimentalDividers.json` **without** switching the non-divider layout
-2. Sync the other base templates (`1_shell-Enhanced.omp.json`, `slimfat-Enhanced.omp.json`, `atomicBit-Enhanced.omp.json`, `clean-detailed-Enhanced.omp.json`) from `OhMyPosh-Atomic-Custom.json`
-3. Generate all palette variants as usual
-
-If you ever need to run the sync steps manually:
-
-```powershell
-pwsh .\scripts\Generate-AtomicCustomFromExperimentalDividers.ps1
-pwsh .\scripts\Sync-ThemeTemplatesFromAtomicCustom.ps1
-```
+- Root theme: complete, non-extended Original config.
+- Family folder: 37 generated overlays containing only `$schema`, `extends`, `palette`, and optionally `accent_color`.
+- Raw GitHub overlays extend the corresponding root file on `main`.
+- Release automation materializes overlays into standalone full JSON files so tagged downloads stay immutable and offline-capable.
 
 ### Generate a Single Theme
 
@@ -59,8 +50,8 @@ $myPalette = @{
 # Force overwrite existing files
 .\scripts\Generate-AllThemes.ps1 -UpdateAccentColor -Force
 
-# Exclude specific palettes
-.\scripts\Generate-AllThemes.ps1 -ExcludePalettes @("original", "test_palette")
+# Exclude an additional palette (`original` is always the root theme)
+.\scripts\Generate-AllThemes.ps1 -ExcludePalettes @("test_palette")
 ```
 
 ## 📋 Script Parameters
@@ -75,7 +66,8 @@ $myPalette = @{
 | `-OutputName` | String | Name suffix for output file | Auto-generated from palette name |
 | `-OutputPath` | String | Full output file path | Auto-generated |
 | `-PalettesFile` | String | JSON file with palettes | `color-palette-alternatives.json` |
-| `-UpdateAccentColor` | Switch | Update root accent_color | `$false` |
+| `-ExtendsPath` | String | Explicit base path or URL | Relative path to `SourceTheme` |
+| `-UpdateAccentColor` | Switch | Add an `accent_color` override | `$false` |
 
 ### Generate-AllThemes.ps1
 
@@ -83,12 +75,11 @@ $myPalette = @{
 | --- | --- | --- | --- |
 | `-SourceThemes` | String[] | Source theme JSON file(s) | `OhMyPosh-Atomic-Custom.json` + other base templates |
 | `-PalettesFile` | String | JSON file with palettes | `color-palette-alternatives.json` |
-| `-OutputDirectory` | String | Output directory for themes | Same as source |
-| `-UpdateAccentColor` | Switch | Update root accent_color | `$false` |
+| `-OutputDirectory` | String | Output directory for themes | Family folders |
+| `-UpdateAccentColor` | Switch | Add an `accent_color` override | `$false` |
 | `-ExcludePalettes` | String[] | Palettes to skip | `@()` |
 | `-Force` | Switch | Overwrite existing files | `$false` |
-| `-SkipExperimentalDividersSync` | Switch | Skip syncing Atomic Custom from ExperimentalDividers | `$false` |
-| `-SkipBaseThemeSync` | Switch | Skip syncing other base templates from Atomic Custom | `$false` |
+| `-BaseUrl` | String | URL prefix for tracked overlay inheritance; empty uses relative paths | Raw GitHub `main` URL |
 
 ## 🎨 Available Palettes
 
@@ -152,16 +143,16 @@ See `COLOR-PALETTES-GUIDE.md` for visual previews and detailed descriptions.
 # Generate complete collection
 .\scripts\Generate-AllThemes.ps1 -UpdateAccentColor -Force
 
-# Creates:
-# - OhMyPosh-Atomic-Custom.Original.json
-# - OhMyPosh-Atomic-Custom.NordFrost.json
-# - OhMyPosh-Atomic-Custom.GruvboxDark.json
-# - OhMyPosh-Atomic-Custom.DraculaNight.json
-# - OhMyPosh-Atomic-Custom.TokyoNight.json
-# - OhMyPosh-Atomic-Custom.MonokaiPro.json
-# - OhMyPosh-Atomic-Custom.SolarizedDark.json
-# - OhMyPosh-Atomic-Custom.CatppuccinMocha.json
-# - OhMyPosh-Atomic-Custom.ForestEmber.json
+# Original remains: ./OhMyPosh-Atomic-Custom.json
+# Creates overlays such as:
+# - ./atomic/OhMyPosh-Atomic-Custom.NordFrost.json
+# - ./atomic/OhMyPosh-Atomic-Custom.GruvboxDark.json
+# - ./atomic/OhMyPosh-Atomic-Custom.DraculaNight.json
+# - ./atomic/OhMyPosh-Atomic-Custom.TokyoNight.json
+# - ./atomic/OhMyPosh-Atomic-Custom.MonokaiPro.json
+# - ./atomic/OhMyPosh-Atomic-Custom.SolarizedDark.json
+# - ./atomic/OhMyPosh-Atomic-Custom.CatppuccinMocha.json
+# - ./atomic/OhMyPosh-Atomic-Custom.ForestEmber.json
 ```
 
 ### Example 3: Custom Source and Output

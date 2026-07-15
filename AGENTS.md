@@ -6,16 +6,16 @@ These instructions apply to the whole repository unless a more specific `AGENTS.
 
 ## Project Shape
 
-This repo ships enhanced Oh My Posh theme JSON files, generated palette variants, PowerShell tooling, documentation, GitHub workflows, and preview assets.
+This repo ships enhanced Oh My Posh theme JSON files, generated palette extensions, PowerShell tooling, documentation, GitHub workflows, and preview assets.
 
 Primary source files live at the repo root:
 
-- `OhMyPosh-Atomic-Custom-ExperimentalDividers.json` is the canonical source for shared prompt structure, tooltips, and most ExperimentalDividers work.
+- `OhMyPosh-Atomic-Custom-ExperimentalDividers.json` is the independent canonical source for ExperimentalDividers prompt structure, tooltips, and behavior.
 - `OhMyPosh-Atomic-Custom.json`, `1_shell-Enhanced.omp.json`, `slimfat-Enhanced.omp.json`, `atomicBit-Enhanced.omp.json`, and `clean-detailed-Enhanced.omp.json` are base templates for the generated families.
 - `color-palette-alternatives.json` is the palette source.
 - `starship-atomic-enhanced.toml` is shipped as an extra config asset.
 
-Generated variants live in:
+Generated palette-only `extends` overlays live in:
 
 - `atomic/`
 - `1_shell/`
@@ -24,7 +24,9 @@ Generated variants live in:
 - `cleanDetailed/`
 - `experimentalDividers/`
 
-Do not hand-edit generated variants when the same change belongs in a root source theme, shared template, or palette file. Regenerate instead.
+Each folder contains 37 non-original color overlays. The corresponding complete, non-extended Original theme lives at the repository root; `*.Original.json` files do not belong in family folders. Each overlay must extend its own family root, especially ExperimentalDividers from `OhMyPosh-Atomic-Custom-ExperimentalDividers.json`, never from `OhMyPosh-Atomic-Custom.json`.
+
+Do not hand-edit generated overlays when the same change belongs in a root source theme or palette file. Regenerate instead.
 
 ## Editing Rules
 
@@ -43,11 +45,9 @@ Do not hand-edit generated variants when the same change belongs in a root sourc
 
 ## Common Workflows
 
-After editing a root theme or shared tooltip/template behavior:
+After editing an ExperimentalDividers root theme or helper behavior:
 
 ```pwsh
-pwsh ./scripts/Generate-AtomicCustomFromExperimentalDividers.ps1
-pwsh ./scripts/Sync-ThemeTemplatesFromAtomicCustom.ps1
 pwsh ./scripts/Generate-ExperimentalDividers.ps1 -Force
 pwsh ./scripts/Make-FishVariant.ps1
 pwsh ./scripts/Make-NoShellIntegration.ps1

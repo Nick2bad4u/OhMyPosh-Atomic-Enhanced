@@ -1,11 +1,14 @@
 # Oh My Posh Theme Palette Generator Scripts
 
-Powerful PowerShell scripts to quickly generate Oh My Posh theme variants with different color palettes.
+PowerShell tooling for generating small Oh My Posh palette extensions without copying each complete theme.
+
+Each complete Original theme lives at the repository root. Family folders contain 37 color-only configs whose `extends` target is that family's independent root base. Atomic Custom and ExperimentalDividers remain separate.
 
 ## 📁 Files
 
-- **`scripts/New-ThemeWithPalette.ps1`** - Generate a single theme with a specific palette
-- **`scripts/Generate-AllThemes.ps1`** - Batch generate themes for all available palettes
+- **`scripts/New-ThemeWithPalette.ps1`** - Generate one palette-only extension
+- **`scripts/Generate-AllThemes.ps1`** - Generate extensions for the five main families
+- **`scripts/Generate-ExperimentalDividers.ps1`** - Independently generate ExperimentalDividers extensions
 - **`scripts/Make-NoNetwork.ps1`** - Create an offline (no outbound network calls) variant of a theme
 - **`scripts/Test-Themes.ps1`** - Run repo theme validation tests (JSON/palette/network hygiene)
 - **`color-palette-alternatives.json`** - Collection of themed color palettes
@@ -40,8 +43,8 @@ $myPalette = @{
 # Force overwrite existing files
 .\scripts\Generate-AllThemes.ps1 -UpdateAccentColor -Force
 
-# Exclude specific palettes
-.\scripts\Generate-AllThemes.ps1 -ExcludePalettes @("original", "test_palette")
+# Exclude an additional palette (`original` is always the root theme)
+.\scripts\Generate-AllThemes.ps1 -ExcludePalettes @("test_palette")
 ```
 
 ## 📋 Script Parameters
@@ -56,7 +59,8 @@ $myPalette = @{
 | `-OutputName` | String | Name suffix for output file | Auto-generated from palette name |
 | `-OutputPath` | String | Full output file path | Auto-generated |
 | `-PalettesFile` | String | JSON file with palettes | `color-palette-alternatives.json` |
-| `-UpdateAccentColor` | Switch | Update root accent_color | `$false` |
+| `-ExtendsPath` | String | Explicit base path or URL | Relative path to `SourceTheme` |
+| `-UpdateAccentColor` | Switch | Add an `accent_color` override | `$false` |
 
 ### Generate-AllThemes.ps1
 
@@ -64,12 +68,11 @@ $myPalette = @{
 | --- | --- | --- | --- |
 | `-SourceThemes` | String[] | Source theme JSON file(s) | `OhMyPosh-Atomic-Custom.json` + other base templates |
 | `-PalettesFile` | String | JSON file with palettes | `color-palette-alternatives.json` |
-| `-OutputDirectory` | String | Output directory for themes | Same as source |
-| `-UpdateAccentColor` | Switch | Update root accent_color | `$false` |
+| `-OutputDirectory` | String | Output directory for themes | Family folders |
+| `-UpdateAccentColor` | Switch | Add an `accent_color` override | `$false` |
 | `-ExcludePalettes` | String[] | Palettes to skip | `@()` |
 | `-Force` | Switch | Overwrite existing files | `$false` |
-| `-SkipExperimentalDividersSync` | Switch | Skip syncing Atomic Custom from ExperimentalDividers | `$false` |
-| `-SkipBaseThemeSync` | Switch | Skip syncing other base templates from Atomic Custom | `$false` |
+| `-BaseUrl` | String | URL prefix for tracked overlay inheritance; empty uses relative paths | Raw GitHub `main` URL |
 
 ## 🎨 Available Palettes
 
@@ -133,16 +136,16 @@ See `COLOR-PALETTES-GUIDE.md` for visual previews and detailed descriptions.
 # Generate complete collection
 .\scripts\Generate-AllThemes.ps1 -UpdateAccentColor -Force
 
-# Creates:
-# - OhMyPosh-Atomic-Custom.Original.json
-# - OhMyPosh-Atomic-Custom.NordFrost.json
-# - OhMyPosh-Atomic-Custom.GruvboxDark.json
-# - OhMyPosh-Atomic-Custom.DraculaNight.json
-# - OhMyPosh-Atomic-Custom.TokyoNight.json
-# - OhMyPosh-Atomic-Custom.MonokaiPro.json
-# - OhMyPosh-Atomic-Custom.SolarizedDark.json
-# - OhMyPosh-Atomic-Custom.CatppuccinMocha.json
-# - OhMyPosh-Atomic-Custom.ForestEmber.json
+# Original remains: ./OhMyPosh-Atomic-Custom.json
+# Creates overlays such as:
+# - ./atomic/OhMyPosh-Atomic-Custom.NordFrost.json
+# - ./atomic/OhMyPosh-Atomic-Custom.GruvboxDark.json
+# - ./atomic/OhMyPosh-Atomic-Custom.DraculaNight.json
+# - ./atomic/OhMyPosh-Atomic-Custom.TokyoNight.json
+# - ./atomic/OhMyPosh-Atomic-Custom.MonokaiPro.json
+# - ./atomic/OhMyPosh-Atomic-Custom.SolarizedDark.json
+# - ./atomic/OhMyPosh-Atomic-Custom.CatppuccinMocha.json
+# - ./atomic/OhMyPosh-Atomic-Custom.ForestEmber.json
 ```
 
 ### Example 3: Custom Source and Output

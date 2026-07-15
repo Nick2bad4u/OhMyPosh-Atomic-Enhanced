@@ -48,10 +48,9 @@ All PowerShell helper scripts live in the **`scripts/`** directory of the reposi
 
 | Script | Purpose | Input | Output |
 | --- | --- | --- | --- |
-| **scripts/Generate-AtomicCustomFromExperimentalDividers.ps1** | Sync non-divider Atomic Custom from ExperimentalDividers (tooltips/shared config) | ExperimentalDividers theme + Atomic Custom template | Updated `OhMyPosh-Atomic-Custom.json` |
-| **scripts/Sync-ThemeTemplatesFromAtomicCustom.ps1** | Sync other base templates from Atomic Custom | `OhMyPosh-Atomic-Custom.json` | Updated base templates (`1_shell`, `slimfat`, etc.) |
-| **scripts/Generate-AllThemes.ps1** | Generate all theme variants | Color palettes | Theme-family folders (default) or one output folder |
-| **scripts/New-ThemeWithPalette.ps1** | Create theme from palette | Palette file | Single .json file |
+| **scripts/Generate-AllThemes.ps1** | Generate palette extensions for five independent roots | Color palettes | Theme-family folders (default) or one output folder |
+| **scripts/Generate-ExperimentalDividers.ps1** | Generate ExperimentalDividers palette extensions | ExperimentalDividers root + palettes | `experimentalDividers/` |
+| **scripts/New-ThemeWithPalette.ps1** | Create one palette extension | Root theme + palette | Small .json overlay |
 | **scripts/cycle-themes.ps1** | Cycle through themes | Theme folder | Activates one at a time |
 | **scripts/Merge-OhMyPoshThemes.ps1** | Merge multiple themes | Theme files | Merged theme |
 | **scripts/pre-upload-validation.ps1** | Validate before upload | Theme path | Pass/fail report |
@@ -60,8 +59,7 @@ All PowerShell helper scripts live in the **`scripts/`** directory of the reposi
 | **scripts/validate-palette.ps1** | Validate palette file | Palette JSON | Validation report |
 | **scripts/Normalize-Palettes.ps1** | Expand/normalize all palettes to include the full keyset (tooltips/shell/dividers/debug/etc) | `OhMyPosh-Atomic-Custom.json` + `color-palette-alternatives.json` | Updated `color-palette-alternatives.json` |
 
-> Note: `scripts/Generate-AllThemes.ps1` now runs the two sync scripts above by default, so updates you make to
-> `OhMyPosh-Atomic-Custom-ExperimentalDividers.json` (tooltips/shared settings) flow into all generated theme variants.
+> Each family has one complete, non-extended Original at the repository root and 37 palette-only overlays in its folder. `Generate-AllThemes.ps1` never synchronizes independent root themes. ExperimentalDividers is generated separately and extends only `OhMyPosh-Atomic-Custom-ExperimentalDividers.json`.
 
 ---
 
@@ -69,7 +67,7 @@ All PowerShell helper scripts live in the **`scripts/`** directory of the reposi
 
 ### Purpose
 
-Generates all theme variants from available color palettes.
+Generates small `extends` overlays for every non-original color palette. The root source files remain the complete Original themes.
 
 ### Usage
 
@@ -82,8 +80,8 @@ Generates all theme variants from available color palettes.
 **What it does:**
 
 - Reads palettes from `color-palette-alternatives.json` (by default)
-- Generates variants for each source theme template
-- Writes variants into the theme-family folders by default:
+- Generates color-only overlays for each independent source theme
+- Writes 37 overlays into each theme-family folder by default:
   - `./atomic/`
   - `./1_shell/`
   - `./slimfat/`
@@ -96,8 +94,8 @@ Generates all theme variants from available color palettes.
 # Use a custom palettes file
 .\scripts\Generate-AllThemes.ps1 -PalettesFile ".\color-palette-alternatives.json" -Force
 
-# Exclude specific palettes
-.\scripts\Generate-AllThemes.ps1 -ExcludePalettes @('original') -Force
+# Exclude an additional palette (`original` is always skipped)
+.\scripts\Generate-AllThemes.ps1 -ExcludePalettes @('test_palette') -Force
 
 # Only generate for some source themes
 .\scripts\Generate-AllThemes.ps1 -SourceThemes @(
@@ -115,8 +113,9 @@ Generates all theme variants from available color palettes.
 # Common parameters:
 -SourceThemes <string[]>     # Theme templates to generate from
 -PalettesFile <string>       # Palette JSON file (default: .\color-palette-alternatives.json)
--ExcludePalettes <string[]>  # Palette IDs to skip (e.g. 'original')
+-ExcludePalettes <string[]>  # Additional non-original palette IDs to skip
 -OutputDirectory <string>    # Optional: write all generated variants to one folder
+-BaseUrl <string>            # Base URL for extends; pass '' for relative local paths
 -Force                        # Overwrite existing files
 -UpdateAccentColor            # Update theme accent_color to match palette accent
 ```
@@ -133,8 +132,8 @@ Copy-Item "color-palette-alternatives.json" "my-palette.json"
 # 3. Check generated files
 Get-ChildItem -Path ".\atomic" -Filter "OhMyPosh-Atomic-Custom.*.json"
 
-# 4. Validate generated themes
-.\scripts\pre-upload-validation.ps1 -ThemePath ".\atomic\OhMyPosh-Atomic-Custom.TokyoNight.json"
+# 4. Validate roots plus every generated overlay
+.\scripts\Test-Themes.ps1 -IncludeGenerated
 
 # 5. Test the theme
 oh-my-posh init pwsh --config ".\atomic\OhMyPosh-Atomic-Custom.TokyoNight.json" | Invoke-Expression

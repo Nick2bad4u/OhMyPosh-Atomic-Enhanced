@@ -10,7 +10,10 @@
 
 ```powershell
 .\scripts\Generate-AllThemes.ps1 -UpdateAccentColor -Force
+.\scripts\Generate-ExperimentalDividers.ps1 -Force
 ```
+
+The six root files are the complete Original themes. Generation writes 37 palette-only `extends` overlays per family folder and never creates `*.Original.json` there.
 
 ## Generate Preview Images & Update README
 
@@ -38,7 +41,8 @@ oh-my-posh init pwsh --config '.\atomic\OhMyPosh-Atomic-Custom.TokyoNight.json' 
 
 ## Common Options
 
-- `-UpdateAccentColor` - Update root accent color
+- `-UpdateAccentColor` - Add a palette-specific `accent_color` override
+- `-BaseUrl ''` - Generate overlays with relative local `extends` paths instead of the raw GitHub base URL
 - `-Force` - Overwrite existing files
 - `-OutputName "CustomName"` - Custom output name
 - `-SourceTheme "path.json"` - Different source
