@@ -40,9 +40,6 @@ on:
 permissions:
     contents: write
 
-env:
-    PREV_TAG: ""
-
 jobs:
     prepare-release:
         runs-on: ubuntu-latest
@@ -214,31 +211,67 @@ jobs:
                   name: release-assets
                   path: release-assets
 
-            - name: Generate changelog
-              id: changelog
+            - name: Prepare expected release tag
+              env:
+                  EXPECTED_TAG: ${{ needs.prepare-release.outputs.version }}
               run: |
-                  # Generate changelog for the latest changes
-                  echo "Generating changelog with git-cliff..."
+                  set -euo pipefail
 
-                  # Get the previous tag if it exists
-                  PREV_TAG=$(git tag --sort=-creatordate | head -n 1 2>/dev/null || echo "")
+                  if [ -z "$EXPECTED_TAG" ]; then
+                    echo "::error::The prepare-release job did not provide an expected tag."
+                    exit 1
+                  fi
 
-                  if [ -n "$PREV_TAG" ]; then
-                    echo "Previous tag found: $PREV_TAG"
-                    # Use git-cliff-action to generate changelog
-                    echo "PREV_TAG=$PREV_TAG" >> "$GITHUB_ENV"
-                  else
-                    echo "No previous tag found, generating full changelog"
-                    echo "PREV_TAG=" >> "$GITHUB_ENV"
+                  if ! git check-ref-format "refs/tags/${EXPECTED_TAG}"; then
+                    echo "::error::Expected release tag ${EXPECTED_TAG} is not a valid Git tag name."
+                    exit 1
+                  fi
+
+                  if git show-ref --verify --quiet "refs/tags/${EXPECTED_TAG}"; then
+                    echo "::error::Expected release tag ${EXPECTED_TAG} already exists; refusing to replace it."
+                    exit 1
+                  fi
+
+                  git tag -- "$EXPECTED_TAG" HEAD
+
+            - name: Validate expected release tag
+              env:
+                  EXPECTED_TAG: ${{ needs.prepare-release.outputs.version }}
+              run: |
+                  set -euo pipefail
+
+                  if [ -z "$EXPECTED_TAG" ]; then
+                    echo "::error::The prepare-release job did not provide an expected tag."
+                    exit 1
+                  fi
+
+                  tag_ref="refs/tags/${EXPECTED_TAG}"
+                  if ! git show-ref --verify --quiet "$tag_ref"; then
+                    echo "::error::Expected release tag ${EXPECTED_TAG} does not exist in the local checkout."
+                    exit 1
+                  fi
+
+                  tag_commit=$(git rev-parse "${tag_ref}^{commit}")
+                  head_commit=$(git rev-parse HEAD)
+                  if [ "$tag_commit" != "$head_commit" ]; then
+                    echo "::error::Expected release tag ${EXPECTED_TAG} points to ${tag_commit}, but HEAD is ${head_commit}."
+                    exit 1
+                  fi
+
+                  head_tags=$(git tag --points-at HEAD --sort=refname)
+                  if [ "$head_tags" != "$EXPECTED_TAG" ]; then
+                    echo "::error::HEAD must have exactly the expected release tag ${EXPECTED_TAG}; found: ${head_tags:-<none>}."
+                    exit 1
                   fi
 
             - name: Run git-cliff
               uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
               with:
                   config: cliff.toml
-                  args: ${{ env.PREV_TAG != '' && format('{0}..HEAD', env.PREV_TAG) || '' }} --strip all
+                  args: --verbose --current --strip all
               env:
                   OUTPUT: /tmp/changelog.md
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Process changelog
               run: |
@@ -539,6 +572,7 @@ jobs:
               uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b # v3.0.1
               with:
                   tag_name: ${{ needs.prepare-release.outputs.version }}
+                  target_commitish: ${{ github.sha }}
                   name: Oh My Posh Atomic Enhanced ${{ needs.prepare-release.outputs.version }}
                   body_path: /tmp/release-body.md
                   files: |
