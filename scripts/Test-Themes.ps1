@@ -50,6 +50,7 @@ function Get-FileList {
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json',
+        'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoNetwork.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json',
         '1_shell-Enhanced.omp.json',
@@ -382,6 +383,24 @@ if ($IncludeGenerated -and $extendsSmokeFiles.Count -gt 0 -and (Get-Command oh-m
         $systemTempRoot = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
         if ($resolvedTempRoot.StartsWith($systemTempRoot, [StringComparison]::OrdinalIgnoreCase)) {
             Remove-Item -LiteralPath $resolvedTempRoot -Recurse -Force
+        }
+    }
+}
+
+# The generated-set gate also proves all 38 curated palettes across all six
+# family roots and verifies that every overlay matches the palette source.
+if ($IncludeGenerated) {
+    $visualQualityScript = Resolve-RepoPath 'scripts/Test-PaletteVisualQuality.ps1'
+    if (-not (Test-Path -LiteralPath $visualQualityScript)) {
+        $allErrors.Add("Palette visual-quality script not found: $visualQualityScript") | Out-Null
+    }
+    else {
+        $visualQualityOutput = & pwsh -NoProfile -File $visualQualityScript 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            $allErrors.Add("Palette visual-quality validation failed: $($visualQualityOutput -join ' ')") | Out-Null
+        }
+        else {
+            $visualQualityOutput | ForEach-Object { Write-Host $_ -ForegroundColor DarkGray }
         }
     }
 }

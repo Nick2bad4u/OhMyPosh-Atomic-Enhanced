@@ -1,0 +1,128 @@
+{
+  "env": {
+    "PWD": "C:\\preview\\repo",
+    "AbsolutePWD": "C:\\preview\\repo",
+    "Folder": "repo",
+    "Code": 0,
+    "ExecutionTime": 1234,
+    "PipeStatus": "0",
+    "Interrupted": false,
+    "PromptCount": 7,
+    "OS": "windows",
+    "Shell": "pwsh",
+    "ShellVersion": "7.5.2",
+    "UserName": "Nick",
+    "HostName": "DEVBOX",
+    "Root": false,
+    "WSL": false,
+    "Jobs": 0
+  },
+  "segments": {
+    "session": { "SSHSession": false },
+    "shell": { "Name": "pwsh", "Version": "7.5.2" },
+    "shell-lprompt": { "Name": "pwsh", "Version": "7.5.2" },
+    "path": {
+      "Location": "C:/preview/repo",
+      "Path": "repo",
+      "Writable": true,
+      "RootDir": false,
+      "StackCount": 0
+    },
+    "path-lprompt": {
+      "Location": "C:/preview/repo",
+      "Path": "repo",
+      "Writable": true,
+      "RootDir": false,
+      "StackCount": 0
+    },
+    "git": {
+      "HEAD": "main",
+      "BranchStatus": "↑2",
+      "UpstreamIcon": "",
+      "Ahead": 2,
+      "Behind": 0,
+      "Working": { "Modified": 2, "Untracked": 1 },
+      "Staging": { "Added": 1 }
+    },
+    "git-lprompt": {
+      "HEAD": "main",
+      "BranchStatus": "↑2",
+      "UpstreamIcon": "",
+      "Ahead": 2,
+      "Behind": 0,
+      "Working": { "Modified": 2, "Untracked": 1 },
+      "Staging": { "Added": 1 }
+    },
+    "executiontime": { "FormattedMs": "1.23s", "Ms": 1234 },
+    "executiontime-lprompt": { "FormattedMs": "1.23s", "Ms": 1234 },
+    "sysinfo": {
+      "Disks": {},
+      "PhysicalTotalMemory": 68719476736,
+      "PhysicalAvailableMemory": 25769803776,
+      "PhysicalFreeMemory": 25769803776,
+      "PhysicalPercentUsed": 62.5,
+      "SwapTotalMemory": 0,
+      "SwapFreeMemory": 0,
+      "SwapPercentUsed": 0,
+      "Load1": 42,
+      "Load5": 38,
+      "Load15": 35,
+      "Precision": 1
+    },
+    "sysinfo-rprompt": {
+      "Disks": {},
+      "PhysicalTotalMemory": 68719476736,
+      "PhysicalAvailableMemory": 25769803776,
+      "PhysicalFreeMemory": 25769803776,
+      "PhysicalPercentUsed": 62.5,
+      "SwapTotalMemory": 0,
+      "SwapFreeMemory": 0,
+      "SwapPercentUsed": 0,
+      "Load1": 42,
+      "Load5": 38,
+      "Load15": 35,
+      "Precision": 1
+    },
+    "os": { "Icon": "" },
+    "os-rprompt": { "Icon": "" },
+    "time": { "CurrentDate": "2026-01-15T16:20:00-05:00", "Format": "3:04 PM" },
+    "time-rprompt": { "CurrentDate": "2026-01-15T16:20:00-05:00", "Format": "3:04 PM" },
+    "battery": { "Error": "", "Icon": " ", "Percentage": 68, "State": 5 },
+    "battery-rprompt": { "Error": "", "Icon": " ", "Percentage": 68, "State": 5 },
+    "owm": { "Weather": "󰖐", "UnitIcon": "°F", "Temperature": 72 },
+    "owm-rprompt": { "Weather": "󰖐", "UnitIcon": "°F", "Temperature": 72 },
+    "npm": { "Full": "10.9.2", "Major": "10", "Minor": "9", "Patch": "2", "Error": "" },
+    "npm-rprompt": { "Full": "10.9.2", "Major": "10", "Minor": "9", "Patch": "2", "Error": "" },
+    "node": {
+      "Full": "22.14.0",
+      "Major": "22",
+      "Minor": "14",
+      "Patch": "0",
+      "PackageManagerIcon": "",
+      "PackageManagerName": "npm",
+      "Mismatch": false,
+      "Error": ""
+    },
+    "node-rprompt": {
+      "Full": "22.14.0",
+      "Major": "22",
+      "Minor": "14",
+      "Patch": "0",
+      "PackageManagerIcon": "",
+      "PackageManagerName": "npm",
+      "Mismatch": false,
+      "Error": ""
+    },
+    "python": { "Full": "3.13.2", "Major": "3", "Minor": "13", "Patch": "2", "Venv": "preview", "Error": "" },
+    "python-rprompt": { "Full": "3.13.2", "Major": "3", "Minor": "13", "Patch": "2", "Venv": "preview", "Error": "" },
+    "java": { "Full": "21.0.6", "Major": "21", "Minor": "0", "Patch": "6", "Error": "" },
+    "java-rprompt": { "Full": "21.0.6", "Major": "21", "Minor": "0", "Patch": "6", "Error": "" },
+    "upgrade": { "Version": "29.31.0", "latest": "29.31.0", "current": "29.29.0" },
+    "upgrade-rprompt": { "Version": "29.31.0", "latest": "29.31.0", "current": "29.29.0" },
+    "copilot": {
+      "billing_cycle_end": "2026-02-01",
+      "premium": { "used": 20, "limit": 100, "percent": 20, "remaining": 80, "unlimited": true }
+    },
+    "promptcount-rprompt": {}
+  }
+}

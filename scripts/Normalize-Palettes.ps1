@@ -159,9 +159,15 @@ function Get-ContrastColor {
     param([Parameter(Mandatory)][string]$Hex)
 
     $rgb = Convert-HexToRgb $Hex
-    # Relative luminance approximation
-    $lum = (0.2126 * ($rgb.R / 255.0)) + (0.7152 * ($rgb.G / 255.0)) + (0.0722 * ($rgb.B / 255.0))
-    if ($lum -gt 0.6) { return '#000000' }
+    $linearChannels = foreach ($value in @($rgb.R, $rgb.G, $rgb.B)) {
+        $normalized = $value / 255.0
+        if ($normalized -le 0.04045) { $normalized / 12.92 }
+        else { [math]::Pow(($normalized + 0.055) / 1.055, 2.4) }
+    }
+    $luminance = (0.2126 * $linearChannels[0]) + (0.7152 * $linearChannels[1]) + (0.0722 * $linearChannels[2])
+    $blackContrast = ($luminance + 0.05) / 0.05
+    $whiteContrast = 1.05 / ($luminance + 0.05)
+    if ($blackContrast -ge $whiteContrast) { return '#000000' }
     return '#ffffff'
 }
 
@@ -274,9 +280,11 @@ foreach ($name in $paletteNames) {
     $existing['debug_bg'] = $expectedDebugBg
     $existing['debug_fg'] = $expectedDebugFg
 
-    # Derived: Copilot default background (used when unlimited)
+    # Derived: Copilot default background (used when unlimited). Execution is a
+    # dark, light-text role; violet_project is intentionally bright because it
+    # is also rendered as foreground text and as a divider color.
     if ($existing.ContainsKey('copilot_bg')) {
-        $existing['copilot_bg'] = if ($existing.ContainsKey('violet_project')) { $existing['violet_project'] }
+        $existing['copilot_bg'] = if ($existing.ContainsKey('purple_exec')) { $existing['purple_exec'] }
         elseif ($existing.ContainsKey('purple_session')) { $existing['purple_session'] }
         else { $existing['accent'] }
     }

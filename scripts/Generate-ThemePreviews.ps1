@@ -18,6 +18,10 @@
     Directory where preview images will be saved.
     Default: "assets/theme-previews"
 
+.PARAMETER PreviewData
+    Sanitized deterministic Oh My Posh segment data used for every preview.
+    Pass an empty string to use live machine state instead.
+
 .PARAMETER ReadmePath
     Path to README.md file to update.
     Default: "README.md"
@@ -78,6 +82,10 @@ param(
     [string]$OutputDirectory = 'assets/theme-previews',
 
     [Parameter()]
+    [AllowEmptyString()]
+    [string]$PreviewData = 'theme-preview.data.json',
+
+    [Parameter()]
     [string]$ReadmePath = 'README.md',
 
     [Parameter()]
@@ -106,6 +114,7 @@ $ThemePattern = @($ThemePattern | ForEach-Object { Resolve-RepoPath $_ })
 $ImageSettings = Resolve-RepoPath $ImageSettings
 $OutputDirectory = Resolve-RepoPath $OutputDirectory
 $ReadmePath = Resolve-RepoPath $ReadmePath
+$PreviewData = if ([string]::IsNullOrWhiteSpace($PreviewData)) { '' } else { Resolve-RepoPath $PreviewData }
 
 $OriginalThemeNames = @{
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.json' = 'OhMyPosh-Atomic-Custom-ExperimentalDividers.Original'
@@ -217,6 +226,19 @@ else {
     $imageSettingsParam = @('--settings', (Resolve-Path $ImageSettings).Path)
 }
 
+if ($PreviewData) {
+    if (-not (Test-Path -LiteralPath $PreviewData)) {
+        throw "Preview data file not found: $PreviewData"
+    }
+    $null = Get-Content -LiteralPath $PreviewData -Raw | ConvertFrom-Json -Depth 100
+    $previewDataParam = @('--data', (Resolve-Path $PreviewData).Path)
+    Write-Success "Found deterministic preview data: $PreviewData"
+}
+else {
+    $previewDataParam = @()
+    Write-WarningOutput 'No preview data supplied; previews will use live machine state'
+}
+
 # Create output directory
 Write-Step 'Setting up output directory...'
 if (-not (Test-Path -LiteralPath $OutputDirectory)) {
@@ -306,7 +328,7 @@ foreach ($theme in $themeFiles) {
             'config', 'export', 'image',
             '--config', $configPath,
             '--output', $outputImage
-        ) + $imageSettingsParam
+        ) + $imageSettingsParam + $previewDataParam
 
         # Run oh-my-posh export and capture result for diagnostics
         $exportResult = & oh-my-posh @exportArgs 2>&1
@@ -605,9 +627,12 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
     if ($readmeContent -match [regex]::Escape($galleryMarker)) {
         Write-Step 'Updating existing gallery section...'
 
-        # Find the end of the gallery section (next ## heading or end of file)
-        if ($readmeContent -match "(?s)($([regex]::Escape($galleryMarker))).*?(?=^## |\z)") {
-            $readmeContent = $readmeContent -replace "(?s)($([regex]::Escape($galleryMarker))).*?(?=^## |\z)", $galleryMarkdown
+        # Find the end of the gallery section without consuming the Liquid raw
+        # block delimiter used to protect Oh My Posh template examples.
+        $galleryEndPattern = '(?=^## |^<!-- \{% endraw %\} -->|\z)'
+        $galleryPattern = "(?ms)($([regex]::Escape($galleryMarker))).*?$galleryEndPattern"
+        if ($readmeContent -match $galleryPattern) {
+            $readmeContent = $readmeContent -replace $galleryPattern, ($galleryMarkdown + [Environment]::NewLine)
         }
     }
     else {

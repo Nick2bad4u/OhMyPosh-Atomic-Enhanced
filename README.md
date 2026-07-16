@@ -657,22 +657,32 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 </tr>
 <tr>
 <td align="center" width="50%">
-<h4>DraculaNight</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.DraculaNight.png" alt="DraculaNight theme preview" width="100%">
+<h4>ColorCycle</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.png" alt="ColorCycle theme preview" width="100%">
 </td>
 <td align="center" width="50%">
-<h4>Duskfox</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Duskfox.png" alt="Duskfox theme preview" width="100%">
+<h4>DraculaNight</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.DraculaNight.png" alt="DraculaNight theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>Duskfox</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Duskfox.png" alt="Duskfox theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>EasterPastel</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.EasterPastel.png" alt="EasterPastel theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>Everforest</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Everforest.png" alt="Everforest theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>Extended</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.png" alt="Extended theme preview" width="100%">
 </td>
 </tr>
 <tr>

@@ -57,6 +57,8 @@ All PowerShell helper scripts live in the **`scripts/`** directory of the reposi
 | **scripts/Merge-OhMyPoshThemes.ps1** | Merge multiple themes | Theme files | Merged theme |
 | **scripts/pre-upload-validation.ps1** | Validate before upload | Theme path | Pass/fail report |
 | **scripts/Generate-ThemePreviews.ps1** | Create preview images | Theme files | PNG preview images |
+| **scripts/Set-PaletteVisualDesigns.ps1** | Apply curated visible-role ramps and synchronize Original roots | Visual-design contract + palette source | Updated palette/root JSON |
+| **scripts/Test-PaletteVisualQuality.ps1** | Verify all palette designs, six-family contrast, and overlay freshness | Palette source + six roots + 222 overlays | Pass/fail report |
 | **scripts/sync-official-themes.ps1** | Sync official themes | Official repo | Updated themes |
 | **scripts/validate-palette.ps1** | Validate palette file | Palette JSON | Validation report |
 | **scripts/Normalize-Palettes.ps1** | Expand/normalize all palettes to include the full keyset (tooltips/shell/dividers/debug/etc) | `OhMyPosh-Atomic-Custom.json` + `color-palette-alternatives.json` | Updated `color-palette-alternatives.json` |
@@ -376,6 +378,16 @@ Validates a color palette file.
 - ✅ Sufficient color variety
 - ✅ Contrast ratios adequate
 
+### Test-PaletteVisualQuality.ps1
+
+Validates the actual palette design contract rather than only checking JSON shape. It proves that all 38 palettes have curated visible-role colors, tests every direct/fallback segment pairing across all six roots at a minimum 4.5:1 contrast ratio, and verifies that all 222 generated overlays match the current palette source.
+
+```pwsh
+pwsh ./scripts/Test-PaletteVisualQuality.ps1
+```
+
+`Test-Themes.ps1 -IncludeGenerated` runs this gate automatically.
+
 ---
 
 ## Preview Generation
@@ -386,21 +398,30 @@ Creates preview images of themes.
 
 #### Usage
 
-```powershell
-.\scripts\Generate-ThemePreviews.ps1 -ThemeFolder ".\atomic"
+```pwsh
+pwsh ./scripts/Generate-ThemePreviews.ps1 -Force
 ```
 
-**Creates:** PNG image previews of each theme
+By default the generator uses the sanitized `theme-preview.data.json` fixture, so every palette is rendered with the same shell, repository, Git, system, battery, weather, and runtime state. It writes PNGs to `assets/theme-previews/` and refreshes the README gallery.
 
 #### Advanced Usage
 
-```powershell
-.\scripts\Generate-ThemePreviews.ps1 `
-  -ThemeFolder ".\atomic" `
-  -OutputPath ".\assets\theme-previews" `
-  -ImageWidth 1920 `
-  -ImageHeight 1080
+```pwsh
+# Render only selected themes into a review directory without changing README.
+pwsh ./scripts/Generate-ThemePreviews.ps1 `
+  -ThemePattern @(
+    'atomic/OhMyPosh-Atomic-Custom.NordFrost.json',
+    'experimentalDividers/OhMyPosh-Atomic-Custom-ExperimentalDividers.NordFrost.json'
+  ) `
+  -OutputDirectory ./preview-review `
+  -SkipReadmeUpdate `
+  -Force
+
+# Opt out of deterministic data and render current live machine state.
+pwsh ./scripts/Generate-ThemePreviews.ps1 -PreviewData '' -Force
 ```
+
+Do not replace `theme-preview.data.json` with raw `oh-my-posh config export data` output. Raw exports can contain local paths, Git identity/remotes, and request URLs with credentials. Hand-author and review any fixture changes.
 
 ---
 
@@ -409,6 +430,25 @@ Creates preview images of themes.
 ### File Location
 
 `color-palette-alternatives.json`
+
+The hand-reviewed visible-role ramps live in `scripts/Palette-Visual-Designs.json`. The palette JSON remains the generation source; use the applicator instead of hand-copying the same role changes into 38 palettes.
+
+### Curated Palette Workflow
+
+```pwsh
+# Apply curated role ramps, rebuild divider colors, and synchronize all Originals.
+pwsh ./scripts/Set-PaletteVisualDesigns.ps1
+pwsh ./scripts/Normalize-Palettes.ps1
+pwsh ./scripts/Set-PaletteVisualDesigns.ps1 -SyncRootThemes
+
+# Regenerate all six families and prove coverage, contrast, and freshness.
+pwsh ./scripts/Generate-AllThemes.ps1 -Force
+pwsh ./scripts/Generate-ExperimentalDividers.ps1 -Force
+pwsh ./scripts/Test-PaletteVisualQuality.ps1
+
+# Render the deterministic gallery for visual review.
+pwsh ./scripts/Generate-ThemePreviews.ps1 -Force
+```
 
 ### What It Contains
 
