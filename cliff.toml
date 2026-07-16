@@ -337,4 +337,3 @@ sort_commits = "newest"
 # api_url = "https://api.github.com"
 
 # native_tls = false
-
