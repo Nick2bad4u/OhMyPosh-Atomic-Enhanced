@@ -52,6 +52,8 @@ All PowerShell helper scripts live in the **`scripts/`** directory of the reposi
 | **scripts/Generate-ExperimentalDividers.ps1** | Generate ExperimentalDividers palette extensions | ExperimentalDividers root + palettes | `experimentalDividers/` |
 | **scripts/Make-ExtendedVariant.ps1** | Generate ordered Extended additions | ExperimentalDividers root + variant definition | Complete root helper |
 | **scripts/Make-ColorCycleVariant.ps1** | Generate a synchronized ColorCycle helper | Atomic Custom or ExperimentalDividers root + cycle definition | Complete root helper |
+| **scripts/Make-GradientVariant.ps1** | Generate connected two-stop native gradients | ExperimentalDividers root + gradient definition | Complete root helper |
+| **scripts/Make-GradientRampsVariant.ps1** | Generate connected gradients with position-matched full-block ramps | ExperimentalDividers root + ramp definition | Complete root helper |
 | **scripts/New-ThemeWithPalette.ps1** | Create one palette extension | Root theme + palette | Small .json overlay |
 | **scripts/cycle-themes.ps1** | Cycle through themes | Theme folder | Activates one at a time |
 | **scripts/Merge-OhMyPoshThemes.ps1** | Merge multiple themes | Theme files | Merged theme |
@@ -338,7 +340,9 @@ Validates a theme before uploading to ensure it's correct.
 #### Usage
 
 ```powershell
-.\scripts\pre-upload-validation.ps1 -ThemePath "OhMyPosh-Atomic-Custom-ExperimentalDividers.json"
+.\scripts\pre-upload-validation.ps1 `
+  -ThemePath "OhMyPosh-Atomic-Custom-ExperimentalDividers.json" `
+  -TestPath "test_OhMyPosh-Atomic-Custom.ExperimentalDividers.json"
 ```
 
 #### What It Checks
@@ -744,6 +748,36 @@ Clones a complete source theme, adds the shared 12-step color cycle, and removes
 
 # ExperimentalDividers
 .\scripts\Make-ColorCycleVariant.ps1 -Source .\OhMyPosh-Atomic-Custom-ExperimentalDividers.json
+```
+
+### Make-GradientVariant.ps1
+
+Generates `OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json` from the canonical ExperimentalDividers theme. It gives prompt-block backgrounds explicit two-stop `linear-gradient(...)` values. Most begin with `parentBackground` and finish at the segment's configured palette color, so the previous segment's final rendered stop becomes the next segment's first stop automatically. The shell and npm entry segments use explicit pairs because they cannot rely on a previous active background.
+
+Oh My Posh collapses a two-stop gradient below four visible cells to its configured final stop. To avoid a row of one-cell color jumps, the standard Gradient definition removes all 30 transition-divider segments. The following wider content segments inherit the previous active background and perform the interpolation instead.
+
+Because Oh My Posh does not support gradients on `interactive: true` segments, the generated variant makes `path-lprompt` and `git-lprompt` non-interactive; the canonical source is not changed. Tooltips remain solid because they do not form a dependable adjacent-segment chain.
+
+Oh My Posh 29.36.0 or newer is required.
+
+```powershell
+.\scripts\Make-GradientVariant.ps1
+
+# Test it in the current PowerShell session
+oh-my-posh init pwsh --config .\OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json | Invoke-Expression
+```
+
+### Make-GradientRampsVariant.ps1
+
+Generates `OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json` through the shared Gradient generator. It keeps the connected two-stop backgrounds and interactive-segment compatibility changes, but uses nine grouped six-cell ramps rather than removing every transition divider. It collapses 21 redundant dividers and retains each group's endpoint as a ramp.
+
+Each retained ramp contains six full-block cells wrapped in `<background,transparent>`. The foreground keyword resolves to the gradient color at each text position, so the cells visually merge into their backgrounds while retaining stable terminal width. This is the smoother alternative; the standard divider-free Gradient output remains unchanged for side-by-side testing.
+
+```powershell
+.\scripts\Make-GradientRampsVariant.ps1
+
+# Test it in the current PowerShell session
+oh-my-posh init pwsh --config .\OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json | Invoke-Expression
 ```
 
 ## Summary

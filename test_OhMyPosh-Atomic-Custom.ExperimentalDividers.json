@@ -295,6 +295,7 @@
                     "property": "upgrade.interval",
                     "expectedValue": [
                         "5m",
+                        "10m",
                         "1h",
                         "24h",
                         "168h"

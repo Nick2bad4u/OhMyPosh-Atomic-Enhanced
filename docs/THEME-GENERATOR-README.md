@@ -11,6 +11,8 @@ Each complete Original theme lives at the repository root. Family folders contai
 - **`scripts/Generate-ExperimentalDividers.ps1`** - Independently generate ExperimentalDividers extensions
 - **`scripts/Make-ExtendedVariant.ps1`** - Generate the Extended helper from canonical ExperimentalDividers plus ordered additions
 - **`scripts/Make-ColorCycleVariant.ps1`** - Generate Atomic Custom or ExperimentalDividers ColorCycle helpers
+- **`scripts/Make-GradientVariant.ps1`** - Generate the Oh My Posh 29.36+ connected two-stop ExperimentalDividers Gradient helper
+- **`scripts/Make-GradientRampsVariant.ps1`** - Generate the position-matched full-block ExperimentalDividers GradientRamps helper
 - **`scripts/Make-NoNetwork.ps1`** - Create an offline (no outbound network calls) variant of a theme
 - **`scripts/Test-Themes.ps1`** - Run repo theme validation tests (JSON/palette/network hygiene)
 - **`color-palette-alternatives.json`** - Collection of themed color palettes
@@ -52,6 +54,8 @@ $myPalette = @{
 .\scripts\Make-ExtendedVariant.ps1
 .\scripts\Make-ColorCycleVariant.ps1
 .\scripts\Make-ColorCycleVariant.ps1 -Source .\OhMyPosh-Atomic-Custom-ExperimentalDividers.json
+.\scripts\Make-GradientVariant.ps1
+.\scripts\Make-GradientRampsVariant.ps1
 ```
 
 ## 📋 Script Parameters

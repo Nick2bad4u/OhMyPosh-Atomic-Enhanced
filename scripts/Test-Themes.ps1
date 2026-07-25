@@ -50,6 +50,8 @@ function Get-FileList {
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json',
+        'OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json',
+        'OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoNetwork.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json',
@@ -242,6 +244,192 @@ foreach ($file in $files) {
         # Segment hygiene checks
         $segments = Get-AllSegments $theme
 
+        $themeLeaf = Split-Path -Path $file -Leaf
+        if ($themeLeaf -eq 'OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json') {
+            $gradientItems = @($segments | Where-Object {
+                    $colors = @([string]$_.background) + @($_.background_templates | ForEach-Object { [string]$_ })
+                    ($colors -join ' ') -match 'linear-gradient\('
+                })
+
+            if ($gradientItems.Count -lt 10) {
+                $errors.Add("Gradient helper has too few connected items: $($gradientItems.Count).") | Out-Null
+            }
+
+            $interactiveGradients = @($gradientItems | Where-Object {
+                    $_.PSObject.Properties.Name -contains 'interactive' -and [bool]$_.interactive
+                })
+            if ($interactiveGradients.Count -gt 0) {
+                $aliases = @($interactiveGradients.alias | Where-Object { $_ }) -join ', '
+                $errors.Add("Gradient helper shades unsupported interactive items: $aliases") | Out-Null
+            }
+
+            $expectedDividerAliases = @('divider-15', 'divider-16')
+            $remainingDividerAliases = @($theme.blocks.segments |
+                Where-Object { [string]$_.alias -match '^divider(?:-|$)' } |
+                ForEach-Object { [string]$_.alias } |
+                Sort-Object)
+            $unexpectedDividerAliases = @(Compare-Object `
+                    -ReferenceObject @($expectedDividerAliases | Sort-Object) `
+                    -DifferenceObject $remainingDividerAliases |
+                ForEach-Object { [string]$_.InputObject })
+            if ($unexpectedDividerAliases.Count -gt 0) {
+                $errors.Add("Gradient helper must retain only the transparent divider caps: $($unexpectedDividerAliases -join ', ')") | Out-Null
+            }
+
+            if ($raw -match '(?:dark|light)-gradient\(') {
+                $errors.Add('Gradient helper must use explicit two-stop linear gradients instead of auto-shade gradients.') | Out-Null
+            }
+
+            $shellGradient = @($theme.blocks.segments | Where-Object { $_.alias -eq 'shell-lprompt' })[0]
+            if ([string]$shellGradient.background -cne 'linear-gradient(p:blue_primary, p:divider_navy_text_to_purple_exec)') {
+                $errors.Add("Gradient helper has an incorrect shell entry gradient: $($shellGradient.background)") | Out-Null
+            }
+
+            $npmGradient = @($theme.blocks.segments | Where-Object { $_.alias -eq 'npm-rprompt' })[0]
+            if ([string]$npmGradient.background -cne 'linear-gradient(p:yellow_dark, p:npm_yellow)') {
+                $errors.Add("Gradient helper has an incorrect rprompt entry gradient: $($npmGradient.background)") | Out-Null
+            }
+
+            foreach ($requiredAlias in @('path-lprompt', 'git-lprompt')) {
+                $requiredSegment = @($theme.blocks.segments | Where-Object { $_.alias -eq $requiredAlias })[0]
+                if ($requiredSegment.PSObject.Properties.Name -notcontains 'interactive' -or [bool]$requiredSegment.interactive) {
+                    $errors.Add("Gradient helper must make '$requiredAlias' non-interactive.") | Out-Null
+                }
+                if ([string]$requiredSegment.background -notmatch '^linear-gradient\(parentBackground, ') {
+                    $errors.Add("Gradient helper does not connect '$requiredAlias' to parentBackground.") | Out-Null
+                }
+            }
+
+            $gradientTooltips = @($theme.tooltips | Where-Object {
+                    ((@([string]$_.background) + @($_.background_templates | ForEach-Object { [string]$_ })) -join ' ') -match 'gradient\('
+                })
+            if ($gradientTooltips.Count -gt 0) {
+                $aliases = @($gradientTooltips.alias | Where-Object { $_ }) -join ', '
+                $errors.Add("Gradient helper must leave standalone tooltips solid: $aliases") | Out-Null
+            }
+        }
+        elseif ($themeLeaf -eq 'OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json') {
+            $gradientItems = @($segments | Where-Object {
+                    $colors = @([string]$_.background) + @($_.background_templates | ForEach-Object { [string]$_ })
+                    ($colors -join ' ') -match 'linear-gradient\('
+                })
+
+            if ($gradientItems.Count -lt 20) {
+                $errors.Add("GradientRamps helper has too few connected items: $($gradientItems.Count).") | Out-Null
+            }
+
+            $interactiveGradients = @($gradientItems | Where-Object {
+                    $_.PSObject.Properties.Name -contains 'interactive' -and [bool]$_.interactive
+                })
+            if ($interactiveGradients.Count -gt 0) {
+                $aliases = @($interactiveGradients.alias | Where-Object { $_ }) -join ', '
+                $errors.Add("GradientRamps helper shades unsupported interactive items: $aliases") | Out-Null
+            }
+
+            $expectedRampAliases = @(
+                'divider-root-lprompt-in-2',
+                'divider-04',
+                'divider-07',
+                'divider-11',
+                'divider-14b',
+                'divider-21',
+                'divider-23',
+                'divider-25',
+                'divider-27'
+            )
+            $gradientDividers = @($theme.blocks.segments | Where-Object {
+                    [string]$_.alias -match '^divider(?:-|$)' -and
+                    ((@([string]$_.background) + @($_.background_templates | ForEach-Object { [string]$_ })) -join ' ') -match 'linear-gradient\('
+                })
+            $unexpectedRampAliases = @(Compare-Object `
+                    -ReferenceObject @($expectedRampAliases | Sort-Object) `
+                    -DifferenceObject @($gradientDividers.alias | Sort-Object) |
+                ForEach-Object { [string]$_.InputObject })
+            if ($unexpectedRampAliases.Count -gt 0) {
+                $errors.Add("GradientRamps helper divider ramps do not match its definition: $($unexpectedRampAliases -join ', ')") | Out-Null
+            }
+
+            foreach ($rampAlias in $expectedRampAliases) {
+                $rampSegment = @($gradientDividers | Where-Object { $_.alias -eq $rampAlias })[0]
+                if ($null -eq $rampSegment) {
+                    continue
+                }
+                $fullBlock = [string][char]0x2588
+                $rampCellTemplate = [regex]::Replace([string]$rampSegment.template, '\{\{.*?\}\}', '')
+                $expectedRampTemplate = "<background,transparent>$($fullBlock * 6)</>"
+                if ($rampCellTemplate -cne $expectedRampTemplate) {
+                    $errors.Add("GradientRamps helper divider ramp '$rampAlias' does not contain exactly six position-matched full-block cells.") | Out-Null
+                }
+                if ([string]$rampSegment.template -match '[\uE0B0\uE0B2]') {
+                    $errors.Add("GradientRamps helper divider ramp '$rampAlias' retained a Powerline transition glyph.") | Out-Null
+                }
+            }
+
+            $collapsedDividerAliases = @(
+                'divider-root-lprompt-in',
+                'divider-01',
+                'divider-02',
+                'divider-03',
+                'divider-05',
+                'divider-06',
+                'divider-08',
+                'divider-09',
+                'divider-10',
+                'divider-12',
+                'divider-13',
+                'divider-14',
+                'divider-14a',
+                'divider-17',
+                'divider-18',
+                'divider-19',
+                'divider-20',
+                'divider-22',
+                'divider-24',
+                'divider-battery-in',
+                'divider-26'
+            )
+            $retainedCollapsedAliases = @($theme.blocks.segments.alias | Where-Object { $_ -in $collapsedDividerAliases })
+            if ($retainedCollapsedAliases.Count -gt 0) {
+                $errors.Add("GradientRamps helper retained dividers that should be collapsed: $($retainedCollapsedAliases -join ', ')") | Out-Null
+            }
+
+            if ($raw -match '(?:dark|light)-gradient\(') {
+                $errors.Add('GradientRamps helper must use explicit two-stop linear gradients instead of auto-shade gradients.') | Out-Null
+            }
+
+            $shellGradient = @($theme.blocks.segments | Where-Object { $_.alias -eq 'shell-lprompt' })[0]
+            if ([string]$shellGradient.background -cne 'linear-gradient(p:blue_primary, p:divider_navy_text_to_purple_exec)') {
+                $errors.Add("GradientRamps helper has an incorrect shell entry gradient: $($shellGradient.background)") | Out-Null
+            }
+
+            $npmGradient = @($theme.blocks.segments | Where-Object { $_.alias -eq 'npm-rprompt' })[0]
+            if ([string]$npmGradient.background -cne 'linear-gradient(p:yellow_dark, p:npm_yellow)') {
+                $errors.Add("GradientRamps helper has an incorrect rprompt entry gradient: $($npmGradient.background)") | Out-Null
+            }
+
+            $rightBlockGradient = @($theme.blocks.segments | Where-Object { $_.alias -eq 'divider-21' })[0]
+            if ([string]$rightBlockGradient.background -cne 'linear-gradient(p:divider_green_ahead, p:divider_teal_sysinfo)') {
+                $errors.Add("GradientRamps helper has an incorrect right-block entry gradient: $($rightBlockGradient.background)") | Out-Null
+            }
+
+            foreach ($requiredAlias in @('path-lprompt', 'git-lprompt')) {
+                $requiredSegment = @($theme.blocks.segments | Where-Object { $_.alias -eq $requiredAlias })[0]
+                if ($requiredSegment.PSObject.Properties.Name -notcontains 'interactive' -or [bool]$requiredSegment.interactive) {
+                    $errors.Add("GradientRamps helper must make '$requiredAlias' non-interactive.") | Out-Null
+                }
+                if ([string]$requiredSegment.background -notmatch '^linear-gradient\(parentBackground, ') {
+                    $errors.Add("GradientRamps helper does not connect '$requiredAlias' to parentBackground.") | Out-Null
+                }
+            }
+
+            $gradientTooltips = @($theme.tooltips | Where-Object {
+                    ((@([string]$_.background) + @($_.background_templates | ForEach-Object { [string]$_ })) -join ' ') -match 'gradient\('
+                })
+            if ($gradientTooltips.Count -gt 0) {
+                $aliases = @($gradientTooltips.alias | Where-Object { $_ }) -join ', '
+                $errors.Add("GradientRamps helper must leave standalone tooltips solid: $aliases") | Out-Null
+            }
+        }
         foreach ($seg in $segments) {
             $t = Get-SegmentTypeLower $seg
             $opt = Get-SegmentOptions $seg
@@ -425,6 +613,18 @@ $generatorChecks = @(
         Name      = 'ExperimentalDividers Extended'
         Script    = Resolve-RepoPath 'scripts/Make-ExtendedVariant.ps1'
         Expected  = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json'
+        Parameters = @{ Source = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json' }
+    },
+    @{
+        Name      = 'ExperimentalDividers Gradient'
+        Script    = Resolve-RepoPath 'scripts/Make-GradientVariant.ps1'
+        Expected  = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json'
+        Parameters = @{ Source = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json' }
+    },
+    @{
+        Name      = 'ExperimentalDividers GradientRamps'
+        Script    = Resolve-RepoPath 'scripts/Make-GradientRampsVariant.ps1'
+        Expected  = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json'
         Parameters = @{ Source = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json' }
     }
 )

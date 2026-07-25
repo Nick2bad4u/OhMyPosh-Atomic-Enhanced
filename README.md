@@ -376,15 +376,30 @@ Use the Fish-specific variant (right-side content is rendered via `fish_right_pr
 oh-my-posh init fish --config https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json | source
 ```
 
-4. **Generated special variants:** Extended adds additional VCS segments and tooltips. ColorCycle applies the same ordered color cycle to the current Atomic Custom or ExperimentalDividers structure.
+4. **Generated special variants:** Extended adds additional VCS segments and tooltips. ColorCycle applies the same ordered color cycle to the current Atomic Custom or ExperimentalDividers structure. Gradient and GradientRamps use Oh My Posh 29.36's native two-stop backgrounds to connect prompt segments from `parentBackground` into their own palette colors.
 
 ```pwsh
 pwsh ./scripts/Make-ExtendedVariant.ps1
 pwsh ./scripts/Make-ColorCycleVariant.ps1
 pwsh ./scripts/Make-ColorCycleVariant.ps1 -Source ./OhMyPosh-Atomic-Custom-ExperimentalDividers.json
+pwsh ./scripts/Make-GradientVariant.ps1
+pwsh ./scripts/Make-GradientRampsVariant.ps1
 ```
 
 These commands generate complete standalone files at the repository root. They intentionally synchronize shared settings from their canonical source themes instead of preserving stale fields in an older generated file.
+
+Test either generated gradient variant locally with Oh My Posh 29.36.0 or newer:
+
+```pwsh
+oh-my-posh init pwsh --config ./OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json | Invoke-Expression
+
+# Alternative with position-matched full-block transition ramps
+oh-my-posh init pwsh --config ./OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json | Invoke-Expression
+```
+
+Oh My Posh cannot calculate gradients for `interactive: true` segments, so this generated test variant makes its path and Git segments non-interactive. The canonical ExperimentalDividers theme keeps their original interactive settings. Standalone tooltips remain solid because they do not have a dependable adjacent-segment color chain.
+
+Oh My Posh calculates each gradient within an individual segment and distributes its stops across terminal character cells. The current Gradient variant removes the 30 colored one-cell transition dividers that exposed abrupt vertical bands and lets the following wider content segment interpolate directly from `parentBackground`. GradientRamps instead collapses those chains into nine six-cell full-block ramps. Each ramp wraps its cells in `<background,transparent>`, so the foreground resolves to the gradient color at that text position and visually merges into the background while retaining stable terminal width. The transparent divider caps remain, and the canonical ExperimentalDividers theme keeps its complete divider layout.
 
 Customize mapped locations, icons, and colors as needed in the JSON file.
 
@@ -700,116 +715,124 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <h4>GithubDark</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.GithubDark.png" alt="GithubDark theme preview" width="100%">
 </td>
+</tr>
+<tr>
+<td align="center" width="100%" colspan="2">
+<h4>GradientRamps</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.png" alt="GradientRamps theme preview" width="100%">
+</td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>GreenMatrix</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.GreenMatrix.png" alt="GreenMatrix theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>GruvboxDark</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.GruvboxDark.png" alt="GruvboxDark theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>HalloweenSpooky</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.HalloweenSpooky.png" alt="HalloweenSpooky theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>KanagawaWave</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.KanagawaWave.png" alt="KanagawaWave theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>LavenderPeach</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.LavenderPeach.png" alt="LavenderPeach theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>MaterialPalenight</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.MaterialPalenight.png" alt="MaterialPalenight theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>MidnightGold</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.MidnightGold.png" alt="MidnightGold theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>MonokaiPro</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.MonokaiPro.png" alt="MonokaiPro theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>Nightfox</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Nightfox.png" alt="Nightfox theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>NightOwl</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.NightOwl.png" alt="NightOwl theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>NordFrost</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.NordFrost.png" alt="NordFrost theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>OneDark</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.OneDark.png" alt="OneDark theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>Original</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Original.png" alt="Original theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>PinkParadise</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.PinkParadise.png" alt="PinkParadise theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>Poimandres</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Poimandres.png" alt="Poimandres theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>PurpleReign</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.PurpleReign.png" alt="PurpleReign theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>RainbowBright</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.RainbowBright.png" alt="RainbowBright theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>RedAlert</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.RedAlert.png" alt="RedAlert theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>RosePine</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.RosePine.png" alt="RosePine theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>SolarizedDark</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.SolarizedDark.png" alt="SolarizedDark theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>Synthwave84</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Synthwave84.png" alt="Synthwave84 theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>TealCyan</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.TealCyan.png" alt="TealCyan theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>TokyoNight</h4>
 <img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.TokyoNight.png" alt="TokyoNight theme preview" width="100%">

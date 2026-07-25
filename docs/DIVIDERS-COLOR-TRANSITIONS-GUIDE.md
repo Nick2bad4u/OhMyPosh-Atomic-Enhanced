@@ -1547,23 +1547,44 @@ Or truncate paths:
 - Apply HSL lightness adjustments
 - Ensure contrast ratios remain valid
 
-#### 3. Gradient Dividers
+#### 3. Native Gradients with Dividers
 
-**Concept**: Multi-color transitions across single divider
+Oh My Posh 29.36.0 and newer supports explicit two-stop gradients:
 
 ```json
-"background": "p:divider_blue_primary_to_red_alert",
-"gradient": {
-  "enabled": true,
-  "steps": 3,
-  "colors": [
-    "p:blue_primary",
-    "p:purple_blend_1",
-    "p:purple_blend_2",
-    "p:red_alert"
-  ]
+"background": "linear-gradient(parentBackground, p:orange)"
+```
+
+When the previous segment also uses a gradient, `parentBackground` resolves to its final rendered stop. The next segment therefore starts at that exact color and ends at its own palette color without duplicating the previous stop in the config. The first segment has no dependable parent and needs an explicit pair:
+
+```json
+"background": "linear-gradient(p:blue_primary, p:divider_navy_text_to_purple_exec)"
+```
+
+Each gradient is still calculated within one segment; it does not literally span multiple segments. A two-stop divider needs at least four visible cells; below that width it collapses to its final stop and creates the hard color bands seen with consecutive one-cell dividers.
+
+The generated Gradient variant removes the one-cell transition-divider runs entirely. The next wider content segment inherits the previous active background and performs the interpolation:
+
+```json
+{
+  "background": "linear-gradient(parentBackground, p:orange)"
 }
 ```
+
+The generator removes 30 colored transition-divider segments and retains the two transparent divider caps. That keeps the prompt compact and shifts each transition onto a content segment with enough visible cells for both gradient stops to appear. There is no foreground texture or extra padding to create a second kind of seam.
+
+The separate GradientRamps variant retains one endpoint from each divider run and changes it to a six-cell, position-matched full-block ramp:
+
+```json
+{
+  "background": "linear-gradient(parentBackground, p:divider_typescript_eslint_pink_to_orange)",
+  "template": "<background,transparent>\u2588\u2588\u2588\u2588\u2588\u2588</>"
+}
+```
+
+The first block inherits the previous segment's final stop and the sixth reaches the ramp's target color. Within a gradient segment, the `background` foreground keyword resolves to the gradient color at that text position. The full blocks therefore occupy stable terminal cells while visually merging into their backgrounds, preserving the transition without the original Powerline glyph or a contrasting foreground texture.
+
+Gradients cannot run on segments with `interactive: true`. Both generated ExperimentalDividers gradient variants therefore make only their path and Git segments non-interactive and leave standalone tooltips solid. The canonical theme keeps its original interactive behavior.
 
 #### 4. Theme Variants
 

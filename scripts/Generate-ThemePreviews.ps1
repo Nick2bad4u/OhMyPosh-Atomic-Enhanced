@@ -57,6 +57,7 @@ param(
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json',
+        'OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json',
         'OhMyPosh-Atomic-Custom.json',
         'OhMyPosh-Atomic-Custom-ColorCycle.json',
         '1_shell-Enhanced.omp.json',

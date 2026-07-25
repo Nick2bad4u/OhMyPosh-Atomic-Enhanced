@@ -1,0 +1,54 @@
+{
+  "minimum_oh_my_posh_version": "29.36.0",
+  "background_containers": [
+    "blocks"
+  ],
+  "entry_gradients": [
+    {
+      "alias": "shell-lprompt",
+      "start": "self",
+      "end": "p:divider_navy_text_to_purple_exec"
+    },
+    {
+      "alias": "npm-rprompt",
+      "start": "p:yellow_dark",
+      "end": "self"
+    }
+  ],
+  "make_non_interactive_aliases": [
+    "path-lprompt",
+    "git-lprompt"
+  ],
+  "remove_segment_aliases": [
+    "divider-root-lprompt-in",
+    "divider-root-lprompt-in-2",
+    "divider-01",
+    "divider-02",
+    "divider-03",
+    "divider-04",
+    "divider-05",
+    "divider-06",
+    "divider-07",
+    "divider-08",
+    "divider-09",
+    "divider-10",
+    "divider-11",
+    "divider-12",
+    "divider-13",
+    "divider-14",
+    "divider-14a",
+    "divider-14b",
+    "divider-17",
+    "divider-18",
+    "divider-19",
+    "divider-20",
+    "divider-21",
+    "divider-22",
+    "divider-23",
+    "divider-24",
+    "divider-25",
+    "divider-battery-in",
+    "divider-26",
+    "divider-27"
+  ]
+}

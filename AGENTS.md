@@ -41,6 +41,8 @@ Do not hand-edit generated overlays when the same change belongs in a root sourc
   - `OhMyPosh-Atomic-Custom-ExperimentalDividers.NoNetwork.json`
   - `OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json`
   - `OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json`
+  - `OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json`
+  - `OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json`
 - Keep `OhMyPosh-Atomic-Custom-ColorCycle.json` synchronized from `OhMyPosh-Atomic-Custom.json` with `scripts/Make-ColorCycleVariant.ps1`.
 - Preserve `<!-- {% raw %} -->` / `<!-- {% endraw %} -->` protection in Markdown files that contain Oh My Posh template examples.
 - Do not edit files under `ohmyposh-official-themes/` as if they are first-party source.
@@ -58,6 +60,8 @@ pwsh ./scripts/Make-NoNetwork.ps1 -SourceTheme ./OhMyPosh-Atomic-Custom-Experime
 pwsh ./scripts/Make-ExtendedVariant.ps1
 pwsh ./scripts/Make-ColorCycleVariant.ps1
 pwsh ./scripts/Make-ColorCycleVariant.ps1 -Source ./OhMyPosh-Atomic-Custom-ExperimentalDividers.json
+pwsh ./scripts/Make-GradientVariant.ps1
+pwsh ./scripts/Make-GradientRampsVariant.ps1
 ```
 
 For full palette generation:

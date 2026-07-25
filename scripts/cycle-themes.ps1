@@ -26,6 +26,8 @@ $customThemes = @(
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.json',
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json',
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json',
+    'OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json',
+    'OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json',
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json',
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json',
     '1_shell-Enhanced.omp.json',

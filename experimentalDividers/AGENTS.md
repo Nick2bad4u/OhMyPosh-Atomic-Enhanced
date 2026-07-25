@@ -16,6 +16,8 @@ These instructions apply to `experimentalDividers/`.
   - `OhMyPosh-Atomic-Custom-ExperimentalDividers.NoNetwork.json`
   - `OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json`
   - `OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json`
+  - `OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json`
+  - `OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json`
 
 ## Regeneration
 
@@ -34,6 +36,8 @@ pwsh ./scripts/Make-NoShellIntegration.ps1
 pwsh ./scripts/Make-NoNetwork.ps1 -SourceTheme ./OhMyPosh-Atomic-Custom-ExperimentalDividers.json
 pwsh ./scripts/Make-ExtendedVariant.ps1
 pwsh ./scripts/Make-ColorCycleVariant.ps1 -Source ./OhMyPosh-Atomic-Custom-ExperimentalDividers.json
+pwsh ./scripts/Make-GradientVariant.ps1
+pwsh ./scripts/Make-GradientRampsVariant.ps1
 ```
 
 ## Validation
