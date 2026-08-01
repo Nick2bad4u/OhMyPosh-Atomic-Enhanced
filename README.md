@@ -376,7 +376,7 @@ Use the Fish-specific variant (right-side content is rendered via `fish_right_pr
 oh-my-posh init fish --config https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json | source
 ```
 
-4. **Generated special variants:** Extended adds additional VCS segments and tooltips. ColorCycle applies the same ordered color cycle to the current Atomic Custom or ExperimentalDividers structure. Gradient and GradientRamps use Oh My Posh 29.36's native two-stop backgrounds to connect prompt segments from `parentBackground` into their own palette colors.
+4. **Generated special variants:** Extended adds additional VCS segments and tooltips. ColorCycle applies the same ordered color cycle to the current Atomic Custom or ExperimentalDividers structure. Gradient and GradientRamps use Oh My Posh 29.36's native two-stop backgrounds to connect prompt segments from `parentBackground` into their own palette colors. GradientRampsAutoShade requires Oh My Posh 30.0 and uses its automatic dark-gradient function at independent block entries while retaining the connected ramps between segments.
 
 ```pwsh
 pwsh ./scripts/Make-ExtendedVariant.ps1
@@ -384,22 +384,26 @@ pwsh ./scripts/Make-ColorCycleVariant.ps1
 pwsh ./scripts/Make-ColorCycleVariant.ps1 -Source ./OhMyPosh-Atomic-Custom-ExperimentalDividers.json
 pwsh ./scripts/Make-GradientVariant.ps1
 pwsh ./scripts/Make-GradientRampsVariant.ps1
+pwsh ./scripts/Make-GradientRampsAutoShadeVariant.ps1
 ```
 
 These commands generate complete standalone files at the repository root. They intentionally synchronize shared settings from their canonical source themes instead of preserving stale fields in an older generated file.
 
-Test either generated gradient variant locally with Oh My Posh 29.36.0 or newer:
+Test the generated gradient variants locally with Oh My Posh 29.36.0 or newer (v30.0.0 for GradientRampsAutoShade):
 
 ```pwsh
 oh-my-posh init pwsh --config ./OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json | Invoke-Expression
 
 # Alternative with position-matched full-block transition ramps
 oh-my-posh init pwsh --config ./OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json | Invoke-Expression
+
+# v30 auto-shades only at independent block entries
+oh-my-posh init pwsh --config ./OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json | Invoke-Expression
 ```
 
 Oh My Posh cannot calculate gradients for `interactive: true` segments, so this generated test variant makes its path and Git segments non-interactive. The canonical ExperimentalDividers theme keeps their original interactive settings. Standalone tooltips remain solid because they do not have a dependable adjacent-segment color chain.
 
-Oh My Posh calculates each gradient within an individual segment and distributes its stops across terminal character cells. The current Gradient variant removes the 30 colored one-cell transition dividers that exposed abrupt vertical bands and lets the following wider content segment interpolate directly from `parentBackground`. GradientRamps instead collapses those chains into nine six-cell full-block ramps. Each ramp wraps its cells in `<background,transparent>`, so the foreground resolves to the gradient color at that text position and visually merges into the background while retaining stable terminal width. The transparent divider caps remain, and the canonical ExperimentalDividers theme keeps its complete divider layout.
+Oh My Posh calculates each gradient within an individual segment and distributes its stops across terminal character cells. The current Gradient variant removes the 30 colored one-cell transition dividers that exposed abrupt vertical bands and lets the following wider content segment interpolate directly from `parentBackground`. GradientRamps instead collapses those chains into nine six-cell full-block ramps. GradientRampsAutoShade keeps the same ramps and applies `dark-gradient(color)` only to the shell, npm right-prompt, and separate right-block entries, where no dependable `parentBackground` exists. Each ramp wraps its cells in `<background,transparent>`, so the foreground resolves to the gradient color at that text position and visually merges into the background while retaining stable terminal width. The transparent divider caps remain, and the canonical ExperimentalDividers theme keeps its complete divider layout.
 
 Customize mapped locations, icons, and colors as needed in the JSON file.
 
@@ -633,209 +637,231 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <tr>
 <td align="center" width="50%">
 <h4>AmberSunset</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.AmberSunset.png" alt="AmberSunset theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.AmberSunset.svg" alt="AmberSunset theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>AyuMirage</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.AyuMirage.png" alt="AyuMirage theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.AyuMirage.svg" alt="AyuMirage theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>BlueOcean</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.BlueOcean.png" alt="BlueOcean theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.BlueOcean.svg" alt="BlueOcean theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>CatppuccinFrappe</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.CatppuccinFrappe.png" alt="CatppuccinFrappe theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.CatppuccinFrappe.svg" alt="CatppuccinFrappe theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>CatppuccinMocha</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.CatppuccinMocha.png" alt="CatppuccinMocha theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.CatppuccinMocha.svg" alt="CatppuccinMocha theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>CherryMint</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.CherryMint.png" alt="CherryMint theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.CherryMint.svg" alt="CherryMint theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>ChristmasCheer</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.ChristmasCheer.png" alt="ChristmasCheer theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.ChristmasCheer.svg" alt="ChristmasCheer theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Cobalt2</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Cobalt2.png" alt="Cobalt2 theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Cobalt2.svg" alt="Cobalt2 theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>ColorCycle</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.png" alt="ColorCycle theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.svg" alt="ColorCycle theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>DraculaNight</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.DraculaNight.png" alt="DraculaNight theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.DraculaNight.svg" alt="DraculaNight theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>Duskfox</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Duskfox.png" alt="Duskfox theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Duskfox.svg" alt="Duskfox theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>EasterPastel</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.EasterPastel.png" alt="EasterPastel theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.EasterPastel.svg" alt="EasterPastel theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>Everforest</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Everforest.png" alt="Everforest theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Everforest.svg" alt="Everforest theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Extended</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.png" alt="Extended theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.svg" alt="Extended theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>FireIce</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.FireIce.png" alt="FireIce theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.FireIce.svg" alt="FireIce theme preview" width="100%">
 </td>
+<td align="center" width="50%">
+<h4>Fish</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.svg" alt="Fish theme preview" width="100%">
+</td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>ForestEmber</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.ForestEmber.png" alt="ForestEmber theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.ForestEmber.svg" alt="ForestEmber theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>GithubDark</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.GithubDark.png" alt="GithubDark theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.GithubDark.svg" alt="GithubDark theme preview" width="100%">
 </td>
 </tr>
 <tr>
-<td align="center" width="100%" colspan="2">
+<td align="center" width="50%">
+<h4>Gradient</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.svg" alt="Gradient theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>GradientRamps</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.png" alt="GradientRamps theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.svg" alt="GradientRamps theme preview" width="100%">
 </td>
 </tr>
 <tr>
+<td align="center" width="50%">
+<h4>GradientRampsAutoShade</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.svg" alt="GradientRampsAutoShade theme preview" width="100%">
+</td>
 <td align="center" width="50%">
 <h4>GreenMatrix</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.GreenMatrix.png" alt="GreenMatrix theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.GreenMatrix.svg" alt="GreenMatrix theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>GruvboxDark</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.GruvboxDark.png" alt="GruvboxDark theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.GruvboxDark.svg" alt="GruvboxDark theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>HalloweenSpooky</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.HalloweenSpooky.png" alt="HalloweenSpooky theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.HalloweenSpooky.svg" alt="HalloweenSpooky theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>KanagawaWave</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.KanagawaWave.png" alt="KanagawaWave theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.KanagawaWave.svg" alt="KanagawaWave theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>LavenderPeach</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.LavenderPeach.png" alt="LavenderPeach theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.LavenderPeach.svg" alt="LavenderPeach theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>MaterialPalenight</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.MaterialPalenight.png" alt="MaterialPalenight theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.MaterialPalenight.svg" alt="MaterialPalenight theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>MidnightGold</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.MidnightGold.png" alt="MidnightGold theme preview" width="100%">
-</td>
-<td align="center" width="50%">
-<h4>MonokaiPro</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.MonokaiPro.png" alt="MonokaiPro theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.MidnightGold.svg" alt="MidnightGold theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
-<h4>Nightfox</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Nightfox.png" alt="Nightfox theme preview" width="100%">
+<h4>MonokaiPro</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.MonokaiPro.svg" alt="MonokaiPro theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>Nightfox</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Nightfox.svg" alt="Nightfox theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>NightOwl</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.NightOwl.png" alt="NightOwl theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.NightOwl.svg" alt="NightOwl theme preview" width="100%">
+</td>
+<td align="center" width="50%">
+<h4>NoNetwork</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoNetwork.svg" alt="NoNetwork theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>NordFrost</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.NordFrost.png" alt="NordFrost theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.NordFrost.svg" alt="NordFrost theme preview" width="100%">
 </td>
+<td align="center" width="50%">
+<h4>NoShellIntegration</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.svg" alt="NoShellIntegration theme preview" width="100%">
+</td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>OneDark</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.OneDark.png" alt="OneDark theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.OneDark.svg" alt="OneDark theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>Original</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Original.png" alt="Original theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Original.svg" alt="Original theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>PinkParadise</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.PinkParadise.png" alt="PinkParadise theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.PinkParadise.svg" alt="PinkParadise theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>Poimandres</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Poimandres.png" alt="Poimandres theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Poimandres.svg" alt="Poimandres theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>PurpleReign</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.PurpleReign.png" alt="PurpleReign theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.PurpleReign.svg" alt="PurpleReign theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>RainbowBright</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.RainbowBright.png" alt="RainbowBright theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.RainbowBright.svg" alt="RainbowBright theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>RedAlert</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.RedAlert.png" alt="RedAlert theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.RedAlert.svg" alt="RedAlert theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>RosePine</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.RosePine.png" alt="RosePine theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.RosePine.svg" alt="RosePine theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>SolarizedDark</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.SolarizedDark.png" alt="SolarizedDark theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.SolarizedDark.svg" alt="SolarizedDark theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>Synthwave84</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Synthwave84.png" alt="Synthwave84 theme preview" width="100%">
-</td>
-<td align="center" width="50%">
-<h4>TealCyan</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.TealCyan.png" alt="TealCyan theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.Synthwave84.svg" alt="Synthwave84 theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
+<h4>TealCyan</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.TealCyan.svg" alt="TealCyan theme preview" width="100%">
+</td>
+<td align="center" width="50%">
 <h4>TokyoNight</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.TokyoNight.png" alt="TokyoNight theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ExperimentalDividers.TokyoNight.svg" alt="TokyoNight theme preview" width="100%">
 </td>
 </tr>
 </table>
@@ -844,192 +870,198 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <table>
 <tr>
 <td align="center" width="50%">
-<h4>AmberSunset</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.AmberSunset.png" alt="AmberSunset theme preview" width="100%">
+<h4>ColorCycle</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom-ColorCycle.svg" alt="ColorCycle theme preview" width="100%">
 </td>
+<td align="center" width="50%">
+<h4>AmberSunset</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.AmberSunset.svg" alt="AmberSunset theme preview" width="100%">
+</td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>AyuMirage</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.AyuMirage.png" alt="AyuMirage theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.AyuMirage.svg" alt="AyuMirage theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>BlueOcean</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.BlueOcean.png" alt="BlueOcean theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.BlueOcean.svg" alt="BlueOcean theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>CatppuccinFrappe</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.CatppuccinFrappe.png" alt="CatppuccinFrappe theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.CatppuccinFrappe.svg" alt="CatppuccinFrappe theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>CatppuccinMocha</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.CatppuccinMocha.png" alt="CatppuccinMocha theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.CatppuccinMocha.svg" alt="CatppuccinMocha theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>CherryMint</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.CherryMint.png" alt="CherryMint theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.CherryMint.svg" alt="CherryMint theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>ChristmasCheer</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.ChristmasCheer.png" alt="ChristmasCheer theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.ChristmasCheer.svg" alt="ChristmasCheer theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>Cobalt2</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Cobalt2.png" alt="Cobalt2 theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Cobalt2.svg" alt="Cobalt2 theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>DraculaNight</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.DraculaNight.png" alt="DraculaNight theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.DraculaNight.svg" alt="DraculaNight theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>Duskfox</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Duskfox.png" alt="Duskfox theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Duskfox.svg" alt="Duskfox theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>EasterPastel</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.EasterPastel.png" alt="EasterPastel theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.EasterPastel.svg" alt="EasterPastel theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>Everforest</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Everforest.png" alt="Everforest theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Everforest.svg" alt="Everforest theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>FireIce</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.FireIce.png" alt="FireIce theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.FireIce.svg" alt="FireIce theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>ForestEmber</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.ForestEmber.png" alt="ForestEmber theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.ForestEmber.svg" alt="ForestEmber theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>GithubDark</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.GithubDark.png" alt="GithubDark theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.GithubDark.svg" alt="GithubDark theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>GreenMatrix</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.GreenMatrix.png" alt="GreenMatrix theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.GreenMatrix.svg" alt="GreenMatrix theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>GruvboxDark</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.GruvboxDark.png" alt="GruvboxDark theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.GruvboxDark.svg" alt="GruvboxDark theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>HalloweenSpooky</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.HalloweenSpooky.png" alt="HalloweenSpooky theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.HalloweenSpooky.svg" alt="HalloweenSpooky theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>KanagawaWave</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.KanagawaWave.png" alt="KanagawaWave theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.KanagawaWave.svg" alt="KanagawaWave theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>LavenderPeach</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.LavenderPeach.png" alt="LavenderPeach theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.LavenderPeach.svg" alt="LavenderPeach theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>MaterialPalenight</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.MaterialPalenight.png" alt="MaterialPalenight theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.MaterialPalenight.svg" alt="MaterialPalenight theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>MidnightGold</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.MidnightGold.png" alt="MidnightGold theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.MidnightGold.svg" alt="MidnightGold theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>MonokaiPro</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.MonokaiPro.png" alt="MonokaiPro theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.MonokaiPro.svg" alt="MonokaiPro theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>Nightfox</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Nightfox.png" alt="Nightfox theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Nightfox.svg" alt="Nightfox theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>NightOwl</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.NightOwl.png" alt="NightOwl theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.NightOwl.svg" alt="NightOwl theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>NordFrost</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.NordFrost.png" alt="NordFrost theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.NordFrost.svg" alt="NordFrost theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>OneDark</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.OneDark.png" alt="OneDark theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.OneDark.svg" alt="OneDark theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>Original</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Original.png" alt="Original theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Original.svg" alt="Original theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>PinkParadise</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.PinkParadise.png" alt="PinkParadise theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.PinkParadise.svg" alt="PinkParadise theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>Poimandres</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Poimandres.png" alt="Poimandres theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Poimandres.svg" alt="Poimandres theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>PurpleReign</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.PurpleReign.png" alt="PurpleReign theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.PurpleReign.svg" alt="PurpleReign theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>RainbowBright</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.RainbowBright.png" alt="RainbowBright theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.RainbowBright.svg" alt="RainbowBright theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>RedAlert</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.RedAlert.png" alt="RedAlert theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.RedAlert.svg" alt="RedAlert theme preview" width="100%">
 </td>
+</tr>
+<tr>
 <td align="center" width="50%">
 <h4>RosePine</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.RosePine.png" alt="RosePine theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.RosePine.svg" alt="RosePine theme preview" width="100%">
 </td>
-</tr>
-<tr>
 <td align="center" width="50%">
 <h4>SolarizedDark</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.SolarizedDark.png" alt="SolarizedDark theme preview" width="100%">
-</td>
-<td align="center" width="50%">
-<h4>Synthwave84</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Synthwave84.png" alt="Synthwave84 theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.SolarizedDark.svg" alt="SolarizedDark theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
-<h4>TealCyan</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.TealCyan.png" alt="TealCyan theme preview" width="100%">
+<h4>Synthwave84</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.Synthwave84.svg" alt="Synthwave84 theme preview" width="100%">
 </td>
 <td align="center" width="50%">
+<h4>TealCyan</h4>
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.TealCyan.svg" alt="TealCyan theme preview" width="100%">
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 <h4>TokyoNight</h4>
-<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.TokyoNight.png" alt="TokyoNight theme preview" width="100%">
+<img src="assets/theme-previews/OhMyPosh-Atomic-Custom.TokyoNight.svg" alt="TokyoNight theme preview" width="100%">
 </td>
 </tr>
 </table>
@@ -1040,191 +1072,191 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <tr>
 <td align="center" width="50%">
 <h4>AmberSunset</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.AmberSunset.png" alt="AmberSunset theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.AmberSunset.svg" alt="AmberSunset theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>AyuMirage</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.AyuMirage.png" alt="AyuMirage theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.AyuMirage.svg" alt="AyuMirage theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>BlueOcean</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.BlueOcean.png" alt="BlueOcean theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.BlueOcean.svg" alt="BlueOcean theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>CatppuccinFrappe</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.CatppuccinFrappe.png" alt="CatppuccinFrappe theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.CatppuccinFrappe.svg" alt="CatppuccinFrappe theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>CatppuccinMocha</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.CatppuccinMocha.png" alt="CatppuccinMocha theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.CatppuccinMocha.svg" alt="CatppuccinMocha theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>CherryMint</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.CherryMint.png" alt="CherryMint theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.CherryMint.svg" alt="CherryMint theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>ChristmasCheer</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.ChristmasCheer.png" alt="ChristmasCheer theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.ChristmasCheer.svg" alt="ChristmasCheer theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Cobalt2</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.Cobalt2.png" alt="Cobalt2 theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.Cobalt2.svg" alt="Cobalt2 theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>DraculaNight</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.DraculaNight.png" alt="DraculaNight theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.DraculaNight.svg" alt="DraculaNight theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Duskfox</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.Duskfox.png" alt="Duskfox theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.Duskfox.svg" alt="Duskfox theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>EasterPastel</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.EasterPastel.png" alt="EasterPastel theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.EasterPastel.svg" alt="EasterPastel theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Everforest</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.Everforest.png" alt="Everforest theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.Everforest.svg" alt="Everforest theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>FireIce</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.FireIce.png" alt="FireIce theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.FireIce.svg" alt="FireIce theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>ForestEmber</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.ForestEmber.png" alt="ForestEmber theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.ForestEmber.svg" alt="ForestEmber theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>GithubDark</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.GithubDark.png" alt="GithubDark theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.GithubDark.svg" alt="GithubDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>GreenMatrix</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.GreenMatrix.png" alt="GreenMatrix theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.GreenMatrix.svg" alt="GreenMatrix theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>GruvboxDark</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.GruvboxDark.png" alt="GruvboxDark theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.GruvboxDark.svg" alt="GruvboxDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>HalloweenSpooky</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.HalloweenSpooky.png" alt="HalloweenSpooky theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.HalloweenSpooky.svg" alt="HalloweenSpooky theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>KanagawaWave</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.KanagawaWave.png" alt="KanagawaWave theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.KanagawaWave.svg" alt="KanagawaWave theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>LavenderPeach</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.LavenderPeach.png" alt="LavenderPeach theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.LavenderPeach.svg" alt="LavenderPeach theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>MaterialPalenight</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.MaterialPalenight.png" alt="MaterialPalenight theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.MaterialPalenight.svg" alt="MaterialPalenight theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>MidnightGold</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.MidnightGold.png" alt="MidnightGold theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.MidnightGold.svg" alt="MidnightGold theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>MonokaiPro</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.MonokaiPro.png" alt="MonokaiPro theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.MonokaiPro.svg" alt="MonokaiPro theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Nightfox</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.Nightfox.png" alt="Nightfox theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.Nightfox.svg" alt="Nightfox theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>NightOwl</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.NightOwl.png" alt="NightOwl theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.NightOwl.svg" alt="NightOwl theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>NordFrost</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.NordFrost.png" alt="NordFrost theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.NordFrost.svg" alt="NordFrost theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>OneDark</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.OneDark.png" alt="OneDark theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.OneDark.svg" alt="OneDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Original</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.Original.png" alt="Original theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.Original.svg" alt="Original theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>PinkParadise</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.PinkParadise.png" alt="PinkParadise theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.PinkParadise.svg" alt="PinkParadise theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Poimandres</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.Poimandres.png" alt="Poimandres theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.Poimandres.svg" alt="Poimandres theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>PurpleReign</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.PurpleReign.png" alt="PurpleReign theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.PurpleReign.svg" alt="PurpleReign theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>RainbowBright</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.RainbowBright.png" alt="RainbowBright theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.RainbowBright.svg" alt="RainbowBright theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>RedAlert</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.RedAlert.png" alt="RedAlert theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.RedAlert.svg" alt="RedAlert theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>RosePine</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.RosePine.png" alt="RosePine theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.RosePine.svg" alt="RosePine theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>SolarizedDark</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.SolarizedDark.png" alt="SolarizedDark theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.SolarizedDark.svg" alt="SolarizedDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Synthwave84</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.Synthwave84.png" alt="Synthwave84 theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.Synthwave84.svg" alt="Synthwave84 theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>TealCyan</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.TealCyan.png" alt="TealCyan theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.TealCyan.svg" alt="TealCyan theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>TokyoNight</h4>
-<img src="assets/theme-previews/1_shell-Enhanced.omp.TokyoNight.png" alt="TokyoNight theme preview" width="100%">
+<img src="assets/theme-previews/1_shell-Enhanced.omp.TokyoNight.svg" alt="TokyoNight theme preview" width="100%">
 </td>
 </tr>
 </table>
@@ -1235,191 +1267,191 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <tr>
 <td align="center" width="50%">
 <h4>AmberSunset</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.AmberSunset.png" alt="AmberSunset theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.AmberSunset.svg" alt="AmberSunset theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>AyuMirage</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.AyuMirage.png" alt="AyuMirage theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.AyuMirage.svg" alt="AyuMirage theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>BlueOcean</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.BlueOcean.png" alt="BlueOcean theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.BlueOcean.svg" alt="BlueOcean theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>CatppuccinFrappe</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.CatppuccinFrappe.png" alt="CatppuccinFrappe theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.CatppuccinFrappe.svg" alt="CatppuccinFrappe theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>CatppuccinMocha</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.CatppuccinMocha.png" alt="CatppuccinMocha theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.CatppuccinMocha.svg" alt="CatppuccinMocha theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>CherryMint</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.CherryMint.png" alt="CherryMint theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.CherryMint.svg" alt="CherryMint theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>ChristmasCheer</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.ChristmasCheer.png" alt="ChristmasCheer theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.ChristmasCheer.svg" alt="ChristmasCheer theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Cobalt2</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.Cobalt2.png" alt="Cobalt2 theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.Cobalt2.svg" alt="Cobalt2 theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>DraculaNight</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.DraculaNight.png" alt="DraculaNight theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.DraculaNight.svg" alt="DraculaNight theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Duskfox</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.Duskfox.png" alt="Duskfox theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.Duskfox.svg" alt="Duskfox theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>EasterPastel</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.EasterPastel.png" alt="EasterPastel theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.EasterPastel.svg" alt="EasterPastel theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Everforest</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.Everforest.png" alt="Everforest theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.Everforest.svg" alt="Everforest theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>FireIce</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.FireIce.png" alt="FireIce theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.FireIce.svg" alt="FireIce theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>ForestEmber</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.ForestEmber.png" alt="ForestEmber theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.ForestEmber.svg" alt="ForestEmber theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>GithubDark</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.GithubDark.png" alt="GithubDark theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.GithubDark.svg" alt="GithubDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>GreenMatrix</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.GreenMatrix.png" alt="GreenMatrix theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.GreenMatrix.svg" alt="GreenMatrix theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>GruvboxDark</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.GruvboxDark.png" alt="GruvboxDark theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.GruvboxDark.svg" alt="GruvboxDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>HalloweenSpooky</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.HalloweenSpooky.png" alt="HalloweenSpooky theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.HalloweenSpooky.svg" alt="HalloweenSpooky theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>KanagawaWave</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.KanagawaWave.png" alt="KanagawaWave theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.KanagawaWave.svg" alt="KanagawaWave theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>LavenderPeach</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.LavenderPeach.png" alt="LavenderPeach theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.LavenderPeach.svg" alt="LavenderPeach theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>MaterialPalenight</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.MaterialPalenight.png" alt="MaterialPalenight theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.MaterialPalenight.svg" alt="MaterialPalenight theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>MidnightGold</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.MidnightGold.png" alt="MidnightGold theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.MidnightGold.svg" alt="MidnightGold theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>MonokaiPro</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.MonokaiPro.png" alt="MonokaiPro theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.MonokaiPro.svg" alt="MonokaiPro theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Nightfox</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.Nightfox.png" alt="Nightfox theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.Nightfox.svg" alt="Nightfox theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>NightOwl</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.NightOwl.png" alt="NightOwl theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.NightOwl.svg" alt="NightOwl theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>NordFrost</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.NordFrost.png" alt="NordFrost theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.NordFrost.svg" alt="NordFrost theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>OneDark</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.OneDark.png" alt="OneDark theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.OneDark.svg" alt="OneDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Original</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.Original.png" alt="Original theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.Original.svg" alt="Original theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>PinkParadise</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.PinkParadise.png" alt="PinkParadise theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.PinkParadise.svg" alt="PinkParadise theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Poimandres</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.Poimandres.png" alt="Poimandres theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.Poimandres.svg" alt="Poimandres theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>PurpleReign</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.PurpleReign.png" alt="PurpleReign theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.PurpleReign.svg" alt="PurpleReign theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>RainbowBright</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.RainbowBright.png" alt="RainbowBright theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.RainbowBright.svg" alt="RainbowBright theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>RedAlert</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.RedAlert.png" alt="RedAlert theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.RedAlert.svg" alt="RedAlert theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>RosePine</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.RosePine.png" alt="RosePine theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.RosePine.svg" alt="RosePine theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>SolarizedDark</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.SolarizedDark.png" alt="SolarizedDark theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.SolarizedDark.svg" alt="SolarizedDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Synthwave84</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.Synthwave84.png" alt="Synthwave84 theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.Synthwave84.svg" alt="Synthwave84 theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>TealCyan</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.TealCyan.png" alt="TealCyan theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.TealCyan.svg" alt="TealCyan theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>TokyoNight</h4>
-<img src="assets/theme-previews/slimfat-Enhanced.omp.TokyoNight.png" alt="TokyoNight theme preview" width="100%">
+<img src="assets/theme-previews/slimfat-Enhanced.omp.TokyoNight.svg" alt="TokyoNight theme preview" width="100%">
 </td>
 </tr>
 </table>
@@ -1430,191 +1462,191 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <tr>
 <td align="center" width="50%">
 <h4>AmberSunset</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.AmberSunset.png" alt="AmberSunset theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.AmberSunset.svg" alt="AmberSunset theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>AyuMirage</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.AyuMirage.png" alt="AyuMirage theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.AyuMirage.svg" alt="AyuMirage theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>BlueOcean</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.BlueOcean.png" alt="BlueOcean theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.BlueOcean.svg" alt="BlueOcean theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>CatppuccinFrappe</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.CatppuccinFrappe.png" alt="CatppuccinFrappe theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.CatppuccinFrappe.svg" alt="CatppuccinFrappe theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>CatppuccinMocha</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.CatppuccinMocha.png" alt="CatppuccinMocha theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.CatppuccinMocha.svg" alt="CatppuccinMocha theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>CherryMint</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.CherryMint.png" alt="CherryMint theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.CherryMint.svg" alt="CherryMint theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>ChristmasCheer</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.ChristmasCheer.png" alt="ChristmasCheer theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.ChristmasCheer.svg" alt="ChristmasCheer theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Cobalt2</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.Cobalt2.png" alt="Cobalt2 theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.Cobalt2.svg" alt="Cobalt2 theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>DraculaNight</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.DraculaNight.png" alt="DraculaNight theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.DraculaNight.svg" alt="DraculaNight theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Duskfox</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.Duskfox.png" alt="Duskfox theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.Duskfox.svg" alt="Duskfox theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>EasterPastel</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.EasterPastel.png" alt="EasterPastel theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.EasterPastel.svg" alt="EasterPastel theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Everforest</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.Everforest.png" alt="Everforest theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.Everforest.svg" alt="Everforest theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>FireIce</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.FireIce.png" alt="FireIce theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.FireIce.svg" alt="FireIce theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>ForestEmber</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.ForestEmber.png" alt="ForestEmber theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.ForestEmber.svg" alt="ForestEmber theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>GithubDark</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.GithubDark.png" alt="GithubDark theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.GithubDark.svg" alt="GithubDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>GreenMatrix</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.GreenMatrix.png" alt="GreenMatrix theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.GreenMatrix.svg" alt="GreenMatrix theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>GruvboxDark</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.GruvboxDark.png" alt="GruvboxDark theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.GruvboxDark.svg" alt="GruvboxDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>HalloweenSpooky</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.HalloweenSpooky.png" alt="HalloweenSpooky theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.HalloweenSpooky.svg" alt="HalloweenSpooky theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>KanagawaWave</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.KanagawaWave.png" alt="KanagawaWave theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.KanagawaWave.svg" alt="KanagawaWave theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>LavenderPeach</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.LavenderPeach.png" alt="LavenderPeach theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.LavenderPeach.svg" alt="LavenderPeach theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>MaterialPalenight</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.MaterialPalenight.png" alt="MaterialPalenight theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.MaterialPalenight.svg" alt="MaterialPalenight theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>MidnightGold</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.MidnightGold.png" alt="MidnightGold theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.MidnightGold.svg" alt="MidnightGold theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>MonokaiPro</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.MonokaiPro.png" alt="MonokaiPro theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.MonokaiPro.svg" alt="MonokaiPro theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Nightfox</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.Nightfox.png" alt="Nightfox theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.Nightfox.svg" alt="Nightfox theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>NightOwl</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.NightOwl.png" alt="NightOwl theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.NightOwl.svg" alt="NightOwl theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>NordFrost</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.NordFrost.png" alt="NordFrost theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.NordFrost.svg" alt="NordFrost theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>OneDark</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.OneDark.png" alt="OneDark theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.OneDark.svg" alt="OneDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Original</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.Original.png" alt="Original theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.Original.svg" alt="Original theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>PinkParadise</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.PinkParadise.png" alt="PinkParadise theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.PinkParadise.svg" alt="PinkParadise theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Poimandres</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.Poimandres.png" alt="Poimandres theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.Poimandres.svg" alt="Poimandres theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>PurpleReign</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.PurpleReign.png" alt="PurpleReign theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.PurpleReign.svg" alt="PurpleReign theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>RainbowBright</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.RainbowBright.png" alt="RainbowBright theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.RainbowBright.svg" alt="RainbowBright theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>RedAlert</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.RedAlert.png" alt="RedAlert theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.RedAlert.svg" alt="RedAlert theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>RosePine</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.RosePine.png" alt="RosePine theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.RosePine.svg" alt="RosePine theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>SolarizedDark</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.SolarizedDark.png" alt="SolarizedDark theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.SolarizedDark.svg" alt="SolarizedDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Synthwave84</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.Synthwave84.png" alt="Synthwave84 theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.Synthwave84.svg" alt="Synthwave84 theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>TealCyan</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.TealCyan.png" alt="TealCyan theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.TealCyan.svg" alt="TealCyan theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>TokyoNight</h4>
-<img src="assets/theme-previews/atomicBit-Enhanced.omp.TokyoNight.png" alt="TokyoNight theme preview" width="100%">
+<img src="assets/theme-previews/atomicBit-Enhanced.omp.TokyoNight.svg" alt="TokyoNight theme preview" width="100%">
 </td>
 </tr>
 </table>
@@ -1625,191 +1657,191 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <tr>
 <td align="center" width="50%">
 <h4>AmberSunset</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.AmberSunset.png" alt="AmberSunset theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.AmberSunset.svg" alt="AmberSunset theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>AyuMirage</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.AyuMirage.png" alt="AyuMirage theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.AyuMirage.svg" alt="AyuMirage theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>BlueOcean</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.BlueOcean.png" alt="BlueOcean theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.BlueOcean.svg" alt="BlueOcean theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>CatppuccinFrappe</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.CatppuccinFrappe.png" alt="CatppuccinFrappe theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.CatppuccinFrappe.svg" alt="CatppuccinFrappe theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>CatppuccinMocha</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.CatppuccinMocha.png" alt="CatppuccinMocha theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.CatppuccinMocha.svg" alt="CatppuccinMocha theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>CherryMint</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.CherryMint.png" alt="CherryMint theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.CherryMint.svg" alt="CherryMint theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>ChristmasCheer</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.ChristmasCheer.png" alt="ChristmasCheer theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.ChristmasCheer.svg" alt="ChristmasCheer theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Cobalt2</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Cobalt2.png" alt="Cobalt2 theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Cobalt2.svg" alt="Cobalt2 theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>DraculaNight</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.DraculaNight.png" alt="DraculaNight theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.DraculaNight.svg" alt="DraculaNight theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Duskfox</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Duskfox.png" alt="Duskfox theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Duskfox.svg" alt="Duskfox theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>EasterPastel</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.EasterPastel.png" alt="EasterPastel theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.EasterPastel.svg" alt="EasterPastel theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Everforest</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Everforest.png" alt="Everforest theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Everforest.svg" alt="Everforest theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>FireIce</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.FireIce.png" alt="FireIce theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.FireIce.svg" alt="FireIce theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>ForestEmber</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.ForestEmber.png" alt="ForestEmber theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.ForestEmber.svg" alt="ForestEmber theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>GithubDark</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.GithubDark.png" alt="GithubDark theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.GithubDark.svg" alt="GithubDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>GreenMatrix</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.GreenMatrix.png" alt="GreenMatrix theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.GreenMatrix.svg" alt="GreenMatrix theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>GruvboxDark</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.GruvboxDark.png" alt="GruvboxDark theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.GruvboxDark.svg" alt="GruvboxDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>HalloweenSpooky</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.HalloweenSpooky.png" alt="HalloweenSpooky theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.HalloweenSpooky.svg" alt="HalloweenSpooky theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>KanagawaWave</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.KanagawaWave.png" alt="KanagawaWave theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.KanagawaWave.svg" alt="KanagawaWave theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>LavenderPeach</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.LavenderPeach.png" alt="LavenderPeach theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.LavenderPeach.svg" alt="LavenderPeach theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>MaterialPalenight</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.MaterialPalenight.png" alt="MaterialPalenight theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.MaterialPalenight.svg" alt="MaterialPalenight theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>MidnightGold</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.MidnightGold.png" alt="MidnightGold theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.MidnightGold.svg" alt="MidnightGold theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>MonokaiPro</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.MonokaiPro.png" alt="MonokaiPro theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.MonokaiPro.svg" alt="MonokaiPro theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Nightfox</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Nightfox.png" alt="Nightfox theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Nightfox.svg" alt="Nightfox theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>NightOwl</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.NightOwl.png" alt="NightOwl theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.NightOwl.svg" alt="NightOwl theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>NordFrost</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.NordFrost.png" alt="NordFrost theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.NordFrost.svg" alt="NordFrost theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>OneDark</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.OneDark.png" alt="OneDark theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.OneDark.svg" alt="OneDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Original</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Original.png" alt="Original theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Original.svg" alt="Original theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>PinkParadise</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.PinkParadise.png" alt="PinkParadise theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.PinkParadise.svg" alt="PinkParadise theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Poimandres</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Poimandres.png" alt="Poimandres theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Poimandres.svg" alt="Poimandres theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>PurpleReign</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.PurpleReign.png" alt="PurpleReign theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.PurpleReign.svg" alt="PurpleReign theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>RainbowBright</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.RainbowBright.png" alt="RainbowBright theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.RainbowBright.svg" alt="RainbowBright theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>RedAlert</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.RedAlert.png" alt="RedAlert theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.RedAlert.svg" alt="RedAlert theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>RosePine</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.RosePine.png" alt="RosePine theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.RosePine.svg" alt="RosePine theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>SolarizedDark</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.SolarizedDark.png" alt="SolarizedDark theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.SolarizedDark.svg" alt="SolarizedDark theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>Synthwave84</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Synthwave84.png" alt="Synthwave84 theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.Synthwave84.svg" alt="Synthwave84 theme preview" width="100%">
 </td>
 </tr>
 <tr>
 <td align="center" width="50%">
 <h4>TealCyan</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.TealCyan.png" alt="TealCyan theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.TealCyan.svg" alt="TealCyan theme preview" width="100%">
 </td>
 <td align="center" width="50%">
 <h4>TokyoNight</h4>
-<img src="assets/theme-previews/clean-detailed-Enhanced.omp.TokyoNight.png" alt="TokyoNight theme preview" width="100%">
+<img src="assets/theme-previews/clean-detailed-Enhanced.omp.TokyoNight.svg" alt="TokyoNight theme preview" width="100%">
 </td>
 </tr>
 </table>

@@ -13,6 +13,8 @@ These instructions apply to `.github/` and its subdirectories.
 - Avoid fragile Bash patterns such as `ls | wc`, unquoted variables, unescaped Markdown backticks in heredocs, and `cat file | head`.
 - Treat `pull_request_target` as privileged. Do not add checkout or script execution from untrusted PR content under that event unless the workflow is deliberately designed for it.
 - Preserve `step-security/harden-runner` where the surrounding workflow already uses it.
+- Keep the Oh My Posh version and Windows binary SHA-256 in `theme-tests.yml` synchronized. Verify the release asset checksum when bumping the version; do not replace the exact pin with an unverified latest download.
+- Preserve the v30 SVG export smoke test when changing theme validation or preview CI.
 
 ## Validation
 

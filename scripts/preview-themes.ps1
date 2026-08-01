@@ -94,7 +94,7 @@ foreach ($base in $baseThemes) {
 
     # Complete helper variants live in the repository root, not the palette folder.
     if ($base.Prefix -eq 'OhMyPosh-Atomic-Custom-ExperimentalDividers') {
-        foreach ($helperName in @('ColorCycle', 'Extended', 'Gradient', 'GradientRamps', 'Fish', 'NoShellIntegration', 'NoNetwork')) {
+        foreach ($helperName in @('ColorCycle', 'Extended', 'Gradient', 'GradientRamps', 'GradientRampsAutoShade', 'Fish', 'NoShellIntegration', 'NoNetwork')) {
             $helperFile = "OhMyPosh-Atomic-Custom-ExperimentalDividers.$helperName.json"
             $helperPath = Resolve-RepoPath $helperFile
             if (Test-Path -LiteralPath $helperPath) {

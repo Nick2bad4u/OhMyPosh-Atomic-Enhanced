@@ -54,6 +54,10 @@ Write-Host '   Generating ExperimentalDividers Gradient variant...' -ForegroundC
 Write-Host '   Generating ExperimentalDividers GradientRamps variant...' -ForegroundColor Gray
 & "$ScriptRoot/Make-GradientRampsVariant.ps1" -Source 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
 
+# ExperimentalDividers GradientRampsAutoShade
+Write-Host '   Generating ExperimentalDividers GradientRampsAutoShade variant...' -ForegroundColor Gray
+& "$ScriptRoot/Make-GradientRampsAutoShadeVariant.ps1" -Source 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
+
 # Atomic ColorCycle
 Write-Host '   Generating Atomic ColorCycle variant...' -ForegroundColor Gray
 & "$ScriptRoot/Make-ColorCycleVariant.ps1" -Source 'OhMyPosh-Atomic-Custom.json'
@@ -71,6 +75,7 @@ $filesToStage = @(
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json',
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json',
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json',
+    'OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json',
     'OhMyPosh-Atomic-Custom-ColorCycle.json',
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
 )

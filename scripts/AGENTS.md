@@ -20,13 +20,13 @@ These instructions apply to `scripts/`.
 - `Generate-AllThemes.ps1` writes palette-only `extends` overlays for the five main theme families; it never synchronizes their independent root bases.
 - `Generate-ExperimentalDividers.ps1` writes palette-only `experimentalDividers/*.json` overlays that extend `OhMyPosh-Atomic-Custom-ExperimentalDividers.json`.
 - The complete Original for each family is its root source file. Never generate `*.Original.json` into a family folder.
-- `Make-FishVariant.ps1`, `Make-NoShellIntegration.ps1`, `Make-NoNetwork.ps1`, `Make-ExtendedVariant.ps1`, `Make-ColorCycleVariant.ps1`, `Make-GradientVariant.ps1`, and `Make-GradientRampsVariant.ps1` write complete root helper variants.
+- `Make-FishVariant.ps1`, `Make-NoShellIntegration.ps1`, `Make-NoNetwork.ps1`, `Make-ExtendedVariant.ps1`, `Make-ColorCycleVariant.ps1`, `Make-GradientVariant.ps1`, `Make-GradientRampsVariant.ps1`, and `Make-GradientRampsAutoShadeVariant.ps1` write complete root helper variants.
 - Files under `scripts/variants/` are declarative inputs for root helper generators; generated root themes must not be used as their own source definitions.
 - `Make-ExtendedVariant.ps1` adds only the ordered segments and tooltips declared in `variants/ExperimentalDividers.Extended.variant.json`; all shared settings come from the canonical ExperimentalDividers source.
 - `Make-ColorCycleVariant.ps1` can target Atomic Custom or ExperimentalDividers and removes direct prompt-segment color fields so the top-level cycle is authoritative.
-- `Make-GradientVariant.ps1` adds connected two-stop backgrounds to ExperimentalDividers prompt blocks, uses explicit pairs for entry segments, makes path/Git non-interactive only in generated variants, and leaves standalone tooltips solid. The Gradient definition removes all transition-divider chains; GradientRamps collapses them into nine six-cell full-block ramps whose `<background,transparent>` override matches each foreground cell to the gradient behind it.
+- `Make-GradientVariant.ps1` adds connected two-stop backgrounds to ExperimentalDividers prompt blocks, supports explicit or v30 auto-shaded block entries, makes path/Git non-interactive only in generated variants, and leaves standalone tooltips solid. The Gradient definition removes all transition-divider chains; GradientRamps collapses them into nine six-cell full-block ramps whose `<background,transparent>` override matches each foreground cell to the gradient behind it; GradientRampsAutoShade keeps those ramps and uses `dark-gradient(...)` at three independent block entries.
 - `Normalize-Palettes.ps1` can rewrite `color-palette-alternatives.json`; review the diff carefully after running it.
-- `Generate-ThemePreviews.ps1` writes images under `assets/theme-previews/` and may update README gallery content.
+- `Generate-ThemePreviews.ps1` requires Oh My Posh v30.0.0 or later and writes deterministic SVG under `assets/theme-previews/`. It renders sanitized `theme-preview.data.json` through `--data-only`, maps `image.settings.json` to supported CLI flags, discovers parsed root theme JSON, includes every generated family overlay, and may update the README gallery.
 
 When changing generator behavior, run it against a small representative input first, then run the repo validation scripts before trusting the generated diff.
 
@@ -52,4 +52,12 @@ For workflow-facing script changes, also run:
 
 ```pwsh
 actionlint
+```
+
+For preview-generator, fixture, settings, or gallery changes, run before and after full regeneration:
+
+```pwsh
+pwsh ./scripts/Test-ThemePreviewExport.ps1
+pwsh ./scripts/Generate-ThemePreviews.ps1 -Force
+pwsh ./scripts/Test-ThemePreviewExport.ps1
 ```

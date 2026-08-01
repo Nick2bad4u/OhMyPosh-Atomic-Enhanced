@@ -3472,7 +3472,7 @@
             "leading_diamond": "",
             "min_width": 80,
             "options": {
-                "display_mode": "always",
+                "display_mode": "context",
                 "fetch_context": true
             },
             "style": "diamond",

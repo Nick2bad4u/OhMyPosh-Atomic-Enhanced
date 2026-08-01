@@ -32,6 +32,7 @@ on:
             - "scripts/Make-ExtendedVariant.ps1"
             - "scripts/Make-GradientVariant.ps1"
             - "scripts/Make-GradientRampsVariant.ps1"
+            - "scripts/Make-GradientRampsAutoShadeVariant.ps1"
             - "scripts/Make-NoNetwork.ps1"
             - "scripts/variants/*.json"
             - ".github/workflows/release-themes.yml"
@@ -348,6 +349,7 @@ jobs:
                     release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.NoNetwork.json \
                     release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json \
                     release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json \
+                    release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json \
                     release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoNetwork.json \
                     release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json \
                     release-assets/OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.NoNetwork.json)
@@ -473,6 +475,7 @@ jobs:
                       OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.NoNetwork.json \
                       OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json \
                       OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json \
+                      OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json \
                       OhMyPosh-Atomic-Custom-ExperimentalDividers.NoNetwork.json \
                       OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json \
                       OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.NoNetwork.json; do
@@ -517,7 +520,7 @@ jobs:
                   | 🧹 **Clean-Detailed-Enhanced** | ${CLEAN_COUNT} | Minimalist clean theme |
                   | 🧪 **ExperimentalDividers** | ${EXPDIV_COUNT} | Experimental dividers + transitions variant |
                   | 🧩 **Atomic special variants** | ${ATOMIC_SPECIAL_COUNT} | ColorCycle and offline helpers |
-                  | 🧩 **ExperimentalDividers special variants** | ${EXPDIV_SPECIAL_COUNT} | ColorCycle, Extended, Gradient, GradientRamps, Fish, shell-integration, and offline helpers |
+                  | 🧩 **ExperimentalDividers special variants** | ${EXPDIV_SPECIAL_COUNT} | ColorCycle, Extended, Gradient, GradientRamps, GradientRampsAutoShade, Fish, shell-integration, and offline helpers |
                   | | |
                   | **Total** | **${TOTAL_COUNT}** | All theme files included |
 

@@ -52,6 +52,7 @@ function Get-FileList {
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json',
+        'OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoNetwork.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json',
         'OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json',
@@ -308,14 +309,23 @@ foreach ($file in $files) {
                 $errors.Add("Gradient helper must leave standalone tooltips solid: $aliases") | Out-Null
             }
         }
-        elseif ($themeLeaf -eq 'OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json') {
+        elseif ($themeLeaf -in @(
+                'OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json',
+                'OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json'
+            )) {
+            $rampHelperName = if ($themeLeaf -like '*.GradientRampsAutoShade.json') {
+                'GradientRampsAutoShade'
+            }
+            else {
+                'GradientRamps'
+            }
             $gradientItems = @($segments | Where-Object {
                     $colors = @([string]$_.background) + @($_.background_templates | ForEach-Object { [string]$_ })
-                    ($colors -join ' ') -match 'linear-gradient\('
+                    ($colors -join ' ') -match '(?:linear|dark|light)-gradient\('
                 })
 
             if ($gradientItems.Count -lt 20) {
-                $errors.Add("GradientRamps helper has too few connected items: $($gradientItems.Count).") | Out-Null
+                $errors.Add("$rampHelperName helper has too few connected items: $($gradientItems.Count).") | Out-Null
             }
 
             $interactiveGradients = @($gradientItems | Where-Object {
@@ -323,7 +333,7 @@ foreach ($file in $files) {
                 })
             if ($interactiveGradients.Count -gt 0) {
                 $aliases = @($interactiveGradients.alias | Where-Object { $_ }) -join ', '
-                $errors.Add("GradientRamps helper shades unsupported interactive items: $aliases") | Out-Null
+                $errors.Add("$rampHelperName helper shades unsupported interactive items: $aliases") | Out-Null
             }
 
             $expectedRampAliases = @(
@@ -339,14 +349,14 @@ foreach ($file in $files) {
             )
             $gradientDividers = @($theme.blocks.segments | Where-Object {
                     [string]$_.alias -match '^divider(?:-|$)' -and
-                    ((@([string]$_.background) + @($_.background_templates | ForEach-Object { [string]$_ })) -join ' ') -match 'linear-gradient\('
+                    ((@([string]$_.background) + @($_.background_templates | ForEach-Object { [string]$_ })) -join ' ') -match '(?:linear|dark|light)-gradient\('
                 })
             $unexpectedRampAliases = @(Compare-Object `
                     -ReferenceObject @($expectedRampAliases | Sort-Object) `
                     -DifferenceObject @($gradientDividers.alias | Sort-Object) |
                 ForEach-Object { [string]$_.InputObject })
             if ($unexpectedRampAliases.Count -gt 0) {
-                $errors.Add("GradientRamps helper divider ramps do not match its definition: $($unexpectedRampAliases -join ', ')") | Out-Null
+                $errors.Add("$rampHelperName helper divider ramps do not match its definition: $($unexpectedRampAliases -join ', ')") | Out-Null
             }
 
             foreach ($rampAlias in $expectedRampAliases) {
@@ -358,10 +368,10 @@ foreach ($file in $files) {
                 $rampCellTemplate = [regex]::Replace([string]$rampSegment.template, '\{\{.*?\}\}', '')
                 $expectedRampTemplate = "<background,transparent>$($fullBlock * 6)</>"
                 if ($rampCellTemplate -cne $expectedRampTemplate) {
-                    $errors.Add("GradientRamps helper divider ramp '$rampAlias' does not contain exactly six position-matched full-block cells.") | Out-Null
+                    $errors.Add("$rampHelperName helper divider ramp '$rampAlias' does not contain exactly six position-matched full-block cells.") | Out-Null
                 }
                 if ([string]$rampSegment.template -match '[\uE0B0\uE0B2]') {
-                    $errors.Add("GradientRamps helper divider ramp '$rampAlias' retained a Powerline transition glyph.") | Out-Null
+                    $errors.Add("$rampHelperName helper divider ramp '$rampAlias' retained a Powerline transition glyph.") | Out-Null
                 }
             }
 
@@ -390,35 +400,57 @@ foreach ($file in $files) {
             )
             $retainedCollapsedAliases = @($theme.blocks.segments.alias | Where-Object { $_ -in $collapsedDividerAliases })
             if ($retainedCollapsedAliases.Count -gt 0) {
-                $errors.Add("GradientRamps helper retained dividers that should be collapsed: $($retainedCollapsedAliases -join ', ')") | Out-Null
-            }
-
-            if ($raw -match '(?:dark|light)-gradient\(') {
-                $errors.Add('GradientRamps helper must use explicit two-stop linear gradients instead of auto-shade gradients.') | Out-Null
+                $errors.Add("$rampHelperName helper retained dividers that should be collapsed: $($retainedCollapsedAliases -join ', ')") | Out-Null
             }
 
             $shellGradient = @($theme.blocks.segments | Where-Object { $_.alias -eq 'shell-lprompt' })[0]
-            if ([string]$shellGradient.background -cne 'linear-gradient(p:blue_primary, p:divider_navy_text_to_purple_exec)') {
-                $errors.Add("GradientRamps helper has an incorrect shell entry gradient: $($shellGradient.background)") | Out-Null
-            }
-
             $npmGradient = @($theme.blocks.segments | Where-Object { $_.alias -eq 'npm-rprompt' })[0]
-            if ([string]$npmGradient.background -cne 'linear-gradient(p:yellow_dark, p:npm_yellow)') {
-                $errors.Add("GradientRamps helper has an incorrect rprompt entry gradient: $($npmGradient.background)") | Out-Null
-            }
-
             $rightBlockGradient = @($theme.blocks.segments | Where-Object { $_.alias -eq 'divider-21' })[0]
-            if ([string]$rightBlockGradient.background -cne 'linear-gradient(p:divider_green_ahead, p:divider_teal_sysinfo)') {
-                $errors.Add("GradientRamps helper has an incorrect right-block entry gradient: $($rightBlockGradient.background)") | Out-Null
+            if ($rampHelperName -eq 'GradientRamps') {
+                if ($raw -match '(?:dark|light)-gradient\(') {
+                    $errors.Add('GradientRamps helper must use explicit two-stop linear gradients instead of auto-shade gradients.') | Out-Null
+                }
+                if ([string]$shellGradient.background -cne 'linear-gradient(p:blue_primary, p:divider_navy_text_to_purple_exec)') {
+                    $errors.Add("GradientRamps helper has an incorrect shell entry gradient: $($shellGradient.background)") | Out-Null
+                }
+                if ([string]$npmGradient.background -cne 'linear-gradient(p:yellow_dark, p:npm_yellow)') {
+                    $errors.Add("GradientRamps helper has an incorrect rprompt entry gradient: $($npmGradient.background)") | Out-Null
+                }
+                if ([string]$rightBlockGradient.background -cne 'linear-gradient(p:divider_green_ahead, p:divider_teal_sysinfo)') {
+                    $errors.Add("GradientRamps helper has an incorrect right-block entry gradient: $($rightBlockGradient.background)") | Out-Null
+                }
+            }
+            else {
+                $autoShadeItems = @($theme.blocks.segments | Where-Object {
+                        ((@([string]$_.background) + @($_.background_templates | ForEach-Object { [string]$_ })) -join ' ') -match '(?:dark|light)-gradient\('
+                    })
+                $unexpectedAutoShadeAliases = @(Compare-Object `
+                        -ReferenceObject @('divider-21', 'npm-rprompt', 'shell-lprompt') `
+                        -DifferenceObject @($autoShadeItems.alias | Sort-Object) |
+                    ForEach-Object { [string]$_.InputObject })
+                if ($unexpectedAutoShadeAliases.Count -gt 0) {
+                    $errors.Add("GradientRampsAutoShade helper auto-shaded entries do not match its definition: $($unexpectedAutoShadeAliases -join ', ')") | Out-Null
+                }
+                $expectedAutoShadeBackgrounds = @{
+                    'shell-lprompt' = 'dark-gradient(p:blue_primary)'
+                    'npm-rprompt'   = 'dark-gradient(p:npm_yellow)'
+                    'divider-21'    = 'dark-gradient(p:divider_teal_sysinfo)'
+                }
+                foreach ($entryAlias in $expectedAutoShadeBackgrounds.Keys) {
+                    $entrySegment = @($theme.blocks.segments | Where-Object { $_.alias -eq $entryAlias })[0]
+                    if ([string]$entrySegment.background -cne $expectedAutoShadeBackgrounds[$entryAlias]) {
+                        $errors.Add("GradientRampsAutoShade helper has an incorrect '$entryAlias' entry gradient: $($entrySegment.background)") | Out-Null
+                    }
+                }
             }
 
             foreach ($requiredAlias in @('path-lprompt', 'git-lprompt')) {
                 $requiredSegment = @($theme.blocks.segments | Where-Object { $_.alias -eq $requiredAlias })[0]
                 if ($requiredSegment.PSObject.Properties.Name -notcontains 'interactive' -or [bool]$requiredSegment.interactive) {
-                    $errors.Add("GradientRamps helper must make '$requiredAlias' non-interactive.") | Out-Null
+                    $errors.Add("$rampHelperName helper must make '$requiredAlias' non-interactive.") | Out-Null
                 }
                 if ([string]$requiredSegment.background -notmatch '^linear-gradient\(parentBackground, ') {
-                    $errors.Add("GradientRamps helper does not connect '$requiredAlias' to parentBackground.") | Out-Null
+                    $errors.Add("$rampHelperName helper does not connect '$requiredAlias' to parentBackground.") | Out-Null
                 }
             }
 
@@ -427,7 +459,7 @@ foreach ($file in $files) {
                 })
             if ($gradientTooltips.Count -gt 0) {
                 $aliases = @($gradientTooltips.alias | Where-Object { $_ }) -join ', '
-                $errors.Add("GradientRamps helper must leave standalone tooltips solid: $aliases") | Out-Null
+                $errors.Add("$rampHelperName helper must leave standalone tooltips solid: $aliases") | Out-Null
             }
         }
         foreach ($seg in $segments) {
@@ -625,6 +657,12 @@ $generatorChecks = @(
         Name      = 'ExperimentalDividers GradientRamps'
         Script    = Resolve-RepoPath 'scripts/Make-GradientRampsVariant.ps1'
         Expected  = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json'
+        Parameters = @{ Source = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json' }
+    },
+    @{
+        Name      = 'ExperimentalDividers GradientRampsAutoShade'
+        Script    = Resolve-RepoPath 'scripts/Make-GradientRampsAutoShadeVariant.ps1'
+        Expected  = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json'
         Parameters = @{ Source = Resolve-RepoPath 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json' }
     }
 )

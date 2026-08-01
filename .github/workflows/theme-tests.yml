@@ -8,18 +8,52 @@ on:
 permissions:
   contents: read
 
+env:
+  OMP_VERSION: 30.0.0
+  OMP_WINDOWS_AMD64_SHA256: 271f0df7cd58ef5edfe1ec7aa35ef29b2bcc831cd791cb5c53275e23cbbf6e0c
+
 jobs:
   test-themes:
     runs-on: windows-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+
+      - name: Install verified Oh My Posh v30
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $installDirectory = Join-Path $env:RUNNER_TEMP 'oh-my-posh'
+          $binaryPath = Join-Path $installDirectory 'oh-my-posh.exe'
+          $downloadUrl = "https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/v$env:OMP_VERSION/posh-windows-amd64.exe"
+
+          New-Item -ItemType Directory -Path $installDirectory -Force | Out-Null
+          Invoke-WebRequest -Uri $downloadUrl -OutFile $binaryPath
+
+          $actualHash = (Get-FileHash -LiteralPath $binaryPath -Algorithm SHA256).Hash
+          if (-not $actualHash.Equals($env:OMP_WINDOWS_AMD64_SHA256, [StringComparison]::OrdinalIgnoreCase)) {
+            throw "Oh My Posh checksum mismatch. Expected $env:OMP_WINDOWS_AMD64_SHA256, found $actualHash."
+          }
+
+          $installedVersion = & $binaryPath version
+          if ($installedVersion -ne $env:OMP_VERSION) {
+            throw "Expected Oh My Posh v$env:OMP_VERSION, found v$installedVersion."
+          }
+
+          $installDirectory | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Run repo theme tests
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           pwsh -NoProfile -File .\scripts\Test-Themes.ps1 -IncludeGenerated
+
+      - name: Smoke-test v30 SVG preview export
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          pwsh -NoProfile -File .\scripts\Test-ThemePreviewExport.ps1
 
       - name: Run pre-upload validation (Atomic Custom)
         shell: pwsh

@@ -1,17 +1,18 @@
-<#
+﻿<#
 .SYNOPSIS
     Generates preview images for all custom Oh My Posh themes and updates README.
 
 .DESCRIPTION
     This script finds all custom-generated theme files (excluding official themes),
-    generates PNG preview images using oh-my-posh export, saves them to an assets
+    generates SVG preview images using Oh My Posh v30 or later, saves them to an assets
     folder, and automatically updates the README.md with a beautiful gallery.
 
 .PARAMETER ThemePattern
     Glob pattern to match theme files. Default matches generated theme variants.
 
 .PARAMETER ImageSettings
-    Path to image settings JSON file for oh-my-posh export.
+    Path to repository-owned SVG settings JSON. Supported keys map to documented
+    Oh My Posh v30 image flags; the file is never passed through --settings.
     Default: "image.settings.json"
 
 .PARAMETER OutputDirectory
@@ -19,8 +20,7 @@
     Default: "assets/theme-previews"
 
 .PARAMETER PreviewData
-    Sanitized deterministic Oh My Posh segment data used for every preview.
-    Pass an empty string to use live machine state instead.
+    Sanitized recorded v1 Oh My Posh segment data used hermetically for every preview.
 
 .PARAMETER ReadmePath
     Path to README.md file to update.
@@ -46,24 +46,15 @@
 
 .NOTES
     Author: GitHub Copilot
-    Requires: oh-my-posh CLI installed and in PATH
+    Requires: Oh My Posh v30.0.0 or later installed and in PATH
 #>
 
 [CmdletBinding()]
 param(
     [Parameter()]
     [string[]]$ThemePattern = @(
-        # Non-extended Original themes live at the repository root.
-        'OhMyPosh-Atomic-Custom-ExperimentalDividers.json',
-        'OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json',
-        'OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json',
-        'OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json',
-        'OhMyPosh-Atomic-Custom.json',
-        'OhMyPosh-Atomic-Custom-ColorCycle.json',
-        '1_shell-Enhanced.omp.json',
-        'slimfat-Enhanced.omp.json',
-        'atomicBit-Enhanced.omp.json',
-        'clean-detailed-Enhanced.omp.json',
+        # Discover every root JSON theme; non-theme JSON is filtered after parsing.
+        '*.json',
 
         # ExperimentalDividers variants
         'experimentalDividers/OhMyPosh-Atomic-Custom-ExperimentalDividers.*.json',
@@ -83,7 +74,7 @@ param(
     [string]$OutputDirectory = 'assets/theme-previews',
 
     [Parameter()]
-    [AllowEmptyString()]
+    [ValidateNotNullOrEmpty()]
     [string]$PreviewData = 'theme-preview.data.json',
 
     [Parameter()]
@@ -115,7 +106,7 @@ $ThemePattern = @($ThemePattern | ForEach-Object { Resolve-RepoPath $_ })
 $ImageSettings = Resolve-RepoPath $ImageSettings
 $OutputDirectory = Resolve-RepoPath $OutputDirectory
 $ReadmePath = Resolve-RepoPath $ReadmePath
-$PreviewData = if ([string]::IsNullOrWhiteSpace($PreviewData)) { '' } else { Resolve-RepoPath $PreviewData }
+$PreviewData = Resolve-RepoPath $PreviewData
 
 $OriginalThemeNames = @{
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.json' = 'OhMyPosh-Atomic-Custom-ExperimentalDividers.Original'
@@ -202,43 +193,240 @@ function Write-ErrorMessage {
     Write-Output "  ✗ $Text" -ForegroundColor $colors.Error
 }
 
+function ConvertTo-PreviewSettingArgument {
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$Path)
+
+    if (-not (Test-Path -LiteralPath $Path)) {
+        throw "Preview settings file not found: $Path"
+    }
+
+    $settings = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json -Depth 20 -AsHashtable
+    $definitions = [ordered]@{
+        background_color = @{ Flag = '--background-color'; Type = 'color' }
+        font_family      = @{ Flag = '--font-family'; Type = 'string' }
+        terminal_width   = @{ Flag = '--terminal-width'; Type = 'integer' }
+        cell_width       = @{ Flag = '--cell-width'; Type = 'number' }
+        line_height      = @{ Flag = '--line-height'; Type = 'number' }
+        fill_ascent      = @{ Flag = '--fill-ascent'; Type = 'number' }
+        fill_descent     = @{ Flag = '--fill-descent'; Type = 'number' }
+    }
+
+    $generatorSettings = @('terminal_width_overrides')
+    $unknownKeys = @($settings.Keys | Where-Object {
+            -not $definitions.Contains($_) -and $_ -notin $generatorSettings
+        })
+    if ($unknownKeys.Count -gt 0) {
+        throw "Unsupported preview setting(s): $($unknownKeys -join ', '). Use only Oh My Posh v30 SVG flag mappings."
+    }
+
+    $arguments = [System.Collections.Generic.List[string]]::new()
+    foreach ($key in $definitions.Keys) {
+        if (-not $settings.Contains($key) -or $null -eq $settings[$key]) {
+            continue
+        }
+
+        $definition = $definitions[$key]
+        $value = $settings[$key]
+        switch ($definition.Type) {
+            'color' {
+                $text = [string]$value
+                if ($text -notmatch '^#[0-9A-Fa-f]{6}$') {
+                    throw "Preview setting '$key' must be a #RRGGBB color."
+                }
+            }
+            'string' {
+                $text = [string]$value
+                if ([string]::IsNullOrWhiteSpace($text)) {
+                    throw "Preview setting '$key' must not be empty."
+                }
+            }
+            'integer' {
+                try {
+                    $number = [int]$value
+                }
+                catch {
+                    throw "Preview setting '$key' must be an integer."
+                }
+                if ($number -lt 20 -or $number -gt 1000) {
+                    throw "Preview setting '$key' must be between 20 and 1000."
+                }
+                $text = $number.ToString([Globalization.CultureInfo]::InvariantCulture)
+            }
+            'number' {
+                try {
+                    $number = [double]$value
+                }
+                catch {
+                    throw "Preview setting '$key' must be numeric."
+                }
+                if (-not [double]::IsFinite($number) -or $number -le 0 -or $number -gt 10) {
+                    throw "Preview setting '$key' must be a finite number greater than 0 and no greater than 10."
+                }
+                $text = $number.ToString('0.######', [Globalization.CultureInfo]::InvariantCulture)
+            }
+        }
+
+        $arguments.Add([string]$definition.Flag)
+        $arguments.Add($text)
+    }
+
+    $terminalWidthOverrides = [ordered]@{}
+    if ($settings.Contains('terminal_width_overrides')) {
+        $rawOverrides = $settings.terminal_width_overrides
+        if ($rawOverrides -isnot [System.Collections.IDictionary]) {
+            throw "Preview setting 'terminal_width_overrides' must be an object of theme-name patterns and widths."
+        }
+
+        foreach ($pattern in $rawOverrides.Keys) {
+            if ([string]::IsNullOrWhiteSpace([string]$pattern)) {
+                throw "Preview setting 'terminal_width_overrides' contains an empty theme-name pattern."
+            }
+
+            try {
+                $width = [int]$rawOverrides[$pattern]
+            }
+            catch {
+                throw "Terminal width override '$pattern' must be an integer."
+            }
+            if ($width -lt 20 -or $width -gt 1000) {
+                throw "Terminal width override '$pattern' must be between 20 and 1000."
+            }
+
+            $terminalWidthOverrides[[string]$pattern] = $width
+        }
+    }
+
+    return [pscustomobject]@{
+        Arguments              = $arguments.ToArray()
+        TerminalWidthOverrides = $terminalWidthOverrides
+    }
+}
+
+function Get-ThemePreviewSettingArgument {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)][string[]]$BaseArguments,
+        [Parameter(Mandatory)][System.Collections.IDictionary]$TerminalWidthOverrides,
+        [Parameter(Mandatory)][string]$ThemeName
+    )
+
+    $matchingPatterns = @($TerminalWidthOverrides.Keys | Where-Object { $ThemeName -like $_ })
+    if ($matchingPatterns.Count -gt 1) {
+        throw "Theme '$ThemeName' matches multiple terminal-width overrides: $($matchingPatterns -join ', ')."
+    }
+    if ($matchingPatterns.Count -eq 0) {
+        return $BaseArguments
+    }
+
+    $arguments = [System.Collections.Generic.List[string]]::new()
+    for ($index = 0; $index -lt $BaseArguments.Count; $index++) {
+        if ($BaseArguments[$index] -eq '--terminal-width') {
+            $index++
+            continue
+        }
+        $arguments.Add($BaseArguments[$index])
+    }
+
+    $pattern = $matchingPatterns[0]
+    $arguments.Add('--terminal-width')
+    $arguments.Add(([int]$TerminalWidthOverrides[$pattern]).ToString([Globalization.CultureInfo]::InvariantCulture))
+    return $arguments.ToArray()
+}
+
+function Assert-RecordedPreviewData {
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$Path)
+
+    if (-not (Test-Path -LiteralPath $Path)) {
+        throw "Preview data file not found: $Path"
+    }
+
+    $data = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json -Depth 100 -AsHashtable
+    if (-not $data.Contains('version') -or [int]$data.version -ne 1) {
+        throw "Preview data must use the recorded Oh My Posh v1 format."
+    }
+    if (-not $data.Contains('env') -or -not $data.Contains('segments')) {
+        throw "Preview data must contain both 'env' and 'segments'."
+    }
+
+    foreach ($segmentName in $data.segments.Keys) {
+        $segment = $data.segments[$segmentName]
+        if ($segment -isnot [System.Collections.IDictionary] -or
+            -not $segment.Contains('enabled') -or
+            $segment.enabled -isnot [bool] -or
+            -not $segment.Contains('data') -or
+            $segment.data -isnot [System.Collections.IDictionary]) {
+            throw "Preview data segment '$segmentName' must contain a boolean 'enabled' and an object 'data'."
+        }
+    }
+}
+
+function Assert-SvgOutput {
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$Path)
+
+    if (-not (Test-Path -LiteralPath $Path)) {
+        throw "Expected SVG output was not created: $Path"
+    }
+
+    try {
+        [xml]$document = Get-Content -LiteralPath $Path -Raw
+    }
+    catch {
+        throw "Generated preview is not valid XML: $Path"
+    }
+
+    if ($document.DocumentElement.LocalName -ne 'svg' -or
+        $document.DocumentElement.NamespaceURI -ne 'http://www.w3.org/2000/svg') {
+        throw "Generated preview does not have an SVG root element: $Path"
+    }
+}
+
+function Remove-LegacyPreview {
+    [CmdletBinding(SupportsShouldProcess)]
+    param(
+        [Parameter(Mandatory)][string]$Directory,
+        [Parameter(Mandatory)][string]$ThemeName
+    )
+
+    $legacyPath = Join-Path -Path $Directory -ChildPath "$ThemeName.png"
+    if ((Test-Path -LiteralPath $legacyPath) -and
+        $PSCmdlet.ShouldProcess($legacyPath, 'Remove superseded PNG preview')) {
+        Remove-Item -LiteralPath $legacyPath -Force
+    }
+}
+
 Write-Header '🎨 Oh My Posh Theme Preview Generator'
 
 # Verify oh-my-posh is installed
 Write-Step 'Checking oh-my-posh installation...'
-try {
-    $ompVersion = oh-my-posh version 2>$null
-    Write-Success "oh-my-posh v$ompVersion detected"
-}
-catch {
-    Write-ErrorMessage 'oh-my-posh not found in PATH!'
-    Write-Output "`nPlease install oh-my-posh: https://ohmyposh.dev/docs/installation" -ForegroundColor $colors.Warning
-    exit 1
+if (-not (Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
+    throw 'oh-my-posh was not found in PATH. Install v30.0.0 or later.'
 }
 
-# Verify image settings file exists
-if (-not (Test-Path -LiteralPath $ImageSettings)) {
-    Write-WarningOutput "Image settings file not found: $ImageSettings"
-    Write-Output '  Using default oh-my-posh image settings' -ForegroundColor $colors.Info
-    $imageSettingsParam = @()
+$global:LASTEXITCODE = 0
+$ompVersionText = [string](& oh-my-posh version 2>$null | Select-Object -First 1)
+$ompVersionExitCode = $LASTEXITCODE
+if ($ompVersionExitCode -ne 0 -or $ompVersionText -notmatch '(?<version>\d+\.\d+\.\d+)') {
+    throw "Unable to determine the installed Oh My Posh version from '$ompVersionText'."
 }
-else {
-    Write-Success "Found image settings: $ImageSettings"
-    $imageSettingsParam = @('--settings', (Resolve-Path $ImageSettings).Path)
+$ompVersion = [version]$Matches.version
+$minimumOmpVersion = [version]'30.0.0'
+if ($ompVersion -lt $minimumOmpVersion) {
+    throw "Oh My Posh v$minimumOmpVersion or later is required for SVG previews; found v$ompVersion."
 }
+Write-Success "Oh My Posh v$ompVersion detected"
 
-if ($PreviewData) {
-    if (-not (Test-Path -LiteralPath $PreviewData)) {
-        throw "Preview data file not found: $PreviewData"
-    }
-    $null = Get-Content -LiteralPath $PreviewData -Raw | ConvertFrom-Json -Depth 100
-    $previewDataParam = @('--data', (Resolve-Path $PreviewData).Path)
-    Write-Success "Found deterministic preview data: $PreviewData"
-}
-else {
-    $previewDataParam = @()
-    Write-WarningOutput 'No preview data supplied; previews will use live machine state'
-}
+# Translate repository-owned settings into documented Oh My Posh v30 flags.
+$previewSettings = ConvertTo-PreviewSettingArgument -Path $ImageSettings
+$imageSettingsParam = @($previewSettings.Arguments)
+$terminalWidthOverrides = $previewSettings.TerminalWidthOverrides
+Write-Success "Loaded SVG settings: $ImageSettings"
+
+Assert-RecordedPreviewData -Path $PreviewData
+$previewDataParam = @('--data', (Resolve-Path $PreviewData).Path, '--data-only')
+Write-Success "Loaded recorded preview data: $PreviewData"
 
 # Create output directory
 Write-Step 'Setting up output directory...'
@@ -261,6 +449,17 @@ foreach ($pattern in $ThemePattern) {
         $themeFiles += $found
     }
 }
+
+$themeFiles = @($themeFiles | Where-Object {
+        try {
+            $candidate = Get-Content -LiteralPath $_.FullName -Raw | ConvertFrom-Json -Depth 100 -AsHashtable
+        }
+        catch {
+            throw "Unable to parse candidate theme '$($_.FullName)': $($_.Exception.Message)"
+        }
+
+        $candidate.Contains('blocks') -or $candidate.Contains('extends')
+    })
 
 if ($themeFiles.Count -eq 0) {
     Write-WarningOutput 'No custom theme files found!'
@@ -286,13 +485,19 @@ foreach ($theme in $themeFiles) {
         [System.IO.Path]::GetFileNameWithoutExtension($theme.Name)
     }
     $resultThemeName = "$themeName.json"
-    $outputImage = Join-Path $OutputDirectory "$themeName.png"
+    $outputImage = Join-Path $OutputDirectory "$themeName.svg"
+    $themeImageSettingsParam = @(Get-ThemePreviewSettingArgument `
+            -BaseArguments $imageSettingsParam `
+            -TerminalWidthOverrides $terminalWidthOverrides `
+            -ThemeName $themeName)
 
     Write-Output "`n[$($results.Count + 1)/$($themeFiles.Count)] " -NoNewline -ForegroundColor $colors.Accent
     Write-Output $theme.Name -ForegroundColor $colors.Info
 
     # Check if image already exists
     if ((Test-Path $outputImage) -and -not $Force) {
+        Assert-SvgOutput -Path $outputImage
+        Remove-LegacyPreview -Directory $OutputDirectory -ThemeName $themeName
         Write-WarningOutput 'Image already exists, skipping (use -Force to regenerate)'
         $skipCount++
         $results += [pscustomobject]@{
@@ -300,13 +505,14 @@ foreach ($theme in $themeFiles) {
             ThemeName    = $themeName
             Status       = 'Skipped'
             ImagePath    = $outputImage
-            RelativePath = "assets/theme-previews/$themeName.png"
+            RelativePath = "assets/theme-previews/$themeName.svg"
         }
         continue
     }
 
     # Generate image
     $temporaryConfigPath = $null
+    $temporaryOutputPath = Join-Path -Path $OutputDirectory -ChildPath ("{0}.{1}.tmp.svg" -f $themeName, [guid]::NewGuid())
     try {
         $configPath = $theme.FullName
 
@@ -328,21 +534,25 @@ foreach ($theme in $themeFiles) {
         $exportArgs = @(
             'config', 'export', 'image',
             '--config', $configPath,
-            '--output', $outputImage
-        ) + $imageSettingsParam + $previewDataParam
+            '--output', $temporaryOutputPath
+        ) + $themeImageSettingsParam + $previewDataParam
 
         # Run oh-my-posh export and capture result for diagnostics
+        $global:LASTEXITCODE = 0
         $exportResult = & oh-my-posh @exportArgs 2>&1
 
-        if ($LASTEXITCODE -eq 0 -and (Test-Path $outputImage)) {
-            Write-Success "Generated: $themeName.png"
+        if ($LASTEXITCODE -eq 0 -and (Test-Path -LiteralPath $temporaryOutputPath)) {
+            Assert-SvgOutput -Path $temporaryOutputPath
+            Move-Item -LiteralPath $temporaryOutputPath -Destination $outputImage -Force
+            Remove-LegacyPreview -Directory $OutputDirectory -ThemeName $themeName
+            Write-Success "Generated: $themeName.svg"
             $successCount++
             $results += [pscustomobject]@{
                 Theme        = $resultThemeName
                 ThemeName    = $themeName
                 Status       = 'Success'
                 ImagePath    = $outputImage
-                RelativePath = "assets/theme-previews/$themeName.png"
+                RelativePath = "assets/theme-previews/$themeName.svg"
             }
         }
         else {
@@ -366,6 +576,9 @@ foreach ($theme in $themeFiles) {
         if ($temporaryConfigPath -and (Test-Path -LiteralPath $temporaryConfigPath)) {
             Remove-Item -LiteralPath $temporaryConfigPath -Force
         }
+        if (Test-Path -LiteralPath $temporaryOutputPath) {
+            Remove-Item -LiteralPath $temporaryOutputPath -Force
+        }
     }
 }
 
@@ -382,6 +595,7 @@ if ($skipCount -gt 0) {
 if ($errorCount -gt 0) {
     Write-Output '✗ Errors: ' -NoNewline -ForegroundColor $colors.Error
     Write-Output $errorCount -ForegroundColor $colors.Info
+    throw "$errorCount preview(s) failed; README was not updated."
 }
 
 # Update README if requested
@@ -400,7 +614,7 @@ if (-not $SkipReadmeUpdate) {
     $includeStatuses = @('Success', 'Skipped')
     $experimentalDividersThemes = @($results | Where-Object { $_.Theme -like 'OhMyPosh-Atomic-Custom-ExperimentalDividers.*' -and $_.Status -in $includeStatuses } | Sort-Object ThemeName)
     $atomicThemes = @($results | Where-Object {
-            ($_.Theme -like 'OhMyPosh-Atomic-Custom.*' -or $_.Theme -eq 'OhMyPosh-Atomic-Custom-ColorCycle') -and
+            ($_.Theme -like 'OhMyPosh-Atomic-Custom.*' -or $_.Theme -eq 'OhMyPosh-Atomic-Custom-ColorCycle.json') -and
             $_.Status -in $includeStatuses -and
             $_.Theme -notlike 'OhMyPosh-Atomic-Custom-ExperimentalDividers.*'
         } | Sort-Object ThemeName)

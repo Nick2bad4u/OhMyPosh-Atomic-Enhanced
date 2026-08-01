@@ -1,18 +1,13 @@
 {
-    "author": "Nick2bad4u",
-    "background_color": "#000000",
-    "colors": {
-        "red": "#FF6B6B",
-        "blue": "#4ECDC4",
-        "green": "#45B7D1",
-        "yellow": "#FFA07A",
-        "magenta": "#98D8C8",
-        "cyan": "#F7DC6F"
-    },
-    "cursor": "\udb81\udde7",
-    "fonts": {
-        "regular": "C:/Users/Nick/AppData/Local/Microsoft/Windows/Fonts/CodeNewRomanNerdFontMono-Regular.otf",
-        "bold": "C:/Users/Nick/AppData/Local/Microsoft/Windows/Fonts/CodeNewRomanNerdFontMono-Bold.otf",
-        "italic": "C:/Users/Nick/AppData/Local/Microsoft/Windows/Fonts/CodeNewRomanNerdFontMono-Italic.otf"
-    }
+  "background_color": "#000000",
+  "font_family": "\"CodeNewRoman Nerd Font Mono\", \"CaskaydiaCove Nerd Font Mono\", \"FiraCode Nerd Font Mono\", \"Hack Nerd Font Mono\", ui-monospace, monospace",
+  "terminal_width": 120,
+  "terminal_width_overrides": {
+    "OhMyPosh-Atomic-Custom-ExperimentalDividers*": 200,
+    "1_shell-Enhanced.omp*": 100,
+    "atomicBit-Enhanced.omp*": 100,
+    "clean-detailed-Enhanced.omp*": 100
+  },
+  "cell_width": 0.549805,
+  "line_height": 1.170898
 }

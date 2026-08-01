@@ -155,7 +155,7 @@ foreach ($name in $paletteNames) {
 if (-not $SkipRootVariants) {
     $leaf = Split-Path -Path $SourceTheme -Leaf
     if ($leaf -eq 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json') {
-        Write-Output '\n🧩 Regenerating root variants (Fish / NoShellIntegration / Extended / ColorCycle / Gradient / GradientRamps)...' -ForegroundColor Cyan
+        Write-Output '\n🧩 Regenerating root variants (Fish / NoShellIntegration / Extended / ColorCycle / Gradient / GradientRamps / GradientRampsAutoShade)...' -ForegroundColor Cyan
 
         $fishScript = Join-Path -Path $PSScriptRoot -ChildPath 'Make-FishVariant.ps1'
         if (Test-Path -LiteralPath $fishScript) {
@@ -203,6 +203,14 @@ if (-not $SkipRootVariants) {
         }
         else {
             Write-Output "⚠️  Missing script (skipping): $gradientRampsScript" -ForegroundColor Yellow
+        }
+
+        $gradientRampsAutoShadeScript = Join-Path -Path $PSScriptRoot -ChildPath 'Make-GradientRampsAutoShadeVariant.ps1'
+        if (Test-Path -LiteralPath $gradientRampsAutoShadeScript) {
+            & $gradientRampsAutoShadeScript -Source $SourceTheme
+        }
+        else {
+            Write-Output "⚠️  Missing script (skipping): $gradientRampsAutoShadeScript" -ForegroundColor Yellow
         }
     }
     else {

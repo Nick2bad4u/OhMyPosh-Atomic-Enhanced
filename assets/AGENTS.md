@@ -7,9 +7,10 @@ These instructions apply to `assets/`.
 ## Rules
 
 - Keep preview filenames matched to theme filenames so README gallery links stay valid.
-- Treat `assets/theme-previews/` images as generated output from `scripts/Generate-ThemePreviews.ps1` unless the task explicitly asks for a manual image replacement.
+- Treat `assets/theme-previews/*.svg` as generated output from `scripts/Generate-ThemePreviews.ps1`; change the generator, recorded preview data, or settings instead of hand-editing individual SVGs.
 - Do not replace real prompt screenshots with decorative or unrelated images.
-- Keep binary changes intentional and review image dimensions/file sizes before committing.
+- Do not restore legacy gallery PNGs. Review SVG dimensions and file sizes, and visually inspect representative outputs from every width family before committing.
+- Keep every parsed root theme and generated family overlay represented exactly once in both `assets/theme-previews/` and the README gallery.
 - `assets/TerminalIconsColorThemes/` contains supporting theme assets; preserve PowerShell data file syntax for `.psd1` files.
 
 ## Regeneration
@@ -31,5 +32,6 @@ pwsh -NoProfile -Command "Import-PowerShellDataFile -Path './assets/TerminalIcon
 For preview changes, inspect the generated images and run:
 
 ```pwsh
+pwsh ./scripts/Test-ThemePreviewExport.ps1
 git diff --check -- README.md docs assets
 ```

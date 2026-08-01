@@ -54,11 +54,12 @@ All PowerShell helper scripts live in the **`scripts/`** directory of the reposi
 | **scripts/Make-ColorCycleVariant.ps1** | Generate a synchronized ColorCycle helper | Atomic Custom or ExperimentalDividers root + cycle definition | Complete root helper |
 | **scripts/Make-GradientVariant.ps1** | Generate connected two-stop native gradients | ExperimentalDividers root + gradient definition | Complete root helper |
 | **scripts/Make-GradientRampsVariant.ps1** | Generate connected gradients with position-matched full-block ramps | ExperimentalDividers root + ramp definition | Complete root helper |
+| **scripts/Make-GradientRampsAutoShadeVariant.ps1** | Add v30 automatic shading to independent entries while retaining connected ramps | ExperimentalDividers root + auto-shade ramp definition | Complete root helper |
 | **scripts/New-ThemeWithPalette.ps1** | Create one palette extension | Root theme + palette | Small .json overlay |
 | **scripts/cycle-themes.ps1** | Cycle through themes | Theme folder | Activates one at a time |
 | **scripts/Merge-OhMyPoshThemes.ps1** | Merge multiple themes | Theme files | Merged theme |
 | **scripts/pre-upload-validation.ps1** | Validate before upload | Theme path | Pass/fail report |
-| **scripts/Generate-ThemePreviews.ps1** | Create preview images | Theme files | PNG preview images |
+| **scripts/Generate-ThemePreviews.ps1** | Create preview images | Theme files | SVG preview images |
 | **scripts/Set-PaletteVisualDesigns.ps1** | Apply curated visible-role ramps and synchronize Original roots | Visual-design contract + palette source | Updated palette/root JSON |
 | **scripts/Test-PaletteVisualQuality.ps1** | Verify all palette designs, six-family contrast, and overlay freshness | Palette source + six roots + 222 overlays | Pass/fail report |
 | **scripts/sync-official-themes.ps1** | Sync official themes | Official repo | Updated themes |
@@ -398,7 +399,7 @@ pwsh ./scripts/Test-PaletteVisualQuality.ps1
 
 ### Generate-ThemePreviews.ps1
 
-Creates preview images of themes.
+Creates deterministic SVG previews with Oh My Posh v30 or later.
 
 #### Usage
 
@@ -406,7 +407,22 @@ Creates preview images of themes.
 pwsh ./scripts/Generate-ThemePreviews.ps1 -Force
 ```
 
-By default the generator uses the sanitized `theme-preview.data.json` fixture, so every palette is rendered with the same shell, repository, Git, system, battery, weather, and runtime state. It writes PNGs to `assets/theme-previews/` and refreshes the README gallery.
+The generator requires the sanitized recorded-v1 `theme-preview.data.json` fixture and always passes both `--data` and `--data-only`. Every palette therefore renders with the same shell, repository, Git, system, battery, weather, and runtime state without probing the live machine, filesystem, Git repository, or network. It writes SVGs to `assets/theme-previews/`, removes a theme's superseded PNG only after its SVG succeeds, and refreshes the README gallery.
+
+`image.settings.json` is repository-owned generator configuration; it is not passed to Oh My Posh through the removed `--settings` flag. Supported keys map directly to v30 SVG export flags:
+
+| Setting | Oh My Posh flag | Purpose |
+| --- | --- | --- |
+| `background_color` | `--background-color` | Canvas fallback color |
+| `font_family` | `--font-family` | CSS font-family stack |
+| `terminal_width` | `--terminal-width` | Prompt and canvas width in terminal cells |
+| `cell_width` | `--cell-width` | Monospace cell advance relative to font size |
+| `line_height` | `--line-height` | Row advance relative to font size |
+| `fill_ascent` | `--fill-ascent` | Optional background fill above the baseline |
+| `fill_descent` | `--fill-descent` | Optional background fill below the baseline |
+| `terminal_width_overrides` | Generator-side theme matching | Optional glob-pattern widths applied after the default `terminal_width` |
+
+Unknown or invalid settings fail before any preview is generated. Terminal-width patterns must match at most once per generated preview. The checked-in widths follow each family's actual layout: 200 columns for the content-dense ExperimentalDividers prompt, 120 for Atomic and Slimfat, and 100 for 1_shell, AtomicBit, and Clean Detailed. The generator discovers every root-level JSON theme by structure, while ignoring root JSON fixtures and settings that do not contain theme `blocks` or `extends`. The default CodeNewRoman metrics were measured from the configured font rather than copied from Oh My Posh's Hack Nerd Font defaults.
 
 #### Advanced Usage
 
@@ -421,11 +437,19 @@ pwsh ./scripts/Generate-ThemePreviews.ps1 `
   -SkipReadmeUpdate `
   -Force
 
-# Opt out of deterministic data and render current live machine state.
-pwsh ./scripts/Generate-ThemePreviews.ps1 -PreviewData '' -Force
+# Use a reviewed alternate recorded-v1 fixture.
+pwsh ./scripts/Generate-ThemePreviews.ps1 `
+  -PreviewData ./fixtures/alternate-preview.data.json `
+  -Force
 ```
 
-Do not replace `theme-preview.data.json` with raw `oh-my-posh config export data` output. Raw exports can contain local paths, Git identity/remotes, and request URLs with credentials. Hand-author and review any fixture changes.
+Recorded-v1 fixtures have a top-level `"version": 1` marker and wrap every segment as `{ "enabled": true|false, "data": { ... } }`. Do not replace `theme-preview.data.json` with unchecked `oh-my-posh config export data` output. Recorder output can contain local paths, Git identity/remotes, and request URLs with credentials. Sanitize and review every value before committing it.
+
+The focused compatibility gate renders all three gradient variants and locally resolved ExperimentalDividers and Clean Detailed `extends` overlays:
+
+```pwsh
+pwsh ./scripts/Test-ThemePreviewExport.ps1
+```
 
 ---
 
@@ -778,6 +802,17 @@ Each retained ramp contains six full-block cells wrapped in `<background,transpa
 
 # Test it in the current PowerShell session
 oh-my-posh init pwsh --config .\OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json | Invoke-Expression
+```
+
+### Make-GradientRampsAutoShadeVariant.ps1
+
+Generates `OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json` through the shared Gradient generator. It retains the nine connected six-cell ramps, but uses Oh My Posh v30 `dark-gradient(color)` backgrounds for the shell, npm right-prompt, and separate right-block entries. These are the three places where `parentBackground` cannot provide a dependable preceding rendered color. All following segments continue to use `linear-gradient(parentBackground, ...)`, so their first stop resolves from the previous segment's final rendered stop.
+
+```powershell
+.\scripts\Make-GradientRampsAutoShadeVariant.ps1
+
+# Test it in the current PowerShell session (Oh My Posh v30.0.0+)
+oh-my-posh init pwsh --config .\OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json | Invoke-Expression
 ```
 
 ## Summary

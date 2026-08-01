@@ -13,10 +13,11 @@ collapsed into wider blank-cell ramps. The following wider content segment or
 the retained ramp then performs the interpolation instead of exposing a stack
 of solid one-cell color bands.
 
-The definition supplies explicit entry gradients for segments that cannot rely
-on a previous active background. It can also make selected interactive segments
-non-interactive in this generated variant because Oh My Posh does not support
-gradients on interactive segments. The canonical source remains unchanged.
+The definition supplies explicit entry gradients or v30 automatic shade
+gradients for segments that cannot rely on a previous active background. It can
+also make selected interactive segments non-interactive in this generated
+variant because Oh My Posh does not support gradients on interactive segments.
+The canonical source remains unchanged.
 
 .PARAMETER Source
 Path to the canonical ExperimentalDividers theme.
@@ -106,7 +107,8 @@ function ConvertTo-ConnectedGradientColor {
     [CmdletBinding()]
     param(
         [AllowNull()][string]$Color,
-        [AllowNull()]$EntryGradient
+        [AllowNull()]$EntryGradient,
+        [AllowNull()][string]$EntryAutoShade
     )
 
     if ([string]::IsNullOrWhiteSpace($Color) -or $Color -eq 'transparent') {
@@ -117,6 +119,9 @@ function ConvertTo-ConnectedGradientColor {
     }
     Assert-SupportedColor -Color $Color -Context 'source background'
 
+    if (-not [string]::IsNullOrWhiteSpace($EntryAutoShade)) {
+        return "$EntryAutoShade-gradient($Color)"
+    }
     if ($null -eq $EntryGradient) {
         return "linear-gradient(parentBackground, $Color)"
     }
@@ -130,13 +135,18 @@ function ConvertTo-ConnectedGradientTemplate {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)][string]$Template,
-        [AllowNull()]$EntryGradient
+        [AllowNull()]$EntryGradient,
+        [AllowNull()][string]$EntryAutoShade
     )
 
     $entryGradientValue = $EntryGradient
+    $entryAutoShadeValue = $EntryAutoShade
     return [regex]::Replace($Template, $TemplateColorPattern, {
             param($match)
-            ConvertTo-ConnectedGradientColor -Color $match.Value -EntryGradient $entryGradientValue
+            ConvertTo-ConnectedGradientColor `
+                -Color $match.Value `
+                -EntryGradient $entryGradientValue `
+                -EntryAutoShade $entryAutoShadeValue
         })
 }
 
@@ -144,7 +154,8 @@ function Invoke-GradientBackgroundConversion {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)]$Item,
-        [AllowNull()]$EntryGradient
+        [AllowNull()]$EntryGradient,
+        [AllowNull()][string]$EntryAutoShade
     )
 
     if ($Item.PSObject.Properties.Name -notcontains 'background') {
@@ -153,7 +164,8 @@ function Invoke-GradientBackgroundConversion {
 
     $gradientBackground = ConvertTo-ConnectedGradientColor `
         -Color ([string]$Item.background) `
-        -EntryGradient $EntryGradient
+        -EntryGradient $EntryGradient `
+        -EntryAutoShade $EntryAutoShade
     if ($gradientBackground -eq [string]$Item.background) {
         return $false
     }
@@ -161,7 +173,10 @@ function Invoke-GradientBackgroundConversion {
     $Item.background = $gradientBackground
     if ($Item.PSObject.Properties.Name -contains 'background_templates') {
         $Item.background_templates = @($Item.background_templates | ForEach-Object {
-                ConvertTo-ConnectedGradientTemplate -Template ([string]$_) -EntryGradient $EntryGradient
+                ConvertTo-ConnectedGradientTemplate `
+                    -Template ([string]$_) `
+                    -EntryGradient $EntryGradient `
+                    -EntryAutoShade $EntryAutoShade
             })
     }
 
@@ -221,7 +236,11 @@ if ($containers.Count -eq 0) {
 }
 
 $entryGradients = @{}
-foreach ($entry in @($variant.entry_gradients)) {
+$configuredEntryGradients = @()
+if ($variant.PSObject.Properties.Name -contains 'entry_gradients') {
+    $configuredEntryGradients = @($variant.entry_gradients)
+}
+foreach ($entry in $configuredEntryGradients) {
     $alias = [string]$entry.alias
     if ([string]::IsNullOrWhiteSpace($alias)) {
         throw 'Every entry gradient must define a non-empty alias.'
@@ -233,6 +252,29 @@ foreach ($entry in @($variant.entry_gradients)) {
     Assert-SupportedColor -Color ([string]$entry.start) -Context "entry gradient '$alias' start" -AllowSelf
     Assert-SupportedColor -Color ([string]$entry.end) -Context "entry gradient '$alias' end" -AllowSelf
     $entryGradients[$alias] = $entry
+}
+
+$entryAutoShades = @{}
+$configuredEntryAutoShades = @()
+if ($variant.PSObject.Properties.Name -contains 'entry_auto_shades') {
+    $configuredEntryAutoShades = @($variant.entry_auto_shades)
+}
+foreach ($entry in $configuredEntryAutoShades) {
+    $alias = [string]$entry.alias
+    $mode = [string]$entry.mode
+    if ([string]::IsNullOrWhiteSpace($alias)) {
+        throw 'Every entry auto-shade must define a non-empty alias.'
+    }
+    if ($entryAutoShades.ContainsKey($alias)) {
+        throw "Duplicate entry auto-shade alias: $alias"
+    }
+    if ($entryGradients.ContainsKey($alias)) {
+        throw "Entry alias cannot define both an explicit gradient and an auto-shade gradient: $alias"
+    }
+    if ($mode -cnotin @('dark', 'light')) {
+        throw "Entry auto-shade '$alias' mode must be 'dark' or 'light'."
+    }
+    $entryAutoShades[$alias] = $mode
 }
 
 $nonInteractiveAliases = @($variant.make_non_interactive_aliases | ForEach-Object { [string]$_ })
@@ -373,7 +415,11 @@ if ('blocks' -in $containers) {
         }
 
         $entryGradient = if ($entryGradients.ContainsKey($alias)) { $entryGradients[$alias] } else { $null }
-        if (Invoke-GradientBackgroundConversion -Item $segment -EntryGradient $entryGradient) {
+        $entryAutoShade = if ($entryAutoShades.ContainsKey($alias)) { $entryAutoShades[$alias] } else { $null }
+        if (Invoke-GradientBackgroundConversion `
+                -Item $segment `
+                -EntryGradient $entryGradient `
+                -EntryAutoShade $entryAutoShade) {
             $updatedCount++
         }
     }
@@ -392,13 +438,17 @@ if ('tooltips' -in $containers) {
         }
 
         $entryGradient = if ($entryGradients.ContainsKey($alias)) { $entryGradients[$alias] } else { $null }
-        if (Invoke-GradientBackgroundConversion -Item $tooltip -EntryGradient $entryGradient) {
+        $entryAutoShade = if ($entryAutoShades.ContainsKey($alias)) { $entryAutoShades[$alias] } else { $null }
+        if (Invoke-GradientBackgroundConversion `
+                -Item $tooltip `
+                -EntryGradient $entryGradient `
+                -EntryAutoShade $entryAutoShade) {
             $updatedCount++
         }
     }
 }
 
-$requiredAliases = @($entryGradients.Keys) + $nonInteractiveAliases + @($dividerRamps.Keys)
+$requiredAliases = @($entryGradients.Keys) + @($entryAutoShades.Keys) + $nonInteractiveAliases + @($dividerRamps.Keys)
 $missingAliases = @($requiredAliases | Sort-Object -Unique | Where-Object { -not $foundAliases.Contains($_) })
 if ($missingAliases.Count -gt 0) {
     throw "Gradient definition references missing aliases: $($missingAliases -join ', ')"
@@ -421,6 +471,7 @@ $theme | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $Destination -Enco
 Write-Output "Generated Gradient variant: $Destination"
 Write-Output "  Minimum Oh My Posh version: $($variant.minimum_oh_my_posh_version)"
 Write-Output "  Connected gradient backgrounds: $updatedCount"
+Write-Output "  Auto-shaded block entries: $($entryAutoShades.Count)"
 Write-Output "  Removed one-cell transition dividers: $removedSegmentCount"
 Write-Output "  Blank-cell divider ramps: $dividerRampCount"
 Write-Output "  Interactive items made gradient-compatible: $interactiveConvertedCount"

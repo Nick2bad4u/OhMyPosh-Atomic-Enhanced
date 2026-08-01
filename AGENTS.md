@@ -8,6 +8,8 @@ These instructions apply to the whole repository unless a more specific `AGENTS.
 
 This repo ships enhanced Oh My Posh theme JSON files, generated palette extensions, PowerShell tooling, documentation, GitHub workflows, and preview assets.
 
+The repo-local Codex workflow skill lives at `.agents/skills/oh-my-posh-atomic-enhanced/`. Use it as a task router; this instruction hierarchy remains authoritative for file ownership and local rules.
+
 Primary source files live at the repo root:
 
 - `OhMyPosh-Atomic-Custom-ExperimentalDividers.json` is the independent canonical source for ExperimentalDividers prompt structure, tooltips, and behavior.
@@ -43,6 +45,7 @@ Do not hand-edit generated overlays when the same change belongs in a root sourc
   - `OhMyPosh-Atomic-Custom-ExperimentalDividers.ColorCycle.json`
   - `OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json`
   - `OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json`
+  - `OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json`
 - Keep `OhMyPosh-Atomic-Custom-ColorCycle.json` synchronized from `OhMyPosh-Atomic-Custom.json` with `scripts/Make-ColorCycleVariant.ps1`.
 - Preserve `<!-- {% raw %} -->` / `<!-- {% endraw %} -->` protection in Markdown files that contain Oh My Posh template examples.
 - Do not edit files under `ohmyposh-official-themes/` as if they are first-party source.
@@ -62,6 +65,7 @@ pwsh ./scripts/Make-ColorCycleVariant.ps1
 pwsh ./scripts/Make-ColorCycleVariant.ps1 -Source ./OhMyPosh-Atomic-Custom-ExperimentalDividers.json
 pwsh ./scripts/Make-GradientVariant.ps1
 pwsh ./scripts/Make-GradientRampsVariant.ps1
+pwsh ./scripts/Make-GradientRampsAutoShadeVariant.ps1
 ```
 
 For full palette generation:
@@ -80,8 +84,12 @@ pwsh ./scripts/Make-NoNetwork.ps1 -SourceTheme ./OhMyPosh-Atomic-Custom-Experime
 For previews:
 
 ```pwsh
+pwsh ./scripts/Test-ThemePreviewExport.ps1
 pwsh ./scripts/Generate-ThemePreviews.ps1 -Force
+pwsh ./scripts/Test-ThemePreviewExport.ps1
 ```
+
+Preview export requires Oh My Posh v30.0.0 or later. It renders deterministic SVG from `theme-preview.data.json` using the repository mapping in `image.settings.json`, covers parsed root theme JSON plus every generated family overlay, and updates the README gallery with the assets.
 
 ## Validation
 
@@ -99,6 +107,12 @@ Generated variant gate:
 
 ```pwsh
 pwsh ./scripts/Test-Themes.ps1 -IncludeGenerated
+```
+
+Preview gate:
+
+```pwsh
+pwsh ./scripts/Test-ThemePreviewExport.ps1
 ```
 
 Workflow gate:
