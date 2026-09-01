@@ -208,14 +208,12 @@ Cache per PowerShell window session.
     },
     {
      "type": "git",
+     "style": "plain",
      "cache": {
       "strategy": "folder",
       "duration": "5m"
      },
-     "properties": {
-      "fetch_status": true,
-      "fetch_upstream_icon": false // Expensive
-     }
+     "template": " {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} {{ .Staging.String }}{{ end }} "
     },
     {
      "type": "node",
@@ -266,18 +264,17 @@ Only show in certain directories:
 }
 ```
 
-### Method 3: Remove Expensive Properties
+### Method 3: Remove Expensive Template Fields
 
 ```json
 {
- "properties": {
-  "fetch_status": false, // Expensive network call
-  "fetch_upstream_icon": false, // Upstream tracking
-  "fetch_worktree_count": false // Worktree checking
- },
+ "style": "plain",
+ "template": " {{ .HEAD }} ",
  "type": "git"
 }
 ```
+
+Oh My Posh v31 derives optional Git probes from template fields. An `.HEAD`-only template skips local status, ahead/behind, upstream metadata, user, bare-repository, and worktree-count probes. Add only the fields you actually display.
 
 ### High-Cost Segments to Consider Disabling
 
@@ -285,9 +282,9 @@ Only show in certain directories:
    - 500ms+ per call
    - Solution: Disable or cache 30m+
 
-2. **`git` with fetch_status** - Large repo scanning
+2. **`git` templates with `.Working` or `.Staging`** - Large repo scanning
    - 100-500ms in large repos
-   - Solution: `fetch_status: false`
+   - Solution: remove status-dependent fields from all segment, color, extra-prompt, tooltip, filler, palette, and console-title templates
 
 3. **`command` with expensive scripts** - Custom logic
    - 50-200ms depending on script
@@ -321,16 +318,13 @@ For large repositories:
 
 ```json
 {
+ "type": "git",
+ "style": "plain",
  "cache": {
   "strategy": "folder",
   "duration": "10m"
  },
- "properties": {
-  "fetch_status": false,
-  "fetch_upstream_icon": false,
-  "windows_registry": false
- },
- "type": "git"
+ "template": " {{ .HEAD }} "
 }
 ```
 
@@ -426,11 +420,8 @@ $testTheme = @"
       "type": "git",
       "background": "#000000",
       "foreground": "#FFFFFF",
-      "template": "{{ .Branch }}",
-      "properties": {
-        "fetch_status": false,
-        "fetch_upstream_icon": false
-      }
+      "style": "plain",
+      "template": "{{ .HEAD }}"
     }]
   }]
 }
@@ -533,7 +524,8 @@ $results | Format-Table
     },
     {
      "type": "git",
-     "properties": { "fetch_status": false },
+     "style": "plain",
+     "template": " {{ .HEAD }} ",
      "cache": { "strategy": "folder", "duration": "5m" }
     }
    ]
@@ -557,11 +549,9 @@ $results | Format-Table
     { "type": "path", "cache": { "strategy": "session" } },
     {
      "type": "git",
+     "style": "plain",
      "cache": { "strategy": "folder", "duration": "5m" },
-     "properties": {
-      "fetch_status": true,
-      "fetch_upstream_icon": false
-     }
+     "template": " {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} {{ .Staging.String }}{{ end }} "
     },
     {
      "type": "node",
@@ -599,13 +589,12 @@ $results | Format-Table
    }
    ```
 
-2. Disable expensive git features:
+2. Remove expensive Git fields from the template:
    ```json
    {
-    "properties": {
-     "fetch_status": false,
-     "fetch_upstream_icon": false
-    }
+    "type": "git",
+    "style": "plain",
+    "template": " {{ .HEAD }} "
    }
    ```
 
@@ -654,7 +643,8 @@ $results | Format-Table
 
    ```json
    {
-    "properties": { "fetch_status": false },
+    "style": "plain",
+    "template": " {{ .HEAD }} ",
     "type": "git"
    }
    ```
@@ -709,7 +699,7 @@ $results | Format-Table
 - [ ] Measured baseline prompt time (< 300ms?)
 - [ ] Enabled parallel execution (`"parallel": true`)
 - [ ] Configured cache strategies for all segments
-- [ ] Disabled `fetch_status` in git if repo is large
+- [ ] Removed unneeded Git status/upstream/worktree fields from templates in large repositories
 - [ ] Removed unnecessary segments
 - [ ] Set appropriate cache durations
 - [ ] Tested performance over SSH

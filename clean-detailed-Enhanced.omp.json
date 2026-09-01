@@ -71,8 +71,6 @@
           "leading_diamond": "",
           "options": {
             "branch_icon": " ",
-            "fetch_status": true,
-            "fetch_upstream_icon": true,
             "disable_with_jj": false
           },
           "style": "diamond",
@@ -1067,11 +1065,10 @@
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "command": "terraform",
-        "fetch_version": true
+        "command": "terraform"
       },
       "style": "diamond",
-      "template": " <b>{{ .WorkspaceName }} 󱁢 Terraform: {{ if .Version }} {{ .Version }}{{ end }}</b> ",
+      "template": " <b>{{ .WorkspaceName }} 󱁢 Terraform{{ if .Version }}: {{ .Version }}{{ end }}</b> ",
       "tips": [
         "terraform",
         "terragrunt",
@@ -1094,7 +1091,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Rust: not installed"
       },
@@ -1150,7 +1146,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Go: not installed",
         "parse_go_work_file": true,
@@ -1180,7 +1175,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Angular CLI: not installed"
       },
@@ -1207,7 +1201,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": "󰝴 Nx: not installed"
       },
@@ -1234,7 +1227,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Svelte: not installed"
       },
@@ -1330,7 +1322,6 @@
           "cjs",
           "cts"
         ],
-        "fetch_version": true,
         "home_enabled": false
       },
       "style": "diamond",
@@ -1393,10 +1384,6 @@
         "branch_icon": "  ",
         "branch_template": "<b>{{ if .Mapped }}{{ $m := title .Mapped }}{{ if gt (len $m) 24 }}{{ trunc 24 $m }}…{{ else }}{{ $m }}{{ end }}{{ else }}{{ .Icon }}{{ $b := title .Branch }}{{ if gt (len $b) 24 }}{{ trunc 24 $b }}…{{ else }}{{ $b }}{{ end }}{{ end }}</b>",
         "disable_with_jj": false,
-        "fetch_bare_info": true,
-        "fetch_status": true,
-        "fetch_upstream_icon": true,
-        "fetch_user": true,
         "ignore_status": [],
         "ignore_submodules": {},
         "mapped_branches": {
@@ -1456,7 +1443,6 @@
       "min_width": 80,
       "options": {
         "display_mode": "context",
-        "fetch_version": true,
         "home_enabled": false,
         "missing_command_text": "",
         "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
@@ -1494,7 +1480,6 @@
         ],
         "display_default": true,
         "display_mode": "always",
-        "fetch_version": true,
         "fetch_virtual_env": true,
         "folder_name_fallback": true,
         "home_enabled": true,
@@ -1534,7 +1519,6 @@
         "cache_duration": "24h",
         "display_mode": "always",
         "fetch_package_manager": true,
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": ""
       },
@@ -1566,7 +1550,6 @@
         },
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": ""
       },
@@ -2488,7 +2471,6 @@
           "*.js",
           "deno.json"
         ],
-        "fetch_version": true,
         "home_enabled": false,
         "missing_command_text": ""
       },
@@ -2514,7 +2496,7 @@
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "display_mode": "always",
+        "display_mode": "context",
         "fetch_context": true
       },
       "style": "diamond",
@@ -2548,7 +2530,6 @@
         "extensions": [
           "tauri.conf.json"
         ],
-        "fetch_version": true,
         "folders": [
           "src-tauri"
         ],
@@ -2585,7 +2566,6 @@
           "package.json",
           "yarn.lock"
         ],
-        "fetch_version": true,
         "home_enabled": false,
         "missing_command_text": ""
       },
@@ -2617,7 +2597,6 @@
           "package.json",
           "pnpm-lock.yaml"
         ],
-        "fetch_version": true,
         "home_enabled": false,
         "missing_command_text": ""
       },
@@ -2649,7 +2628,6 @@
           "bun.lockb",
           "bun.lock"
         ],
-        "fetch_version": true,
         "home_enabled": false,
         "missing_command_text": ""
       },
@@ -2701,7 +2679,6 @@
         "cache_duration": "24h",
         "display_mode": "always",
         "fetch_sdk_version": true,
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": ""
       },

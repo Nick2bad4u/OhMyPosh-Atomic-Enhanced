@@ -13,7 +13,7 @@ collapsed into wider blank-cell ramps. The following wider content segment or
 the retained ramp then performs the interpolation instead of exposing a stack
 of solid one-cell color bands.
 
-The definition supplies explicit entry gradients or v30 automatic shade
+The definition supplies explicit entry gradients or automatic shade
 gradients for segments that cannot rely on a previous active background. It can
 also make selected interactive segments non-interactive in this generated
 variant because Oh My Posh does not support gradients on interactive segments.

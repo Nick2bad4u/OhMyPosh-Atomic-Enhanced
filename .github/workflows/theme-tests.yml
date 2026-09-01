@@ -9,8 +9,8 @@ permissions:
   contents: read
 
 env:
-  OMP_VERSION: 30.0.0
-  OMP_WINDOWS_AMD64_SHA256: 271f0df7cd58ef5edfe1ec7aa35ef29b2bcc831cd791cb5c53275e23cbbf6e0c
+  OMP_VERSION: 31.1.1
+  OMP_WINDOWS_AMD64_SHA256: d71eb92e209b621f7b018b26aa8ed297d6217298baf5d45d1656f603e8a3a825
 
 jobs:
   test-themes:
@@ -20,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
 
-      - name: Install verified Oh My Posh v30
+      - name: Install verified Oh My Posh v31
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
@@ -49,7 +49,7 @@ jobs:
           $ErrorActionPreference = 'Stop'
           pwsh -NoProfile -File .\scripts\Test-Themes.ps1 -IncludeGenerated
 
-      - name: Smoke-test v30 SVG preview export
+      - name: Smoke-test v31 SVG preview export
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'

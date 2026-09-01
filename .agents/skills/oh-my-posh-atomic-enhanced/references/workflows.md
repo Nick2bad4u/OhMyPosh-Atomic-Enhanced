@@ -55,7 +55,7 @@ Change the matching file under `scripts/variants/` or the matching `Make-*Varian
 
 ## Preview changes
 
-Oh My Posh v30.0.0 or later must be on `PATH`.
+Oh My Posh v31.0.0 or later must be on `PATH`.
 
 1. Run the focused export contract:
 

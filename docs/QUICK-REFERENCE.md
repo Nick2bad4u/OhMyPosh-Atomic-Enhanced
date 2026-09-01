@@ -26,7 +26,7 @@ The six root files are the complete Original themes. Generation writes 37 palett
 .\scripts\Make-GradientRampsAutoShadeVariant.ps1
 ```
 
-Extended, ColorCycle, Gradient, GradientRamps, and GradientRampsAutoShade are rebuilt from their canonical root source. Variant-specific data lives under `scripts/variants/`. Gradient and GradientRamps require Oh My Posh 29.36.0 or newer; GradientRampsAutoShade requires v30.0.0. All three use connected `linear-gradient(parentBackground, ...)` prompt backgrounds. Gradient removes the colored transition-divider chains; both ramp variants retain nine six-cell, position-matched full-block ramps, while GradientRampsAutoShade uses `dark-gradient(...)` for the three independent block entries.
+Extended, ColorCycle, Gradient, GradientRamps, and GradientRampsAutoShade are rebuilt from their canonical root source. Variant-specific data lives under `scripts/variants/`. All helpers require the repository baseline of Oh My Posh v31.0.0 or newer. The three gradient helpers use connected `linear-gradient(parentBackground, ...)` prompt backgrounds. Gradient removes the colored transition-divider chains; both ramp variants retain nine six-cell, position-matched full-block ramps, while GradientRampsAutoShade uses `dark-gradient(...)` for the three independent block entries.
 
 ## Generate Preview Images & Update README
 
@@ -68,7 +68,7 @@ oh-my-posh init pwsh --config '.\atomic\OhMyPosh-Atomic-Custom.TokyoNight.json' 
 - `scripts/Make-ColorCycleVariant.ps1` - Atomic/ExperimentalDividers ColorCycle generator
 - `scripts/Make-GradientVariant.ps1` - ExperimentalDividers native-gradient generator
 - `scripts/Make-GradientRampsVariant.ps1` - ExperimentalDividers connected full-block ramp wrapper
-- `scripts/Make-GradientRampsAutoShadeVariant.ps1` - v30 auto-shaded entry ramp wrapper
+- `scripts/Make-GradientRampsAutoShadeVariant.ps1` - automatically shaded entry ramp wrapper
 - `scripts/Generate-ThemePreviews.ps1` - Preview image generator
 - `color-palette-alternatives.json` - Palette library
 - `THEME-GENERATOR-README.md` - Full documentation

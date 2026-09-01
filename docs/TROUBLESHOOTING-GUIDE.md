@@ -357,17 +357,17 @@ oh-my-posh init pwsh --config ".\OhMyPosh-Atomic-Custom.json" | Invoke-Expressio
    }
    ```
 
-3. **Remove Upstream Git Status** (Network-dependent)
+3. **Remove Git Status and Upstream Fields**
 
    ```json
    {
-    "properties": {
-     "fetch_status": false,
-     "fetch_upstream_icon": false
-    },
+    "style": "plain",
+    "template": " {{ .HEAD }} ",
     "type": "git"
    }
    ```
+
+   In Oh My Posh v31, optional Git probes are derived from template fields. A template that only references `.HEAD` skips local-status, ahead/behind, upstream, and worktree-count probes.
 
 4. **Optimize Custom Commands**
 
@@ -531,13 +531,13 @@ ssh -t user@host "TERM=xterm-256color bash"
 
 ```json
 {
+ "type": "git",
+ "style": "plain",
  "cache": {
   "strategy": "session",
   "duration": "10m"
  },
- "properties": {
-  "fetch_status": false // Disable expensive operations
- }
+ "template": " {{ .HEAD }} "
 }
 ```
 

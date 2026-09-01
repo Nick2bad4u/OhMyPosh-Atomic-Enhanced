@@ -66,7 +66,7 @@ Contains segments for:
 - **Shell Info 🐚**: Displays shell name and version, with mapped names for common shells.
 - **Root Status 🔐**: Highlights if running as administrator/root.
 - **Path 📁**: Shows the current directory, with custom icons and mapped locations for quick recognition (e.g., "UW" for Uptime-Watcher repo, icons for Desktop/Documents/Downloads).
-- **Git 🌿**: Shows branch, status, and upstream info, with color changes based on git state.
+- **Git 🌿**: Shows branch, status, and upstream info, with color changes based on git state. Under v31, the status fields in those templates intentionally trigger collection; the existing folder cache and excluded high-churn folders limit repeated scans.
 - **Execution Time ⏱️**: Displays how long the last command took to run.
 - **Status ✅/❌**: Indicates success or error of the last command.
 
@@ -348,6 +348,10 @@ Below is a convenience index showing which segments are used in each family of t
 
 Docs: Installation: [Windows](https://ohmyposh.dev/docs/installation/windows) · [macOS](https://ohmyposh.dev/docs/installation/macos) · [Linux](https://ohmyposh.dev/docs/installation/linux) · [Fonts](https://ohmyposh.dev/docs/installation/fonts) · [Customize](https://ohmyposh.dev/docs/installation/customize)
 
+> **Minimum version:** Oh My Posh v31.0.0 or newer is required. These themes rely on v31 template-derived language, Terraform, and SCM data fetching; the Extended helper also renders Jujutsu's v31 `.AheadCount` field.
+
+Terraform `.Version` represents the project's pinned, required, or state-recorded Terraform version, not the installed CLI version.
+
 1. [Windows](https://ohmyposh.dev/docs/installation/windows)
 2. [Linux](https://ohmyposh.dev/docs/installation/linux)
 3. [MacOS](https://ohmyposh.dev/docs/installation/macos)
@@ -376,7 +380,7 @@ Use the Fish-specific variant (right-side content is rendered via `fish_right_pr
 oh-my-posh init fish --config https://raw.githubusercontent.com/Nick2bad4u/OhMyPosh-Atomic-Enhanced/main/OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json | source
 ```
 
-4. **Generated special variants:** Extended adds additional VCS segments and tooltips. ColorCycle applies the same ordered color cycle to the current Atomic Custom or ExperimentalDividers structure. Gradient and GradientRamps use Oh My Posh 29.36's native two-stop backgrounds to connect prompt segments from `parentBackground` into their own palette colors. GradientRampsAutoShade requires Oh My Posh 30.0 and uses its automatic dark-gradient function at independent block entries while retaining the connected ramps between segments.
+4. **Generated special variants:** Extended adds additional VCS segments and tooltips. ColorCycle applies the same ordered color cycle to the current Atomic Custom or ExperimentalDividers structure. Gradient and GradientRamps use native two-stop backgrounds to connect prompt segments from `parentBackground` into their own palette colors. GradientRampsAutoShade uses automatic dark gradients at independent block entries while retaining the connected ramps between segments. All helpers follow the repository's Oh My Posh v31.0.0 minimum.
 
 ```pwsh
 pwsh ./scripts/Make-ExtendedVariant.ps1
@@ -389,7 +393,7 @@ pwsh ./scripts/Make-GradientRampsAutoShadeVariant.ps1
 
 These commands generate complete standalone files at the repository root. They intentionally synchronize shared settings from their canonical source themes instead of preserving stale fields in an older generated file.
 
-Test the generated gradient variants locally with Oh My Posh 29.36.0 or newer (v30.0.0 for GradientRampsAutoShade):
+Test the generated gradient variants locally with Oh My Posh v31.0.0 or newer:
 
 ```pwsh
 oh-my-posh init pwsh --config ./OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json | Invoke-Expression
@@ -397,7 +401,7 @@ oh-my-posh init pwsh --config ./OhMyPosh-Atomic-Custom-ExperimentalDividers.Grad
 # Alternative with position-matched full-block transition ramps
 oh-my-posh init pwsh --config ./OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json | Invoke-Expression
 
-# v30 auto-shades only at independent block entries
+# Automatic shading is limited to independent block entries
 oh-my-posh init pwsh --config ./OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json | Invoke-Expression
 ```
 

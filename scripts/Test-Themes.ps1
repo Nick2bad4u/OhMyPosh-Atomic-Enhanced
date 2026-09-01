@@ -7,6 +7,7 @@ This script performs "CI-grade" validation on the base theme templates in this r
 - JSON parse validation (fails on duplicate keys)
 - Palette reference validation (p:<key> must exist)
 - No secrets-file references (repo removed secrets.json/schema workflows)
+- No obsolete pre-v31 fetch-control options
 - Network segment hygiene checks (timeouts, cache, https URLs, env var usage for API keys)
 
 By default this validates the primary templates (root-level theme JSONs).
@@ -36,6 +37,17 @@ $GeneratedFamilies = @{
     cleanDetailed        = 'clean-detailed-Enhanced.omp.json'
     experimentalDividers = 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
 }
+$ObsoleteFetchOptions = @(
+    'fetch_version'
+    'fetch_status'
+    'fetch_push_status'
+    'fetch_upstream_icon'
+    'fetch_bare_info'
+    'fetch_user'
+    'fetch_worktree_count'
+    'fetch_ahead_counter'
+    'ahead_icon'
+)
 
 function Resolve-RepoPath {
     param([Parameter(Mandatory)][string]$Path)
@@ -244,6 +256,19 @@ foreach ($file in $files) {
 
         # Segment hygiene checks
         $segments = Get-AllSegments $theme
+
+        foreach ($segment in $segments) {
+            $options = Get-SegmentOptions $segment
+            if ($null -eq $options) { continue }
+
+            $obsoleteOptions = @($ObsoleteFetchOptions | Where-Object {
+                    $options.PSObject.Properties.Name -contains $_
+                })
+            if ($obsoleteOptions.Count -gt 0) {
+                $segmentName = if ($segment.alias) { [string]$segment.alias } else { Get-SegmentTypeLower $segment }
+                $errors.Add("Segment '$segmentName' uses obsolete pre-v31 fetch option(s): $($obsoleteOptions -join ', ').") | Out-Null
+            }
+        }
 
         $themeLeaf = Split-Path -Path $file -Leaf
         if ($themeLeaf -eq 'OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json') {

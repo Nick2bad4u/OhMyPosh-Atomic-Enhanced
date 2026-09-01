@@ -4,7 +4,7 @@
 
 .DESCRIPTION
     This script finds all custom-generated theme files (excluding official themes),
-    generates SVG preview images using Oh My Posh v30 or later, saves them to an assets
+    generates SVG preview images using Oh My Posh v31 or later, saves them to an assets
     folder, and automatically updates the README.md with a beautiful gallery.
 
 .PARAMETER ThemePattern
@@ -12,7 +12,7 @@
 
 .PARAMETER ImageSettings
     Path to repository-owned SVG settings JSON. Supported keys map to documented
-    Oh My Posh v30 image flags; the file is never passed through --settings.
+    Oh My Posh v31 image flags; the file is never passed through --settings.
     Default: "image.settings.json"
 
 .PARAMETER OutputDirectory
@@ -46,7 +46,7 @@
 
 .NOTES
     Author: GitHub Copilot
-    Requires: Oh My Posh v30.0.0 or later installed and in PATH
+    Requires: Oh My Posh v31.0.0 or later installed and in PATH
 #>
 
 [CmdletBinding()]
@@ -217,7 +217,7 @@ function ConvertTo-PreviewSettingArgument {
             -not $definitions.Contains($_) -and $_ -notin $generatorSettings
         })
     if ($unknownKeys.Count -gt 0) {
-        throw "Unsupported preview setting(s): $($unknownKeys -join ', '). Use only Oh My Posh v30 SVG flag mappings."
+        throw "Unsupported preview setting(s): $($unknownKeys -join ', '). Use only Oh My Posh v31 SVG flag mappings."
     }
 
     $arguments = [System.Collections.Generic.List[string]]::new()
@@ -402,7 +402,7 @@ Write-Header '🎨 Oh My Posh Theme Preview Generator'
 # Verify oh-my-posh is installed
 Write-Step 'Checking oh-my-posh installation...'
 if (-not (Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
-    throw 'oh-my-posh was not found in PATH. Install v30.0.0 or later.'
+    throw 'oh-my-posh was not found in PATH. Install v31.0.0 or later.'
 }
 
 $global:LASTEXITCODE = 0
@@ -412,13 +412,13 @@ if ($ompVersionExitCode -ne 0 -or $ompVersionText -notmatch '(?<version>\d+\.\d+
     throw "Unable to determine the installed Oh My Posh version from '$ompVersionText'."
 }
 $ompVersion = [version]$Matches.version
-$minimumOmpVersion = [version]'30.0.0'
+$minimumOmpVersion = [version]'31.0.0'
 if ($ompVersion -lt $minimumOmpVersion) {
     throw "Oh My Posh v$minimumOmpVersion or later is required for SVG previews; found v$ompVersion."
 }
 Write-Success "Oh My Posh v$ompVersion detected"
 
-# Translate repository-owned settings into documented Oh My Posh v30 flags.
+# Translate repository-owned settings into documented Oh My Posh v31 flags.
 $previewSettings = ConvertTo-PreviewSettingArgument -Path $ImageSettings
 $imageSettingsParam = @($previewSettings.Arguments)
 $terminalWidthOverrides = $previewSettings.TerminalWidthOverrides

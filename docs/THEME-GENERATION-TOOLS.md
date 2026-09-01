@@ -54,7 +54,7 @@ All PowerShell helper scripts live in the **`scripts/`** directory of the reposi
 | **scripts/Make-ColorCycleVariant.ps1** | Generate a synchronized ColorCycle helper | Atomic Custom or ExperimentalDividers root + cycle definition | Complete root helper |
 | **scripts/Make-GradientVariant.ps1** | Generate connected two-stop native gradients | ExperimentalDividers root + gradient definition | Complete root helper |
 | **scripts/Make-GradientRampsVariant.ps1** | Generate connected gradients with position-matched full-block ramps | ExperimentalDividers root + ramp definition | Complete root helper |
-| **scripts/Make-GradientRampsAutoShadeVariant.ps1** | Add v30 automatic shading to independent entries while retaining connected ramps | ExperimentalDividers root + auto-shade ramp definition | Complete root helper |
+| **scripts/Make-GradientRampsAutoShadeVariant.ps1** | Add automatic shading to independent entries while retaining connected ramps | ExperimentalDividers root + auto-shade ramp definition | Complete root helper |
 | **scripts/New-ThemeWithPalette.ps1** | Create one palette extension | Root theme + palette | Small .json overlay |
 | **scripts/cycle-themes.ps1** | Cycle through themes | Theme folder | Activates one at a time |
 | **scripts/Merge-OhMyPoshThemes.ps1** | Merge multiple themes | Theme files | Merged theme |
@@ -399,7 +399,7 @@ pwsh ./scripts/Test-PaletteVisualQuality.ps1
 
 ### Generate-ThemePreviews.ps1
 
-Creates deterministic SVG previews with Oh My Posh v30 or later.
+Creates deterministic SVG previews with Oh My Posh v31 or later.
 
 #### Usage
 
@@ -409,7 +409,7 @@ pwsh ./scripts/Generate-ThemePreviews.ps1 -Force
 
 The generator requires the sanitized recorded-v1 `theme-preview.data.json` fixture and always passes both `--data` and `--data-only`. Every palette therefore renders with the same shell, repository, Git, system, battery, weather, and runtime state without probing the live machine, filesystem, Git repository, or network. It writes SVGs to `assets/theme-previews/`, removes a theme's superseded PNG only after its SVG succeeds, and refreshes the README gallery.
 
-`image.settings.json` is repository-owned generator configuration; it is not passed to Oh My Posh through the removed `--settings` flag. Supported keys map directly to v30 SVG export flags:
+`image.settings.json` is repository-owned generator configuration; it is not passed to Oh My Posh through the removed `--settings` flag. Supported keys map directly to v31 SVG export flags:
 
 | Setting | Oh My Posh flag | Purpose |
 | --- | --- | --- |
@@ -782,7 +782,7 @@ Oh My Posh collapses a two-stop gradient below four visible cells to its configu
 
 Because Oh My Posh does not support gradients on `interactive: true` segments, the generated variant makes `path-lprompt` and `git-lprompt` non-interactive; the canonical source is not changed. Tooltips remain solid because they do not form a dependable adjacent-segment chain.
 
-Oh My Posh 29.36.0 or newer is required.
+The repository baseline of Oh My Posh v31.0.0 or newer is required.
 
 ```powershell
 .\scripts\Make-GradientVariant.ps1
@@ -806,12 +806,12 @@ oh-my-posh init pwsh --config .\OhMyPosh-Atomic-Custom-ExperimentalDividers.Grad
 
 ### Make-GradientRampsAutoShadeVariant.ps1
 
-Generates `OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json` through the shared Gradient generator. It retains the nine connected six-cell ramps, but uses Oh My Posh v30 `dark-gradient(color)` backgrounds for the shell, npm right-prompt, and separate right-block entries. These are the three places where `parentBackground` cannot provide a dependable preceding rendered color. All following segments continue to use `linear-gradient(parentBackground, ...)`, so their first stop resolves from the previous segment's final rendered stop.
+Generates `OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json` through the shared Gradient generator. It retains the nine connected six-cell ramps, but uses `dark-gradient(color)` backgrounds for the shell, npm right-prompt, and separate right-block entries. These are the three places where `parentBackground` cannot provide a dependable preceding rendered color. All following segments continue to use `linear-gradient(parentBackground, ...)`, so their first stop resolves from the previous segment's final rendered stop.
 
 ```powershell
 .\scripts\Make-GradientRampsAutoShadeVariant.ps1
 
-# Test it in the current PowerShell session (Oh My Posh v30.0.0+)
+# Test it in the current PowerShell session (Oh My Posh v31.0.0+)
 oh-my-posh init pwsh --config .\OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json | Invoke-Expression
 ```
 

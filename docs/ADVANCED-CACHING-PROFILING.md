@@ -125,12 +125,13 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
   "strategy": "folder",
   "duration": "5m"
  },
- "properties": {
-  "fetch_status": true // This is slow, cache it
- },
+ "style": "plain",
+ "template": " {{ .HEAD }}{{ if .Working.Changed }} {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} {{ .Staging.String }}{{ end }} ",
  "type": "git"
 }
 ```
+
+The `.Working` and `.Staging` references trigger local-status collection under Oh My Posh v31; the folder cache amortizes that cost.
 
 ---
 
@@ -242,13 +243,12 @@ C:\Users\{User}\AppData\Local\oh-my-posh\cache
     },
     {
      "type": "git",
+     "style": "plain",
      "cache": {
       "strategy": "folder",
       "duration": "5m"
      },
-     "properties": {
-      "fetch_status": true // This is what's slow
-     }
+     "template": " {{ .HEAD }}{{ if .Working.Changed }} {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} {{ .Staging.String }}{{ end }} "
     },
     {
      "type": "node",
@@ -529,7 +529,7 @@ Compare-Performance -OldConfig "my-theme.json" -NewConfig "my-theme-optimized.js
 
 **Problem:** Large git repo, every prompt takes 500ms
 
-**Root Cause:** `fetch_status: true` on large repository
+**Root Cause:** The Git template references local-status and upstream fields in a large repository
 
 **Solution:**
 
@@ -537,19 +537,15 @@ Compare-Performance -OldConfig "my-theme.json" -NewConfig "my-theme-optimized.js
 // BEFORE: Slow
 {
   "type": "git",
-  "properties": {
-    "fetch_status": true,  // Checks all changes - SLOW!
-    "fetch_upstream_icon": true
-  }
+  "style": "plain",
+  "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} {{ .Staging.String }}{{ end }} "
 }
 
 // AFTER: Fast
 {
   "type": "git",
-  "properties": {
-    "fetch_status": false,  // Skip detailed check
-    "fetch_upstream_icon": false
-  },
+  "style": "plain",
+  "template": " {{ .HEAD }} ",
   "cache": {
     "strategy": "folder",
     "duration": "10m"
@@ -612,8 +608,9 @@ Compare-Performance -OldConfig "my-theme.json" -NewConfig "my-theme-optimized.js
     },
     {
      "type": "git",
+     "style": "plain",
      "cache": { "strategy": "folder", "duration": "5m" },
-     "properties": { "fetch_status": false }
+     "template": " {{ .HEAD }} "
     },
     {
      "type": "status",
@@ -707,12 +704,15 @@ oh-my-posh cache clean
 
 ```json
 {
+ "type": "git",
+ "style": "plain",
  "cache": {
   "strategy": "folder",
   "duration": "60m"
- }
+ },
+ "template": " {{ .HEAD }} "
 }
-// + Disable fetch_status and fetch_upstream_icon
+// Keep only .HEAD to skip optional Git probes
 // Performance: 10-15ms
 ```
 
@@ -754,7 +754,7 @@ oh-my-posh cache clean
 
 ### Performance Tips
 
-1. Use `fetch_status: false` for large repos
+1. Use an `.HEAD`-only Git template when large repos do not need status or upstream details
 2. Cache git status for 5-10 minutes
 3. Session cache for shell/static info
 4. Folder cache for git/version info

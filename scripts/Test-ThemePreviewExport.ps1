@@ -1,6 +1,6 @@
 ﻿<#
 .SYNOPSIS
-Smoke-tests deterministic Oh My Posh v30 SVG preview generation.
+Smoke-tests deterministic Oh My Posh v31 SVG preview generation.
 
 .DESCRIPTION
 Runs the repository preview generator against all three gradient variants and two
@@ -8,14 +8,14 @@ generated extends overlays, then validates the resulting SVG documents. The
 test writes only to a uniquely named system temporary directory and removes it.
 
 .PARAMETER MinimumOhMyPoshVersion
-Minimum supported Oh My Posh CLI version. The CI workflow installs the exact
-v30.0.0 release before invoking this test.
+Minimum supported Oh My Posh CLI version. The CI workflow installs a verified
+v31 release before invoking this test.
 #>
 
 [CmdletBinding()]
 param(
     [Parameter()]
-    [version]$MinimumOhMyPoshVersion = '30.0.0',
+    [version]$MinimumOhMyPoshVersion = '31.0.0',
 
     [Parameter()]
     [ValidateRange(1, 10000)]
@@ -183,7 +183,7 @@ try {
 
         $fontFamily = [string]$document.DocumentElement.GetAttribute('font-family')
         if ($fontFamily -notmatch 'CodeNewRoman Nerd Font Mono') {
-            throw "$name did not receive the configured v30 --font-family value."
+            throw "$name did not receive the configured v31 --font-family value."
         }
 
         $width = [double]::Parse(
@@ -199,13 +199,13 @@ try {
         }
         $expectedSvgWidth = 32 + ([double]$expectedPreviews[$name] * 16 * [double]$settings.cell_width)
         if ([math]::Abs($width - $expectedSvgWidth) -gt 0.02) {
-            throw "$name did not receive the configured v30 --terminal-width and --cell-width values."
+            throw "$name did not receive the configured v31 --terminal-width and --cell-width values."
         }
 
         $svgText = Get-Content -LiteralPath $path -Raw
         $backgroundPattern = 'class="omp-window-content"\s+fill="{0}"' -f [regex]::Escape([string]$settings.background_color)
         if ($svgText -notmatch $backgroundPattern) {
-            throw "$name did not receive the configured v30 --background-color value."
+            throw "$name did not receive the configured v31 --background-color value."
         }
     }
 

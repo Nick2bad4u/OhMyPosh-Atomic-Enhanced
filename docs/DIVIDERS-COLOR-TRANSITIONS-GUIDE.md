@@ -1549,7 +1549,7 @@ Or truncate paths:
 
 #### 3. Native Gradients with Dividers
 
-Oh My Posh 29.36.0 and newer supports explicit two-stop gradients:
+The repository baseline of Oh My Posh v31.0.0 and newer supports explicit two-stop gradients:
 
 ```json
 "background": "linear-gradient(parentBackground, p:orange)"
@@ -1584,7 +1584,7 @@ The separate GradientRamps variant retains one endpoint from each divider run an
 
 The first block inherits the previous segment's final stop and the sixth reaches the ramp's target color. Within a gradient segment, the `background` foreground keyword resolves to the gradient color at that text position. The full blocks therefore occupy stable terminal cells while visually merging into their backgrounds, preserving the transition without the original Powerline glyph or a contrasting foreground texture.
 
-GradientRampsAutoShade keeps the same connected ramps and uses Oh My Posh v30 `dark-gradient(color)` at the shell, npm right-prompt, and separate right-block entries. Those independent entries do not have a dependable preceding active background; every subsequent segment still begins with `parentBackground` so it connects to the final stop rendered immediately before it.
+GradientRampsAutoShade keeps the same connected ramps and uses `dark-gradient(color)` at the shell, npm right-prompt, and separate right-block entries. Those independent entries do not have a dependable preceding active background; every subsequent segment still begins with `parentBackground` so it connects to the final stop rendered immediately before it.
 
 Gradients cannot run on segments with `interactive: true`. All generated ExperimentalDividers gradient variants therefore make only their path and Git segments non-interactive and leave standalone tooltips solid. The canonical theme keeps its original interactive behavior.
 

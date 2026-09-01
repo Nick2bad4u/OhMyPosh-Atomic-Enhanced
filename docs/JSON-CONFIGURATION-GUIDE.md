@@ -249,17 +249,18 @@ Theme Root
   "duration": "5m"
  },
  "foreground": "p:black",
- "properties": {
-  "fetch_status": true,
-  "fetch_upstream_icon": false,
-  "branch_max_length": 25
+ "options": {
+  "branch_template": "{{ trunc 25 .Branch }}"
  },
- "template": " {{ if .UpstreamIcon }}{{ .UpstreamIcon }} {{ end }}{{ .Branch }}{{ if .BranchStatus }} ({{ .BranchStatus }}){{ end }} ",
+ "style": "powerline",
+ "template": " {{ if .UpstreamIcon }}{{ .UpstreamIcon }} {{ end }}{{ .HEAD }}{{ if .BranchStatus }} ({{ .BranchStatus }}){{ end }}{{ if .Working.Changed }} {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} {{ .Staging.String }}{{ end }} ",
  "type": "git"
 }
 ```
 
 **When to use:** Git-heavy workflows, showing branch status
+
+Under Oh My Posh v31, these template fields are also the fetch controls: remove `.Working`/`.Staging`, `.BranchStatus`, or `.UpstreamIcon` when that data is not needed.
 
 ---
 
@@ -596,9 +597,9 @@ VS Code has built-in JSON validation:
      "type": "git",
      "background": "p:yellow_warn",
      "foreground": "p:black",
-     "template": " {{ .Branch }} ",
-     "cache": { "strategy": "folder", "duration": "5m" },
-     "properties": { "fetch_status": false }
+     "style": "plain",
+     "template": " {{ .HEAD }} ",
+     "cache": { "strategy": "folder", "duration": "5m" }
     },
     {
      "type": "status",

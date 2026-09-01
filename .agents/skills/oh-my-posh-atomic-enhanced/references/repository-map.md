@@ -24,7 +24,7 @@ Atomic Custom also has a generated ColorCycle helper. A canonical ExperimentalDi
 
 - `scripts/Generate-ThemePreviews.ps1` discovers root JSON themes by parsed `blocks` or `extends` structure and includes every generated family overlay.
 - `theme-preview.data.json` is sanitized recorded v1 segment data passed through Oh My Posh `--data-only` rendering.
-- `image.settings.json` maps repository preview settings to supported Oh My Posh v30 image flags.
+- `image.settings.json` maps repository preview settings to supported Oh My Posh v31 image flags.
 - `assets/theme-previews/*.svg` and the README gallery are generated together.
 - `scripts/Test-ThemePreviewExport.ps1` smoke-tests representative runtime exports, SVG settings, committed gallery coverage, root-theme coverage, and README-to-asset parity.
 
@@ -35,7 +35,7 @@ Do not restore legacy gallery PNGs or manually tune individual generated SVG fil
 - `scripts/Test-Themes.ps1`: JSON, template, source, overlay, and repository theme invariants; add `-IncludeGenerated` after generation changes.
 - `scripts/Pre-Upload-Validation.ps1`: focused upload/readiness checks.
 - `scripts/Validate-Palette.ps1`: palette references and theme palette validation.
-- `scripts/Test-ThemePreviewExport.ps1`: Oh My Posh v30 SVG preview and committed-gallery contract.
+- `scripts/Test-ThemePreviewExport.ps1`: Oh My Posh v31 SVG preview and committed-gallery contract.
 - `.github/workflows/theme-tests.yml`: installs a checksum-verified Oh My Posh binary and runs the broad theme and preview gates.
 - `.codex/config.toml`: enables the official Oh My Posh validator MCP for config and segment schema checks.
 

@@ -128,10 +128,10 @@ Quick fixes:
    "cache": {"strategy": "folder", "duration": "5m"}
    ```
 
-2. Disable `fetch_status`:
+2. Use a lightweight Git template:
 
    ```json
-   "properties": {"fetch_status": false}
+   { "style": "plain", "template": " {{ .HEAD }} ", "type": "git" }
    ```
 
 3. Remove unnecessary segments
@@ -143,8 +143,10 @@ Quick fixes:
 1. **Disable status checking entirely:**
 
    ```json
-   { "properties": { "fetch_status": false }, "type": "git" }
+   { "style": "plain", "template": " {{ .HEAD }} ", "type": "git" }
    ```
+
+   Oh My Posh v31 derives Git probes from the fields referenced by templates. `.HEAD` alone avoids local-status, ahead/behind, upstream, and worktree-count probes.
 
 2. **Cache aggressively:**
 
@@ -479,13 +481,13 @@ If using git worktrees:
 
 ```json
 {
- "properties": {
-  "fetch_worktree_count": true
- },
- "template": "{{ .Branch }} ({{ .WorktreeCount }} worktrees)",
+ "style": "plain",
+ "template": "{{ .HEAD }} ({{ .WorktreeCount }} worktrees)",
  "type": "git"
 }
 ```
+
+Referencing `.WorktreeCount` enables worktree counting automatically.
 
 ---
 
@@ -623,7 +625,7 @@ git commit -m "Backup custom theme configuration"
 | Wrong colors | Terminal scheme mismatch | Change terminal theme |
 | Boxes instead of icons | No Nerd Font | Install from nerdfonts.com |
 | Theme not applying | Not initialized | Run `& $profile` |
-| Git status missing | `fetch_status: false` | Set to `true` |
+| Git status missing | Template does not reference `.Working` or `.Staging` | Add the status fields you want to display |
 | Colors flickering | Frequent refreshes | Increase cache duration |
 | Wrapping text | Too many segments | `max_depth: 2` on path |
 
@@ -637,7 +639,7 @@ Issue: Prompt looks wrong
     │   └─→ Colors wrong? → Change terminal scheme
     │
     ├─→ Information missing?
-    │   ├─→ Git missing? → Check fetch_status
+    │   ├─→ Git missing? → Check the Git template fields
     │   └─→ Version missing? → Enable version segment
     │
     └─→ Performance poor?
@@ -666,7 +668,7 @@ Issue: Prompt looks wrong
 **Disable git status checking:**
 
 ```json
-{ "properties": { "fetch_status": false }, "type": "git" }
+{ "style": "plain", "template": " {{ .HEAD }} ", "type": "git" }
 ```
 
 **Add spacing between segments:**

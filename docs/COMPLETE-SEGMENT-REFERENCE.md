@@ -153,33 +153,27 @@ Displays git repository information and status.
 {
  "background": "p:yellow_bright",
  "foreground": "p:black",
- "properties": {
-  "fetch_status": true,
-  "fetch_upstream_icon": true,
-  "branch_max_length": 25,
-  "truncation_symbol": "…",
-  "windows_registry": false,
-  "fetch_worktree_count": false
+ "options": {
+  "branch_template": "{{ trunc 25 .Branch }}"
  },
- "template": " {{ .Branch }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }} ",
+ "style": "powerline",
+ "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} {{ .Staging.String }}{{ end }} ",
  "type": "git"
 }
 ```
 
 **Variables:**
 
-- `{{ .Branch }}` - Current branch name
-- `{{ .UpstreamIcon }}` - Upstream status (↑↓)
-- `{{ .BranchStatus }}` - Local changes (+~-?/)
-- `{{ .RepositoryStatus }}` - Repo-wide status
-- `{{ .Detached }}` - 1 if in detached HEAD
-- `{{ .Error }}` - Error message if any
+- `{{ .HEAD }}` - Formatted branch, tag, or detached-HEAD context
+- `{{ .UpstreamIcon }}` - Icon derived from the upstream remote
+- `{{ .BranchStatus }}` - Ahead/behind relationship to the upstream branch
+- `{{ .Working }}` - Unstaged and untracked worktree status
+- `{{ .Staging }}` - Staged status
+- `{{ .WorktreeCount }}` - Number of linked Git worktrees
 
-**Properties:**
+**Fetching behavior:**
 
-- `fetch_status`: Boolean - Check local changes (slow in large repos)
-- `fetch_upstream_icon`: Boolean - Show upstream indicators
-- `branch_max_length`: Number - Truncate long branch names
+Oh My Posh v31 fetches optional Git data only when a template references the corresponding field. For example, `.Working` or `.Staging` enables local-status collection, `.BranchStatus` enables ahead/behind data, `.UpstreamIcon` enables upstream metadata, and `.WorktreeCount` enables worktree counting. Use `branch_template` to format or truncate the branch name.
 
 **Common Uses:**
 
@@ -727,7 +721,8 @@ function Convert-RGBToHex {
     { "type": "path" },
     {
      "type": "git",
-     "properties": { "fetch_status": false },
+     "style": "plain",
+     "template": " {{ .HEAD }} ",
      "cache": { "strategy": "folder", "duration": "5m" }
     },
     { "type": "status" }
@@ -843,15 +838,17 @@ function Convert-RGBToHex {
 
 ```json
 {
+ "type": "git",
+ "style": "plain",
  "cache": {
   "strategy": "folder",
   "duration": "5m" // Cache for 5 minutes
  },
- "properties": {
-  "fetch_status": false // Don't fetch git status
- }
+ "template": " {{ .HEAD }} "
 }
 ```
+
+The `.HEAD`-only template avoids status and upstream probes. Add `.Working`, `.Staging`, `.BranchStatus`, or `.UpstreamIcon` only when that information is worth its runtime cost.
 
 ---
 
@@ -861,7 +858,7 @@ function Convert-RGBToHex {
 | --- | --- | --- |
 | Show shell name | `shell` | — |
 | Show directory | `path` | `max_depth` |
-| Show git info | `git` | `fetch_status` |
+| Show git info | `git` | Template fields such as `.HEAD`, `.Working`, and `.BranchStatus` |
 | Show success/fail | `status` | `always_show` |
 | Show time | `time` | `time_format` |
 | Show version | `node | python | etc` | — |

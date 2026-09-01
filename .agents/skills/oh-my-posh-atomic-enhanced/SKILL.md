@@ -1,6 +1,6 @@
 ---
 name: oh-my-posh-atomic-enhanced
-description: "Maintains and validates canonical themes, ExperimentalDividers variants, palette overlays, v30 SVG previews, PowerShell generators, and CI in the OMP Atomic Enhanced repository. Use this skill when the user requests repository theme, generator, palette, preview, or workflow changes."
+description: "Maintains and validates canonical themes, ExperimentalDividers variants, palette overlays, v31 SVG previews, PowerShell generators, and CI in the OMP Atomic Enhanced repository. Use this skill when the user requests repository theme, generator, palette, preview, or workflow changes."
 ---
 
 # Oh My Posh Atomic Enhanced
@@ -51,7 +51,7 @@ For schema questions, use the configured `oh-my-posh-validator` MCP when availab
 
 Use `validation-tools` on `generated-artifacts`: run the focused gate first, then widen according to [references/workflows.md](references/workflows.md) and record `validation-results`. Always finish with `git diff --check`. Review generated diffs for unexpected structure, palette, filename, preview-width, and README-gallery churn.
 
-When Oh My Posh behavior or CLI flags are version-sensitive, verify against the installed CLI and current official documentation. The preview pipeline requires Oh My Posh v30.0.0 or later and exports deterministic SVG from recorded data.
+When Oh My Posh behavior or CLI flags are version-sensitive, verify against the installed CLI and current official documentation. The repository and preview pipeline require Oh My Posh v31.0.0 or later and export deterministic SVG from recorded data.
 
 ## Handoff boundaries
 

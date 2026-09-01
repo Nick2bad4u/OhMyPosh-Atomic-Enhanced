@@ -166,25 +166,22 @@ Shows git status with detailed information.
 {
  "background": "p:yellow_bright",
  "foreground": "p:black",
- "properties": {
-  "fetch_status": true,
-  "fetch_upstream_icon": true,
-  "branch_max_length": 25,
-  "truncation_symbol": "…",
-  "fetch_worktree_count": false,
-  "windows_registry": false
+ "options": {
+  "branch_template": "{{ trunc 25 .Branch }}"
  },
  "style": "powerline",
- "template": " {{ .Branch }} ",
+ "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} {{ .Staging.String }}{{ end }} ",
  "type": "git"
 }
 ```
+
+Oh My Posh v31 derives Git probes from referenced template fields. `.Working` and `.Staging` request local status, `.BranchStatus` requests ahead/behind data, and `.UpstreamIcon` requests upstream metadata. Remove fields you do not want fetched.
 
 **Advanced Git Template:**
 
 ```json
 {
- "template": "{{ if .UpstreamIcon }}{{ .UpstreamIcon }} {{ end }}{{ .Branch }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .RepositoryStatus }} {{ .RepositoryStatus }}{{ end }}"
+ "template": "{{ if .UpstreamIcon }}{{ .UpstreamIcon }} {{ end }}{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} {{ .Staging.String }}{{ end }}"
 }
 ```
 
@@ -262,14 +259,13 @@ Display runtime versions for Node, Python, etc.
   "duration": "5m"
  },
  "foreground": "p:black",
- "properties": {
-  "fetch_version": true
- },
  "style": "powerline",
  "template": " ⬢ {{ .Full }} ",
  "type": "node"
 }
 ```
+
+Under v31, the `.Full` reference requests the runtime version. Remove version fields from the template when only an icon or context indicator is needed.
 
 ---
 
@@ -847,20 +843,21 @@ Use palette colors consistently:
 
 ### 3. Performance First
 
-Cache aggressively and consider disabling optional segments:
+Cache aggressively and keep expensive data fields out of templates that do not display them:
 
 ```json
 {
+ "type": "git",
  "cache": {
   "strategy": "folder",
   "duration": "5m"
  },
- "properties": {
-  "fetch_status": true, // Only when needed
-  "fetch_upstream_icon": false // Optional detail
- }
+ "style": "plain",
+ "template": " {{ .HEAD }} "
 }
 ```
+
+This lightweight v31 Git template omits local-status, ahead/behind, upstream, user, bare-repository, and worktree-count fields, so their optional probes are skipped.
 
 ### 4. Readability
 

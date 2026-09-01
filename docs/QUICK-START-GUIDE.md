@@ -334,13 +334,13 @@ You can customize:
   {
    "type": "git",
    "style": "powerline",
-   "properties": {
-    "fetch_status": true
-   }
+   "template": " {{ .HEAD }}{{ if .Working.Changed }} {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} {{ .Staging.String }}{{ end }} "
   }
  ]
 }
 ```
+
+In Oh My Posh v31, referencing `.Working` and `.Staging` in the template enables Git status collection automatically.
 
 Learn more in [ADVANCED-CUSTOMIZATION-GUIDE.md](./ADVANCED-CUSTOMIZATION-GUIDE.md)
 

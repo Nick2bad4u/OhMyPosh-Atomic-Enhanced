@@ -4,7 +4,7 @@ Creates the standalone ExperimentalDividers GradientRampsAutoShade variant.
 
 .DESCRIPTION
 Uses Make-GradientVariant.ps1 with the GradientRampsAutoShade definition. It
-retains the connected two-stop divider ramps and uses Oh My Posh v30 automatic
+retains the connected two-stop divider ramps and uses automatic
 dark gradients for independent prompt-block entries that cannot inherit a
 parent background.
 

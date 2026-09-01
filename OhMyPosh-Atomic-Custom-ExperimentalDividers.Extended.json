@@ -296,11 +296,6 @@
             "codecommit_icon": "",
             "commit_icon": "",
             "disable_with_jj": false,
-            "fetch_bare_info": true,
-            "fetch_push_status": true,
-            "fetch_status": true,
-            "fetch_upstream_icon": true,
-            "fetch_user": true,
             "git_icon": "",
             "github_icon": "",
             "gitlab_icon": "",
@@ -765,7 +760,6 @@
           "min_width": 80,
           "options": {
             "display_mode": "context",
-            "fetch_version": true,
             "home_enabled": false,
             "missing_command_text": "",
             "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
@@ -796,7 +790,6 @@
             "bun_icon": "",
             "display_mode": "context",
             "fetch_package_manager": true,
-            "fetch_version": true,
             "home_enabled": false,
             "missing_command_text": "",
             "npm_icon": "",
@@ -832,7 +825,6 @@
               "venv"
             ],
             "display_mode": "context",
-            "fetch_version": true,
             "fetch_virtual_env": true,
             "folder_name_fallback": true,
             "home_enabled": false,
@@ -869,7 +861,6 @@
           "min_width": 80,
           "options": {
             "display_mode": "context",
-            "fetch_version": true,
             "home_enabled": false,
             "missing_command_text": "",
             "version_url_template": "https://api.adoptium.net/v3/info/release_names?version={{ .Major }}&os={{ .OS }}&arch={{ .Arch }}&image_type=jdk&jvm_impl=hotspot&vendor=eclipse"
@@ -890,9 +881,6 @@
           "alias": "svn-rprompt",
           "background": "p:blue_tooltip",
           "foreground": "p:navy_text",
-          "options": {
-            "fetch_status": true
-          },
           "template": " <b> SVN {{ .Branch }} • r{{ .BaseRev }}{{ if .Working.Changed }} {{ .Working.String }}{{ end }}</b> ",
           "type": "svn"
         },
@@ -906,9 +894,6 @@
           "alias": "sapling-rprompt",
           "background": "p:green_valid_line",
           "foreground": "p:white",
-          "options": {
-            "fetch_status": true
-          },
           "template": " <b>{{ if .Bookmark }} {{ .Bookmark }}{{ else }} {{ .ShortHash }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}</b> ",
           "type": "sapling"
         },
@@ -925,9 +910,6 @@
             "{{ if and .Changed .Behind }}p:red_alert{{ else if .Changed }}p:orange_warning{{ else if .Behind }}p:purple_behind{{ else }}p:tooling_purple{{ end }}"
           ],
           "foreground": "p:white",
-          "options": {
-            "fetch_status": true
-          },
           "template": " <b>󰘬 Plastic {{ .Selector }}{{ if .Status.Changed }}  {{ .Status.String }}{{ end }}{{ if .Behind }} ⇣{{ end }}</b> ",
           "type": "plastic"
         },
@@ -942,7 +924,6 @@
           "background": "p:tooling_yellow",
           "foreground": "p:navy_text",
           "options": {
-            "fetch_status": true,
             "native_fallback": false
           },
           "template": " <b> hg {{ .Branch }}{{ if .LocalCommitNumber }} ({{ .LocalCommitNumber }}:{{ .ChangeSetIDShort }}){{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}</b> ",
@@ -959,12 +940,9 @@
           "background": "p:purple_exec",
           "foreground": "p:white",
           "options": {
-            "fetch_status": true,
-            "ignore_working_copy": false,
-            "fetch_ahead_counter": true,
-            "ahead_icon": "⇡"
+            "ignore_working_copy": false
           },
-          "template": " <b>󰘬 jj {{ .ChangeID }}{{ if .ClosestBookmarks }} • {{ .ClosestBookmarks }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}</b> ",
+          "template": " <b>󰘬 jj {{ .ChangeID }}{{ if .ClosestBookmarks }} • {{ .ClosestBookmarks }}{{ if gt .AheadCount 0 }}⇡{{ .AheadCount }}{{ end }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}</b> ",
           "type": "jujutsu"
         },
         {
@@ -2108,11 +2086,10 @@
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "command": "terraform",
-        "fetch_version": true
+        "command": "terraform"
       },
       "style": "diamond",
-      "template": " <b>{{ .WorkspaceName }} 󱁢 Terraform: {{ if .Version }} {{ .Version }}{{ end }}</b> ",
+      "template": " <b>{{ .WorkspaceName }} 󱁢 Terraform{{ if .Version }}: {{ .Version }}{{ end }}</b> ",
       "tips": [
         "opentofu",
         "terraform",
@@ -2135,7 +2112,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Rust: not installed"
       },
@@ -2191,7 +2167,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Go: not installed",
         "parse_go_work_file": true,
@@ -2221,7 +2196,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Angular CLI: not installed"
       },
@@ -2248,7 +2222,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": "󰝴 Nx: not installed"
       },
@@ -2275,7 +2248,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Svelte: not installed"
       },
@@ -2371,7 +2343,6 @@
           "ts",
           "tsx"
         ],
-        "fetch_version": true,
         "home_enabled": false
       },
       "style": "diamond",
@@ -2434,10 +2405,6 @@
         "branch_icon": "  ",
         "branch_template": "<b>{{ $branch := title .Branch }}{{ if gt (len $branch) 24 }}{{ trunc 24 $branch }}…{{ else }}{{ $branch }}{{ end }}</b>",
         "disable_with_jj": false,
-        "fetch_bare_info": true,
-        "fetch_status": true,
-        "fetch_upstream_icon": true,
-        "fetch_user": true,
         "ignore_status": [],
         "ignore_submodules": {},
         "mapped_branches": {
@@ -2497,7 +2464,6 @@
       "min_width": 80,
       "options": {
         "display_mode": "context",
-        "fetch_version": true,
         "home_enabled": false,
         "missing_command_text": "",
         "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
@@ -2535,7 +2501,6 @@
         ],
         "display_default": true,
         "display_mode": "always",
-        "fetch_version": true,
         "fetch_virtual_env": true,
         "folder_name_fallback": true,
         "home_enabled": true,
@@ -2588,7 +2553,6 @@
         "cache_duration": "24h",
         "display_mode": "always",
         "fetch_package_manager": true,
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": ""
       },
@@ -2620,7 +2584,6 @@
         },
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": ""
       },
@@ -3558,7 +3521,6 @@
           "*.js",
           "deno.json"
         ],
-        "fetch_version": true,
         "home_enabled": false,
         "missing_command_text": ""
       },
@@ -3618,7 +3580,6 @@
         "extensions": [
           "tauri.conf.json"
         ],
-        "fetch_version": true,
         "folders": [
           "src-tauri"
         ],
@@ -3655,7 +3616,6 @@
           "package.json",
           "yarn.lock"
         ],
-        "fetch_version": true,
         "home_enabled": false,
         "missing_command_text": ""
       },
@@ -3687,7 +3647,6 @@
           "package.json",
           "pnpm-lock.yaml"
         ],
-        "fetch_version": true,
         "home_enabled": false,
         "missing_command_text": ""
       },
@@ -3719,7 +3678,6 @@
           "bun.lock",
           "bun.lockb"
         ],
-        "fetch_version": true,
         "home_enabled": false,
         "missing_command_text": ""
       },
@@ -3796,7 +3754,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Zig: not installed"
       }
@@ -3823,7 +3780,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Vala: not installed"
       }
@@ -3851,7 +3807,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " V: not installed"
       }
@@ -3880,7 +3835,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Swift: not installed"
       }
@@ -3913,7 +3867,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Ruby: not installed"
       }
@@ -3941,7 +3894,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " R: not installed"
       }
@@ -3971,7 +3923,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " PHP: not installed"
       }
@@ -4000,7 +3951,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Perl: not installed"
       }
@@ -4028,7 +3978,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " OCaml: not installed"
       }
@@ -4056,7 +4005,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Nim: not installed"
       }
@@ -4083,7 +4031,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": "🔥 Mojo: not installed"
       }
@@ -4111,7 +4058,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Lua: not installed"
       }
@@ -4139,7 +4085,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Kotlin: not installed"
       }
@@ -4165,7 +4110,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Julia: not installed"
       }
@@ -4195,7 +4139,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Haskell: not installed"
       }
@@ -4224,7 +4167,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Elixir: not installed"
       }
@@ -4250,7 +4192,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Dart: not installed"
       }
@@ -4277,7 +4218,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Crystal: not installed"
       }
@@ -4306,7 +4246,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Clojure: not installed"
       }
@@ -4352,7 +4291,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Azure Functions: not installed"
       }
@@ -4378,7 +4316,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " CAP CDS: not installed"
       }
@@ -4404,7 +4341,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Cloud Foundry: not installed"
       }
@@ -4491,7 +4427,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": "󰆍 xmake: not installed"
       }
@@ -4556,7 +4491,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " UI5 Tooling: not installed"
       }
@@ -4630,7 +4564,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Quasar: not installed"
       }
@@ -4678,7 +4611,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Maven: not installed"
       }
@@ -4705,7 +4637,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Gradle: not installed"
       }
@@ -4732,7 +4663,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Flutter: not installed"
       }
@@ -4778,7 +4708,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " CMake: not installed"
       }
@@ -4804,7 +4733,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": "🐃 Buf: not installed"
       }
@@ -4831,7 +4759,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Bazel: not installed"
       }
@@ -4858,7 +4785,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": "α Aurelia: not installed"
       }
@@ -4896,7 +4822,6 @@
         "cache_duration": "24h",
         "display_mode": "always",
         "fetch_sdk_version": true,
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": ""
       },

@@ -296,11 +296,6 @@
             "codecommit_icon": "",
             "commit_icon": "",
             "disable_with_jj": false,
-            "fetch_bare_info": true,
-            "fetch_push_status": true,
-            "fetch_status": true,
-            "fetch_upstream_icon": true,
-            "fetch_user": true,
             "git_icon": "",
             "github_icon": "",
             "gitlab_icon": "",
@@ -765,7 +760,6 @@
           "min_width": 80,
           "options": {
             "display_mode": "context",
-            "fetch_version": true,
             "home_enabled": false,
             "missing_command_text": "",
             "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
@@ -796,7 +790,6 @@
             "bun_icon": "",
             "display_mode": "context",
             "fetch_package_manager": true,
-            "fetch_version": true,
             "home_enabled": false,
             "missing_command_text": "",
             "npm_icon": "",
@@ -832,7 +825,6 @@
               "venv"
             ],
             "display_mode": "context",
-            "fetch_version": true,
             "fetch_virtual_env": true,
             "folder_name_fallback": true,
             "home_enabled": false,
@@ -869,7 +861,6 @@
           "min_width": 80,
           "options": {
             "display_mode": "context",
-            "fetch_version": true,
             "home_enabled": false,
             "missing_command_text": "",
             "version_url_template": "https://api.adoptium.net/v3/info/release_names?version={{ .Major }}&os={{ .OS }}&arch={{ .Arch }}&image_type=jdk&jvm_impl=hotspot&vendor=eclipse"
@@ -1994,11 +1985,10 @@
       "leading_diamond": "",
       "min_width": 80,
       "options": {
-        "command": "terraform",
-        "fetch_version": true
+        "command": "terraform"
       },
       "style": "diamond",
-      "template": " <b>{{ .WorkspaceName }} 󱁢 Terraform: {{ if .Version }} {{ .Version }}{{ end }}</b> ",
+      "template": " <b>{{ .WorkspaceName }} 󱁢 Terraform{{ if .Version }}: {{ .Version }}{{ end }}</b> ",
       "tips": [
         "opentofu",
         "terraform",
@@ -2021,7 +2011,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Rust: not installed"
       },
@@ -2077,7 +2066,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Go: not installed",
         "parse_go_work_file": true,
@@ -2107,7 +2095,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Angular CLI: not installed"
       },
@@ -2134,7 +2121,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": "󰝴 Nx: not installed"
       },
@@ -2161,7 +2147,6 @@
       "options": {
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": " Svelte: not installed"
       },
@@ -2257,7 +2242,6 @@
           "ts",
           "tsx"
         ],
-        "fetch_version": true,
         "home_enabled": false
       },
       "style": "diamond",
@@ -2320,10 +2304,6 @@
         "branch_icon": "  ",
         "branch_template": "<b>{{ $branch := title .Branch }}{{ if gt (len $branch) 24 }}{{ trunc 24 $branch }}…{{ else }}{{ $branch }}{{ end }}</b>",
         "disable_with_jj": false,
-        "fetch_bare_info": true,
-        "fetch_status": true,
-        "fetch_upstream_icon": true,
-        "fetch_user": true,
         "ignore_status": [],
         "ignore_submodules": {},
         "mapped_branches": {
@@ -2383,7 +2363,6 @@
       "min_width": 80,
       "options": {
         "display_mode": "context",
-        "fetch_version": true,
         "home_enabled": false,
         "missing_command_text": "",
         "version_url_template": "https://registry.npmjs.org/{{ .PackageName }}/latest"
@@ -2421,7 +2400,6 @@
         ],
         "display_default": true,
         "display_mode": "always",
-        "fetch_version": true,
         "fetch_virtual_env": true,
         "folder_name_fallback": true,
         "home_enabled": true,
@@ -2474,7 +2452,6 @@
         "cache_duration": "24h",
         "display_mode": "always",
         "fetch_package_manager": true,
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": ""
       },
@@ -2506,7 +2483,6 @@
         },
         "cache_duration": "24h",
         "display_mode": "always",
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": ""
       },
@@ -3444,7 +3420,6 @@
           "*.js",
           "deno.json"
         ],
-        "fetch_version": true,
         "home_enabled": false,
         "missing_command_text": ""
       },
@@ -3504,7 +3479,6 @@
         "extensions": [
           "tauri.conf.json"
         ],
-        "fetch_version": true,
         "folders": [
           "src-tauri"
         ],
@@ -3541,7 +3515,6 @@
           "package.json",
           "yarn.lock"
         ],
-        "fetch_version": true,
         "home_enabled": false,
         "missing_command_text": ""
       },
@@ -3573,7 +3546,6 @@
           "package.json",
           "pnpm-lock.yaml"
         ],
-        "fetch_version": true,
         "home_enabled": false,
         "missing_command_text": ""
       },
@@ -3605,7 +3577,6 @@
           "bun.lock",
           "bun.lockb"
         ],
-        "fetch_version": true,
         "home_enabled": false,
         "missing_command_text": ""
       },
@@ -3657,7 +3628,6 @@
         "cache_duration": "24h",
         "display_mode": "always",
         "fetch_sdk_version": true,
-        "fetch_version": true,
         "home_enabled": true,
         "missing_command_text": ""
       },

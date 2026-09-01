@@ -18,9 +18,6 @@
           "alias": "svn-rprompt",
           "background": "p:blue_tooltip",
           "foreground": "p:navy_text",
-          "options": {
-            "fetch_status": true
-          },
           "template": " <b> SVN {{ .Branch }} • r{{ .BaseRev }}{{ if .Working.Changed }} {{ .Working.String }}{{ end }}</b> ",
           "type": "svn"
         },
@@ -34,9 +31,6 @@
           "alias": "sapling-rprompt",
           "background": "p:green_valid_line",
           "foreground": "p:white",
-          "options": {
-            "fetch_status": true
-          },
           "template": " <b>{{ if .Bookmark }} {{ .Bookmark }}{{ else }} {{ .ShortHash }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}</b> ",
           "type": "sapling"
         },
@@ -53,9 +47,6 @@
             "{{ if and .Changed .Behind }}p:red_alert{{ else if .Changed }}p:orange_warning{{ else if .Behind }}p:purple_behind{{ else }}p:tooling_purple{{ end }}"
           ],
           "foreground": "p:white",
-          "options": {
-            "fetch_status": true
-          },
           "template": " <b>󰘬 Plastic {{ .Selector }}{{ if .Status.Changed }}  {{ .Status.String }}{{ end }}{{ if .Behind }} ⇣{{ end }}</b> ",
           "type": "plastic"
         },
@@ -70,7 +61,6 @@
           "background": "p:tooling_yellow",
           "foreground": "p:navy_text",
           "options": {
-            "fetch_status": true,
             "native_fallback": false
           },
           "template": " <b> hg {{ .Branch }}{{ if .LocalCommitNumber }} ({{ .LocalCommitNumber }}:{{ .ChangeSetIDShort }}){{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}</b> ",
@@ -87,12 +77,9 @@
           "background": "p:purple_exec",
           "foreground": "p:white",
           "options": {
-            "fetch_status": true,
-            "ignore_working_copy": false,
-            "fetch_ahead_counter": true,
-            "ahead_icon": "⇡"
+            "ignore_working_copy": false
           },
-          "template": " <b>󰘬 jj {{ .ChangeID }}{{ if .ClosestBookmarks }} • {{ .ClosestBookmarks }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}</b> ",
+          "template": " <b>󰘬 jj {{ .ChangeID }}{{ if .ClosestBookmarks }} • {{ .ClosestBookmarks }}{{ if gt .AheadCount 0 }}⇡{{ .AheadCount }}{{ end }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}</b> ",
           "type": "jujutsu"
         },
         {
@@ -160,7 +147,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Zig: not installed"
           }
@@ -184,7 +170,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Vala: not installed"
           }
@@ -208,7 +193,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " V: not installed"
           }
@@ -232,7 +216,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Swift: not installed"
           }
@@ -265,7 +248,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Ruby: not installed"
           }
@@ -289,7 +271,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " R: not installed"
           }
@@ -313,7 +294,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " PHP: not installed"
           }
@@ -337,7 +317,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Perl: not installed"
           }
@@ -361,7 +340,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " OCaml: not installed"
           }
@@ -385,7 +363,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Nim: not installed"
           }
@@ -409,7 +386,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": "🔥 Mojo: not installed"
           }
@@ -433,7 +409,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Lua: not installed"
           }
@@ -457,7 +432,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Kotlin: not installed"
           }
@@ -481,7 +455,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Julia: not installed"
           }
@@ -505,7 +478,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Haskell: not installed"
           }
@@ -529,7 +501,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Elixir: not installed"
           }
@@ -553,7 +524,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Dart: not installed"
           }
@@ -577,7 +547,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Crystal: not installed"
           }
@@ -601,7 +570,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Clojure: not installed"
           }
@@ -642,7 +610,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Azure Functions: not installed"
           }
@@ -666,7 +633,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " CAP CDS: not installed"
           }
@@ -690,7 +656,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Cloud Foundry: not installed"
           }
@@ -768,7 +733,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": "󰆍 xmake: not installed"
           }
@@ -826,7 +790,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " UI5 Tooling: not installed"
           }
@@ -892,7 +855,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Quasar: not installed"
           }
@@ -933,7 +895,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Maven: not installed"
           }
@@ -957,7 +918,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Gradle: not installed"
           }
@@ -981,7 +941,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Flutter: not installed"
           }
@@ -1022,7 +981,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " CMake: not installed"
           }
@@ -1046,7 +1004,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": "🐃 Buf: not installed"
           }
@@ -1070,7 +1027,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": " Bazel: not installed"
           }
@@ -1094,7 +1050,6 @@
           "options": {
             "cache_duration": "24h",
             "display_mode": "always",
-            "fetch_version": true,
             "home_enabled": true,
             "missing_command_text": "α Aurelia: not installed"
           }

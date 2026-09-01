@@ -89,7 +89,7 @@ pwsh ./scripts/Generate-ThemePreviews.ps1 -Force
 pwsh ./scripts/Test-ThemePreviewExport.ps1
 ```
 
-Preview export requires Oh My Posh v30.0.0 or later. It renders deterministic SVG from `theme-preview.data.json` using the repository mapping in `image.settings.json`, covers parsed root theme JSON plus every generated family overlay, and updates the README gallery with the assets.
+Preview export requires Oh My Posh v31.0.0 or later. It renders deterministic SVG from `theme-preview.data.json` using the repository mapping in `image.settings.json`, covers parsed root theme JSON plus every generated family overlay, and updates the README gallery with the assets.
 
 ## Validation
 
