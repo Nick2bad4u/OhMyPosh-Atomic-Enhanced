@@ -189,16 +189,16 @@ function Get-SegmentOption($seg) {
     return $opt
 }
 
-function Assert-TimeoutInRange($value, [string]$label, [ref]$errors) {
-    if ($null -eq $value) { return }
+function Assert-TimeoutInRange($Value, [string]$Label, [ref]$Errors) {
+    if ($null -eq $Value) { return }
     try {
-        $n = [int]$value
+        $n = [int]$Value
         if ($n -lt 250 -or $n -gt 60000) {
-            $errors.Value.Add("$label out of range (250..60000): $n") | Out-Null
+            $Errors.Value.Add("$Label out of range (250..60000): $n") | Out-Null
         }
     }
     catch {
-        $errors.Value.Add("$label is not an integer: $value") | Out-Null
+        $Errors.Value.Add("$Label is not an integer: $Value") | Out-Null
     }
 }
 
@@ -546,7 +546,7 @@ foreach ($file in $files) {
                         $errors.Add('http segment missing timeout/http_timeout') | Out-Null
                     }
                     else {
-                        Assert-TimeoutInRange -value $timeout -label 'http timeout' -errors ([ref]$errors)
+                        Assert-TimeoutInRange -Value $timeout -Label 'http timeout' -Errors ([ref]$errors)
                     }
                 }
 
@@ -555,7 +555,7 @@ foreach ($file in $files) {
                         $errors.Add('ipify segment missing cache.duration') | Out-Null
                     }
                     $timeout = $seg.http_timeout
-                    if ($null -ne $timeout) { Assert-TimeoutInRange -value $timeout -label 'ipify http_timeout' -errors ([ref]$errors) }
+                    if ($null -ne $timeout) { Assert-TimeoutInRange -Value $timeout -Label 'ipify http_timeout' -Errors ([ref]$errors) }
                 }
 
                 'owm' {
@@ -564,7 +564,7 @@ foreach ($file in $files) {
                     if ($opt -and $opt.api_key -and ([string]$opt.api_key -notmatch '\.Env\.')) {
                         $errors.Add('owm api_key is present but does not appear to come from env vars (expected .Env.*).') | Out-Null
                     }
-                    if ($null -ne $opt.http_timeout) { Assert-TimeoutInRange -value $opt.http_timeout -label 'owm http_timeout' -errors ([ref]$errors) }
+                    if ($null -ne $opt.http_timeout) { Assert-TimeoutInRange -Value $opt.http_timeout -Label 'owm http_timeout' -Errors ([ref]$errors) }
                 }
 
                 'lastfm' {
@@ -574,7 +574,7 @@ foreach ($file in $files) {
                     if ($opt -and $opt.username -and ([string]$opt.username -notmatch '\.Env\.')) {
                         $errors.Add('lastfm username is present but does not appear to come from env vars (expected .Env.*).') | Out-Null
                     }
-                    if ($null -ne $opt.http_timeout) { Assert-TimeoutInRange -value $opt.http_timeout -label 'lastfm http_timeout' -errors ([ref]$errors) }
+                    if ($null -ne $opt.http_timeout) { Assert-TimeoutInRange -Value $opt.http_timeout -Label 'lastfm http_timeout' -Errors ([ref]$errors) }
                 }
 
                 'strava' {

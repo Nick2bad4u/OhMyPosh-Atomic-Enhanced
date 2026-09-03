@@ -50,6 +50,52 @@ function Test-IsLiteralOAuthCredential {
         $Value -notmatch '^\{\{\s*\.Env\.[A-Za-z_][A-Za-z0-9_]*\s*\}\}$'
 }
 
+function Get-OAuthScanMember {
+    [CmdletBinding()]
+    [OutputType([pscustomobject])]
+    param(
+        [Parameter()]
+        [AllowNull()]
+        [object]$InputObject
+    )
+
+    if ($null -eq $InputObject) {
+        return
+    }
+
+    if ($InputObject -is [System.Collections.IDictionary]) {
+        foreach ($key in $InputObject.Keys) {
+            [pscustomobject]@{
+                HasName = $true
+                Name    = [string]$key
+                Value   = $InputObject[$key]
+            }
+        }
+        return
+    }
+
+    if ($InputObject -is [pscustomobject]) {
+        foreach ($property in $InputObject.PSObject.Properties) {
+            [pscustomobject]@{
+                HasName = $true
+                Name    = $property.Name
+                Value   = $property.Value
+            }
+        }
+        return
+    }
+
+    if ($InputObject -is [System.Collections.IEnumerable] -and $InputObject -isnot [string]) {
+        foreach ($item in $InputObject) {
+            [pscustomobject]@{
+                HasName = $false
+                Name    = $null
+                Value   = $item
+            }
+        }
+    }
+}
+
 function Test-ObjectContainsLiteralOAuthToken {
     [CmdletBinding()]
     [OutputType([bool])]
@@ -59,57 +105,23 @@ function Test-ObjectContainsLiteralOAuthToken {
         [object]$InputObject
     )
 
-    if ($null -eq $InputObject) {
-        return $false
-    }
+    foreach ($member in @(Get-OAuthScanMember -InputObject $InputObject)) {
+        $isLiteralCredential = $member.HasName -and
+            (Test-IsLiteralOAuthCredential -Name $member.Name -Value $member.Value)
 
-    if ($InputObject -is [System.Collections.IDictionary]) {
-        foreach ($key in $InputObject.Keys) {
-            $value = $InputObject[$key]
-            if (Test-IsLiteralOAuthCredential -Name $key -Value $value) {
-                return $true
-            }
-
-            if (Test-ObjectContainsLiteralOAuthToken -InputObject $value) {
-                return $true
-            }
-        }
-
-        return $false
-    }
-
-    if ($InputObject -is [pscustomobject]) {
-        foreach ($property in $InputObject.PSObject.Properties) {
-            if (Test-IsLiteralOAuthCredential -Name $property.Name -Value $property.Value) {
-                return $true
-            }
-
-            if (Test-ObjectContainsLiteralOAuthToken -InputObject $property.Value) {
-                return $true
-            }
-        }
-
-        return $false
-    }
-
-    if ($InputObject -is [System.Collections.IEnumerable] -and $InputObject -isnot [string]) {
-        foreach ($item in $InputObject) {
-            if (Test-ObjectContainsLiteralOAuthToken -InputObject $item) {
-                return $true
-            }
+        if ($isLiteralCredential -or
+            (Test-ObjectContainsLiteralOAuthToken -InputObject $member.Value)) {
+            return $true
         }
     }
 
     return $false
 }
 
-function Test-UpstreamThemeSnapshot {
+function Get-UpstreamPreflightPath {
     [CmdletBinding()]
     [OutputType([string])]
-    param(
-        [Parameter(Mandatory)]
-        [string]$RemoteUrl
-    )
+    param()
 
     $temporaryBase = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
     $temporaryPath = [System.IO.Path]::GetFullPath(
@@ -126,6 +138,19 @@ function Test-UpstreamThemeSnapshot {
         [System.IO.Path]::GetFileName($temporaryPath) -notlike 'omp-official-preflight-*') {
         throw "Refusing to use unexpected preflight path: $temporaryPath"
     }
+
+    return $temporaryPath
+}
+
+function Test-UpstreamThemeSnapshot {
+    [CmdletBinding()]
+    [OutputType([string])]
+    param(
+        [Parameter(Mandatory)]
+        [string]$RemoteUrl
+    )
+
+    $temporaryPath = Get-UpstreamPreflightPath
 
     try {
         $null = & git clone --quiet --depth 1 --filter=blob:none --sparse --single-branch --branch main --no-tags -- $RemoteUrl $temporaryPath 2>&1
