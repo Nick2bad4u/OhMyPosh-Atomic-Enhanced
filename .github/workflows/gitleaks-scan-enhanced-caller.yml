@@ -40,4 +40,4 @@ jobs:
     name: "Gitleaks Secret Scan"
     permissions:
       contents: "read"
-    uses: "Nick2bad4u/workflow-templates/.github/workflows/reusable-gitleaks-scan-enhanced.yml@main"
+    uses: "Nick2bad4u/workflow-templates/.github/workflows/reusable-gitleaks-scan-enhanced.yml@9476dedcd6c2e8a063040440380e03cbef832460" # main
