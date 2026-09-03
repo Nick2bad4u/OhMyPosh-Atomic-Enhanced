@@ -31,9 +31,8 @@ param(
     [switch]$Backup
 )
 
-# Write-Output does not support -ForegroundColor / -NoNewline, but this repo historically used it that way.
-# Provide a local wrapper so the script works when run standalone.
-function Write-Output {
+# Present colored variant status through the redirectable information stream.
+function Write-VariantMessage {
     [CmdletBinding()]
     param(
         [Parameter(Position = 0, ValueFromRemainingArguments = $true)]
@@ -45,24 +44,23 @@ function Write-Output {
 
     $text = ($InputObject | ForEach-Object { "$_" }) -join ''
 
-    if ($PSBoundParameters.ContainsKey('ForegroundColor') -or $NoNewline) {
-        $hasColor = $PSBoundParameters.ContainsKey('ForegroundColor')
-        if ($NoNewline) {
-            if ($hasColor) { Write-Host -NoNewline -ForegroundColor $ForegroundColor $text }
-            else { Write-Host -NoNewline $text }
-        }
-        else {
-            if ($hasColor) { Write-Host -ForegroundColor $ForegroundColor $text }
-            else { Write-Host $text }
-        }
+    if (-not $PSBoundParameters.ContainsKey('ForegroundColor') -and -not $NoNewline) {
+        Microsoft.PowerShell.Utility\Write-Output -InputObject $text
         return
     }
 
-    Microsoft.PowerShell.Utility\Write-Output $text
+    $message = [System.Management.Automation.HostInformationMessage]::new()
+    $message.Message = $text
+    $message.NoNewLine = [bool]$NoNewline
+    if ($PSBoundParameters.ContainsKey('ForegroundColor')) {
+        $message.ForegroundColor = $ForegroundColor
+    }
+
+    Write-Information -MessageData $message -InformationAction Continue
 }
 
-function Write-Info ([string]$Message) { Write-Output "[INFO] $Message" -ForegroundColor Cyan }
-function Write-Err ([string]$Message) { Write-Output "[ERROR] $Message" -ForegroundColor Red }
+function Write-Info ([string]$Message) { Write-VariantMessage -InputObject "[INFO] $Message" -ForegroundColor Cyan }
+function Write-Err ([string]$Message) { Write-VariantMessage -InputObject "[ERROR] $Message" -ForegroundColor Red }
 
 try {
     # Resolve script-root defaults (when run interactively from another dir)

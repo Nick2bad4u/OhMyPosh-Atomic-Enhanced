@@ -38,6 +38,7 @@ $RepoRoot = Split-Path -Path $PSScriptRoot -Parent
 
 function Resolve-RepoPath {
     [CmdletBinding()]
+    [OutputType([string])]
     param([Parameter(Mandatory)][string]$Path)
 
     if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
@@ -59,7 +60,7 @@ function Convert-HexToRgb {
     }
 }
 
-function Mix-Color {
+function Merge-Color {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)][string]$From,
@@ -67,8 +68,8 @@ function Mix-Color {
         [ValidateRange(0.0, 1.0)][double]$Amount
     )
 
-    $fromRgb = Convert-HexToRgb $From
-    $toRgb = Convert-HexToRgb $To
+    $fromRgb = Convert-HexToRgb -Hex $From
+    $toRgb = Convert-HexToRgb -Hex $To
     $red = [int][math]::Round($fromRgb.R + (($toRgb.R - $fromRgb.R) * $Amount))
     $green = [int][math]::Round($fromRgb.G + (($toRgb.G - $fromRgb.G) * $Amount))
     $blue = [int][math]::Round($fromRgb.B + (($toRgb.B - $fromRgb.B) * $Amount))
@@ -79,7 +80,7 @@ function Get-RelativeLuminance {
     [CmdletBinding()]
     param([Parameter(Mandatory)][string]$Hex)
 
-    $rgb = Convert-HexToRgb $Hex
+    $rgb = Convert-HexToRgb -Hex $Hex
     $channels = foreach ($value in @($rgb.R, $rgb.G, $rgb.B)) {
         $normalized = $value / 255.0
         if ($normalized -le 0.04045) { $normalized / 12.92 }
@@ -96,8 +97,8 @@ function Get-ContrastRatio {
         [Parameter(Mandatory)][string]$Second
     )
 
-    $firstLuminance = Get-RelativeLuminance $First
-    $secondLuminance = Get-RelativeLuminance $Second
+    $firstLuminance = Get-RelativeLuminance -Hex $First
+    $secondLuminance = Get-RelativeLuminance -Hex $Second
     $lighter = [math]::Max($firstLuminance, $secondLuminance)
     $darker = [math]::Min($firstLuminance, $secondLuminance)
     return ($lighter + 0.05) / ($darker + 0.05)
@@ -112,8 +113,8 @@ function Get-ContrastAdjustedColor {
         [Parameter(Mandatory)][double]$MinimumContrast
     )
 
-    if ((Get-ContrastRatio $Color $Foreground) -ge $MinimumContrast) { return $Color }
-    if ((Get-ContrastRatio $Toward $Foreground) -lt $MinimumContrast) {
+    if ((Get-ContrastRatio -First $Color -Second $Foreground) -ge $MinimumContrast) { return $Color }
+    if ((Get-ContrastRatio -First $Toward -Second $Foreground) -lt $MinimumContrast) {
         throw "Cannot adjust $Color toward $Toward to reach ${MinimumContrast}:1 against $Foreground."
     }
 
@@ -121,15 +122,15 @@ function Get-ContrastAdjustedColor {
     $high = 1.0
     for ($iteration = 0; $iteration -lt 16; $iteration++) {
         $mid = ($low + $high) / 2.0
-        $candidate = Mix-Color -From $Color -To $Toward -Amount $mid
-        if ((Get-ContrastRatio $candidate $Foreground) -ge $MinimumContrast) { $high = $mid }
+        $candidate = Merge-Color -From $Color -To $Toward -Amount $mid
+        if ((Get-ContrastRatio -First $candidate -Second $Foreground) -ge $MinimumContrast) { $high = $mid }
         else { $low = $mid }
     }
 
-    return Mix-Color -From $Color -To $Toward -Amount $high
+    return Merge-Color -From $Color -To $Toward -Amount $high
 }
 
-function Set-PaletteValue {
+function Write-PaletteValue {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)][pscustomobject]$Palette,
@@ -143,6 +144,79 @@ function Set-PaletteValue {
     $Palette.$Key = $Value
 }
 
+function Get-JsonStringScanState {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)][char]$Character,
+        [Parameter(Mandatory)][bool]$Escaped
+    )
+
+    if ($Escaped) {
+        return [pscustomobject]@{ InString = $true; Escaped = $false }
+    }
+    if ($Character -eq '\') {
+        return [pscustomobject]@{ InString = $true; Escaped = $true }
+    }
+
+    return [pscustomobject]@{
+        InString = $Character -ne '"'
+        Escaped  = $false
+    }
+}
+
+function Get-JsonObjectClosingBraceIndex {
+    [CmdletBinding()]
+    [OutputType([int])]
+    param(
+        [Parameter(Mandatory)][string]$RawJson,
+        [Parameter(Mandatory)][int]$OpeningBrace
+    )
+
+    $depth = 0
+    $inString = $false
+    $escaped = $false
+
+    for ($index = $OpeningBrace; $index -lt $RawJson.Length; $index++) {
+        $character = $RawJson[$index]
+        if ($inString) {
+            $stringState = Get-JsonStringScanState -Character $character -Escaped $escaped
+            $inString = $stringState.InString
+            $escaped = $stringState.Escaped
+            continue
+        }
+
+        switch ($character) {
+            '"' { $inString = $true }
+            '{' { $depth++ }
+            '}' {
+                $depth--
+                if ($depth -eq 0) { return $index }
+            }
+        }
+    }
+
+    throw 'Could not find the end of the top-level palette object.'
+}
+
+function ConvertTo-IndentedPaletteJson {
+    [CmdletBinding()]
+    [OutputType([string])]
+    param(
+        [Parameter(Mandatory)][pscustomobject]$Palette,
+        [Parameter(Mandatory)][string]$Indent,
+        [Parameter(Mandatory)][string]$Newline
+    )
+
+    $paletteLines = @($Palette | ConvertTo-Json -Depth 20) -split "`r?`n"
+    $formattedLines = @($paletteLines[0])
+    if ($paletteLines.Count -gt 2) {
+        $formattedLines += $paletteLines[1..($paletteLines.Count - 2)] | ForEach-Object { "$Indent$_" }
+    }
+    $formattedLines += "$Indent$($paletteLines[-1])"
+
+    return $formattedLines -join $Newline
+}
+
 function Get-ReplacedTopLevelPalette {
     [CmdletBinding()]
     param(
@@ -154,39 +228,10 @@ function Get-ReplacedTopLevelPalette {
     if (-not $match.Success) { throw 'Theme is missing a top-level palette object.' }
 
     $openingBrace = $match.Index + $match.Value.LastIndexOf('{')
-    $depth = 0
-    $inString = $false
-    $escaped = $false
-    $closingBrace = -1
-
-    for ($index = $openingBrace; $index -lt $RawTheme.Length; $index++) {
-        $character = $RawTheme[$index]
-        if ($inString) {
-            if ($escaped) { $escaped = $false; continue }
-            if ($character -eq '\') { $escaped = $true; continue }
-            if ($character -eq '"') { $inString = $false }
-            continue
-        }
-
-        if ($character -eq '"') { $inString = $true; continue }
-        if ($character -eq '{') { $depth++; continue }
-        if ($character -eq '}') {
-            $depth--
-            if ($depth -eq 0) { $closingBrace = $index; break }
-        }
-    }
-
-    if ($closingBrace -lt 0) { throw 'Could not find the end of the top-level palette object.' }
-
+    $closingBrace = Get-JsonObjectClosingBraceIndex -RawJson $RawTheme -OpeningBrace $openingBrace
     $newline = if ($RawTheme.Contains("`r`n")) { "`r`n" } else { "`n" }
     $indent = $match.Groups['indent'].Value
-    $paletteLines = @($Palette | ConvertTo-Json -Depth 20) -split "`r?`n"
-    $formattedLines = @($paletteLines[0])
-    if ($paletteLines.Count -gt 2) {
-        $formattedLines += $paletteLines[1..($paletteLines.Count - 2)] | ForEach-Object { "$indent$_" }
-    }
-    $formattedLines += "$indent$($paletteLines[-1])"
-    $formattedPalette = $formattedLines -join $newline
+    $formattedPalette = ConvertTo-IndentedPaletteJson -Palette $Palette -Indent $indent -Newline $newline
 
     return $RawTheme.Substring(0, $openingBrace) + $formattedPalette + $RawTheme.Substring($closingBrace + 1)
 }
@@ -225,7 +270,7 @@ foreach ($paletteName in $paletteNames) {
         if ($roleValue -notmatch '^#[0-9a-fA-F]{6}$') {
             throw "Palette '$paletteName' has an invalid '$roleName' design value: '$roleValue'."
         }
-        Set-PaletteValue $palette $roleName $roleValue
+        Write-PaletteValue -Palette $palette -Key $roleName -Value $roleValue
     }
 
     $black = $palette.black
@@ -234,9 +279,9 @@ foreach ($paletteName in $paletteNames) {
     $danger = Get-ContrastAdjustedColor -Color $palette.red_alert -Foreground $black -Toward $white -MinimumContrast $minimumContrast
     $errorDark = Get-ContrastAdjustedColor -Color $palette.maroon_error -Foreground $white -Toward $black -MinimumContrast $minimumContrast
     $success = Get-ContrastAdjustedColor -Color $palette.green_added -Foreground $black -Toward $white -MinimumContrast $minimumContrast
-    $project = Mix-Color -From $palette.purple_exec -To $palette.pink_weather -Amount 0.68
+    $project = Merge-Color -From $palette.purple_exec -To $palette.pink_weather -Amount 0.68
     $project = Get-ContrastAdjustedColor -Color $project -Foreground $black -Toward $white -MinimumContrast $minimumContrast
-    $promptBackground = Mix-Color -From $black -To $white -Amount 0.12
+    $promptBackground = Merge-Color -From $black -To $white -Amount 0.12
     foreach ($promptForeground in @($white, $palette.blue_time, $palette.yellow_bright, $success)) {
         $promptBackground = Get-ContrastAdjustedColor -Color $promptBackground -Foreground $promptForeground -Toward $black -MinimumContrast $minimumContrast
     }
@@ -329,7 +374,7 @@ foreach ($paletteName in $paletteNames) {
     }
 
     foreach ($entry in $derivedValues.GetEnumerator()) {
-        Set-PaletteValue $palette $entry.Key $entry.Value
+        Write-PaletteValue -Palette $palette -Key $entry.Key -Value $entry.Value
     }
 
     $after = $palette | ConvertTo-Json -Depth 20 -Compress
@@ -347,10 +392,10 @@ if ($Check) {
 }
 elseif ($sourceWouldChange) {
     $serializedPalettes | Set-Content -LiteralPath $PalettesFile -Encoding utf8
-    Write-Host "Applied curated visual roles to $($changedPalettes.Count) palette(s)." -ForegroundColor Green
+    Write-Information "Applied curated visual roles to $($changedPalettes.Count) palette(s)." -InformationAction Continue
 }
 else {
-    Write-Host 'Palette visual roles are already current.' -ForegroundColor Green
+    Write-Information 'Palette visual roles are already current.' -InformationAction Continue
 }
 
 if ($SyncRootThemes) {
@@ -372,10 +417,10 @@ if ($SyncRootThemes) {
         Write-Error "Root Original palettes are stale: $($staleRoots -join ', ')"
     }
     elseif (-not $Check) {
-        Write-Host "Synchronized the Original palette into $($RootThemePaths.Count) root themes." -ForegroundColor Green
+        Write-Information "Synchronized the Original palette into $($RootThemePaths.Count) root themes." -InformationAction Continue
     }
 }
 
 if ($Check) {
-    Write-Host 'Palette visual designs are current.' -ForegroundColor Green
+    Write-Information 'Palette visual designs are current.' -InformationAction Continue
 }

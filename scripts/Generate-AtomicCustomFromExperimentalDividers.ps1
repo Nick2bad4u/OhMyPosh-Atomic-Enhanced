@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Sync (generate) OhMyPosh-Atomic-Custom.json from the ExperimentalDividers theme, without bringing over divider blocks.
 
@@ -45,15 +45,16 @@ $RepoRoot = Split-Path -Path $PSScriptRoot -Parent
 
 function Resolve-RepoPath {
     [CmdletBinding()]
+    [OutputType([string])]
     param([Parameter(Mandatory)][string]$Path)
 
     if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
     return (Join-Path -Path $RepoRoot -ChildPath $Path)
 }
 
-$ExperimentalDividersPath = Resolve-RepoPath $ExperimentalDividersPath
-$AtomicCustomTemplatePath = Resolve-RepoPath $AtomicCustomTemplatePath
-$OutputPath = Resolve-RepoPath $OutputPath
+$ExperimentalDividersPath = Resolve-RepoPath -Path $ExperimentalDividersPath
+$AtomicCustomTemplatePath = Resolve-RepoPath -Path $AtomicCustomTemplatePath
+$OutputPath = Resolve-RepoPath -Path $OutputPath
 
 if (-not (Test-Path -LiteralPath $ExperimentalDividersPath)) {
     throw "ExperimentalDividers theme not found: $ExperimentalDividersPath"
@@ -62,10 +63,10 @@ if (-not (Test-Path -LiteralPath $AtomicCustomTemplatePath)) {
     throw "Atomic Custom template not found: $AtomicCustomTemplatePath"
 }
 
-Write-Host '🔁 Syncing non-divider Atomic Custom from ExperimentalDividers...' -ForegroundColor Cyan
-Write-Host "  Source:   $ExperimentalDividersPath" -ForegroundColor DarkGray
-Write-Host "  Template: $AtomicCustomTemplatePath" -ForegroundColor DarkGray
-Write-Host "  Output:   $OutputPath" -ForegroundColor DarkGray
+Write-Information -MessageData '🔁 Syncing non-divider Atomic Custom from ExperimentalDividers...' -InformationAction Continue
+Write-Information -MessageData "  Source:   $ExperimentalDividersPath" -InformationAction Continue
+Write-Information -MessageData "  Template: $AtomicCustomTemplatePath" -InformationAction Continue
+Write-Information -MessageData "  Output:   $OutputPath" -InformationAction Continue
 
 $exp = (Get-Content -LiteralPath $ExperimentalDividersPath -Raw | ConvertFrom-Json -Depth 100 -AsHashtable)
 $tpl = (Get-Content -LiteralPath $AtomicCustomTemplatePath -Raw | ConvertFrom-Json -Depth 100 -AsHashtable)
@@ -121,4 +122,4 @@ if ($tpl.ContainsKey('palette') -and $tpl['palette'] -is [hashtable] -and $tpl['
 
 # Write output
 $tpl | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $OutputPath -Encoding UTF8
-Write-Host "✅ Updated: $OutputPath" -ForegroundColor Green
+Write-Information -MessageData "✅ Updated: $OutputPath" -InformationAction Continue

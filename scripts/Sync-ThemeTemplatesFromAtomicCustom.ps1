@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Sync common configuration (tooltips, maps, palette keys, etc.) from OhMyPosh-Atomic-Custom.json into the other base theme templates.
 
@@ -40,13 +40,14 @@ $RepoRoot = Split-Path -Path $PSScriptRoot -Parent
 
 function Resolve-RepoPath {
     [CmdletBinding()]
+    [OutputType([string])]
     param([Parameter(Mandatory)][string]$Path)
 
     if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
     return (Join-Path -Path $RepoRoot -ChildPath $Path)
 }
 
-$AtomicCustomPath = Resolve-RepoPath $AtomicCustomPath
+$AtomicCustomPath = Resolve-RepoPath -Path $AtomicCustomPath
 if (-not (Test-Path -LiteralPath $AtomicCustomPath)) {
     throw "Atomic Custom theme not found: $AtomicCustomPath"
 }
@@ -76,13 +77,13 @@ $syncKeys = @(
     'version'
 )
 
-Write-Host '🔁 Syncing base theme templates from Atomic Custom...' -ForegroundColor Cyan
-Write-Host "  Source: $AtomicCustomPath" -ForegroundColor DarkGray
+Write-Information -MessageData '🔁 Syncing base theme templates from Atomic Custom...' -InformationAction Continue
+Write-Information -MessageData "  Source: $AtomicCustomPath" -InformationAction Continue
 
 foreach ($t in $TargetThemes) {
-    $targetPath = Resolve-RepoPath $t
+    $targetPath = Resolve-RepoPath -Path $t
     if (-not (Test-Path -LiteralPath $targetPath)) {
-        Write-Host "⚠️  Skipping missing target: $targetPath" -ForegroundColor Yellow
+        Write-Warning "Skipping missing target: $targetPath"
         continue
     }
 
@@ -107,5 +108,5 @@ foreach ($t in $TargetThemes) {
     # Intentionally do NOT overwrite the target theme's blocks/layout.
 
     $theme | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $targetPath -Encoding UTF8
-    Write-Host "✅ Updated: $t" -ForegroundColor Green
+    Write-Information -MessageData "✅ Updated: $t" -InformationAction Continue
 }

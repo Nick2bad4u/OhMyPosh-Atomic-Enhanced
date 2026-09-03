@@ -49,6 +49,12 @@ jobs:
           $ErrorActionPreference = 'Stop'
           pwsh -NoProfile -File .\scripts\Test-Themes.ps1 -IncludeGenerated
 
+      - name: Verify script failure contracts
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          pwsh -NoProfile -File .\scripts\Test-ScriptFailureContracts.ps1
+
       - name: Smoke-test v31 SVG preview export
         shell: pwsh
         run: |

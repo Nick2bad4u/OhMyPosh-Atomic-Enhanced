@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Generates Experimental Dividers themes for all palettes into a dedicated folder.
 
@@ -54,9 +54,8 @@ $ErrorActionPreference = 'Stop'
 # This script lives in .\scripts\, but operates on files in the repository root.
 $RepoRoot = Split-Path -Path $PSScriptRoot -Parent
 
-# Write-Output does not support -ForegroundColor / -NoNewline, but this repo historically used it that way.
-# Provide a local wrapper so scripts work when run standalone.
-function Write-Output {
+# Present colored generator status through the redirectable information stream.
+function Write-ThemeGenerationMessage {
     [CmdletBinding()]
     param(
         [Parameter(Position = 0, ValueFromRemainingArguments = $true)]
@@ -68,23 +67,23 @@ function Write-Output {
 
     $text = ($InputObject | ForEach-Object { "$_" }) -join ''
 
-    if ($PSBoundParameters.ContainsKey('ForegroundColor') -or $NoNewline) {
-        $hasColor = $PSBoundParameters.ContainsKey('ForegroundColor')
-        if ($NoNewline) {
-            if ($hasColor) { Write-Host -NoNewline -ForegroundColor $ForegroundColor $text }
-            else { Write-Host -NoNewline $text }
-        }
-        else {
-            if ($hasColor) { Write-Host -ForegroundColor $ForegroundColor $text }
-            else { Write-Host $text }
-        }
+    if (-not $PSBoundParameters.ContainsKey('ForegroundColor') -and -not $NoNewline) {
+        Microsoft.PowerShell.Utility\Write-Output -InputObject $text
         return
     }
 
-    Microsoft.PowerShell.Utility\Write-Output $text
+    $message = [System.Management.Automation.HostInformationMessage]::new()
+    $message.Message = $text
+    $message.NoNewLine = [bool]$NoNewline
+    if ($PSBoundParameters.ContainsKey('ForegroundColor')) {
+        $message.ForegroundColor = $ForegroundColor
+    }
+
+    Write-Information -MessageData $message -InformationAction Continue
 }
 
 function Resolve-RepoPath {
+    [OutputType([string])]
     [CmdletBinding()]
     param([Parameter(Mandatory)][string]$Path)
 
@@ -117,7 +116,7 @@ $baseName = [IO.Path]::GetFileNameWithoutExtension($SourceTheme)
 $staleOriginal = Join-Path -Path $OutputDirectory -ChildPath "$baseName.Original.json"
 if (Test-Path -LiteralPath $staleOriginal) {
     Remove-Item -LiteralPath $staleOriginal -Force
-    Write-Output "🧹 Removed generated Original duplicate: $staleOriginal" -ForegroundColor DarkGray
+    Write-ThemeGenerationMessage -InputObject "🧹 Removed generated Original duplicate: $staleOriginal" -ForegroundColor DarkGray
 }
 
 $extendsPath = if ([string]::IsNullOrWhiteSpace($BaseUrl)) {
@@ -132,11 +131,11 @@ foreach ($name in $paletteNames) {
     $outFile = Join-Path $OutputDirectory "$baseName.$pascal.json"
 
     if ((Test-Path -LiteralPath $outFile) -and -not $Force) {
-        Write-Output "⚠️  Skipping (exists): $outFile" -ForegroundColor Yellow
+        Write-ThemeGenerationMessage -InputObject "⚠️  Skipping (exists): $outFile" -ForegroundColor Yellow
         continue
     }
 
-    Write-Output "🎨 Generating $outFile" -ForegroundColor Cyan
+    Write-ThemeGenerationMessage -InputObject "🎨 Generating $outFile" -ForegroundColor Cyan
 
     $params = @{
         PaletteName       = $name
@@ -155,14 +154,14 @@ foreach ($name in $paletteNames) {
 if (-not $SkipRootVariants) {
     $leaf = Split-Path -Path $SourceTheme -Leaf
     if ($leaf -eq 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json') {
-        Write-Output '\n🧩 Regenerating root variants (Fish / NoShellIntegration / Extended / ColorCycle / Gradient / GradientRamps / GradientRampsAutoShade)...' -ForegroundColor Cyan
+        Write-ThemeGenerationMessage -InputObject '\n🧩 Regenerating root variants (Fish / NoShellIntegration / Extended / ColorCycle / Gradient / GradientRamps / GradientRampsAutoShade)...' -ForegroundColor Cyan
 
         $fishScript = Join-Path -Path $PSScriptRoot -ChildPath 'Make-FishVariant.ps1'
         if (Test-Path -LiteralPath $fishScript) {
             & $fishScript -Source $SourceTheme
         }
         else {
-            Write-Output "⚠️  Missing script (skipping): $fishScript" -ForegroundColor Yellow
+            Write-ThemeGenerationMessage -InputObject "⚠️  Missing script (skipping): $fishScript" -ForegroundColor Yellow
         }
 
         $noShellScript = Join-Path -Path $PSScriptRoot -ChildPath 'Make-NoShellIntegration.ps1'
@@ -170,7 +169,7 @@ if (-not $SkipRootVariants) {
             & $noShellScript -Source $SourceTheme
         }
         else {
-            Write-Output "⚠️  Missing script (skipping): $noShellScript" -ForegroundColor Yellow
+            Write-ThemeGenerationMessage -InputObject "⚠️  Missing script (skipping): $noShellScript" -ForegroundColor Yellow
         }
 
         $extendedScript = Join-Path -Path $PSScriptRoot -ChildPath 'Make-ExtendedVariant.ps1'
@@ -178,7 +177,7 @@ if (-not $SkipRootVariants) {
             & $extendedScript -Source $SourceTheme
         }
         else {
-            Write-Output "⚠️  Missing script (skipping): $extendedScript" -ForegroundColor Yellow
+            Write-ThemeGenerationMessage -InputObject "⚠️  Missing script (skipping): $extendedScript" -ForegroundColor Yellow
         }
 
         $colorCycleScript = Join-Path -Path $PSScriptRoot -ChildPath 'Make-ColorCycleVariant.ps1'
@@ -186,7 +185,7 @@ if (-not $SkipRootVariants) {
             & $colorCycleScript -Source $SourceTheme
         }
         else {
-            Write-Output "⚠️  Missing script (skipping): $colorCycleScript" -ForegroundColor Yellow
+            Write-ThemeGenerationMessage -InputObject "⚠️  Missing script (skipping): $colorCycleScript" -ForegroundColor Yellow
         }
 
         $gradientScript = Join-Path -Path $PSScriptRoot -ChildPath 'Make-GradientVariant.ps1'
@@ -194,7 +193,7 @@ if (-not $SkipRootVariants) {
             & $gradientScript -Source $SourceTheme
         }
         else {
-            Write-Output "⚠️  Missing script (skipping): $gradientScript" -ForegroundColor Yellow
+            Write-ThemeGenerationMessage -InputObject "⚠️  Missing script (skipping): $gradientScript" -ForegroundColor Yellow
         }
 
         $gradientRampsScript = Join-Path -Path $PSScriptRoot -ChildPath 'Make-GradientRampsVariant.ps1'
@@ -202,7 +201,7 @@ if (-not $SkipRootVariants) {
             & $gradientRampsScript -Source $SourceTheme
         }
         else {
-            Write-Output "⚠️  Missing script (skipping): $gradientRampsScript" -ForegroundColor Yellow
+            Write-ThemeGenerationMessage -InputObject "⚠️  Missing script (skipping): $gradientRampsScript" -ForegroundColor Yellow
         }
 
         $gradientRampsAutoShadeScript = Join-Path -Path $PSScriptRoot -ChildPath 'Make-GradientRampsAutoShadeVariant.ps1'
@@ -210,12 +209,12 @@ if (-not $SkipRootVariants) {
             & $gradientRampsAutoShadeScript -Source $SourceTheme
         }
         else {
-            Write-Output "⚠️  Missing script (skipping): $gradientRampsAutoShadeScript" -ForegroundColor Yellow
+            Write-ThemeGenerationMessage -InputObject "⚠️  Missing script (skipping): $gradientRampsAutoShadeScript" -ForegroundColor Yellow
         }
     }
     else {
-        Write-Output "\nℹ️  SkipRootVariants not set, but SourceTheme is '$leaf' (not the base ExperimentalDividers theme). Not generating root helper variants." -ForegroundColor DarkGray
+        Write-ThemeGenerationMessage -InputObject "\nℹ️  SkipRootVariants not set, but SourceTheme is '$leaf' (not the base ExperimentalDividers theme). Not generating root helper variants." -ForegroundColor DarkGray
     }
 }
 
-Write-Output '✅ Generation complete' -ForegroundColor Green
+Write-ThemeGenerationMessage -InputObject '✅ Generation complete' -ForegroundColor Green

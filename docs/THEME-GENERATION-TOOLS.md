@@ -17,7 +17,8 @@
 
 ## Theme Generation Overview
 
-The OhMyPosh Atomic Enhanced project includes several PowerShell utilities to help you:
+The OhMyPosh Atomic Enhanced project includes several PowerShell utilities to
+help you:
 
 ✅ Generate themes automatically
 ✅ Create custom palettes
@@ -42,43 +43,64 @@ Instead of manually editing JSON, use these tools to:
 
 ### Location
 
-All PowerShell helper scripts live in the **`scripts/`** directory of the repository.
+All PowerShell helper scripts live in the **`scripts/`** directory of the
+repository.
 
-### Quick Reference Table
+### Quick Reference
 
-| Script | Purpose | Input | Output |
-| --- | --- | --- | --- |
-| **scripts/Generate-AllThemes.ps1** | Generate palette extensions for five independent roots | Color palettes | Theme-family folders (default) or one output folder |
-| **scripts/Generate-ExperimentalDividers.ps1** | Generate ExperimentalDividers palette extensions | ExperimentalDividers root + palettes | `experimentalDividers/` |
-| **scripts/Make-ExtendedVariant.ps1** | Generate ordered Extended additions | ExperimentalDividers root + variant definition | Complete root helper |
-| **scripts/Make-ColorCycleVariant.ps1** | Generate a synchronized ColorCycle helper | Atomic Custom or ExperimentalDividers root + cycle definition | Complete root helper |
-| **scripts/Make-GradientVariant.ps1** | Generate connected two-stop native gradients | ExperimentalDividers root + gradient definition | Complete root helper |
-| **scripts/Make-GradientRampsVariant.ps1** | Generate connected gradients with position-matched full-block ramps | ExperimentalDividers root + ramp definition | Complete root helper |
-| **scripts/Make-GradientRampsAutoShadeVariant.ps1** | Add automatic shading to independent entries while retaining connected ramps | ExperimentalDividers root + auto-shade ramp definition | Complete root helper |
-| **scripts/New-ThemeWithPalette.ps1** | Create one palette extension | Root theme + palette | Small .json overlay |
-| **scripts/cycle-themes.ps1** | Cycle through themes | Theme folder | Activates one at a time |
-| **scripts/Merge-OhMyPoshThemes.ps1** | Merge multiple themes | Theme files | Merged theme |
-| **scripts/pre-upload-validation.ps1** | Validate before upload | Theme path | Pass/fail report |
-| **scripts/Generate-ThemePreviews.ps1** | Create preview images | Theme files | SVG preview images |
-| **scripts/Set-PaletteVisualDesigns.ps1** | Apply curated visible-role ramps and synchronize Original roots | Visual-design contract + palette source | Updated palette/root JSON |
-| **scripts/Test-PaletteVisualQuality.ps1** | Verify all palette designs, six-family contrast, and overlay freshness | Palette source + six roots + 222 overlays | Pass/fail report |
-| **scripts/sync-official-themes.ps1** | Sync official themes | Official repo | Updated themes |
-| **scripts/validate-palette.ps1** | Validate palette file | Palette JSON | Validation report |
-| **scripts/Normalize-Palettes.ps1** | Expand/normalize all palettes to include the full keyset (tooltips/shell/dividers/debug/etc) | `OhMyPosh-Atomic-Custom.json` + `color-palette-alternatives.json` | Updated `color-palette-alternatives.json` |
+- **`scripts/Generate-AllThemes.ps1`** generates palette extensions for five
+  independent roots from the color palettes. It writes to the theme-family
+  folders by default or to one requested output folder.
+- **`scripts/Generate-ExperimentalDividers.ps1`** generates
+  ExperimentalDividers palette extensions in `experimentalDividers/`.
+- **`scripts/Make-ExtendedVariant.ps1`** applies the ordered Extended variant
+  definition to the ExperimentalDividers root and writes a complete helper.
+- **`scripts/Make-ColorCycleVariant.ps1`** applies the shared ColorCycle
+  definition to the Atomic Custom or ExperimentalDividers root.
+- **`scripts/Make-GradientVariant.ps1`** applies connected two-stop native
+  gradients to the ExperimentalDividers root.
+- **`scripts/Make-GradientRampsVariant.ps1`** applies connected gradients with
+  position-matched full-block ramps to the ExperimentalDividers root.
+- **`scripts/Make-GradientRampsAutoShadeVariant.ps1`** adds automatic shading
+  to independent entries while retaining the connected ramps.
+- **`scripts/New-ThemeWithPalette.ps1`** creates one small palette overlay from
+  a root theme and palette.
+- **`scripts/cycle-themes.ps1`** activates themes from a selected folder one at
+  a time.
+- **`scripts/Merge-OhMyPoshThemes.ps1`** preserves a custom structure while
+  applying styling from one or more official themes.
+- **`scripts/pre-upload-validation.ps1`** validates a theme and reports whether
+  it is ready to upload.
+- **`scripts/Generate-ThemePreviews.ps1`** creates SVG preview images from theme
+  files.
+- **`scripts/Set-PaletteVisualDesigns.ps1`** applies curated visible-role ramps
+  and synchronizes the Original root themes.
+- **`scripts/Test-PaletteVisualQuality.ps1`** verifies all palette designs,
+  six-family contrast, and freshness across the 222 overlays.
+- **`scripts/sync-official-themes.ps1`** synchronizes the vendored official
+  theme repository.
+- **`scripts/validate-palette.ps1`** validates palette-key usage in a theme.
+- **`scripts/Normalize-Palettes.ps1`** expands every palette to the full keyset
+  and writes the normalized palette source.
 
-> Each family has one complete, non-extended Original at the repository root and 37 palette-only overlays in its folder. `Generate-AllThemes.ps1` never synchronizes independent root themes. ExperimentalDividers is generated separately and extends only `OhMyPosh-Atomic-Custom-ExperimentalDividers.json`.
+> Each family has one complete, non-extended Original at the repository root
+> and 37 palette-only overlays in its folder. `Generate-AllThemes.ps1` never
+> synchronizes independent root themes. ExperimentalDividers is generated
+> separately and extends only
+> `OhMyPosh-Atomic-Custom-ExperimentalDividers.json`.
 
 ---
 
 ## Using Generate-AllThemes.ps1
 
-### Purpose
+### Generate-AllThemes purpose
 
-Generates small `extends` overlays for every non-original color palette. The root source files remain the complete Original themes.
+Generates small `extends` overlays for every non-original color palette. The
+root source files remain the complete Original themes.
 
-### Usage
+### Generate-AllThemes usage
 
-#### Basic Usage
+#### Generate-AllThemes basic usage
 
 ```powershell
 .\scripts\Generate-AllThemes.ps1
@@ -95,11 +117,13 @@ Generates small `extends` overlays for every non-original color palette. The roo
   - `./atomicBit/`
   - `./cleanDetailed/`
 
-#### Advanced Usage
+#### Generate-AllThemes advanced usage
 
 ```powershell
 # Use a custom palettes file
-.\scripts\Generate-AllThemes.ps1 -PalettesFile ".\color-palette-alternatives.json" -Force
+.\scripts\Generate-AllThemes.ps1 `
+  -PalettesFile ".\color-palette-alternatives.json" `
+  -Force
 
 # Exclude an additional palette (`original` is always skipped)
 .\scripts\Generate-AllThemes.ps1 -ExcludePalettes @('test_palette') -Force
@@ -114,20 +138,19 @@ Generates small `extends` overlays for every non-original color palette. The roo
 .\scripts\Generate-AllThemes.ps1 -OutputDirectory "C:\my-themes" -Force
 ```
 
-### Parameters
+### Generate-AllThemes parameters
 
 ```powershell
-# Common parameters:
--SourceThemes <string[]>     # Theme templates to generate from
--PalettesFile <string>       # Palette JSON file (default: .\color-palette-alternatives.json)
--ExcludePalettes <string[]>  # Additional non-original palette IDs to skip
--OutputDirectory <string>    # Optional: write all generated variants to one folder
--BaseUrl <string>            # Base URL for extends; pass '' for relative local paths
--Force                        # Overwrite existing files
--UpdateAccentColor            # Update theme accent_color to match palette accent
+-SourceThemes <string[]>    # Theme templates to generate from
+-PalettesFile <string>      # Palette JSON file
+-ExcludePalettes <string[]> # Additional non-original palette IDs to skip
+-OutputDirectory <string>   # Write every generated variant to one folder
+-BaseUrl <string>           # Extends URL; pass '' for relative local paths
+-Force                      # Overwrite existing files
+-UpdateAccentColor          # Set accent_color from the palette accent
 ```
 
-### Example Workflow
+### Generate-AllThemes example workflow
 
 ```powershell
 # 1. Prepare your palette file
@@ -143,23 +166,29 @@ Get-ChildItem -Path ".\atomic" -Filter "OhMyPosh-Atomic-Custom.*.json"
 .\scripts\Test-Themes.ps1 -IncludeGenerated
 
 # 5. Test the theme
-oh-my-posh init pwsh --config ".\atomic\OhMyPosh-Atomic-Custom.TokyoNight.json" | Invoke-Expression
+oh-my-posh init pwsh `
+  --config ".\atomic\OhMyPosh-Atomic-Custom.TokyoNight.json" |
+  Invoke-Expression
 ```
 
 ---
 
 ## Using New-ThemeWithPalette.ps1
 
-### Purpose
+### New-ThemeWithPalette purpose
 
-Creates a **single theme** from a specific color palette.
+Creates a **single palette-only theme overlay** from a named palette or a
+palette object. The generated file extends the selected source theme instead of
+duplicating its blocks and segments.
 
-### Usage
+### New-ThemeWithPalette usage
 
-#### Basic Usage
+#### New-ThemeWithPalette basic usage
 
 ```powershell
-.\scripts\New-ThemeWithPalette.ps1 -PaletteName "tokyo_night" -OutputName "TokyoNight"
+.\scripts\New-ThemeWithPalette.ps1 `
+  -PaletteName "tokyo_night" `
+  -OutputName "TokyoNight"
 ```
 
 #### With Template
@@ -172,55 +201,57 @@ Creates a **single theme** from a specific color palette.
   -UpdateAccentColor
 ```
 
-### Parameters
+### New-ThemeWithPalette parameters
 
 ```powershell
--SourceTheme <string>      # Source theme JSON to apply the palette to (default: OhMyPosh-Atomic-Custom.json)
--PaletteName <string>      # Palette ID from color-palette-alternatives.json (e.g. nord_frost)
--PaletteObject <object>    # Provide a custom palette object directly instead of PaletteName
--OutputName <string>       # Suffix for output filename (e.g. TokyoNight)
--OutputPath <string>       # Full path to output file (overrides OutputName)
--PalettesFile <string>     # Palette JSON file (default: color-palette-alternatives.json)
--UpdateAccentColor         # Update accent_color to match the palette accent
+-SourceTheme <string>     # Source theme JSON; defaults to Atomic Custom
+-PaletteName <string>     # Palette ID, such as nord_frost
+-PaletteObject <object>   # Custom palette object instead of PaletteName
+-OutputName <string>      # Output filename suffix, such as TokyoNight
+-OutputPath <string>      # Full output path; overrides OutputName
+-PalettesFile <string>    # Palette JSON source
+-ExtendsPath <string>     # Explicit extends value; otherwise derived
+-UpdateAccentColor        # Set accent_color from the palette accent
 ```
 
-### Example Workflow
+### New-ThemeWithPalette example workflow
 
 ```powershell
-# 1. Create a palette file
+# 1. Create a custom palette object
 $palette = @{
     "accent" = "#00BCD4"
-    "primary" = "#0080FF"
-    "warning" = "#FFD600"
-    "error" = "#FF0000"
-    "success" = "#00C853"
-} | ConvertTo-Json
+    "blue_primary" = "#0080FF"
+    "orange_warning" = "#FFD600"
+    "maroon_error" = "#FF0000"
+    "green_success" = "#00C853"
+}
 
-$palette | Out-File "my-palette.json"
+# 2. Create a palette-only overlay
+pwsh ./scripts/New-ThemeWithPalette.ps1 `
+  -PaletteObject $palette `
+  -OutputPath ./local-themes/my-atomic-theme.json `
+  -UpdateAccentColor
 
-# 2. Create theme from palette
-.\scripts\New-ThemeWithPalette.ps1 `
-  -PalettePath "my-palette.json" `
-  -OutputPath "my-atomic-theme.json" `
-  -ThemeName "My Custom Theme"
+# 3. Validate the overlay's resolved palette references.
+pwsh ./scripts/validate-palette.ps1 `
+  -ConfigPath ./local-themes/my-atomic-theme.json
 
-# 3. Test the theme
-$config = ".\my-atomic-theme.json"
-oh-my-posh init pwsh --config $config | Invoke-Expression
-
-# 4. Verify it looks correct
-oh-my-posh config show -config $config | Select-Object -First 20
+oh-my-posh print primary `
+  --config ./local-themes/my-atomic-theme.json `
+  --shell pwsh `
+  --force
 ```
 
 ---
 
 ## Using cycle-themes.ps1
 
-### Purpose
+### cycle-themes purpose
 
-Cycles through available themes, activating each one so you can preview them.
+Renders available themes one at a time without changing the current shell's
+active configuration. The script advances automatically after `-Delay` seconds.
 
-### Usage
+### cycle-themes usage
 
 #### Basic Usage (cycles official + custom)
 
@@ -246,7 +277,7 @@ Cycles through available themes, activating each one so you can preview them.
 .\scripts\cycle-themes.ps1 -Delay 3
 ```
 
-### Parameters
+### cycle-themes parameters
 
 ```powershell
 -Official     # Include themes under ./ohmyposh-official-themes
@@ -255,79 +286,66 @@ Cycles through available themes, activating each one so you can preview them.
 -Delay <int>  # Seconds to display each theme before switching
 ```
 
-# Press Enter for next, Backspace for previous, Q to quit
-
-# Press Enter to go to next...
-
-# Currently previewing: OhMyPosh-Atomic-Custom.CatppuccinMocha.json
-
-# Like this one? Press S to save
-
-# \[Saved: C:\...\OhMyPosh-Atomic-Custom.CatppuccinMocha.json\]
-
-````
+Press Ctrl+C to stop the automatic cycle.
 
 ---
 
 ## Using Merge-OhMyPoshThemes.ps1
 
-### Purpose
+### Merge-OhMyPoshThemes purpose
 
-Combines multiple theme configurations into a single theme file.
+Preserves the blocks, tooltips, segment positions, templates, and custom
+settings from one custom theme while applying colors and visual styling from an
+official Oh My Posh theme. The script writes one merged theme for each official
+theme it processes.
 
-### Usage
+### Merge-OhMyPoshThemes usage
 
-#### Merge Two Themes
+#### Apply One Official Theme's Styling
 
-```powershell
-.\scripts\Merge-OhMyPoshThemes.ps1 `
-  -PrimaryTheme "base-theme.json" `
-  -SecondaryTheme "accent-theme.json" `
-  -OutputPath "merged-theme.json"
-````
-
-#### Merge Multiple Themes
-
-```powershell
-$themes = @(
-  "theme1.json",
-  "theme2.json",
-  "theme3.json"
-)
-
-.\scripts\Merge-OhMyPoshThemes.ps1 -ThemeFiles $themes -OutputPath "combined.json"
+```pwsh
+pwsh ./scripts/Merge-OhMyPoshThemes.ps1 `
+  -CustomThemePath ./OhMyPosh-Atomic-Custom.json `
+  -OfficialThemePath ./ohmyposh-official-themes/themes/dracula.omp.json `
+  -OutputPath ./merged-themes
 ```
 
-### Parameters
+This writes `./merged-themes/Custom-dracula.omp.json`.
 
-```powershell
--PrimaryTheme <string>     # Main theme to use as base
--SecondaryTheme <string>   # Theme to merge in (overrides primary)
--ThemeFiles <array>        # Multiple themes to merge
--OutputPath <string>       # Where to save merged theme (required)
--Strategy <string>         # Merge strategy (overwrite|merge|deep)
--Force                     # Overwrite existing file
+#### Apply Every Official Theme's Styling
+
+```pwsh
+pwsh ./scripts/Merge-OhMyPoshThemes.ps1 `
+  -CustomThemePath ./OhMyPosh-Atomic-Custom.json `
+  -OfficialThemePath ./ohmyposh-official-themes/themes `
+  -OutputPath ./merged-themes `
+  -ProcessAll
 ```
 
-### Example Workflow
+### Merge-OhMyPoshThemes parameters
 
-```powershell
-# Scenario: Combine color palette from one theme with segments from another
+- `-CustomThemePath <string>`: custom theme whose structure, templates, and
+  behavior are preserved.
+- `-OfficialThemePath <string>`: one official theme file, or a directory used
+  with `-ProcessAll`.
+- `-OutputPath <string>`: directory for
+  `Custom-<official-theme>.omp.json` files.
+- `-ProcessAll`: process every `*.omp.json` file in `OfficialThemePath`.
 
-# 1. Base atomic theme (for structure)
-$base = "OhMyPosh-Atomic-Custom.json"
+### Merge-OhMyPoshThemes example workflow
 
-# 2. Theme with nice colors (for palette)
-$colorTheme = "OhMyPosh-Atomic-Custom.NordFrost.json"
+```pwsh
+# Preserve the Atomic Custom layout while adopting Dracula's visual styling.
+pwsh ./scripts/Merge-OhMyPoshThemes.ps1 `
+  -CustomThemePath ./OhMyPosh-Atomic-Custom.json `
+  -OfficialThemePath ./ohmyposh-official-themes/themes/dracula.omp.json `
+  -OutputPath ./merged-themes
 
-# 3. Merge them
-.\scripts\Merge-OhMyPoshThemes.ps1 `
-  -PrimaryTheme $base `
-  -SecondaryTheme $colorTheme `
-  -OutputPath "my-combined-theme.json"
-
-# 4. Test
-oh-my-posh init pwsh --config "my-combined-theme.json" | Invoke-Expression
+# Render the merged primary prompt without changing the current shell session.
+oh-my-posh print primary `
+  --config ./merged-themes/Custom-dracula.omp.json `
+  --shell pwsh `
+  --force
 ```
 
 ---
@@ -338,7 +356,7 @@ oh-my-posh init pwsh --config "my-combined-theme.json" | Invoke-Expression
 
 Validates a theme before uploading to ensure it's correct.
 
-#### Usage
+#### pre-upload-validation usage
 
 ```powershell
 .\scripts\pre-upload-validation.ps1 `
@@ -346,7 +364,7 @@ Validates a theme before uploading to ensure it's correct.
   -TestPath "test_OhMyPosh-Atomic-Custom.ExperimentalDividers.json"
 ```
 
-#### What It Checks
+#### pre-upload-validation checks
 
 - ✅ Valid JSON structure
 - ✅ Required fields present
@@ -356,7 +374,7 @@ Validates a theme before uploading to ensure it's correct.
 
 #### Output
 
-```
+```text
 ✓ JSON structure valid
 ✓ All required fields present
 ✓ Color palette valid
@@ -367,25 +385,32 @@ Validates a theme before uploading to ensure it's correct.
 
 ### validate-palette.ps1
 
-Validates a color palette file.
+Validates palette-key usage in an Oh My Posh config. It resolves a local
+`extends` base, then compares every `p:<key>` reference with the combined
+palette definitions.
 
-#### Usage
+#### validate-palette usage
 
-```powershell
-.\scripts\validate-palette.ps1 -PalettePath "color-palette-alternatives.json"
+```pwsh
+pwsh ./scripts/validate-palette.ps1 `
+  -ConfigPath ./OhMyPosh-Atomic-Custom.json `
+  -ShowAll
 ```
 
-#### What It Checks
+#### validate-palette checks
 
-- ✅ Valid JSON
-- ✅ All colors are valid hex
-- ✅ Colors are readable
-- ✅ Sufficient color variety
-- ✅ Contrast ratios adequate
+- ✅ Config and local extended-base JSON are parseable
+- ✅ Every referenced palette key is defined
+- ✅ Defined-but-unused keys are reported
+- ✅ Optional `-FailOnUnused` enforcement uses a distinct exit code
 
 ### Test-PaletteVisualQuality.ps1
 
-Validates the actual palette design contract rather than only checking JSON shape. It proves that all 38 palettes have curated visible-role colors, tests every direct/fallback segment pairing across all six roots at a minimum 4.5:1 contrast ratio, and verifies that all 222 generated overlays match the current palette source.
+Validates the actual palette design contract rather than only checking JSON
+shape. It proves that all 38 palettes have curated visible-role colors, tests
+every direct/fallback segment pairing across all six roots at a minimum 4.5:1
+contrast ratio, and verifies that all 222 generated overlays match the current
+palette source.
 
 ```pwsh
 pwsh ./scripts/Test-PaletteVisualQuality.ps1
@@ -401,30 +426,45 @@ pwsh ./scripts/Test-PaletteVisualQuality.ps1
 
 Creates deterministic SVG previews with Oh My Posh v31 or later.
 
-#### Usage
+#### Generate-ThemePreviews usage
 
 ```pwsh
 pwsh ./scripts/Generate-ThemePreviews.ps1 -Force
 ```
 
-The generator requires the sanitized recorded-v1 `theme-preview.data.json` fixture and always passes both `--data` and `--data-only`. Every palette therefore renders with the same shell, repository, Git, system, battery, weather, and runtime state without probing the live machine, filesystem, Git repository, or network. It writes SVGs to `assets/theme-previews/`, removes a theme's superseded PNG only after its SVG succeeds, and refreshes the README gallery.
+The generator requires the sanitized recorded-v1 `theme-preview.data.json`
+fixture and always passes both `--data` and `--data-only`. Every palette
+therefore renders with the same shell, repository, Git, system, battery,
+weather, and runtime state without probing the live machine, filesystem, Git
+repository, or network. It writes SVGs to `assets/theme-previews/`, removes a
+theme's superseded PNG only after its SVG succeeds, and refreshes the README
+gallery.
 
-`image.settings.json` is repository-owned generator configuration; it is not passed to Oh My Posh through the removed `--settings` flag. Supported keys map directly to v31 SVG export flags:
+`image.settings.json` is repository-owned generator configuration; it is not
+passed to Oh My Posh through the removed `--settings` flag. Supported keys map
+directly to v31 SVG export flags:
 
-| Setting | Oh My Posh flag | Purpose |
-| --- | --- | --- |
-| `background_color` | `--background-color` | Canvas fallback color |
-| `font_family` | `--font-family` | CSS font-family stack |
-| `terminal_width` | `--terminal-width` | Prompt and canvas width in terminal cells |
-| `cell_width` | `--cell-width` | Monospace cell advance relative to font size |
-| `line_height` | `--line-height` | Row advance relative to font size |
-| `fill_ascent` | `--fill-ascent` | Optional background fill above the baseline |
-| `fill_descent` | `--fill-descent` | Optional background fill below the baseline |
-| `terminal_width_overrides` | Generator-side theme matching | Optional glob-pattern widths applied after the default `terminal_width` |
+- `background_color` maps to `--background-color` for the canvas fallback.
+- `font_family` maps to `--font-family` for the CSS font-family stack.
+- `terminal_width` maps to `--terminal-width` for the prompt and canvas width.
+- `cell_width` maps to `--cell-width` for the monospace cell advance.
+- `line_height` maps to `--line-height` for the row advance.
+- `fill_ascent` maps to `--fill-ascent` for optional fill above the baseline.
+- `fill_descent` maps to `--fill-descent` for optional fill below the baseline.
+- `terminal_width_overrides` applies optional glob-pattern widths after the
+  default `terminal_width`.
 
-Unknown or invalid settings fail before any preview is generated. Terminal-width patterns must match at most once per generated preview. The checked-in widths follow each family's actual layout: 200 columns for the content-dense ExperimentalDividers prompt, 120 for Atomic and Slimfat, and 100 for 1_shell, AtomicBit, and Clean Detailed. The generator discovers every root-level JSON theme by structure, while ignoring root JSON fixtures and settings that do not contain theme `blocks` or `extends`. The default CodeNewRoman metrics were measured from the configured font rather than copied from Oh My Posh's Hack Nerd Font defaults.
+Unknown or invalid settings fail before any preview is generated. Terminal-width
+patterns must match at most once per generated preview. The checked-in widths
+follow each family's actual layout: 200 columns for the content-dense
+ExperimentalDividers prompt, 120 for Atomic and Slimfat, and 100 for 1_shell,
+AtomicBit, and Clean Detailed. The generator discovers every root-level JSON
+theme by structure, while ignoring root JSON fixtures and settings that do not
+contain theme `blocks` or `extends`. The default CodeNewRoman metrics were
+measured from the configured font rather than copied from Oh My Posh's Hack Nerd
+Font defaults.
 
-#### Advanced Usage
+#### Generate-ThemePreviews advanced usage
 
 ```pwsh
 # Render only selected themes into a review directory without changing README.
@@ -443,9 +483,14 @@ pwsh ./scripts/Generate-ThemePreviews.ps1 `
   -Force
 ```
 
-Recorded-v1 fixtures have a top-level `"version": 1` marker and wrap every segment as `{ "enabled": true|false, "data": { ... } }`. Do not replace `theme-preview.data.json` with unchecked `oh-my-posh config export data` output. Recorder output can contain local paths, Git identity/remotes, and request URLs with credentials. Sanitize and review every value before committing it.
+Recorded-v1 fixtures have a top-level `"version": 1` marker and wrap every
+segment as `{ "enabled": true|false, "data": { ... } }`. Do not replace
+`theme-preview.data.json` with unchecked `oh-my-posh config export data` output.
+Recorder output can contain local paths, Git identity/remotes, and request URLs
+with credentials. Sanitize and review every value before committing it.
 
-The focused compatibility gate renders all three gradient variants and locally resolved ExperimentalDividers and Clean Detailed `extends` overlays:
+The focused compatibility gate renders all three gradient variants and locally
+resolved ExperimentalDividers and Clean Detailed `extends` overlays:
 
 ```pwsh
 pwsh ./scripts/Test-ThemePreviewExport.ps1
@@ -459,7 +504,10 @@ pwsh ./scripts/Test-ThemePreviewExport.ps1
 
 `color-palette-alternatives.json`
 
-The hand-reviewed visible-role ramps live in `scripts/Palette-Visual-Designs.json`. The palette JSON remains the generation source; use the applicator instead of hand-copying the same role changes into 38 palettes.
+The hand-reviewed visible-role ramps live in
+`scripts/Palette-Visual-Designs.json`. The palette JSON remains the generation
+source; use the applicator instead of hand-copying the same role changes into 38
+palettes.
 
 ### Curated Palette Workflow
 
@@ -605,39 +653,38 @@ foreach ($theme in $themes) {
 
 ### Complete Workflow: Create & Test Custom Theme
 
-```powershell
-# Step 1: Create a color palette
+```pwsh
+# Step 1: Create a custom palette object
 $myPalette = @{
     "accent" = "#FF6B6B"
-    "primary" = "#4ECDC4"
-    "warning" = "#FFE66D"
-    "error" = "#95E1D3"
-    "success" = "#C7CEEA"
-} | ConvertTo-Json
+    "blue_primary" = "#4ECDC4"
+    "orange_warning" = "#FFE66D"
+    "maroon_error" = "#95E1D3"
+    "green_success" = "#C7CEEA"
+}
 
-$myPalette | Out-File "my-palette.json"
+# Step 2: Generate a local palette-only overlay
+pwsh ./scripts/New-ThemeWithPalette.ps1 `
+  -PaletteObject $myPalette `
+  -OutputPath ./local-themes/my-theme.json `
+  -UpdateAccentColor
 
-# Step 2: Generate theme from palette
-.\scripts\New-ThemeWithPalette.ps1 `
-  -PalettePath "my-palette.json" `
-  -OutputPath "my-theme.json" `
-  -ThemeName "My Awesome Theme"
+# Step 3: Validate the overlay's resolved palette references
+pwsh ./scripts/validate-palette.ps1 `
+  -ConfigPath ./local-themes/my-theme.json
 
-# Step 3: Validate the theme
-.\scripts\pre-upload-validation.ps1 -ThemePath "my-theme.json"
+# Step 4: Generate a review preview without replacing the checked-in README gallery
+pwsh ./scripts/Generate-ThemePreviews.ps1 `
+  -ThemePattern ./local-themes/my-theme.json `
+  -OutputDirectory ./preview-review `
+  -SkipReadmeUpdate `
+  -Force
 
-# Step 4: Generate preview
-.\scripts\Generate-ThemePreviews.ps1 -ThemeFile "my-theme.json"
-
-# Step 5: Test the theme
-$env:OHMYPOSH_DEBUG = "false"
-oh-my-posh init pwsh --config "my-theme.json" | Invoke-Expression
-
-# Step 6: If happy, save for later
-Copy-Item "my-theme.json" ".\atomic\OhMyPosh-Atomic-Custom.MyAwesome.json"
-
-# Step 7: Add to cycling tests
-.\scripts\cycle-themes.ps1 -ThemeFolder ".\atomic"
+# Step 5: Render the primary prompt without changing the current shell session
+oh-my-posh print primary `
+  --config ./local-themes/my-theme.json `
+  --shell pwsh `
+  --force
 ```
 
 ### Batch Workflow: Generate Multiple Variants
@@ -728,11 +775,13 @@ oh-my-posh init pwsh --config $fullPath | Invoke-Expression
 
 ## Special Variant Generators
 
-These scripts generate complete root helper files from the current canonical source themes. They do not use the existing generated file as input.
+These scripts generate complete root helper files from the current canonical
+source themes. They do not use the existing generated file as input.
 
 ### Make-NoShellIntegration.ps1
 
 Generates:
+
 - `OhMyPosh-Atomic-Custom-ExperimentalDividers.NoShellIntegration.json`
 
 ```powershell
@@ -742,13 +791,19 @@ Generates:
 ### Make-FishVariant.ps1
 
 Generates:
+
 - `OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json`
 
 Why it exists:
-- Fish does not reliably support cursor-positioned right-aligned prompt blocks rendered inside the left prompt.
-- This script moves the right-aligned “top bar” segments into the `rprompt` so fish renders them via `fish_right_prompt`, and disables cursor positioning.
 
-It also preserves your Fish-only tweaks (segment order/selection + per-segment overrides) by reading the existing Fish file and re-applying those customizations during regeneration.
+- Fish does not reliably support cursor-positioned right-aligned prompt blocks
+  rendered inside the left prompt.
+- This script moves the right-aligned “top bar” segments into the `rprompt` so
+  fish renders them via `fish_right_prompt`, and disables cursor positioning.
+
+It also preserves your Fish-only tweaks (segment order/selection and
+per-segment overrides) by reading the existing Fish file and re-applying those
+customizations during regeneration.
 
 ```powershell
 .\scripts\Make-FishVariant.ps1
@@ -756,7 +811,11 @@ It also preserves your Fish-only tweaks (segment order/selection + per-segment o
 
 ### Make-ExtendedVariant.ps1
 
-Generates `OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json` by cloning canonical ExperimentalDividers and inserting the ordered VCS segments and tooltips declared in `scripts/variants/ExperimentalDividers.Extended.variant.json`.
+Generates
+`OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json` by cloning
+canonical ExperimentalDividers and inserting the ordered VCS segments and
+tooltips declared in
+`scripts/variants/ExperimentalDividers.Extended.variant.json`.
 
 ```powershell
 .\scripts\Make-ExtendedVariant.ps1
@@ -764,23 +823,39 @@ Generates `OhMyPosh-Atomic-Custom-ExperimentalDividers.Extended.json` by cloning
 
 ### Make-ColorCycleVariant.ps1
 
-Clones a complete source theme, adds the shared 12-step color cycle, and removes direct prompt-segment color fields so the top-level cycle controls the rendered sequence.
+Clones a complete source theme, adds the shared 12-step color cycle, and removes
+direct prompt-segment color fields so the top-level cycle controls the rendered
+sequence.
 
 ```powershell
 # Atomic Custom
 .\scripts\Make-ColorCycleVariant.ps1
 
 # ExperimentalDividers
-.\scripts\Make-ColorCycleVariant.ps1 -Source .\OhMyPosh-Atomic-Custom-ExperimentalDividers.json
+.\scripts\Make-ColorCycleVariant.ps1 \`
+  -Source .\OhMyPosh-Atomic-Custom-ExperimentalDividers.json
 ```
 
 ### Make-GradientVariant.ps1
 
-Generates `OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json` from the canonical ExperimentalDividers theme. It gives prompt-block backgrounds explicit two-stop `linear-gradient(...)` values. Most begin with `parentBackground` and finish at the segment's configured palette color, so the previous segment's final rendered stop becomes the next segment's first stop automatically. The shell and npm entry segments use explicit pairs because they cannot rely on a previous active background.
+Generates `OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json` from the
+canonical ExperimentalDividers theme. It gives prompt-block backgrounds
+explicit two-stop `linear-gradient(...)` values. Most begin with
+`parentBackground` and finish at the segment's configured palette color, so
+the previous segment's final rendered stop becomes the next segment's first
+stop automatically. The shell and npm entry segments use explicit pairs because
+they cannot rely on a previous active background.
 
-Oh My Posh collapses a two-stop gradient below four visible cells to its configured final stop. To avoid a row of one-cell color jumps, the standard Gradient definition removes all 30 transition-divider segments. The following wider content segments inherit the previous active background and perform the interpolation instead.
+Oh My Posh collapses a two-stop gradient below four visible cells to its
+configured final stop. To avoid a row of one-cell color jumps, the standard
+Gradient definition removes all 30 transition-divider segments. The following
+wider content segments inherit the previous active background and perform the
+interpolation instead.
 
-Because Oh My Posh does not support gradients on `interactive: true` segments, the generated variant makes `path-lprompt` and `git-lprompt` non-interactive; the canonical source is not changed. Tooltips remain solid because they do not form a dependable adjacent-segment chain.
+Because Oh My Posh does not support gradients on `interactive: true` segments,
+the generated variant makes `path-lprompt` and `git-lprompt`
+non-interactive; the canonical source is not changed. Tooltips remain solid
+because they do not form a dependable adjacent-segment chain.
 
 The repository baseline of Oh My Posh v31.0.0 or newer is required.
 
@@ -788,31 +863,56 @@ The repository baseline of Oh My Posh v31.0.0 or newer is required.
 .\scripts\Make-GradientVariant.ps1
 
 # Test it in the current PowerShell session
-oh-my-posh init pwsh --config .\OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json | Invoke-Expression
+oh-my-posh init pwsh \`
+  --config .\OhMyPosh-Atomic-Custom-ExperimentalDividers.Gradient.json |
+  Invoke-Expression
 ```
 
 ### Make-GradientRampsVariant.ps1
 
-Generates `OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json` through the shared Gradient generator. It keeps the connected two-stop backgrounds and interactive-segment compatibility changes, but uses nine grouped six-cell ramps rather than removing every transition divider. It collapses 21 redundant dividers and retains each group's endpoint as a ramp.
+Generates
+`OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json` through the
+shared Gradient generator. It keeps the connected two-stop backgrounds and
+interactive-segment compatibility changes, but uses nine grouped six-cell ramps
+rather than removing every transition divider. It collapses 21 redundant
+dividers and retains each group's endpoint as a ramp.
 
-Each retained ramp contains six full-block cells wrapped in `<background,transparent>`. The foreground keyword resolves to the gradient color at each text position, so the cells visually merge into their backgrounds while retaining stable terminal width. This is the smoother alternative; the standard divider-free Gradient output remains unchanged for side-by-side testing.
+Each retained ramp contains six full-block cells wrapped in
+`<background,transparent>`. The foreground keyword resolves to the gradient
+color at each text position, so the cells visually merge into their backgrounds
+while retaining stable terminal width. This is the smoother alternative; the
+standard divider-free Gradient output remains unchanged for side-by-side
+testing.
 
 ```powershell
 .\scripts\Make-GradientRampsVariant.ps1
 
 # Test it in the current PowerShell session
-oh-my-posh init pwsh --config .\OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json | Invoke-Expression
+oh-my-posh init pwsh \`
+  --config .\OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRamps.json |
+  Invoke-Expression
 ```
 
 ### Make-GradientRampsAutoShadeVariant.ps1
 
-Generates `OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json` through the shared Gradient generator. It retains the nine connected six-cell ramps, but uses `dark-gradient(color)` backgrounds for the shell, npm right-prompt, and separate right-block entries. These are the three places where `parentBackground` cannot provide a dependable preceding rendered color. All following segments continue to use `linear-gradient(parentBackground, ...)`, so their first stop resolves from the previous segment's final rendered stop.
+Generates
+`OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json`
+through the shared Gradient generator. It retains the nine connected six-cell
+ramps, but uses `dark-gradient(color)` backgrounds for the shell, npm
+right-prompt, and separate right-block entries. These are the three places where
+`parentBackground` cannot provide a dependable preceding rendered color. All
+following segments continue to use
+`linear-gradient(parentBackground, ...)`, so their first stop resolves from
+the previous segment's final rendered stop.
 
 ```powershell
 .\scripts\Make-GradientRampsAutoShadeVariant.ps1
 
 # Test it in the current PowerShell session (Oh My Posh v31.0.0+)
-oh-my-posh init pwsh --config .\OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json | Invoke-Expression
+oh-my-posh init pwsh \`
+  --config \`
+    .\OhMyPosh-Atomic-Custom-ExperimentalDividers.GradientRampsAutoShade.json |
+  Invoke-Expression
 ```
 
 ## Summary

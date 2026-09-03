@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Orchestrates the full generation pipeline for independent root themes:
 1. Generates Atomic and ExperimentalDividers root helper variants.
@@ -19,53 +19,53 @@ $RepoRoot = Split-Path -Path $ScriptRoot -Parent
 # Ensure we are in the repo root
 Set-Location $RepoRoot
 
-Write-Host "`n🚀 Starting Dev-Generate-All pipeline..." -ForegroundColor Cyan
+Write-Information -MessageData "`n🚀 Starting Dev-Generate-All pipeline..." -InformationAction Continue
 
 # --------------------------------------------------------------------------
 # 1. Generate ExperimentalDividers root helpers
 # --------------------------------------------------------------------------
-Write-Host "`n🔄 Step 1: Generating Experimental Divider helper variants..." -ForegroundColor Cyan
+Write-Information -MessageData "`n🔄 Step 1: Generating Experimental Divider helper variants..." -InformationAction Continue
 
 # Fish
-Write-Host '   Generating Fish variant...' -ForegroundColor Gray
+Write-Information -MessageData '   Generating Fish variant...' -InformationAction Continue
 & "$ScriptRoot/Make-FishVariant.ps1" -Source 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
 
 # NoShellIntegration
-Write-Host '   Generating NoShellIntegration variant...' -ForegroundColor Gray
+Write-Information -MessageData '   Generating NoShellIntegration variant...' -InformationAction Continue
 & "$ScriptRoot/Make-NoShellIntegration.ps1" -Source 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
 
 # NoNetwork
-Write-Host '   Generating NoNetwork variant...' -ForegroundColor Gray
+Write-Information -MessageData '   Generating NoNetwork variant...' -InformationAction Continue
 & "$ScriptRoot/Make-NoNetwork.ps1" -SourceTheme 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
 
 # Extended
-Write-Host '   Generating Extended variant...' -ForegroundColor Gray
+Write-Information -MessageData '   Generating Extended variant...' -InformationAction Continue
 & "$ScriptRoot/Make-ExtendedVariant.ps1" -Source 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
 
 # ExperimentalDividers ColorCycle
-Write-Host '   Generating ExperimentalDividers ColorCycle variant...' -ForegroundColor Gray
+Write-Information -MessageData '   Generating ExperimentalDividers ColorCycle variant...' -InformationAction Continue
 & "$ScriptRoot/Make-ColorCycleVariant.ps1" -Source 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
 
 # ExperimentalDividers Gradient
-Write-Host '   Generating ExperimentalDividers Gradient variant...' -ForegroundColor Gray
+Write-Information -MessageData '   Generating ExperimentalDividers Gradient variant...' -InformationAction Continue
 & "$ScriptRoot/Make-GradientVariant.ps1" -Source 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
 
 # ExperimentalDividers GradientRamps
-Write-Host '   Generating ExperimentalDividers GradientRamps variant...' -ForegroundColor Gray
+Write-Information -MessageData '   Generating ExperimentalDividers GradientRamps variant...' -InformationAction Continue
 & "$ScriptRoot/Make-GradientRampsVariant.ps1" -Source 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
 
 # ExperimentalDividers GradientRampsAutoShade
-Write-Host '   Generating ExperimentalDividers GradientRampsAutoShade variant...' -ForegroundColor Gray
+Write-Information -MessageData '   Generating ExperimentalDividers GradientRampsAutoShade variant...' -InformationAction Continue
 & "$ScriptRoot/Make-GradientRampsAutoShadeVariant.ps1" -Source 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
 
 # Atomic ColorCycle
-Write-Host '   Generating Atomic ColorCycle variant...' -ForegroundColor Gray
+Write-Information -MessageData '   Generating Atomic ColorCycle variant...' -InformationAction Continue
 & "$ScriptRoot/Make-ColorCycleVariant.ps1" -Source 'OhMyPosh-Atomic-Custom.json'
 
 # --------------------------------------------------------------------------
 # 2. Stage changes
 # --------------------------------------------------------------------------
-Write-Host "`n🔄 Step 2: Staging root helper changes..." -ForegroundColor Cyan
+Write-Information -MessageData "`n🔄 Step 2: Staging root helper changes..." -InformationAction Continue
 
 $filesToStage = @(
     'OhMyPosh-Atomic-Custom-ExperimentalDividers.Fish.json',
@@ -81,22 +81,25 @@ $filesToStage = @(
 )
 
 foreach ($file in $filesToStage) {
-    if (Test-Path $file) {
-        Write-Host "   Staging: $file" -ForegroundColor Gray
-        git add $file
+    if (Test-Path -LiteralPath $file) {
+        Write-Information -MessageData "   Staging: $file" -InformationAction Continue
+        & git add -- $file
+        if ($LASTEXITCODE -ne 0) {
+            throw "git add failed for '$file' with exit code $LASTEXITCODE."
+        }
     }
     else {
-        Write-Host "   ⚠️ File not found (skipping stage): $file" -ForegroundColor Yellow
+        Write-Warning "File not found (skipping stage): $file"
     }
 }
 
 # --------------------------------------------------------------------------
 # 3. Force run theme generation
 # --------------------------------------------------------------------------
-Write-Host "`n🔄 Step 3: Generating palette extensions (this may take a moment)..." -ForegroundColor Cyan
-Write-Host '   (Output files will NOT be staged)' -ForegroundColor Gray
+Write-Information -MessageData "`n🔄 Step 3: Generating palette extensions (this may take a moment)..." -InformationAction Continue
+Write-Information -MessageData '   (Output files will NOT be staged)' -InformationAction Continue
 
 & "$ScriptRoot/Generate-AllThemes.ps1" -Force
 & "$ScriptRoot/Generate-ExperimentalDividers.ps1" -Force -SkipRootVariants
 
-Write-Host "`n✅ Pipeline complete!" -ForegroundColor Green
+Write-Information -MessageData "`n✅ Pipeline complete!" -InformationAction Continue

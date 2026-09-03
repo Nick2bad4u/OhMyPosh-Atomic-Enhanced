@@ -51,6 +51,7 @@ $SupportedColorPattern = '^(?:p:[A-Za-z0-9_-]+|#[0-9A-Fa-f]{3}|#[0-9A-Fa-f]{6})$
 $TemplateColorPattern = '(?<![A-Za-z0-9_-])(?:p:[A-Za-z0-9_-]+|#[0-9A-Fa-f]{6}|#[0-9A-Fa-f]{3})(?![A-Za-z0-9_-])'
 
 function Resolve-RepoPath {
+    [OutputType([string])]
     [CmdletBinding()]
     param([Parameter(Mandatory)][string]$Path)
 
@@ -91,6 +92,7 @@ function Assert-SupportedColor {
 }
 
 function Get-GradientStop {
+    [OutputType([string])]
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)][string]$ConfiguredStop,
@@ -104,6 +106,7 @@ function Get-GradientStop {
 }
 
 function ConvertTo-ConnectedGradientColor {
+    [OutputType([string])]
     [CmdletBinding()]
     param(
         [AllowNull()][string]$Color,
@@ -132,6 +135,7 @@ function ConvertTo-ConnectedGradientColor {
 }
 
 function ConvertTo-ConnectedGradientTemplate {
+    [OutputType([string])]
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)][string]$Template,

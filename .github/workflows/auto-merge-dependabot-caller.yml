@@ -50,6 +50,9 @@ defaults:
 jobs:
   dependabot-auto-merge:
     name: "Dependabot Auto Merge"
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.user.login == 'dependabot[bot]'
     permissions:
       contents: "write"
       pull-requests: "write"

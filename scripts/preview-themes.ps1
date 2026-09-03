@@ -14,10 +14,29 @@ $RepoRoot = Split-Path -Path $PSScriptRoot -Parent
 
 function Resolve-RepoPath {
     [CmdletBinding()]
+    [OutputType([string])]
     param([Parameter(Mandatory)][string]$Path)
 
     if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
     return (Join-Path -Path $RepoRoot -ChildPath $Path)
+}
+
+function Write-PreviewMessage {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [AllowEmptyString()]
+        [string]$Message,
+
+        [Parameter()]
+        [ConsoleColor]$ForegroundColor = [ConsoleColor]::Gray
+    )
+
+    $hostMessage = [Management.Automation.HostInformationMessage]@{
+        Message         = $Message
+        ForegroundColor = $ForegroundColor
+    }
+    Write-Information -MessageData $hostMessage -InformationAction Continue
 }
 
 function ConvertTo-PascalCase {
@@ -61,7 +80,7 @@ if (Test-Path -LiteralPath $palettesFile) {
         )
     }
     catch {
-        Write-Output "⚠️  Failed to parse palettes JSON, using fallback palette list: $_" -ForegroundColor Yellow
+        Write-PreviewMessage -Message "WARNING: Failed to parse palettes JSON, using fallback palette list: $_" -ForegroundColor Yellow
     }
 }
 
@@ -165,7 +184,7 @@ if ($Custom) {
             if (-not $familyMatch) { continue }
         }
 
-        if (Test-Path $theme.Path) {
+        if (Test-Path -LiteralPath $theme.Path) {
             $themes += @{
                 Type = 'Enhanced'
                 Name = $theme.Name
@@ -190,8 +209,7 @@ if ($Official) {
 }
 
 if ($themes.Count -eq 0) {
-    Write-Output '❌ No themes found!' -ForegroundColor Red
-    exit 1
+    throw 'No themes found for the selected source and family filters.'
 }
 
 $currentIndex = 0
@@ -202,31 +220,36 @@ function Show-Theme {
     $theme = $themes[$Index]
 
     # Show preview using oh-my-posh print command
-    Write-Output ''
-    Write-Output '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
-    Write-Output "Theme $($Index + 1) of $($themes.Count): $($theme.Type) - $($theme.Name)" -ForegroundColor Yellow
-    Write-Output "Path: $($theme.Path)" -ForegroundColor Gray
-    Write-Output '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
-    Write-Output ''
+    Write-PreviewMessage -Message ''
+    Write-PreviewMessage -Message ('=' * 60) -ForegroundColor Cyan
+    Write-PreviewMessage -Message "Theme $($Index + 1) of $($themes.Count): $($theme.Type) - $($theme.Name)" -ForegroundColor Yellow
+    Write-PreviewMessage -Message "Path: $($theme.Path)" -ForegroundColor Gray
+    Write-PreviewMessage -Message ('=' * 60) -ForegroundColor Cyan
+    Write-PreviewMessage -Message ''
 
     # Print the preview
-    oh-my-posh print preview --config $theme.Path --force 2>$null
+    $global:LASTEXITCODE = 0
+    & oh-my-posh print preview --config $theme.Path --force 2>$null
+    $previewExitCode = $LASTEXITCODE
+    if ($previewExitCode -ne 0) {
+        throw "oh-my-posh preview failed for '$($theme.Path)' with exit code $previewExitCode."
+    }
 
-    Write-Output ''
-    Write-Output '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
-    Write-Output "Press ENTER for next, Q to quit, or type a number (1-$($themes.Count))" -ForegroundColor Green
-    Write-Output '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
-    Write-Output ''
+    Write-PreviewMessage -Message ''
+    Write-PreviewMessage -Message ('=' * 60) -ForegroundColor Cyan
+    Write-PreviewMessage -Message "Press ENTER for next, Q to quit, or type a number (1-$($themes.Count))" -ForegroundColor Green
+    Write-PreviewMessage -Message ('=' * 60) -ForegroundColor Cyan
+    Write-PreviewMessage -Message ''
 }
 
 # Show first theme
 Show-Theme -Index $currentIndex
 
 while ($true) {
-    $userInput = Read-Host '❯'
+    $userInput = Read-Host '>'
 
     if ($userInput -eq 'q' -or $userInput -eq 'Q') {
-        Write-Output 'Goodbye!' -ForegroundColor Green
+        Write-PreviewMessage -Message 'Goodbye!' -ForegroundColor Green
         break
     }
 
@@ -237,7 +260,7 @@ while ($true) {
             $currentIndex = $num - 1
         }
         else {
-            Write-Output "Invalid theme number (1-$($themes.Count))" -ForegroundColor Red
+            Write-PreviewMessage -Message "Invalid theme number (1-$($themes.Count))" -ForegroundColor Red
             continue
         }
     }

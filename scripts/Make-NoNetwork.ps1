@@ -116,5 +116,5 @@ if ($theme.tooltips) {
 $jsonOut = $theme | ConvertTo-Json -Depth 100
 Set-Content -LiteralPath $OutputPath -Value $jsonOut -Encoding utf8
 
-Write-Host "Created NoNetwork theme: $OutputPath" -ForegroundColor Green
-Write-Host "Removed segments: blocks=$($removedCounts.blocks), tooltips=$($removedCounts.tooltips)" -ForegroundColor Cyan
+Write-Information -MessageData "Created NoNetwork theme: $OutputPath" -InformationAction Continue
+Write-Information -MessageData "Removed segments: blocks=$($removedCounts.blocks), tooltips=$($removedCounts.tooltips)" -InformationAction Continue

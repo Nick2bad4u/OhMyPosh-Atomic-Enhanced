@@ -58,6 +58,28 @@ catch {
     Write-Verbose "System.Drawing already loaded or unavailable: $_"
 }
 
+function Write-MergeMessage {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [AllowEmptyString()]
+        [string]$Message,
+
+        [Parameter()]
+        [ConsoleColor]$ForegroundColor = [ConsoleColor]::Gray,
+
+        [Parameter()]
+        [switch]$NoNewline
+    )
+
+    $hostMessage = [Management.Automation.HostInformationMessage]@{
+        Message         = $Message
+        ForegroundColor = $ForegroundColor
+        NoNewline       = $NoNewline.IsPresent
+    }
+    Write-Information -MessageData $hostMessage -InformationAction Continue
+}
+
 function Get-ColorFromHex {
     param(
         [Parameter(Mandatory = $true)]
@@ -266,6 +288,143 @@ function Get-ClosestThemeColor {
     return $bestColor
 }
 
+function Add-UniqueColorToPool {
+    param(
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [System.Collections.Generic.List[string]]$ColorPool,
+
+        [Parameter(Mandatory = $false)]
+        [AllowNull()]
+        [object]$Value
+    )
+
+    if ($Value -isnot [string] -or $Value -notmatch '^#') {
+        return
+    }
+
+    $color = $Value.ToUpper()
+    if (-not $ColorPool.Contains($color)) {
+        $null = $ColorPool.Add($color)
+    }
+}
+
+function Add-PaletteColorsToPool {
+    param(
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [System.Collections.Generic.List[string]]$ColorPool,
+
+        [Parameter(Mandatory = $false)]
+        [hashtable]$Palette
+    )
+
+    if (-not $Palette) {
+        return
+    }
+
+    foreach ($entry in $Palette.GetEnumerator()) {
+        Add-UniqueColorToPool -ColorPool $ColorPool -Value $entry.Value
+    }
+}
+
+function Add-TemplateColorsToPool {
+    param(
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [System.Collections.Generic.List[string]]$ColorPool,
+
+        [Parameter(Mandatory = $true)]
+        [object]$Value,
+
+        [Parameter(Mandatory = $false)]
+        [hashtable]$Palette
+    )
+
+    $strings = if ($Value -is [System.Collections.IEnumerable] -and $Value -isnot [string]) {
+        $Value
+    }
+    else {
+        @($Value)
+    }
+
+    foreach ($item in $strings) {
+        if ($item -isnot [string]) {
+            continue
+        }
+
+        foreach ($match in [regex]::Matches($item,'#[0-9a-fA-F]{6}')) {
+            Add-UniqueColorToPool -ColorPool $ColorPool -Value $match.Value
+        }
+
+        if (-not $Palette) {
+            continue
+        }
+
+        foreach ($paletteMatch in [regex]::Matches($item,'p:([A-Za-z0-9_\-]+)')) {
+            $paletteKey = $paletteMatch.Groups[1].Value
+            if ($Palette.ContainsKey($paletteKey)) {
+                Add-UniqueColorToPool -ColorPool $ColorPool -Value $Palette[$paletteKey]
+            }
+        }
+    }
+}
+
+function Add-SegmentColorsToPool {
+    param(
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [System.Collections.Generic.List[string]]$ColorPool,
+
+        [Parameter(Mandatory = $true)]
+        [object]$Segment,
+
+        [Parameter(Mandatory = $false)]
+        [hashtable]$Palette
+    )
+
+    foreach ($propertyName in @('background','foreground')) {
+        if ($Segment.PSObject.Properties.Name -contains $propertyName) {
+            $resolved = Get-ResolvedColorValue -Value $Segment.$propertyName -Palette $Palette
+            Add-UniqueColorToPool -ColorPool $ColorPool -Value $resolved
+        }
+    }
+
+    foreach ($templateProperty in @('background_templates','foreground_templates','template')) {
+        if ($Segment.PSObject.Properties.Name -notcontains $templateProperty) {
+            continue
+        }
+
+        $value = $Segment.$templateProperty
+        if ($null -ne $value) {
+            Add-TemplateColorsToPool -ColorPool $ColorPool -Value $value -Palette $Palette
+        }
+    }
+}
+
+function Get-ThemeBlockSegment {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object]$Theme
+    )
+
+    if (-not $Theme.blocks) {
+        return
+    }
+
+    foreach ($block in $Theme.blocks) {
+        if (-not $block.segments) {
+            continue
+        }
+
+        foreach ($segment in $block.segments) {
+            if ($null -ne $segment) {
+                $segment
+            }
+        }
+    }
+}
+
 function Get-OfficialColorPool {
     param(
         [Parameter(Mandatory = $true)]
@@ -277,69 +436,10 @@ function Get-OfficialColorPool {
 
     $colors = New-Object System.Collections.Generic.List[string]
 
-    if ($Palette) {
-        foreach ($entry in $Palette.GetEnumerator()) {
-            if ($entry.Value -match '^#') {
-                $color = $entry.Value.ToUpper()
-                if (-not $colors.Contains($color)) {
-                    $null = $colors.Add($color)
-                }
-            }
-        }
-    }
+    Add-PaletteColorsToPool -ColorPool $colors -Palette $Palette
 
-    if ($Theme.blocks) {
-        foreach ($block in $Theme.blocks) {
-            if (-not $block.segments) { continue }
-
-            foreach ($segment in $block.segments) {
-                foreach ($propName in @('background','foreground')) {
-                    if ($segment.PSObject.Properties.Name -contains $propName) {
-                        $resolved = Get-ResolvedColorValue -Value $segment.$propName -Palette $Palette
-                        if ($resolved -and -not $colors.Contains($resolved)) {
-                            $null = $colors.Add($resolved)
-                        }
-                    }
-                }
-
-                foreach ($templateProp in @('background_templates','foreground_templates','template')) {
-                    if (-not ($segment.PSObject.Properties.Name -contains $templateProp)) { continue }
-                    $value = $segment.$templateProp
-                    if ($null -eq $value) { continue }
-
-                    $strings = @()
-                    if ($value -is [System.Collections.IEnumerable] -and -not ($value -is [string])) {
-                        $strings = $value
-                    }
-                    else {
-                        $strings = @($value)
-                    }
-
-                    foreach ($item in $strings) {
-                        if (-not ($item -is [string])) { continue }
-                        foreach ($match in [regex]::Matches($item,'#[0-9a-fA-F]{6}')) {
-                            $hex = $match.Value.ToUpper()
-                            if (-not $colors.Contains($hex)) {
-                                $null = $colors.Add($hex)
-                            }
-                        }
-
-                        foreach ($paletteMatch in [regex]::Matches($item,'p:([A-Za-z0-9_\-]+)')) {
-                            $paletteKey = $paletteMatch.Groups[1].Value
-                            if ($Palette -and $Palette.ContainsKey($paletteKey)) {
-                                $paletteColor = $Palette[$paletteKey]
-                                if ($paletteColor -match '^#') {
-                                    $hexPalette = $paletteColor.ToUpper()
-                                    if (-not $colors.Contains($hexPalette)) {
-                                        $null = $colors.Add($hexPalette)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    foreach ($segment in @(Get-ThemeBlockSegment -Theme $Theme)) {
+        Add-SegmentColorsToPool -ColorPool $colors -Segment $segment -Palette $Palette
     }
 
     return $colors.ToArray()
@@ -364,6 +464,170 @@ function Get-ThemePaletteMap {
     return $palette
 }
 
+function Get-ResolvedSegmentThemeColor {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object]$Segment,
+
+        [Parameter(Mandatory = $true)]
+        [string]$PropertyName,
+
+        [Parameter(Mandatory = $false)]
+        [hashtable]$Palette
+    )
+
+    if ($Segment.PSObject.Properties.Name -notcontains $PropertyName) {
+        return $null
+    }
+
+    $value = $Segment.$PropertyName
+    if ([string]::IsNullOrWhiteSpace($value)) {
+        return $null
+    }
+
+    $resolved = Get-ResolvedColorValue -Value $value -Palette $Palette
+    if ($resolved) {
+        return $resolved.ToUpper()
+    }
+
+    if ($value -match '^#') {
+        return $value.ToUpper()
+    }
+
+    return $null
+}
+
+function Add-ThemeColorCandidate {
+    param(
+        [Parameter(Mandatory = $true)]
+        [hashtable]$ThemeColors,
+
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [System.Collections.Generic.List[string]]$Candidates,
+
+        [Parameter(Mandatory = $true)]
+        [ValidateSet('bg','fg')]
+        [string]$ColorRole,
+
+        [Parameter(Mandatory = $false)]
+        [AllowNull()]
+        [string]$Color
+    )
+
+    if (-not $Color) {
+        return
+    }
+
+    if (-not $Candidates.Contains($Color)) {
+        $null = $Candidates.Add($Color)
+    }
+
+    foreach ($slot in @("primary_$ColorRole","secondary_$ColorRole","accent_$ColorRole")) {
+        if (-not $ThemeColors[$slot]) {
+            $ThemeColors[$slot] = $Color
+            return
+        }
+    }
+}
+
+function Add-ThemeSegmentColorCandidate {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object]$Theme,
+
+        [Parameter(Mandatory = $false)]
+        [hashtable]$Palette,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$ThemeColors,
+
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [System.Collections.Generic.List[string]]$BackgroundCandidates,
+
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [System.Collections.Generic.List[string]]$ForegroundCandidates
+    )
+
+    $segmentCounter = 0
+    foreach ($segment in @(Get-ThemeBlockSegment -Theme $Theme)) {
+        $background = Get-ResolvedSegmentThemeColor -Segment $segment -PropertyName 'background' -Palette $Palette
+        Add-ThemeColorCandidate -ThemeColors $ThemeColors -Candidates $BackgroundCandidates -ColorRole bg -Color $background
+
+        $foreground = Get-ResolvedSegmentThemeColor -Segment $segment -PropertyName 'foreground' -Palette $Palette
+        Add-ThemeColorCandidate -ThemeColors $ThemeColors -Candidates $ForegroundCandidates -ColorRole fg -Color $foreground
+
+        $segmentCounter++
+        if ($segmentCounter -ge 12) {
+            return
+        }
+    }
+}
+
+function Complete-ThemeBackgroundColor {
+    param(
+        [Parameter(Mandatory = $true)]
+        [hashtable]$ThemeColors,
+
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [string[]]$Candidates
+    )
+
+    if ($Candidates.Count -eq 0) {
+        return
+    }
+
+    if (-not $ThemeColors.primary_bg -and $Candidates.Length -gt 0) {
+        $ThemeColors.primary_bg = $Candidates[0]
+    }
+
+    if (-not $ThemeColors.secondary_bg -and $Candidates.Length -gt 1) {
+        $ThemeColors.secondary_bg = $Candidates[1]
+    }
+
+    if ($ThemeColors.accent_bg) {
+        return
+    }
+
+    $accentCandidate = Select-ColorByHueRange -Colors $Candidates -MinHue 280 -MaxHue 360
+    if (-not $accentCandidate) {
+        $accentCandidate = Select-ColorByHueRange -Colors $Candidates -MinHue 0 -MaxHue 60
+    }
+    if (-not $accentCandidate -and $Candidates.Length -gt 2) {
+        $accentCandidate = $Candidates[2]
+    }
+    $ThemeColors.accent_bg = $accentCandidate
+}
+
+function Complete-ThemeForegroundColor {
+    param(
+        [Parameter(Mandatory = $true)]
+        [hashtable]$ThemeColors,
+
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [string[]]$Candidates
+    )
+
+    if (-not $ThemeColors.primary_fg -and $Candidates.Length -gt 0) {
+        $ThemeColors.primary_fg = $Candidates[0]
+    }
+    if (-not $ThemeColors.primary_fg -and $ThemeColors.primary_bg) {
+        $ThemeColors.primary_fg = Get-ContrastColor -Hex $ThemeColors.primary_bg
+    }
+
+    if (-not $ThemeColors.secondary_fg -and $ThemeColors.secondary_bg) {
+        $ThemeColors.secondary_fg = Get-ContrastColor -Hex $ThemeColors.secondary_bg
+    }
+
+    if (-not $ThemeColors.accent_fg -and $ThemeColors.accent_bg) {
+        $ThemeColors.accent_fg = Get-ContrastColor -Hex $ThemeColors.accent_bg
+    }
+}
+
 function Get-PrimaryThemeColor {
     param(
         [Parameter(Mandatory = $true)]
@@ -384,102 +648,274 @@ function Get-PrimaryThemeColor {
 
     $backgroundCandidates = New-Object System.Collections.Generic.List[string]
     $foregroundCandidates = New-Object System.Collections.Generic.List[string]
-    $segmentCounter = 0
-
-    if ($Theme.blocks) {
-        foreach ($block in $Theme.blocks) {
-            if (-not $block.segments) { continue }
-
-            foreach ($segment in $block.segments) {
-                $resolvedBg = Get-ResolvedColorValue -Value $segment.background -Palette $Palette
-                if (-not $resolvedBg -and $segment.PSObject.Properties.Name -contains 'background' -and $segment.background -match '^#') {
-                    $resolvedBg = $segment.background
-                }
-
-                if ($resolvedBg) {
-                    $resolvedBg = $resolvedBg.ToUpper()
-                    if (-not $backgroundCandidates.Contains($resolvedBg)) {
-                        $null = $backgroundCandidates.Add($resolvedBg)
-                    }
-
-                    if (-not $colors.primary_bg) {
-                        $colors.primary_bg = $resolvedBg
-                    }
-                    elseif (-not $colors.secondary_bg) {
-                        $colors.secondary_bg = $resolvedBg
-                    }
-                    elseif (-not $colors.accent_bg) {
-                        $colors.accent_bg = $resolvedBg
-                    }
-                }
-
-                $resolvedFg = Get-ResolvedColorValue -Value $segment.foreground -Palette $Palette
-                if (-not $resolvedFg -and $segment.PSObject.Properties.Name -contains 'foreground' -and $segment.foreground -match '^#') {
-                    $resolvedFg = $segment.foreground
-                }
-
-                if ($resolvedFg) {
-                    $resolvedFg = $resolvedFg.ToUpper()
-                    if (-not $foregroundCandidates.Contains($resolvedFg)) {
-                        $null = $foregroundCandidates.Add($resolvedFg)
-                    }
-
-                    if (-not $colors.primary_fg) {
-                        $colors.primary_fg = $resolvedFg
-                    }
-                    elseif (-not $colors.secondary_fg) {
-                        $colors.secondary_fg = $resolvedFg
-                    }
-                    elseif (-not $colors.accent_fg) {
-                        $colors.accent_fg = $resolvedFg
-                    }
-                }
-
-                $segmentCounter++
-                if ($segmentCounter -ge 12) { break }
-            }
-
-            if ($segmentCounter -ge 12) { break }
-        }
-    }
+    Add-ThemeSegmentColorCandidate -Theme $Theme -Palette $Palette -ThemeColors $colors -BackgroundCandidates $backgroundCandidates -ForegroundCandidates $foregroundCandidates
 
     $backgroundArray = $backgroundCandidates.ToArray()
-    if (-not $colors.primary_bg -and $backgroundArray.Length -gt 0) {
-        $colors.primary_bg = $backgroundArray[0]
-    }
-
-    if (-not $colors.secondary_bg -and $backgroundArray.Length -gt 1) {
-        $colors.secondary_bg = $backgroundArray[1]
-    }
-
-    if (-not $colors.accent_bg) {
-        $accentCandidate = Select-ColorByHueRange -Colors $backgroundArray -MinHue 280 -MaxHue 360
-        if (-not $accentCandidate) {
-            $accentCandidate = Select-ColorByHueRange -Colors $backgroundArray -MinHue 0 -MaxHue 60
-        }
-        if (-not $accentCandidate -and $backgroundArray.Length -gt 2) {
-            $accentCandidate = $backgroundArray[2]
-        }
-        $colors.accent_bg = $accentCandidate
-    }
+    Complete-ThemeBackgroundColor -ThemeColors $colors -Candidates $backgroundArray
 
     $foregroundArray = $foregroundCandidates.ToArray()
-    if (-not $colors.primary_fg -and $foregroundArray.Length -gt 0) {
-        $colors.primary_fg = $foregroundArray[0]
-    }
-    if (-not $colors.primary_fg -and $colors.primary_bg) {
-        $colors.primary_fg = Get-ContrastColor -Hex $colors.primary_bg
-    }
-
-    if (-not $colors.secondary_fg -and $colors.secondary_bg) {
-        $colors.secondary_fg = Get-ContrastColor -Hex $colors.secondary_bg
-    }
-
-    if (-not $colors.accent_fg -and $colors.accent_bg) {
-        $colors.accent_fg = Get-ContrastColor -Hex $colors.accent_bg
-    }
+    Complete-ThemeForegroundColor -ThemeColors $colors -Candidates $foregroundArray
 
     return $colors
+}
+
+function Copy-PaletteMap {
+    param(
+        [Parameter(Mandatory = $false)]
+        [hashtable]$Palette
+    )
+
+    $copy = @{}
+    if (-not $Palette) {
+        return $copy
+    }
+
+    foreach ($entry in @($Palette.GetEnumerator())) {
+        $copy[$entry.Key] = $entry.Value
+    }
+
+    return $copy
+}
+
+function Get-NormalizedOfficialColor {
+    param(
+        [Parameter(Mandatory = $false)]
+        [string[]]$OfficialColors
+    )
+
+    if (-not $OfficialColors -or $OfficialColors.Count -eq 0) {
+        return @('#6272A4','#BD93F9','#FF79C6','#8BE9FD','#FFB86C','#F1FA8C')
+    }
+
+    return @($OfficialColors | ForEach-Object { $_.ToUpper() } | Select-Object -Unique)
+}
+
+function Get-AvailableColorPool {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string[]]$Colors
+    )
+
+    $availableColors = New-Object System.Collections.Generic.List[string]
+    foreach ($color in $Colors) {
+        if (-not $availableColors.Contains($color)) {
+            $null = $availableColors.Add($color)
+        }
+    }
+
+    return ,$availableColors
+}
+
+function Get-PaletteColorDefault {
+    param(
+        [Parameter(Mandatory = $true)]
+        [hashtable]$ThemeColors,
+
+        [Parameter(Mandatory = $true)]
+        [string[]]$ColorPool
+    )
+
+    $defaults = @{
+        PrimaryBackground = if ($ThemeColors.primary_bg) { $ThemeColors.primary_bg.ToUpper() } else { $ColorPool[0] }
+        SecondaryBackground = if ($ThemeColors.secondary_bg) { $ThemeColors.secondary_bg.ToUpper() } else { $null }
+        AccentBackground = if ($ThemeColors.accent_bg) { $ThemeColors.accent_bg.ToUpper() } else { $null }
+        PrimaryForeground = if ($ThemeColors.primary_fg) { $ThemeColors.primary_fg.ToUpper() } else { $null }
+    }
+
+    if (-not $defaults.SecondaryBackground -and $ColorPool.Count -gt 1) {
+        $defaults.SecondaryBackground = $ColorPool[1]
+    }
+    if (-not $defaults.AccentBackground -and $ColorPool.Count -gt 2) {
+        $defaults.AccentBackground = $ColorPool[2]
+    }
+    if (-not $defaults.PrimaryForeground -and $defaults.PrimaryBackground) {
+        $defaults.PrimaryForeground = Get-ContrastColor -Hex $defaults.PrimaryBackground
+    }
+
+    return $defaults
+}
+
+function Get-FallbackThemeColor {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string[]]$ColorPool,
+
+        [Parameter(Mandatory = $true)]
+        [double]$MinHue,
+
+        [Parameter(Mandatory = $true)]
+        [double]$MaxHue,
+
+        [Parameter(Mandatory = $false)]
+        [AllowNull()]
+        [string[]]$Fallbacks
+    )
+
+    $selected = Select-ColorByHueRange -Colors $ColorPool -MinHue $MinHue -MaxHue $MaxHue
+    if ($selected) {
+        return $selected.ToUpper()
+    }
+
+    return @($Fallbacks | Where-Object { $_ })[0]
+}
+
+function Get-AvailableColorByHue {
+    param(
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [System.Collections.Generic.List[string]]$AvailableColors,
+
+        [Parameter(Mandatory = $true)]
+        [double]$MinHue,
+
+        [Parameter(Mandatory = $true)]
+        [double]$MaxHue,
+
+        [Parameter(Mandatory = $false)]
+        [AllowNull()]
+        [string]$Fallback
+    )
+
+    if ($AvailableColors.Count -eq 0) {
+        return $Fallback
+    }
+
+    $selected = Select-ColorByHueRange -Colors $AvailableColors.ToArray() -MinHue $MinHue -MaxHue $MaxHue
+    if (-not $selected) {
+        $selected = $AvailableColors[0]
+    }
+
+    $null = $AvailableColors.Remove($selected)
+    return $selected
+}
+
+function Get-NextAvailableColor {
+    param(
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [System.Collections.Generic.List[string]]$AvailableColors,
+
+        [Parameter(Mandatory = $false)]
+        [AllowNull()]
+        [string]$Fallback
+    )
+
+    if ($AvailableColors.Count -eq 0) {
+        return $Fallback
+    }
+
+    $selected = $AvailableColors[0]
+    $AvailableColors.RemoveAt(0)
+    return $selected
+}
+
+function Get-OriginalPaletteColorMap {
+    param(
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Palette
+    )
+
+    $colorMap = @{}
+    foreach ($key in $Palette.Keys) {
+        $value = $Palette[$key]
+        if ($value -match '^#([0-9a-fA-F]{3,8})$') {
+            $colorMap[$key] = $value.ToUpper()
+        }
+    }
+
+    return $colorMap
+}
+
+function Get-CompatibleThemeColor {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$OriginalColor,
+
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [System.Collections.Generic.List[string]]$AvailableColors
+    )
+
+    if ($AvailableColors.Count -eq 0) {
+        return $null
+    }
+
+    $closest = Get-ClosestThemeColor -TargetHex $OriginalColor -ColorPool $AvailableColors
+    if (-not $closest) {
+        return $null
+    }
+
+    $originalHue = Get-ColorHue -Hex $OriginalColor
+    $closestHue = Get-ColorHue -Hex $closest
+    if ($null -eq $originalHue -or $null -eq $closestHue) {
+        return $closest
+    }
+
+    $hueDiff = [math]::Abs($originalHue - $closestHue)
+    if ($hueDiff -gt 180) {
+        $hueDiff = 360 - $hueDiff
+    }
+
+    return $(if ($hueDiff -le 45) { $closest } else { $OriginalColor })
+}
+
+function Resolve-NamedPaletteColor {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Name,
+
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [System.Collections.Generic.List[string]]$AvailableColors,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Defaults,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$RoleColors
+    )
+
+    switch -Regex ($Name.ToLowerInvariant()) {
+        'white' { return '#F8F8F2' }
+        'black' { return '#1C1C1C' }
+        'accent|purple|magenta|pink|violet' { return Get-AvailableColorByHue -AvailableColors $AvailableColors -MinHue 280 -MaxHue 360 -Fallback $Defaults.AccentBackground }
+        'primary|shell|prompt' { return $Defaults.PrimaryBackground }
+        '_fg$' { return $Defaults.PrimaryForeground }
+        'text' { return $Defaults.PrimaryForeground }
+        'session|secondary' { return $Defaults.SecondaryBackground }
+        'yellow|orange|warning|battery|update' { return Get-AvailableColorByHue -AvailableColors $AvailableColors -MinHue 20 -MaxHue 80 -Fallback $RoleColors.Warning }
+        'green|success|added|valid' { return Get-AvailableColorByHue -AvailableColors $AvailableColors -MinHue 80 -MaxHue 150 -Fallback $RoleColors.Success }
+        'teal|cyan|info|sysinfo|node|python|blue' { return Get-AvailableColorByHue -AvailableColors $AvailableColors -MinHue 180 -MaxHue 260 -Fallback $RoleColors.Info }
+        'red|error|alert|deleted|debug' { return Get-AvailableColorByHue -AvailableColors $AvailableColors -MinHue 330 -MaxHue 30 -Fallback $RoleColors.Error }
+        'gray|grey|prompt_count|path|os' { return $RoleColors.NeutralDark }
+        default { return Get-NextAvailableColor -AvailableColors $AvailableColors -Fallback $Defaults.PrimaryBackground }
+    }
+}
+
+function Resolve-PaletteForegroundContrast {
+    param(
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Palette,
+
+        [Parameter(Mandatory = $true)]
+        [string]$PrimaryForeground
+    )
+
+    foreach ($key in @($Palette.Keys)) {
+        if ($key -match '_fg$') {
+            $baseKey = $key.Substring(0,$key.Length - 3)
+            $backgroundKey = if ($Palette.ContainsKey($baseKey)) { $baseKey } else { "${baseKey}_bg" }
+            $Palette[$key] = if ($Palette.ContainsKey($backgroundKey)) {
+                Get-ContrastColor -Hex $Palette[$backgroundKey]
+            }
+            else {
+                $PrimaryForeground
+            }
+        }
+        elseif ($key -match 'text') {
+            $Palette[$key] = $PrimaryForeground
+        }
+    }
 }
 
 function Get-ThemedPalette {
@@ -497,164 +933,38 @@ function Get-ThemedPalette {
         [string[]]$OfficialColors
     )
 
-    $converted = @{}
-
-    if ($OfficialPalette) {
-        foreach ($entry in $OfficialPalette.GetEnumerator()) {
-            $converted[$entry.Key] = $entry.Value
-        }
-    }
-
+    $converted = Copy-PaletteMap -Palette $OfficialPalette
     if (-not $CustomPalette -or $CustomPalette.Count -eq 0) {
         return $converted
     }
 
-    $colorPool = if ($OfficialColors -and $OfficialColors.Count -gt 0) {
-        ($OfficialColors | ForEach-Object { $_.ToUpper() }) | Select-Object -Unique
+    $colorPool = Get-NormalizedOfficialColor -OfficialColors $OfficialColors
+    $availableColors = Get-AvailableColorPool -Colors $colorPool
+    $defaults = Get-PaletteColorDefault -ThemeColors $ThemeColors -ColorPool $colorPool
+    $roleColors = @{
+        Warning = Get-FallbackThemeColor -ColorPool $colorPool -MinHue 20 -MaxHue 80 -Fallbacks @($defaults.AccentBackground,$defaults.PrimaryBackground)
+        Success = Get-FallbackThemeColor -ColorPool $colorPool -MinHue 80 -MaxHue 150 -Fallbacks @($defaults.SecondaryBackground,$defaults.PrimaryBackground)
+        Info = Get-FallbackThemeColor -ColorPool $colorPool -MinHue 180 -MaxHue 260 -Fallbacks @($defaults.SecondaryBackground,$defaults.PrimaryBackground)
+        Error = Get-FallbackThemeColor -ColorPool $colorPool -MinHue 330 -MaxHue 30 -Fallbacks @($defaults.AccentBackground,$defaults.PrimaryBackground)
+        NeutralDark = Get-AdjustedColor -Hex $defaults.PrimaryBackground -Factor -0.25
     }
-    else {
-        @('#6272A4','#BD93F9','#FF79C6','#8BE9FD','#FFB86C','#F1FA8C')
-    }
-
-    $availableColors = New-Object System.Collections.Generic.List[string]
-    foreach ($poolColor in $colorPool) {
-        if (-not $availableColors.Contains($poolColor)) {
-            $null = $availableColors.Add($poolColor)
-        }
-    }
-
-    $primaryBg = if ($ThemeColors.primary_bg) { $ThemeColors.primary_bg.ToUpper() } else { ($colorPool[0]) }
-    $secondaryBg = if ($ThemeColors.secondary_bg) { $ThemeColors.secondary_bg.ToUpper() } else { $null }
-    $accentBg = if ($ThemeColors.accent_bg) { $ThemeColors.accent_bg.ToUpper() } else { $null }
-    $primaryFg = if ($ThemeColors.primary_fg) { $ThemeColors.primary_fg.ToUpper() } else { $null }
-
-    if (-not $secondaryBg -and $colorPool.Count -gt 1) { $secondaryBg = $colorPool[1] }
-    if (-not $accentBg -and $colorPool.Count -gt 2) { $accentBg = $colorPool[2] }
-    if (-not $primaryFg -and $primaryBg) { $primaryFg = Get-ContrastColor -Hex $primaryBg }
-
-    $warningColor = Select-ColorByHueRange -Colors $colorPool -MinHue 20 -MaxHue 80
-    if ($warningColor) { $warningColor = $warningColor.ToUpper() }
-    $successColor = Select-ColorByHueRange -Colors $colorPool -MinHue 80 -MaxHue 150
-    if ($successColor) { $successColor = $successColor.ToUpper() }
-    $infoColor = Select-ColorByHueRange -Colors $colorPool -MinHue 180 -MaxHue 260
-    if ($infoColor) { $infoColor = $infoColor.ToUpper() }
-    $errorColor = Select-ColorByHueRange -Colors $colorPool -MinHue 330 -MaxHue 30
-    if ($errorColor) { $errorColor = $errorColor.ToUpper() }
-
-    if (-not $warningColor) { $warningColor = $accentBg }
-    if (-not $warningColor) { $warningColor = $primaryBg }
-    if (-not $successColor) { $successColor = $secondaryBg }
-    if (-not $successColor) { $successColor = $primaryBg }
-    if (-not $infoColor) { $infoColor = $secondaryBg }
-    if (-not $infoColor) { $infoColor = $primaryBg }
-    if (-not $errorColor) { $errorColor = $accentBg }
-    if (-not $errorColor) { $errorColor = $primaryBg }
-
-    $neutralColorDark = if ($primaryBg) { Get-AdjustedColor -Hex $primaryBg -Factor -0.25 } else { '#2B2B2B' }
-
-    $getColorByHue = {
-        param($minHue,$maxHue,$fallback)
-        if ($availableColors.Count -eq 0) {
-            return $fallback
-        }
-        $selected = $null
-        if ($null -ne $minHue -and $null -ne $maxHue) {
-            $selected = Select-ColorByHueRange -Colors $availableColors.ToArray() -MinHue $minHue -MaxHue $maxHue
-        }
-        if (-not $selected) {
-            $selected = $availableColors[0]
-        }
-        $null = $availableColors.Remove($selected)
-        return $selected
-    }
-
-    $getNextAvailable = {
-        param($fallback)
-        if ($availableColors.Count -eq 0) {
-            return $fallback
-        }
-        $selected = $availableColors[0]
-        $null = $availableColors.RemoveAt(0)
-        return $selected
-    }
-
-    $originalColorMap = @{}
-    foreach ($key in $CustomPalette.Keys) {
-        $value = $CustomPalette[$key]
-        if ($value -match '^#([0-9a-fA-F]{3,8})$') {
-            $originalColorMap[$key] = $value.ToUpper()
-        }
-    }
+    $originalColorMap = Get-OriginalPaletteColorMap -Palette $CustomPalette
 
     foreach ($key in $CustomPalette.Keys) {
-        if ($converted.ContainsKey($key)) { continue }
-
-        $assigned = $null
-        if ($availableColors.Count -gt 0 -and $originalColorMap.ContainsKey($key)) {
-            $closest = Get-ClosestThemeColor -TargetHex $originalColorMap[$key] -ColorPool $availableColors
-            if ($closest) {
-                $originalHue = Get-ColorHue -Hex $originalColorMap[$key]
-                $closestHue = Get-ColorHue -Hex $closest
-                $useClosest = $true
-                if ($null -ne $originalHue -and $null -ne $closestHue) {
-                    $hueDiff = [math]::Abs($originalHue - $closestHue)
-                    if ($hueDiff -gt 180) { $hueDiff = 360 - $hueDiff }
-                    if ($hueDiff -gt 45) {
-                        $useClosest = $false
-                    }
-                }
-
-                if ($useClosest) {
-                    $assigned = $closest
-                }
-                else {
-                    $assigned = $originalColorMap[$key]
-                }
-            }
+        if ($converted.ContainsKey($key)) {
+            continue
         }
 
+        $assigned = if ($originalColorMap.ContainsKey($key)) {
+            Get-CompatibleThemeColor -OriginalColor $originalColorMap[$key] -AvailableColors $availableColors
+        }
         if (-not $assigned) {
-            $lower = $key.ToLowerInvariant()
-            switch -Regex ($lower) {
-                'white' { $assigned = '#F8F8F2'; break }
-                'black' { $assigned = '#1C1C1C'; break }
-                'accent|purple|magenta|pink|violet' { $assigned = & $getColorByHue 280 360 $accentBg; break }
-                'primary|shell|prompt' { $assigned = $primaryBg; break }
-                '_fg$' { $assigned = $primaryFg; break }
-                'text' { $assigned = $primaryFg; break }
-                'session|secondary' { $assigned = $secondaryBg; break }
-                'yellow|orange|warning|battery|update' { $assigned = & $getColorByHue 20 80 $warningColor; break }
-                'green|success|added|valid' { $assigned = & $getColorByHue 80 150 $successColor; break }
-                'teal|cyan|info|sysinfo|node|python|blue' { $assigned = & $getColorByHue 180 260 $infoColor; break }
-                'red|error|alert|deleted|debug' { $assigned = & $getColorByHue 330 30 $errorColor; break }
-                'gray|grey|prompt_count|path|os' { $assigned = $neutralColorDark; break }
-                default { $assigned = & $getNextAvailable $primaryBg }
-            }
+            $assigned = Resolve-NamedPaletteColor -Name $key -AvailableColors $availableColors -Defaults $defaults -RoleColors $roleColors
         }
-
-        if (-not $assigned) { $assigned = $primaryBg }
-
-        $converted[$key] = $assigned
+        $converted[$key] = $(if ($assigned) { $assigned } else { $defaults.PrimaryBackground })
     }
 
-    foreach ($key in @($converted.Keys)) {
-        if ($key -match '_fg$') {
-            $baseKey = $key.Substring(0,$key.Length - 3)
-            if ($converted.ContainsKey($baseKey)) {
-                $converted[$key] = Get-ContrastColor -Hex $converted[$baseKey]
-            }
-            elseif ($converted.ContainsKey("${baseKey}_bg")) {
-                $converted[$key] = Get-ContrastColor -Hex $converted["${baseKey}_bg"]
-            }
-            else {
-                $converted[$key] = $primaryFg
-            }
-        }
-        elseif ($key -match 'text') {
-            $converted[$key] = $primaryFg
-        }
-    }
-
+    Resolve-PaletteForegroundContrast -Palette $converted -PrimaryForeground $defaults.PrimaryForeground
     return $converted
 }
 
@@ -695,7 +1005,7 @@ function Write-ThemeFile {
         $json = $Theme | ConvertTo-Json -Depth 100
         # Format the JSON nicely
         $json | Set-Content -Path $Path -Encoding UTF8 -ErrorAction Stop
-        Write-Output "? Saved theme to: $Path" -ForegroundColor Green
+        Write-MergeMessage -Message "[OK] Saved theme to: $Path" -ForegroundColor Green
         return $true
     }
     catch {
@@ -723,6 +1033,27 @@ function Get-ThemePalette {
     return $palette
 }
 
+function Add-SegmentToTypeMap {
+    param(
+        [Parameter(Mandatory = $true)]
+        [hashtable]$SegmentMap,
+
+        [Parameter(Mandatory = $false)]
+        [AllowNull()]
+        [object]$Segment
+    )
+
+    if (-not $Segment.Type) {
+        return
+    }
+
+    $type = $Segment.Type
+    if (-not $SegmentMap.ContainsKey($type)) {
+        $SegmentMap[$type] = @()
+    }
+    $SegmentMap[$type] += $Segment
+}
+
 function Get-SegmentsByType {
     <#
     .SYNOPSIS
@@ -734,37 +1065,33 @@ function Get-SegmentsByType {
     )
 
     $segmentMap = @{}
-
-    if ($Theme.blocks) {
-        foreach ($block in $Theme.blocks) {
-            if ($block.segments) {
-                foreach ($segment in $block.segments) {
-                    if ($segment.Type) {
-                        $type = $segment.Type
-                        if (-not $segmentMap.ContainsKey($type)) {
-                            $segmentMap[$type] = @()
-                        }
-                        $segmentMap[$type] += $segment
-                    }
-                }
-            }
-        }
+    foreach ($segment in @(Get-ThemeBlockSegment -Theme $Theme)) {
+        Add-SegmentToTypeMap -SegmentMap $segmentMap -Segment $segment
     }
-
-    # Also check tooltips
     if ($Theme.tooltips) {
         foreach ($tooltip in $Theme.tooltips) {
-            if ($tooltip.Type) {
-                $type = $tooltip.Type
-                if (-not $segmentMap.ContainsKey($type)) {
-                    $segmentMap[$type] = @()
-                }
-                $segmentMap[$type] += $tooltip
-            }
+            Add-SegmentToTypeMap -SegmentMap $segmentMap -Segment $tooltip
         }
     }
 
     return $segmentMap
+}
+
+function Test-SegmentStyleValue {
+    param(
+        [Parameter(Mandatory = $false)]
+        [AllowNull()]
+        [object]$Value
+    )
+
+    if ($null -eq $Value) {
+        return $false
+    }
+    if ($Value -isnot [string]) {
+        return $true
+    }
+
+    return -not [string]::IsNullOrWhiteSpace($Value)
 }
 
 function Merge-SegmentStyling {
@@ -777,66 +1104,29 @@ function Merge-SegmentStyling {
         [object]$CustomSegment,
 
         [Parameter(Mandatory = $true)]
-        [object]$OfficialSegment,
-
-        [Parameter(Mandatory = $false)]
-        [hashtable]$OfficialPalette
+        [object]$OfficialSegment
     )
 
-    # Properties to transfer from official theme
     $styleProperties = @(
         'background',
         'background_templates',
         'foreground',
         'foreground_templates',
-        'template',
         'style'
     )
 
-    foreach ($prop in $styleProperties) {
-        if ($OfficialSegment.PSObject.Properties.Name -contains $prop) {
-            # Transfer the property value
-            $value = $OfficialSegment.$prop
+    foreach ($propertyName in $styleProperties) {
+        if ($OfficialSegment.PSObject.Properties.Name -notcontains $propertyName) {
+            continue
+        }
 
-            # If it's a color and the official theme doesn't use palette references,
-            # we keep it as-is (direct color)
-            $shouldAssign = $false
-            if ($null -ne $value) {
-                if ($value -is [string]) {
-                    if (-not [string]::IsNullOrWhiteSpace($value)) {
-                        $shouldAssign = $true
-                    }
-                }
-                else {
-                    $shouldAssign = $true
-                }
-            }
-
-            if ($shouldAssign) {
-                $CustomSegment | Add-Member -MemberType NoteProperty -Name $prop -Value $value -Force
-            }
+        $value = $OfficialSegment.$propertyName
+        if (Test-SegmentStyleValue -Value $value) {
+            $CustomSegment | Add-Member -MemberType NoteProperty -Name $propertyName -Value $value -Force
         }
     }
 
     return $CustomSegment
-}
-
-function Convert-ColorsToPalette {
-    <#
-    .SYNOPSIS
-        Converts direct color references to palette references
-    #>
-    param(
-        [Parameter(Mandatory = $true)]
-        [object]$Segment,
-
-        [Parameter(Mandatory = $true)]
-        [hashtable]$Palette
-    )
-
-    # This function would map direct hex colors to palette references
-    # For now, we'll preserve whatever format the official theme uses
-    return $Segment
 }
 
 function Add-MissingPromptType {
@@ -870,7 +1160,7 @@ function Add-MissingPromptType {
             $customPrompt = $CustomTheme.$promptType
             $promptCopy = $customPrompt | ConvertTo-Json -Depth 100 | ConvertFrom-Json
 
-            $styledPrompt = Set-PromptThemeColors -Prompt $promptCopy -ThemeColors $ThemeColors -PromptType $promptType
+            $styledPrompt = ConvertTo-ThemedPrompt -Prompt $promptCopy -ThemeColors $ThemeColors
 
             $MergedTheme | Add-Member -MemberType NoteProperty -Name $promptType -Value $styledPrompt -Force
         }
@@ -879,7 +1169,7 @@ function Add-MissingPromptType {
     return $MergedTheme
 }
 
-function Set-PromptThemeColor {
+function ConvertTo-ThemedPrompt {
     <#
     .SYNOPSIS
         Applies official theme color cues to prompt objects (transient, secondary, debug, etc.)
@@ -889,21 +1179,14 @@ function Set-PromptThemeColor {
         [object]$Prompt,
 
         [Parameter(Mandatory = $true)]
-        [hashtable]$ThemeColors,
-
-        [Parameter(Mandatory = $true)]
-        [string]$PromptType
+        [hashtable]$ThemeColors
     )
 
     $primaryBg = $ThemeColors.primary_bg
     $primaryFg = $ThemeColors.primary_fg
-    $secondaryBg = $ThemeColors.secondary_bg
-    $accentBg = $ThemeColors.accent_bg
 
     if (-not $primaryBg) { $primaryBg = '#444444' }
     if (-not $primaryFg) { $primaryFg = Get-ContrastColor -Hex $primaryBg }
-    if (-not $secondaryBg) { $secondaryBg = Get-AdjustedColor -Hex $primaryBg -Factor 0.1 }
-    if (-not $accentBg) { $accentBg = $secondaryBg }
 
     if (-not $Prompt.background -or $Prompt.background -eq 'transparent') {
         $Prompt.background = 'transparent'
@@ -912,14 +1195,131 @@ function Set-PromptThemeColor {
         $Prompt.background = $primaryBg
     }
 
-    if (-not $Prompt.foreground -or $Prompt.foreground -eq 'transparent') {
-        $Prompt.foreground = $primaryFg
-    }
-    else {
-        $Prompt.foreground = $primaryFg
-    }
+    $Prompt.foreground = $primaryFg
 
     return $Prompt
+}
+
+function Add-MergedThemePalette {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object]$MergedTheme,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$CustomPalette,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$OfficialPalette,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$ThemeColors,
+
+        [Parameter(Mandatory = $true)]
+        [string[]]$OfficialColors
+    )
+
+    $convertedPalette = Get-ThemedPalette -CustomPalette $CustomPalette -OfficialPalette $OfficialPalette -ThemeColors $ThemeColors -OfficialColors $OfficialColors
+    if ($convertedPalette.Count -gt 0) {
+        $MergedTheme.Palette = [pscustomobject]$convertedPalette
+        Write-MergeMessage -Message "  [OK] Generated themed palette with $($convertedPalette.Count) colors" -ForegroundColor Green
+        return
+    }
+
+    if ($CustomPalette.Count -gt 0) {
+        $MergedTheme.Palette = [pscustomobject]$CustomPalette
+        Write-MergeMessage -Message "  [OK] Preserved custom palette" -ForegroundColor Yellow
+    }
+}
+
+function Merge-ThemeBlockStyling {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object]$MergedTheme,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$OfficialSegments
+    )
+
+    $blocksProcessed = 0
+    $segmentsProcessed = 0
+    foreach ($block in @($MergedTheme.blocks)) {
+        if (-not $block.segments) {
+            continue
+        }
+
+        foreach ($segment in $block.segments) {
+            $segmentType = $segment.Type
+            if ($OfficialSegments.ContainsKey($segmentType)) {
+                $officialSegment = $OfficialSegments[$segmentType][0]
+                $null = Merge-SegmentStyling -CustomSegment $segment -OfficialSegment $officialSegment
+                $segmentsProcessed++
+                Write-Verbose "  Merged styling for segment: $segmentType"
+            }
+            else {
+                Write-Verbose "  No official styling for segment: $segmentType (keeping custom)"
+            }
+        }
+        $blocksProcessed++
+    }
+
+    return [pscustomobject]@{
+        Blocks = $blocksProcessed
+        Segments = $segmentsProcessed
+    }
+}
+
+function Merge-ThemeTooltipStyling {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object[]]$Tooltips,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$OfficialSegments
+    )
+
+    $tooltipsProcessed = 0
+    foreach ($tooltip in $Tooltips) {
+        $tooltipType = $tooltip.Type
+        if ($OfficialSegments.ContainsKey($tooltipType)) {
+            $officialSegment = $OfficialSegments[$tooltipType][0]
+            $null = Merge-SegmentStyling -CustomSegment $tooltip -OfficialSegment $officialSegment
+            $tooltipsProcessed++
+        }
+    }
+
+    return $tooltipsProcessed
+}
+
+function Copy-CustomThemeSetting {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object]$MergedTheme,
+
+        [Parameter(Mandatory = $true)]
+        [object]$CustomTheme
+    )
+
+    $propertyNames = @(
+        'console_title_template',
+        'version',
+        'final_space',
+        'enable_cursor_positioning',
+        'patch_pwsh_bleed',
+        'pwd',
+        'shell_integration',
+        'iterm_features',
+        'maps',
+        'tooltips_action',
+        'upgrade',
+        'var',
+        'async'
+    )
+
+    foreach ($propertyName in $propertyNames) {
+        if ($CustomTheme.PSObject.Properties.Name -contains $propertyName) {
+            $MergedTheme | Add-Member -MemberType NoteProperty -Name $propertyName -Value $CustomTheme.$propertyName -Force
+        }
+    }
 }
 
 function Merge-Theme {
@@ -938,110 +1338,36 @@ function Merge-Theme {
         [string]$OfficialThemeName
     )
 
-    Write-Output "`n?????????????????????????????????????????" -ForegroundColor Cyan
-    Write-Output "  Merging: $OfficialThemeName" -ForegroundColor Cyan
-    Write-Output "?????????????????????????????????????????`n" -ForegroundColor Cyan
+    Write-MergeMessage -Message "`n=========================================" -ForegroundColor Cyan
+    Write-MergeMessage -Message "  Merging: $OfficialThemeName" -ForegroundColor Cyan
+    Write-MergeMessage -Message "=========================================`n" -ForegroundColor Cyan
 
-    # Start with a deep copy of the custom theme
     $merged = $CustomTheme | ConvertTo-Json -Depth 100 | ConvertFrom-Json
-
-    # Extract palettes and derive themed palette
     $customPalette = Get-ThemePalette -Theme $CustomTheme
     $officialPalette = Get-ThemePalette -Theme $OfficialTheme
-    Write-Output "  ? Custom palette entries: $($customPalette.Count)" -ForegroundColor Gray
-    Write-Output "  ? Official palette entries: $($officialPalette.Count)" -ForegroundColor Gray
+    Write-MergeMessage -Message "  - Custom palette entries: $($customPalette.Count)" -ForegroundColor Gray
+    Write-MergeMessage -Message "  - Official palette entries: $($officialPalette.Count)" -ForegroundColor Gray
 
-    $themeColors = Get-PrimaryThemeColors -Theme $OfficialTheme -Palette $officialPalette
+    $themeColors = Get-PrimaryThemeColor -Theme $OfficialTheme -Palette $officialPalette
     $officialColorPool = Get-OfficialColorPool -Theme $OfficialTheme -Palette $officialPalette
+    Add-MergedThemePalette -MergedTheme $merged -CustomPalette $customPalette -OfficialPalette $officialPalette -ThemeColors $themeColors -OfficialColors $officialColorPool
 
-    $convertedPalette = Get-ThemedPalette -CustomPalette $customPalette -OfficialPalette $officialPalette -ThemeColors $themeColors -OfficialColors $officialColorPool
-    if ($convertedPalette.Count -gt 0) {
-        $merged.Palette = [pscustomobject]$convertedPalette
-        Write-Output "  ? Generated themed palette with $($convertedPalette.Count) colors" -ForegroundColor Green
-    }
-    elseif ($customPalette.Count -gt 0) {
-        $merged.Palette = [pscustomobject]$customPalette
-        Write-Output "  ? Preserved custom palette" -ForegroundColor Yellow
-    }
-
-    # Get segment mappings
     $customSegments = Get-SegmentsByType -Theme $CustomTheme
     $officialSegments = Get-SegmentsByType -Theme $OfficialTheme
+    Write-MergeMessage -Message "  - Custom theme segments: $($customSegments.Count) types" -ForegroundColor Gray
+    Write-MergeMessage -Message "  - Official theme segments: $($officialSegments.Count) types" -ForegroundColor Gray
 
-    Write-Output "  ? Custom theme segments: $($customSegments.Count) types" -ForegroundColor Gray
-    Write-Output "  ? Official theme segments: $($officialSegments.Count) types" -ForegroundColor Gray
+    $processed = Merge-ThemeBlockStyling -MergedTheme $merged -OfficialSegments $officialSegments
+    Write-MergeMessage -Message "  [OK] Processed $($processed.Blocks) blocks, $($processed.Segments) segments" -ForegroundColor Green
 
-    # Process each block in the custom theme
-    $blocksProcessed = 0
-    $segmentsProcessed = 0
-
-    foreach ($block in $merged.blocks) {
-        if ($block.segments) {
-            foreach ($segment in $block.segments) {
-                $segmentType = $segment.Type
-
-                if ($officialSegments.ContainsKey($segmentType)) {
-                    # Found matching segment type in official theme
-                    $officialSegment = $officialSegments[$segmentType][0] # Use first match
-
-                    # Merge styling
-                    $segment = Merge-SegmentStyling -CustomSegment $segment -OfficialSegment $officialSegment -OfficialPalette $officialPalette
-                    $segmentsProcessed++
-
-                    Write-Verbose "  ? Merged styling for segment: $segmentType"
-                }
-                else {
-                    Write-Verbose "  ? No official styling for segment: $segmentType (keeping custom)"
-                }
-            }
-            $blocksProcessed++
-        }
-    }
-
-    Write-Output "  ? Processed $blocksProcessed blocks, $segmentsProcessed segments" -ForegroundColor Green
-
-    # Process tooltips
     if ($merged.tooltips) {
-        $tooltipsProcessed = 0
-        foreach ($tooltip in $merged.tooltips) {
-            $tooltipType = $tooltip.Type
-
-            if ($officialSegments.ContainsKey($tooltipType)) {
-                $officialSegment = $officialSegments[$tooltipType][0]
-                $tooltip = Merge-SegmentStyling -CustomSegment $tooltip -OfficialSegment $officialSegment -OfficialPalette $officialPalette
-                $tooltipsProcessed++
-            }
-        }
-        Write-Output "  ? Processed $tooltipsProcessed tooltips" -ForegroundColor Green
+        $tooltipsProcessed = Merge-ThemeTooltipStyling -Tooltips $merged.tooltips -OfficialSegments $officialSegments
+        Write-MergeMessage -Message "  [OK] Processed $tooltipsProcessed tooltips" -ForegroundColor Green
     }
 
-    # Add missing prompt types with themed styling
-    $merged = Add-MissingPromptTypes -MergedTheme $merged -CustomTheme $CustomTheme -OfficialTheme $OfficialTheme -ThemeColors $themeColors
-
-    # Preserve custom theme settings
-    $preserveProperties = @(
-        'console_title_template',
-        'version',
-        'final_space',
-        'enable_cursor_positioning',
-        'patch_pwsh_bleed',
-        'pwd',
-        'shell_integration',
-        'iterm_features',
-        'maps',
-        'tooltips_action',
-        'upgrade',
-        'var',
-        'async'
-    )
-
-    foreach ($prop in $preserveProperties) {
-        if ($CustomTheme.PSObject.Properties.Name -contains $prop) {
-            $merged | Add-Member -MemberType NoteProperty -Name $prop -Value $CustomTheme.$prop -Force
-        }
-    }
-
-    Write-Output "  ? Preserved custom settings and structure`n" -ForegroundColor Green
+    $merged = Add-MissingPromptType -MergedTheme $merged -CustomTheme $CustomTheme -OfficialTheme $OfficialTheme -ThemeColors $themeColors
+    Copy-CustomThemeSetting -MergedTheme $merged -CustomTheme $CustomTheme
+    Write-MergeMessage -Message "  [OK] Preserved custom settings and structure`n" -ForegroundColor Green
 
     return $merged
 }
@@ -1053,13 +1379,13 @@ function Merge-Theme {
 # Ensure output directory exists
 if (-not (Test-Path $OutputPath)) {
     New-Item -Path $OutputPath -ItemType Directory -Force | Out-Null
-    Write-Output "Created output directory: $OutputPath`n" -ForegroundColor Yellow
+    Write-MergeMessage -Message "Created output directory: $OutputPath`n" -ForegroundColor Yellow
 }
 
 # Load custom theme
-Write-Output "?????????????????????????????????????????" -ForegroundColor Magenta
-Write-Output "  Loading Custom Theme" -ForegroundColor Magenta
-Write-Output "?????????????????????????????????????????`n" -ForegroundColor Magenta
+Write-MergeMessage -Message "=========================================" -ForegroundColor Magenta
+Write-MergeMessage -Message "  Loading Custom Theme" -ForegroundColor Magenta
+Write-MergeMessage -Message "=========================================`n" -ForegroundColor Magenta
 
 $customTheme = Read-ThemeFile -Path $CustomThemePath
 if ($null -eq $customTheme) {
@@ -1067,7 +1393,7 @@ if ($null -eq $customTheme) {
     exit 1
 }
 
-Write-Output "? Loaded custom theme from: $CustomThemePath`n" -ForegroundColor Green
+Write-MergeMessage -Message "[OK] Loaded custom theme from: $CustomThemePath`n" -ForegroundColor Green
 
 # Determine which official themes to process
 $officialThemes = @()
@@ -1075,7 +1401,7 @@ $officialThemes = @()
 if ($ProcessAll -and (Test-Path $OfficialThemePath -PathType Container)) {
     # Process all themes in directory
     $officialThemes = Get-ChildItem -Path $OfficialThemePath -Filter "*.omp.json" | Select-Object -ExpandProperty FullName
-    Write-Output "Found $($officialThemes.Count) official themes to process`n" -ForegroundColor Yellow
+    Write-MergeMessage -Message "Found $($officialThemes.Count) official themes to process`n" -ForegroundColor Yellow
 }
 elseif (Test-Path $OfficialThemePath -PathType Leaf) {
     # Process single theme file
@@ -1084,6 +1410,10 @@ elseif (Test-Path $OfficialThemePath -PathType Leaf) {
 else {
     Write-Error "Invalid official theme path. Please specify a valid file or directory with -ProcessAll switch."
     exit 1
+}
+
+if ($officialThemes.Count -eq 0) {
+    throw "No official *.omp.json themes were found to merge at '$OfficialThemePath'."
 }
 
 # Process each official theme
@@ -1103,7 +1433,7 @@ foreach ($themePath in $officialThemes) {
 
     # Merge themes
     try {
-        $mergedTheme = Merge-Themes -CustomTheme $customTheme -OfficialTheme $officialTheme -OfficialThemeName $themeName
+        $mergedTheme = Merge-Theme -CustomTheme $customTheme -OfficialTheme $officialTheme -OfficialThemeName $themeName
 
         # Generate output filename (remove .omp if it exists in theme name)
         $cleanThemeName = $themeName -replace '\.omp$',''
@@ -1125,14 +1455,18 @@ foreach ($themePath in $officialThemes) {
 }
 
 # Summary
-Write-Output "`n?????????????????????????????????????????" -ForegroundColor Magenta
-Write-Output "  Merge Complete!" -ForegroundColor Magenta
-Write-Output "?????????????????????????????????????????`n" -ForegroundColor Magenta
+Write-MergeMessage -Message "`n=========================================" -ForegroundColor Magenta
+Write-MergeMessage -Message "  Merge Complete!" -ForegroundColor Magenta
+Write-MergeMessage -Message "=========================================`n" -ForegroundColor Magenta
 
-Write-Output "  ? Successfully merged: $successCount theme(s)" -ForegroundColor Green
+Write-MergeMessage -Message "  [OK] Successfully merged: $successCount theme(s)" -ForegroundColor Green
 if ($failCount -gt 0) {
-    Write-Output "  ? Failed: $failCount theme(s)" -ForegroundColor Red
+    Write-MergeMessage -Message "  [ERROR] Failed: $failCount theme(s)" -ForegroundColor Red
 }
-Write-Output "  ? Output directory: $OutputPath`n" -ForegroundColor Cyan
+Write-MergeMessage -Message "  - Output directory: $OutputPath`n" -ForegroundColor Cyan
+
+if ($failCount -gt 0) {
+    throw "Theme merge failed for $failCount of $($officialThemes.Count) theme(s). Review the errors above; successful outputs were retained."
+}
 
 #endregion

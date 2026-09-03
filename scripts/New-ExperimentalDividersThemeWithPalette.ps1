@@ -1,4 +1,4 @@
-#
+﻿#
 # Creates a palette-converted version of the **Atomic-Custom-ExperimentalDividers** theme.
 # This script works like New-ThemeWithPalette.ps1 but automatically generates all of the
 # extra divider blend colors and carries forward the extended palette keys (cycle colors,
@@ -97,9 +97,8 @@ $ErrorActionPreference = 'Stop'
 # This script lives in .\scripts\, but operates on files in the repository root.
 $RepoRoot = Split-Path -Path $PSScriptRoot -Parent
 
-# Write-Output does not support -ForegroundColor / -NoNewline, but this repo historically used it that way.
-# Provide a local wrapper so the script works when run standalone.
-function Write-Output {
+# Present colored conversion status through the redirectable information stream.
+function Write-PaletteConversionMessage {
     [CmdletBinding()]
     param(
         [Parameter(Position = 0, ValueFromRemainingArguments = $true)]
@@ -111,23 +110,23 @@ function Write-Output {
 
     $text = ($InputObject | ForEach-Object { "$_" }) -join ''
 
-    if ($PSBoundParameters.ContainsKey('ForegroundColor') -or $NoNewline) {
-        $hasColor = $PSBoundParameters.ContainsKey('ForegroundColor')
-        if ($NoNewline) {
-            if ($hasColor) { Write-Host -NoNewline -ForegroundColor $ForegroundColor $text }
-            else { Write-Host -NoNewline $text }
-        }
-        else {
-            if ($hasColor) { Write-Host -ForegroundColor $ForegroundColor $text }
-            else { Write-Host $text }
-        }
+    if (-not $PSBoundParameters.ContainsKey('ForegroundColor') -and -not $NoNewline) {
+        Microsoft.PowerShell.Utility\Write-Output -InputObject $text
         return
     }
 
-    Microsoft.PowerShell.Utility\Write-Output $text
+    $message = [System.Management.Automation.HostInformationMessage]::new()
+    $message.Message = $text
+    $message.NoNewLine = [bool]$NoNewline
+    if ($PSBoundParameters.ContainsKey('ForegroundColor')) {
+        $message.ForegroundColor = $ForegroundColor
+    }
+
+    Write-Information -MessageData $message -InformationAction Continue
 }
 
 function Resolve-RepoPath {
+    [OutputType([string])]
     [CmdletBinding()]
     param([Parameter(Mandatory)][string]$Path)
 
@@ -297,8 +296,8 @@ function Get-InterpolatedColor {
 
 # endregion Helper functions
 
-Write-Output '🎨 Experimental Dividers Palette Converter' -ForegroundColor Cyan
-Write-Output ('=' * 60) -ForegroundColor DarkGray
+Write-PaletteConversionMessage -InputObject '🎨 Experimental Dividers Palette Converter' -ForegroundColor Cyan
+Write-PaletteConversionMessage -InputObject ('=' * 60) -ForegroundColor DarkGray
 
 # Validate source theme
 if (-not (Test-Path -LiteralPath $SourceTheme)) {
@@ -306,8 +305,8 @@ if (-not (Test-Path -LiteralPath $SourceTheme)) {
     exit 1
 }
 
-Write-Output '📖 Reading source theme: ' -NoNewline
-Write-Output $SourceTheme -ForegroundColor Yellow
+Write-PaletteConversionMessage -InputObject '📖 Reading source theme: ' -NoNewline
+Write-PaletteConversionMessage -InputObject $SourceTheme -ForegroundColor Yellow
 
 try {
     $themeContent = Get-Content -LiteralPath $SourceTheme -Raw
@@ -330,8 +329,8 @@ if ($PSCmdlet.ParameterSetName -eq 'ByPaletteName') {
         exit 1
     }
 
-    Write-Output '📚 Loading palettes from: ' -NoNewline
-    Write-Output $PalettesFile -ForegroundColor Yellow
+    Write-PaletteConversionMessage -InputObject '📚 Loading palettes from: ' -NoNewline
+    Write-PaletteConversionMessage -InputObject $PalettesFile -ForegroundColor Yellow
 
     try {
         $palettesContent = Get-Content -LiteralPath $PalettesFile -Raw
@@ -343,12 +342,12 @@ if ($PSCmdlet.ParameterSetName -eq 'ByPaletteName') {
     }
 
     if (-not $palettes.PSObject.Properties.Name.Contains($PaletteName)) {
-        Write-Output "`n❌ Palette '$PaletteName' not found." -ForegroundColor Red
-        Write-Output 'Available palettes:' -ForegroundColor Cyan
+        Write-PaletteConversionMessage -InputObject "`n❌ Palette '$PaletteName' not found." -ForegroundColor Red
+        Write-PaletteConversionMessage -InputObject 'Available palettes:' -ForegroundColor Cyan
         $palettes.PSObject.Properties | ForEach-Object {
-            Write-Output '  • ' -NoNewline -ForegroundColor DarkGray
-            Write-Output $_.Name -NoNewline -ForegroundColor Green
-            Write-Output " - $($_.Value.description)" -ForegroundColor Gray
+            Write-PaletteConversionMessage -InputObject '  • ' -NoNewline -ForegroundColor DarkGray
+            Write-PaletteConversionMessage -InputObject $_.Name -NoNewline -ForegroundColor Green
+            Write-PaletteConversionMessage -InputObject " - $($_.Value.description)" -ForegroundColor Gray
         }
         exit 1
     }
@@ -357,11 +356,11 @@ if ($PSCmdlet.ParameterSetName -eq 'ByPaletteName') {
     $palette = ConvertTo-Hashtable $paletteInfo.Palette
     $paletteFriendlyName = $paletteInfo.Name
 
-    Write-Output '✓ Using palette: ' -NoNewline -ForegroundColor Green
-    Write-Output $paletteFriendlyName -ForegroundColor Magenta
+    Write-PaletteConversionMessage -InputObject '✓ Using palette: ' -NoNewline -ForegroundColor Green
+    Write-PaletteConversionMessage -InputObject $paletteFriendlyName -ForegroundColor Magenta
 }
 else {
-    Write-Output '✓ Using custom palette object' -ForegroundColor Green
+    Write-PaletteConversionMessage -InputObject '✓ Using custom palette object' -ForegroundColor Green
     $palette = ConvertTo-Hashtable $PaletteObject
     $paletteFriendlyName = 'Custom Palette'
 }
@@ -418,7 +417,7 @@ $dividerPairs = [ordered]@{
     'divider_teal_sysinfo_to_electron_red'           = @('teal_sysinfo', 'electron_red')
 }
 
-Write-Output "🔧 Generating divider blend colors (blend=$BlendPercentage)..." -ForegroundColor Cyan
+Write-PaletteConversionMessage -InputObject "🔧 Generating divider blend colors (blend=$BlendPercentage)..." -ForegroundColor Cyan
 
 foreach ($pair in $dividerPairs.GetEnumerator()) {
     $targetKey = $pair.Key
@@ -478,23 +477,23 @@ $overlay = [ordered]@{
 
 if ($UpdateAccentColor -and $workingPalette.ContainsKey('accent')) {
     $overlay['accent_color'] = $workingPalette['accent']
-    Write-Output "  • Set accent_color override to $($workingPalette['accent'])" -ForegroundColor DarkGray
+    Write-PaletteConversionMessage -InputObject "  • Set accent_color override to $($workingPalette['accent'])" -ForegroundColor DarkGray
 }
 
-Write-Output '💾 Saving new theme...' -ForegroundColor Cyan
+Write-PaletteConversionMessage -InputObject '💾 Saving new theme...' -ForegroundColor Cyan
 
 try {
     $jsonOutput = $overlay | ConvertTo-Json -Depth 100
     $jsonOutput | Set-Content -LiteralPath $outputFile -Encoding UTF8
 
-    Write-Output "✅ Created: $outputFile" -ForegroundColor Green
-    Write-Output "🎨 Palette applied: $paletteFriendlyName" -ForegroundColor Magenta
-    Write-Output "📊 Palette size: $($workingPalette.Keys.Count) entries" -ForegroundColor Gray
+    Write-PaletteConversionMessage -InputObject "✅ Created: $outputFile" -ForegroundColor Green
+    Write-PaletteConversionMessage -InputObject "🎨 Palette applied: $paletteFriendlyName" -ForegroundColor Magenta
+    Write-PaletteConversionMessage -InputObject "📊 Palette size: $($workingPalette.Keys.Count) entries" -ForegroundColor Gray
 }
 catch {
     Write-Error "Failed to save theme file: $_"
     exit 1
 }
 
-Write-Output ('=' * 60) -ForegroundColor DarkGray
-Write-Output '✨ Done!' -ForegroundColor Green
+Write-PaletteConversionMessage -InputObject ('=' * 60) -ForegroundColor DarkGray
+Write-PaletteConversionMessage -InputObject '✨ Done!' -ForegroundColor Green

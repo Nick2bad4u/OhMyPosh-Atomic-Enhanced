@@ -31,6 +31,7 @@ $RepoRoot = Split-Path -Path $PSScriptRoot -Parent
 
 function Resolve-RepoPath {
     [CmdletBinding()]
+    [OutputType([string])]
     param([Parameter(Mandatory)][string]$Path)
 
     if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
@@ -81,6 +82,7 @@ function Get-ContrastRatio {
 
 function Resolve-ConfiguredColor {
     [CmdletBinding()]
+    [OutputType([string])]
     param(
         [AllowNull()][AllowEmptyString()][string]$Value,
         [Parameter(Mandatory)][pscustomobject]$Palette,
@@ -366,9 +368,9 @@ foreach ($directoryName in $generatedDirectories) {
 }
 
 if ($errors.Count) {
-    Write-Host "Palette visual-quality validation failed ($($errors.Count) issue(s)):" -ForegroundColor Red
-    foreach ($message in $errors) { Write-Host "  - $message" -ForegroundColor Red }
+    Write-Information -MessageData "Palette visual-quality validation failed ($($errors.Count) issue(s)):" -InformationAction Continue
+    foreach ($message in $errors) { Write-Information -MessageData "  - $message" -InformationAction Continue }
     exit 1
 }
 
-Write-Host "Palette visual-quality validation passed: $($paletteNames.Count) curated palettes, $directContractCount direct six-family contrast evaluations, and $generatedOverlayCount synchronized overlays." -ForegroundColor Green
+Write-Information -MessageData "Palette visual-quality validation passed: $($paletteNames.Count) curated palettes, $directContractCount direct six-family contrast evaluations, and $generatedOverlayCount synchronized overlays." -InformationAction Continue

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Repo test runner for Oh My Posh theme files.
 
@@ -9,6 +9,7 @@ This script performs "CI-grade" validation on the base theme templates in this r
 - No secrets-file references (repo removed secrets.json/schema workflows)
 - No obsolete pre-v31 fetch-control options
 - Network segment hygiene checks (timeouts, cache, https URLs, env var usage for API keys)
+- No literal OAuth access or refresh tokens in the vendored official theme snapshot
 
 By default this validates the primary templates (root-level theme JSONs).
 
@@ -110,6 +111,32 @@ function Fail([string]$Message) {
     throw $Message
 }
 
+function Get-VendoredCredentialError {
+    [CmdletBinding()]
+    [OutputType([string])]
+    param(
+        [Parameter(Mandatory)]
+        [string]$ThemeDirectory
+    )
+
+    if (-not (Test-Path -LiteralPath $ThemeDirectory)) {
+        return
+    }
+
+    foreach ($themeFile in Get-ChildItem -LiteralPath $ThemeDirectory -Filter '*.json' -File) {
+        $raw = Get-Content -LiteralPath $themeFile.FullName -Raw
+        foreach ($key in @('access_token', 'refresh_token')) {
+            $pattern = '"' + $key + '"\s*:\s*"(?<value>[^"\r\n]*)"'
+            foreach ($match in [regex]::Matches($raw, $pattern)) {
+                $value = $match.Groups['value'].Value
+                if ($value -and $value -notmatch '\.Env\.') {
+                    "$($themeFile.FullName): literal $key value found; use an environment-variable template."
+                }
+            }
+        }
+    }
+}
+
 function Get-GeneratedBasePath([string]$ThemePath) {
     $directoryName = Split-Path -Path (Split-Path -Path $ThemePath -Parent) -Leaf
     if (-not $GeneratedFamilies.ContainsKey($directoryName)) { return $null }
@@ -130,7 +157,7 @@ function Resolve-GeneratedTheme($overlay, [string]$basePath) {
     return ($base | ConvertTo-Json -Depth 100 | ConvertFrom-Json -Depth 200)
 }
 
-function Get-AllSegments($theme) {
+function Get-ThemeSegment($theme) {
     $all = New-Object System.Collections.Generic.List[object]
 
     if ($theme.blocks) {
@@ -155,7 +182,7 @@ function Get-SegmentTypeLower($seg) {
     return ([string]$t).ToLowerInvariant()
 }
 
-function Get-SegmentOptions($seg) {
+function Get-SegmentOption($seg) {
     # Oh My Posh renamed segment config key in some versions: properties <-> options.
     $opt = $seg.options
     if ($null -eq $opt) { $opt = $seg.properties }
@@ -180,10 +207,14 @@ if (-not $files -or $files.Count -eq 0) {
     Fail 'No theme files found to test.'
 }
 
-Write-Host "Testing $($files.Count) theme file(s)..." -ForegroundColor Cyan
+Write-Information -MessageData "Testing $($files.Count) theme file(s)..." -InformationAction Continue
 
 $allErrors = New-Object System.Collections.Generic.List[string]
 $extendsSmokeFiles = @{}
+$vendoredThemeDirectory = Resolve-RepoPath 'ohmyposh-official-themes/themes'
+foreach ($credentialError in @(Get-VendoredCredentialError -ThemeDirectory $vendoredThemeDirectory)) {
+    $allErrors.Add($credentialError) | Out-Null
+}
 
 foreach ($file in $files) {
     $errors = New-Object System.Collections.Generic.List[string]
@@ -255,10 +286,10 @@ foreach ($file in $files) {
         }
 
         # Segment hygiene checks
-        $segments = Get-AllSegments $theme
+        $segments = Get-ThemeSegment $theme
 
         foreach ($segment in $segments) {
-            $options = Get-SegmentOptions $segment
+            $options = Get-SegmentOption $segment
             if ($null -eq $options) { continue }
 
             $obsoleteOptions = @($ObsoleteFetchOptions | Where-Object {
@@ -489,7 +520,7 @@ foreach ($file in $files) {
         }
         foreach ($seg in $segments) {
             $t = Get-SegmentTypeLower $seg
-            $opt = Get-SegmentOptions $seg
+            $opt = Get-SegmentOption $seg
 
             switch ($t) {
                 'http' {
@@ -515,7 +546,7 @@ foreach ($file in $files) {
                         $errors.Add('http segment missing timeout/http_timeout') | Out-Null
                     }
                     else {
-                        Assert-TimeoutInRange $timeout 'http timeout' ([ref]$errors)
+                        Assert-TimeoutInRange -value $timeout -label 'http timeout' -errors ([ref]$errors)
                     }
                 }
 
@@ -524,7 +555,7 @@ foreach ($file in $files) {
                         $errors.Add('ipify segment missing cache.duration') | Out-Null
                     }
                     $timeout = $seg.http_timeout
-                    if ($null -ne $timeout) { Assert-TimeoutInRange $timeout 'ipify http_timeout' ([ref]$errors) }
+                    if ($null -ne $timeout) { Assert-TimeoutInRange -value $timeout -label 'ipify http_timeout' -errors ([ref]$errors) }
                 }
 
                 'owm' {
@@ -533,7 +564,7 @@ foreach ($file in $files) {
                     if ($opt -and $opt.api_key -and ([string]$opt.api_key -notmatch '\.Env\.')) {
                         $errors.Add('owm api_key is present but does not appear to come from env vars (expected .Env.*).') | Out-Null
                     }
-                    if ($null -ne $opt.http_timeout) { Assert-TimeoutInRange $opt.http_timeout 'owm http_timeout' ([ref]$errors) }
+                    if ($null -ne $opt.http_timeout) { Assert-TimeoutInRange -value $opt.http_timeout -label 'owm http_timeout' -errors ([ref]$errors) }
                 }
 
                 'lastfm' {
@@ -543,7 +574,7 @@ foreach ($file in $files) {
                     if ($opt -and $opt.username -and ([string]$opt.username -notmatch '\.Env\.')) {
                         $errors.Add('lastfm username is present but does not appear to come from env vars (expected .Env.*).') | Out-Null
                     }
-                    if ($null -ne $opt.http_timeout) { Assert-TimeoutInRange $opt.http_timeout 'lastfm http_timeout' ([ref]$errors) }
+                    if ($null -ne $opt.http_timeout) { Assert-TimeoutInRange -value $opt.http_timeout -label 'lastfm http_timeout' -errors ([ref]$errors) }
                 }
 
                 'strava' {
@@ -569,14 +600,14 @@ foreach ($file in $files) {
     }
 
     if ($errors.Count -gt 0) {
-        Write-Host "✗ $file" -ForegroundColor Red
+        Write-Information -MessageData "✗ $file" -InformationAction Continue
         foreach ($e in $errors) {
-            Write-Host "  - $e" -ForegroundColor Red
+            Write-Information -MessageData "  - $e" -InformationAction Continue
             $allErrors.Add("${file}: $e") | Out-Null
         }
     }
     else {
-        Write-Host "✓ $file" -ForegroundColor Green
+        Write-Information -MessageData "✓ $file" -InformationAction Continue
     }
 }
 
@@ -645,7 +676,7 @@ if ($IncludeGenerated) {
             $allErrors.Add("Palette visual-quality validation failed: $($visualQualityOutput -join ' ')") | Out-Null
         }
         else {
-            $visualQualityOutput | ForEach-Object { Write-Host $_ -ForegroundColor DarkGray }
+            $visualQualityOutput | ForEach-Object { Write-Information -MessageData $_ -InformationAction Continue }
         }
     }
 }
@@ -732,12 +763,12 @@ finally {
 }
 
 if ($allErrors.Count -gt 0) {
-    Write-Host "\nTheme tests FAILED ($($allErrors.Count) issue(s))." -ForegroundColor Red
+    Write-Information -MessageData "\nTheme tests FAILED ($($allErrors.Count) issue(s))." -InformationAction Continue
     foreach ($errorMessage in $allErrors) {
-        Write-Host "  - $errorMessage" -ForegroundColor Red
+        Write-Information -MessageData "  - $errorMessage" -InformationAction Continue
     }
     exit 1
 }
 
-Write-Host '\nAll theme tests passed.' -ForegroundColor Green
+Write-Information -MessageData '\nAll theme tests passed.' -InformationAction Continue
 exit 0

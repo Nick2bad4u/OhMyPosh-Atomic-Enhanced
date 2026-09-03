@@ -68,6 +68,112 @@ function Get-SvgDocument {
     return $document
 }
 
+function Assert-CommittedGalleryAsset {
+    param(
+        [Parameter(Mandatory)][System.IO.FileInfo[]]$SvgFile,
+        [Parameter(Mandatory)]
+        [AllowEmptyCollection()]
+        [System.IO.FileInfo[]]$LegacyPngFile,
+        [Parameter(Mandatory)][int]$ExpectedCount
+    )
+
+    if ($SvgFile.Count -ne $ExpectedCount) {
+        throw "Expected $ExpectedCount committed SVG previews; found $($SvgFile.Count)."
+    }
+    if ($LegacyPngFile.Count -ne 0) {
+        throw "Committed gallery still contains legacy PNG previews: $($LegacyPngFile.Name -join ', ')"
+    }
+
+    foreach ($file in $SvgFile) {
+        $null = Get-SvgDocument -Path $file.FullName
+    }
+}
+
+function Get-ReadmeGalleryReference {
+    param(
+        [Parameter(Mandatory)][string]$ReadmePath,
+        [Parameter(Mandatory)][int]$ExpectedCount
+    )
+
+    $readme = Get-Content -LiteralPath $ReadmePath -Raw
+    $referenceMatches = [regex]::Matches($readme, 'assets/theme-previews/([^"\s]+\.svg)')
+    $references = @($referenceMatches | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique)
+    if ($references.Count -ne $ExpectedCount) {
+        throw "Expected $ExpectedCount unique README SVG references; found $($references.Count)."
+    }
+
+    return $references
+}
+
+function Assert-GalleryReferenceParity {
+    param(
+        [Parameter(Mandatory)][string]$AssetDirectory,
+        [Parameter(Mandatory)][System.IO.FileInfo[]]$SvgFile,
+        [Parameter(Mandatory)][string[]]$Reference
+    )
+
+    $missingTargets = @($Reference | Where-Object {
+            -not (Test-Path -LiteralPath (Join-Path -Path $AssetDirectory -ChildPath $_))
+        })
+    $orphanedFiles = @($SvgFile.Name | Where-Object { $_ -notin $Reference })
+    if ($missingTargets.Count -ne 0) {
+        throw "README references missing SVG previews: $($missingTargets -join ', ')"
+    }
+    if ($orphanedFiles.Count -ne 0) {
+        throw "SVG previews are missing from README: $($orphanedFiles -join ', ')"
+    }
+}
+
+function Get-RootThemePreviewName {
+    param([Parameter(Mandatory)][string]$RepoRoot)
+
+    $originalPreviewNames = @{
+        'OhMyPosh-Atomic-Custom-ExperimentalDividers.json' = 'OhMyPosh-Atomic-Custom-ExperimentalDividers.Original.svg'
+        'OhMyPosh-Atomic-Custom.json'                      = 'OhMyPosh-Atomic-Custom.Original.svg'
+        '1_shell-Enhanced.omp.json'                        = '1_shell-Enhanced.omp.Original.svg'
+        'slimfat-Enhanced.omp.json'                        = 'slimfat-Enhanced.omp.Original.svg'
+        'atomicBit-Enhanced.omp.json'                      = 'atomicBit-Enhanced.omp.Original.svg'
+        'clean-detailed-Enhanced.omp.json'                 = 'clean-detailed-Enhanced.omp.Original.svg'
+    }
+    foreach ($file in Get-ChildItem -LiteralPath $RepoRoot -Filter '*.json' -File) {
+        $candidate = Get-Content -LiteralPath $file.FullName -Raw | ConvertFrom-Json -Depth 100 -AsHashtable
+        if (-not $candidate.Contains('blocks') -and -not $candidate.Contains('extends')) {
+            continue
+        }
+
+        if ($originalPreviewNames.ContainsKey($file.Name)) {
+            $originalPreviewNames[$file.Name]
+        }
+        else {
+            "$($file.BaseName).svg"
+        }
+    }
+}
+
+function Assert-RootThemePreviewCoverage {
+    param(
+        [Parameter(Mandatory)][string]$AssetDirectory,
+        [Parameter(Mandatory)][string[]]$Reference,
+        [Parameter(Mandatory)][string[]]$RootThemePreview
+    )
+
+    $uniqueRootThemePreview = @($RootThemePreview | Sort-Object -Unique)
+    if ($uniqueRootThemePreview.Count -ne $RootThemePreview.Count) {
+        throw 'Multiple root themes map to the same SVG preview name.'
+    }
+
+    $missingRootPreviews = @($uniqueRootThemePreview | Where-Object {
+            -not (Test-Path -LiteralPath (Join-Path -Path $AssetDirectory -ChildPath $_))
+        })
+    $missingRootReferences = @($uniqueRootThemePreview | Where-Object { $_ -notin $Reference })
+    if ($missingRootPreviews.Count -ne 0) {
+        throw "Root themes are missing SVG previews: $($missingRootPreviews -join ', ')"
+    }
+    if ($missingRootReferences.Count -ne 0) {
+        throw "Root theme previews are missing from README: $($missingRootReferences -join ', ')"
+    }
+}
+
 function Assert-CommittedGallery {
     param(
         [Parameter(Mandatory)][string]$AssetDirectory,
@@ -77,72 +183,17 @@ function Assert-CommittedGallery {
 
     $svgFiles = @(Get-ChildItem -LiteralPath $AssetDirectory -Filter '*.svg' -File)
     $legacyPngFiles = @(Get-ChildItem -LiteralPath $AssetDirectory -Filter '*.png' -File)
-    if ($svgFiles.Count -ne $ExpectedCount) {
-        throw "Expected $ExpectedCount committed SVG previews; found $($svgFiles.Count)."
-    }
-    if ($legacyPngFiles.Count -ne 0) {
-        throw "Committed gallery still contains legacy PNG previews: $($legacyPngFiles.Name -join ', ')"
-    }
+    Assert-CommittedGalleryAsset -SvgFile $svgFiles -LegacyPngFile $legacyPngFiles -ExpectedCount $ExpectedCount
 
-    foreach ($file in $svgFiles) {
-        $null = Get-SvgDocument -Path $file.FullName
-    }
-
-    $readme = Get-Content -LiteralPath $ReadmePath -Raw
-    $referenceMatches = [regex]::Matches($readme, 'assets/theme-previews/([^"\s]+\.svg)')
-    $references = @($referenceMatches | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique)
-    if ($references.Count -ne $ExpectedCount) {
-        throw "Expected $ExpectedCount unique README SVG references; found $($references.Count)."
-    }
-
-    $missingTargets = @($references | Where-Object {
-            -not (Test-Path -LiteralPath (Join-Path -Path $AssetDirectory -ChildPath $_))
-        })
-    $orphanedFiles = @($svgFiles.Name | Where-Object { $_ -notin $references })
-    if ($missingTargets.Count -ne 0) {
-        throw "README references missing SVG previews: $($missingTargets -join ', ')"
-    }
-    if ($orphanedFiles.Count -ne 0) {
-        throw "SVG previews are missing from README: $($orphanedFiles -join ', ')"
-    }
+    $references = @(Get-ReadmeGalleryReference -ReadmePath $ReadmePath -ExpectedCount $ExpectedCount)
+    Assert-GalleryReferenceParity -AssetDirectory $AssetDirectory -SvgFile $svgFiles -Reference $references
 
     $repoRoot = Split-Path -Path $ReadmePath -Parent
-    $originalPreviewNames = @{
-        'OhMyPosh-Atomic-Custom-ExperimentalDividers.json' = 'OhMyPosh-Atomic-Custom-ExperimentalDividers.Original.svg'
-        'OhMyPosh-Atomic-Custom.json'                      = 'OhMyPosh-Atomic-Custom.Original.svg'
-        '1_shell-Enhanced.omp.json'                        = '1_shell-Enhanced.omp.Original.svg'
-        'slimfat-Enhanced.omp.json'                        = 'slimfat-Enhanced.omp.Original.svg'
-        'atomicBit-Enhanced.omp.json'                      = 'atomicBit-Enhanced.omp.Original.svg'
-        'clean-detailed-Enhanced.omp.json'                 = 'clean-detailed-Enhanced.omp.Original.svg'
-    }
-    $rootThemePreviews = @(foreach ($file in Get-ChildItem -LiteralPath $repoRoot -Filter '*.json' -File) {
-            $candidate = Get-Content -LiteralPath $file.FullName -Raw | ConvertFrom-Json -Depth 100 -AsHashtable
-            if (-not $candidate.Contains('blocks') -and -not $candidate.Contains('extends')) {
-                continue
-            }
-
-            if ($originalPreviewNames.ContainsKey($file.Name)) {
-                $originalPreviewNames[$file.Name]
-            }
-            else {
-                "$($file.BaseName).svg"
-            }
-        })
-    $uniqueRootThemePreviews = @($rootThemePreviews | Sort-Object -Unique)
-    if ($uniqueRootThemePreviews.Count -ne $rootThemePreviews.Count) {
-        throw 'Multiple root themes map to the same SVG preview name.'
-    }
-
-    $missingRootPreviews = @($uniqueRootThemePreviews | Where-Object {
-            -not (Test-Path -LiteralPath (Join-Path -Path $AssetDirectory -ChildPath $_))
-        })
-    $missingRootReferences = @($uniqueRootThemePreviews | Where-Object { $_ -notin $references })
-    if ($missingRootPreviews.Count -ne 0) {
-        throw "Root themes are missing SVG previews: $($missingRootPreviews -join ', ')"
-    }
-    if ($missingRootReferences.Count -ne 0) {
-        throw "Root theme previews are missing from README: $($missingRootReferences -join ', ')"
-    }
+    $rootThemePreviews = @(Get-RootThemePreviewName -RepoRoot $repoRoot)
+    Assert-RootThemePreviewCoverage `
+        -AssetDirectory $AssetDirectory `
+        -Reference $references `
+        -RootThemePreview $rootThemePreviews
 }
 
 $installedVersion = Get-InstalledOhMyPoshVersion

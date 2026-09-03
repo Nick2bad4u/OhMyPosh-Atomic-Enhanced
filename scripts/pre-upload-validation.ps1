@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Pre-upload validation script for Oh My Posh theme.
 
@@ -107,7 +107,7 @@ function Get-OMPPaletteReference {
     return $set
 }
 
-Write-Host 'Starting pre-upload validation for Oh My Posh theme...' -ForegroundColor Cyan
+Write-Information -MessageData 'Starting pre-upload validation for Oh My Posh theme...' -InformationAction Continue
 
 # 1. Check if files exist
 if (-not (Test-Path $ThemePath)) {
@@ -117,16 +117,16 @@ if (-not (Test-Path $TestPath)) {
     $errors += "Test file not found: $TestPath"
 }
 if ($errors.Count -gt 0) {
-    foreach ($err in $errors) { Write-Host "ERROR: $err" -ForegroundColor Red }
+    foreach ($err in $errors) { Write-Information -MessageData "ERROR: $err" -InformationAction Continue }
     exit 1
 }
 
 # 2. Validate JSON syntax
-Write-Host 'Validating JSON syntax...' -ForegroundColor Yellow
+Write-Information -MessageData 'Validating JSON syntax...' -InformationAction Continue
 try {
     $themeContent = Get-Content $ThemePath -Raw
     $themeJson = $themeContent | ConvertFrom-Json
-    Write-Host '✓ JSON syntax is valid' -ForegroundColor Green
+    Write-Information -MessageData '✓ JSON syntax is valid' -InformationAction Continue
 
     if ($themeJson.extends) {
         $errors += 'Pre-Upload-Validation.ps1 expects a complete root theme, not a palette extension. Use Test-Themes.ps1 -IncludeGenerated, or export the resolved config with oh-my-posh first.'
@@ -139,19 +139,19 @@ catch {
 try {
     $testContent = Get-Content $TestPath -Raw
     $testJson = $testContent | ConvertFrom-Json
-    Write-Host '✓ Test file JSON syntax is valid' -ForegroundColor Green
+        Write-Information -MessageData '✓ Test file JSON syntax is valid' -InformationAction Continue
 }
 catch {
     $errors += "JSON syntax error in $TestPath`: $($_.Exception.Message)"
 }
 
 if ($errors.Count -gt 0) {
-    foreach ($err in $errors) { Write-Host "ERROR: $err" -ForegroundColor Red }
+    foreach ($err in $errors) { Write-Information -MessageData "ERROR: $err" -InformationAction Continue }
     exit 1
 }
 
 # 3. Validate palette
-Write-Host 'Validating palette keys...' -ForegroundColor Yellow
+Write-Information -MessageData 'Validating palette keys...' -InformationAction Continue
 $palette = $themeJson.Palette.PSObject.Properties.Name
 $refs = @(Get-OMPPaletteReference -RawJson $themeContent -ThemeObject $themeJson) | Sort-Object -Unique
 $missing = $refs | Where-Object { $_ -notin $palette }
@@ -165,14 +165,14 @@ if ($unused.Count -gt 0) {
 }
 
 if ($missing.Count -eq 0) {
-    Write-Host '✓ All palette references are defined' -ForegroundColor Green
+    Write-Information -MessageData '✓ All palette references are defined' -InformationAction Continue
 }
 if ($unused.Count -gt 0) {
-    foreach ($warning in $warnings) { Write-Host "WARNING: $warning" -ForegroundColor Yellow }
+    foreach ($warning in $warnings) { Write-Warning $warning }
 }
 
 # 3.2 Validate debug prompt palette integration
-Write-Host 'Validating debug_prompt palette integration...' -ForegroundColor Yellow
+Write-Information -MessageData 'Validating debug_prompt palette integration...' -InformationAction Continue
 if ($null -eq $themeJson.debug_prompt) {
     $warnings += 'debug_prompt is missing (DEBUG styling will not be theme-aware).'
 }
@@ -200,7 +200,7 @@ else {
 }
 
 # 3.5 Validate mapped_locations
-Write-Host 'Validating mapped_locations configuration...' -ForegroundColor Yellow
+Write-Information -MessageData 'Validating mapped_locations configuration...' -InformationAction Continue
 $pathSegment = @($themeJson.blocks[0].segments | Where-Object { $_.Type -eq 'path' })[0]
 $pathProps = if ($pathSegment) { (Get-OMPProperty -Object $pathSegment -Name 'properties') } else { $null }
 
@@ -214,7 +214,7 @@ if ($pathSegment -and $pathProps -and $pathProps.mapped_locations) {
         $errors += "Duplicate mapped_locations keys found: $($duplicates.Name -join ', ')"
     }
     else {
-        Write-Host '✓ No duplicate mapped_locations keys' -ForegroundColor Green
+        Write-Information -MessageData '✓ No duplicate mapped_locations keys' -InformationAction Continue
     }
 
     # Validate regex patterns
@@ -237,7 +237,7 @@ if ($pathSegment -and $pathProps -and $pathProps.mapped_locations) {
         }
     }
     else {
-        Write-Host '✓ All regex patterns are valid' -ForegroundColor Green
+        Write-Information -MessageData '✓ All regex patterns are valid' -InformationAction Continue
     }
 
     # Check for GitHub project mappings
@@ -258,7 +258,7 @@ if ($pathSegment -and $pathProps -and $pathProps.mapped_locations) {
         $warnings += "Missing GitHub project mappings: $($missingProjectMaps -join ', ')"
     }
     else {
-        Write-Host '✓ GitHub project mappings are configured' -ForegroundColor Green
+        Write-Information -MessageData '✓ GitHub project mappings are configured' -InformationAction Continue
     }
 
     # Check for extra parentheses in patterns (common formatting error)
@@ -269,16 +269,16 @@ if ($pathSegment -and $pathProps -and $pathProps.mapped_locations) {
 }
 
 # 3.6 Validate async configuration
-Write-Host 'Validating async configuration...' -ForegroundColor Yellow
+Write-Information -MessageData 'Validating async configuration...' -InformationAction Continue
 if ($themeJson.async -eq $true) {
-    Write-Host '✓ Async loading is enabled for better performance' -ForegroundColor Green
+    Write-Information -MessageData '✓ Async loading is enabled for better performance' -InformationAction Continue
 }
 else {
     $warnings += 'Async loading is disabled - consider enabling for better prompt responsiveness'
 }
 
 # 4. Run test assertions
-Write-Host 'Running test assertions...' -ForegroundColor Yellow
+Write-Information -MessageData 'Running test assertions...' -InformationAction Continue
 $failedTests = @()
 
 foreach ($test in $testJson.tests) {
@@ -377,11 +377,11 @@ foreach ($test in $testJson.tests) {
     }
 
     if ($testPassed) {
-        Write-Host "✓ $($test.testName)" -ForegroundColor Green
+        Write-Information -MessageData "✓ $($test.testName)" -InformationAction Continue
     }
     else {
         $failedTests += $test.testName
-        Write-Host "✗ $($test.testName)" -ForegroundColor Red
+        Write-Information -MessageData "✗ $($test.testName)" -InformationAction Continue
     }
 }
 
@@ -389,30 +389,40 @@ if ($failedTests.Count -gt 0) {
     $errors += "Failed tests: $($failedTests -join ', ')"
 }
 
-# 5. Test theme loading with Oh My Posh
-# Write-Output "Testing theme loading with Oh My Posh..." -ForegroundColor Yellow
-# try {
-#     $initCommand = "oh-my-posh init pwsh --config '$ThemePath' 2>&1"
-#     $output = Invoke-Expression $initCommand
-#     if ($LASTEXITCODE -eq 0) {
-#         Write-Output "✓ Theme loads successfully with Oh My Posh" -ForegroundColor Green
-#     }
-#     else {
-#         $errors += "Oh My Posh failed to load theme: $output"
-#     }
-# }
-# catch {
-#     $errors += "Error testing theme load: $($_.Exception.Message)"
-# }
+# 5. Test config loading and extends resolution with Oh My Posh itself.
+Write-Information -MessageData 'Testing theme loading with Oh My Posh...' -InformationAction Continue
+$ohMyPoshCommand = Get-Command oh-my-posh -ErrorAction SilentlyContinue
+if (-not $ohMyPoshCommand) {
+    $errors += 'Oh My Posh is not available in PATH, so native config loading could not be validated.'
+}
+else {
+    try {
+        $global:LASTEXITCODE = 0
+        $exportOutput = @(& $ohMyPoshCommand.Source config export --config $ThemePath --format json 2>&1)
+        $exportExitCode = $LASTEXITCODE
+        if ($exportExitCode -ne 0) {
+            $exportDiagnostic = [string]::Join([Environment]::NewLine, $exportOutput)
+            $errors += "Oh My Posh failed to load the theme (exit $exportExitCode): $exportDiagnostic"
+        }
+        else {
+            $exportedJson = [string]::Join([Environment]::NewLine, $exportOutput)
+            $null = $exportedJson | ConvertFrom-Json -Depth 100 -ErrorAction Stop
+            Write-Information -MessageData '✓ Theme loads successfully with Oh My Posh' -InformationAction Continue
+        }
+    }
+    catch {
+        $errors += "Error testing native Oh My Posh config loading: $($_.Exception.Message)"
+    }
+}
 
 # Summary
-Write-Host "`nValidation Summary:" -ForegroundColor Cyan
+Write-Information -MessageData "`nValidation Summary:" -InformationAction Continue
 if ($errors.Count -eq 0) {
-    Write-Host '✓ All checks passed! Theme is ready for upload.' -ForegroundColor Green
+    Write-Information -MessageData '✓ All checks passed! Theme is ready for upload.' -InformationAction Continue
     exit 0
 }
 else {
-    foreach ($err in $errors) { Write-Host "ERROR: $err" -ForegroundColor Red }
-    Write-Host '✗ Validation failed. Please fix the errors before uploading.' -ForegroundColor Red
+    foreach ($err in $errors) { Write-Information -MessageData "ERROR: $err" -InformationAction Continue }
+    Write-Information -MessageData '✗ Validation failed. Please fix the errors before uploading.' -InformationAction Continue
     exit 1
 }

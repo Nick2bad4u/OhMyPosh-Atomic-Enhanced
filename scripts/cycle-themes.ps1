@@ -13,10 +13,26 @@ $RepoRoot = Split-Path -Path $PSScriptRoot -Parent
 
 function Resolve-RepoPath {
     [CmdletBinding()]
+    [OutputType([string])]
     param([Parameter(Mandatory)][string]$Path)
 
     if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
     return (Join-Path -Path $RepoRoot -ChildPath $Path)
+}
+
+function Write-ThemeMessage {
+    [CmdletBinding()]
+    param(
+        [AllowEmptyString()][string]$Message = '',
+        [ConsoleColor]$ForegroundColor
+    )
+
+    if ($PSBoundParameters.ContainsKey('ForegroundColor')) {
+        $foregroundSequence = $PSStyle.Foreground.FromConsoleColor($ForegroundColor)
+        $Message = "$foregroundSequence$Message$($PSStyle.Reset)"
+    }
+
+    Write-Information -MessageData $Message -InformationAction Continue
 }
 
 $customThemes = @(
@@ -47,24 +63,26 @@ function Show-ThemePreview {
     )
 
     Clear-Host
-    Write-Output '╔════════════════════════════════════════════════════════════╗' -ForegroundColor Cyan
-    Write-Output '║' -ForegroundColor Cyan -NoNewline
-    Write-Output " 🎨 $ThemeName" -ForegroundColor Yellow -NoNewline
-    $padding = 57 - $ThemeName.Length
-    Write-Output "$(' ' * $padding)║" -ForegroundColor Cyan
-    Write-Output '╚════════════════════════════════════════════════════════════╝' -ForegroundColor Cyan
-    Write-Output ''
-    Write-Output 'Loading theme preview... (Press Ctrl+C to stop cycling)' -ForegroundColor Gray
-    Write-Output ''
+    Write-ThemeMessage -Message ('=' * 60) -ForegroundColor Cyan
+    $padding = [math]::Max(0, 57 - $ThemeName.Length)
+    Write-ThemeMessage -Message "Theme: $ThemeName$(' ' * $padding)" -ForegroundColor Yellow
+    Write-ThemeMessage -Message ('=' * 60) -ForegroundColor Cyan
+    Write-ThemeMessage
+    Write-ThemeMessage -Message 'Loading theme preview... (Press Ctrl+C to stop cycling)' -ForegroundColor Gray
+    Write-ThemeMessage
 
-    oh-my-posh init pwsh --config $ThemePath | Invoke-Expression
+    & oh-my-posh print primary --config $ThemePath --shell pwsh --force
+    $previewExitCode = $LASTEXITCODE
+    if ($previewExitCode -ne 0) {
+        throw "Oh My Posh could not render theme '$ThemePath' (exit code $previewExitCode)."
+    }
 
-    Write-Output ''
-    Write-Output '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
-    Write-Output "Theme: $ThemeName" -ForegroundColor Yellow
-    Write-Output "Path:  $ThemePath" -ForegroundColor Gray
-    Write-Output '════════════════════════════════════════════════════════════' -ForegroundColor Cyan
-    Write-Output ''
+    Write-ThemeMessage
+    Write-ThemeMessage -Message ('=' * 60) -ForegroundColor Cyan
+    Write-ThemeMessage -Message "Theme: $ThemeName" -ForegroundColor Yellow
+    Write-ThemeMessage -Message "Path:  $ThemePath" -ForegroundColor Gray
+    Write-ThemeMessage -Message ('=' * 60) -ForegroundColor Cyan
+    Write-ThemeMessage
 }
 
 if (-not $Official -and -not $Custom) {
@@ -72,15 +90,15 @@ if (-not $Official -and -not $Custom) {
     $Custom = $true
 }
 
-Write-Output "`n🎭 Oh-My-Posh Theme Cycler" -ForegroundColor Green
-Write-Output "📍 This will cycle through all themes for $([int]$Delay)s each" -ForegroundColor Gray
-Write-Output "⏹️  Press Ctrl+C to stop`n" -ForegroundColor Yellow
+Write-ThemeMessage -Message "`nOh-My-Posh Theme Cycler" -ForegroundColor Green
+Write-ThemeMessage -Message "This will cycle through all themes for $([int]$Delay)s each" -ForegroundColor Gray
+Write-ThemeMessage -Message "Press Ctrl+C to stop`n" -ForegroundColor Yellow
 Start-Sleep -Seconds 2
 
 $themes = @()
 
 if ($Custom) {
-    Write-Output '📦 Loading custom themes...' -ForegroundColor Cyan
+    Write-ThemeMessage -Message 'Loading custom themes...' -ForegroundColor Cyan
     foreach ($theme in $customThemes) {
         if (Test-Path -LiteralPath $theme) {
             $themes += @{
@@ -92,7 +110,7 @@ if ($Custom) {
     }
 
     if ($Variants) {
-        Write-Output '🧩 Loading palette variants from theme-family folders...' -ForegroundColor Cyan
+        Write-ThemeMessage -Message 'Loading palette variants from theme-family folders...' -ForegroundColor Cyan
         $variantGlobs = @(
             'atomic/OhMyPosh-Atomic-Custom.*.json',
             '1_shell/1_shell-Enhanced.omp.*.json',
@@ -114,7 +132,7 @@ if ($Custom) {
 }
 
 if ($Official) {
-    Write-Output '📦 Loading official themes...' -ForegroundColor Cyan
+    Write-ThemeMessage -Message 'Loading official themes...' -ForegroundColor Cyan
     if (Test-Path -LiteralPath $officialThemesPath) {
         $officialFiles = Get-ChildItem "$officialThemesPath\*.json" | Sort-Object Name
         foreach ($file in $officialFiles) {
@@ -126,16 +144,16 @@ if ($Official) {
         }
     }
     else {
-        Write-Output '⚠️  Official themes folder not found. Run: git subtree pull --prefix=ohmyposh-official-themes ohmyposh-themes main --squash' -ForegroundColor Yellow
+        Write-ThemeMessage -Message 'WARNING: Official themes folder not found. Run scripts/sync-official-themes.ps1.' -ForegroundColor Yellow
     }
 }
 
 if ($themes.Count -eq 0) {
-    Write-Output '❌ No themes found!' -ForegroundColor Red
+    Write-ThemeMessage -Message 'ERROR: No themes found!' -ForegroundColor Red
     exit 1
 }
 
-Write-Output "✓ Found $($themes.Count) themes`n" -ForegroundColor Green
+Write-ThemeMessage -Message "Found $($themes.Count) themes`n" -ForegroundColor Green
 Start-Sleep -Seconds 2
 
 $currentIndex = 0
@@ -144,7 +162,7 @@ while ($true) {
     $theme = $themes[$currentIndex]
     Show-ThemePreview -ThemePath $theme.Path -ThemeName "$($theme.Type): $($theme.Name)"
 
-    Write-Output "Next in $Delay seconds... (Showing $($currentIndex + 1) of $($themes.Count))" -ForegroundColor Gray
+    Write-ThemeMessage -Message "Next in $Delay seconds... (Showing $($currentIndex + 1) of $($themes.Count))" -ForegroundColor Gray
     Start-Sleep -Seconds $Delay
 
     $currentIndex = ($currentIndex + 1) % $themes.Count

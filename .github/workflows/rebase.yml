@@ -13,13 +13,18 @@ jobs:
         name: Rebase
         runs-on: ubuntu-latest
         if: >-
-            github.event.issue.pull_request != '' &&
+            github.event.issue.pull_request != null &&
             (
-              contains(github.event.comment.body, '/rebase') ||
-              contains(github.event.comment.body, '/autosquash')
+              github.event.comment.author_association == 'OWNER' ||
+              github.event.comment.author_association == 'MEMBER' ||
+              github.event.comment.author_association == 'COLLABORATOR'
+            ) &&
+            (
+              startsWith(github.event.comment.body, '/rebase') ||
+              startsWith(github.event.comment.body, '/autosquash')
             )
         concurrency:
-            group: rebase-${{ github.ref }}
+            group: rebase-${{ github.event.issue.number }}
             cancel-in-progress: false
         steps:
             - name: Harden the runner (Audit all outbound calls)
@@ -35,6 +40,6 @@ jobs:
             - name: Automatic Rebase
               uses: cirrus-actions/rebase@b87d48154a87a85666003575337e27b8cd65f691 # 1.8
               with:
-                  autosquash: ${{ contains(github.event.comment.body, '/autosquash') || contains(github.event.comment.body, '/rebase-autosquash') }}
+                  autosquash: ${{ startsWith(github.event.comment.body, '/autosquash') || startsWith(github.event.comment.body, '/rebase-autosquash') }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -11,7 +11,7 @@ This file lives in .\scripts\ and launches .\scripts\preview-themes.ps1.
 
 $PreviewThemesScript = Join-Path -Path $PSScriptRoot -ChildPath 'preview-themes.ps1'
 
-function Show-AllThemes {
+function Show-AllTheme {
     <#
     .SYNOPSIS
     Show ALL themes (custom + official) in the interactive previewer.
@@ -19,7 +19,7 @@ function Show-AllThemes {
     & $PreviewThemesScript
 }
 
-function Show-CustomThemes {
+function Show-CustomTheme {
     <#
     .SYNOPSIS
     Show ONLY custom themes in the interactive previewer.
@@ -27,7 +27,7 @@ function Show-CustomThemes {
     & $PreviewThemesScript -Custom
 }
 
-function Show-OfficialThemes {
+function Show-OfficialTheme {
     <#
     .SYNOPSIS
     Show ONLY official Oh-My-Posh themes in the interactive previewer.
@@ -35,17 +35,21 @@ function Show-OfficialThemes {
     & $PreviewThemesScript -Official
 }
 
-# Back-compat names (older docs / muscle memory)
-function Show-AllTheme { Show-AllThemes }
-function Show-CustomTheme { Show-CustomThemes }
-function Show-OfficialTheme { Show-OfficialThemes }
+# Back-compatible plural names remain available as aliases without keeping
+# analyzer-invalid plural function nouns.
+$aliasScope = if ($ExecutionContext.SessionState.Module) { 'Script' } else { 'Global' }
+Set-Alias -Name Show-AllThemes -Value Show-AllTheme -Force -Scope $aliasScope
+Set-Alias -Name Show-CustomThemes -Value Show-CustomTheme -Force -Scope $aliasScope
+Set-Alias -Name Show-OfficialThemes -Value Show-OfficialTheme -Force -Scope $aliasScope
 
 # Quick aliases
-Set-Alias -Name themes -Value Show-AllThemes -Force -Scope Global
-Set-Alias -Name mythemes -Value Show-CustomThemes -Force -Scope Global
-Set-Alias -Name official-themes -Value Show-OfficialThemes -Force -Scope Global
+Set-Alias -Name themes -Value Show-AllTheme -Force -Scope $aliasScope
+Set-Alias -Name mythemes -Value Show-CustomTheme -Force -Scope $aliasScope
+Set-Alias -Name official-themes -Value Show-OfficialTheme -Force -Scope $aliasScope
 
 # Only export when imported as a module (Export-ModuleMember errors when dot-sourced)
 if ($ExecutionContext.SessionState.Module) {
-    Export-ModuleMember -Function Show-AllThemes, Show-CustomThemes, Show-OfficialThemes -Alias themes, mythemes, official-themes
+    Export-ModuleMember `
+        -Function Show-AllTheme, Show-CustomTheme, Show-OfficialTheme `
+        -Alias Show-AllThemes, Show-CustomThemes, Show-OfficialThemes, themes, mythemes, official-themes
 }

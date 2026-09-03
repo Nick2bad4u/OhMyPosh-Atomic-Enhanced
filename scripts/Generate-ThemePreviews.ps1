@@ -95,6 +95,7 @@ $RepoRoot = Split-Path -Path $PSScriptRoot -Parent
 
 function Resolve-RepoPath {
     [CmdletBinding()]
+    [OutputType([string])]
     param([Parameter(Mandatory)][string]$Path)
 
     if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
@@ -126,34 +127,26 @@ $GeneratedFamilyBases = @{
     experimentalDividers = 'OhMyPosh-Atomic-Custom-ExperimentalDividers.json'
 }
 
-# Write-Output does not support -ForegroundColor / -NoNewline, but this script uses it for colored console output.
-# Provide a local wrapper so output stays clean without rewriting every callsite.
-function Write-Output {
+# Emit redirectable presentation data while retaining host color and no-newline hints.
+function Write-PreviewMessage {
     [CmdletBinding()]
     param(
         [Parameter(Position = 0, ValueFromRemainingArguments = $true)]
+        [AllowEmptyString()]
         [object[]]$InputObject,
 
         [ConsoleColor]$ForegroundColor,
         [switch]$NoNewline
     )
 
-    $text = ($InputObject | ForEach-Object { "$_" }) -join ''
-
-    if ($PSBoundParameters.ContainsKey('ForegroundColor') -or $NoNewline) {
-        $hasColor = $PSBoundParameters.ContainsKey('ForegroundColor')
-        if ($NoNewline) {
-            if ($hasColor) { Write-Host -NoNewline -ForegroundColor $ForegroundColor $text }
-            else { Write-Host -NoNewline $text }
-        }
-        else {
-            if ($hasColor) { Write-Host -ForegroundColor $ForegroundColor $text }
-            else { Write-Host $text }
-        }
-        return
+    $message = [System.Management.Automation.HostInformationMessage]::new()
+    $message.Message = ($InputObject | ForEach-Object { "$_" }) -join ''
+    $message.NoNewLine = $NoNewline.IsPresent
+    if ($PSBoundParameters.ContainsKey('ForegroundColor')) {
+        $message.ForegroundColor = $ForegroundColor
     }
 
-    Microsoft.PowerShell.Utility\Write-Output $text
+    Write-Information -MessageData $message -InformationAction Continue
 }
 
 # Color scheme for output
@@ -168,29 +161,149 @@ $colors = @{
 
 function Write-Header {
     param([string]$Text)
-    Write-Output "`n$('=' * 70)" -ForegroundColor $colors.Header
-    Write-Output "  $Text" -ForegroundColor $colors.Header
-    Write-Output "$('=' * 70)`n" -ForegroundColor $colors.Header
+    Write-PreviewMessage "`n$('=' * 70)" -ForegroundColor $colors.Header
+    Write-PreviewMessage "  $Text" -ForegroundColor $colors.Header
+    Write-PreviewMessage "$('=' * 70)`n" -ForegroundColor $colors.Header
 }
 
 function Write-Step {
     param([string]$Text)
-    Write-Output "▶ $Text" -ForegroundColor $colors.Info
+    Write-PreviewMessage "▶ $Text" -ForegroundColor $colors.Info
 }
 
 function Write-Success {
     param([string]$Text)
-    Write-Output "  ✓ $Text" -ForegroundColor $colors.Success
+    Write-PreviewMessage "  ✓ $Text" -ForegroundColor $colors.Success
 }
 
 function Write-WarningOutput {
     param([string]$Text)
-    Write-Output "  ⚠ $Text" -ForegroundColor $colors.Warning
+    Write-PreviewMessage "  ⚠ $Text" -ForegroundColor $colors.Warning
 }
 
 function Write-ErrorMessage {
     param([string]$Text)
-    Write-Output "  ✗ $Text" -ForegroundColor $colors.Error
+    Write-PreviewMessage "  ✗ $Text" -ForegroundColor $colors.Error
+}
+
+function Get-PreviewSettingDefinition {
+    return [ordered]@{
+        background_color = @{ Flag = '--background-color'; Type = 'color' }
+        font_family      = @{ Flag = '--font-family'; Type = 'string' }
+        terminal_width   = @{ Flag = '--terminal-width'; Type = 'integer' }
+        cell_width       = @{ Flag = '--cell-width'; Type = 'number' }
+        line_height      = @{ Flag = '--line-height'; Type = 'number' }
+        fill_ascent      = @{ Flag = '--fill-ascent'; Type = 'number' }
+        fill_descent     = @{ Flag = '--fill-descent'; Type = 'number' }
+    }
+}
+
+function ConvertTo-BoundedInteger {
+    [CmdletBinding()]
+    [OutputType([int])]
+    param(
+        [Parameter(Mandatory)][object]$Value,
+        [Parameter(Mandatory)][string]$Description
+    )
+
+    try {
+        $number = [int]$Value
+    }
+    catch {
+        throw "$Description must be an integer."
+    }
+    if ($number -lt 20 -or $number -gt 1000) {
+        throw "$Description must be between 20 and 1000."
+    }
+
+    return $number
+}
+
+function ConvertTo-InvariantNumberText {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)][object]$Value,
+        [Parameter(Mandatory)][string]$Description
+    )
+
+    try {
+        $number = [double]$Value
+    }
+    catch {
+        throw "$Description must be numeric."
+    }
+    if (-not [double]::IsFinite($number) -or $number -le 0 -or $number -gt 10) {
+        throw "$Description must be a finite number greater than 0 and no greater than 10."
+    }
+
+    return $number.ToString('0.######', [Globalization.CultureInfo]::InvariantCulture)
+}
+
+function ConvertTo-PreviewSettingText {
+    [CmdletBinding()]
+    [OutputType([string])]
+    param(
+        [Parameter(Mandatory)][string]$Key,
+        [Parameter(Mandatory)][object]$Value,
+        [Parameter(Mandatory)][string]$Type
+    )
+
+    $description = "Preview setting '$Key'"
+    switch ($Type) {
+        'color' {
+            $text = [string]$Value
+            if ($text -notmatch '^#[0-9A-Fa-f]{6}$') {
+                throw "$description must be a #RRGGBB color."
+            }
+            return $text
+        }
+        'string' {
+            $text = [string]$Value
+            if ([string]::IsNullOrWhiteSpace($text)) {
+                throw "$description must not be empty."
+            }
+            return $text
+        }
+        'integer' {
+            $number = ConvertTo-BoundedInteger -Value $Value -Description $description
+            return $number.ToString([Globalization.CultureInfo]::InvariantCulture)
+        }
+        'number' {
+            return ConvertTo-InvariantNumberText -Value $Value -Description $description
+        }
+        default {
+            throw "Unsupported preview setting type '$Type' for '$Key'."
+        }
+    }
+}
+
+function Get-TerminalWidthOverride {
+    [CmdletBinding()]
+    [OutputType([System.Collections.Specialized.OrderedDictionary])]
+    param([Parameter(Mandatory)][System.Collections.IDictionary]$Settings)
+
+    $terminalWidthOverrides = [ordered]@{}
+    if (-not $Settings.Contains('terminal_width_overrides')) {
+        return $terminalWidthOverrides
+    }
+
+    $rawOverrides = $Settings.terminal_width_overrides
+    if ($rawOverrides -isnot [System.Collections.IDictionary]) {
+        throw "Preview setting 'terminal_width_overrides' must be an object of theme-name patterns and widths."
+    }
+
+    foreach ($pattern in $rawOverrides.Keys) {
+        if ([string]::IsNullOrWhiteSpace([string]$pattern)) {
+            throw "Preview setting 'terminal_width_overrides' contains an empty theme-name pattern."
+        }
+
+        $description = "Terminal width override '$pattern'"
+        $terminalWidthOverrides[[string]$pattern] = ConvertTo-BoundedInteger `
+            -Value $rawOverrides[$pattern] `
+            -Description $description
+    }
+
+    return $terminalWidthOverrides
 }
 
 function ConvertTo-PreviewSettingArgument {
@@ -202,15 +315,7 @@ function ConvertTo-PreviewSettingArgument {
     }
 
     $settings = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json -Depth 20 -AsHashtable
-    $definitions = [ordered]@{
-        background_color = @{ Flag = '--background-color'; Type = 'color' }
-        font_family      = @{ Flag = '--font-family'; Type = 'string' }
-        terminal_width   = @{ Flag = '--terminal-width'; Type = 'integer' }
-        cell_width       = @{ Flag = '--cell-width'; Type = 'number' }
-        line_height      = @{ Flag = '--line-height'; Type = 'number' }
-        fill_ascent      = @{ Flag = '--fill-ascent'; Type = 'number' }
-        fill_descent     = @{ Flag = '--fill-descent'; Type = 'number' }
-    }
+    $definitions = Get-PreviewSettingDefinition
 
     $generatorSettings = @('terminal_width_overrides')
     $unknownKeys = @($settings.Keys | Where-Object {
@@ -227,75 +332,13 @@ function ConvertTo-PreviewSettingArgument {
         }
 
         $definition = $definitions[$key]
-        $value = $settings[$key]
-        switch ($definition.Type) {
-            'color' {
-                $text = [string]$value
-                if ($text -notmatch '^#[0-9A-Fa-f]{6}$') {
-                    throw "Preview setting '$key' must be a #RRGGBB color."
-                }
-            }
-            'string' {
-                $text = [string]$value
-                if ([string]::IsNullOrWhiteSpace($text)) {
-                    throw "Preview setting '$key' must not be empty."
-                }
-            }
-            'integer' {
-                try {
-                    $number = [int]$value
-                }
-                catch {
-                    throw "Preview setting '$key' must be an integer."
-                }
-                if ($number -lt 20 -or $number -gt 1000) {
-                    throw "Preview setting '$key' must be between 20 and 1000."
-                }
-                $text = $number.ToString([Globalization.CultureInfo]::InvariantCulture)
-            }
-            'number' {
-                try {
-                    $number = [double]$value
-                }
-                catch {
-                    throw "Preview setting '$key' must be numeric."
-                }
-                if (-not [double]::IsFinite($number) -or $number -le 0 -or $number -gt 10) {
-                    throw "Preview setting '$key' must be a finite number greater than 0 and no greater than 10."
-                }
-                $text = $number.ToString('0.######', [Globalization.CultureInfo]::InvariantCulture)
-            }
-        }
+        $text = ConvertTo-PreviewSettingText -Key $key -Value $settings[$key] -Type $definition.Type
 
         $arguments.Add([string]$definition.Flag)
         $arguments.Add($text)
     }
 
-    $terminalWidthOverrides = [ordered]@{}
-    if ($settings.Contains('terminal_width_overrides')) {
-        $rawOverrides = $settings.terminal_width_overrides
-        if ($rawOverrides -isnot [System.Collections.IDictionary]) {
-            throw "Preview setting 'terminal_width_overrides' must be an object of theme-name patterns and widths."
-        }
-
-        foreach ($pattern in $rawOverrides.Keys) {
-            if ([string]::IsNullOrWhiteSpace([string]$pattern)) {
-                throw "Preview setting 'terminal_width_overrides' contains an empty theme-name pattern."
-            }
-
-            try {
-                $width = [int]$rawOverrides[$pattern]
-            }
-            catch {
-                throw "Terminal width override '$pattern' must be an integer."
-            }
-            if ($width -lt 20 -or $width -gt 1000) {
-                throw "Terminal width override '$pattern' must be between 20 and 1000."
-            }
-
-            $terminalWidthOverrides[[string]$pattern] = $width
-        }
-    }
+    $terminalWidthOverrides = Get-TerminalWidthOverride -Settings $settings
 
     return [pscustomobject]@{
         Arguments              = $arguments.ToArray()
@@ -450,7 +493,7 @@ foreach ($pattern in $ThemePattern) {
     }
 }
 
-$themeFiles = @($themeFiles | Where-Object {
+$themeFiles = @($themeFiles | Sort-Object -Property FullName -Unique | Where-Object {
         try {
             $candidate = Get-Content -LiteralPath $_.FullName -Raw | ConvertFrom-Json -Depth 100 -AsHashtable
         }
@@ -463,8 +506,8 @@ $themeFiles = @($themeFiles | Where-Object {
 
 if ($themeFiles.Count -eq 0) {
     Write-WarningOutput 'No custom theme files found!'
-    Write-Output "  Patterns searched: $($ThemePattern -join ', ')" -ForegroundColor $colors.Info
-    exit 0
+    Write-PreviewMessage "  Patterns searched: $($ThemePattern -join ', ')" -ForegroundColor $colors.Info
+    return
 }
 
 Write-Success "Found $($themeFiles.Count) theme files"
@@ -486,16 +529,18 @@ foreach ($theme in $themeFiles) {
     }
     $resultThemeName = "$themeName.json"
     $outputImage = Join-Path $OutputDirectory "$themeName.svg"
+    $readmeDirectory = Split-Path -Parent $ReadmePath
+    $relativeImagePath = [IO.Path]::GetRelativePath($readmeDirectory, $outputImage).Replace('\', '/')
     $themeImageSettingsParam = @(Get-ThemePreviewSettingArgument `
             -BaseArguments $imageSettingsParam `
             -TerminalWidthOverrides $terminalWidthOverrides `
             -ThemeName $themeName)
 
-    Write-Output "`n[$($results.Count + 1)/$($themeFiles.Count)] " -NoNewline -ForegroundColor $colors.Accent
-    Write-Output $theme.Name -ForegroundColor $colors.Info
+    Write-PreviewMessage "`n[$($results.Count + 1)/$($themeFiles.Count)] " -NoNewline -ForegroundColor $colors.Accent
+    Write-PreviewMessage $theme.Name -ForegroundColor $colors.Info
 
     # Check if image already exists
-    if ((Test-Path $outputImage) -and -not $Force) {
+    if ((Test-Path -LiteralPath $outputImage) -and -not $Force) {
         Assert-SvgOutput -Path $outputImage
         Remove-LegacyPreview -Directory $OutputDirectory -ThemeName $themeName
         Write-WarningOutput 'Image already exists, skipping (use -Force to regenerate)'
@@ -505,7 +550,7 @@ foreach ($theme in $themeFiles) {
             ThemeName    = $themeName
             Status       = 'Skipped'
             ImagePath    = $outputImage
-            RelativePath = "assets/theme-previews/$themeName.svg"
+            RelativePath = $relativeImagePath
         }
         continue
     }
@@ -540,25 +585,30 @@ foreach ($theme in $themeFiles) {
         # Run oh-my-posh export and capture result for diagnostics
         $global:LASTEXITCODE = 0
         $exportResult = & oh-my-posh @exportArgs 2>&1
+        $exportExitCode = $LASTEXITCODE
 
-        if ($LASTEXITCODE -eq 0 -and (Test-Path -LiteralPath $temporaryOutputPath)) {
-            Assert-SvgOutput -Path $temporaryOutputPath
-            Move-Item -LiteralPath $temporaryOutputPath -Destination $outputImage -Force
-            Remove-LegacyPreview -Directory $OutputDirectory -ThemeName $themeName
-            Write-Success "Generated: $themeName.svg"
-            $successCount++
-            $results += [pscustomobject]@{
-                Theme        = $resultThemeName
-                ThemeName    = $themeName
-                Status       = 'Success'
-                ImagePath    = $outputImage
-                RelativePath = "assets/theme-previews/$themeName.svg"
-            }
-        }
-        else {
-            Write-WarningOutput "oh-my-posh returned exit code $LASTEXITCODE"
+        if ($exportExitCode -ne 0) {
+            Write-WarningOutput "oh-my-posh returned exit code $exportExitCode"
             Write-ErrorMessage "Export output: $exportResult"
-            throw "oh-my-posh returned exit code $LASTEXITCODE"
+            throw "oh-my-posh returned exit code $exportExitCode"
+        }
+
+        if (-not (Test-Path -LiteralPath $temporaryOutputPath)) {
+            Write-ErrorMessage "Export output: $exportResult"
+            throw 'oh-my-posh exited successfully but did not create the expected SVG output.'
+        }
+
+        Assert-SvgOutput -Path $temporaryOutputPath
+        Move-Item -LiteralPath $temporaryOutputPath -Destination $outputImage -Force
+        Remove-LegacyPreview -Directory $OutputDirectory -ThemeName $themeName
+        Write-Success "Generated: $themeName.svg"
+        $successCount++
+        $results += [pscustomobject]@{
+            Theme        = $resultThemeName
+            ThemeName    = $themeName
+            Status       = 'Success'
+            ImagePath    = $outputImage
+            RelativePath = $relativeImagePath
         }
     }
     catch {
@@ -584,17 +634,17 @@ foreach ($theme in $themeFiles) {
 
 # Summary
 Write-Header '📊 Generation Summary'
-Write-Output '✓ Successfully generated: ' -NoNewline -ForegroundColor $colors.Success
-Write-Output $successCount -ForegroundColor $colors.Info
+Write-PreviewMessage '✓ Successfully generated: ' -NoNewline -ForegroundColor $colors.Success
+Write-PreviewMessage $successCount -ForegroundColor $colors.Info
 
 if ($skipCount -gt 0) {
-    Write-Output '⚠ Skipped (existing): ' -NoNewline -ForegroundColor $colors.Warning
-    Write-Output $skipCount -ForegroundColor $colors.Info
+    Write-PreviewMessage '⚠ Skipped (existing): ' -NoNewline -ForegroundColor $colors.Warning
+    Write-PreviewMessage $skipCount -ForegroundColor $colors.Info
 }
 
 if ($errorCount -gt 0) {
-    Write-Output '✗ Errors: ' -NoNewline -ForegroundColor $colors.Error
-    Write-Output $errorCount -ForegroundColor $colors.Info
+    Write-PreviewMessage '✗ Errors: ' -NoNewline -ForegroundColor $colors.Error
+    Write-PreviewMessage $errorCount -ForegroundColor $colors.Info
     throw "$errorCount preview(s) failed; README was not updated."
 }
 
@@ -603,8 +653,7 @@ if (-not $SkipReadmeUpdate) {
     Write-Header '📝 Updating README'
 
     if (-not (Test-Path $ReadmePath)) {
-        Write-ErrorMessage "README not found: $ReadmePath"
-        exit 1
+        throw "README not found: $ReadmePath"
     }
 
     Write-Step 'Reading README.md...'
@@ -624,7 +673,7 @@ if (-not $SkipReadmeUpdate) {
     $cleanDetailedThemes = @($results | Where-Object { $_.Theme -like 'clean-detailed-Enhanced.omp.*' -and $_.Status -in $includeStatuses } | Sort-Object ThemeName)
 
     # Function to generate table rows for a theme group
-    function Get-ThemeTableRows {
+    function Get-ThemeTableRow {
         param(
             [array]$Themes,
             [string]$StripPrefix
@@ -676,7 +725,7 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 <table>
 '@
 
-        $galleryMarkdown += Get-ThemeTableRows -Themes $experimentalDividersThemes -StripPrefix 'OhMyPosh-Atomic-Custom-ExperimentalDividers\.'
+        $galleryMarkdown += Get-ThemeTableRow -Themes $experimentalDividersThemes -StripPrefix 'OhMyPosh-Atomic-Custom-ExperimentalDividers\.'
 
         $galleryMarkdown += @'
 
@@ -691,7 +740,7 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 
 <table>
 '@
-    $galleryMarkdown += Get-ThemeTableRows -Themes $atomicThemes -StripPrefix 'OhMyPosh-Atomic-Custom(?:\.|-)'
+    $galleryMarkdown += Get-ThemeTableRow -Themes $atomicThemes -StripPrefix 'OhMyPosh-Atomic-Custom(?:\.|-)'
 
     $galleryMarkdown += @'
 
@@ -703,7 +752,7 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 '@
 
     # Add 1_shell themes
-    $galleryMarkdown += Get-ThemeTableRows -Themes $shellThemes -StripPrefix '1_shell-Enhanced\.omp\.'
+    $galleryMarkdown += Get-ThemeTableRow -Themes $shellThemes -StripPrefix '1_shell-Enhanced\.omp\.'
 
     $galleryMarkdown += @'
 
@@ -715,7 +764,7 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 '@
 
     # Add Slimfat themes
-    $galleryMarkdown += Get-ThemeTableRows -Themes $slimfatThemes -StripPrefix 'slimfat-Enhanced\.omp\.'
+    $galleryMarkdown += Get-ThemeTableRow -Themes $slimfatThemes -StripPrefix 'slimfat-Enhanced\.omp\.'
 
     $galleryMarkdown += @'
 
@@ -727,7 +776,7 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 '@
 
     # Add AtomicBit themes
-    $galleryMarkdown += Get-ThemeTableRows -Themes $atomicBitThemes -StripPrefix 'atomicBit-Enhanced\.omp\.'
+    $galleryMarkdown += Get-ThemeTableRow -Themes $atomicBitThemes -StripPrefix 'atomicBit-Enhanced\.omp\.'
 
     $galleryMarkdown += @'
 
@@ -739,7 +788,7 @@ All themes are available in multiple color palettes. Choose the one that fits yo
 '@
 
     # Add Clean-Detailed themes
-    $galleryMarkdown += Get-ThemeTableRows -Themes $cleanDetailedThemes -StripPrefix 'clean-detailed-Enhanced\.omp\.'
+    $galleryMarkdown += Get-ThemeTableRow -Themes $cleanDetailedThemes -StripPrefix 'clean-detailed-Enhanced\.omp\.'
 
     $galleryMarkdown += @"
 
@@ -875,26 +924,24 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/Nick2bad4u/OhMy
 Write-Header '✨ Complete!'
 
 if ($successCount -gt 0) {
-    Write-Output 'Generated preview images are in: ' -NoNewline -ForegroundColor $colors.Info
-    Write-Output $OutputDirectory -ForegroundColor $colors.Accent
+    Write-PreviewMessage 'Generated preview images are in: ' -NoNewline -ForegroundColor $colors.Info
+    Write-PreviewMessage $OutputDirectory -ForegroundColor $colors.Accent
 }
 
 if (-not $SkipReadmeUpdate) {
     $totalGalleryThemes = ($experimentalDividersThemes.Count + $atomicThemes.Count + $shellThemes.Count + $slimfatThemes.Count + $atomicBitThemes.Count + $cleanDetailedThemes.Count)
     if ($totalGalleryThemes -gt 0) {
-        Write-Output "`n💡 Don't forget to:" -ForegroundColor $colors.Warning
-        Write-Output '   1. Review the updated README.md' -ForegroundColor $colors.Info
-        Write-Output '   2. Commit and push the new preview images' -ForegroundColor $colors.Info
-        Write-Output '   3. Verify the gallery renders correctly on GitHub' -ForegroundColor $colors.Info
-        Write-Output "`n📊 Gallery Stats:" -ForegroundColor $colors.Accent
-        Write-Output "   • Experimental Dividers: $($experimentalDividersThemes.Count) themes" -ForegroundColor $colors.Info
-        Write-Output "   • Atomic Custom: $($atomicThemes.Count) themes" -ForegroundColor $colors.Info
-        Write-Output "   • 1_shell-Enhanced: $($shellThemes.Count) themes" -ForegroundColor $colors.Info
-        Write-Output "   • Slimfat-Enhanced: $($slimfatThemes.Count) themes" -ForegroundColor $colors.Info
-        Write-Output "   • AtomicBit-Enhanced: $($atomicBitThemes.Count) themes" -ForegroundColor $colors.Info
-        Write-Output "   • Clean-Detailed-Enhanced: $($cleanDetailedThemes.Count) themes" -ForegroundColor $colors.Info
-        Write-Output "   • Total: $totalGalleryThemes themes in gallery" -ForegroundColor $colors.Success
+        Write-PreviewMessage "`n💡 Don't forget to:" -ForegroundColor $colors.Warning
+        Write-PreviewMessage '   1. Review the updated README.md' -ForegroundColor $colors.Info
+        Write-PreviewMessage '   2. Commit and push the new preview images' -ForegroundColor $colors.Info
+        Write-PreviewMessage '   3. Verify the gallery renders correctly on GitHub' -ForegroundColor $colors.Info
+        Write-PreviewMessage "`n📊 Gallery Stats:" -ForegroundColor $colors.Accent
+        Write-PreviewMessage "   • Experimental Dividers: $($experimentalDividersThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-PreviewMessage "   • Atomic Custom: $($atomicThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-PreviewMessage "   • 1_shell-Enhanced: $($shellThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-PreviewMessage "   • Slimfat-Enhanced: $($slimfatThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-PreviewMessage "   • AtomicBit-Enhanced: $($atomicBitThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-PreviewMessage "   • Clean-Detailed-Enhanced: $($cleanDetailedThemes.Count) themes" -ForegroundColor $colors.Info
+        Write-PreviewMessage "   • Total: $totalGalleryThemes themes in gallery" -ForegroundColor $colors.Success
     }
 }
-
-Write-Output ''

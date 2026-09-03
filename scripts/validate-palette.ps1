@@ -30,13 +30,14 @@ $RepoRoot = Split-Path -Path $PSScriptRoot -Parent
 
 function Resolve-RepoPath {
     [CmdletBinding()]
+    [OutputType([string])]
     param([Parameter(Mandatory)][string]$Path)
 
     if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
     return (Join-Path -Path $RepoRoot -ChildPath $Path)
 }
 
-$ConfigPath = Resolve-RepoPath $ConfigPath
+$ConfigPath = Resolve-RepoPath -Path $ConfigPath
 
 if (-not (Test-Path -LiteralPath $ConfigPath)) {
     Write-Error "Config file not found: $ConfigPath"
@@ -95,42 +96,42 @@ $refs = [regex]::Matches($rawContent, 'p:([a-zA-Z0-9_\-\.]+)') | ForEach-Object 
 $missing = @($refs | Where-Object { $_ -notin $palette })
 $unused = @($palette | Where-Object { $_ -notin $refs })
 
-Write-Host "Palette keys: $($palette.Count)" -ForegroundColor Cyan
-Write-Host "Referenced keys: $($refs.Count)" -ForegroundColor Cyan
+Write-Information -MessageData "Palette keys: $($palette.Count)" -InformationAction Continue
+Write-Information -MessageData "Referenced keys: $($refs.Count)" -InformationAction Continue
 
 if ($ShowAll) {
-    Write-Host "`nPalette keys:" -ForegroundColor Cyan
-    ($palette | Sort-Object) | ForEach-Object { Write-Host "  - $_" }
+    Write-Information -MessageData "`nPalette keys:" -InformationAction Continue
+    ($palette | Sort-Object) | ForEach-Object { Write-Information -MessageData "  - $_" -InformationAction Continue }
 
-    Write-Host "`nReferenced keys:" -ForegroundColor Cyan
-    ($refs | Sort-Object) | ForEach-Object { Write-Host "  - $_" }
+    Write-Information -MessageData "`nReferenced keys:" -InformationAction Continue
+    ($refs | Sort-Object) | ForEach-Object { Write-Information -MessageData "  - $_" -InformationAction Continue }
 }
 
 if ($missing) {
-    Write-Host "`nMissing palette entries (referenced but not defined):" -ForegroundColor Red
-    Write-Host 'The following referenced keys are missing from the palette:' -ForegroundColor Red
+    Write-Information -MessageData "`nMissing palette entries (referenced but not defined):" -InformationAction Continue
+    Write-Information -MessageData 'The following referenced keys are missing from the palette:' -InformationAction Continue
     $missingSorted = $missing | Sort-Object
-    $missingSorted | ForEach-Object { Write-Host "  - $_" }
+    $missingSorted | ForEach-Object { Write-Information -MessageData "  - $_" -InformationAction Continue }
 }
 else {
-    Write-Host "`nNo missing palette entries." -ForegroundColor Green
+    Write-Information -MessageData "`nNo missing palette entries." -InformationAction Continue
 }
 
 if ($unused) {
-    Write-Host "`nUnused palette entries: $($unused.Count)" -ForegroundColor Yellow
+    Write-Information -MessageData "`nUnused palette entries: $($unused.Count)" -InformationAction Continue
     if ($ShowAll -or $FailOnUnused) {
-        Write-Host 'Unused palette entries (defined but never referenced):' -ForegroundColor Yellow
-        ($unused | Sort-Object) | ForEach-Object { Write-Host "  - $_" }
+        Write-Information -MessageData 'Unused palette entries (defined but never referenced):' -InformationAction Continue
+        ($unused | Sort-Object) | ForEach-Object { Write-Information -MessageData "  - $_" -InformationAction Continue }
     }
     else {
         $sample = ($unused | Sort-Object | Select-Object -First 25)
-        Write-Host "Sample (first $($sample.Count)):" -ForegroundColor Yellow
-        $sample | ForEach-Object { Write-Host "  - $_" }
-        Write-Host '(Use -ShowAll to list everything.)' -ForegroundColor DarkGray
+        Write-Information -MessageData "Sample (first $($sample.Count)):" -InformationAction Continue
+        $sample | ForEach-Object { Write-Information -MessageData "  - $_" -InformationAction Continue }
+        Write-Information -MessageData '(Use -ShowAll to list everything.)' -InformationAction Continue
     }
 }
 else {
-    Write-Host "`nNo unused palette entries." -ForegroundColor Green
+    Write-Information -MessageData "`nNo unused palette entries." -InformationAction Continue
 }
 
 # Exit code:

@@ -1,12 +1,11 @@
 # This is a Dependabot configuration file for automating dependency updates.
 # The configuration is set to version 2 of the Dependabot schema.
-# It defines update settings for three package ecosystems:
-# GitHub Actions, Bundler, and npm.
-# Each ecosystem has its own update configuration, including:
+# It defines quarterly grouped updates for the GitHub Actions ecosystem.
+# The update configuration includes:
 # - The directory to scan for dependencies (root directory in this case).
-# - The schedule for checking updates (daily).
+# - A quarterly schedule with a short update cooldown.
 # - Allowing both direct and indirect updates for all packages.
-# - Grouping updates by ecosystem with specific patterns for version updates.
+# - Grouping all action version updates into one pull request.
 
 version: 2
 updates:

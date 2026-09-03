@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Normalizes all palettes in color-palette-alternatives.json so they include every palette key used by the current theme templates.
 
@@ -52,6 +52,7 @@ $RepoRoot = Split-Path -Path $PSScriptRoot -Parent
 
 function Resolve-RepoPath {
     [CmdletBinding()]
+    [OutputType([string])]
     param([Parameter(Mandatory)][string]$Path)
 
     if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
@@ -235,10 +236,10 @@ $dividerBlendMap = [ordered]@{
 }
 
 $paletteNames = @($palettesDoc.palettes.PSObject.Properties.Name)
-Write-Host "🎨 Normalizing palettes: $($paletteNames.Count)" -ForegroundColor Cyan
-Write-Host "  Canonical theme: $CanonicalTheme" -ForegroundColor DarkGray
-Write-Host "  Palettes file:   $PalettesFile" -ForegroundColor DarkGray
-Write-Host "  Blend:           $BlendPercentage" -ForegroundColor DarkGray
+Write-Information -MessageData "🎨 Normalizing palettes: $($paletteNames.Count)" -InformationAction Continue
+Write-Information -MessageData "  Canonical theme: $CanonicalTheme" -InformationAction Continue
+Write-Information -MessageData "  Palettes file:   $PalettesFile" -InformationAction Continue
+Write-Information -MessageData "  Blend:           $BlendPercentage" -InformationAction Continue
 
 $anyWouldChange = $false
 
@@ -370,23 +371,23 @@ foreach ($name in $paletteNames) {
 
     if ($Check -and $wouldChange) {
         $anyWouldChange = $true
-        Write-Host "❌ Palette '$name' is not normalized: $($changeReasons | Select-Object -Unique | Sort-Object -CaseSensitive | Join-String -Separator ', ')" -ForegroundColor Red
+        Write-Information -MessageData "❌ Palette '$name' is not normalized: $($changeReasons | Select-Object -Unique | Sort-Object -CaseSensitive | Join-String -Separator ', ')" -InformationAction Continue
     }
 }
 
 if ($Check) {
     if ($anyWouldChange) {
-        Write-Host '❌ Palettes are NOT normalized. Run: pwsh .\scripts\Normalize-Palettes.ps1 -Backup' -ForegroundColor Red
+        Write-Information -MessageData '❌ Palettes are NOT normalized. Run: pwsh .\scripts\Normalize-Palettes.ps1 -Backup' -InformationAction Continue
         exit 2
     }
-    Write-Host '✅ Palettes are normalized.' -ForegroundColor Green
+    Write-Information -MessageData '✅ Palettes are normalized.' -InformationAction Continue
     exit 0
 }
 
 if ($Backup) {
     Copy-Item -LiteralPath $PalettesFile -Destination "$PalettesFile.bak" -Force
-    Write-Host "📦 Backup written: $PalettesFile.bak" -ForegroundColor Yellow
+    Write-Information -MessageData "📦 Backup written: $PalettesFile.bak" -InformationAction Continue
 }
 
 $palettesDoc | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $PalettesFile -Encoding UTF8
-Write-Host '✅ Palettes normalized.' -ForegroundColor Green
+Write-Information -MessageData '✅ Palettes normalized.' -InformationAction Continue
